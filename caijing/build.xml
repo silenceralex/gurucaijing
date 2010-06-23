@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="GBK"?>
+<project name="caijing" default="default" basedir=".">
+	<!-- 设置全局属性 -->
+	<property name="src" value="src/main/java" description="Java源文件目录" />
+	<property name="test-src" value="src/test/java" description="测试用的Java源文件目录"/>
+	<property name="compile-debug" value="off" description="类文件的debug编译模式默认关闭"/>
+	<property name="target" value="target" description="编译输出的根目录"/>
+	<property name="build" value="${target}/classes" description="编译输出的类文件根目录以及资源文件复制的目标目录"/>
+	<property name="test-result" value="target/test-result" description="单元测试结果存放的目录"/>
+	<property name="main-resources" value="src/main/resources" description="资源目录（目录内容将在编译的时候自动复制到classpath）"/>
+	<property name="test-resources" value="src/test/resources" description="测试的资源目录（目录内容将在编译测试的时候复制到classpath）"/>
+	<property name="dist" value="dist" description="项目发布的根目录"/>
+	<property name="reports" value="reports" description="测试报告的根目录"/>
+	<property name="lib" value="lib" description="类库jar文件的根目录"/>
+	<property name="resin-lib" value="/home/app/resin/lib"/>
+	<property environment="env" description="把系统的环境变量都变成加env.前缀可以访问" />
+	<property name="webapp" value="src/main/webapp" description="web应用程序的源程序根目录"/>
+	<property name="web-dist" value="${dist}/webapp" description="web应用程序的发布根目录"/>
+	<property name="release-base-dir" value="/home/app/${ant.project.name}_release" description="项目发布的默认根路径"/>
+	<!-- 设置忽略系统当前的CLASSPATH设置 -->
+	<property name="build.sysclasspath" value="ignore"/>
+	
+	<!-- Web应用程序运行时需要的jar包 -->
+	<fileset id="runtimeLibraryFiles" dir="${lib}" >
+					<include name="**/*.jar"/>
+					<exclude name="src/**"/>
+					<exclude name="build/**"/>
+					<exclude name="junit/**"/>
+	</fileset>
+		<!-- 编译构建以及独立运行Java应用程序所需要的Jar包 -->
+	<fileset id="buildtimeLibraryFiles" dir="${lib}">
+				<include name="**/*.jar"/>
+	</fileset>
+
+	<!-- 运行应用程序的classpath路径 -->
+	<path id="classpath">
+			<pathelement path="${build}"/>
+			<fileset refid="buildtimeLibraryFiles"/>
+	</path>
+
+	<!-- 创建项目构建必须的子目录 -->
+	<target name="init">
+		<mkdir dir="${build}"/>
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${test-result}"/>
+		<mkdir dir="${web-dist}/WEB-INF/classes"/>
+		<mkdir dir="${web-dist}/WEB-INF/lib"/>
+	</target>
+
+	<!-- 从SVN服务器上更新项目的所有源代码 -->
+	<target name="update">
+		<echo>从SVN服务器上更新项目的所有源代码</echo>
+		<!--
+		<exec executable="svn" dir=".">
+			<arg line="update"/>
+		</exec>
+		 -->
+	</target>
+	
+	<!-- 撤销本地所作的所有项目内的改动 -->
+	<target name="revert">
+		<echo>撤销本地所作的所有项目内的改动</echo>
+		<exec executable="svn" dir=".">
+			<arg line="revert"/>
+		</exec>
+	</target>
+	
+	<!-- 默认的构建任务，先更新SVN服务，再用debug模式编译类文件，并构建Web应用程序。 -->
+	<target name="default" depends="update" >
+		<!-- 默认任务中打开class文件的debug编译开关 -->
+		<antcall target="build" >
+			<param name="compile-debug" value="on" />
+		</antcall>
+	</target>
+	
+	<!-- 编译Java源代码，并且更新资源文件到目标Classpath目录 -->
+	<target name="compile" depends="init" >
+		<copy todir="${build}">
+			<fileset dir="${main-resources}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<echo>Java类文件DEBUG模式开关: ${compile-debug}</echo>
+		<javac debug="${compile-debug}" debuglevel="lines"  srcdir="${src}" destdir="${build}" encoding="GBK" nowarn="true" source="1.5" target="1.5">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<!-- 构建Web应用程序,把Web相关页面源文件（html/jsp/js/image）连同构建号的类文件和类库jar文件复制到相应的目标目录 -->
+	<target name="build" depends="compile">
+		<copy todir="${web-dist}">
+			<fileset dir="${webapp}">
+				<include name="**/*"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<copy todir="${web-dist}/WEB-INF/classes">
+			<fileset dir="${build}">
+				<include name="**/*"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<copy todir="${web-dist}/WEB-INF/lib">
+			<fileset refid="runtimeLibraryFiles" />
+			<mapper type="flatten"/>
+		</copy>
+	</target>
+
+	<!-- 编译Junit测试用例的源代码 -->
+	<target name="test-compile" depends="" >
+		<antcall target="compile" >
+			<param name="compile-debug" value="on" />
+		</antcall>
+		<copy todir="${build}">
+			<fileset dir="${test-resources}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
+		<javac debug="on" debuglevel="lines"  srcdir="${test-src}" destdir="${build}" encoding="GBK" nowarn="true" source="1.5" target="1.5">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	
+	<!-- 运行所有JUnit测试用例 -->
+	<target name="test" depends="test-compile">
+		<junit printsummary="yes" fork="on">
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+			<classpath refid="classpath" />
+			<batchtest todir="${test-result}">
+				<fileset dir="${test-src}">
+					<include name="**/*Test.java" />
+					<include name="**/Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	<!-- 运行特定的JUnit测试用例 -->
+	<target name="junit" depends="test-compile" >
+		<fail unless="testcase" message="必须用参数 -Dtestcasee=xxx 指定测试用例的名称(只需要输入类名称,不需要包名)"/>
+			<junit printsummary="yes" showoutput="yes">
+				<classpath refid="classpath"/>
+				<sysproperty key="testMethod" value="${testMethod}"/>
+				<batchtest>
+					<fileset dir="${test-src}">
+						<include name="**/${testcase}.java"/>
+					</fileset>
+					<formatter type="plain"/>
+				</batchtest>
+		</junit>
+	</target>
+	
+	<!-- 清除所有构建的目录，包括目标文件目录，发布目录和测试报告目录 -->
+	<target name="clean">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${target}"/>
+		<delete dir="${dist}"/>
+		<delete dir="${reports}"/>
+	</target>
+
+	<!-- 产品发布（步骤1/2） -->
+	<target name="release" depends="build">
+		<fail unless="release" message="必须指定发布的版本"/>
+		<mkdir dir="${release-base-dir}"/>
+		<property name="release-name" value="${ant.project.name}-release-${release}"/>
+		<echo message="版本${release}构建完成"/>
+		<echo>请通过以下步骤完成系统的更新：</echo>
+		<echo>1. 运行/home/app/resin/bin/httpd.sh stop 停止当前resin服务</echo>
+		<echo>2. 运行ant release-finalize -Drelease=${release}</echo>
+		<echo>3. 运行/home/app/resin/bin/restart.sh 重新启动应用服务器 </echo>
+	</target>
+	
+	<!-- 产品发布（步骤2/2） -->
+	<target name="release-finalize" depends="build">
+		<fail unless="release" message="必须指定发布的版本 -Drelease=x.x"/>
+		<property name="release-name" value="${ant.project.name}-release-${release}"/>
+		<echo>准备修改当前发布的链接</echo>
+		<exec executable="rm" dir=".">
+			<arg line=" -f ${release-base-dir}/release-current" />
+		</exec>
+		<exec executable="ln" dir=".">
+			<arg line=" -s  ${release-base-dir}/${release-name} ${release-base-dir}/release-current" />
+		</exec>
+		<echo>修改当前发布的链接成功</echo>
+		<echo>当前web应用程序已经更新，请重启resin</echo>
+	</target>
+	
+	<!-- 通过ant运行独立的应用程序 -->
+	<target name="run-app" depends="compile">
+		<fail unless="app-class" message="必须指定要运行的类名 -Dapp-class=com.netease.xxx.xxx -Dapp-arg=xxx "/>
+		<java classname="${app-class}" fork="true" maxmemory="512m">
+			<sysproperty key="disable-pool" value="true"/>
+			<arg line="${app-arg}"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	<target name="foo" >
+	<echo>${env.Path}</echo>
+	</target>
+</project>

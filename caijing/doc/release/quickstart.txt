@@ -1,0 +1,32 @@
+本文档讲述如何快速将此项目变成自己的项目。
+
+事前准备：
+1、 获取样本项目的压缩包并解压到合适的eclipse工作区目录。
+2、 确定本项目的项目名称（英文）。
+3、 确定你MySQL 5.0数据库服务器配置和运作正常，确保已经创建数据库、帐号和密码。作为测试用途，可以临时授权从本机连接（以后可以删除授权）。
+4、 在本机测试一下链接数据库是否正常。
+
+进行： 
+1、 修改项目子目录的名称为本项目名
+2、 修改项目根目录下两个文件中的项目名称为本项目名，这两个文件是 build.xml 和  .project
+3、 在Eclipse中打开项目,打开资源文件源码目录下的jdbc.properties文件，将数据库链接、用户名和密码修改成现在的。
+4、 打开目录/doc/design/sql/下的create_table.sql文件，将里面的建表语句复制到mysql下面运行创建。注意不要覆盖了现有的表。
+5、 在Eclipse中，运行UserManagerTest和UserDaoImplTest两个测试用例，如果全部通过，证明运行正常，下面可以修改Java的包（Package）的名字为自己的项目名了。
+接下来的事，就是把Java包sample_project改成自己的项目名，可以利用eclipse的refactoring功能来辅助进行。
+6、 在Eclipse的Package Explorere视图中，从下拉菜单选择“Filters”，清除"Empty packages"和"Empty parent packages"，这样可以让你看到空的包
+7、 在src/main/java的源目录下，选中com.netease.sample_project这个节点，选择菜单Refactor---Rename,在弹出的对话框中，将所有checkbox全部打勾，然后按preview，continue,最后选Finish。
+8、 在src/test/java的源目录下，重复步骤7的操作.可能有少量编译问题产生，可以手工将其纠正，让项目无编译错误。
+9、 在src/main/resources 目录下，重复步骤7的操作。
+10、 在Package Explorer视图中，选中src节点，选择菜单Search-File，在对话框中填写：
+  Containing Text： sample_project
+  File Name Patterns: *.*
+  Scope这项选中： Selected Resources
+  然后点击下面的Replace ...， 在弹出的窗口的With一栏中填写真正的项目名称，然后不断点击 "Replace all in File "直至完成。
+11、 再次运行两个测试用例，应该可以看到运行通过。至此项目修改已经完成。  
+
+事后：
+1、 把数据库中没有用的user表删除。
+2、 有必要的话，取消数据库对本机访问的授权。
+
+
+说明：样本项目针对MySQL 5.0数据库，如果使用其它，请修改JDBC驱动程序和jdbc.properties里面的驱动程序配置。

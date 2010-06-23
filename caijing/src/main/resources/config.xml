@@ -1,0 +1,1439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+>
+
+    <bean id="config" class="com.netease.videolib2.config.Config">
+			<property name="configMap">
+				<map>
+					<entry key="host">
+						<value>http://admin.v.163.com</value>
+					</entry>
+						<entry key="adminhost">
+						<value>http://admin.v.163.com</value>
+					</entry>
+					<entry key="hostx">
+						<value>V</value>
+					</entry>
+					<entry key="repohost">
+						<value>http://flv.bn.netease.com</value>
+					</entry>
+					<entry key="snapshotpath">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml/image/snapshot</value>
+					</entry>
+					<entry key="sync_snapshotpath">
+						<value>/home/app/workspace/sync_snapshot</value>
+					</entry>
+					<entry key="playUrlFilePath">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml/playurl</value>
+					</entry>
+					<entry key="pageFilePath">
+						<value>/home/app/workspace/videopage</value>
+					</entry>
+					<entry key="waterMarkPic">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml/img/sys/sqare_paly_btn.png</value>
+					</entry>
+					<entry key="waterMarkPic50">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml/img/sys/shuiyin160.png</value>
+					</entry>
+					<entry key="waterMarkPic60">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml/img/sys/shuiying240.png</value>
+					</entry>
+					<entry key="shellpath">
+						<value>/home/app/workspace/videolib2_release/release-current/conf/shell</value>
+					</entry>
+					<entry key="sectionTreePath">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml/stree</value>
+					</entry>
+					<entry key="sectionTreeTop">
+						<value>http://v.163.com/special/0085348U/treebottom.xml</value>
+					</entry>
+					<entry key="sectionTreeBottom">
+						<value>http://v.163.com/special/0085348U/treeend.xml</value>
+					</entry>
+					<entry key="cdnhost">
+						<value>211.151.65.41</value>
+					</entry>
+					<entry key="cdnpath">
+						<value>/task/cdn.php</value>
+					</entry>
+					<entry key="cdn_username">
+						<value></value>
+					</entry>
+					<entry key="cdn_password">
+						<value>b092db82b9c5a606eb3fea3e2c4ac24a</value>
+					</entry>
+					<entry key="tvmcdn_password">
+						<value>85c5b38d9ed08c3f0facf6b6afd35f02</value>
+					</entry>
+					
+					<entry key="tvm_21vianet">
+						<value>flv3.bn.netease.com</value>
+					</entry>
+					<entry key="tvm_CNC">
+						<value>flv2.bn.netease.com</value>
+					</entry>
+					<!--  
+					<entry key="entPagepath">
+						<value>d:/templet/endpage</value>
+					</entry>
+					-->
+					  
+					<entry key="templatepath">
+						<value>/template</value>
+					</entry>
+					<entry key="parseTemplateID">
+						<value>00853EJG</value>
+					</entry>
+					<entry key="parsePath">
+						<value>/parse</value>
+					</entry>
+					<entry key="webhtml">
+						<value>/home/app/workspace/videolib2_release/release-current/dist/webhtml</value>
+					</entry>
+					<entry key="tvmSid">
+						<value>sect_0000</value>
+					</entry>
+					
+					<entry key="istest">
+						<value>false</value>
+					</entry>
+					<entry key="testEncoderIP">
+						<value>enc1.bn.163.com</value>
+					</entry>
+					<entry key="ismain">
+						<value>true</value>
+					</entry>
+					<entry key="need_template">
+						<value>true</value>
+					</entry>
+					<entry key="timing_score">
+						<value>false</value>
+					</entry>
+					<entry key="reCDN">
+						<value>true</value>
+					</entry>
+					<entry key="youdao_history">
+						<value>true</value>
+					</entry>
+					<entry key="youdao_new">
+						<value>true</value>
+					</entry>
+					<entry key="buildIndexOnStart">
+						<value>true</value>
+					</entry>
+					<entry key="needRebuildIndex">
+						<value>false</value>
+					</entry>
+					<entry key="flushIndex">
+						<value>false</value>
+					</entry>
+					<entry key="makeSectionTree">
+						<value>true</value>
+					</entry>
+				</map>
+			</property>
+			<property name="webRoot" value="${webapp.root}"/>
+			<property name="allowType" value="image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg"/>
+			<!--  
+			<property name="imgurl" value="E:/workspace/VideoLibrary2/dist/webapp/"/>
+			-->
+			<property name="imgurl" value="/home/app/workspace/videolib2_release/release-current/dist/webhtml/"/>
+			<property name="imgHostList">
+				<list>
+					<value>http://vimg1.ws.126.net</value>
+					<value>http://vimg2.ws.126.net</value>
+					<value>http://vimg3.ws.126.net</value>
+				</list>
+			</property>
+    </bean>
+    
+    <bean id="TopicNameConfig" class="com.netease.videolib2.config.TopicNameConfig">
+			<property name="topicNameMap">
+				<map>
+					<entry key="0003">
+						<value>娱乐频道</value>
+					</entry>
+					<entry key="0074">
+						<value>奥运频道</value>
+					</entry>
+					<entry key="0001">
+						<value>新闻频道</value>
+					</entry>
+					<entry key="0085">
+						<value>视频频道</value>
+					</entry>
+					<entry key="0025">
+						<value>财经频道</value>
+					</entry>
+					<entry key="0009">
+						<value>科技频道</value>
+					</entry>
+					<entry key="0005">
+						<value>体育频道</value>
+					</entry>
+					<entry key="0008">
+						<value>汽车频道</value>
+					</entry>
+					<entry key="0086">
+						<value>广州亚运频道</value>
+					</entry>
+					<entry key="0024">
+						<value>亚运志愿者培训</value>
+					</entry>
+					<entry key="0090">
+						<value>营销频道</value>
+					</entry>
+					<entry key="0029">
+						<value>教育频道</value>
+					</entry>
+					<entry key="0087">
+						<value>房产频道</value>
+					</entry>
+					<entry key="0091">
+						<value>校园频道</value>
+					</entry>
+					<entry key="0006">
+						<value>旅游频道</value>
+					</entry>
+					<entry key="0026">
+						<value>女人频道</value>
+					</entry>
+					<entry key="0092">
+						<value>读书频道</value>
+					</entry>
+					<entry key="0015">
+						<value>论坛频道</value>
+					</entry>
+					<entry key="0000">
+						<value>共享內容</value>
+					</entry>
+					<entry key="0031">
+						<value>游戏频道</value>
+					</entry>
+					<entry key="0078">
+						<value>亚运官网</value>
+					</entry>
+					<entry key="0089">
+						<value>亚残会官网</value>
+					</entry>
+					<entry key="0093">
+						<value>公益频道</value>
+					</entry>
+					<entry key="0076">
+						<value>新媒体频道</value>
+					</entry>
+					<entry key="0021">
+						<value>王老吉频道</value>
+					</entry>
+					<entry key="0094">
+						<value>世博频道</value>
+					</entry>
+				</map>
+			</property>
+			<property name="topicUrlMap">
+				<map>
+					<entry key="0003">
+						<value>http://v.ent.163.com</value>
+					</entry>
+					<entry key="0074">
+						<value>http://v.2008.163.com</value>
+					</entry>
+					<entry key="0001">
+						<value>http://v.news.163.com</value>
+					</entry>
+					<entry key="0085">
+						<value>http://v.163.com</value>
+					</entry>
+					<entry key="0025">
+						<value>http://v.money.163.com</value>
+					</entry>
+					<entry key="0009">
+						<value>http://v.tech.163.com</value>
+					</entry>
+					<entry key="0005">
+						<value>http://v.sports.163.com</value>
+					</entry>
+					<entry key="0008">
+						<value>http://v.auto.163.com</value>
+					</entry>
+					<entry key="0086">
+						<value>http://v.2010.163.com</value>
+					</entry>
+					<entry key="0024">
+						<value>http://v.2010.163.com</value>
+					</entry>
+					<entry key="0090">
+						<value>http://v.mkt.163.com</value>
+					</entry>
+					<entry key="0029">
+						<value>http://v.edu.163.com</value>
+					</entry>
+					<entry key="0087">
+						<value>http://v.house.163.com</value>
+					</entry>
+					<entry key="0091">
+						<value>http://v.campus.163.com</value>
+					</entry>
+					<entry key="0006">
+						<value>http://v.travel.163.com</value>
+					</entry>
+					<entry key="0026">
+						<value>http://v.lady.163.com</value>
+					</entry>
+					<entry key="0092">
+						<value>http://v.book.163.com</value>
+					</entry>
+					<entry key="0015">
+						<value>http://v.bbs.163.com</value>
+					</entry>
+					<entry key="0000">
+						<value>http://v.163.com</value>
+					</entry>
+					<entry key="0031">
+						<value>http://v.game.163.com</value>
+					</entry>
+					<entry key="0078">
+						<value>http://www.gz2010.cn</value>
+					</entry>
+					<entry key="0089">
+						<value>http://www.gzapg2010.cn/</value>
+					</entry>
+					<entry key="0093">
+						<value>http://v.gongyi.163.com</value>
+					</entry>
+					<entry key="0076">
+						<value>http://v.media.163.com</value>
+					</entry>
+					<entry key="0021">
+						<value>http://www.wlj2010.com</value>
+					</entry>
+					<entry key="0094">
+						<value>http://v.expo.163.com</value>
+					</entry>
+					<entry key="V5QF7HS0B">
+						<value>http://v.baby.163.com</value>
+					</entry>
+				</map>
+			</property>
+			<property name="topicRepoHostMap">
+				<map>
+					<entry key="0003">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0074">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0001">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0085">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0025">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0009">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0005">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0008">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0086">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0024">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0090">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0029">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0087">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0091">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0006">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0026">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0092">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0015">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0000">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0031">
+						<list>
+							<value>http://flv.bn.netease.com</value>
+							<value>http://flv4.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0078">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0089">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0093">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0076">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0021">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="0094">
+						<list>
+							<value>http://flv4.bn.netease.com</value>
+							<value>http://flv.bn.netease.com</value>
+						</list>
+					</entry>
+					<entry key="tvm">
+						<list>
+							<value>http://flv2.bn.netease.com</value>
+							<value>http://flv3.bn.netease.com</value>
+						</list>
+					</entry>
+				</map>
+			</property>
+			<property name="topicImgUrlMap">
+				<map>
+					<entry key="0003">
+						<value>http://img.v.163.com</value>
+					</entry>
+					<entry key="0074">
+						<value>http://img.v.163.com</value>
+					</entry>
+					<entry key="0001">
+						<value>http://img.v.163.com</value>
+					</entry>
+					<entry key="0085">
+						<value>http://img.v.163.com</value>
+					</entry>
+					<entry key="0008">
+						<value>http://img.v.163.com</value>
+					</entry>
+				</map>
+			</property>
+			<property name="topicCommentUrl">
+				<map>
+					<entry key="0001">
+						<value>http://comment.news.163.com</value>
+					</entry>
+					<entry key="0085">
+						<value>http://comment.v.163.com</value>
+					</entry>
+					<entry key="0074">
+						<value>http://comment.2008.163.com</value>
+					</entry>
+					<entry key="0003">
+						<value>http://comment.ent.163.com</value>
+					</entry>
+					<entry key="0025">
+						<value>http://comment.money.163.com</value>
+					</entry>
+					<entry key="0009">
+						<value>http://comment.tech.163.com</value>
+					</entry>
+					<entry key="0005">
+						<value>http://comment.sports.163.com</value>
+					</entry>
+					<entry key="0008">
+						<value>http://comment.auto.163.com</value>
+					</entry>
+					<entry key="0086">
+						<value>http://comment.2010.163.com</value>
+					</entry>
+					<entry key="0024">
+						<value>http://comment.2010volunteer.163.com</value>
+					</entry>
+					<entry key="0090">
+						<value>http://comment.mkt.163.com</value>
+					</entry>
+					<entry key="0029">
+						<value>http://comment.edu.163.com</value>
+					</entry>
+					<entry key="0087">
+						<value>http://comment.house.163.com</value>
+					</entry>
+					<entry key="0091">
+						<value>http://comment.campus.163.com</value>
+					</entry>
+					<entry key="0006">
+						<value>http://comment.travel.163.com</value>
+					</entry>
+					<entry key="0026">
+						<value>http://comment.lady.163.com</value>
+					</entry>
+					<entry key="0092">
+						<value>http://comment.book.163.com</value>
+					</entry>
+					<entry key="0015">
+						<value>http://comment.bbs.163.com</value>
+					</entry>
+					<entry key="0000">
+						<value>http://comment.v.163.com</value>
+					</entry>
+					<entry key="0031">
+						<value>http://comment.game.163.com</value>
+					</entry>
+					<entry key="0078">
+						<value>http://comment.gz2010.cn</value>
+					</entry>
+					<entry key="0093">
+						<value>http://comment.gongyi.163.com</value>
+					</entry>
+					<entry key="0076">
+						<value>http://comment.media.163.com</value>
+					</entry>
+					<entry key="0021">
+						<value>http://comment.wlj2010.com</value>
+					</entry>
+					<entry key="0094">
+						<value>http://comment.expo.163.com</value>
+					</entry>
+				</map>
+			</property>
+			<property name="topicCommentBord">
+				<map>
+					<entry key="0001">
+						<value>video_news_bbs</value>
+					</entry>
+					<entry key="0085">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0074">
+						<value>2008vii_bbs</value>
+					</entry>
+					<entry key="0003">
+						<value>video_ent_bbs</value>
+					</entry>
+					<entry key="0025">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0009">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0005">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0008">
+						<value>auto_bbs</value>
+					</entry>
+					<entry key="0086">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0024">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0090">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0029">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0087">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0091">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0006">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0026">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0092">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0015">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0000">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0031">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0078">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0093">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0076">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0021">
+						<value>video_bbs</value>
+					</entry>
+					<entry key="0094">
+						<value>video_bbs</value>
+					</entry>
+				</map>
+			</property>
+			<property name="topicCommentSuffix">
+				<map>
+					<entry key="0001">
+						<value>000136D3</value>
+					</entry>
+					<entry key="0085">
+						<value>008535RB</value>
+					</entry>
+					<entry key="0074">
+						<value>008535RB</value>
+					</entry>
+					<entry key="0003">
+						<value>000336MU</value>
+					</entry>
+					<entry key="0025">
+						<value>00253835</value>
+					</entry>
+					<entry key="0009">
+						<value>00093836</value>
+					</entry>
+					<entry key="0005">
+						<value>00053929</value>
+					</entry>
+					<entry key="0008">
+						<value>000839BM</value>
+					</entry>
+					<entry key="0086">
+						<value>00863B5D</value>
+					</entry>
+					<entry key="0024">
+						<value>00243B5D</value>
+					</entry>
+					<entry key="0090">
+						<value>00903GB7</value>
+					</entry>
+					<entry key="0029">
+						<value>00293HJP</value>
+					</entry>
+					<entry key="0087">
+						<value>00873GQ0</value>
+					</entry>
+					<entry key="0091">
+						<value>00913HVE</value>
+					</entry>
+					<entry key="0006">
+						<value>00063ILN</value>
+					</entry>
+					<entry key="0026">
+						<value>00263JCF</value>
+					</entry>
+					<entry key="0092">
+						<value>00923JST</value>
+					</entry>
+					<entry key="0015">
+						<value>00153KU9</value>
+					</entry>
+					<entry key="0031">
+						<value>00313N7L</value>
+					</entry>
+					<entry key="0000">
+						<value>00003B5D</value>
+					</entry>
+					<entry key="0078">
+						<value>007801O0</value>
+					</entry>
+					<entry key="0093">
+						<value>00933T9V</value>
+					</entry>
+					<entry key="0076">
+						<value>00763THM</value>
+					</entry>
+					<entry key="0021">
+						<value>00213V9T</value>
+					</entry>
+					<entry key="0094">
+						<value>0094472V</value>
+					</entry>
+				</map>
+			</property>
+			<property name="templateMap">
+				<map>
+					<entry key="0001">
+						<map>
+							<entry key="endpage">
+								<value>0001364J</value>
+							</entry>
+							<entry key="list">
+								<value>0001364L</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0003">
+						<map>
+							<entry key="endpage">
+								<value>000336MS</value>
+							</entry>
+							<entry key="list">
+								<value>000336MT</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0085">
+						<map>
+							<entry key="endpage">
+								<value>0085378K</value>
+							</entry>
+							<entry key="list">
+								<value>0085378L</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0009">
+						<map>
+							<entry key="endpage">
+								<value>000937VM</value>
+							</entry>
+							<entry key="list">
+								<value>000937VO</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0025">
+						<map>
+							<entry key="endpage">
+								<value>002537V4</value>
+							</entry>
+							<entry key="list">
+								<value>002537V5</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0005">
+						<map>
+							<entry key="endpage">
+								<value>0005390M</value>
+							</entry>
+							<entry key="list">
+								<value>00053911</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0008">
+						<map>
+							<entry key="endpage">
+								<value>000839A9</value>
+							</entry>
+							<entry key="list">
+								<value>000839AC</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0086">
+						<map>
+							<entry key="endpage">
+								<value>00863B4K</value>
+							</entry>
+							<entry key="list">
+								<value>00863B4J</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0090">
+						<map>
+							<entry key="endpage">
+								<value>00903GGC</value>
+							</entry>
+							<entry key="list">
+								<value>00903GGD</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0029">
+						<map>
+							<entry key="endpage">
+								<value>00293HJP</value>
+							</entry>
+							<entry key="list">
+								<value>00293HJQ</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0087">
+						<map>
+							<entry key="endpage">
+								<value>00873GQ0</value>
+							</entry>
+							<entry key="list">
+								<value>00873GQ1</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0091">
+						<map>
+							<entry key="endpage">
+								<value>00913HVE</value>
+							</entry>
+							<entry key="list">
+								<value>00913HVF</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0006">
+						<map>
+							<entry key="endpage">
+								<value>00063ILN</value>
+							</entry>
+							<entry key="list">
+								<value>00063ILO</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0026">
+						<map>
+							<entry key="endpage">
+								<value>00263JCF</value>
+							</entry>
+							<entry key="list">
+								<value>00263JCG</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0092">
+						<map>
+							<entry key="endpage">
+								<value>00923JST</value>
+							</entry>
+							<entry key="list">
+								<value>00923JSU</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0015">
+						<map>
+							<entry key="endpage">
+								<value>00153KU9</value>
+							</entry>
+							<entry key="list">
+								<value>00153KUA</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0031">
+						<map>
+							<entry key="endpage">
+								<value>00313N7L</value>
+							</entry>
+							<entry key="list">
+								<value>00313N7L</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0078">
+						<map>
+							<entry key="endpage">
+								<value>007801O0</value>
+							</entry>
+							<entry key="list">
+								<value>007801O0</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0089">
+						<map>
+							<entry key="endpage">
+								<value>0089032U</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0093">
+						<map>
+							<entry key="endpage">
+								<value>00933T9V</value>
+							</entry>
+							<entry key="list">
+								<value>00933T9U</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0076">
+						<map>
+							<entry key="endpage">
+								<value>00763THM</value>
+							</entry>
+							<entry key="list">
+								<value>00763THN</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0021">
+						<map>
+							<entry key="endpage">
+								<value>00213V9T</value>
+							</entry>
+							<entry key="list">
+								<value>00213V9U</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0094">
+						<map>
+							<entry key="endpage">
+								<value>0094472V</value>
+							</entry>
+							<entry key="list">
+								<value>00944730</value>
+							</entry>
+						</map>
+					</entry>
+				</map>
+			</property>
+			
+			<property name="templateRouteMap">
+				<map>
+					<entry key="0003">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0001">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0074">
+						<map>
+							<entry key="endpage">
+								<value>default.vm</value>
+							</entry>
+							<entry key="listpage">
+								<value>default.vm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0085">
+						<map>
+							<entry key="endpage">
+								<value>20100101.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0025">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0009">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0005">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0008">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0086">
+						<map>
+							<entry key="endpage">
+								<value>video0904.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0024">
+						<map>
+							<entry key="endpage">
+								<value>video0904.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0090">
+						<map>
+							<entry key="endpage">
+								<value>video_default.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0029">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0087">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0091">
+						<map>
+							<entry key="endpage">
+								<value>video_default.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0006">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0026">
+						<map>
+							<entry key="endpage">
+								<value>video_default.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0092">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0015">
+						<map>
+							<entry key="endpage">
+								<value>video090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0000">
+						<map>
+							<entry key="endpage">
+								<value>video0904.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0031">
+						<map>
+							<entry key="endpage">
+								<value>video_default.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0078">
+						<map>
+							<entry key="endpage">
+								<value>vediopost09.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>vediopost09.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0089">
+						<map>
+							<entry key="endpage">
+								<value>videopost10.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0093">
+						<map>
+							<entry key="endpage">
+								<value>video_default.html</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.html</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0076">
+						<map>
+							<entry key="endpage">
+								<value>video_default.html</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.html</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0021">
+						<map>
+							<entry key="endpage">
+								<value>0021video_default_endpage.html</value>
+							</entry>
+							<entry key="listpage">
+								<value>0021_default_list.html</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="0094">
+						<map>
+							<entry key="endpage">
+								<value>v090331.htm</value>
+							</entry>
+							<entry key="listpage">
+								<value>list_default.html</value>
+							</entry>
+						</map>
+					</entry>
+				</map>
+			</property>
+			
+			<property name="cmsHostMap">
+				<map>
+					<entry key="0001">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0003">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0085">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0009">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0025">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0005">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0008">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0086">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0024">
+						<list>
+							<value>ext.cnc.cache.2010volunteer.163.com</value>
+							<value>ext.ctc.cache.2010volunteer.163.com</value>
+						</list>
+					</entry>
+					<entry key="0090">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0029">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0087">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0091">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0006">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0026">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0092">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0015">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0000">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0031">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0078">
+						<list>
+							<value>113.108.224.18</value>
+							<value>58.248.244.16</value>
+						</list>
+					</entry>
+					<entry key="0089">
+						<list>
+							<value>113.108.224.18</value>
+							<value>58.248.244.16</value>
+						</list>
+					</entry>
+					<entry key="0093">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0076">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0021">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+					<entry key="0094">
+						<list>
+							<value>192.168.51.112</value>
+						</list>
+					</entry>
+				</map>
+			</property>
+			
+			<property name="sectionTreeMap">
+				<map>
+					<entry key="0085">
+						<value>V5LRRUCBE</value>
+					</entry>
+				</map>
+			</property>
+			
+			<property name="adminPageMap">
+				<map>
+					<entry key="showColumnPage">
+						<map>
+							<entry key="0005">
+								<value>/admin/columnlist_sports.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="showVSpecialPage">
+						<map>
+							<entry key="0005">
+								<value>/admin/vspeciallist_sports.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="vodAddPage">
+						<map>
+							<entry key="0005">
+								<value>/admin/video/vodadd_sports.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="editVideoPage">
+						<map>
+							<entry key="0005">
+								<value>/admin/video/editvideo_sports.htm</value>
+							</entry>
+						</map>
+					</entry>
+					<entry key="videoInfoPage">
+						<map>
+							<entry key="0024">
+								<value>/admin/video/videoinfo4volunteer.htm</value>
+							</entry>
+							<entry key="0078">
+								<value>/admin/video/videoinfo4yayun.htm</value>
+							</entry>
+							<entry key="0089">
+								<value>/admin/video/videoinfo4yacan.htm</value>
+							</entry>
+							<entry key="0021">
+								<value>/admin/video/videoinfo4wlj.htm</value>
+							</entry>
+						</map>
+					</entry>
+				</map>
+			</property>
+			
+    </bean>
+
+</beans>
