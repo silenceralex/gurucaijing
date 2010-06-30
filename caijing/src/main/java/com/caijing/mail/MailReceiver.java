@@ -29,7 +29,8 @@ public class MailReceiver {
 		receiver.setHost("pop3.126.com");
 		receiver.setUsername("bg20052008");// 您的邮箱账号
 		receiver.setPassword("336699");// 您的邮箱密码
-		// receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+	        //receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+	        receiver.setAttachPath("/home/email");//您要存放附件在什么位置？绝对路径
 		try {
 			receiver.reveiveMail();
 		} catch (Exception e) {
@@ -108,18 +109,19 @@ public class MailReceiver {
 			throws Exception {
 
 		String temp = part.getFileName();
+		//String fileName = part.getFileName();
 		String s = temp.substring(8, temp.indexOf("?="));
 		String fileName = base64Decoder(s);
 		System.out.println("有附件:" + fileName);
 
 		InputStream in = part.getInputStream();
 		Date date = new Date();
-		filePath += "\\" + title;
-		File dir = new File(filePath + "\\");
+		filePath += "/" + title;
+		File dir = new File(filePath + "/");
 		System.out.println("路径:" + dir.getAbsolutePath());
 		if (!dir.exists())
 			dir.mkdirs();
-		FileOutputStream writer = new FileOutputStream(new File(filePath + "\\"
+		FileOutputStream writer = new FileOutputStream(new File(filePath + "/"
 				+ fileName));
 		byte[] content = new byte[255];
 		while ((in.read(content)) != -1) {
