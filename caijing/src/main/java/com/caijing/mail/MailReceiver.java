@@ -23,10 +23,13 @@ public class MailReceiver {
 	public static void main(String[] args) {
 
 		MailReceiver receiver = new MailReceiver();
+		// receiver.setHost("pop3.126.com");
+		// receiver.setUsername("bg20052008");//您的邮箱账号
+		// receiver.setPassword("336699");//您的邮箱密码
 		receiver.setHost("pop3.126.com");
-		receiver.setUsername("bg20052008");//您的邮箱账号
-		receiver.setPassword("336699");//您的邮箱密码
-		receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+		receiver.setUsername("bg20052008");// 您的邮箱账号
+		receiver.setPassword("336699");// 您的邮箱密码
+		// receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
 		try {
 			receiver.reveiveMail();
 		} catch (Exception e) {
@@ -43,23 +46,28 @@ public class MailReceiver {
 
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
+		// Message message[] = folder.getMessages(arg0, arg1);
 		Message message[] = folder.getMessages();
-		//        System.out.println("Messages''s length: " + message.length);
+		// System.out.println("Messages''s length: " + message.length);
 		int count = folder.getMessageCount();
+		// int count = folder.getNewMessageCount();
 		System.out.println("Messages''s count: " + count);
 
-		//FetchProfile profile = new FetchProfile();
-		//profile.add(FetchProfile.Item.ENVELOPE);
-		//folder.fetch(message, profile);
-		//        Message mess=folder.getMessage(4);
-		//        handleMultipart(mess);
+		// FetchProfile profile = new FetchProfile();
+		// profile.add(FetchProfile.Item.ENVELOPE);
+		// folder.fetch(message, profile);
+		// Message mess=folder.getMessage(4);
+		// handleMultipart(mess);
 		for (int i = 0; i < message.length; i++) {
-
-			//message[i].setFlag(Flags.Flag.DELETED, true);//必须先设置：folder.open(Folder.READ_WRITE);
-			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			// POP3Message message2=(POP3Message)message[0];
+			// message[i].setFlag(Flags.Flag.DELETED,
+			// true);//必须先设置：folder.open(Folder.READ_WRITE);
+			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
+					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			handleMultipart(message[i]);
 			((POP3Message) message[i]).invalidate(true);
-			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
+					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
 		if (folder != null) {
 			folder.close(true);
@@ -82,7 +90,8 @@ public class MailReceiver {
 			if (disposition != null && disposition.equals(Part.ATTACHMENT)) {
 				saveAttach(part, getAttachPath(), msg.getSubject());
 			} else {
-				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
+				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO."
+						+ m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
 				System.out.println(part.getContent());
 			}
 		}
@@ -90,12 +99,13 @@ public class MailReceiver {
 
 	private static void handle(Message msg) throws Exception {
 
-		System.out.println("邮件主题:" + msg.getSubject());//测试
+		System.out.println("邮件主题:" + msg.getSubject());// 测试
 		System.out.println("邮件作者:" + msg.getFrom()[0].toString());
 		System.out.println("发送日期:" + msg.getSentDate());
 	}
 
-	private static void saveAttach(BodyPart part, String filePath, String title) throws Exception {
+	private static void saveAttach(BodyPart part, String filePath, String title)
+			throws Exception {
 
 		String temp = part.getFileName();
 		String s = temp.substring(8, temp.indexOf("?="));
@@ -109,7 +119,8 @@ public class MailReceiver {
 		System.out.println("路径:" + dir.getAbsolutePath());
 		if (!dir.exists())
 			dir.mkdirs();
-		FileOutputStream writer = new FileOutputStream(new File(filePath + "\\" + fileName));
+		FileOutputStream writer = new FileOutputStream(new File(filePath + "\\"
+				+ fileName));
 		byte[] content = new byte[255];
 		while ((in.read(content)) != -1) {
 			writer.write(content);

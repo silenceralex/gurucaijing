@@ -18,8 +18,11 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+
+import com.caijing.util.ContextFactory;
+
+
 
 
 public class ThreadCrawler {
@@ -120,11 +123,14 @@ public class ThreadCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ThreadCrawler crawler = new ThreadCrawler();
-		Extractor extractor=new ListExtractor();
-		crawler.setListExtractor(extractor);
-		crawler.init();
-//		crawler.crawl("http://vip.g.cnfol.com/thread/960,186467.html");
+//		ThreadCrawler crawler = new ThreadCrawler();
+//		Extractor extractor=new ListExtractor();
+//		crawler.setListExtractor(extractor);
+//		crawler.init();
+////		crawler.crawl("http://vip.g.cnfol.com/thread/960,186467.html");
+//		crawler.crawl("http://vip.g.cnfol.com/thread/103,144394.html");
+		ApplicationContext context = ContextFactory.getApplicationContext();
+		ThreadCrawler crawler = (ThreadCrawler) context.getBean("threadCrawler");
 		crawler.crawl("http://vip.g.cnfol.com/thread/103,144394.html");
 
 

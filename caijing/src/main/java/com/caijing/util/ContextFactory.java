@@ -11,9 +11,10 @@ import com.caijing.business.UserManager;
 
 public class ContextFactory {
 	private static String APPLICATION_CONFIGS=
+		 " classpath:config.xml" +
 	    "  classpath:applicationContext-resources.xml" +
-		"  classpath:applicationContext-dao.xml" +
-		"  classpath:applicationContext-business.xml" +
+//		"  classpath:applicationContext-dao.xml" +
+//		"  classpath:applicationContext-business.xml" +
 		"  classpath:applicationContext-services.xml";
 	private static ApplicationContext _applicationContext= new ClassPathXmlApplicationContext(StringUtils.tokenizeToStringArray(APPLICATION_CONFIGS, ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));;
 	public static ApplicationContext getApplicationContext() {

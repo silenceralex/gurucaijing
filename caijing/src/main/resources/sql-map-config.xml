@@ -16,6 +16,4 @@
          classInfoCacheEnabled="true"
 />
 
-	<sqlMap resource="com/netease/sample_project/dao/ibatis/User.xml"/>
-
 </sqlMapConfig>
