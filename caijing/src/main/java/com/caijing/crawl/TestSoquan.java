@@ -30,10 +30,9 @@ public class TestSoquan {
 	HttpParams params = new BasicHttpParams();
 	ClientConnectionManager cm = null;
 	HttpClient httpClient = null;
-	private static Pattern viewStatePattern = Pattern.compile("gentity",
-			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	private static Pattern stockPattern = Pattern.compile(
-			"(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+	private static Pattern viewStatePattern = Pattern.compile("gentity", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+			| Pattern.UNIX_LINES);
+	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static final String COOKIE = "  cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][password]=b41003f9cc166e8237916aac24a4e614; cookie[passport][keys]=88C14D50FCF09959DADCB6F387D06BB6; cookie[passport][logtime]=1277057407; skillId=4193; operatorId=undefined; cookie[upload][url]=http%3A%2F%2Fpassport.cnfol.com%2Fblogmodule%2FPostUpload%2Curls%3DaHR0cDovL3Bvc3QuY25mb2wuY29tL2luc2VydGZja2ltZy8%3D";
@@ -49,25 +48,20 @@ public class TestSoquan {
 		ConnManagerParams.setMaxTotalConnections(params, 100);
 
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory
-				.getSocketFactory(), 80));
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
 		cm = new ThreadSafeClientConnManager(params, schemeRegistry);
 		httpClient = new DefaultHttpClient(cm, params);
 	}
 
 	private void assemble(HttpGet get) {
-		get
-				.setHeader("Accept",
-						"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
 		get.setHeader("Keep-Alive", "115");
 		get.setHeader("Connection", "keep-alive");
-		get
-				.setHeader(
-						"User-Agent",
-						"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+		get.setHeader("User-Agent",
+				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Content-type", "application/x-www-form-urlencoded");
 		get.setHeader("Cookie", COOKIE);
@@ -75,9 +69,7 @@ public class TestSoquan {
 	}
 
 	public void getOnline(String clubid) {
-		HttpGet get = new HttpGet(
-				"http://online.g.cnfol.com//getinfo.html?displayNum=0&sortid=0&clubid="
-						+ clubid);
+		HttpGet get = new HttpGet("http://online.g.cnfol.com//getinfo.html?displayNum=0&sortid=0&clubid=" + clubid);
 		get.setHeader("Host", "online.g.cnfol.com");
 		assemble(get);
 		try {
@@ -118,21 +110,16 @@ public class TestSoquan {
 	}
 
 	public void login(String name, String password) {
-		HttpGet get = new HttpGet(
-				"http://online.g.cnfol.com//getinfo.html?clubid=103&displayNum=0&sortid=0");
+		HttpGet get = new HttpGet("http://online.g.cnfol.com//getinfo.html?clubid=103&displayNum=0&sortid=0");
 		// HttpGet get = new HttpGet(str3);
 		get.setHeader("Host", "online.g.cnfol.com");
-		get
-				.setHeader("Accept",
-						"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
 		get.setHeader("Keep-Alive", "115");
 		get.setHeader("Connection", "keep-alive");
-		get
-				.setHeader(
-						"User-Agent",
-						"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+		get.setHeader("User-Agent",
+				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Content-type", "application/x-www-form-urlencoded");
 		get
@@ -148,19 +135,6 @@ public class TestSoquan {
 			// "utf-8");
 			String content = EntityUtils.toString(gentity, "GB2312");
 			System.out.println("HTML: " + content);
-
-			// Matcher m = eventValidationPattern.matcher(content);
-			// String eventValidation = "";
-			// if (m != null && m.find()) {
-			// eventValidation = m.group(1);
-			// }
-			// Matcher m2 = viewStatePattern.matcher(content);
-			// String viewStatePattern = "";
-			// if (m2 != null && m2.find()) {
-			// viewStatePattern = m2.group(1);
-			// }
-			// System.out.println("eventValidation: " + eventValidation);
-			// System.out.println("viewStatePattern: " + viewStatePattern);
 
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -192,8 +166,7 @@ public class TestSoquan {
 						st.add(tmp);
 					}
 				}
-				String stockPath = folder + "/"
-						+ f.substring(0, f.indexOf('.')) + "_stock" + ".txt";
+				String stockPath = folder + "/" + f.substring(0, f.indexOf('.')) + "_stock" + ".txt";
 				FileUtil.write(stockPath, stock.toString());
 				System.out.println("stockFile: " + stockPath);
 

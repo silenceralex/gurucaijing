@@ -38,5 +38,15 @@
 	<classpathentry kind="lib" path="lib/httpcomponent/httpcore-4.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/httpcomponent/httpmime-4.0.jar"/>
 	<classpathentry kind="lib" path="lib/apache_commons/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/dsn.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/imap.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/mail.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/mailapi.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/pop3.jar"/>
+	<classpathentry kind="lib" path="lib/javamail/smtp.jar"/>
+	<classpathentry kind="lib" path="lib/jaf/activation.jar"/>
+	<classpathentry kind="lib" path="lib/pdfbox/fontbox-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/pdfbox/jempbox-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/pdfbox/pdfbox-1.1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
