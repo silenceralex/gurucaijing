@@ -3,6 +3,8 @@ package com.caijing.mail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
@@ -14,11 +16,17 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import sun.misc.BASE64Decoder;
 
+import com.caijing.util.Command;
 import com.sun.mail.pop3.POP3Message;
 
 public class MailReceiver {
+	private static Log logger = LogFactory.getLog(MailReceiver.class);
+	private static final String path = "/home/email/papers";
 
 	public static void main(String[] args) {
 
@@ -29,8 +37,8 @@ public class MailReceiver {
 		receiver.setHost("pop3.126.com");
 		receiver.setUsername("bg20052008");// 您的邮箱账号
 		receiver.setPassword("336699");// 您的邮箱密码
-	        //receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
-	        receiver.setAttachPath("/home/email");//您要存放附件在什么位置？绝对路径
+		// receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+		receiver.setAttachPath("/home/email");// 您要存放附件在什么位置？绝对路径
 		try {
 			receiver.reveiveMail();
 		} catch (Exception e) {
@@ -89,7 +97,8 @@ public class MailReceiver {
 			BodyPart part = mp.getBodyPart(m);
 			disposition = part.getDisposition();
 			if (disposition != null && disposition.equals(Part.ATTACHMENT)) {
-				saveAttach(part, getAttachPath(), msg.getSubject());
+				saveAttach(part, getAttachPath(), msg.getSubject(), msg
+						.getSentDate());
 			} else {
 				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO."
 						+ m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
@@ -105,30 +114,41 @@ public class MailReceiver {
 		System.out.println("发送日期:" + msg.getSentDate());
 	}
 
-	private static void saveAttach(BodyPart part, String filePath, String title)
-			throws Exception {
+	private static void saveAttach(BodyPart part, String filePath,
+			String title, Date date) throws Exception {
 
 		String temp = part.getFileName();
-		//String fileName = part.getFileName();
+		// String fileName = part.getFileName();
 		String s = temp.substring(8, temp.indexOf("?="));
 		String fileName = base64Decoder(s);
 		System.out.println("有附件:" + fileName);
 
 		InputStream in = part.getInputStream();
-		Date date = new Date();
+		// Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String dstr = sdf.format(date);
 		filePath += "/" + title;
-		File dir = new File(filePath + "/");
+		File dir = new File(filePath + "/" + title);
 		System.out.println("路径:" + dir.getAbsolutePath());
-		if (!dir.exists())
+		if (!dir.exists()) {
 			dir.mkdirs();
-		FileOutputStream writer = new FileOutputStream(new File(filePath + "/"
-				+ fileName));
+		}
+		File ddir = new File(path + "/" + dstr);
+		if (!ddir.exists()) {
+			ddir.mkdirs();
+		}
+		fileName = filePath + "/" + fileName;
+		FileOutputStream writer = new FileOutputStream(new File(fileName));
 		byte[] content = new byte[255];
 		while ((in.read(content)) != -1) {
 			writer.write(content);
 		}
 		writer.close();
 		in.close();
+		String commendStr = "unrar e " + fileName + " " + path + "/" + dstr;
+		StringWriter sw = new StringWriter();
+		Command.run(commendStr, sw);
+		logger.debug(sw.toString());
 	}
 
 	private static String base64Decoder(String s) throws Exception {
