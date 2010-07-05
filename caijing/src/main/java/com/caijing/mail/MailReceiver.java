@@ -160,9 +160,9 @@ public class MailReceiver {
 					String dstr = sdf.format(msg.getSentDate());
 					String commendStr = "unrar e " + filename + " " + path
 							+ "/" + dstr;
-					dir = new File(path + "/" + dstr);
-					if (!dir.exists()) {
-						dir.mkdirs();
+					File ddir = new File(path + "/" + dstr);
+					if (!ddir.exists()) {
+						ddir.mkdirs();
 					}
 					StringWriter sw = new StringWriter();
 					Command.run(commendStr, sw);
