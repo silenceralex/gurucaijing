@@ -18,6 +18,7 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.URLName;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -116,10 +117,23 @@ public class MailReceiver {
 		for (int m = 0; m < mpCount; m++) {
 			BodyPart part = mp.getBodyPart(m);
 			disposition = part.getDisposition();
-			if (disposition != null && disposition.equals(Part.ATTACHMENT)) {
+			System.out.println("disposition:" + disposition);
+			if (disposition != null
+					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {
 				saveAttach(part, getAttachPath(), msg.getSubject(), msg.getSentDate());
+			} else if (disposition == null) {//接收的邮件有附件时    
+
+			} else if (part.getContent() instanceof MimeMultipart) {//接收的邮件有附件时    
+				BodyPart bodyPart = ((MimeMultipart) part.getContent()).getBodyPart(0);
+				System.out.println(((MimeMultipart) part.getContent()).getContentType());
+				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg.getSentDate());
 			} else {
 				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
+				String body = "";
+				if (part.getContent() instanceof String) {//接收到的纯文本   
+					body = (String) part.getContent();
+					System.out.println(part.getContent());
+				}
 				Matcher m1 = titlePattern.matcher((String) part.getContent());
 				if (m1 != null && m1.find()) {
 					String expire = m1.group(1);
