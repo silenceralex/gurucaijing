@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
@@ -16,15 +17,16 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.URLName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.methods.HttpGet;
 
 import sun.misc.BASE64Decoder;
 
 import com.caijing.util.Command;
 import com.caijing.util.UrlDownload;
-import com.sun.mail.pop3.POP3Message;
 
 public class MailReceiver {
 	private static Log logger = LogFactory.getLog(MailReceiver.class);
@@ -34,7 +36,8 @@ public class MailReceiver {
 	private static Pattern linkPattern = Pattern.compile("downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static final String path = "/home/email/papers";
+	//	private static final String path = "/home/email/papers";
+	private static final String path = "f:/email/papers";
 
 	UrlDownload down = new UrlDownload();
 
@@ -46,11 +49,11 @@ public class MailReceiver {
 		// receiver.setHost("pop3.126.com");
 		// receiver.setUsername("bg20052008");//您的邮箱账号
 		// receiver.setPassword("336699");//您的邮箱密码
-		receiver.setHost("pop3.126.com");
+		receiver.setHost("pop.126.com");
 		receiver.setUsername("bg20052008");// 您的邮箱账号
 		receiver.setPassword("336699");// 您的邮箱密码
-		// receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
-		receiver.setAttachPath("/home/email");// 您要存放附件在什么位置？绝对路径
+		receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+		//		receiver.setAttachPath("/home/email");// 您要存放附件在什么位置？绝对路径
 		try {
 			receiver.reveiveMail();
 		} catch (Exception e) {
@@ -61,16 +64,22 @@ public class MailReceiver {
 	public void reveiveMail() throws Exception {
 
 		Properties props = new Properties();
+		//		props.setProperty("mail.imap.host", "imap.126.com");
+		//		props.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		//		props.setProperty("mail.imap.socketFactory.fallback", "false");
+		//		props.setProperty("mail.imap.port", "143");
+		//		props.setProperty("mail.imap.socketFactory.port", "143");
 		Session session = Session.getDefaultInstance(props, null);
-		Store store = session.getStore("pop3");
-		store.connect(getHost(), getUsername(), getPassword());
+		URLName url = new URLName("imap", "imap.126.com", 143, null, "bg20052008", "336699");
 
+		Store store = session.getStore(url);
+		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
 		// Message message[] = folder.getMessages(arg0, arg1);
 		Message message[] = folder.getMessages();
 		// System.out.println("Messages''s length: " + message.length);
-		int count = folder.getUnreadMessageCount();
+		int count = folder.getMessageCount();
 		// int count = folder.getNewMessageCount();
 		System.out.println("Messages''s count: " + count);
 
@@ -86,7 +95,7 @@ public class MailReceiver {
 			// true);//必须先设置：folder.open(Folder.READ_WRITE);
 			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			handleMultipart(message[i]);
-			((POP3Message) message[i]).invalidate(true);
+			//			((IMAPMessage) message[i]).(true);
 			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
 		if (folder != null) {
@@ -111,54 +120,51 @@ public class MailReceiver {
 				saveAttach(part, getAttachPath(), msg.getSubject(), msg.getSentDate());
 			} else {
 				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
-				//				Matcher m1 = titlePattern.matcher((String) part.getContent());
-				//				if (m1 != null && m1.find()) {
-				//					String expire = m1.group(1);
-				//					String filesize = m1.group(2);
-				//					String link = m1.group(3);
-				//					String title = m1.group(4);
-				//					System.out.println("expire: " + expire);
-				//					System.out.println("filesize: " + filesize);
-				//					System.out.println("link: " + link);
-				//					System.out.println("title: " + title);
-				//					HttpGet get = new HttpGet(link);
-				//					get.setHeader("Cookie", cookie);
-				//					String content = down.load(get);
-				//					System.out.println("content: " + content);
-				//					// http://download.fs.163.com/dl/?file=
-				//					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
-				//					// &callback=coremail
-				//					String url = link.replace("http://fs.163.com/fs/display/",
-				//							"http://download.fs.163.com/dl/")
-				//							+ "&callback=coremail";
-				//					System.out.println("link:" + link);
-				//					System.out.println("link:" + url);
-				//					get = new HttpGet(url);
-				//					get.setHeader("Cookie", cookie);
-				//					get.setHeader("Referer", link);
-				//					String subject = msg.getSubject();
-				//					if (subject.startsWith("Fw:")) {
-				//						subject = subject.replaceAll("Fw:", "").trim();
-				//					}
-				//					String filename = getAttachPath() + "/" + subject + "/"
-				//							+ title;
-				//					File dir = new File(getAttachPath() + "/" + subject);
-				//					if (!dir.exists()) {
-				//						dir.mkdirs();
-				//					}
-				//					down.downAttach(get, filename.replaceAll("\\s", ""));
-				//					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-				//					String dstr = sdf.format(msg.getSentDate());
-				//					String commendStr = "unrar e " + filename + " " + path
-				//							+ "/" + dstr;
-				//					File ddir = new File(path + "/" + dstr);
-				//					if (!ddir.exists()) {
-				//						ddir.mkdirs();
-				//					}
-				//					StringWriter sw = new StringWriter();
-				//					Command.run(commendStr, sw);
-				//					logger.debug(sw.toString());
-				//				}
+				Matcher m1 = titlePattern.matcher((String) part.getContent());
+				if (m1 != null && m1.find()) {
+					String expire = m1.group(1);
+					String filesize = m1.group(2);
+					String link = m1.group(3);
+					String title = m1.group(4);
+					System.out.println("expire: " + expire);
+					System.out.println("filesize: " + filesize);
+					System.out.println("link: " + link);
+					System.out.println("title: " + title);
+					HttpGet get = new HttpGet(link);
+					get.setHeader("Cookie", cookie);
+					String content = down.load(get);
+					System.out.println("content: " + content);
+					// http://download.fs.163.com/dl/?file=
+					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
+					// &callback=coremail
+					String url = link.replace("http://fs.163.com/fs/display/", "http://download.fs.163.com/dl/")
+							+ "&callback=coremail";
+					System.out.println("link:" + link);
+					System.out.println("link:" + url);
+					get = new HttpGet(url);
+					get.setHeader("Cookie", cookie);
+					get.setHeader("Referer", link);
+					String subject = msg.getSubject();
+					if (subject.startsWith("Fw:")) {
+						subject = subject.replaceAll("Fw:", "").trim();
+					}
+					String filename = getAttachPath() + "/" + subject + "/" + title;
+					File dir = new File(getAttachPath() + "/" + subject);
+					if (!dir.exists()) {
+						dir.mkdirs();
+					}
+					down.downAttach(get, filename.replaceAll("\\s", ""));
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+					String dstr = sdf.format(msg.getSentDate());
+					String commendStr = "unrar e " + filename + " " + path + "/" + dstr;
+					File ddir = new File(path + "/" + dstr);
+					if (!ddir.exists()) {
+						ddir.mkdirs();
+					}
+					StringWriter sw = new StringWriter();
+					Command.run(commendStr, sw);
+					logger.debug(sw.toString());
+				}
 			}
 		}
 	}

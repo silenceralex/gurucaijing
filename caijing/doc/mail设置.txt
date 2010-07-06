@@ -1,0 +1,3 @@
+  POP3服务器 	pop.126.com 	 110
+ SMTP服务器 	smtp.126.com 	 25
+ IMAP服务器 	imap.126.com 	 143 
