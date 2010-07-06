@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -19,6 +20,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.URLName;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -190,12 +192,25 @@ public class MailReceiver {
 		System.out.println("发送日期:" + msg.getSentDate());
 	}
 
+	protected static String decodeText(String text) throws UnsupportedEncodingException {
+		if (text == null)
+			return null;
+		if (text.startsWith("=?GB") || text.startsWith("=?gb")) {
+			text = MimeUtility.decodeText(text);
+		} else {
+			text = new String(text.getBytes("ISO8859_1"));
+		}
+		return text;
+	}
+
 	private static void saveAttach(BodyPart part, String filePath, String title, Date date) throws Exception {
 
-		String temp = part.getFileName();
-		// String fileName = part.getFileName();
-		String s = temp.substring(8, temp.indexOf("?="));
-		String fileName = base64Decoder(s);
+		//		String temp = part.getFileName();
+		//		System.out.println("fileName:" + temp);
+		//		// String fileName = part.getFileName();
+		//		String s = temp.substring(8, temp.indexOf("?="));
+		//		String fileName = base64Decoder(s);
+		String fileName = decodeText(part.getFileName());
 		System.out.println("有附件:" + fileName);
 
 		InputStream in = part.getInputStream();
