@@ -7,7 +7,6 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
@@ -20,7 +19,6 @@ import javax.mail.Store;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.client.methods.HttpGet;
 
 import sun.misc.BASE64Decoder;
 
@@ -30,14 +28,11 @@ import com.sun.mail.pop3.POP3Message;
 
 public class MailReceiver {
 	private static Log logger = LogFactory.getLog(MailReceiver.class);
-	private static Pattern titlePattern = Pattern
-			.compile(
-					"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>",
-					Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-							| Pattern.UNIX_LINES);
-	private static Pattern linkPattern = Pattern.compile(
-			"downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-					| Pattern.UNIX_LINES);
+	private static Pattern titlePattern = Pattern.compile(
+			"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>", Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern linkPattern = Pattern.compile("downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE
+			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static final String path = "/home/email/papers";
 
@@ -89,12 +84,10 @@ public class MailReceiver {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
 			// true);//必须先设置：folder.open(Folder.READ_WRITE);
-			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
-					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			handleMultipart(message[i]);
 			((POP3Message) message[i]).invalidate(true);
-			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
-					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
 		if (folder != null) {
 			folder.close(true);
@@ -115,59 +108,57 @@ public class MailReceiver {
 			BodyPart part = mp.getBodyPart(m);
 			disposition = part.getDisposition();
 			if (disposition != null && disposition.equals(Part.ATTACHMENT)) {
-				saveAttach(part, getAttachPath(), msg.getSubject(), msg
-						.getSentDate());
+				saveAttach(part, getAttachPath(), msg.getSubject(), msg.getSentDate());
 			} else {
-				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO."
-						+ m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
-				Matcher m1 = titlePattern.matcher((String) part.getContent());
-				if (m1 != null && m1.find()) {
-					String expire = m1.group(1);
-					String filesize = m1.group(2);
-					String link = m1.group(3);
-					String title = m1.group(4);
-					System.out.println("expire: " + expire);
-					System.out.println("filesize: " + filesize);
-					System.out.println("link: " + link);
-					System.out.println("title: " + title);
-					HttpGet get = new HttpGet(link);
-					get.setHeader("Cookie", cookie);
-					String content = down.load(get);
-					System.out.println("content: " + content);
-					// http://download.fs.163.com/dl/?file=
-					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
-					// &callback=coremail
-					String url = link.replace("http://fs.163.com/fs/display/",
-							"http://download.fs.163.com/dl/")
-							+ "&callback=coremail";
-					System.out.println("link:" + link);
-					System.out.println("link:" + url);
-					get = new HttpGet(url);
-					get.setHeader("Cookie", cookie);
-					get.setHeader("Referer", link);
-					String subject = msg.getSubject();
-					if (subject.startsWith("Fw:")) {
-						subject = subject.replaceAll("Fw:", "").trim();
-					}
-					String filename = getAttachPath() + "/" + subject + "/"
-							+ title;
-					File dir = new File(getAttachPath() + "/" + subject);
-					if (!dir.exists()) {
-						dir.mkdirs();
-					}
-					down.downAttach(get, filename.replaceAll("\\s", ""));
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-					String dstr = sdf.format(msg.getSentDate());
-					String commendStr = "unrar e " + filename + " " + path
-							+ "/" + dstr;
-					File ddir = new File(path + "/" + dstr);
-					if (!ddir.exists()) {
-						ddir.mkdirs();
-					}
-					StringWriter sw = new StringWriter();
-					Command.run(commendStr, sw);
-					logger.debug(sw.toString());
-				}
+				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
+				//				Matcher m1 = titlePattern.matcher((String) part.getContent());
+				//				if (m1 != null && m1.find()) {
+				//					String expire = m1.group(1);
+				//					String filesize = m1.group(2);
+				//					String link = m1.group(3);
+				//					String title = m1.group(4);
+				//					System.out.println("expire: " + expire);
+				//					System.out.println("filesize: " + filesize);
+				//					System.out.println("link: " + link);
+				//					System.out.println("title: " + title);
+				//					HttpGet get = new HttpGet(link);
+				//					get.setHeader("Cookie", cookie);
+				//					String content = down.load(get);
+				//					System.out.println("content: " + content);
+				//					// http://download.fs.163.com/dl/?file=
+				//					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
+				//					// &callback=coremail
+				//					String url = link.replace("http://fs.163.com/fs/display/",
+				//							"http://download.fs.163.com/dl/")
+				//							+ "&callback=coremail";
+				//					System.out.println("link:" + link);
+				//					System.out.println("link:" + url);
+				//					get = new HttpGet(url);
+				//					get.setHeader("Cookie", cookie);
+				//					get.setHeader("Referer", link);
+				//					String subject = msg.getSubject();
+				//					if (subject.startsWith("Fw:")) {
+				//						subject = subject.replaceAll("Fw:", "").trim();
+				//					}
+				//					String filename = getAttachPath() + "/" + subject + "/"
+				//							+ title;
+				//					File dir = new File(getAttachPath() + "/" + subject);
+				//					if (!dir.exists()) {
+				//						dir.mkdirs();
+				//					}
+				//					down.downAttach(get, filename.replaceAll("\\s", ""));
+				//					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				//					String dstr = sdf.format(msg.getSentDate());
+				//					String commendStr = "unrar e " + filename + " " + path
+				//							+ "/" + dstr;
+				//					File ddir = new File(path + "/" + dstr);
+				//					if (!ddir.exists()) {
+				//						ddir.mkdirs();
+				//					}
+				//					StringWriter sw = new StringWriter();
+				//					Command.run(commendStr, sw);
+				//					logger.debug(sw.toString());
+				//				}
 			}
 		}
 	}
@@ -179,8 +170,7 @@ public class MailReceiver {
 		System.out.println("发送日期:" + msg.getSentDate());
 	}
 
-	private static void saveAttach(BodyPart part, String filePath,
-			String title, Date date) throws Exception {
+	private static void saveAttach(BodyPart part, String filePath, String title, Date date) throws Exception {
 
 		String temp = part.getFileName();
 		// String fileName = part.getFileName();
