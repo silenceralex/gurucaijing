@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-<!--
+
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -52,7 +52,7 @@
 			<ref bean="dataSource" />
 		</property>
 	</bean>
--->
+
 	<bean id="berkeleyDB" class="com.caijing.cache.BerkeleyDB">
 		<property name="cacheHome">
 			<value>f:/caijing/cache</value>

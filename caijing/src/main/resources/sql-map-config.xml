@@ -15,5 +15,5 @@
          statementCachingEnabled="true"
          classInfoCacheEnabled="true"
 />
-
+<sqlMap resource="com/caijing/dao/ibatis/User.xml" />
 </sqlMapConfig>

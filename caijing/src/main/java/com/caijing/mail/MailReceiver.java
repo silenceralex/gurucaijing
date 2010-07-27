@@ -83,7 +83,7 @@ public class MailReceiver {
 		Message message[] = folder.getMessages();
 		// System.out.println("Messages''s length: " + message.length);
 		int count = folder.getMessageCount();
-		// int count = folder.getNewMessageCount();
+//		 int count = folder.getNewMessageCount();
 		System.out.println("Messages''s count: " + count);
 
 		// FetchProfile profile = new FetchProfile();
@@ -177,9 +177,9 @@ public class MailReceiver {
 					if (!ddir.exists()) {
 						ddir.mkdirs();
 					}
-					StringWriter sw = new StringWriter();
-					Command.run(commendStr, sw);
-					logger.debug(sw.toString());
+//					StringWriter sw = new StringWriter();
+//					Command.run(commendStr, sw);
+//					logger.debug(sw.toString());
 				}
 			}
 		}

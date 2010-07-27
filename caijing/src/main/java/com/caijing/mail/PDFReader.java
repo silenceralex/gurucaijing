@@ -19,6 +19,7 @@ public class PDFReader {
 			File[] files = file.listFiles();
 			for (File f : files) {
 				if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
+					System.out.println("path:"+f.getAbsolutePath());
 					readFdf(f.getAbsolutePath());
 				} else if (f.isDirectory()) {
 					read(f.getAbsolutePath());
@@ -53,12 +54,11 @@ public class PDFReader {
 			String fileName = pdfFile;
 			// 以原来PDF的名称来命名新产生的txt文件
 			if (fileName.length() > 4) {
-				File outputFile = new File(fileName.substring(0, fileName
-						.length() - 4)
-						+ ".txt");
-				textFile = outputFile.getName();
+				textFile=fileName.substring(0, fileName.length() - 4)+ ".txt";
+				File outputFile = new File(textFile);
+//				textFile = outputFile.getName();
 			}
-		
+			System.out.println("textFile："+textFile);
 			// 文件输入流，写入文件倒textFile
 			output = new OutputStreamWriter(new FileOutputStream(textFile),
 					encoding);
@@ -94,7 +94,7 @@ public class PDFReader {
 		PDFReader pdfReader = new PDFReader();
 		try {
 			// 取得E盘下的SpringGuide.pdf的内容
-			pdfReader.read("/home/email/papers");
+			pdfReader.read("F:\\email\\研究报告7.07");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
