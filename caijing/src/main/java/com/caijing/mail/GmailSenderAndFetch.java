@@ -224,7 +224,6 @@ public class GmailSenderAndFetch {
 			while (in.read(buffer) != -1) {
 				out.write(buffer);
 			}
-
 			in.close();
 			out.flush();
 			out.close();

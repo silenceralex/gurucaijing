@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Analyzer">
+  
+  <typeAlias alias="Analyzer" type="com.caijing.domain.Analyzer"/>
+
+  <select id="getAnalyzersByAgency"  resultClass="Analyzer" >
+    select * from analyzer where agency = #value#
+  </select>
+
+  
+  <select id="select"  resultClass="Analyzer" >
+    select * from analyzer where aid=#value#
+  </select>
+  
+  <insert id="insert" >
+    insert into analyzer (aid,name,industry,agency,info,level,status,ptime,lmodify,position,image_url) values (#aid#,#name#,#industry#,#agency#,#info#,#level#,#status#,#ptime#,#lmodify#,#position#,#image_url#)
+  </insert>
+
+  <update id="update" parameterClass="Analyzer">
+  	update analyzer
+  	<dynamic prepend="set">
+  		<isNotEmpty prepend="," property="name">
+  			name = #name#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="industry">
+  			industry = #industry#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="agency">
+  			agency = #agency#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="info">
+  			info = #info#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="status">
+  			status = #status#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="lmodify">
+  			lmodify = #lmodify#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="position">
+  			position = #position#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="image_url">
+  			image_url = #image_url#
+  		</isNotEmpty>
+  	</dynamic>
+  	where aid=#aid#
+  </update>
+
+  <delete id="delete" parameterClass="Analyzer">
+    delete from analyzer where aid=#aid#
+  </delete>
+
+</sqlMap>

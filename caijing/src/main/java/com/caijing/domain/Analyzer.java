@@ -13,6 +13,7 @@ public class Analyzer {
 	private Date ptime = null;
 	private Date lmodify = null;
 	private String image_url=null;
+	private String position=null;
 	public String getName() {
 		return name;
 	}
@@ -72,5 +73,11 @@ public class Analyzer {
 	}
 	public void setImage_url(String image_url) {
 		this.image_url = image_url;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
 	}
 }

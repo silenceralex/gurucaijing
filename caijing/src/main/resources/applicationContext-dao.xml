@@ -13,4 +13,13 @@
     </property>
   </bean>
   
+    <bean id="analyzerDao" class="com.caijing.dao.ibatis.AnalyzerDaoImpl">
+   <property name="sqlMapClientTemplate">
+     <ref bean="sqlMapClientTemplate"/>
+    </property>
+    <property name="namespace">
+      <value>Analyzer</value>
+    </property>
+  </bean>
+  
 </beans>

@@ -2,11 +2,8 @@ package com.caijing.mail;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
@@ -94,8 +91,9 @@ public class PDFReader {
 		PDFReader pdfReader = new PDFReader();
 		try {
 			// 取得E盘下的SpringGuide.pdf的内容
-			pdfReader.read("F:\\email\\研究报告7.07");
-			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
+//			pdfReader.read("F:\\email\\研究报告7.07");
+			pdfReader.read("/home/app/email/papers");
+//			 pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -16,4 +16,5 @@
          classInfoCacheEnabled="true"
 />
 <sqlMap resource="com/caijing/dao/ibatis/User.xml" />
+<sqlMap resource="com/caijing/dao/ibatis/Analyzer.xml" />
 </sqlMapConfig>
