@@ -35,14 +35,17 @@ import com.caijing.util.UrlDownload;
 
 public class MailReceiver {
 	private static Log logger = LogFactory.getLog(MailReceiver.class);
-	private static Pattern titlePattern = Pattern.compile(
-			"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>", Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
-	private static Pattern linkPattern = Pattern.compile("downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE
-			| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern titlePattern = Pattern
+			.compile(
+					"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>",
+					Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+							| Pattern.UNIX_LINES);
+	private static Pattern linkPattern = Pattern.compile(
+			"downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+					| Pattern.UNIX_LINES);
 
-		private static final String path = "/home/app/email/papers";
-//	private static final String path = "f:/email/papers";
+	private static final String path = "/home/app/email/papers";
+	// private static final String path = "f:/email/papers";
 
 	UrlDownload down = new UrlDownload();
 
@@ -57,44 +60,46 @@ public class MailReceiver {
 		receiver.setHost("pop.126.com");
 		receiver.setUsername("bg20052008");// 您的邮箱账号
 		receiver.setPassword("336699");// 您的邮箱密码
-//		receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
-				receiver.setAttachPath("/home/app/email");// 您要存放附件在什么位置？绝对路径
+		// receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+		receiver.setAttachPath("/home/app/email");// 您要存放附件在什么位置？绝对路径
 		try {
 			receiver.reveiveMail();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-    /**   
-     * 【判断此邮件是否已读，如果未读返回返回false,反之返回true】   
-     */   
-    public boolean isSeen(Message mimeMessage) throws MessagingException {    
-        boolean isnew = false;    
-        Flags flags = ((Message) mimeMessage).getFlags();    
-        Flags.Flag[] flag = flags.getSystemFlags();    
-        System.out.println("flags's length: " + flag.length);    
-        for (int i = 0; i < flag.length; i++) {    
-            if (flag[i] == Flags.Flag.SEEN) {    
-                isnew = true;    
-                System.out.println("seen Message.......");    
-                break;    
-            }    
-        }    
-        return isnew;    
-    }    
-    
+	/**
+	 * 【判断此邮件是否已读，如果未读返回返回false,反之返回true】
+	 */
+	public boolean isSeen(Message mimeMessage) throws MessagingException {
+		boolean isnew = false;
+		Flags flags = ((Message) mimeMessage).getFlags();
+		Flags.Flag[] flag = flags.getSystemFlags();
+		System.out.println("flags's length: " + flag.length);
+		for (int i = 0; i < flag.length; i++) {
+			if (flag[i] == Flags.Flag.SEEN) {
+				isnew = true;
+				System.out.println("seen Message.......");
+				break;
+			}
+		}
+		return isnew;
+	}
+
 	public void reveiveMail() throws Exception {
 
 		Properties props = new Properties();
-		//		props.setProperty("mail.imap.host", "imap.126.com");
-		//		props.setProperty("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		//		props.setProperty("mail.imap.socketFactory.fallback", "false");
-		//		props.setProperty("mail.imap.port", "143");
-		//		props.setProperty("mail.imap.socketFactory.port", "143");
+		// props.setProperty("mail.imap.host", "imap.126.com");
+		// props.setProperty("mail.imap.socketFactory.class",
+		// "javax.net.ssl.SSLSocketFactory");
+		// props.setProperty("mail.imap.socketFactory.fallback", "false");
+		// props.setProperty("mail.imap.port", "143");
+		// props.setProperty("mail.imap.socketFactory.port", "143");
 		Session session = Session.getDefaultInstance(props, null);
-		URLName url = new URLName("imap", "imap.126.com", 143, null, "bg20052008", "336699");
+		URLName url = new URLName("imap", "imap.126.com", 143, null,
+				"bg20052008", "336699");
 
 		Store store = session.getStore(url);
 		store.connect();
@@ -104,7 +109,7 @@ public class MailReceiver {
 		Message message[] = folder.getMessages();
 		// System.out.println("Messages''s length: " + message.length);
 		int count = folder.getMessageCount();
-//		 int count = folder.getNewMessageCount();
+		// int count = folder.getNewMessageCount();
 		System.out.println("Messages''s count: " + count);
 
 		// FetchProfile profile = new FetchProfile();
@@ -117,13 +122,17 @@ public class MailReceiver {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
 			// true);//必须先设置：folder.open(Folder.READ_WRITE);
-			
-			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
-			if(!isSeen(message[i])){
-			handleMultipart(message[i]);
+			String subject = message[i].getSubject();
+
+			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
+					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			// if(!isSeen(message[i])){
+			if (subject.startsWith("Fw:研究报告")) {
+				handleMultipart(message[i]);
 			}
-			//			((IMAPMessage) message[i]).(true);
-			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			// ((IMAPMessage) message[i]).(true);
+			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
+					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
 		if (folder != null) {
 			folder.close(true);
@@ -143,22 +152,28 @@ public class MailReceiver {
 		for (int m = 0; m < mpCount; m++) {
 			BodyPart part = mp.getBodyPart(m);
 			disposition = part.getDisposition();
-			System.out.println("ContentType:"+part.getContentType());
+			System.out.println("ContentType:" + part.getContentType());
 			System.out.println("disposition:" + disposition);
 			if (disposition != null
-					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {
-				saveAttach(part, getAttachPath(), msg.getSubject(), msg.getSentDate());
-			} else if (disposition == null) {//接收的邮件有附件时    
+					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition
+							.equalsIgnoreCase(Part.INLINE))) {
+				saveAttach(part, getAttachPath(), msg.getSubject(), msg
+						.getSentDate());
+			} else if (disposition == null) {// 接收的邮件有附件时
 
-			} else if (part.getContent() instanceof MimeMultipart) {//接收的邮件有附件时    
-				BodyPart bodyPart = ((MimeMultipart) part.getContent()).getBodyPart(0);
-				System.out.println(((MimeMultipart) part.getContent()).getContentType());
-				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg.getSentDate());
+			} else if (part.getContent() instanceof MimeMultipart) {// 接收的邮件有附件时
+				BodyPart bodyPart = ((MimeMultipart) part.getContent())
+						.getBodyPart(0);
+				System.out.println(((MimeMultipart) part.getContent())
+						.getContentType());
+				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg
+						.getSentDate());
 			}
-           if(part.getContentType().contains("text/html")){
-				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
+			if (part.getContentType().contains("text/html")) {
+				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO."
+						+ m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
 				String body = "";
-				if (part.getContent() instanceof String) {//接收到的纯文本   
+				if (part.getContent() instanceof String) {// 接收到的纯文本
 					body = (String) part.getContent();
 					System.out.println(part.getContent());
 				}
@@ -179,7 +194,8 @@ public class MailReceiver {
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
-					String url = link.replace("http://fs.163.com/fs/display/", "http://download.fs.163.com/dl/")
+					String url = link.replace("http://fs.163.com/fs/display/",
+							"http://download.fs.163.com/dl/")
 							+ "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("link:" + url);
@@ -190,7 +206,8 @@ public class MailReceiver {
 					if (subject.startsWith("Fw:")) {
 						subject = subject.replaceAll("Fw:", "").trim();
 					}
-					String filename = getAttachPath() + "/" + subject + "/" + title;
+					String filename = getAttachPath() + "/" + subject + "/"
+							+ title;
 					File dir = new File(getAttachPath() + "/" + subject);
 					if (!dir.exists()) {
 						dir.mkdirs();
@@ -198,7 +215,8 @@ public class MailReceiver {
 					down.downAttach(get, filename.replaceAll("\\s", ""));
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 					String dstr = sdf.format(msg.getSentDate());
-					String commendStr = "unrar e " + filename + " " + path + "/" + dstr;
+					String commendStr = "unrar e " + filename + " " + path
+							+ "/" + dstr;
 					File ddir = new File(path + "/" + dstr);
 					if (!ddir.exists()) {
 						ddir.mkdirs();
@@ -218,7 +236,8 @@ public class MailReceiver {
 		System.out.println("发送日期:" + msg.getSentDate());
 	}
 
-	protected static String decodeText(String text) throws UnsupportedEncodingException {
+	protected static String decodeText(String text)
+			throws UnsupportedEncodingException {
 		if (text == null)
 			return null;
 		if (text.startsWith("=?GB") || text.startsWith("=?gb")) {
@@ -229,13 +248,14 @@ public class MailReceiver {
 		return text;
 	}
 
-	private static void saveAttach(BodyPart part, String filePath, String title, Date date) throws Exception {
+	private static void saveAttach(BodyPart part, String filePath,
+			String title, Date date) throws Exception {
 
-		//		String temp = part.getFileName();
-		//		System.out.println("fileName:" + temp);
-		//		// String fileName = part.getFileName();
-		//		String s = temp.substring(8, temp.indexOf("?="));
-		//		String fileName = base64Decoder(s);
+		// String temp = part.getFileName();
+		// System.out.println("fileName:" + temp);
+		// // String fileName = part.getFileName();
+		// String s = temp.substring(8, temp.indexOf("?="));
+		// String fileName = base64Decoder(s);
 		String fileName = decodeText(part.getFileName());
 		System.out.println("有附件:" + fileName);
 
