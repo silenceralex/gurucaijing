@@ -123,11 +123,11 @@ public class MailReceiver {
 			// message[i].setFlag(Flags.Flag.DELETED,
 			// true);//必须先设置：folder.open(Folder.READ_WRITE);
 			String subject = message[i].getSubject();
-
 			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			// if(!isSeen(message[i])){
 			if (subject.startsWith("Fw:研究报告")) {
+				System.out.println("date:" + message[i].getSentDate());
 				handleMultipart(message[i]);
 			}
 			// ((IMAPMessage) message[i]).(true);
@@ -175,7 +175,7 @@ public class MailReceiver {
 				String body = "";
 				if (part.getContent() instanceof String) {// 接收到的纯文本
 					body = (String) part.getContent();
-					System.out.println(part.getContent());
+					// System.out.println(part.getContent());
 				}
 				Matcher m1 = titlePattern.matcher((String) part.getContent());
 				if (m1 != null && m1.find()) {
@@ -212,7 +212,12 @@ public class MailReceiver {
 					if (!dir.exists()) {
 						dir.mkdirs();
 					}
-					down.downAttach(get, filename.replaceAll("\\s", ""));
+					try {
+						down.downAttach(get, filename.replaceAll("\\s", ""));
+					} catch (Exception e) {
+						System.out
+								.println("Catch exceptioin:" + e.getMessage());
+					}
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 					String dstr = sdf.format(msg.getSentDate());
 					String commendStr = "unrar e " + filename + " " + path
