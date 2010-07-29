@@ -12,8 +12,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
@@ -62,8 +64,27 @@ public class MailReceiver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 
+    /**   
+     * 【判断此邮件是否已读，如果未读返回返回false,反之返回true】   
+     */   
+    public boolean isSeen(Message mimeMessage) throws MessagingException {    
+        boolean isnew = false;    
+        Flags flags = ((Message) mimeMessage).getFlags();    
+        Flags.Flag[] flag = flags.getSystemFlags();    
+        System.out.println("flags's length: " + flag.length);    
+        for (int i = 0; i < flag.length; i++) {    
+            if (flag[i] == Flags.Flag.SEEN) {    
+                isnew = true;    
+                System.out.println("seen Message.......");    
+                break;    
+            }    
+        }    
+        return isnew;    
+    }    
+    
 	public void reveiveMail() throws Exception {
 
 		Properties props = new Properties();
@@ -96,8 +117,11 @@ public class MailReceiver {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
 			// true);//必须先设置：folder.open(Folder.READ_WRITE);
+			
 			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			if(!isSeen(message[i])){
 			handleMultipart(message[i]);
+			}
 			//			((IMAPMessage) message[i]).(true);
 			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
@@ -119,6 +143,7 @@ public class MailReceiver {
 		for (int m = 0; m < mpCount; m++) {
 			BodyPart part = mp.getBodyPart(m);
 			disposition = part.getDisposition();
+			System.out.println("ContentType:"+part.getContentType());
 			System.out.println("disposition:" + disposition);
 			if (disposition != null
 					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {
@@ -129,7 +154,8 @@ public class MailReceiver {
 				BodyPart bodyPart = ((MimeMultipart) part.getContent()).getBodyPart(0);
 				System.out.println(((MimeMultipart) part.getContent()).getContentType());
 				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg.getSentDate());
-			} else {
+			}
+           if(part.getContentType().contains("text/html")){
 				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
 				String body = "";
 				if (part.getContent() instanceof String) {//接收到的纯文本   
