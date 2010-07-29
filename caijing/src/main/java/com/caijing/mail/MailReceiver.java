@@ -127,6 +127,7 @@ public class MailReceiver {
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			// if(!isSeen(message[i])){
 			if (subject.startsWith("Fw:研究报告")) {
+				//从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。
 				System.out.println("date:" + message[i].getSentDate());
 				handleMultipart(message[i]);
 			}
