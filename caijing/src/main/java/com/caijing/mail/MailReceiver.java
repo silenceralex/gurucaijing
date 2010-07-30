@@ -200,8 +200,8 @@ public class MailReceiver {
 					System.out.println("title: " + title);
 					HttpGet get = new HttpGet(link);
 					get.setHeader("Cookie", cookie);
-					String content = down.load(get);
-					System.out.println("content: " + content);
+//					String content = down.load(get);
+//					System.out.println("content: " + content);
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
@@ -229,11 +229,11 @@ public class MailReceiver {
 						System.out
 								.println("Catch exceptioin:" + e.getMessage());
 					}
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-					String dstr = sdf.format(msg.getSentDate());
+//					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//					String dstr = sdf.format(msg.getSentDate());
 					String commendStr = "unrar e " + filename + " " + path
-							+ "/" + dstr;
-					File ddir = new File(path + "/" + dstr);
+							+ "/" + subject;
+					File ddir = new File(path + "/" + subject);
 					if (!ddir.exists()) {
 						ddir.mkdirs();
 					}
