@@ -43,6 +43,11 @@ public class MailReceiver {
 	private static Pattern linkPattern = Pattern.compile(
 			"downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 					| Pattern.UNIX_LINES);
+	
+	private static Pattern expiredPattern = Pattern.compile(
+			"lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+					| Pattern.UNIX_LINES);
+	
 
 	private static final String path = "/home/app/email/papers";
 	// private static final String path = "f:/email/papers";
@@ -185,6 +190,11 @@ public class MailReceiver {
 					String link = m1.group(3);
 					String title = m1.group(4);
 					System.out.println("expire: " + expire);
+					System.out.println("now: " + System.currentTimeMillis());
+					if(System.currentTimeMillis()>Long.parseLong(expire)){
+						System.out.println("File out of date : " + expire);
+						continue;
+					}
 					System.out.println("filesize: " + filesize);
 					System.out.println("link: " + link);
 					System.out.println("title: " + title);
