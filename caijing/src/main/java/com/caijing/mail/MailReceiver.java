@@ -223,12 +223,18 @@ public class MailReceiver {
 					if (!dir.exists()) {
 						dir.mkdirs();
 					}
+					File file=new File(filename.replaceAll("\\s", ""));
+					//如果每次rar已经存在则跳过
+					if(file.exists()){
+						continue;
+					}
 					try {
 						down.downAttach(get, filename.replaceAll("\\s", ""));
 					} catch (Exception e) {
 						System.out
 								.println("Catch exceptioin:" + e.getMessage());
 					}
+					
 //					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 //					String dstr = sdf.format(msg.getSentDate());
 					String commendStr = "unrar e " + filename + " " + path
