@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
+import javax.mail.FetchProfile;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -102,16 +103,14 @@ public class MailReceiver {
 		// props.setProperty("mail.imap.port", "143");
 		// props.setProperty("mail.imap.socketFactory.port", "143");
 		Session session = Session.getDefaultInstance(props, null);
-		URLName url = new URLName("imap", "imap.126.com", 143, null,
+		URLName url = new URLName("pop3", "pop.126.com", 110, null,
 				"bg20052008", "336699");
 
 		Store store = session.getStore(url);
 		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
-		// Message message[] = folder.getMessages(arg0, arg1);
 		Message message[] = folder.getMessages();
-		// System.out.println("Messages''s length: " + message.length);
 		int count = folder.getMessageCount();
 		// int count = folder.getNewMessageCount();
 		System.out.println("Messages''s count: " + count);
@@ -126,18 +125,23 @@ public class MailReceiver {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
 			// true);//必须先设置：folder.open(Folder.READ_WRITE);
-			String subject = message[i].getSubject();
+//			 FetchProfile profile = new FetchProfile();
+//			 profile.add(FetchProfile.Item.ENVELOPE);
+//			 folder.fetch(message, profile);
+//			 Message mess=folder.getMessage(i);
+			Message mess=message[i];
+			String subject = mess.getSubject();
 			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			// if(!isSeen(message[i])){
 			if (subject.startsWith("Fw:研究报告")) {
 				// 从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。
-				System.out.println("date:" + message[i].getSentDate());
+				System.out.println("date:" + mess.getSentDate());
 				SimpleDateFormat sdf = new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss");
 				Date date = sdf.parse("2010-07-19 00:00:00");
-				if (message[i].getSentDate().after(date)) {
-					handleMultipart(message[i]);
+				if (mess.getSentDate().after(date)) {
+					handleMultipart(mess);
 				}
 			}
 			// ((IMAPMessage) message[i]).;
@@ -204,7 +208,7 @@ public class MailReceiver {
 					System.out.println("title: " + title);
 					HttpGet get = new HttpGet(link);
 					get.setHeader("Cookie", cookie);
-					String content = down.load(get);
+//					String content = down.load(get);
 					// System.out.println("content: " + content);
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
