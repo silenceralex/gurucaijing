@@ -226,7 +226,7 @@ public class MailReceiver {
 						subject = subject.replaceAll("Fw:", "").trim();
 					}
 					String filename = getAttachPath() + "/" + subject + "/"
-							+ title;
+							+ subject+".rar";
 					File dir = new File(getAttachPath() + "/" + subject);
 					if (!dir.exists()) {
 						dir.mkdirs();
