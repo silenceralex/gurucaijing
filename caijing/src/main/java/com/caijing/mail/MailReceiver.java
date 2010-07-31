@@ -208,8 +208,8 @@ public class MailReceiver {
 					System.out.println("title: " + title);
 					HttpGet get = new HttpGet(link);
 					get.setHeader("Cookie", cookie);
-//					String content = down.load(get);
-					// System.out.println("content: " + content);
+					String content = down.load(get);
+//					 System.out.println("content: " + content);
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
