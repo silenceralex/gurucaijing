@@ -43,11 +43,10 @@ public class MailReceiver {
 	private static Pattern linkPattern = Pattern.compile(
 			"downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 					| Pattern.UNIX_LINES);
-	
+
 	private static Pattern expiredPattern = Pattern.compile(
-			"lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-					| Pattern.UNIX_LINES);
-	
+			"lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static final String path = "/home/app/email/papers";
 	// private static final String path = "f:/email/papers";
@@ -132,11 +131,15 @@ public class MailReceiver {
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			// if(!isSeen(message[i])){
 			if (subject.startsWith("Fw:研究报告")) {
-				//从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。
+				// 从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。
 				System.out.println("date:" + message[i].getSentDate());
-				handleMultipart(message[i]);
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = sdf.parse("2010-07-19 00:00:00");
+				if (message[i].getSentDate().after(date)) {
+					handleMultipart(message[i]);
+				}
 			}
-			// ((IMAPMessage) message[i]).(true);
+			// ((IMAPMessage) message[i]).;
 			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
@@ -191,7 +194,7 @@ public class MailReceiver {
 					String title = m1.group(4);
 					System.out.println("expire: " + expire);
 					System.out.println("now: " + System.currentTimeMillis());
-					if(System.currentTimeMillis()>Long.parseLong(expire)){
+					if (System.currentTimeMillis() > Long.parseLong(expire)) {
 						System.out.println("File out of date : " + expire);
 						continue;
 					}
@@ -200,8 +203,8 @@ public class MailReceiver {
 					System.out.println("title: " + title);
 					HttpGet get = new HttpGet(link);
 					get.setHeader("Cookie", cookie);
-//					String content = down.load(get);
-//					System.out.println("content: " + content);
+					// String content = down.load(get);
+					// System.out.println("content: " + content);
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
@@ -223,9 +226,9 @@ public class MailReceiver {
 					if (!dir.exists()) {
 						dir.mkdirs();
 					}
-					File file=new File(filename.replaceAll("\\s", ""));
-					//如果每次rar已经存在则跳过
-					if(file.exists()){
+					File file = new File(filename.replaceAll("\\s", ""));
+					// 如果每次rar已经存在则跳过
+					if (file.exists()) {
 						continue;
 					}
 					try {
@@ -234,9 +237,9 @@ public class MailReceiver {
 						System.out
 								.println("Catch exceptioin:" + e.getMessage());
 					}
-					
-//					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-//					String dstr = sdf.format(msg.getSentDate());
+
+					// SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+					// String dstr = sdf.format(msg.getSentDate());
 					String commendStr = "unrar e " + filename + " " + path
 							+ "/" + subject;
 					File ddir = new File(path + "/" + subject);
