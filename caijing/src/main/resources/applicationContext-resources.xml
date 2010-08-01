@@ -55,7 +55,7 @@
 
 	<bean id="berkeleyDB" class="com.caijing.cache.BerkeleyDB">
 		<property name="cacheHome">
-			<value>f:/caijing/cache</value>
+			<value>/home/app/caijing/cache</value>
 		</property>
 	</bean>
 	<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
