@@ -133,6 +133,7 @@ public class MailReceiver {
 			String subject = mess.getSubject();
 			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("subject:" +subject);
 			// if(!isSeen(message[i])){
 			if (subject.startsWith("Fw:研究报告")) {
 				// 从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。

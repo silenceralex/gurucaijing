@@ -91,8 +91,8 @@ public class PDFReader {
 		PDFReader pdfReader = new PDFReader();
 		try {
 			// 取得E盘下的SpringGuide.pdf的内容
-//			pdfReader.read("F:\\email\\研究报告7.07");
-			pdfReader.read("/home/app/email/papers");
+			pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
+//			pdfReader.read("/home/app/email/papers");
 //			 pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();

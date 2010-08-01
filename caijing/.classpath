@@ -53,5 +53,6 @@
 	<classpathentry kind="lib" path="lib/je/je-4.0.92.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox/bcprov-ext-jdk16-145.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox/bcprov-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="lib/quartz/quartz-all-1.6.6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

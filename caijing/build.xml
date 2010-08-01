@@ -195,7 +195,7 @@
 	<!-- 通过ant运行独立的应用程序 -->
 	<target name="run-app" depends="compile">
 		<fail unless="app-class" message="必须指定要运行的类名 -Dapp-class=com.netease.xxx.xxx -Dapp-arg=xxx "/>
-		<java classname="${app-class}" fork="true" maxmemory="512m">
+		<java classname="${app-class}" fork="true" maxmemory="1024m">
 			<sysproperty key="disable-pool" value="true"/>
 			<arg line="${app-arg}"/>
 			<classpath refid="classpath"/>

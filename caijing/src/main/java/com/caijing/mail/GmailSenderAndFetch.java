@@ -214,7 +214,7 @@ public class GmailSenderAndFetch {
 			if (part.getDisposition() == null)
 				return;
 
-			String dir = "D:/uploadDir/";
+			String dir = "F:/uploadDir/";
 			String filename = decodeText(part.getFileName());
 
 			InputStream in = part.getInputStream();
