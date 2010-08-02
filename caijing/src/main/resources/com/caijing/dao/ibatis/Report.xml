@@ -5,7 +5,7 @@
   <typeAlias alias="reportClass" type="com.caijing.domain.Report"/>
 
 
-  <select id="getReportsByAname"  resultMap="userResultMap" >
+  <select id="getReportsByAname"  resultClass="reportClass" >
     select * from report where aname = #value#
   </select>
   
@@ -13,7 +13,7 @@
     select * from report where saname = #value#
   </select>
   
-  <select id="select"  resultMap="userResultMap" >
+  <select id="select"  resultClass="reportClass" >
     select * from report where rid=#value#
   </select>
   
@@ -55,7 +55,7 @@
   	where rid=#rid#
   </update>
 
-  <delete id="delete" parameterClass="userClass">
+  <delete id="delete" parameterClass="reportClass">
     delete from report where rid=#rid#
   </delete>
 
