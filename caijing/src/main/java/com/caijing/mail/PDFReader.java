@@ -16,8 +16,14 @@ public class PDFReader {
 			File[] files = file.listFiles();
 			for (File f : files) {
 				if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
-					System.out.println("path:"+f.getAbsolutePath());
-					readFdf(f.getAbsolutePath());
+
+					String pdfPath = f.getAbsolutePath();
+					System.out.println("path:" + pdfPath);
+					String textFile = null;
+					if (pdfPath.length() > 4) {
+						textFile = pdfPath.substring(0, pdfPath.length() - 4) + ".txt";
+					}
+					readFdf(f.getAbsolutePath(), textFile);
 				} else if (f.isDirectory()) {
 					read(f.getAbsolutePath());
 				}
@@ -25,13 +31,13 @@ public class PDFReader {
 		}
 	}
 
-	public void readFdf(String file) {
+	public void readFdf(String file, String outPath) {
 		// 是否排序
 		boolean sort = false;
 		// pdf文件名
 		String pdfFile = file;
 		// 输入文本文件名称
-		String textFile = null;
+		//		String textFile = null;
 		// 编码方式
 		String encoding = "gbk";
 		// 开始提取页数
@@ -44,21 +50,20 @@ public class PDFReader {
 		PDDocument document = null;
 		try {
 			// 首先当作一个URL来装载文件，如果得到异常再从本地文件系统//去装载文件
-//			URL url = new URL(pdfFile); // 注意参数已不是以前版本中的URL.而是File。
+			//			URL url = new URL(pdfFile); // 注意参数已不是以前版本中的URL.而是File。
 			document = PDDocument.load(pdfFile);
 			// 获取PDF的文件名
-//			String fileName = url.getFile();
+			//			String fileName = url.getFile();
 			String fileName = pdfFile;
 			// 以原来PDF的名称来命名新产生的txt文件
-			if (fileName.length() > 4) {
-				textFile=fileName.substring(0, fileName.length() - 4)+ ".txt";
-				File outputFile = new File(textFile);
-//				textFile = outputFile.getName();
-			}
-			System.out.println("textFile："+textFile);
+			//			if (fileName.length() > 4) {
+			//				textFile = fileName.substring(0, fileName.length() - 4) + ".txt";
+			//				File outputFile = new File(textFile);
+			//				//				textFile = outputFile.getName();
+			//			}
+			System.out.println("textFile：" + outPath);
 			// 文件输入流，写入文件倒textFile
-			output = new OutputStreamWriter(new FileOutputStream(textFile),
-					encoding);
+			output = new OutputStreamWriter(new FileOutputStream(outPath), encoding);
 			// PDFTextStripper来提取文本
 			PDFTextStripper stripper = null;
 			stripper = new PDFTextStripper();
@@ -78,7 +83,7 @@ public class PDFReader {
 				document.close();
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
-//				e.printStackTrace();
+				//				e.printStackTrace();
 			}
 		}
 	}
@@ -91,9 +96,10 @@ public class PDFReader {
 		PDFReader pdfReader = new PDFReader();
 		try {
 			// 取得E盘下的SpringGuide.pdf的内容
-			pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
-//			pdfReader.read("/home/app/email/papers");
-//			 pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
+			//			pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
+			pdfReader.read("F:\\email\\papers\\研究报告7.19");
+			//			pdfReader.read("/home/app/email/papers");
+			//			 pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

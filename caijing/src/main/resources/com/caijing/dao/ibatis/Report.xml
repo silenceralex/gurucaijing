@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="User">
+  
+  <typeAlias alias="userClass" type="com.caijing.domain.User"/>
+  
+  <resultMap id="userResultMap" class="userClass">
+    <result property="uid" column="uid" nullValue="0" />
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="nickname" column="nickname"/>
+    <result property="introduction" column="introduction"/>
+    <result property="defaultSetting" column="default_setting" />
+    <result property="regTime" column="reg_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    <result property="birthday" column="birthday" />
+    <result property="credit" column="credit"  nullValue="0"/>
+  </resultMap>
+  
+
+  <select id="getUserByUsername"  resultMap="userResultMap" >
+    select * from user where username = #value#
+  </select>
+  
+  <select id="searchUsersByNickname"  resultMap="userResultMap" >
+    select * from user where nickname like #value#
+  </select>
+  
+  <select id="select"  resultMap="userResultMap" >
+    select * from user where uid=#value#
+  </select>
+  
+  <insert id="insert" >
+    insert into user (username,password,nickname,introduction,default_setting,reg_time,birthday,credit) values (#username#,#password#,#nickname#,#introduction#,#defaultSetting#,now(),#birthday#,#credit#)
+    <selectKey resultClass="long">
+      SELECT last_insert_id();
+    </selectKey> 
+  </insert>
+
+  <update id="update" parameterClass="userClass">
+  	update user
+  	<dynamic prepend="set">
+  		<isNotEmpty prepend="," property="nickname">
+  			nickname = #nickname#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="password">
+  			password = #password#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="introduction">
+  			introduction = #introduction#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="defaultSetting">
+  			default_setting = #defaultSetting#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="birthday">
+  			birthday = #birthday#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="credit">
+  			credit = #credit#
+  		</isNotEmpty>
+  	</dynamic>
+  	where uid=#uid#
+  </update>
+
+  <delete id="delete" parameterClass="userClass">
+    delete from user where uid=#uid#
+  </delete>
+
+</sqlMap>

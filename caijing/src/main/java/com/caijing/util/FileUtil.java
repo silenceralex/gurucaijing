@@ -86,7 +86,12 @@ public class FileUtil {
 		BufferedReader reader = null;
 		try {
 			File file = new File(filename);
-			if (!file.exists() || !file.canRead()) {
+			if (!file.exists()) {
+				System.out.println("filename:" + filename + "  not exists!");
+				return "";
+			}
+			if (!file.canRead()) {
+				System.out.println("filename:" + filename + "  cannot read!");
 				return "";
 			}
 			fis = new FileInputStream(file);
