@@ -36,6 +36,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 			System.out.println("stockcode:" + stockcode);
 			report.setSaname(sanam);
 			report.setStockcode(stockcode);
+			report.setStockname(stockname);
+			report.setType(1);
+			report.setTitle(file.substring(file.lastIndexOf('/')+1));
 		} else {
 			return null;
 		}
