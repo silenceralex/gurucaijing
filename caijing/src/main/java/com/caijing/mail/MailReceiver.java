@@ -44,8 +44,8 @@ public class MailReceiver {
 	private static Pattern expiredPattern = Pattern.compile("lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	//	private static final String path = "/home/app/email/papers";
-	private static final String path = "f:/email/papers";
+		private static final String path = "/home/app/email/papers";
+//	private static final String path = "f:/email/papers";
 	PDFReader reader=new PDFReader();
 	UrlDownload down = new UrlDownload();
 
@@ -60,8 +60,8 @@ public class MailReceiver {
 		receiver.setHost("pop.126.com");
 		receiver.setUsername("bg20052008");// 您的邮箱账号
 		receiver.setPassword("336699");// 您的邮箱密码
-		receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
-		//		receiver.setAttachPath("/home/app/email");// 您要存放附件在什么位置？绝对路径
+//		receiver.setAttachPath("f:\\email");//您要存放附件在什么位置？绝对路径
+				receiver.setAttachPath("/home/app/email");// 您要存放附件在什么位置？绝对路径
 		try {
 			receiver.reveiveMail();
 		} catch (Exception e) {

@@ -10,12 +10,14 @@ import org.apache.pdfbox.util.PDFTextStripper;
 
 import com.caijing.crawl.ReportExtractor;
 import com.caijing.crawl.ReportExtractorImpl;
+import com.caijing.dao.ReportDao;
 import com.caijing.dao.ibatis.ReportDaoImpl;
 import com.caijing.domain.Report;
+import com.caijing.util.ContextFactory;
 
 public class PDFReader {
 	ReportExtractor extractor=new ReportExtractorImpl();
-	ReportDaoImpl reportDao=new ReportDaoImpl();
+	ReportDao reportDao=(ReportDaoImpl)ContextFactory.getBean("reportDao");
 	
 	public void read(String path) throws Exception {
 		File file = new File(path);
@@ -32,8 +34,10 @@ public class PDFReader {
 					}
 					readFdf(pdfPath, textFile);
 					Report report=extractor.extractFromFile(pdfPath, textFile);
-					report.setFilepath(pdfPath);
-					reportDao.insert(report);
+					if(report!=null){
+						report.setFilepath(pdfPath);
+						reportDao.insert(report);
+					}
 				} else if (f.isDirectory()) {
 					read(f.getAbsolutePath());
 				}

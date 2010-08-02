@@ -22,4 +22,13 @@
     </property>
   </bean>
   
+  <bean id="reportDao" class="com.caijing.dao.ibatis.ReportDaoImpl">
+   <property name="sqlMapClientTemplate">
+     <ref bean="sqlMapClientTemplate"/>
+    </property>
+    <property name="namespace">
+      <value>Report</value>
+    </property>
+  </bean>
+  
 </beans>
