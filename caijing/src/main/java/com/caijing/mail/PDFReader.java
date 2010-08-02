@@ -8,8 +8,15 @@ import java.io.Writer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
-public class PDFReader {
+import com.caijing.crawl.ReportExtractor;
+import com.caijing.crawl.ReportExtractorImpl;
+import com.caijing.dao.ibatis.ReportDaoImpl;
+import com.caijing.domain.Report;
 
+public class PDFReader {
+	ReportExtractor extractor=new ReportExtractorImpl();
+	ReportDaoImpl reportDao=new ReportDaoImpl();
+	
 	public void read(String path) throws Exception {
 		File file = new File(path);
 		if (file.isDirectory()) {
@@ -23,7 +30,10 @@ public class PDFReader {
 					if (pdfPath.length() > 4) {
 						textFile = pdfPath.substring(0, pdfPath.length() - 4) + ".txt";
 					}
-					readFdf(f.getAbsolutePath(), textFile);
+					readFdf(pdfPath, textFile);
+					Report report=extractor.extractFromFile(pdfPath, textFile);
+					report.setFilepath(pdfPath);
+					reportDao.insert(report);
 				} else if (f.isDirectory()) {
 					read(f.getAbsolutePath());
 				}

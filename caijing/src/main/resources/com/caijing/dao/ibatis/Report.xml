@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
-<sqlMap namespace="User">
+<sqlMap namespace="Report">
   
-  <typeAlias alias="userClass" type="com.caijing.domain.User"/>
-  
-  <resultMap id="userResultMap" class="userClass">
-    <result property="uid" column="uid" nullValue="0" />
-    <result property="username" column="username"/>
-    <result property="password" column="password"/>
-    <result property="nickname" column="nickname"/>
-    <result property="introduction" column="introduction"/>
-    <result property="defaultSetting" column="default_setting" />
-    <result property="regTime" column="reg_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
-    <result property="birthday" column="birthday" />
-    <result property="credit" column="credit"  nullValue="0"/>
-  </resultMap>
-  
+  <typeAlias alias="reportClass" type="com.caijing.domain.Report"/>
 
-  <select id="getUserByUsername"  resultMap="userResultMap" >
-    select * from user where username = #value#
+
+  <select id="getReportsByAname"  resultMap="userResultMap" >
+    select * from report where aname = #value#
   </select>
   
-  <select id="searchUsersByNickname"  resultMap="userResultMap" >
-    select * from user where nickname like #value#
+  <select id="searchReportsBySanme"  resultClass="reportClass" >
+    select * from report where saname = #value#
   </select>
   
   <select id="select"  resultMap="userResultMap" >
-    select * from user where uid=#value#
+    select * from report where rid=#value#
   </select>
   
   <insert id="insert" >
-    insert into user (username,password,nickname,introduction,default_setting,reg_time,birthday,credit) values (#username#,#password#,#nickname#,#introduction#,#defaultSetting#,now(),#birthday#,#credit#)
-    <selectKey resultClass="long">
-      SELECT last_insert_id();
-    </selectKey> 
+    insert into report (rid,title,said,saname,aname,stockcode,stockname,publishdate,filepath,type,description,ptime) values (#rid#,#title#,#said#,#saname#,#aname#,#stockcode#,#stockname#,#publishdate#,#filepath#,#type#,#description#,now())
   </insert>
 
-  <update id="update" parameterClass="userClass">
+  <update id="update" parameterClass="reportClass">
   	update user
   	<dynamic prepend="set">
-  		<isNotEmpty prepend="," property="nickname">
-  			nickname = #nickname#
+  		<isNotEmpty prepend="," property="saname">
+  			saname = #saname#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="password">
-  			password = #password#
+  		<isNotEmpty prepend="," property="aname">
+  			aname = #aname#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="introduction">
-  			introduction = #introduction#
+  		<isNotEmpty prepend="," property="aid">
+  			aid = #aid#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="defaultSetting">
-  			default_setting = #defaultSetting#
+  		<isNotEmpty prepend="," property="said">
+  			said = #said#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="birthday">
-  			birthday = #birthday#
+  		<isNotEmpty prepend="," property="title">
+  			title = #title#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="credit">
-  			credit = #credit#
+  		<isNotEmpty prepend="," property="filepath">
+  			filepath = #filepath#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="description">
+  			description = #description#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="stockcode">
+  			stockcode = #stockcode#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="filepath">
+  			filepath = #filepath#
   		</isNotEmpty>
   	</dynamic>
-  	where uid=#uid#
+  	where rid=#rid#
   </update>
 
   <delete id="delete" parameterClass="userClass">
-    delete from user where uid=#uid#
+    delete from report where rid=#rid#
   </delete>
 
 </sqlMap>

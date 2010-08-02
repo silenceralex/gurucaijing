@@ -46,7 +46,7 @@ public class MailReceiver {
 
 	//	private static final String path = "/home/app/email/papers";
 	private static final String path = "f:/email/papers";
-
+	PDFReader reader=new PDFReader();
 	UrlDownload down = new UrlDownload();
 
 	private static String cookie = "vjuids=3abc49a70.128ca9a09ee.0.596522c96f3c68; vjlast=1274709412.1277905501.11; _ntes_nnid=6ad9fc27892d32e9e55c8abadefe2d49,0; _ntes_nuid=6ad9fc27892d32e9e55c8abadefe2d49; P_INFO=bg20052008@126.com|1278173308|0|mail126|11&25|tij&1278162615&mail126#bej&null#0|&0; USERTRACK=221.223.98.3.1274709433709479; ALLYESID4=00100524215726846416; MAIL163_SSN=1983foolish; Province=010; City=010; NTES_REPLY_NICKNAME=johnnychenjun%7Cjohnnychenju%7C1%7C0%7C3%7CKekGfemVIMy0iFkg2fNSypO8IbP912.7ZoOpIjPPY7gJm0bCt9ai_5a3ShO1OtzHAr0uGAoZcnmQ7Bhp1NFZ7CcaDQHZiF_CpJeXQUcveoAaj%7C; NTES_SESS=Ov7WQvMxP1XcYUUvXRSL9UDND2VmbEWxUOoQjeFu5P8GrrO1KJuysxP6qfnE4kdN.NXVeSYzt6YdTcXd2ykO5WtKwJAQg5MalI3lPAT.Ey9vIXz1lJaEbHQsn; S_INFO=1278173308|0|#1&25#; EUSERTRACK=221.223.96.161.1278174467978901; NTES_FS=8d8f2d05e369eec5f5d89efee93d0c6f4435ad641025a88febc47b3e1fac6c7de450ad1789771a23; FSTRACK=1278177188928.546ff5a3-b60f-4f9a-84c2-cc63e7ac56b8";
@@ -236,6 +236,7 @@ public class MailReceiver {
 					StringWriter sw = new StringWriter();
 					Command.run(commendStr, sw);
 					logger.debug(sw.toString());
+					reader.read(path + "/" + subject);
 				}
 			}
 		}
@@ -294,7 +295,9 @@ public class MailReceiver {
 		String commendStr = "unrar e " + fileName + " " + path + "/" + dstr;
 		StringWriter sw = new StringWriter();
 		Command.run(commendStr, sw);
+		
 		logger.debug(sw.toString());
+
 	}
 
 	private static String base64Decoder(String s) throws Exception {

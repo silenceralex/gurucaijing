@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.caijing.domain.Report;
-import com.caijing.util.FileUtil;
+import com.caijing.util.ServerUtil;
 
 public class ReportExtractorImpl implements ReportExtractor {
 	private static Pattern publishDatePattern = Pattern.compile("(2010Äê \\d{1,2}ÔÂ [0-3]\\dÈÕ)", Pattern.CASE_INSENSITIVE
@@ -21,14 +21,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 	//	private PDFReader pdfreader = new PDFReader();
 
 	public Report extractFromFile(String file, String outpath) {
-		//		String[] strs=file.split(" ");
-		//		if(strs.length==2){
-		//			String agency=strs[0];
-		//			String title=strs[1].replace(".txt", "");
-		//			System.out.println("agency:"+agency);
-		//			System.out.println("title:"+title);
-
 		Matcher m = stockPattern.matcher(new File(file).getName());
+		Report report=new Report();
+		report.setRid(ServerUtil.getid());
 		if (m != null && m.find()) {
 			String sanam = m.group(1);
 			String stockname = m.group(2);
@@ -36,31 +31,33 @@ public class ReportExtractorImpl implements ReportExtractor {
 			System.out.println("sanam:" + sanam);
 			System.out.println("stockname:" + stockname);
 			System.out.println("stockcode:" + stockcode);
+			report.setSaname(sanam);
+			report.setStockcode(stockcode);
 		}
 		//		File pdffile = new File(file);
 		//		String outpath = pdffile.getParentFile().getAbsolutePath() + "/" + ServerUtil.getid() + ".txt";
 		//		System.out.println("outpath:" + outpath);
 		//		pdfreader.readFdf(file, outpath);
-		String content = FileUtil.read(outpath);
-		System.out.println("content:" + content);
-		m = publishDatePattern.matcher(content);
-		if (m != null && m.find()) {
-			System.out.println("publishDate:" + m.group(1));
-		}
-		m = anaylzerPattern.matcher(content);
-		if (m != null && m.find()) {
-			System.out.println("anaylzer:" + m.group(1));
-		}
-		m = epsPattern.matcher(content);
-		if (m != null && m.find()) {
-			System.out.println("2010:" + m.group(1));
-			System.out.println("2011:" + m.group(2));
-			System.out.println("2012:" + m.group(3));
-		} else {
-			System.out.println("out!");
-		}
+//		String content = FileUtil.read(outpath);
+//		System.out.println("content:" + content);
+//		m = publishDatePattern.matcher(content);
+//		if (m != null && m.find()) {
+//			System.out.println("publishDate:" + m.group(1));
+//		}
+//		m = anaylzerPattern.matcher(content);
+//		if (m != null && m.find()) {
+//			System.out.println("anaylzer:" + m.group(1));
+//		}
+//		m = epsPattern.matcher(content);
+//		if (m != null && m.find()) {
+//			System.out.println("2010:" + m.group(1));
+//			System.out.println("2011:" + m.group(2));
+//			System.out.println("2012:" + m.group(3));
+//		} else {
+//			System.out.println("out!");
+//		}
 		//		}
-		return null;
+		return report;
 	}
 
 	public static void main(String[] args) {

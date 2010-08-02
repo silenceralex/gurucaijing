@@ -12,6 +12,7 @@ public class Report {
 	private String aname = null;
 	private String description = null;
 	private String stockcode = null;
+	private String stockname=null;
 	//0为晨会，1为公司研究，2为行业研究，3为宏观研究，4为策略研究
 	private int type = 0;
 
@@ -109,6 +110,14 @@ public class Report {
 
 	public void setStockcode(String stockcode) {
 		this.stockcode = stockcode;
+	}
+
+	public String getStockname() {
+		return stockname;
+	}
+
+	public void setStockname(String stockname) {
+		this.stockname = stockname;
 	}
 
 }
