@@ -127,7 +127,7 @@ public class PDFReader {
 //				pdfReader.read(args[0]);
 				System.out.println(args[1]);
 			}
-			pdfReader.read("/home/app/email/papers/研究报告7.23");
+			pdfReader.read("/home/app/email/papers/20100709");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
