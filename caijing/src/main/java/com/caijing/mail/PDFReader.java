@@ -49,6 +49,8 @@ public class PDFReader {
 					read(f.getAbsolutePath());
 				}
 			}
+		}else{
+			System.out.println("path:" + path);
 		}
 	}
 
