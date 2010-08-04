@@ -14,11 +14,12 @@ import com.caijing.dao.ReportDao;
 import com.caijing.dao.ibatis.ReportDaoImpl;
 import com.caijing.domain.Report;
 import com.caijing.util.ContextFactory;
+import com.caijing.util.ServerUtil;
 
 public class PDFReader {
-	ReportExtractor extractor=new ReportExtractorImpl();
-	ReportDao reportDao=(ReportDaoImpl)ContextFactory.getBean("reportDao");
-	
+	ReportExtractor extractor = new ReportExtractorImpl();
+	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
+
 	public void read(String path) throws Exception {
 		File file = new File(path);
 		if (file.isDirectory()) {
@@ -30,11 +31,17 @@ public class PDFReader {
 					System.out.println("path:" + pdfPath);
 					String textFile = null;
 					if (pdfPath.length() > 4) {
-						textFile = pdfPath.substring(0, pdfPath.length() - 4) + ".txt";
+						textFile = pdfPath.substring(0, pdfPath.length() - 4)
+								+ ".txt";
 					}
+					String rid = ServerUtil.getid();
+					textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/'))
+							+ rid + ".txt";
+
 					readFdf(pdfPath, textFile);
-					Report report=extractor.extractFromFile(pdfPath, textFile);
-					if(report!=null){
+					Report report = extractor.extractFromFile(pdfPath, rid,
+							textFile);
+					if (report != null) {
 						report.setFilepath(pdfPath);
 						reportDao.insert(report);
 					}
@@ -51,7 +58,7 @@ public class PDFReader {
 		// pdf文件名
 		String pdfFile = file;
 		// 输入文本文件名称
-		//		String textFile = null;
+		// String textFile = null;
 		// 编码方式
 		String encoding = "gbk";
 		// 开始提取页数
@@ -64,20 +71,21 @@ public class PDFReader {
 		PDDocument document = null;
 		try {
 			// 首先当作一个URL来装载文件，如果得到异常再从本地文件系统//去装载文件
-			//			URL url = new URL(pdfFile); // 注意参数已不是以前版本中的URL.而是File。
+			// URL url = new URL(pdfFile); // 注意参数已不是以前版本中的URL.而是File。
 			document = PDDocument.load(pdfFile);
 			// 获取PDF的文件名
-			//			String fileName = url.getFile();
+			// String fileName = url.getFile();
 			String fileName = pdfFile;
 			// 以原来PDF的名称来命名新产生的txt文件
-			//			if (fileName.length() > 4) {
-			//				textFile = fileName.substring(0, fileName.length() - 4) + ".txt";
-			//				File outputFile = new File(textFile);
-			//				//				textFile = outputFile.getName();
-			//			}
+			// if (fileName.length() > 4) {
+			// textFile = fileName.substring(0, fileName.length() - 4) + ".txt";
+			// File outputFile = new File(textFile);
+			// // textFile = outputFile.getName();
+			// }
 			System.out.println("textFile：" + outPath);
 			// 文件输入流，写入文件倒textFile
-			output = new OutputStreamWriter(new FileOutputStream(outPath), encoding);
+			output = new OutputStreamWriter(new FileOutputStream(outPath),
+					encoding);
 			// PDFTextStripper来提取文本
 			PDFTextStripper stripper = null;
 			stripper = new PDFTextStripper();
@@ -97,7 +105,7 @@ public class PDFReader {
 				document.close();
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
-				//				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 	}
@@ -108,12 +116,17 @@ public class PDFReader {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PDFReader pdfReader = new PDFReader();
+		
 		try {
 			// 取得E盘下的SpringGuide.pdf的内容
-			//			pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
-			pdfReader.read("F:\\email\\papers\\研究报告7.19");
-			//			pdfReader.read("/home/app/email/papers");
-			//			 pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
+			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
+			// pdfReader.read("F:\\email\\papers\\研究报告7.19");
+			if(args.length>1){
+//				pdfReader.read(args[0]);
+				System.out.println(args[1]);
+			}
+			pdfReader.read("/home/app/email/papers/研究报告7.19");
+			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
