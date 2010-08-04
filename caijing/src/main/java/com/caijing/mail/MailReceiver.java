@@ -208,7 +208,7 @@ public class MailReceiver {
 					get.setHeader("Referer", link);
 					String subject = msg.getSubject();
 					if (subject.startsWith("Fw:")) {
-						subject = subject.replaceAll("Fw:", "").trim();
+						subject = subject.replaceAll("Fw:研究报告", "").trim();
 					}
 					String filename = getAttachPath() + "/" + subject + "/" + subject + ".rar";
 					File dir = new File(getAttachPath() + "/" + subject);
