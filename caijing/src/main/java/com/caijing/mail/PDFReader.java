@@ -35,7 +35,7 @@ public class PDFReader {
 								+ ".txt";
 					}
 					String rid = ServerUtil.getid();
-					textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/'))
+					textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/')+1)
 							+ rid + ".txt";
 
 					readFdf(pdfPath, textFile);
