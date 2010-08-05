@@ -25,27 +25,24 @@
 						<entry key="960">
 							<value>在喝着粥</value>
 						</entry>
-						<entry key="db_opt">
-							<value>中国重要报纸全文数据库</value>
-						</entry>
-						<entry key="db_value">
-							<value>中国重要报纸全文数据库</value>
-						</entry>
 					</map>
 				</entry>
-				<entry key="journal">
+				<entry key="安信证券">
 					<map>
-						<entry key="DbCatalog">
-							<value>video090331.htm</value>
+						<entry key="publishdate">
+							<value><![CDATA[报告日期：\s+(201\d-\d{2}-\d{2})]]></value>
 						</entry>
-						<entry key="DbPrefix">
-							<value>list_default.htm</value>
+						<entry key="grade">
+							<value><![CDATA[评级：\s+(.*?)-[AB]{1}]]></value>
 						</entry>
-						<entry key="db_opt">
-							<value>list_default.htm</value>
+						<entry key="objectprice">
+							<value><![CDATA[目标价格：\s+([0-9.]+)元]]></value>
 						</entry>
-						<entry key="db_value">
-							<value>list_default.htm</value>
+						<entry key="analyzer">
+							<value><![CDATA[研究员\s+(.*?)\s+[助理|首席]*行业分析师]]></value>
+						</entry>
+						<entry key="eps">
+							<value><![CDATA[每股收益\(元\)\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
 						</entry>
 					</map>
 				</entry>

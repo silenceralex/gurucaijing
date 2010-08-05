@@ -151,7 +151,6 @@ public class MailReceiver {
 	}
 
 	private void handleMultipart(Message msg) throws Exception {
-
 		String disposition = null;
 		handle(msg);
 		Multipart mp = (Multipart) msg.getContent();
@@ -212,8 +211,9 @@ public class MailReceiver {
 					if (subject.startsWith("Fw:")) {
 						subject = subject.replaceAll("Fw:研究报告", "").trim();
 					}
-					String filename = getAttachPath() + "/" + subject + "/" + subject + ".rar";
-					File dir = new File(getAttachPath() + "/" + subject);
+					String date=getDatefromSubject(subject);
+					String filename = getAttachPath() + "/" + date + "/" + date + ".rar";
+					File dir = new File(getAttachPath() + "/" + date);
 					if (!dir.exists()) {
 						dir.mkdirs();
 					}
@@ -247,7 +247,7 @@ public class MailReceiver {
 		}
 	}
 	private String getDatefromSubject(String subject){
-		String[] strs=subject.split(".");
+		String[] strs=subject.split("\\.");
 		if(strs.length==2){
 			String month=strs[0];
 			if(strs[0].length()==1){

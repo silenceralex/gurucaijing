@@ -54,8 +54,7 @@ public class PDFReader {
 					
 					textFile=mvfile.replace(".pdf", ".txt");
 					readFdf(pdfPath, textFile);
-					Report report = extractor.extractFromFile(pdfPath, rid,
-							textFile);
+					Report report = extractor.extractFromTitle(pdfPath, rid);
 					if (report != null) {
 						report.setFilepath(pdfPath);			
 						reportDao.insert(report);
