@@ -44,7 +44,7 @@ public class MailReceiver {
 	private static Pattern expiredPattern = Pattern.compile("lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
-		private static final String path = "/home/app/email/papers";
+		private static final String path = "/home/app/papers";
 //	private static final String path = "f:/email/papers";
 	PDFReader reader=new PDFReader();
 	UrlDownload down = new UrlDownload();
@@ -230,16 +230,18 @@ public class MailReceiver {
 
 					// SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 					// String dstr = sdf.format(msg.getSentDate());
-					String commendStr = "unrar e " + filename + " " + path + "/" + subject;
-					File ddir = new File(path + "/" + getDatefromSubject(subject));
-					System.out.println("Store path:" + path + "/" + getDatefromSubject(subject));
+					String toPath=path + "/" + getDatefromSubject(subject);
+					String commendStr = "unrar e " + filename + " " + toPath;
+					
+					File ddir = new File(toPath);
+					System.out.println("Store path:" + toPath);
 					if (!ddir.exists()) {
 						ddir.mkdirs();
 					}
 					StringWriter sw = new StringWriter();
 					Command.run(commendStr, sw);
 					logger.debug(sw.toString());
-					reader.read(path + "/" + subject);
+					reader.read(toPath);
 				}
 			}
 		}

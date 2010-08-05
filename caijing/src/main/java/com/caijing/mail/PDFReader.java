@@ -3,8 +3,11 @@ package com.caijing.mail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
@@ -13,12 +16,16 @@ import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.ReportDao;
 import com.caijing.dao.ibatis.ReportDaoImpl;
 import com.caijing.domain.Report;
+import com.caijing.util.Command;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.ServerUtil;
 
 public class PDFReader {
+	private static Log logger = LogFactory.getLog(PDFReader.class);
 	ReportExtractor extractor = new ReportExtractorImpl();
 	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
+	
+	private static final String html="/home/html/papers";
 
 	public void read(String path) throws Exception {
 		File file = new File(path);
@@ -26,23 +33,31 @@ public class PDFReader {
 			File[] files = file.listFiles();
 			for (File f : files) {
 				if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
-
 					String pdfPath = f.getAbsolutePath();
 					System.out.println("path:" + pdfPath);
 					String textFile = null;
-					if (pdfPath.length() > 4) {
-						textFile = pdfPath.substring(0, pdfPath.length() - 4)
-								+ ".txt";
-					}
 					String rid = ServerUtil.getid();
 					textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/')+1)
 							+ rid + ".txt";
-
+					String mvpath=pdfPath.replace("/home/app/papers", html);
+					mvpath=mvpath.substring(0, mvpath.lastIndexOf('/')+1);
+					String mvfile=mvpath+rid+".pdf";
+					String commendStr = "cp " + pdfPath + " " + mvfile;		
+					File ddir = new File(mvpath);
+					System.out.println("Copy path:" + mvpath);
+					if (!ddir.exists()) {
+						ddir.mkdirs();
+					}
+					StringWriter sw = new StringWriter();
+					Command.run(commendStr, sw);
+					logger.debug(sw.toString());
+					
+					textFile=mvfile.replace(".pdf", ".txt");
 					readFdf(pdfPath, textFile);
 					Report report = extractor.extractFromFile(pdfPath, rid,
 							textFile);
 					if (report != null) {
-						report.setFilepath(pdfPath);
+						report.setFilepath(pdfPath);			
 						reportDao.insert(report);
 					}
 				} else if (f.isDirectory()) {
@@ -127,7 +142,7 @@ public class PDFReader {
 //				pdfReader.read(args[0]);
 				System.out.println(args[1]);
 			}
-			pdfReader.read("/home/app/email/papers/20100709");
+			pdfReader.read("/home/app/email/papers/20100723");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
