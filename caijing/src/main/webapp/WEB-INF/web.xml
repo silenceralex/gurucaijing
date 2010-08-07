@@ -7,10 +7,10 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:applicationContext-services.xml,
 			classpath:applicationContext-resources.xml,
 			classpath:applicationContext-dao.xml,
-			classpath:applicationContext-business.xml
+			classpath:applicationContext-business.xml,
+			classpath:applicationContext-services.xml
 		</param-value>
 	</context-param>
 

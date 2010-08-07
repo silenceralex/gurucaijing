@@ -9,8 +9,20 @@
     select * from report where aname = #value#
   </select>
   
-  <select id="searchReportsBySanme"  resultClass="reportClass" >
-    select * from report where saname = #value#
+  <select id="getReportsBySanme" parameterClass="java.util.Map" resultClass="reportClass" >
+    select * from report where saname = #saname# order by ptime desc limit #start#,#offset#
+  </select>
+  
+  <select id="getAllReportsCountBySaname" resultClass="java.lang.Integer" >
+    select count(1) from report where saname = #value#
+  </select>
+  
+  <select id="getAllReportsCount"  resultClass="java.lang.Integer" >
+    select count(1) from report
+  </select>
+  
+  <select id="getAllReports" parameterClass="java.util.Map" resultClass="reportClass" >
+    select * from report order by ptime desc limit #start#,#offset#
   </select>
   
   <select id="select"  resultClass="reportClass" >
@@ -18,8 +30,12 @@
   </select>
   
   <insert id="insert" >
-    insert into report (rid,title,said,saname,aname,stockcode,stockname,publishdate,filepath,type,description,ptime) values (#rid#,#title#,#said#,#saname#,#aname#,#stockcode#,#stockname#,#publishdate#,#filepath#,#type#,#description#,now())
+    insert into report (rid,title,said,saname,aname,stockcode,stockname,publishdate,filepath,type,description,ptime) values (#rid#,#title#,#said#,#saname#,#aname#,#stockcode#,#stockname#,#publishdate#,#filepath#,#type#,#description#,#ptime#)
   </insert>
+
+  <select id="getAllSanames"  resultClass="java.lang.String" >
+    select distinct saname from report group by saname
+  </select>
 
   <update id="update" parameterClass="reportClass">
   	update user

@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>研报列表页</title>
+<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />
+<script type="text/javascript" src="/admin/js/jsonrpc.jjs"></script>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+    
+    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+      <tr>
+        <td bgcolor="#E0E7FF" height="30">&nbsp;&nbsp;<strong>当前栏目:
+		  <a href="/admin/section/topicid_${topicid}/showColumn.htm?sid=${section.sid}">${topicNameMap.getTopicName($topicid)}</a>  &gt;&gt;
+      #foreach($sect in $sectionMap.entrySet())
+      	#if(${sect.value.isshow}==0)
+      	<a href="/admin/section/topicid_${sect.value.topicid}/showColumn.htm?sid=${sect.value.sid}">$sect.value.title</a> 
+      	#else
+      	<a href="/admin/section/topicid_${sect.value.topicid}/showVSpecial.htm?sid=${sect.value.sid}">$sect.value.title</a> 
+      	#end
+      	#if($sectionMap.size()!=$velocityCount)
+      	&gt;&gt;
+      	#end
+      #end
+      </strong></td>
+      </tr>
+    </table>
+    
+    </td>
+  </tr>
+</table>  <!-- 位置 -->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td bgcolor="#ffffff"> 
+			  </table>
+		  </td></tr>
+      </table> <!-- 功能 --> 
+
+<table width="100%" border="0" cellspacing="2" cellpadding="0">
+      
+        <tr bgcolor="#0099FF"> 
+          <td height="30" align="left" bgcolor="#0099FF"><table width="100%" border="0" cellspacing="5" cellpadding="0">
+              <tr>
+                <td>&nbsp;&nbsp;<input type="button" name="open" onclick="pasteColumn();" value="粘贴栏目" /> 
+                <input type="button" name="open" onclick="self.location.href='/admin/section/createcolumn/topicid_${topicid}.htm?pid=${section.sid}'" value="创建栏目" />
+                <input type="button" name="open" onclick="cutColumn();" value="剪切栏目" />
+                <input type="button" name="open" onclick="volumnDelColumn()" value="删除栏目" />     
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table><!-- 操作 -->
+      <div id="floatdiv" style=" position:absolute; z-index:2; left:344px; top:115px; display:none;">
+	  <table width="340" border="1" cellpadding="1" cellspacing="0" bordercolor="#666666">
+	  <tr bgcolor="#FFFFFF">
+	  	<td>页面地址：<input id="fastpaste" type="text" /><input type="button" onclick="videoFastPaste();" value="确定" /><input type="button" onclick="showFPDiv();" value="取消"/></td>
+	  </tr>
+	  </table>
+  	  </div>
+      
+      <table width="100%" border="0" cellspacing="2" cellpadding="0">
+      <tr bgcolor="#0066CC" class="cWhite">
+        <th scope="col" width="30" height="30"><input type="checkbox" name="mmAll" title="全选" onclick="checkAll(this, 'column')"/></th>
+        <th scope="col" width="108">ID</th>
+        <th scope="col">研报名称</th>
+        <th scope="col" width="138">研报类型</th>
+        <th scope="col" width="180">&nbsp;&nbsp;时间</th>
+        <th scope="col" width="40">权重</th>
+      </tr>
+      <!-- 栏目列表 -->
+      #foreach($sect in $sectionList)
+      <tr id="${sect.sid}" >
+        <td height="30" bgcolor="#E0E7FF" align="center"><input name="column" type="checkbox" value="s_${sect.sid}" onclick="selColumn('${sect.sid}', this)"/></td>
+        <td bgcolor="#E0E7FF" align="center">${sect.sid}</td>
+        <td bgcolor="#E0E7FF">&nbsp;<img src="/admin/img/i4.gif" width="16" height="16" title="栏目${sect.sid}" /> <a href="/admin/section/topicid_${sect.topicid}/showColumn.htm?sid=${sect.sid}" title="创建：$sect.username / 修改：$sect.lmuser">$sect.title</a> <a href="/admin/section/varycolumn/topicid_${sect.topicid}.htm?sid=${sect.sid}" title="修改"><img src="/admin/img/a3.gif" width="16" height="16" /></a></td>
+        <td bgcolor="#E0E7FF" class="cRed">&nbsp;&nbsp;--</td>
+        <td bgcolor="#E0E7FF">&nbsp;&nbsp;$vutil.datetoString($sect.ptime)</td>
+        <td bgcolor="#E0E7FF" align="center"><a href="#this" onclick="changeWeight('${sect.sid}', 1, this)">$sect.weight</a></td>
+      </tr>
+      #end
+      <!-- 视频列表 -->
+      #foreach($v in $videolist) 
+      <tr id="${v.vid}" >
+        <td height="30" bgcolor="#E0E7FF" align="center"><input name="column" type="checkbox" value="v_${v.vid}" onclick="selVideo('${v.vid}', this)"/></td>
+        <td bgcolor="#E0E7FF" align="center">$v.vid</td>
+        <td bgcolor="#E0E7FF">&nbsp;
+            #if($topicid=="0085")
+        		<a href="${topicNameMap.getTopicUrl($v.topicid)}${v.pageurl}#ld=${section.sid}" target="_blank" title="查看页面">
+        	#elseif($section.stree.indexOf("V5QF7HS0B")>0)
+        		<a href="http://v.baby.163.com${v.pageurl}" target="_blank" title="查看页面">
+        	#else
+        		<a href="${topicNameMap.getTopicUrl($v.topicid)}${v.pageurl}" target="_blank" title="查看页面">
+        	#end
+            #if($v.mapping=="0" && $v.isshow==1)
+    			<img src="/admin/img/i1b.gif" width="16" height="16" title="已发布" />
+    		#elseif($v.mapping=="0" && $v.isshow==0)
+    			<img src="/admin/img/i2b.gif" width="16" height="16" title="隐藏" />
+        	#elseif($v.mapping!="0" && $v.isshow==1)
+    			<img src="/admin/img/i1bm.gif" width="16" height="16" title="已发布(映射视频)" />
+    		#elseif($v.mapping!="0" && $v.isshow==0)
+    			<img src="/admin/img/i2bm.gif" width="16" height="16" title="隐藏（映射视频）" />
+    		#end
+        	</a>
+        	
+        	#if($v.mapping=="0")
+        	<a href="/admin/section/topicid_${topicid}/editvideo.htm?vid=${v.vid}&sid=${v.sid}" title="创建：$v.username / 修改：$v.lmuser">$v.title</a>
+        	#elseif($v.mapping!="0")
+        	<a href="/admin/section/topicid_${topicid}/editMappingVideo.htm?vid=${v.vid}&sid=${v.sid}" title="创建：$v.username / 修改：$v.lmuser">$v.title</a>
+        	#end
+        	#if($v.is_third_party==1)
+    		<img src="/admin/img/jidong.gif" title="激动网视频" width="16" height="16"/>
+    		#end
+        	#if($v.is_third_party==1 || $v.mapping!="0")
+        	<a href="#this" onclick="message('此为第三方视频或映射视频,不得选图');" title="选图"><img src="/admin/img/btn05.gif" width="16" height="16" /></a>
+    		#else
+    		<a href="/admin/section/topicid_${topicid}/pickimg.htm?vid=${v.vid}&pid=${v.sid}" title="选图"><img src="/admin/img/btn05.gif" width="16" height="16" /></a>
+    		#end
+    		#if($v.mapping=="0")
+        	<a href="/admin/video/topicid_${topicid}/videoinfo.htm?vid=${v.vid}" title="试播、获取播放代码"><img src="/admin/img/a2.gif" width="16" height="16" /></a>
+        	<a href="/admin/video/topicid_${topicid}/setframe.htm?vid=${v.vid}" title="设置视频关键帧"><img src="/admin/img/imgfolder.gif" width="16" height="16" /></a>
+        	<a href="/admin/templet/topicid_${topicid}/videoEndPage.htm?vid=${v.vid}" title="刷新页面"><img src="/admin/img/a1.gif" width="16" height="16" /></a>
+        	#elseif($v.mapping!="0")
+        	<a href="/admin/video/topicid_${topicid}/videoinfo.htm?vid=${v.mapping}" title="试播、获取播放代码"><img src="/admin/img/a2.gif" width="16" height="16" /></a>
+        	<a href="/admin/video/topicid_${topicid}/setframe.htm?vid=${v.mapping}" title="设置视频关键帧"><img src="/admin/img/imgfolder.gif" width="16" height="16" /></a>
+        	<a href="/admin/templet/topicid_${topicid}/videoEndPage.htm?vid=${v.mapping}" title="刷新页面"><img src="/admin/img/a1.gif" width="16" height="16" /></a>
+        	#end
+        </td>
+        <td bgcolor="#E0E7FF">
+        	 #if($v.encstate==0)
+      		<font color="#33FF00">&nbsp;&nbsp;编码中</font>
+     		#elseif($v.encstate==1)
+     		<font color="blue">&nbsp;&nbsp;CDN同步中</font>
+     		#elseif($v.encstate==2)
+     		<font color="red">&nbsp;&nbsp;CDN已同步</font>
+     		#elseif($v.encstate==-1)
+      		<font color="#FFCC33">&nbsp;&nbsp;编码失败</font>
+     		#elseif($v.encstate==-2)
+     		<font color="#CCCCCC">&nbsp;&nbsp;CDN同步失败</font>
+     		#end
+        </td>
+        <td bgcolor="#E0E7FF">&nbsp;&nbsp;$vutil.datetoString($v.ptime)</td>
+        <td bgcolor="#E0E7FF" align="center"><a href="#this" onclick="changeWeight('${v.vid}', 0, this)">$v.weight</a></td>
+      </tr>
+      #end
+    <tr>
+    <td colspan="9" bgcolor="#E0E7FF" style="text-align:left;">
+    <div class="lineH24 f12px">
+    <form name="dateForm" action="" method="get">
+    <input type="hidden" name="sid" value="${section.sid}" />
+    起始时间：<input type="text" id="ptimeStart" name="ptimeStart" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});" value="$!{ptimeStart}"/> &nbsp;&nbsp; 
+    结束时间：<input type="text" id="ptimeEnd" name="ptimeEnd" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});" value="$!{ptimeEnd}"/> &nbsp;&nbsp; 
+    <input type="submit" value="确定" /> &nbsp;&nbsp; 
+    <input type="button" onclick="clearDate()" value="清除" />
+    </form>
+	</div>
+	</td>
+    </tr>
+    </table><!---列表--->
+<br />
+<table width="100%" border="0" cellspacing="2" cellpadding="0">
+  <tr>
+    <td align="center">
+    $!splitPagesBN
+    </td>
+  </tr>
+</table><!---分页--->
+    
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>奥运资料库</title>
+<script type="text/javascript">
+var leftWidth;
+var widths=[140,0];
+var iw=1;
+function SwitchLeftWidth(){
+	document.getElementById("left").style.width=widths[iw];
+	var clickboxsrc = document.getElementById("clickbox").src.split("img/arrow_left.gif");
+	if (clickboxsrc.length<2){
+		document.getElementById("clickbox").src='img/arrow_left.gif';
+	}else{
+		document.getElementById("clickbox").src='img/arrow_right.gif';
+	}
+	iw++;
+	if(iw>=widths.length) iw=0;
+}
+function setLeftWidth(w){
+	document.getElementById("left").style.width=w;
+}
+function startResize(){
+	document.getElementById('resizeBox').setCapture();
+	document.getElementById('resizeBox').onmousemove=function(){
+		var w=event.x-6;
+		if(w<0) w=0;
+		document.getElementById("left").style.width=w;
+	}
+	document.getElementById('resizeBox').onmouseup=function(){
+		document.getElementById('resizeBox').releaseCapture();
+		leftWidth=document.getElementById("left").style.pixelWidth;
+		document.getElementById('resizeBox').onmousemove=null;
+		document.getElementById('resizeBox').onmouseup=null;
+	}
+}
+function minSizeLeft(){
+	leftWidth=document.getElementById("left").style.pixelWidth;
+	document.getElementById("clickbox").style.display="none";
+	setLeftWidth(0);
+}
+function resumeLeft(){
+	document.getElementById("clickbox").style.display="block";
+	setLeftWidth(leftWidth);
+}
+</script>
+<body style="MARGIN: 0px" 
+scroll=no>
+<TABLE width="100%" height="100%" cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD id=frmTitle vAlign=center noWrap align=middle><IFRAME id=left style="Z-INDEX: 2; VISIBILITY: inherit; WIDTH: 140px; HEIGHT: 100%" name=left src="menu.htm" frameBorder=0 scrolling=auto></IFRAME>
+	</TD>
+    <TD bgcolor="#F7F7F7" id="resizeBox" width="8" style="width:5px; padding-right:3px;cursor:e-resize;"><img src="img/arrow_left.gif"  id="clickbox" onClick="SwitchLeftWidth()" style="cursor:pointer" /></TD>
+	<TD style=" width:100%;"><IFRAME id="main" style="Z-INDEX: 1; VISIBILITY: inherit; WIDTH: 100%; HEIGHT: 100%" name="main" src="/admin/welcome.do" frameBorder=0 scrolling=yes></IFRAME></TD>
+	</TR>
+	</TBODY></TABLE>
+</body>
+<script>
+document.getElementById("resizeBox").onmousedown=startResize;
+</script>
+</body>
+</html>

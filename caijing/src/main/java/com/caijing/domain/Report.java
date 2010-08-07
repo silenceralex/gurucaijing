@@ -1,5 +1,7 @@
 package com.caijing.domain;
 
+import java.util.Date;
+
 public class Report {
 	private String title = null;
 	private String rid = null;
@@ -13,6 +15,7 @@ public class Report {
 	private String description = null;
 	private String stockcode = null;
 	private String stockname=null;
+	private Date ptime=null;
 	//0为晨会，1为公司研究，2为行业研究，3为宏观研究，4为策略研究
 	private int type = 0;
 
@@ -118,6 +121,14 @@ public class Report {
 
 	public void setStockname(String stockname) {
 		this.stockname = stockname;
+	}
+
+	public Date getPtime() {
+		return ptime;
+	}
+
+	public void setPtime(Date ptime) {
+		this.ptime = ptime;
 	}
 
 }

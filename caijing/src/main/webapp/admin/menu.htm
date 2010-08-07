@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>奥运资料库</title>
+<meta name="keywords" content="奥运资料库,网易体育,sports" />
+<meta name="description" content="最专业、最全面的网易体育奥运资料库" />
+<link href="img/style.css" rel="stylesheet" type="text/css" />
+<link href="img/db.css" rel="stylesheet" type="text/css" />
+<style>
+body{ overflow-x:hidden}
+</style>
+<link rel="StyleSheet" href="dtree.css" type="text/css" />
+<script type="text/javascript" src="dtree.js"></script>
+</head>
+
+<body>
+<div class="area">
+<div class="leftSideArea" id="leftBar">
+
+<div class="leftMenu">
+<div class="dtree">
+	#foreach($topicid in $topicList)
+	#if(${topicNameMap.getTopicName($topicid)}!="-1")
+	<a href="javascript: tree_${topicid}.openAll();">全部展开</a> | <a href="javascript: tree_${topicid}.closeAll();">全部关闭</a><br/>
+	
+	<script type="text/javascript">
+		<!--
+		tree_${topicid} = new dTree('tree_${topicid}');
+		tree_${topicid}.add('main_${topicid}','-1','${topicNameMap.getTopicName($topicid)}','about:blank','${topicNameMap.getTopicName($topicid)}','main');
+		#foreach($section in $sectionListMap.get(${topicid}))
+		tree_${topicid}.add('${section.sid}','${section.pid}','${section.title}','/admin/section/topicid_${topicid}/showColumn.htm?sid=${section.sid}','${section.title}','main','img/folder.gif','img/folderopen.gif');
+		#end
+		tree_${topicid}.add('10000','main_${topicid}','来源管理','/admin/source/topicid_${topicid}/sourcelist.htm','来源管理','main','img/folder.gif','img/folderopen.gif');
+		tree_${topicid}.add('10001','main_${topicid}','最新上传','/admin/section/topicid_${topicid}/latestVideo.htm','最新上传','main','img/new.gif','img/new.gif');
+		tree_${topicid}.add('10002','main_${topicid}','视频搜索','/admin/section/topicid_${topicid}/videoSearch.htm','视频搜索','main','img/glass2.gif','img/glass2.gif');
+		tree_${topicid}.config.target = 'main';
+
+		document.write(tree_${topicid});
+		//-->
+	</script>
+	<p>&nbsp;</p>
+	#end
+	#end
+	
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -46,70 +46,7 @@
 						</entry>
 					</map>
 				</entry>
-				<entry key="paper">
-					<map>
-						<entry key="DbCatalog">
-							<value>video090331.htm</value>
-						</entry>
-						<entry key="DbPrefix">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_opt">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_value">
-							<value>list_default.htm</value>
-						</entry>
-					</map>
-				</entry>
-				<entry key="conference">
-					<map>
-						<entry key="DbCatalog">
-							<value>video090331.htm</value>
-						</entry>
-						<entry key="DbPrefix">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_opt">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_value">
-							<value>list_default.htm</value>
-						</entry>
-					</map>
-				</entry>
-				<entry key="policy">
-					<map>
-						<entry key="DbCatalog">
-							<value>video090331.htm</value>
-						</entry>
-						<entry key="DbPrefix">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_opt">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_value">
-							<value>list_default.htm</value>
-						</entry>
-					</map>
-				</entry>
-				<entry key="almanac">
-					<map>
-						<entry key="DbCatalog">
-							<value>video090331.htm</value>
-						</entry>
-						<entry key="DbPrefix">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_opt">
-							<value>list_default.htm</value>
-						</entry>
-						<entry key="db_value">
-							<value>list_default.htm</value>
-						</entry>
-					</map>
-				</entry>
+
 			</map>
 		</property>
 		<property name="searchPage"
@@ -117,14 +54,8 @@
 
 
 		<property name="prefix"
-			value="http://acad.cnki.net/Kns55/brief/brief.aspx?pagename=" />
+			value="http://guru.caijing.com" />
 
-		<property name="params">
-			<value>
-				<![CDATA[
-action=undefined&NaviCode=*&PageName=ASP.brief_result_aspx&magazine_special1=%25&year_type=echar&au_1_sel=%u4F5C%u8005%2C%u4E2D%u82F1%u6587%u4F5C%u8005&au_1_special1=%3D&au_2_sel=%u7B2C%u4E00%u8D23%u4EFB%u4EBA&au_2_logical=and&au_2_special1=%3D&txt_1_relation=%23CNKI_AND&txt_1_special1=%3D&txt_1_extension=xls&his=0&__=Sun%20Jun%2027%202010%2013%3A40%3A38%20GMT%2B080
-			]]></value>
-		</property>
 		<property name="autoTagUrl"
 			value="http://product.auto.163.com/data!newAutolistForTagLib.action" />
 		<property name="imgHostList">
@@ -135,5 +66,71 @@ action=undefined&NaviCode=*&PageName=ASP.brief_result_aspx&magazine_special1=%25
 			</list>
 		</property>
 	</bean>
-
+	<bean id="TopicNameConfig"
+		class="com.caijing.util.TopicNameConfig">
+		<property name="topicNameMap">
+			<map>
+					<entry key="0001">
+						<value>中信证券</value>
+					</entry>
+					<entry key="0002">
+						<value>中金公司</value>
+					</entry>
+					<entry key="0003">
+						<value>国泰君安</value>
+					</entry>
+					<entry key="0004">
+						<value>申银万国</value>
+					</entry>
+					<entry key="0005">
+						<value>银河证券</value>
+					</entry>
+					<entry key="0006">
+						<value>海通证券</value>
+					</entry>
+					<entry key="0007">
+						<value>宏源证券</value>
+					</entry>
+					<entry key="0008">
+						<value>中信建投</value>
+					</entry>
+					<entry key="0009">
+						<value>广发证券</value>
+					</entry>
+					<entry key="0010">
+						<value>国金证券</value>
+					</entry>
+					<entry key="0011">
+						<value>国信证券</value>
+					</entry>
+					<entry key="0012">
+						<value>安信证券</value>
+					</entry>
+					<entry key="0013">
+						<value>招商证券</value>
+					</entry>
+					<entry key="0014">
+						<value>光大证券</value>
+					</entry>
+					<entry key="0015">
+						<value>联合证券</value>
+					</entry>
+					<entry key="0016">
+						<value>联合证券</value>
+					</entry>
+					<entry key="0017">
+						<value>华泰证券</value>
+					</entry>
+					<entry key="0018">
+						<value>东方证券</value>
+					</entry>
+					<entry key="0019">
+						<value>华泰联合</value>
+					</entry>
+					<entry key="0020">
+						<value>中投证券</value>
+					</entry>
+			</map>
+		</property>
+	</bean>
 </beans>

@@ -18,6 +18,29 @@ public class FileUtil {
 	static HashMap cache = null;
 	static int MAXCACHE = 100;
 	public static String encoding = "GBK";
+	public static final String THISYEAR="2010";
+	
+	public static final String path = "/home/app/papers";
+	
+	public static String getDatefromSubject(String subject){
+		String[] strs=subject.split("\\.");
+		if(strs.length==2){
+			String month=strs[0];
+			if(strs[0].length()==1){
+				month="0"+strs[0];
+			}
+			String day=strs[1];
+			if(strs[1].length()==1){
+				month="0"+strs[1];
+			}
+			return THISYEAR+month+day;
+		}
+		return subject;
+	}
+	
+//	public static Date getDatefromSubject(String subject){
+//		SimpleDateForm
+//	}
 
 	/**
 	 * Ð´ÈëÎÄ¼þ
