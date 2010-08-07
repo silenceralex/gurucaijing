@@ -21,6 +21,7 @@ public class FileUtil {
 	public static final String THISYEAR="2010";
 	
 	public static final String path = "/home/app/papers";
+	public static final String html = "/home/html/papers";
 	
 	public static String getDatefromSubject(String subject){
 		String[] strs=subject.split("\\.");

@@ -30,7 +30,7 @@ public class PDFReader {
 	private static Log logger = LogFactory.getLog(PDFReader.class);
 	ReportExtractor extractor = new ReportExtractorImpl();
 	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
-	
+
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
@@ -38,8 +38,7 @@ public class PDFReader {
 	@Autowired
 	@Qualifier("vutil")
 	private Vutil vutil = null;
-	
-	private static final String html="/home/html/papers";
+
 
 	public void read(String path) throws Exception {
 		File file = new File(path);
@@ -51,12 +50,13 @@ public class PDFReader {
 					System.out.println("path:" + pdfPath);
 					String textFile = null;
 					String rid = ServerUtil.getid();
-					textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/')+1)
+					textFile = pdfPath.substring(0,
+							pdfPath.lastIndexOf('/') + 1)
 							+ rid + ".txt";
-					String mvpath=pdfPath.replace("/home/app/papers", html);
-					mvpath=mvpath.substring(0, mvpath.lastIndexOf('/')+1);
-					String mvfile=mvpath+rid+".pdf";
-					String commendStr = "cp " + pdfPath + " " + mvfile;		
+					String mvpath = pdfPath.replace(FileUtil.path, FileUtil.html);
+					mvpath = mvpath.substring(0, mvpath.lastIndexOf('/') + 1);
+					String mvfile = mvpath + rid + ".pdf";
+					String commendStr = "cp " + pdfPath + " " + mvfile;
 					File ddir = new File(mvpath);
 					System.out.println("Copy path:" + mvpath);
 					if (!ddir.exists()) {
@@ -65,14 +65,15 @@ public class PDFReader {
 					StringWriter sw = new StringWriter();
 					Command.run(commendStr, sw);
 					logger.debug(sw.toString());
-					
-					textFile=mvfile.replace(".pdf", ".txt");
+
+					textFile = mvfile.replace(".pdf", ".txt");
 					readFdf(pdfPath, textFile);
 					Report report = extractor.extractFromTitle(pdfPath, rid);
 					if (report != null) {
-						System.out.println("url:" + mvfile.replace("/home/html", ""));
-						report.setFilepath(mvfile.replace("/home/html", ""));	
-						Date ptime=vutil.stringtodate(f.getName());
+						System.out.println("url:"
+								+ mvfile.replace("/home/html", ""));
+						report.setFilepath(mvfile.replace("/home/html", ""));
+						Date ptime = vutil.stringtodate(f.getName());
 						System.out.println("ptime :" + f.getName());
 						report.setPtime(ptime);
 						reportDao.insert(report);
@@ -81,7 +82,7 @@ public class PDFReader {
 					read(f.getAbsolutePath());
 				}
 			}
-		}else{
+		} else {
 			System.out.println("path:" + path);
 		}
 	}
@@ -144,18 +145,21 @@ public class PDFReader {
 		}
 	}
 
-	public void processPath(String path){
+	public void processPath(String path) {
 		File file = new File(path);
 		if (file.isDirectory()) {
 			File[] files = file.listFiles();
 			for (File f : files) {
-				if(f.isDirectory()){
+				if (f.isDirectory()) {
 					File[] files2 = f.listFiles();
-					String toPath=f.getAbsolutePath() + "/" + FileUtil.getDatefromSubject(f.getName());
+					String toPath = FileUtil.path + "/"
+							+ FileUtil.getDatefromSubject(f.getName());
 					System.out.println("Store path:" + toPath);
 					for (File f2 : files2) {
-						if(f2.isFile()&&f2.getAbsolutePath().endsWith(".rar")){
-							String commendStr = "unrar e " + f2.getAbsolutePath() + " " + toPath;
+						if (f2.isFile()
+								&& f2.getAbsolutePath().endsWith(".rar")) {
+							String commendStr = "unrar e "
+									+ f2.getAbsolutePath() + " " + toPath;
 							File ddir = new File(toPath);
 							System.out.println("Store path:" + toPath);
 							if (!ddir.exists()) {
@@ -175,23 +179,23 @@ public class PDFReader {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PDFReader pdfReader = new PDFReader();
-		
+
 		try {
 			// ȡ��E���µ�SpringGuide.pdf������
 			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
 			// pdfReader.read("F:\\email\\papers\\�о�����7.19");
-			if(args.length>1){
-//				pdfReader.read(args[0]);
+			if (args.length > 1) {
+				// pdfReader.read(args[0]);
 				System.out.println(args[1]);
 			}
-//			pdfReader.read("/home/app/email/papers/20100723");
+			// pdfReader.read("/home/app/email/papers/20100723");
 			pdfReader.processPath("/home/app/email");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
