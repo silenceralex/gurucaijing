@@ -168,9 +168,11 @@ public class MailReceiver {
 		FileUtil.write(timeStamp, lasttime);
 		if (folder != null) {
 			folder.close(true);
+			System.out.println("close folder!");
 		}
 		if (store != null) {
 			store.close();
+			System.out.println("close store!");
 		}
 	}
 
