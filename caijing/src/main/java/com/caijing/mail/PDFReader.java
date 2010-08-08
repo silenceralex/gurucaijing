@@ -31,14 +31,13 @@ public class PDFReader {
 	ReportExtractor extractor = new ReportExtractorImpl();
 	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
 
-//	@Autowired
-//	@Qualifier("config")
-//	private Config config = null;
+	// @Autowired
+	// @Qualifier("config")
+	// private Config config = null;
 
-//	@Autowired
-//	@Qualifier("vutil")
+	// @Autowired
+	// @Qualifier("vutil")
 	private Vutil vutil = new Vutil();
-
 
 	public void read(String path) throws Exception {
 		File file = new File(path);
@@ -53,7 +52,8 @@ public class PDFReader {
 					textFile = pdfPath.substring(0,
 							pdfPath.lastIndexOf('/') + 1)
 							+ rid + ".txt";
-					String mvpath = pdfPath.replace(FileUtil.path, FileUtil.html);
+					String mvpath = pdfPath.replace(FileUtil.path,
+							FileUtil.html);
 					mvpath = mvpath.substring(0, mvpath.lastIndexOf('/') + 1);
 					String mvfile = mvpath + rid + ".pdf";
 					String commendStr = "cp " + pdfPath + " " + mvfile;
@@ -74,8 +74,8 @@ public class PDFReader {
 						System.out.println("url:"
 								+ mvfile.replace("/home/html", ""));
 						report.setFilepath(mvfile.replace("/home/html", ""));
-						Date ptime = vutil.stringtodate(f.getName());
-						System.out.println("ptime :" + f.getName());
+						Date ptime = vutil.stringtodate(file.getName());
+						System.out.println("ptime :" + file.getName());
 						report.setPtime(ptime);
 						reportDao.insert(report);
 					}
@@ -138,7 +138,8 @@ public class PDFReader {
 							String commendStr = "unrar e "
 									+ f2.getAbsolutePath() + " " + toPath;
 							File ddir = new File(toPath);
-							System.out.println("rar file:" + f2.getAbsolutePath());
+							System.out.println("rar file:"
+									+ f2.getAbsolutePath());
 							if (!ddir.exists()) {
 								ddir.mkdirs();
 								System.out.println("Mkdir:" + toPath);
@@ -149,9 +150,11 @@ public class PDFReader {
 								logger.debug(sw.toString());
 							}
 							try {
-								System.out.println("Start read pdf path:"+toPath);
+								System.out.println("Start read pdf path:"
+										+ toPath);
 								read(toPath);
-								System.out.println("finish read pdf path:"+toPath);
+								System.out.println("finish read pdf path:"
+										+ toPath);
 							} catch (Exception e) {
 								logger.debug(e.getMessage());
 								e.printStackTrace();
@@ -178,7 +181,7 @@ public class PDFReader {
 				// pdfReader.read(args[0]);
 				System.out.println(args[1]);
 				pdfReader.processPath(args[1]);
-			}else{
+			} else {
 				pdfReader.processPath("/home/app/email");
 			}
 			// pdfReader.read("/home/app/email/papers/20100723");
