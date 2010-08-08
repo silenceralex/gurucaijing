@@ -115,16 +115,18 @@ public class MailReceiver {
 		int count = folder.getMessageCount();
 		// int count = folder.getNewMessageCount();
 		System.out.println("Messages''s count: " + count);
-
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		// FetchProfile profile = new FetchProfile();
 		// profile.add(FetchProfile.Item.ENVELOPE);
 		// folder.fetch(message, profile);
 		// Message mess=folder.getMessage(4);
 		// handleMultipart(mess);
 		// handleMultipart(message[0]);
-		String lasttime="";
-		String judgetime=FileUtil.read(timeStamp);
+		String lasttime = "";
+		String judgetime = FileUtil.read(timeStamp);
 		System.out.println("judgetime:" + judgetime);
+		Date date = sdf.parse(judgetime);
+		Date lastdate = sdf.parse(judgetime);
 		for (int i = 0; i < message.length && i < count; i++) {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
@@ -133,25 +135,30 @@ public class MailReceiver {
 			// profile.add(FetchProfile.Item.ENVELOPE);
 			// folder.fetch(message, profile);
 			// Message mess=folder.getMessage(i);
-			Message mess = message[i];
-			String subject = mess.getSubject();
 			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
-			System.out.println("subject:" + subject);
-			// if(!isSeen(message[i])){
-			if (subject.startsWith("Fw:研究报告")) {
-				// 从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。
-				System.out.println("date:" + mess.getSentDate());
-				SimpleDateFormat sdf = new SimpleDateFormat(
-						"yyyy-MM-dd HH:mm:ss");
-				
-			
-				Date date = sdf.parse(judgetime);
-				
-				if (mess.getSentDate().after(date)) {
+			Message mess = message[i];
+			Date messdate = mess.getSentDate();
+			System.out.println("date:" + messdate);
+			if (messdate.after(date)) {
+				String subject = mess.getSubject();
+
+				System.out.println("subject:" + subject);
+				// if(!isSeen(message[i])){
+				if (subject.startsWith("Fw:研究报告")) {
+					// 从js的lExpiredTime 部分来获取过期时间，比较看是否需要下载。
+
+					// SimpleDateFormat sdf = new SimpleDateFormat(
+					// "yyyy-MM-dd HH:mm:ss");
+					// Date date = sdf.parse(judgetime);
+					//				
+					// if (mess.getSentDate().after(date)) {
 					handleMultipart(mess);
 				}
-				lasttime=sdf.format(mess.getSentDate());
+			}
+			if (messdate.after(lastdate)) {
+				lastdate = messdate;
+				lasttime = sdf.format(messdate);
 			}
 			// ((IMAPMessage) message[i]).;
 			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
@@ -179,17 +186,23 @@ public class MailReceiver {
 			System.out.println("ContentType:" + part.getContentType());
 			System.out.println("disposition:" + disposition);
 			if (disposition != null
-					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {
-				saveAttach(part, getAttachPath(), msg.getSubject(), msg.getSentDate());
+					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition
+							.equalsIgnoreCase(Part.INLINE))) {
+				saveAttach(part, getAttachPath(), msg.getSubject(), msg
+						.getSentDate());
 			} else if (disposition == null) {// 接收的邮件有附件时
 
 			} else if (part.getContent() instanceof MimeMultipart) {// 接收的邮件有附件时
-				BodyPart bodyPart = ((MimeMultipart) part.getContent()).getBodyPart(0);
-				System.out.println(((MimeMultipart) part.getContent()).getContentType());
-				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg.getSentDate());
+				BodyPart bodyPart = ((MimeMultipart) part.getContent())
+						.getBodyPart(0);
+				System.out.println(((MimeMultipart) part.getContent())
+						.getContentType());
+				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg
+						.getSentDate());
 			}
 			if (part.getContentType().contains("text/html")) {
-				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
+				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO."
+						+ m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
 				String body = "";
 				if (part.getContent() instanceof String) {// 接收到的纯文本
 					body = (String) part.getContent();
@@ -217,7 +230,8 @@ public class MailReceiver {
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
-					String url = link.replace("http://fs.163.com/fs/display/", "http://download.fs.163.com/dl/")
+					String url = link.replace("http://fs.163.com/fs/display/",
+							"http://download.fs.163.com/dl/")
 							+ "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("link:" + url);
@@ -226,14 +240,16 @@ public class MailReceiver {
 					get.setHeader("Referer", link);
 					String subject = msg.getSubject();
 					if (subject.startsWith("Fw:")) {
-//						subject = subject.replaceAll("Fw:研究报告", "").trim();
+						// subject = subject.replaceAll("Fw:研究报告", "").trim();
 						subject = subject.replaceAll("Fw:", "").trim();
 					}
-//					String date=FileUtil.getDatefromSubject(subject);
-//					String filename = getAttachPath() + "/" + date + "/" + date + ".rar";
-//					File dir = new File(getAttachPath() + "/" + date);
-					String tmpdate=subject.replace("研究报告", "");
-					String filename = getAttachPath() + "/" + tmpdate + "/" + subject + ".rar";
+					// String date=FileUtil.getDatefromSubject(subject);
+					// String filename = getAttachPath() + "/" + date + "/" +
+					// date + ".rar";
+					// File dir = new File(getAttachPath() + "/" + date);
+					String tmpdate = subject.replace("研究报告", "");
+					String filename = getAttachPath() + "/" + tmpdate + "/"
+							+ subject + ".rar";
 					File dir = new File(getAttachPath() + "/" + tmpdate);
 					if (!dir.exists()) {
 						dir.mkdirs();
@@ -246,14 +262,16 @@ public class MailReceiver {
 					try {
 						down.downAttach(get, filename.replaceAll("\\s", ""));
 					} catch (Exception e) {
-						System.out.println("Catch exceptioin:" + e.getMessage());
+						System.out
+								.println("Catch exceptioin:" + e.getMessage());
 					}
 
 					// SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 					// String dstr = sdf.format(msg.getSentDate());
-					String toPath=path + "/" + FileUtil.getDatefromSubject(subject);
+					String toPath = path + "/"
+							+ FileUtil.getDatefromSubject(subject);
 					String commendStr = "unrar e " + filename + " " + toPath;
-					
+
 					File ddir = new File(toPath);
 					System.out.println("Store path:" + toPath);
 					if (!ddir.exists()) {
