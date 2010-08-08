@@ -50,6 +50,7 @@ public class MailReceiver {
 					| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static final String path = "/home/app/papers";
+	private static final String timeStamp = "/home/app/timeStamp";
 	// private static final String path = "f:/email/papers";
 	PDFReader reader = new PDFReader();
 	UrlDownload down = new UrlDownload();
@@ -121,6 +122,9 @@ public class MailReceiver {
 		// Message mess=folder.getMessage(4);
 		// handleMultipart(mess);
 		// handleMultipart(message[0]);
+		String lasttime="";
+		String judgetime=FileUtil.read(timeStamp);
+		System.out.println("judgetime:" + judgetime);
 		for (int i = 0; i < message.length && i < count; i++) {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
@@ -140,15 +144,21 @@ public class MailReceiver {
 				System.out.println("date:" + mess.getSentDate());
 				SimpleDateFormat sdf = new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss");
-				Date date = sdf.parse("2010-07-19 00:00:00");
+				
+			
+				Date date = sdf.parse(judgetime);
+				
 				if (mess.getSentDate().after(date)) {
 					handleMultipart(mess);
 				}
+				lasttime=sdf.format(mess.getSentDate());
 			}
 			// ((IMAPMessage) message[i]).;
 			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
+		System.out.println("write new judgetime:" + lasttime);
+		FileUtil.write(timeStamp, lasttime);
 		if (folder != null) {
 			folder.close(true);
 		}
