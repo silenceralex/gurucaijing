@@ -70,4 +70,35 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
+	  <!--========================================================================
+        Filters
+    =========================================================================-->
+    
+    <filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>
+			com.caijing.util.EncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>isUsed</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignores</param-name>
+			<param-value>/tag/,/search/</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	
 </web-app>
