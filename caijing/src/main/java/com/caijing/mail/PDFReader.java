@@ -138,7 +138,7 @@ public class PDFReader {
 							String commendStr = "unrar e "
 									+ f2.getAbsolutePath() + " " + toPath;
 							File ddir = new File(toPath);
-							System.out.println("Store path:" + toPath);
+							System.out.println("rar file:" + f2.getAbsolutePath());
 							if (!ddir.exists()) {
 								ddir.mkdirs();
 							}
