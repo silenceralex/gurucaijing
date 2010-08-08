@@ -142,12 +142,12 @@ public class PDFReader {
 							if (!ddir.exists()) {
 								ddir.mkdirs();
 								System.out.println("Mkdir:" + toPath);
+								StringWriter sw = new StringWriter();
+								System.out.println("Strart run :" + commendStr);
+								Command.run(commendStr, sw);
+								System.out.println(sw.toString());
+								logger.debug(sw.toString());
 							}
-							StringWriter sw = new StringWriter();
-							System.out.println("Strart run :" + commendStr);
-							Command.run(commendStr, sw);
-							System.out.println(sw.toString());
-							logger.debug(sw.toString());
 							try {
 								System.out.println("Start read pdf path:"+toPath);
 								read(toPath);
