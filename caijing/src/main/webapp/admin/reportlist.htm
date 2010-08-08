@@ -54,14 +54,16 @@
 						$report.rid
 					</td>
 					<td bgcolor="#E0E7FF">
-						&nbsp; $report.title
+						<a href="$report.url">&nbsp; $report.title</a>
 					</td>
 					<td bgcolor="#E0E7FF">
 						#if($report.type==0)
 						<font color="#33FF00">&nbsp;&nbsp;券商晨会</font> #elseif($report.type==1)
 						<font color="blue">&nbsp;&nbsp;公司研报</font> #elseif($report.type==2)
 						<font color="red">&nbsp;&nbsp;行业策略</font> #elseif($report.type==3)
-						<font color="#FFCC33">&nbsp;&nbsp;宏观研究</font> #end
+						<font color="#FFCC33">&nbsp;&nbsp;宏观研究</font> #elseif($report.type==4)
+						<font color="#FFCC33">&nbsp;&nbsp;其他</font>
+						#end
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$vutil.datetoString($report.ptime)
