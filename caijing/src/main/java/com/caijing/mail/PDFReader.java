@@ -31,13 +31,13 @@ public class PDFReader {
 	ReportExtractor extractor = new ReportExtractorImpl();
 	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
 
-	@Autowired
-	@Qualifier("config")
-	private Config config = null;
+//	@Autowired
+//	@Qualifier("config")
+//	private Config config = null;
 
-	@Autowired
-	@Qualifier("vutil")
-	private Vutil vutil = null;
+//	@Autowired
+//	@Qualifier("vutil")
+	private Vutil vutil = new Vutil();
 
 
 	public void read(String path) throws Exception {
@@ -169,17 +169,19 @@ public class PDFReader {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PDFReader pdfReader = new PDFReader();
-
 		try {
 			// ȡ��E���µ�SpringGuide.pdf������
 			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
 			// pdfReader.read("F:\\email\\papers\\�о�����7.19");
+			System.out.println(args.length);
 			if (args.length > 1) {
 				// pdfReader.read(args[0]);
 				System.out.println(args[1]);
+				pdfReader.processPath(args[1]);
+			}else{
+				pdfReader.processPath("/home/app/email");
 			}
 			// pdfReader.read("/home/app/email/papers/20100723");
-			pdfReader.processPath("/home/app/email");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();

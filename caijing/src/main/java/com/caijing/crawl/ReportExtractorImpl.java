@@ -24,28 +24,29 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 	public RecommendStock extractFromFile(String key, String file, String rid) {
 
-//		System.out.println("publishdate:"
-//				+ config.getValue(key).get("publishdate"));
-		Pattern publishDatePattern = Pattern.compile((String)config.getValue(key).get("publishdate"), Pattern.CASE_INSENSITIVE
+		// System.out.println("publishdate:"
+		// + config.getValue(key).get("publishdate"));
+		Pattern publishDatePattern = Pattern.compile((String) config.getValue(
+				key).get("publishdate"), Pattern.CASE_INSENSITIVE
 				| Pattern.DOTALL | Pattern.UNIX_LINES);
-//		System.out.println("eps:" + config.getValue(key).get("eps"));
+		// System.out.println("eps:" + config.getValue(key).get("eps"));
 		Pattern epsPattern = Pattern.compile((String) config.getValue(key).get(
 				"eps"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 				| Pattern.UNIX_LINES);
 		Pattern objectprice = Pattern.compile((String) config.getValue(key)
 				.get("objectprice"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 				| Pattern.UNIX_LINES);
-//		System.out.println("eps:" + config.getValue(key).get("analyzer"));
+		// System.out.println("eps:" + config.getValue(key).get("analyzer"));
 		Pattern anaylzerPattern = Pattern.compile((String) config.getValue(key)
 				.get("analyzer"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 				| Pattern.UNIX_LINES);
-//		System.out.println("grade:" + config.getValue(key).get("grade"));
+		// System.out.println("grade:" + config.getValue(key).get("grade"));
 		Pattern grade = Pattern.compile((String) config.getValue(key).get(
 				"grade"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 				| Pattern.UNIX_LINES);
 		RecommendStock rs = new RecommendStock();
 		String content = FileUtil.read(file);
-//		System.out.println("content:" + content);
+		// System.out.println("content:" + content);
 		Matcher m = publishDatePattern.matcher(content);
 		if (m != null && m.find()) {
 			System.out.println("publishDate:" + m.group(1));
@@ -96,10 +97,27 @@ public class ReportExtractorImpl implements ReportExtractor {
 			report.setType(1);
 			report.setTitle(file.substring(file.lastIndexOf('/') + 1, file
 					.lastIndexOf('.')));
+			return report;
 		} else {
-			return null;
+			String title = file.substring(file.lastIndexOf('/') + 1, file
+					.lastIndexOf('.'));
+			String[] strs=title.split("--");
+			String sanam=strs[0];
+			report.setSaname(sanam);
+			report.setTitle(title);
+			//³¿»á
+			if(strs[1].length()==4){
+				report.setType(0);
+			}else if(strs[1].length()>4 && strs[1].contains("ºê¹Û")){
+				report.setType(3);
+			}else if(strs[1].length()>4 && strs[1].contains("Òµ")){
+				report.setType(2);
+			}else{
+				report.setType(4);
+			}
+			return report;
 		}
-		return report;
+
 	}
 
 	public static void main(String[] args) {
