@@ -54,10 +54,10 @@ public class ReportController {
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
-		
+		System.out.println("saname:"+saname);
 		List<Report> reportlist= new ArrayList();
 		if(saname!=null){
-			total=reportDao.getAllReportsCountBySaname();
+			total=reportDao.getAllReportsCountBySaname(saname);
 			paginator.setTotalRecordNumber(total);
 			reportlist=reportDao.getReportsBySaname(saname,(page-1)*20,20);
 			urlPattern = "/showColumn.htm?saname="+saname+"&page=$number$";

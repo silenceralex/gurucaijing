@@ -9,7 +9,7 @@ public interface ReportDao extends CrudDao {
 	public List<Report> getReportsBySaname(String saname,int start,int offset);
 	public List<Report> getAllReports(int start,int offset);
 	public int getAllReportsCount();
-	public int getAllReportsCountBySaname();
+	public int getAllReportsCountBySaname(String saname);
 	
 
 }
