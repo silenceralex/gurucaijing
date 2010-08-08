@@ -216,11 +216,15 @@ public class MailReceiver {
 					get.setHeader("Referer", link);
 					String subject = msg.getSubject();
 					if (subject.startsWith("Fw:")) {
-						subject = subject.replaceAll("Fw:研究报告", "").trim();
+//						subject = subject.replaceAll("Fw:研究报告", "").trim();
+						subject = subject.replaceAll("Fw:", "").trim();
 					}
-					String date=FileUtil.getDatefromSubject(subject);
-					String filename = getAttachPath() + "/" + date + "/" + date + ".rar";
-					File dir = new File(getAttachPath() + "/" + date);
+//					String date=FileUtil.getDatefromSubject(subject);
+//					String filename = getAttachPath() + "/" + date + "/" + date + ".rar";
+//					File dir = new File(getAttachPath() + "/" + date);
+					String tmpdate=subject.replace("研究报告", "");
+					String filename = getAttachPath() + "/" + tmpdate + "/" + subject + ".rar";
+					File dir = new File(getAttachPath() + "/" + tmpdate);
 					if (!dir.exists()) {
 						dir.mkdirs();
 					}

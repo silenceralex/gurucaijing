@@ -67,6 +67,7 @@ public class PDFReader {
 					logger.debug(sw.toString());
 
 					textFile = mvfile.replace(".pdf", ".txt");
+					System.out.println("Copy path:" + pdfPath);
 					readFdf(pdfPath, textFile);
 					Report report = extractor.extractFromTitle(pdfPath, rid);
 					if (report != null) {
@@ -88,59 +89,35 @@ public class PDFReader {
 	}
 
 	public void readFdf(String file, String outPath) {
-		// �Ƿ�����
 		boolean sort = false;
-		// pdf�ļ���
 		String pdfFile = file;
-		// �����ı��ļ����
-		// String textFile = null;
-		// ���뷽ʽ
 		String encoding = "gbk";
-		// ��ʼ��ȡҳ��
 		int startPage = 1;
-		// ������ȡҳ��
 		int endPage = Integer.MAX_VALUE;
-		// �ļ�����������ı��ļ�
 		Writer output = null;
-		// �ڴ��д洢��PDF Document
 		PDDocument document = null;
 		try {
-			// ���ȵ���һ��URL4װ���ļ������õ��쳣�ٴӱ����ļ�ϵͳ//ȥװ���ļ�
-			// URL url = new URL(pdfFile); // ע������Ѳ�����ǰ�汾�е�URL.����File��
 			document = PDDocument.load(pdfFile);
-			// ��ȡPDF���ļ���
 			// String fileName = url.getFile();
-			String fileName = pdfFile;
-			// ��ԭ4PDF�����4�����²����txt�ļ�
-			// if (fileName.length() > 4) {
-			// textFile = fileName.substring(0, fileName.length() - 4) + ".txt";
-			// File outputFile = new File(textFile);
-			// // textFile = outputFile.getName();
-			// }
-			System.out.println("textFile��" + outPath);
-			// �ļ�������д���ļ���textFile
+			System.out.println("textFile:" + outPath);
 			output = new OutputStreamWriter(new FileOutputStream(outPath),
 					encoding);
-			// PDFTextStripper4��ȡ�ı�
 			PDFTextStripper stripper = null;
 			stripper = new PDFTextStripper();
-			// �����Ƿ�����
 			stripper.setSortByPosition(sort);
-			// ������ʼҳ
 			stripper.setStartPage(startPage);
-			// ���ý���ҳ
 			stripper.setEndPage(endPage);
-			// ����PDFTextStripper��writeText��ȡ������ı�
 			stripper.writeText(document, output);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				output.close();
 				document.close();
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
-				// e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
@@ -171,6 +148,7 @@ public class PDFReader {
 							try {
 								read(toPath);
 							} catch (Exception e) {
+								logger.debug(e.getMessage());
 								e.printStackTrace();
 							}
 						}
