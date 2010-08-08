@@ -141,12 +141,17 @@ public class PDFReader {
 							System.out.println("rar file:" + f2.getAbsolutePath());
 							if (!ddir.exists()) {
 								ddir.mkdirs();
+								System.out.println("Mkdir:" + toPath);
 							}
 							StringWriter sw = new StringWriter();
+							System.out.println("Strart run :" + commendStr);
 							Command.run(commendStr, sw);
+							System.out.println(sw.toString());
 							logger.debug(sw.toString());
 							try {
+								System.out.println("Start read pdf path:"+toPath);
 								read(toPath);
+								System.out.println("finish read pdf path:"+toPath);
 							} catch (Exception e) {
 								logger.debug(e.getMessage());
 								e.printStackTrace();
