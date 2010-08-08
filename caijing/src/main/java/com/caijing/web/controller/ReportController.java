@@ -61,6 +61,7 @@ public class ReportController {
 			paginator.setTotalRecordNumber(total);
 			reportlist=reportDao.getReportsBySaname(saname,(page-1)*20,20);
 			urlPattern = "/showColumn.htm?saname="+saname+"&page=$number$";
+			model.put("saname", saname);
 		}else{
 			total=reportDao.getAllReportsCount();
 			paginator.setTotalRecordNumber(total);
