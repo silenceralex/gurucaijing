@@ -54,7 +54,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		}
 		m = anaylzerPattern.matcher(content);
 		if (m != null && m.find()) {
-			System.out.println("anaylzer:" + m.group(1));
+			System.out.println("anaylzer:" + m.group(1).trim());
 			rs.setAid(m.group(1));
 		}
 		m = objectprice.matcher(content);
@@ -125,9 +125,11 @@ public class ReportExtractorImpl implements ReportExtractor {
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		Config config = (Config) context.getBean("config");
 		extractor.setConfig(config);
-		extractor.extractFromFile("安信证券",
-				"F:\\email\\研究报告7.07\\安信证券--广汇股份(600256)参与气化南疆，履行社会责任.txt",
-				ServerUtil.getid());
+//		extractor.extractFromFile("安信证券",
+//				"F:\\email\\研究报告7.07\\安信证券--广汇股份(600256)参与气化南疆，履行社会责任.txt",
+//				ServerUtil.getid());
+//		extractor.extractFromFile("国泰君安","F:\\email\\研究报告7.07\\国泰君安--山东黄金(600547)储量产量金价：期待三管齐下式的增长.txt",ServerUtil.getid());
+		extractor.extractFromFile("海通证券","F:\\email\\研究报告7.07\\海通证券--广州友谊(000987)经营趋势良好，重现投资安全边际.txt",ServerUtil.getid());
 		// File file = new
 		// File("F:\\email\\研究报告7.19\\国泰君安--重庆百货(600729)二季度业绩增长30％，释放充分符合预期.txt");
 		// extractor

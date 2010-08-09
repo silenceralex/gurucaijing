@@ -46,7 +46,44 @@
 						</entry>
 					</map>
 				</entry>
-
+				<entry key="国泰君安">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n(201\d\.\d{2}\.\d{2})]]></value>
+						</entry>
+						<entry key="grade">
+							<value><![CDATA[评级： (.*?)\n]]></value>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[目标价格：\s+([0-9.]+)\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)+\n021-]]></value>
+						</entry>
+						<entry key="eps">
+							<value><![CDATA[每股净收益（元）\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+						</entry>
+					</map>
+				</entry>
+				<entry key="海通证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[）\s+(201\d\年 *\d{1,2}\月 *\d{1,2}日)\s*\n]]></value>
+						</entry>
+						<entry key="grade">
+							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n]]></value>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[目标价：*([0-9.]+)元]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[[分析师|行业]：([\u4e00-\u9fa5\s]+)+\n]]></value>
+						</entry>
+						<entry key="eps">
+							<value><![CDATA[[每股收益|EPS分别]为\s([0-9.]+)元、([0-9.]+)元和\s([0-9.]+)元]]></value>
+						</entry>
+					</map>
+				</entry>
 			</map>
 		</property>
 		<property name="searchPage"
