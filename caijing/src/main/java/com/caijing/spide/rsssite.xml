@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <onesite>
+    <name>sina</name>
+    <item>item</item>
+    <title>title</title>
+    <link>link</link>
+    <encoding>UTF-8</encoding>
+    <content>articalContent</content>
+    </onesite>
+
+    <onesite>
+    <name>sohu</name>
+    <item>item</item>
+    <title>title</title>
+    <link>link</link>
+    <encoding>GBK</encoding>
+    <content>sohu</content>
+    </onesite>
+    
+    <onesite>
+    <name>caijing</name>
+    <item>item</item>
+    <title>title</title>
+    <link>link</link>
+    <encoding>UTF-8</encoding>
+    <content>caijing</content>
+    </onesite>
+    
+    
+    <onesite>
+    <name>163</name>
+    <item>item</item>
+    <title>title</title>
+    <link>link</link>
+    <encoding>GBK</encoding>
+    <content>caijing</content>
+    </onesite>
+</config>
