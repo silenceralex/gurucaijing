@@ -164,8 +164,10 @@ public class MailReceiver {
 			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
 					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
-		System.out.println("write new judgetime:" + lasttime);
-		FileUtil.write(timeStamp, lasttime);
+		if (lasttime.length() > 0) {
+			System.out.println("write new judgetime:" + lasttime);
+			FileUtil.write(timeStamp, lasttime);
+		}
 		if (folder != null) {
 			folder.close(true);
 			System.out.println("close folder!");
@@ -271,7 +273,7 @@ public class MailReceiver {
 					// SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 					// String dstr = sdf.format(msg.getSentDate());
 					String toPath = path + "/"
-							+ FileUtil.getDatefromSubject(subject);
+							+ FileUtil.getDatefromSubject(tmpdate);
 					String commendStr = "unrar e " + filename + " " + toPath;
 
 					File ddir = new File(toPath);

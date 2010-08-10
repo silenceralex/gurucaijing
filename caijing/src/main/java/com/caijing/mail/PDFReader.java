@@ -177,12 +177,13 @@ public class PDFReader {
 			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
 			// pdfReader.read("F:\\email\\papers\\�о�����7.19");
 			System.out.println(args.length);
-			if (args.length > 1) {
+			System.out.println(args[0]);
+			if (args.length == 1) {
 				// pdfReader.read(args[0]);
-				System.out.println(args[1]);
-				pdfReader.processPath(args[1]);
+				System.out.println(args[0]);
+				pdfReader.read(args[0]);
 			} else {
-				pdfReader.processPath("/home/app/email");
+//				pdfReader.processPath("/home/app/email");
 			}
 			// pdfReader.read("/home/app/email/papers/20100723");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
