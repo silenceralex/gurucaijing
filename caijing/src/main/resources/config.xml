@@ -107,7 +107,7 @@
 				<entry key="海通证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[）\s+(201\d\)年 *(\d{1,2})\月 *(\d{1,2})日\s*\n]]></value>
+							<value><![CDATA[\s+(201\d)年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n]]></value>
