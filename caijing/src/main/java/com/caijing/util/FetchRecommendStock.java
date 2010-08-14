@@ -39,7 +39,8 @@ public class FetchRecommendStock {
 						+ report.getStockcode());
 				System.out.println("Reports Stockname: "
 						+ report.getStockname());
-				RecommendStock rs=extractor.extractFromFile(report.getSaname(), report.getStockname(), "/home/html"+report.getFilepath(), report.getRid());
+				String txtpath="/home/html"+report.getFilepath();
+				RecommendStock rs=extractor.extractFromFile(report.getSaname(), report.getStockname(),txtpath.replace(".pdf", ".txt") , report.getRid());
 				recommendStockDao.insert(rs);		
 				i++;
 			}
