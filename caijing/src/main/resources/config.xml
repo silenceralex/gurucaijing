@@ -30,7 +30,7 @@
 				<entry key="安信证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[报告日期：\s+(201\d-\d{2}-\d{2})]]></value>
+							<value><![CDATA[报告日期：\s+(201\d)-(\d{2})-(\d{2})]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[评级：\s+(.*?)-[AB]{1}]]></value>
@@ -49,7 +49,7 @@
 				<entry key="申银万国">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[\n(201\d年\d{2}月\d{2}日)\s+]]></value>
+							<value><![CDATA[\n(201\d)年(\d{2})月(\d{2})日\s+]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[报告原因：.*?\n(.*?)\n盈利预测]]></value>
@@ -87,7 +87,7 @@
 				<entry key="中金公司">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[。\s+(201\d\年 *\d{1,2}\月 *\d{1,2}日)\s]]></value>
+							<value><![CDATA[。\s+(201\d\)年 *(\d{1,2})\月 *(\d{1,2})日\s]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[研究部\s+([\u4e00-\u9fa5]{2,4})\n]]></value>
@@ -107,7 +107,7 @@
 				<entry key="海通证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[）\s+(201\d\年 *\d{1,2}\月 *\d{1,2}日)\s*\n]]></value>
+							<value><![CDATA[）\s+(201\d\)年 *(\d{1,2})\月 *(\d{1,2})日\s*\n]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n]]></value>
