@@ -153,7 +153,7 @@ public class TestSoquan {
 			for (String f : files) {
 				String filePath = folder + "/" + f;
 				System.out.println("File: " + filePath);
-				String content = FileUtil.read(filePath);
+				String content = FileUtil.read(filePath,"GBK");
 				Matcher m = stockPattern.matcher(content);
 				// String stock="";
 				StringBuffer stock = new StringBuffer();

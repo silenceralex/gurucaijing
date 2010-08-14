@@ -123,7 +123,7 @@ public class MailReceiver {
 		// handleMultipart(mess);
 		// handleMultipart(message[0]);
 		String lasttime = "";
-		String judgetime = FileUtil.read(timeStamp);
+		String judgetime = FileUtil.read(timeStamp,"GBK");
 		System.out.println("judgetime:" + judgetime);
 		Date date = sdf.parse(judgetime);
 		Date lastdate = sdf.parse(judgetime);

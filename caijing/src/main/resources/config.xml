@@ -46,10 +46,29 @@
 						</entry>
 					</map>
 				</entry>
+				<entry key="申银万国">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n(201\d年\d{2}月\d{2}日)\s+]]></value>
+						</entry>
+						<entry key="grade">
+							<value><![CDATA[报告原因：.*?\n(.*?)\n盈利预测]]></value>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[目标价格：\s+([0-9.]+)\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[分析师\s+\n([\u4e00-\u9fa5\s]+)+[AS]]]></value>
+						</entry>
+						<entry key="eps">
+							<value><![CDATA[2010E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2011E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2012E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s]]></value>
+						</entry>
+					</map>
+				</entry>
 				<entry key="国泰君安">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[\n(201\d\.\d{2}\.\d{2})]]></value>
+							<value><![CDATA[\n(201\d)\.(\d{2})\.(\d{2})]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[评级： (.*?)\n]]></value>
@@ -62,6 +81,26 @@
 						</entry>
 						<entry key="eps">
 							<value><![CDATA[每股净收益（元）\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+						</entry>
+					</map>
+				</entry>
+				<entry key="中金公司">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[。\s+(201\d\年 *\d{1,2}\月 *\d{1,2}日)\s]]></value>
+						</entry>
+						<entry key="grade">
+							<value><![CDATA[研究部\s+([\u4e00-\u9fa5]{2,4})\n]]></value>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[目标价：*([0-9.]+)元]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[研究报告\s+([\u4e00-\u9fa5\s]+)\n分析员]]></value>
+						</entry>
+						<entry key="eps">
+							
+							<value><![CDATA[每股[盈利收益]{2}\(元\)\s*[0-9\.]+\s+[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
 						</entry>
 					</map>
 				</entry>
@@ -90,8 +129,7 @@
 			value="http://acad.cnki.net/kns55/request/search.aspx" />
 
 
-		<property name="prefix"
-			value="http://guru.caijing.com" />
+		<property name="prefix" value="http://guru.caijing.com" />
 
 		<property name="autoTagUrl"
 			value="http://product.auto.163.com/data!newAutolistForTagLib.action" />
@@ -107,66 +145,66 @@
 		class="com.caijing.util.TopicNameConfig">
 		<property name="topicNameMap">
 			<map>
-					<entry key="0001">
-						<value>中信证券</value>
-					</entry>
-					<entry key="0002">
-						<value>中金公司</value>
-					</entry>
-					<entry key="0003">
-						<value>国泰君安</value>
-					</entry>
-					<entry key="0004">
-						<value>申银万国</value>
-					</entry>
-					<entry key="0005">
-						<value>银河证券</value>
-					</entry>
-					<entry key="0006">
-						<value>海通证券</value>
-					</entry>
-					<entry key="0007">
-						<value>宏源证券</value>
-					</entry>
-					<entry key="0008">
-						<value>中信建投</value>
-					</entry>
-					<entry key="0009">
-						<value>广发证券</value>
-					</entry>
-					<entry key="0010">
-						<value>国金证券</value>
-					</entry>
-					<entry key="0011">
-						<value>国信证券</value>
-					</entry>
-					<entry key="0012">
-						<value>安信证券</value>
-					</entry>
-					<entry key="0013">
-						<value>招商证券</value>
-					</entry>
-					<entry key="0014">
-						<value>光大证券</value>
-					</entry>
-					<entry key="0015">
-						<value>联合证券</value>
-					</entry>
-					<entry key="0016">
-						<value>联合证券</value>
-					</entry>
-					<entry key="0017">
-						<value>华泰证券</value>
-					</entry>
-					<entry key="0018">
-						<value>东方证券</value>
-					</entry>
-					<entry key="0019">
-						<value>华泰联合</value>
-					</entry>
-					<entry key="0020">
-						<value>中投证券</value>
-					</entry>
+				<entry key="0001">
+					<value>中信证券</value>
+				</entry>
+				<entry key="0002">
+					<value>中金公司</value>
+				</entry>
+				<entry key="0003">
+					<value>国泰君安</value>
+				</entry>
+				<entry key="0004">
+					<value>申银万国</value>
+				</entry>
+				<entry key="0005">
+					<value>银河证券</value>
+				</entry>
+				<entry key="0006">
+					<value>海通证券</value>
+				</entry>
+				<entry key="0007">
+					<value>宏源证券</value>
+				</entry>
+				<entry key="0008">
+					<value>中信建投</value>
+				</entry>
+				<entry key="0009">
+					<value>广发证券</value>
+				</entry>
+				<entry key="0010">
+					<value>国金证券</value>
+				</entry>
+				<entry key="0011">
+					<value>国信证券</value>
+				</entry>
+				<entry key="0012">
+					<value>安信证券</value>
+				</entry>
+				<entry key="0013">
+					<value>招商证券</value>
+				</entry>
+				<entry key="0014">
+					<value>光大证券</value>
+				</entry>
+				<entry key="0015">
+					<value>联合证券</value>
+				</entry>
+				<entry key="0016">
+					<value>联合证券</value>
+				</entry>
+				<entry key="0017">
+					<value>华泰证券</value>
+				</entry>
+				<entry key="0018">
+					<value>东方证券</value>
+				</entry>
+				<entry key="0019">
+					<value>华泰联合</value>
+				</entry>
+				<entry key="0020">
+					<value>中投证券</value>
+				</entry>
 			</map>
 		</property>
 	</bean>

@@ -11,8 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.crawl.ReportExtractor;
 import com.caijing.crawl.ReportExtractorImpl;
@@ -20,7 +18,6 @@ import com.caijing.dao.ReportDao;
 import com.caijing.dao.ibatis.ReportDaoImpl;
 import com.caijing.domain.Report;
 import com.caijing.util.Command;
-import com.caijing.util.Config;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.FileUtil;
 import com.caijing.util.ServerUtil;

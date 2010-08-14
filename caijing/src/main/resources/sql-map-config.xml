@@ -18,4 +18,7 @@
 <sqlMap resource="com/caijing/dao/ibatis/User.xml" />
 <sqlMap resource="com/caijing/dao/ibatis/Analyzer.xml" />
 <sqlMap resource="com/caijing/dao/ibatis/Report.xml" />
+<sqlMap resource="com/caijing/dao/ibatis/Industry.xml" />
+<sqlMap resource="com/caijing/dao/ibatis/Stock.xml" />
+<sqlMap resource="com/caijing/dao/ibatis/RecommendStock.xml" />
 </sqlMapConfig>

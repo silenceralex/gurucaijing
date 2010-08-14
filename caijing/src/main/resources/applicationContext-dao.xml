@@ -2,33 +2,63 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 
-<beans>	
-   
-  <bean id="userDao" class="com.caijing.dao.ibatis.UserDaoImpl">
-   <property name="sqlMapClientTemplate">
-     <ref bean="sqlMapClientTemplate"/>
-    </property>
-    <property name="namespace">
-      <value>User</value>
-    </property>
-  </bean>
-  
-    <bean id="analyzerDao" class="com.caijing.dao.ibatis.AnalyzerDaoImpl">
-   <property name="sqlMapClientTemplate">
-     <ref bean="sqlMapClientTemplate"/>
-    </property>
-    <property name="namespace">
-      <value>Analyzer</value>
-    </property>
-  </bean>
-  
-  <bean id="reportDao" class="com.caijing.dao.ibatis.ReportDaoImpl">
-   <property name="sqlMapClientTemplate">
-     <ref bean="sqlMapClientTemplate"/>
-    </property>
-    <property name="namespace">
-      <value>Report</value>
-    </property>
-  </bean>
-  
+<beans>
+
+	<bean id="userDao" class="com.caijing.dao.ibatis.UserDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>User</value>
+		</property>
+	</bean>
+
+	<bean id="industryDao"
+		class="com.caijing.dao.ibatis.IndustryDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Industry</value>
+		</property>
+	</bean>
+
+	<bean id="stockDao" class="com.caijing.dao.ibatis.StockDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Stock</value>
+		</property>
+	</bean>
+
+	<bean id="analyzerDao"
+		class="com.caijing.dao.ibatis.AnalyzerDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Analyzer</value>
+		</property>
+	</bean>
+
+	<bean id="recommendStockDao"
+		class="com.caijing.dao.ibatis.RecommendStockDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>RecommendStock</value>
+		</property>
+	</bean>
+
+	<bean id="reportDao" class="com.caijing.dao.ibatis.ReportDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Report</value>
+		</property>
+	</bean>
+
 </beans>
