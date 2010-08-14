@@ -35,5 +35,8 @@ public class ReportDaoImpl extends CrudDaoDefault implements ReportDao {
 		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace()+".getAllReportsCountBySaname",saname);
 	}
 
-
+	@SuppressWarnings("unchecked")
+	public List<Report> getAllCompanyReports(){
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace()+".getAllCompanyReports");
+	}
 }

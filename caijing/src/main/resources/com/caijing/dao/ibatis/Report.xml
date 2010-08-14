@@ -9,6 +9,10 @@
     select * from report where aname = #value#
   </select>
   
+  <select id="getAllCompanyReports" resultClass="reportClass" >
+    select * from report order by ptime
+  </select>
+  
   <select id="getReportsBySanme" parameterClass="java.util.Map" resultClass="reportClass" >
     select * from report where saname = #saname# order by ptime desc limit #start#,#offset#
   </select>

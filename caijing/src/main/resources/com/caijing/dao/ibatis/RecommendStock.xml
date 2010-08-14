@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="RecommendStock">
+
+	<typeAlias alias="RecommendStock" type="com.caijing.domain.RecommendStock" />
+
+	<select id="select" resultClass="RecommendStock">
+		select * from recommendstock where recommendid=#recommendid#
+	</select>
+
+	<insert id="insert">
+		insert into recommendstock (recommendid,stockcode,saname,aname,createdate,grade,eps,objectprice,buyprice,user,lmodify) values
+		(#recommendid#,#stockcode#,#saname#,#aname#,#createdate#,#grade#,#eps#,#objectprice#,#buyprice#,#user#,now())
+	</insert>
+
+	<update id="update" parameterClass="RecommendStock">
+		update recommendstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="stockname">
+				stockname = #stockname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="objectprice">
+				objectprice = #objectprice#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="buyprice">
+				buyprice = #buyprice#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="user">
+				user = #user#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="eps">
+				eps = #eps#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="grade">
+				grade = #grade#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="createdate">
+				createdate = #createdate#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="aname">
+				aname = #aname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lmodify">
+				lmodify = #lmodify#
+			</isNotEmpty>
+		</dynamic>
+		where recommendid=#recommendid#
+	</update>
+
+	<delete id="delete" parameterClass="RecommendStock">
+		delete from recommendstock where recommendid=#recommendid#
+	</delete>
+
+</sqlMap>

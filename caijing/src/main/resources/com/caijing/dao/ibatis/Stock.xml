@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Stock">
+
+	<typeAlias alias="Stock" type="com.caijing.domain.Stock" />
+
+	<select id="select" resultClass="Stock">
+		select * from stock where stockcode=#value#
+	</select>
+
+	<insert id="insert">
+		insert into stock (stockcode,stockname,industryid) values
+		(#stockcode#,#stockname#,#industryid#)
+	</insert>
+
+	<update id="update" parameterClass="Stock">
+		update stock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="stockname">
+				stockname = #stockname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="industryid">
+				industryid = #industryid#
+			</isNotEmpty>
+		</dynamic>
+		where stockcode=#stockcode#
+	</update>
+
+	<delete id="delete" parameterClass="Stock">
+		delete from stock where stockcode=#stockcode#
+	</delete>
+
+</sqlMap>

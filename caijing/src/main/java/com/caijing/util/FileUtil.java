@@ -100,11 +100,11 @@ public class FileUtil {
 	 * @return @throws
 	 *         IOException
 	 */
-	public static String read(String filename) {
-		return read(filename, "\n");
+	public static String read(String filename,String encoding) {
+		return read(filename, "\n",encoding);
 	}
 
-	public static String read(String filename, String split) {
+	public static String read(String filename, String split,String encoding) {
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader reader = null;
