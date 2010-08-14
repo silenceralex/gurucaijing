@@ -87,7 +87,7 @@
 				<entry key="中金公司">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[。\s+(201\d\)年 *(\d{1,2})\月 *(\d{1,2})日\s]]></value>
+							<value><![CDATA[。\s+(201\d)年 *(\d{1,2})\月 *(\d{1,2})日\s]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[研究部\s+([\u4e00-\u9fa5]{2,4})\n]]></value>
