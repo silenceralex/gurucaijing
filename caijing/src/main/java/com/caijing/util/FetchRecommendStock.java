@@ -31,15 +31,17 @@ public class FetchRecommendStock {
 		for (Report report : reports) {
 			if (report.getType() == 1
 					&& config.getValue(report.getSaname()) != null) {
-				System.out.println("Reports filepath: " + report.getFilepath());
-				System.out.println("Reports type: " + report.getType());
-				System.out.println("Reports title: " + report.getTitle());
-				System.out.println("Reports Saname: " + report.getSaname());
-				System.out.println("Reports Stockcode: "
-						+ report.getStockcode());
-				System.out.println("Reports Stockname: "
-						+ report.getStockname());
+//				System.out.println("Reports filepath: " + report.getFilepath());
+//				System.out.println("Reports type: " + report.getType());
+//				System.out.println("Reports title: " + report.getTitle());
+//				System.out.println("Reports Saname: " + report.getSaname());
+//				System.out.println("Reports Stockcode: "
+//						+ report.getStockcode());
+//				System.out.println("Reports Stockname: "
+//						+ report.getStockname());
 				String txtpath="/home/html"+report.getFilepath();
+				System.out.println("Reports txt path: "
+						+ txtpath.replace(".pdf", ".txt"));
 				RecommendStock rs=extractor.extractFromFile(report.getSaname(), report.getStockname(),txtpath.replace(".pdf", ".txt") , report.getRid());
 				recommendStockDao.insert(rs);		
 				i++;

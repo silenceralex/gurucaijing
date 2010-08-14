@@ -50,20 +50,26 @@ public class ReportExtractorImpl implements ReportExtractor {
 		rs.setSaname(saname);
 		rs.setStockcode(stockcode);
 		String content = FileUtil.read(file, "GBK");
-		// System.out.println("content:" + content);
+//		System.out.println("content:" + content);
 		Matcher m = publishDatePattern.matcher(content);
 		if (m != null && m.find()) {
-			System.out.println("publishDate:" + m.group(1));
-			String month=m.group(2);
-			String day=m.group(3);
-			month=month.trim().length()>1?month.trim():"0"+month.trim();
-			day=day.trim().length()>1?day.trim():"0"+day.trim();
-			rs.setCreatedate(m.group(1).trim()+month+day);
+			String month = m.group(2);
+			String day = m.group(3);
+			month = month.trim().length() > 1 ? month.trim() : "0"
+					+ month.trim();
+			day = day.trim().length() > 1 ? day.trim() : "0" + day.trim();
+			System.out
+					.println("publishdate:" + m.group(1).trim() + month + day);
+			rs.setCreatedate(m.group(1).trim() + month + day);
 		}
 		m = anaylzerPattern.matcher(content);
 		if (m != null && m.find()) {
 			System.out.println("anaylzer:" + m.group(1).trim());
-			rs.setAname(m.group(1).trim());
+			if (m.group(1).trim().length() >10) {
+				rs.setAname("");
+			} else {
+				rs.setAname(m.group(1).trim());
+			}
 		}
 		m = objectprice.matcher(content);
 		if (m != null && m.find()) {
@@ -73,7 +79,11 @@ public class ReportExtractorImpl implements ReportExtractor {
 		m = grade.matcher(content);
 		if (m != null && m.find()) {
 			System.out.println("grade:" + m.group(1));
-			rs.setGrade(m.group(1).trim());
+			if (m.group(1).trim().length() > 6) {
+				rs.setGrade("");
+			} else {
+				rs.setGrade(m.group(1).trim());
+			}
 		}
 		m = epsPattern.matcher(content);
 		if (m != null && m.find()) {
