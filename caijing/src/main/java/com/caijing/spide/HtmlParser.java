@@ -239,5 +239,62 @@ public class HtmlParser {
 		 }
 	    return null;
 	}
+	
+	String parseRespValue(RssItem site){
+		String rlt="";
+		boolean isindel=false;
+	    int i,level=1;
+	    if(curev != START_ELEMENT) return null;
+	    String tmp=getName();
+	    int event = next();
+	    while(true){
+			switch (event) {
+				 case HtmlParser.START_ELEMENT:
+	//			 System.out.println("Start Element: " + getName());
+				 if(tmp.equals(getName())){
+				     level++;
+				 }
+				 for(Triple t:site.content.del){
+					 if(t.startEle.equals(getName())){
+						 for(i=0;i<getAttributeCount();i++){
+							 if(t.name.equals(getAttributeName(i)) && t.value.equals(getAttributeValue(i))){
+								getRespValue();
+								isindel=true;
+								break;
+							 }
+						 }
+						 if(isindel) break;
+					 }
+				 }
+				 break;
+				 case HtmlParser.END_ELEMENT:
+	//			 System.out.println("End Element:" + getName());
+				 if(tmp.equals(getName().toLowerCase())){
+				     level--;
+				     if(level == 0){
+					 next();
+					 return rlt;
+				     }
+				 }
+				 break;
+				 case HtmlParser.END_DOCUMENT:
+	//			 System.out.println("End Document.");
+				 break;
+				 case HtmlParser.CHARACTERS:
+					 rlt+=getText();
+					 
+				 break;
+			}
+			 if (hasnext()==0)
+			     break;
+			 if(isindel){
+				 event=getEventType();
+				 isindel=false;
+			 }else {
+				 event = next();
+			 }
+		 }
+	    return rlt;
+	}
 
 }

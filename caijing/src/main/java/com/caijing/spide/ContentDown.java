@@ -50,7 +50,7 @@ public class ContentDown {
 		while (true) {
 			switch (event) {
 				case HtmlParser.START_ELEMENT:					
-					 if("div".equals(p.getName())){	
+					 if(site.content.start.startEle.equals(p.getName())){	
 						 int i=0, n;
 						 for(n = p.getAttributeCount(); i < n; ++i){
 //						     System.out.println(i);
@@ -59,8 +59,11 @@ public class ContentDown {
 //							 System.out.println("value="+p.getAttributeValue(i));
 							 String key =p.getAttributeName(i);
 							 String value= p.getAttributeValue(i);
-							 if(key!=null && value!=null &&"class".equals(key) && site.contents.equals(value)){
-								text= p.getRespValue();
+							 if(key!=null && value!=null &&site.content.start.name.equals(key) && site.content.start.value.equals(value)){
+								System.out.println("okokokokokokok");
+								text= p.parseRespValue(site);
+								System.out.println(text);
+								return text;
 							 }
 						 }
 					 }

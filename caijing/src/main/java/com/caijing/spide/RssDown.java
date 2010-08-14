@@ -108,7 +108,7 @@ public class RssDown {
 				System.out.println(tmp.link+tmp.title);
 				if(site.name.equals("sina")){
 					ContentDown sinadown = new ContentDown();
-					System.out.println(sinadown.getArticleText(tmp.link, site));
+					sinadown.getArticleText(tmp.link, site);
 				}
 			}
 		}

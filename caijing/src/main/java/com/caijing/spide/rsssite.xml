@@ -6,7 +6,10 @@
     <title>title</title>
     <link>link</link>
     <encoding>UTF-8</encoding>
-    <content>articalContent</content>
+    <content>
+    <start>div:class:articalContent</start>
+    <del>span:id:msb</del>
+    </content>
     </onesite>
 
     <onesite>
@@ -15,7 +18,10 @@
     <title>title</title>
     <link>link</link>
     <encoding>GBK</encoding>
-    <content>sohu</content>
+    <content>
+    <start>div:id:articalContent</start>
+    <del>span:id:msb</del>
+    </content>
     </onesite>
     
     <onesite>
@@ -24,7 +30,10 @@
     <title>title</title>
     <link>link</link>
     <encoding>UTF-8</encoding>
-    <content>caijing</content>
+    <content>
+    <start>div:id:articalContent</start>
+    <del>span:id:msb</del>
+    </content>
     </onesite>
     
     
@@ -34,6 +43,9 @@
     <title>title</title>
     <link>link</link>
     <encoding>GBK</encoding>
-    <content>caijing</content>
+    <content>
+    <start>div:id:articalContent</start>
+    <del>span:id:msb</del>
+    </content>
     </onesite>
 </config>

@@ -1,12 +1,13 @@
 package com.caijing.spide;
 
+
 public class RssItem {
 	String name;
 	String item;
 	String title;
 	String link;
 	String encoding;
-	String contents;
+	ContentItem content;
 	
 	public RssItem(){
 		name="";
@@ -14,7 +15,7 @@ public class RssItem {
 		title="";
 		link = "";
 		encoding="";
-		contents="";
+		content = null;
 	}
 
 }

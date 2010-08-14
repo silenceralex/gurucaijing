@@ -72,9 +72,9 @@ public class ReadConfig {
 				    		 if(site != null) site.encoding= p.getText();
 				    	 }
 				     }else if("content".equals(p.getName())){
-				    	 if(p.hasnext()==1 && p.next()==HtmlParser.CHARACTERS){
-				    		 if(site != null) site.contents= p.getText();
-				    	 }
+				    	 String con = p.getRespValue();
+				    	 site.content=GetText(con);
+				    	 System.out.println("content="+site.content);				    	
 				     }
 				     break;
 			     case HtmlParser.END_ELEMENT:
@@ -93,6 +93,51 @@ public class ReadConfig {
 				
 			event = p.next();
 		    }
+	}
+	
+	ContentItem GetText(String con ){
+		ContentItem curCon=null;
+		String val=null;
+		HtmlParser p = new HtmlParser(content);
+	    int event=p.getEventType();
+	    while(true){
+			switch(event){
+				 case HtmlParser.START_DOCUMENT:
+					 break;
+			     case HtmlParser.START_ELEMENT:
+//				     System.out.println("Start Element: " + p.getName());
+				     if("start".equals(p.getName())){
+				    	 curCon=new ContentItem();
+				    	 if(p.hasnext()==1 && p.next()==HtmlParser.CHARACTERS){
+						     val= p.getText();
+						     String[] tripleString =val.split(":");
+						     curCon.start = new Triple(tripleString);
+						 }
+				     }else if("del".equals(p.getName()) && curCon!=null){
+						 if(p.hasnext()==1 && p.next()==HtmlParser.CHARACTERS){
+							 val= p.getText();
+						     String[] tripleString =val.split(":");
+						     curCon.del.add(new Triple(tripleString));
+						 }
+				     }
+				     break;
+			     case HtmlParser.END_ELEMENT:
+//				     System.out.println("End Element:" + p.getName());
+				     if("content".equals(p.getName())){
+				    	 return curCon;
+				     }
+					 break;
+				 case HtmlParser.END_DOCUMENT:
+//			         System.out.println("End Document.");
+					 break;				
+				} 
+			if (p.hasnext()==0)
+				break;
+				
+			event = p.next();
+		    }
+	    return null;
+	
 	}
 	
 	void GetAllPeople(String filename) throws IOException{
