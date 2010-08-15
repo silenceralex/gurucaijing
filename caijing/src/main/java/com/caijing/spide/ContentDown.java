@@ -60,9 +60,7 @@ public class ContentDown {
 							 String key =p.getAttributeName(i);
 							 String value= p.getAttributeValue(i);
 							 if(key!=null && value!=null &&site.content.start.name.equals(key) && site.content.start.value.equals(value)){
-								System.out.println("okokokokokokok");
 								text= p.parseRespValue(site);
-								System.out.println(text);
 								return text;
 							 }
 						 }

@@ -8,11 +8,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.caijing.dao.ColumnArticleDao;
+import com.caijing.domain.ColumnArticle;
 import com.caijing.spide.RssItem;
+import com.caijing.util.ContextFactory;
 
 public class RssDown {
 	Article ar=null;
 	List<Article> arlist =null;
+	ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnarticleDao");
 	
 	void getRssArList(String siteurl, RssItem site) throws IOException{
 		
@@ -108,7 +112,14 @@ public class RssDown {
 				System.out.println(tmp.link+tmp.title);
 				if(site.name.equals("sina")){
 					ContentDown sinadown = new ContentDown();
-					sinadown.getArticleText(tmp.link, site);
+					tmp.contents=sinadown.getArticleText(tmp.link, site);
+					ColumnArticle ca=new ColumnArticle();
+					ca.setContent(tmp.contents);
+					ca.setLink(tmp.link);
+					ca.setSrc("blog");
+					ca.setName(site.name);
+					ca.setTitle(tmp.title);
+					dao.insert(ca);
 				}
 			}
 		}
