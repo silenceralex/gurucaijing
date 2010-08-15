@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ColumnArticle">
+  
+  <typeAlias alias="ColumnArticle" type="com.caijing.domain.ColumnArticle"/>
+
+  <select id="getColumnArticleByName"  resultClass="ColumnArticle" >
+    select * from columnarticle where name = #value#
+  </select>
+
+  
+  <select id="select"  resultClass="ColumnArticle" >
+    select * from columnarticle where aid=#value#
+  </select>
+  
+  <insert id="insert" >
+    insert into columnarticle (title,link,content,src,ptime,name) values (#title#,#link#,#content#,#src#,#ptime#,#name#)
+  </insert>
+
+  <update id="update" parameterClass="ColumnArticle">
+  	update columnarticle
+  	<dynamic prepend="set">		
+  		<isNotEmpty prepend="," property="title">
+  			title = #title#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="link">
+  			link = #link#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="content">
+  			content = #content#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="src">
+  			src = #src#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="ptime">
+  			ptime = #ptime#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="name">
+  			name = #name#
+  		</isNotEmpty>
+  	</dynamic>
+  	where name=#name#
+  </update>
+
+  <delete id="delete" parameterClass="ColumnArticle">
+    delete from columnarticle where name=#name#
+  </delete>
+
+</sqlMap>
