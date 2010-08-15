@@ -2,22 +2,41 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="RecommendStock">
 
-	<typeAlias alias="RecommendStock" type="com.caijing.domain.RecommendStock" />
+	<typeAlias alias="RecommendStock"
+		type="com.caijing.domain.RecommendStock" />
 
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
 
+	<select id="getRecommendStocksbySaname"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select * from recommendstock where saname=#saname# order by
+		ptime desc limit #start#,#offset#
+	</select>
+
+	<select id="getRecommendStocksCountsbySaname"
+		resultClass="java.lang.Integer">
+		select count(1) from recommendstock where saname=#value#
+	</select>
+
+	<select id="getRecommendStockbyReportid"
+		resultClass="RecommendStock">
+		select * from recommendstock where reportid=#reportid#
+	</select>
+
 	<insert id="insert">
-		insert into recommendstock (recommendid,stockcode,saname,aname,createdate,grade,eps,objectprice,buyprice,user,lmodify) values
-		(#recommendid#,#stockcode#,#saname#,#aname#,#createdate#,#grade#,#eps#,#objectprice#,#buyprice#,#user#,now())
+		insert into recommendstock
+		(recommendid,reportid,stockcode,saname,aname,createdate,grade,eps,objectprice,buyprice,user,lmodify)
+		values
+		(#recommendid#,#reportid#,#stockcode#,#saname#,#aname#,#createdate#,#grade#,#eps#,#objectprice#,#buyprice#,#user#,now())
 	</insert>
 
 	<update id="update" parameterClass="RecommendStock">
 		update recommendstock
 		<dynamic prepend="set">
-			<isNotEmpty prepend="," property="stockname">
-				stockname = #stockname#
+			<isNotEmpty prepend="," property="stockcode">
+				stockcode = #stockcode#
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="objectprice">
 				objectprice = #objectprice#

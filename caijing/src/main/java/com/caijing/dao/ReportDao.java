@@ -11,6 +11,7 @@ public interface ReportDao extends CrudDao {
 	public int getAllReportsCount();
 	public int getAllReportsCountBySaname(String saname);
 	public List<Report> getAllCompanyReports();
+	public List<Report> getCompanyReportsBySaname(String saname);
 	
 
 }

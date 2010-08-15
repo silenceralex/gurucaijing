@@ -1,6 +1,7 @@
 package com.caijing.crawl;
 
 import java.io.File;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,9 +32,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				saname).get("publishdate"), Pattern.CASE_INSENSITIVE
 				| Pattern.DOTALL | Pattern.UNIX_LINES);
 		// System.out.println("eps:" + config.getValue(key).get("eps"));
-		Pattern epsPattern = Pattern.compile((String) config.getValue(saname)
-				.get("eps"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-				| Pattern.UNIX_LINES);
+
 		Pattern objectprice = Pattern.compile((String) config.getValue(saname)
 				.get("objectprice"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 				| Pattern.UNIX_LINES);
@@ -50,7 +49,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		rs.setSaname(saname);
 		rs.setStockcode(stockcode);
 		String content = FileUtil.read(file, "GBK");
-//		System.out.println("content:" + content);
+		// System.out.println("content:" + content);
 		Matcher m = publishDatePattern.matcher(content);
 		if (m != null && m.find()) {
 			String month = m.group(2);
@@ -65,8 +64,17 @@ public class ReportExtractorImpl implements ReportExtractor {
 		m = anaylzerPattern.matcher(content);
 		if (m != null && m.find()) {
 			System.out.println("anaylzer:" + m.group(1).trim());
-			if (m.group(1).trim().length() >10) {
-				rs.setAname("");
+			//处理非正常的前缀
+			if (m.group(1).trim().length() > 10) {
+				String[] tests=m.group(1).trim().split("\\s");
+				String aname="";
+				for(String tmp : tests){
+					if(tmp.trim().length()!=0&&tmp.trim().length()<4){
+						aname+=tmp.trim()+" ";
+					}
+				}
+				rs.setAname(aname.trim());
+				System.out.println("after anaylzer:" + aname.trim());
 			} else {
 				rs.setAname(m.group(1).trim());
 			}
@@ -85,16 +93,29 @@ public class ReportExtractorImpl implements ReportExtractor {
 				rs.setGrade(m.group(1).trim());
 			}
 		}
-		m = epsPattern.matcher(content);
-		if (m != null && m.find()) {
-			System.out.println("2010:" + m.group(1));
-			System.out.println("2011:" + m.group(2));
-			System.out.println("2012:" + m.group(3));
-			String eps = "{'2010':'" + m.group(1) + "','2011':'" + m.group(2)
-					+ "','2012':'" + m.group(3) + "'}";
-			rs.setEps(eps);
+
+		List<String> strs = (List<String>) config.getValue(saname).get("eps");
+//		System.out.println("str size:" + strs.size());
+		Pattern epsPattern = null;
+		String eps = null;
+		for (String str : strs) {
+//			System.out.println("str:" + str);
+			epsPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.MULTILINE);
+			m = epsPattern.matcher(content);
+			if (m != null && m.find()) {
+				System.out.println("2010:" + m.group(1).trim());
+				System.out.println("2011:" + m.group(2).trim());
+				System.out.println("2012:" + m.group(3).trim());
+				eps = "{'2010':'" + m.group(1) + "','2011':'" + m.group(2)
+						+ "','2012':'" + m.group(3) + "'}";
+				break;
+			}
+		}
+		if (eps == null) {
+			System.out.println("Connot match the EPS!");
 		} else {
-			System.out.println("out!");
+			rs.setEps(eps);
 		}
 		return rs;
 	}
@@ -150,13 +171,16 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// ServerUtil.getid());
 		RecommendStockDao recommendStockDao = (RecommendStockDaoImpl) ContextFactory
 				.getBean("recommendStockDao");
-		RecommendStock rs = extractor.extractFromFile("国泰君安", "600547",
-				"F:\\email\\研究报告7.07\\国泰君安--山东黄金(600547)储量产量金价：期待三管齐下式的增长.txt",
+		RecommendStock rs = extractor.extractFromFile("国泰君安", "民生银行",
+				"http://guru.caijing.com/papers/20100812/6D0SD1NH.txt",
 				ServerUtil.getid());
-		recommendStockDao.insert(rs);
-		// extractor.extractFromFile("海通证券","F:\\email\\研究报告7.07\\海通证券--广州友谊(000987)经营趋势良好，重现投资安全边际.txt",ServerUtil.getid());
+
+		// RecommendStock rs
+		// =extractor.extractFromFile("海通证券","000987","F:\\email\\研究报告7.07\\海通证券--广州友谊(000987)经营趋势良好，重现投资安全边际.txt",ServerUtil.getid());
+
 		// extractor.extractFromFile("申银万国","F:\\email\\研究报告7.07\\6CR4CDUO.txt",ServerUtil.getid());
 		// extractor.extractFromFile("中金公司","","F:\\email\\研究报告7.07\\6CR4CVCJ.txt",ServerUtil.getid());
+		// recommendStockDao.insert(rs);
 		// File file = new
 		// File("F:\\email\\研究报告7.19\\国泰君安--重庆百货(600729)二季度业绩增长30％，释放充分符合预期.txt");
 		// extractor

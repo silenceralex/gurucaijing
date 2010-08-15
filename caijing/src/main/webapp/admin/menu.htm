@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>奥运资料库</title>
-<meta name="keywords" content="奥运资料库,网易体育,sports" />
-<meta name="description" content="最专业、最全面的网易体育奥运资料库" />
+<title>研报栏目</title>
+<meta name="keywords" content="研报栏目" />
+<meta name="description" content="研报栏目" />
 <link href="img/style.css" rel="stylesheet" type="text/css" />
 <link href="img/db.css" rel="stylesheet" type="text/css" />
 <style>
@@ -28,9 +28,8 @@ body{ overflow-x:hidden}
 		<!--
 		tree_${topicid} = new dTree('tree_${topicid}');
 		tree_${topicid}.add('main_${topicid}','-1','${topicNameMap.getTopicName($topicid)}','about:blank','${topicNameMap.getTopicName($topicid)}','main');
-		#foreach($section in $sectionListMap.get(${topicid}))
-		tree_${topicid}.add('${section.sid}','${section.pid}','${section.title}','/admin/section/topicid_${topicid}/showColumn.htm?sid=${section.sid}','${section.title}','main','img/folder.gif','img/folderopen.gif');
-		#end
+
+		tree_${topicid}.add('10003','main_${topicid}','研报查看','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
 		tree_${topicid}.add('10000','main_${topicid}','来源管理','/admin/source/topicid_${topicid}/sourcelist.htm','来源管理','main','img/folder.gif','img/folderopen.gif');
 		tree_${topicid}.add('10001','main_${topicid}','最新上传','/admin/section/topicid_${topicid}/latestVideo.htm','最新上传','main','img/new.gif','img/new.gif');
 		tree_${topicid}.add('10002','main_${topicid}','视频搜索','/admin/section/topicid_${topicid}/videoSearch.htm','视频搜索','main','img/glass2.gif','img/glass2.gif');

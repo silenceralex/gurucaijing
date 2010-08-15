@@ -42,7 +42,9 @@
 							<value><![CDATA[研究员\s+(.*?)\s+[助理|首席]*行业分析师]]></value>
 						</entry>
 						<entry key="eps">
-							<value><![CDATA[每股收益\(元\)\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+							<list>
+								<value><![CDATA[每股收益\(元\)\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+							</list>
 						</entry>
 					</map>
 				</entry>
@@ -61,14 +63,16 @@
 							<value><![CDATA[分析师\s+\n([\u4e00-\u9fa5\s]+)+[AS]]]></value>
 						</entry>
 						<entry key="eps">
-							<value><![CDATA[2010E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2011E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2012E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s]]></value>
+							<list>
+								<value><![CDATA[2010E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2011E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2012E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s]]></value>
+							</list>
 						</entry>
 					</map>
 				</entry>
 				<entry key="国泰君安">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[\n(201\d)\.(\d{2})\.(\d{2})]]></value>
+							<value><![CDATA[\n(201\d)\.(\d{2})\.(\d{2})\s+]]></value>
 						</entry>
 						<entry key="grade">
 							<value><![CDATA[评级： (.*?)\n]]></value>
@@ -77,10 +81,13 @@
 							<value><![CDATA[目标价格：\s+([0-9.]+)\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)+\n021-]]></value>
+							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n\s*0(?:21|755|10|20)]]></value>
 						</entry>
 						<entry key="eps">
-							<value><![CDATA[每股净收益（元）\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+							<list>
+								<value><![CDATA[每股净收益（元）\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+								<value><![CDATA[10-12年[\u4e00-\u9fa5|EPS]+([0-9\.\s]+)[、,]([0-9\.\s]+)[、,]([0-9\.]+)的]]></value>
+							</list>
 						</entry>
 					</map>
 				</entry>
@@ -99,8 +106,9 @@
 							<value><![CDATA[研究报告\s+([\u4e00-\u9fa5\s]+)\n分析员]]></value>
 						</entry>
 						<entry key="eps">
-							
-							<value><![CDATA[每股[盈利收益]{2}\(元\)\s*[0-9\.]+\s+[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+							<list>
+								<value><![CDATA[每股[盈利收益]{2}\(元\)\s*[0-9\.]+\s+[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+							</list>
 						</entry>
 					</map>
 				</entry>
@@ -119,7 +127,9 @@
 							<value><![CDATA[[分析师|行业]：([\u4e00-\u9fa5\s]+)+\n]]></value>
 						</entry>
 						<entry key="eps">
-							<value><![CDATA[[每股收益|EPS分别]为\s([0-9.]+)元、([0-9.]+)元和\s([0-9.]+)元]]></value>
+							<list>
+								<value><![CDATA[[每股收益|EPS分别]为\s([0-9.]+)元、([0-9.]+)元和\s([0-9.]+)元]]></value>
+							</list>
 						</entry>
 					</map>
 				</entry>

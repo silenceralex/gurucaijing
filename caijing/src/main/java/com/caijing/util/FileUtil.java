@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.client.ClientProtocolException;
 
 public class FileUtil {
 	static HashMap cache = null;
@@ -22,6 +23,7 @@ public class FileUtil {
 	
 	public static final String path = "/home/app/papers";
 	public static final String html = "/home/html/papers";
+	public static UrlDownload down = new UrlDownload();
 	
 	public static String getDatefromSubject(String subject){
 		String[] strs=subject.split("\\.");
@@ -105,6 +107,17 @@ public class FileUtil {
 	}
 
 	public static String read(String filename, String split,String encoding) {
+		if(filename.startsWith("http://")){
+			try {
+				return down.load(filename);
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				return null;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader reader = null;

@@ -1,0 +1,58 @@
+/* 全局CSS定义 */
+body {text-align:center;font-family: 宋体, serif;  margin:0; padding:0; background: #fff; font-size:12px; color:#000;}
+div,form,img,ul,ol,li,dl,dt,dd {margin: 0; padding: 0; border:0; }
+h1,h2,h3,h4,h5,h6 {margin:0; padding:0; font-size:12px; font-weight:normal;}
+table,td,tr,th{font-size:12px;}
+li{list-style-type:none;}
+table{ margin:0 auto;}
+img{vertical-align:top;}
+
+/* 链接颜色 */
+a:link {color: #000; text-decoration:none;}
+a:visited {color: #83006f;text-decoration:none;}
+a:hover {color: #bc2931; text-decoration:underline;}
+a:active {color: #bc2931;}
+
+/* 颜色属性 [定义规则，小写c加颜色名称] */
+.cRed,a.cRed:link,a.cRed:visited{ color:Red; }
+.cBlue,a.cBlue:link,a.cBlue:visited{color:#1f3a87;}
+.cDRed,a.cDRed:link,a.cDRed:visited{ color:#bc2931;}
+.cGray,a.cGray:link,a.cGray:visited{ color: #4F544D;}
+.cDGray,a.cDGray:link,a.cDGray:visited{ color: #666;}
+.cWhite,a.cWhite:link,a.cWhite:visited{ color:#fff;}
+.cBlack,a.cBlack:link,a.cBlack:visited{color:#000;}
+a.cBlack:hover{color:#bc2931;}
+.cYellow,a.cYellow:link,a.cYellow:visited{color:#ff0;}
+
+/* 字体属性 [定义规则，小写f加属性名称] */
+.fB {font-weight: bold;}
+.fI {font-style: italic;}
+
+/* 字体大小*/
+.f12px{ font-size:12px;}
+.f14px{ font-size:14px;}
+
+/* 其他属性 */
+.left{ float: left;}
+.right{ float: right;}
+.clear{ clear: both;}
+.clear:after{content:"."; display:block; height:0; clear:both; visibility:hidden;}
+.hidden {display: none;}
+.unLine ,.unLine a{text-decoration: none;}
+.noBorder{border:none;}
+
+/* 页脚 */
+.foot{margin:0 auto; width:750px; line-height:160%;}
+.foot .text{padding:3px 0 6px; border-bottom:1px solid #000; margin:0 0 5px;}
+.foot a:visited{color:#000;}
+
+/* 通用空白间距 */
+.blank3{ height:3px; font-size:1px;  clear:both; overflow:hidden;}
+.blank6{ height:6px; font-size:1px;  clear:both;overflow:hidden;}
+.blank9{ height:9px; font-size:1px;  clear:both;overflow:hidden;}
+.blank12{ height:12px; font-size:1px;clear:both;overflow:hidden;}
+.blank9w{ height:9px; font-size:1px; clear:both; background:#fff;overflow:hidden;}
+.blank15{ height:15px; font-size:1px;  clear:both;overflow:hidden;}
+
+/* 行高定义 */
+.lineH24 {line-height:24px;}

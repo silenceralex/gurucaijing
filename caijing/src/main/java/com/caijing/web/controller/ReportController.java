@@ -39,7 +39,7 @@ public class ReportController {
 	@Qualifier("vutil")
 	private Vutil vutil = null;
 	
-	@RequestMapping("/showColumn.htm")
+	@RequestMapping("/admin/showColumn.htm")
 	public String showColomn(HttpServletResponse response,
 			@RequestParam(value = "saname", required = false)
 			String saname, @RequestParam(value = "page", required = false)
@@ -60,13 +60,13 @@ public class ReportController {
 			total=reportDao.getAllReportsCountBySaname(saname);
 			paginator.setTotalRecordNumber(total);
 			reportlist=reportDao.getReportsBySaname(saname,(page-1)*20,20);
-			urlPattern = "/showColumn.htm?saname="+saname+"&page=$number$";
+			urlPattern = "/admin/showColumn.htm?saname="+saname+"&page=$number$";
 			model.put("saname", saname);
 		}else{
 			total=reportDao.getAllReportsCount();
 			paginator.setTotalRecordNumber(total);
 			reportlist=reportDao.getAllReports((page-1)*20,20);
-			urlPattern = "/showColumn.htm?page=$number$";
+			urlPattern = "/admin/showColumn.htm?page=$number$";
 		}
 		
 		paginator.setUrl(urlPattern);
@@ -74,6 +74,7 @@ public class ReportController {
 		model.put("vutil", vutil);
 		model.put("reportlist", reportlist);
 		model.put("paginatorLink", paginator.getPageNumberList());
+		
 		return "/admin/reportlist.htm";
 
 	}

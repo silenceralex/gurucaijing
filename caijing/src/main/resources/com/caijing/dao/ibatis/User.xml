@@ -16,6 +16,10 @@
     <result property="credit" column="credit"  nullValue="0"/>
   </resultMap>
   
+  
+  <select id="identify" parameterClass="java.util.Map" resultMap="userResultMap" >
+    select * from user where username = #username# and password= #password#
+  </select>
 
   <select id="getUserByUsername"  resultMap="userResultMap" >
     select * from user where username = #value#

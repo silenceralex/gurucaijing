@@ -8,4 +8,5 @@ import com.caijing.util.CrudDao;
 public interface UserDao extends CrudDao {
 	public User getUserByUsername(String username) ;
 	public List<User> searchUsersByNickname(String nickname) ;
+	public boolean identify(String username,String password) ;
 }

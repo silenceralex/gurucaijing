@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>券商推荐股票</title>
+		<link href="/img/style.css" rel="stylesheet" type="text/css" />
+		<link href="/img/index.css" rel="stylesheet" type="text/css" />
+		<style>
+#tagWin {
+	display: none;
+	position: absolute;
+	top: 22px;
+	left: -52px;
+	z-index: 3;
+}
+
+#tagFrame {
+	width: 755px;
+	height: 400px;
+}
+
+#ie_historyFrame {
+	width: 0px;
+	height: 0px;
+	display: none;
+}
+</style>
+
+		<script language="javascript">
+
+function byteWordCount(textarea, showelement) {
+  var txt = textarea.value;
+  txt = txt.replace(/(<.*?>)/ig,'');
+  txt = txt.replace(/([\u0391-\uFFE5])/ig,'11');
+  var count = txt.length;
+  document.getElementById(showelement).innerHTML = "<b>" + count/2 + "</b>";
+}
+
+function chkSubmit() {
+	if (document.getElementById('title').value == '') {
+		alert("请填写标题");
+		return false;
+	}
+	if (document.getElementById('description').value == '') {
+		alert("请填写摘要");
+		document.getElementById('description').focus();
+		return false;
+	}
+	if (document.getElementById('tag').value == '') {
+		alert("请填写关键词");
+		document.getElementById('tag').focus();
+		return false;
+	}
+	return true;
+}
+
+</script>
+	</head>
+	<body>
+		<div class="frameBox">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="lineH24 hasBorder" style="text-align: left;">
+				<tr>
+					<td style="padding: 5px 9px;">
+						<span class="f14px">当前位置：<a
+							href="/admin/showColumn.htm?saname=${rstock.saname}">${rstock.saname}</a>&gt;&gt;
+							修改分析推荐股票 </span>
+					</td>
+				</tr>
+			</table>
+			<div class="blank9"></div>
+			<form action="/admin/recommendedit.do" target="_self"
+				name="recommendForm" method="post" enctype="multipart/form-data"
+				onsubmit="return chkSubmit()" id="articleForm">
+				<input type="hidden" id="recommendid" name="reportid"
+					value="${rstock.recommendid}"></input>
+				<input type="hidden" id="reportid" name="reportid"
+					value="${rstock.reportid}"></input>
+				<input type="hidden" id="saname" name="saname"
+					value="${rstock.saname}"></input>
+				<input type="hidden" id="saname" name="saname"
+					value="${rstock.saname}"></input>
+				<table width="100%" border="0" cellspacing="0" cellpadding="6"
+					style="text-align: left; border: 1px solid #ccc;">
+					<tr>
+						<td style="text-align: right;" class="f14px">
+							研报标题： 
+						</td>
+						<td>
+							<a href="${report.filepath}">${report.title}</a>
+						</td>
+					</tr>
+					
+					<tr>
+						<td style="text-align: right;" class="f14px">
+							股票： ${rstock.stockcode}
+						</td>
+						<td>
+							评级：
+							<label>
+								<input type="text" name="grade" id="grade" value="$rstock.grade"
+									onkeyup="byteWordCount(this,'keylength')" style="width: 20em;" />
+								字数：
+								<span id="keylength"><b>0</b> </span>
+							</label>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align: right;" class="f14px">
+							分析师：
+						</td>
+						<td>
+							<label>
+								<input type="text" name="aname" id="aname" value="$rstock.aname"
+									onkeyup="byteWordCount(this,'keylength')" style="width: 20em;" />
+								字数：
+								<span id="keylength"><b>0</b> </span>
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right;" class="f14px">
+							日期：
+						</td>
+						<td>
+							<label>
+								<input type="text" name="createdate" id="createdate"
+									value="$rstock.createdate" style="width: 20em;" />
+							</label>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="vertical-align: top; text-align: right;" class="f14px">
+							EPS：
+						</td>
+						<td>
+							<label>
+								<textarea name="eps" id="eps" cols="45" rows="1">$rstock.eps</textarea>
+							</label>
+							注明：
+							json格式保存，如2010-2012E,0.5、0.8、1.2元，记为{'2010':'0.5','2011':'0.8','2012':'1.2'}
+						</td>
+					</tr>
+
+					<tr>
+						<td style="text-align: right;" class="f14px">
+							目标价位：
+						</td>
+						<td>
+							<input type="text" name="objectprice" id="objectprice"
+								value="$rstock.objectprice" style="width: 20em;" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="text-align: right;" class="f14px">
+							<input type="submit" value="提 交"></input>
+							&nbsp;
+							<input type="reset" value="重 置"></input>
+						</td>
+
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
+</html>

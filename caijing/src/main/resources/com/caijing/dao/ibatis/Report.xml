@@ -1,82 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="Report">
-  
-  <typeAlias alias="reportClass" type="com.caijing.domain.Report"/>
+
+	<typeAlias alias="reportClass" type="com.caijing.domain.Report" />
 
 
-  <select id="getReportsByAname"  resultClass="reportClass" >
-    select * from report where aname = #value#
-  </select>
-  
-  <select id="getAllCompanyReports" resultClass="reportClass" >
-    select * from report order by ptime
-  </select>
-  
-  <select id="getReportsBySanme" parameterClass="java.util.Map" resultClass="reportClass" >
-    select * from report where saname = #saname# order by ptime desc limit #start#,#offset#
-  </select>
-  
-  <select id="getAllReportsCountBySaname" resultClass="java.lang.Integer" >
-    select count(1) from report where saname = #value#
-  </select>
-  
-  <select id="getAllReportsCount"  resultClass="java.lang.Integer" >
-    select count(1) from report
-  </select>
-  
-  <select id="getAllReports" parameterClass="java.util.Map" resultClass="reportClass" >
-    select * from report order by ptime desc limit #start#,#offset#
-  </select>
-  
-  <select id="select"  resultClass="reportClass" >
-    select * from report where rid=#value#
-  </select>
-  
-  <insert id="insert" >
-    insert into report (rid,title,said,saname,aname,stockcode,stockname,publishdate,filepath,type,description,ptime) values (#rid#,#title#,#said#,#saname#,#aname#,#stockcode#,#stockname#,#publishdate#,#filepath#,#type#,#description#,#ptime#)
-  </insert>
+	<select id="getReportsByAname" resultClass="reportClass">
+		select * from report where aname = #value#
+	</select>
 
-  <select id="getAllSanames"  resultClass="java.lang.String" >
-    select distinct saname from report group by saname
-  </select>
+	<select id="getCompanyReportsBySaname" resultClass="reportClass">
+		select * from report where type=1 and saname = #value# order by
+		ptime
+	</select>
 
-  <update id="update" parameterClass="reportClass">
-  	update user
-  	<dynamic prepend="set">
-  		<isNotEmpty prepend="," property="saname">
-  			saname = #saname#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="aname">
-  			aname = #aname#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="aid">
-  			aid = #aid#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="said">
-  			said = #said#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="title">
-  			title = #title#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="filepath">
-  			filepath = #filepath#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="description">
-  			description = #description#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="stockcode">
-  			stockcode = #stockcode#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="filepath">
-  			filepath = #filepath#
-  		</isNotEmpty>
-  	</dynamic>
-  	where rid=#rid#
-  </update>
 
-  <delete id="delete" parameterClass="reportClass">
-    delete from report where rid=#rid#
-  </delete>
+	<select id="getAllCompanyReports" resultClass="reportClass">
+		select * from report where type=1 order by ptime
+	</select>
+
+	<select id="getReportsBySanme" parameterClass="java.util.Map"
+		resultClass="reportClass">
+		select * from report where saname = #saname# order by ptime desc
+		limit #start#,#offset#
+	</select>
+
+	<select id="getAllReportsCountBySaname"
+		resultClass="java.lang.Integer">
+		select count(1) from report where saname = #value#
+	</select>
+
+	<select id="getAllReportsCount" resultClass="java.lang.Integer">
+		select count(1) from report
+	</select>
+
+	<select id="getAllReports" parameterClass="java.util.Map"
+		resultClass="reportClass">
+		select * from report order by ptime desc limit #start#,#offset#
+	</select>
+
+	<select id="select" resultClass="reportClass">
+		select * from report where rid=#value#
+	</select>
+
+	<insert id="insert">
+		insert into report
+		(rid,title,said,saname,aname,stockcode,stockname,publishdate,filepath,type,description,ptime)
+		values
+		(#rid#,#title#,#said#,#saname#,#aname#,#stockcode#,#stockname#,#publishdate#,#filepath#,#type#,#description#,#ptime#)
+	</insert>
+
+	<select id="getAllSanames" resultClass="java.lang.String">
+		select distinct saname from report group by saname
+	</select>
+
+	<update id="update" parameterClass="reportClass">
+		update user
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="saname">
+				saname = #saname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="aname">
+				aname = #aname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="aid">
+				aid = #aid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="said">
+				said = #said#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="title">
+				title = #title#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="filepath">
+				filepath = #filepath#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="description">
+				description = #description#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="stockcode">
+				stockcode = #stockcode#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="filepath">
+				filepath = #filepath#
+			</isNotEmpty>
+		</dynamic>
+		where rid=#rid#
+	</update>
+
+	<delete id="delete" parameterClass="reportClass">
+		delete from report where rid=#rid#
+	</delete>
 
 </sqlMap>
