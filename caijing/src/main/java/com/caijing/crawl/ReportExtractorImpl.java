@@ -169,10 +169,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// extractor.extractFromFile("安信证券",
 		// "F:\\email\\研究报告7.07\\安信证券--广汇股份(600256)参与气化南疆，履行社会责任.txt",
 		// ServerUtil.getid());
-		RecommendStockDao recommendStockDao = (RecommendStockDaoImpl) ContextFactory
-				.getBean("recommendStockDao");
-		RecommendStock rs = extractor.extractFromFile("国泰君安", "民生银行",
-				"http://guru.caijing.com/papers/20100812/6D0SD1NH.txt",
+//		RecommendStockDao recommendStockDao = (RecommendStockDaoImpl) ContextFactory
+//				.getBean("recommendStockDao");
+		RecommendStock rs = extractor.extractFromFile("国泰君安", "中国平安",
+				"http://guru.caijing.com/papers/20100813/6DAKL0LD.txt",
 				ServerUtil.getid());
 
 		// RecommendStock rs
@@ -187,6 +187,17 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// .extractFromFile(
 		// "F:\\email\\研究报告7.19\\国信证券--凯迪电力(000939)2010年中报及重大事项点评：中报良好，大股东拟再次倾力扶持上市公司投身生物质发电.pdf",
 		// "F:\\email\\papers\\研究报告7.19\\国信证券--圣农发展(002299)10年中期财报点评：天灾过后或现真机会.txt");
+		
+		char hi='鶄';
+		Pattern publishDatePattern = Pattern.compile("\u4e00-\u9fa5", Pattern.CASE_INSENSITIVE
+				| Pattern.DOTALL | Pattern.UNIX_LINES);
+		Matcher m=publishDatePattern.matcher(""+hi);
+		System.out.println("hi:!"+Integer.toHexString((int)hi));
+		if(m!=null&&m.find()){
+			System.out.println("Matcher!");
+		}else{
+			System.out.println("Not Matcher!");
+		}
 	}
 
 	public Config getConfig() {

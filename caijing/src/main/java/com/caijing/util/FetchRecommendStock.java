@@ -24,7 +24,8 @@ public class FetchRecommendStock {
 		ReportExtractorImpl extractor = new ReportExtractorImpl();
 		extractor.setConfig(config);
 		long start = System.currentTimeMillis();
-		List<Report> reports = reportDao.getCompanyReportsBySaname("中金公司");
+		List<Report> reports = reportDao.getCompanyReportsBySaname("申银万国");
+//		List<Report> reports = reportDao.getCompanyReportsBySaname("国泰君安");
 		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");
@@ -41,15 +42,21 @@ public class FetchRecommendStock {
 				// + report.getStockcode());
 				// System.out.println("Reports Stockname: "
 				// + report.getStockname());
-				String txtpath = "http://guru.caijing.com" + report.getFilepath();
+				String txtpath = "http://guru.caijing.com"
+						+ report.getFilepath();
 				System.out.println("Reports txt path: "
 						+ txtpath.replace(".pdf", ".txt"));
-				RecommendStock rs = extractor.extractFromFile(report
-						.getSaname(), report.getStockname(), txtpath.replace(
-						".pdf", ".txt"), ServerUtil.getid());
-				rs.setReportid(report.getRid());
-				recommendStockDao.insert(rs);
-				i++;	
+				if (recommendStockDao.getRecommendStockbyReportid(report
+						.getRid()) == null) {
+					RecommendStock rs = extractor.extractFromFile(report
+							.getSaname(), report.getStockname(), txtpath
+							.replace(".pdf", ".txt"), ServerUtil.getid());
+					rs.setReportid(report.getRid());
+					recommendStockDao.insert(rs);
+				}else{
+					System.out.println("Already processed!");
+				}
+				i++;
 			}
 		}
 		System.out.println("process size: " + i);
