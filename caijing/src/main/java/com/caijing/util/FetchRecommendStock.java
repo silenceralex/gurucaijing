@@ -24,7 +24,7 @@ public class FetchRecommendStock {
 		ReportExtractorImpl extractor = new ReportExtractorImpl();
 		extractor.setConfig(config);
 		long start = System.currentTimeMillis();
-		List<Report> reports = reportDao.getCompanyReportsBySaname("国泰君安");
+		List<Report> reports = reportDao.getCompanyReportsBySaname("中金公司");
 		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");

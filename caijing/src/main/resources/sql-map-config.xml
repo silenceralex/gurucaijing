@@ -2,24 +2,18 @@
 <!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-   <settings
-         cacheModelsEnabled="true"
-         enhancementEnabled="true"
-         lazyLoadingEnabled="true"
-         errorTracingEnabled="true"
-         maxRequests="512"
-         maxSessions="128"
-         maxTransactions="32"
-         useStatementNamespaces="true"
-         defaultStatementTimeout="5"
-         statementCachingEnabled="true"
-         classInfoCacheEnabled="true"
-/>
-<sqlMap resource="com/caijing/dao/ibatis/User.xml" />
-<sqlMap resource="com/caijing/dao/ibatis/Analyzer.xml" />
-<sqlMap resource="com/caijing/dao/ibatis/Report.xml" />
-<sqlMap resource="com/caijing/dao/ibatis/ColumnArticle.xml" />
-<sqlMap resource="com/caijing/dao/ibatis/Industry.xml" />
-<sqlMap resource="com/caijing/dao/ibatis/Stock.xml" />
-<sqlMap resource="com/caijing/dao/ibatis/RecommendStock.xml" />
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="512"
+		maxSessions="128" maxTransactions="32" useStatementNamespaces="true"
+		defaultStatementTimeout="5" statementCachingEnabled="true"
+		classInfoCacheEnabled="true" />
+	<sqlMap resource="com/caijing/dao/ibatis/User.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/Analyzer.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/Report.xml" />
+	<!--
+		<sqlMap resource="com/caijing/dao/ibatis/ColumnArticle.xml" />
+	-->
+	<sqlMap resource="com/caijing/dao/ibatis/Industry.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/Stock.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/RecommendStock.xml" />
 </sqlMapConfig>

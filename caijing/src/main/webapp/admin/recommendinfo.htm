@@ -72,12 +72,10 @@ function chkSubmit() {
 			<form action="/admin/recommendedit.do" target="_self"
 				name="recommendForm" method="post" enctype="multipart/form-data"
 				onsubmit="return chkSubmit()" id="articleForm">
-				<input type="hidden" id="recommendid" name="reportid"
+				<input type="hidden" id="recommendid" name="recommendid"
 					value="${rstock.recommendid}"></input>
 				<input type="hidden" id="reportid" name="reportid"
 					value="${rstock.reportid}"></input>
-				<input type="hidden" id="saname" name="saname"
-					value="${rstock.saname}"></input>
 				<input type="hidden" id="saname" name="saname"
 					value="${rstock.saname}"></input>
 				<table width="100%" border="0" cellspacing="0" cellpadding="6"
