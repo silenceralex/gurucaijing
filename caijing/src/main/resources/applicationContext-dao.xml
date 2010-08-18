@@ -60,14 +60,15 @@
 			<value>Report</value>
 		</property>
 	</bean>
-	<!--
-		<bean id="columnarticleDao" class="com.caijing.dao.ibatis.ColumnArticleDaoImpl">
+
+	<bean id="columnarticleDao"
+		class="com.caijing.dao.ibatis.ColumnArticleDaoImpl">
 		<property name="sqlMapClientTemplate">
-		<ref bean="sqlMapClientTemplate"/>
+			<ref bean="sqlMapClientTemplate" />
 		</property>
 		<property name="namespace">
-		<value>ColumnArticle</value>
+			<value>ColumnArticle</value>
 		</property>
-		</bean>  
-	-->
+	</bean>
+
 </beans>

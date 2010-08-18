@@ -52,23 +52,25 @@
 			<ref bean="dataSource" />
 		</property>
 	</bean>
-
-	<bean id="berkeleyDB" class="com.caijing.cache.BerkeleyDB">
+	<!--
+		<bean id="berkeleyDB" class="com.caijing.cache.BerkeleyDB">
 		<property name="cacheHome">
-			<value>/home/app/caijing/cache</value>
+		<value>/home/app/caijing/cache</value>
 		</property>
-	</bean>
-	<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
+		</bean>
+		
+		<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
 		<property name="bdb">
-			<ref bean="berkeleyDB" />
+		<ref bean="berkeleyDB" />
 		</property>
 		<property name="config">
-			<ref bean="config" />
+		<ref bean="config" />
 		</property>
-	</bean>
-	<bean id="threadCrawler" class="com.caijing.crawl.ThreadCrawler">
+		</bean>
+		<bean id="threadCrawler" class="com.caijing.crawl.ThreadCrawler">
 		<property name="listExtractor">
-			<ref bean="listExtractor" />
+		<ref bean="listExtractor" />
 		</property>
-	</bean>
+		</bean>
+	-->
 </beans>
