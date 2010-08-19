@@ -123,7 +123,7 @@ public class MailReceiver {
 		// handleMultipart(mess);
 		// handleMultipart(message[0]);
 		String lasttime = "";
-		String judgetime = FileUtil.read(timeStamp,"GBK");
+		String judgetime = FileUtil.read(timeStamp, "GBK");
 		System.out.println("judgetime:" + judgetime);
 		Date date = sdf.parse(judgetime);
 		Date lastdate = sdf.parse(judgetime);
@@ -235,7 +235,8 @@ public class MailReceiver {
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
 					String url = link.replace("http://fs.163.com/fs/display/",
-							"http://download.fs.163.com/dl/")
+							"http://download.fs.163.com/dl/").replaceAll(
+							"&amp;", "&")
 							+ "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("link:" + url);
