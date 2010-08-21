@@ -258,41 +258,16 @@ public class HtmlParser {
 	}
 	
 	int mv2RespEnd(){
-	    int level=1;
 	    if(curev != START_ELEMENT) return -1;
 	    String tmp=getName();
-	    int event = next();
-	    while(curpos+tmp.length() <){
-	    	
+	    next();
+	    while(curpos+1<length ){
+	    	if(buff.charAt(curpos)=='<' && buff.charAt(curpos+1)=='/'){
+	    		curev = END_ELEMENT;
+	    		if(tmp.equals(getName())) return 0;
+	    	}
+	    	curpos++;
 	    }
-	    while(true){
-		switch (event) {
-			 case HtmlParser.START_ELEMENT:
-			 System.out.println("Start Element: " + getName());
-			 if(tmp.equals(getName())){
-			     level++;
-			 }
-			 break;
-			 case HtmlParser.END_ELEMENT:
-			 System.out.println("End Element:" + getName());
-			 if(tmp.equals(getName())){
-			     level--;
-			     if(level == 0){
-				 return curpos;
-			     }
-			 }
-			 break;
-			 case HtmlParser.END_DOCUMENT:
-			 System.out.println("End Document.");
-			 break;
-			 default :
-				 break;
-		}
-		 if (hasnext()==0)
-		     break;
-		
-		 event = next();
-		 }
 	    return -1;
 	}
 	
@@ -352,5 +327,7 @@ public class HtmlParser {
 		 }
 	    return rlt;
 	}
+	
+	
 
 }
