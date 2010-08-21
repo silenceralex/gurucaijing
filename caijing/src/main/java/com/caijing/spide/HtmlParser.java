@@ -132,6 +132,23 @@ public class HtmlParser {
 		return -1;
 	}
 	
+	int getEleEndPos(){
+		int endpos =curpos;
+		if(endpos >= length) return -1;
+		if(curev == START_ELEMENT || curev == END_ELEMENT ){			
+			while(buff.charAt(endpos)!='>'){
+				endpos++;
+			}			
+		}
+		if(curev == START_CDATA){
+			while(buff.charAt(endpos)!=']' && buff.charAt(endpos+1)==']' && buff.charAt(endpos+2)=='>'){
+				endpos++;
+			}
+			endpos+=2;
+		}
+		return endpos;
+	}
+	
 	int hasnext(){
 		if(length <1) return 0;
 		if(curpos < length-1) return 1;
@@ -238,6 +255,45 @@ public class HtmlParser {
 		 event = next();
 		 }
 	    return null;
+	}
+	
+	int mv2RespEnd(){
+	    int level=1;
+	    if(curev != START_ELEMENT) return -1;
+	    String tmp=getName();
+	    int event = next();
+	    while(curpos+tmp.length() <){
+	    	
+	    }
+	    while(true){
+		switch (event) {
+			 case HtmlParser.START_ELEMENT:
+			 System.out.println("Start Element: " + getName());
+			 if(tmp.equals(getName())){
+			     level++;
+			 }
+			 break;
+			 case HtmlParser.END_ELEMENT:
+			 System.out.println("End Element:" + getName());
+			 if(tmp.equals(getName())){
+			     level--;
+			     if(level == 0){
+				 return curpos;
+			     }
+			 }
+			 break;
+			 case HtmlParser.END_DOCUMENT:
+			 System.out.println("End Document.");
+			 break;
+			 default :
+				 break;
+		}
+		 if (hasnext()==0)
+		     break;
+		
+		 event = next();
+		 }
+	    return -1;
 	}
 	
 	String parseRespValue(RssItem site){

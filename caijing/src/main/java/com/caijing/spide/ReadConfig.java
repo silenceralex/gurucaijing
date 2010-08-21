@@ -80,7 +80,7 @@ public class ReadConfig {
 			     case HtmlParser.END_ELEMENT:
 //				     System.out.println("End Element:" + p.getName());
 				     if("onesite".equals(p.getName())){
-				    	 if(!site.name.isEmpty()) allsite.put(site.name,site);
+				    	 if(!site.name.equals("")) allsite.put(site.name,site);
 						site=null;
 				     }
 					 break;
@@ -173,7 +173,7 @@ public class ReadConfig {
 			     case HtmlParser.END_ELEMENT:
 //				     System.out.println("End Element:" + p.getName());
 				     if("people".equals(p.getName())){
-				    	 if(!people.name.isEmpty()) allpeople.add(people);
+				    	 if(!people.name.equals("")) allpeople.add(people);
 						people=null;
 				     }
 					 break;
