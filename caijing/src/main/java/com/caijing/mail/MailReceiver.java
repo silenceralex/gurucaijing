@@ -235,7 +235,7 @@ public class MailReceiver {
 					// &callback=coremail   
 					//).replaceAll("&amp;", "&")
 					String url = link.replace("http://fs.163.com/fs/display/",
-							"http://download.fs.163.com/dl/")
+							"http://download.fs.163.com/dl/").replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "")
 							+ "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("link:" + url);
