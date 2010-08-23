@@ -51,21 +51,27 @@
 				<entry key="申银万国">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[\n(201\d)年(\d{2})月(\d{2})日\s+]]></value>
+							<value><![CDATA[(?:\n|日\s*期：\s*)(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s]]></value>
 						</entry>
 						<entry key="grade">
-							<value><![CDATA[报告原因：.*?\n(.*?)\n盈利预测]]></value>
+							<value><![CDATA[报告原因：.*?\n([\u4e00-\u9fa5]+)\s+盈利预测]]></value>
 						</entry>
 						<entry key="objectprice">
 							<value><![CDATA[目标价格：\s+([0-9.]+)\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[分析师(?:：|\s+\n)([\u4e00-\u9fa5\u9d84\s]+)[AS]]]></value>
+							<value><![CDATA[分析师(?:：|\s+\n\s*)([\u4e00-\u9fa5\u9d84\?\s]+)[AS\(86]]]></value>
+						</entry>
+						<entry key="analyzerEps">						
+							<value><![CDATA[分析师(.*?)联系人]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
-								<value><![CDATA[2010E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2011E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s.*?2012E\s+[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9.]+)\s]]></value>
+								<value><![CDATA[2010E\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+([0-9\.]+)\s.*?2011E\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+([0-9\.]+)\s.*?2012E\s+[0-9,\.]+\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+-?[0-9,\.]+\s+([0-9\.]+)\s]]></value>
 							</list>
+						</entry>
+						<entry key="specialEps">					
+							<value><![CDATA[(?:每股[盈利净收益为\s]{2,4}|(?:EPS))(?:[\s分别]{1,2}为)?至?(?:（[\u4e00-\u9fa5]+）)?([0-9\.\s/和、元]{5,})[,，。！\n（]]]></value>
 						</entry>
 					</map>
 				</entry>
@@ -85,7 +91,7 @@
 						</entry>
 						<entry key="eps">
 							<list>
-								<value><![CDATA[每股净?收益(?:（元）)?\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\n]]></value>
+								<value><![CDATA[每股净?收益(?:（元）)?\s+[0-9.]+\s+[0-9.]+\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s]]></value>
 								<value><![CDATA[10-12年[\u4e00-\u9fa5|EPS]+([0-9\.\s]+)[、,]([0-9\.\s]+)[、,]([0-9\.]+)的]]></value>
 							</list>
 						</entry>
@@ -94,20 +100,20 @@
 				<entry key="中金公司">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[。\s+(201\d)年 *(\d{1,2})\月 *(\d{1,2})日\s]]></value>
+							<value><![CDATA[(?:研究报告|。)?\s+(201\d)年\s*(\d{1,2})月\s*(\d{1,2})日\s]]></value>
 						</entry>
 						<entry key="grade">
-							<value><![CDATA[研究部\s+([\u4e00-\u9fa5]{2,4})\n]]></value>
+							<value><![CDATA[研究部\s+([\u4e00-\u9fa5]+)\s+[\u4e00-\u9fa5]{4}\(]]></value>
 						</entry>
 						<entry key="objectprice">
-							<value><![CDATA[目标价：*([0-9.]+)元]]></value>
+							<value><![CDATA[目标股?价格?(?:\(RMB\))*：*\s*([0-9\.]+)(?:元|\s+)]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[研究报告\s+([\u4e00-\u9fa5\s]+)\n分析员]]></value>
+							<value><![CDATA[\n([\u4e00-\u9fa5\s]+)\s*\n分析员]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
-								<value><![CDATA[每股[盈利收益]{2}\(元\)\s*[0-9\.]+\s+[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+								<value><![CDATA[每股[盈利收益]{2}（元）?\s*[0-9\.]+\s+[0-9\.]+\s+[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
 							</list>
 						</entry>
 					</map>
@@ -196,12 +202,6 @@
 				</entry>
 				<entry key="0014">
 					<value>光大证券</value>
-				</entry>
-				<entry key="0015">
-					<value>联合证券</value>
-				</entry>
-				<entry key="0016">
-					<value>联合证券</value>
 				</entry>
 				<entry key="0017">
 					<value>华泰证券</value>

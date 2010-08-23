@@ -50,6 +50,35 @@ public class RecommendController {
 	@Qualifier("vutil")
 	private Vutil vutil = null;
 
+	
+	@RequestMapping("/admin/showAllRecommend.htm")
+	public String showAllRecommend(HttpServletResponse response,
+			@RequestParam(value = "page", required = false)
+			Integer page, HttpServletRequest request, ModelMap model) {
+		Paginator<Report> paginator = new Paginator<Report>();
+		paginator.setPageSize(20);
+		int total = 0;
+		// 分页显示时，标识当前第几页
+		if (page == null || page < 1) {
+			page = 1;
+		}
+		paginator.setCurrentPageNumber(page);
+		String urlPattern = "";
+		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
+		total=recommendStockDao.getAllRecommendStocksCount();
+		paginator.setTotalRecordNumber(total);
+		recommendlist=recommendStockDao.getRecommendStocks( (page - 1) * 20, 20);
+		urlPattern = "/admin/showAllRecommend.htm?page=$number$";
+		
+		paginator.setUrl(urlPattern);
+		model.put("topicNameMap", topicNameMap);
+		model.put("vutil", vutil);
+		model.put("recommendlist", recommendlist);
+		model.put("paginatorLink", paginator.getPageNumberList());
+
+		return "/admin/recommendlist.htm";
+	}
+	
 	@RequestMapping("/admin/showRecommend.htm")
 	public String showRecommend(HttpServletResponse response,
 			@RequestParam(value = "saname", required = false)
@@ -79,7 +108,7 @@ public class RecommendController {
 			total = reportDao.getAllReportsCount();
 			paginator.setTotalRecordNumber(total);
 			reportlist = reportDao.getAllReports((page - 1) * 20, 20);
-			urlPattern = "/showColumn.htm?page=$number$";
+			urlPattern = "/admin/showColumn.htm?page=$number$";
 		}
 
 		paginator.setUrl(urlPattern);

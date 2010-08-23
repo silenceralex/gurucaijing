@@ -6,6 +6,7 @@ public class RecommendStock {
 	private String recommendid=null;
 	private String reportid=null;
 	private String stockcode = null;
+	private String stockname = null;
 	private String aname = null;
 	private String saname = null;
 	private int level = 0;
@@ -13,9 +14,11 @@ public class RecommendStock {
 	private String createdate = null;
 	private String enddate = null;
 	private String info = null;
+	private String title=null;
 	private String user = null;
 	private float buyprice = 0;
 	private float objectprice = 0;
+	private int extractnum=0;
 	// private Date ptime = null;
 	private Date lmodify = null;
 	private String eps = null;
@@ -154,5 +157,29 @@ public class RecommendStock {
 
 	public void setReportid(String reportid) {
 		this.reportid = reportid;
+	}
+
+	public String getStockname() {
+		return stockname;
+	}
+
+	public void setStockname(String stockname) {
+		this.stockname = stockname;
+	}
+
+	public int getExtractnum() {
+		return extractnum;
+	}
+
+	public void setExtractnum(int extractnum) {
+		this.extractnum = extractnum;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

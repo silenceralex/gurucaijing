@@ -41,4 +41,17 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 				this.getNameSpace() + ".getRecommendStocksbySaname", params);
 	}
 
+	public int getAllRecommendStocksCount() {
+		return (Integer)getSqlMapClientTemplate().queryForObject(
+				this.getNameSpace() + ".getAllRecommendStocksCount");
+	}
+
+	public List<RecommendStock> getRecommendStocks(int start,int offset) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("offset", offset);
+		return getSqlMapClientTemplate().queryForList(
+				this.getNameSpace() + ".getRecommendStocks",params);
+	}
+
 }

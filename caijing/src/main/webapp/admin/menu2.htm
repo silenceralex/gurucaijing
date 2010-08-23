@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>研报栏目</title>
+<meta name="keywords" content="研报栏目" />
+<meta name="description" content="研报栏目" />
+<link href="img/style.css" rel="stylesheet" type="text/css" />
+<link href="img/db.css" rel="stylesheet" type="text/css" />
+<style>
+body{ overflow-x:hidden}
+</style>
+<link rel="StyleSheet" href="dtree.css" type="text/css" />
+<script type="text/javascript" src="dtree.js"></script>
+</head>
+
+<body>
+<div class="area">
+<div class="leftSideArea" id="leftBar">
+
+<div class="leftMenu">
+<div class="dtree">
+
+	<a href="javascript: tree_yanbao.openAll();">全部展开</a> | <a href="javascript: tree_yanbao.closeAll();">全部关闭</a><br/>
+	
+	<script type="text/javascript">
+		<!--
+		tree_yanbao = new dTree('tree_yanbao');
+		tree_yanbao.add('main_yanbao','-1','研报库','about:blank','研报库','main');
+		#foreach($topicid in $topicList)
+		#if(${topicNameMap.getTopicName($topicid)}!="-1")
+		tree_yanbao.add('10003','main_yanbao','${topicNameMap.getTopicName($topicid)}','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
+		#end
+		#end
+		tree_yanbao.add('10000','main_yanbao','来源管理','/admin/source/topicid_${topicid}/sourcelist.htm','来源管理','main','img/folder.gif','img/folderopen.gif');
+		tree_yanbao.add('10001','main_yanbao','抽取研报','/admin/showAllRecommend.htm?page=1','抽取研报','main','img/new.gif','img/new.gif');
+		
+		tree_yanbao.add('10002','main_yanbao','视频搜索','/admin/section/topicid_${topicid}/videoSearch.htm','视频搜索','main','img/glass2.gif','img/glass2.gif');
+		tree_yanbao.config.target = 'main';
+		document.write(tree_yanbao);
+		//-->
+	</script>
+	<p>&nbsp;</p>
+	
+	
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

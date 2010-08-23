@@ -68,6 +68,16 @@ public class LoginController {
 		return "/admin/menu.htm";	
 	}
 	
+	@RequestMapping("/admin/menu2.htm")
+	public String showMenu2(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
+		User user = (User) request.getSession().getAttribute("currUser");
+		Set<String> topicList=topicNameMap.getTopicNameMap().keySet();
+		model.put("topicList", topicList);
+		model.put("topicNameMap", topicNameMap);
+		return "/admin/menu2.htm";	
+	}
+	
 	@RequestMapping("/admin/logout.do")
 	public void logout(HttpServletResponse response, ModelMap model,
 			SessionStatus status, HttpServletRequest request)
