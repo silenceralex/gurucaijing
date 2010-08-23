@@ -124,8 +124,15 @@ public class MailReceiver {
 		String lasttime = "";
 		String judgetime = FileUtil.read(timeStamp, "GBK");
 		System.out.println("judgetime:" + judgetime);
-		Date date = sdf.parse(judgetime);
-		Date lastdate = sdf.parse(judgetime);
+		Date date = null;
+		Date lastdate = null;
+		if (judgetime == null || judgetime.trim().length() == 0) {
+			date = sdf.parse("2010-08-22 00:00:00");
+			lastdate = sdf.parse("2010-08-22 00:00:00");
+		} else {
+			date = sdf.parse(judgetime);
+			lastdate = sdf.parse(judgetime);
+		}
 		for (int i = 0; i < message.length && i < count; i++) {
 			// POP3Message message2=(POP3Message)message[0];
 			// message[i].setFlag(Flags.Flag.DELETED,
@@ -232,11 +239,12 @@ public class MailReceiver {
 					// System.out.println("content: " + content);
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
-					// &callback=coremail   
-					//).replaceAll("&amp;", "&")
+					// &callback=coremail
+					// ).replaceAll("&amp;", "&")
 					String url = link.replace("http://fs.163.com/fs/display/",
-							"http://download.fs.163.com/dl/").replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "");
-//							+ "&callback=coremail";
+							"http://download.fs.163.com/dl/").replace(
+							"p=X-NETEASE-HUGE-ATTACHMENT&amp;", "");
+					// + "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("url:" + url);
 					get = new HttpGet(url);
