@@ -54,7 +54,7 @@ public class MailReceiver {
 	// private static final String path = "f:/email/papers";
 	PDFReader reader = new PDFReader();
 	UrlDownload down = new UrlDownload();
-	private static String cookie = "vjuids=3abc49a70.128ca9a09ee.0.596522c96f3c68; vjlast=1274709412.1277905501.11; _ntes_nnid=6ad9fc27892d32e9e55c8abadefe2d49,0; _ntes_nuid=6ad9fc27892d32e9e55c8abadefe2d49; P_INFO=bg20052008@126.com|1278173308|0|mail126|11&25|tij&1278162615&mail126#bej&null#0|&0; USERTRACK=221.223.98.3.1274709433709479; ALLYESID4=00100524215726846416; MAIL163_SSN=1983foolish; Province=010; City=010; NTES_REPLY_NICKNAME=johnnychenjun%7Cjohnnychenju%7C1%7C0%7C3%7CKekGfemVIMy0iFkg2fNSypO8IbP912.7ZoOpIjPPY7gJm0bCt9ai_5a3ShO1OtzHAr0uGAoZcnmQ7Bhp1NFZ7CcaDQHZiF_CpJeXQUcveoAaj%7C; NTES_SESS=Ov7WQvMxP1XcYUUvXRSL9UDND2VmbEWxUOoQjeFu5P8GrrO1KJuysxP6qfnE4kdN.NXVeSYzt6YdTcXd2ykO5WtKwJAQg5MalI3lPAT.Ey9vIXz1lJaEbHQsn; S_INFO=1278173308|0|#1&25#; EUSERTRACK=221.223.96.161.1278174467978901; NTES_FS=8d8f2d05e369eec5f5d89efee93d0c6f4435ad641025a88febc47b3e1fac6c7de450ad1789771a23; FSTRACK=1278177188928.546ff5a3-b60f-4f9a-84c2-cc63e7ac56b8";
+	private static String cookie = "_ntes_nnid=a3bdacb07d1526c408e89b3b1414d546,0; _ntes_nuid=a3bdacb07d1526c408e89b3b1414d546; P_INFO=johnnychenjun@163.com|1282568634|0|epay|11&24|bej&1282568164&epay#bej&null#10|135473&0; USERTRACK=221.223.99.155.1282567572186371; EUSERTRACK=221.223.99.155.1282581292463386; FSTRACK=1282581306784.010b4637-35d9-4a67-8666-e1fe25355c60";
 
 	public static void main(String[] args) {
 
@@ -235,13 +235,13 @@ public class MailReceiver {
 					// &callback=coremail   
 					//).replaceAll("&amp;", "&")
 					String url = link.replace("http://fs.163.com/fs/display/",
-							"http://download.fs.163.com/dl/").replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "")
-							+ "&callback=coremail";
+							"http://download.fs.163.com/dl/").replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "");
+//							+ "&callback=coremail";
 					System.out.println("link:" + link);
-					System.out.println("link:" + url);
+					System.out.println("url:" + url);
 					get = new HttpGet(url);
 					get.setHeader("Cookie", cookie);
-					get.setHeader("Referer", link);
+					get.setHeader("Referer", link.replaceAll("&amp", "&"));
 					String subject = msg.getSubject();
 					if (subject.startsWith("Fw:")) {
 						// subject = subject.replaceAll("Fw:研究报告", "").trim();
