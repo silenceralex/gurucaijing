@@ -6,14 +6,23 @@ import com.caijing.domain.RecommendStock;
 import com.caijing.util.CrudDao;
 
 public interface RecommendStockDao extends CrudDao {
-	List<RecommendStock> getRecommendStocksByStockcode(String stockcode);
+	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode);
 
-	List<RecommendStock> getRecommendStocksBySaid(String said);
-	
-	public List<RecommendStock> getRecommendStocksbySaname(String saname,int start,int offset);
+	public List<RecommendStock> getRecommendStocksByStockname(String stockname,
+			int start, int offset);
+
+	public List<RecommendStock> getRecommendStocksBySaid(String said);
+
+	public List<RecommendStock> getRecommendStocksBySaname(String saname, int start,
+			int offset);
+
 	public int getRecommendStocksCountsbySaname(String saname);
-	
+
 	public int getAllRecommendStocksCount();
-	public List<RecommendStock> getRecommendStocks(int start,int offset);
+
+	public int getAllRecommendCountBySaname(String saname);
+
+	public List<RecommendStock> getRecommendStocks(int start, int offset);
+
 	public RecommendStock getRecommendStockbyReportid(String reportid);
 }

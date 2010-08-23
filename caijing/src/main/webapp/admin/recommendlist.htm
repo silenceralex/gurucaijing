@@ -26,20 +26,18 @@
 					<th scope="col" width="60" height="30">
 						研报id
 					</th>
-					<th scope="col" width="108">
-						标题
+					<th scope="col" width="80">券商 
 					</th>
-					<th scope="col">
-						上市公司
+					<th scope="col" width="250"> 
+						标题&nbsp; 
 					</th>
-					<th scope="col" width="80">
-						券商
+					<th scope="col" width="160"> 
+						上市公司评级 
 					</th>
-					<th scope="col" width="60">
+					<th scope="col" width="120">每股收益 
+					</th>
+					<th scope="col" width="120">
 						分析师
-					</th>
-					<th scope="col" width="80">
-						时间
 					</th>
 					<th scope="col" width="80">
 						时间
@@ -49,25 +47,26 @@
 				#foreach($recommend in $recommendlist)
 				<tr id="${recommend.reportid}">
 					<td bgcolor="#E0E7FF" align="center">
-						$recommend.recommendid
+						<a href="/admin/recommendedit.htm?rid=$recommend.reportid" title="编辑该抽取结果">$recommend.recommendid</a>
+					</td>
+					<td bgcolor="#E0E7FF">
+						<font color="blue">&nbsp;&nbsp;$recommend.saname</font> 
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp; $recommend.title
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							$recommend.stockcode
+							$recommend.stockname（$recommend.stockcode）&nbsp; <font color="red">$recommend.grade</font>
 					</td>
-					<td bgcolor="#E0E7FF">
-						<font color="#33FF00">&nbsp;&nbsp;$recommend.saname</font> 
+					<td bgcolor="#E0E7FF" align="center">
+						$recommend.eps
 					</td>
+
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$recommend.aname
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$recommend.createdate
-					</td>
-					<td bgcolor="#E0E7FF" align="center">
-						60
 					</td>
 				</tr>
 				#end

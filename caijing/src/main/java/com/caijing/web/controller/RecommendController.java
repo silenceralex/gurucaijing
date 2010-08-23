@@ -50,10 +50,10 @@ public class RecommendController {
 	@Qualifier("vutil")
 	private Vutil vutil = null;
 
-	
 	@RequestMapping("/admin/showAllRecommend.htm")
 	public String showAllRecommend(HttpServletResponse response,
-			@RequestParam(value = "page", required = false)
+			@RequestParam(value = "saname", required = false)
+			String saname, @RequestParam(value = "page", required = false)
 			Integer page, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
@@ -65,11 +65,22 @@ public class RecommendController {
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
 		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
-		total=recommendStockDao.getAllRecommendStocksCount();
-		paginator.setTotalRecordNumber(total);
-		recommendlist=recommendStockDao.getRecommendStocks( (page - 1) * 20, 20);
-		urlPattern = "/admin/showAllRecommend.htm?page=$number$";
-		
+		if(saname!=null){
+			System.out.println("saname:"+saname);
+			total=recommendStockDao.getAllRecommendCountBySaname(saname);
+			paginator.setTotalRecordNumber(total);
+			recommendlist=recommendStockDao.getRecommendStocksBySaname(saname,(page-1)*20,20);
+			urlPattern = "/admin/showAllRecommend.htm?saname="+saname+"&page=$number$";
+			model.put("saname", saname);
+		}else{
+			total = recommendStockDao.getAllRecommendStocksCount();
+			paginator.setTotalRecordNumber(total);
+			recommendlist = recommendStockDao.getRecommendStocks((page - 1) * 20,
+					20);
+			urlPattern = "/admin/showAllRecommend.htm?page=$number$";
+		}
+
+
 		paginator.setUrl(urlPattern);
 		model.put("topicNameMap", topicNameMap);
 		model.put("vutil", vutil);
@@ -78,7 +89,7 @@ public class RecommendController {
 
 		return "/admin/recommendlist.htm";
 	}
-	
+
 	@RequestMapping("/admin/showRecommend.htm")
 	public String showRecommend(HttpServletResponse response,
 			@RequestParam(value = "saname", required = false)

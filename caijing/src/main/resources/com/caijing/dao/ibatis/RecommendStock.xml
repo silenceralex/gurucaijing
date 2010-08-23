@@ -8,18 +8,19 @@
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
-
-	<select id="getRecommendStocksbySaname"
-		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select * from recommendstock where saname=#saname# order by
-		createdate desc limit #start#,#offset#
-	</select>
 	
 	<select id="getRecommendStocks"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report as r where rs.reportid=r.rid order by
 		rs.createdate desc limit #start#,#offset#
 	</select>
+	
+	<select id="getRecommendStocksBySaname"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report as r where rs.reportid=r.rid and rs.saname=#saname# order by
+		rs.createdate desc limit #start#,#offset#
+	</select>
+	
 	<select id="getRecommendStocksCountsbySaname"
 		resultClass="java.lang.Integer">
 		select count(1) from recommendstock where saname=#value#
@@ -29,6 +30,11 @@
 		resultClass="java.lang.Integer">
 		select count(1) from recommendstock
 	</select>
+	
+	<select id="getAllRecommendCountBySaname"
+		resultClass="java.lang.Integer" parameterClass="java.lang.String">
+		select count(1) from recommendstock where saname=#value#
+	</select>	
 	
 	<select id="getRecommendStockbyReportid"
 		resultClass="RecommendStock">

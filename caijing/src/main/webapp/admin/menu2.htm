@@ -1,29 +1,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>研报栏目</title>
-<meta name="keywords" content="研报栏目" />
-<meta name="description" content="研报栏目" />
-<link href="img/style.css" rel="stylesheet" type="text/css" />
-<link href="img/db.css" rel="stylesheet" type="text/css" />
-<style>
-body{ overflow-x:hidden}
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>研报抽取栏目</title>
+		<meta name="keywords" content="研报栏目" />
+		<meta name="description" content="研报栏目" />
+		<link href="img/style.css" rel="stylesheet" type="text/css" />
+		<link href="img/db.css" rel="stylesheet" type="text/css" />
+		<style>
+body {
+	overflow-x: hidden
+}
 </style>
-<link rel="StyleSheet" href="dtree.css" type="text/css" />
-<script type="text/javascript" src="dtree.js"></script>
-</head>
+		<link rel="StyleSheet" href="dtree.css" type="text/css" />
+		<script type="text/javascript" src="dtree.js"></script>
+	</head>
 
-<body>
-<div class="area">
-<div class="leftSideArea" id="leftBar">
+	<body>
+		<div class="area">
+			<div class="leftSideArea" id="leftBar">
 
-<div class="leftMenu">
-<div class="dtree">
+				<div class="leftMenu">
+					<div class="dtree">
 
-	<a href="javascript: tree_yanbao.openAll();">全部展开</a> | <a href="javascript: tree_yanbao.closeAll();">全部关闭</a><br/>
-	
-	<script type="text/javascript">
+						<a href="javascript: tree_yanbao.openAll();">全部展开</a> |
+						<a href="javascript: tree_yanbao.closeAll();">全部关闭</a>
+						<br />
+
+						<script type="text/javascript">
 		<!--
 		tree_yanbao = new dTree('tree_yanbao');
 		tree_yanbao.add('main_yanbao','-1','研报库','about:blank','研报库','main');
@@ -38,14 +42,38 @@ body{ overflow-x:hidden}
 		tree_yanbao.add('10002','main_yanbao','视频搜索','/admin/section/topicid_${topicid}/videoSearch.htm','视频搜索','main','img/glass2.gif','img/glass2.gif');
 		tree_yanbao.config.target = 'main';
 		document.write(tree_yanbao);
+		
+
 		//-->
 	</script>
-	<p>&nbsp;</p>
-	
-	
-</div>
-</div>
-</div>
-</div>
-</body>
+						<p>
+							&nbsp;
+						</p>
+
+						<a href="javascript: tree_extractor.openAll();">全部展开</a> |
+						<a href="javascript: tree_extractor.closeAll();">全部关闭</a>
+						<br />
+
+						<script type="text/javascript">
+		<!--
+			tree_extractor = new dTree('tree_extractor');
+		tree_extractor.add('main_extractor','-1','研报抽取库','about:blank','研报抽取库','main');
+		tree_extractor.add('10001','main_extractor','中金公司','/admin/showAllRecommend.htm?page=1&saname=中金公司','中金公司','main','img/glass2.gif','img/glass2.gif');
+		tree_extractor.add('10002','main_extractor','国泰君安','/admin/showAllRecommend.htm?page=1&saname=国泰君安','国泰君安','main','img/glass2.gif','img/glass2.gif');
+		tree_extractor.add('10003','main_extractor','申银万国','/admin/showAllRecommend.htm?page=1&saname=申银万国','申银万国','main','img/glass2.gif','img/glass2.gif');
+		
+		tree_extractor.config.target = 'main';
+		document.write(tree_extractor);
+			//-->
+	</script>
+						<p>
+							&nbsp;
+						</p>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

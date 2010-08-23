@@ -82,17 +82,21 @@ function chkSubmit() {
 					style="text-align: left; border: 1px solid #ccc;">
 					<tr>
 						<td style="text-align: right;" class="f14px">
-							研报标题： 
+							研报标题：
 						</td>
 						<td>
 							<a href="${report.filepath}">${report.title}</a>
 						</td>
 					</tr>
-					
 					<tr>
 						<td style="text-align: right;" class="f14px">
-							股票： ${rstock.stockcode}
+							股票代码： ${rstock.stockcode}
 						</td>
+						<td>
+							名称：      ${rstock.stockname}
+						</td>
+					</tr>
+					<tr>
 						<td>
 							评级：
 							<label>

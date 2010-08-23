@@ -11,15 +11,7 @@ import com.caijing.util.CrudDaoDefault;
 public class RecommendStockDaoImpl extends CrudDaoDefault implements
 		RecommendStockDao {
 
-	public List<RecommendStock> getRecommendStocksBySaid(String said) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public RecommendStock getRecommendStockbyReportid(String reportid) {
 		return (RecommendStock) getSqlMapClientTemplate().queryForObject(
@@ -31,15 +23,7 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 				getNameSpace() + ".getRecommendStocksCountsbySaname", saname);
 	}
 
-	public List<RecommendStock> getRecommendStocksbySaname(String saname,
-			int start, int offset) {
-		Map<String, Object> params = new HashMap<String, Object>(3);
-		params.put("saname", saname);
-		params.put("start", start);
-		params.put("offset", offset);
-		return getSqlMapClientTemplate().queryForList(
-				this.getNameSpace() + ".getRecommendStocksbySaname", params);
-	}
+
 
 	public int getAllRecommendStocksCount() {
 		return (Integer)getSqlMapClientTemplate().queryForObject(
@@ -52,6 +36,37 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 		params.put("offset", offset);
 		return getSqlMapClientTemplate().queryForList(
 				this.getNameSpace() + ".getRecommendStocks",params);
+	}
+	
+	public List<RecommendStock> getRecommendStocksBySaid(String said) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getAllRecommendCountBySaname(String saname) {
+		return (Integer)getSqlMapClientTemplate().queryForObject(
+				this.getNameSpace() + ".getAllRecommendCountBySaname",saname);
+	}
+
+	public List<RecommendStock> getRecommendStocksBySaname(String saname,
+			int start, int offset) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("offset", offset);
+		params.put("saname", saname);
+		return getSqlMapClientTemplate().queryForList(
+				this.getNameSpace() + ".getRecommendStocksBySaname",params);
+	}
+
+	public List<RecommendStock> getRecommendStocksByStockname(String stockname,
+			int start, int offset) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
