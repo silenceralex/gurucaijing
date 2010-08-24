@@ -93,12 +93,14 @@ function chkSubmit() {
 							股票代码： ${rstock.stockcode}
 						</td>
 						<td>
-							名称：      ${rstock.stockname}
+							名称： ${rstock.stockname}
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td style="text-align: right;" class="f14px">
 							评级：
+						</td>
+						<td>
 							<label>
 								<input type="text" name="grade" id="grade" value="$rstock.grade"
 									onkeyup="byteWordCount(this,'keylength')" style="width: 20em;" />
