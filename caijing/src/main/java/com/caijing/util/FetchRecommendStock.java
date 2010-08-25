@@ -24,8 +24,9 @@ public class FetchRecommendStock {
 		ReportExtractorImpl extractor = new ReportExtractorImpl();
 		extractor.setConfig(config);
 		long start = System.currentTimeMillis();
-//		List<Report> reports = reportDao.getCompanyReportsBySaname("申银万国");
-		 List<Report> reports = reportDao.getCompanyReportsBySaname("中金公司");
+//		 List<Report> reports = reportDao.getCompanyReportsBySaname("申银万国");
+//		 List<Report> reports = reportDao.getCompanyReportsBySaname("国泰君安");
+		List<Report> reports = reportDao.getCompanyReportsBySaname("中金公司");
 		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");
@@ -50,8 +51,12 @@ public class FetchRecommendStock {
 						.getRid()) == null) {
 					RecommendStock rs = extractor.extractFromFile(report,
 							txtpath.replace(".pdf", ".txt"));
-					rs.setReportid(report.getRid());
-//					recommendStockDao.insert(rs);
+					if (rs != null) {
+						rs.setReportid(report.getRid());
+						if (rs.getExtractnum() > 2) {
+							recommendStockDao.insert(rs);
+						}
+					}
 				} else {
 					System.out.println("Already processed!");
 				}

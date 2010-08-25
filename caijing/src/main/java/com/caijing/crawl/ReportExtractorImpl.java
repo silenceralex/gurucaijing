@@ -36,10 +36,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 				report.getSaname()).get("objectprice"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 		// System.out.println("eps:" + config.getValue(key).get("analyzer"));
-
-		Pattern grade = Pattern.compile((String) config.getValue(
-				report.getSaname()).get("grade"), Pattern.CASE_INSENSITIVE
-				| Pattern.DOTALL | Pattern.UNIX_LINES);
+		//
+		// Pattern grade = Pattern.compile((String) config.getValue(
+		// report.getSaname()).get("grade"), Pattern.CASE_INSENSITIVE
+		// | Pattern.DOTALL | Pattern.UNIX_LINES);
 		int num = 0;
 		RecommendStock rs = new RecommendStock();
 		rs.setRecommendid(ServerUtil.getid());
@@ -74,24 +74,13 @@ public class ReportExtractorImpl implements ReportExtractor {
 			rs.setObjectprice(Float.parseFloat(m.group(1)));
 			num++;
 		}
-		m = grade.matcher(content);
-		if (m != null && m.find()) {
-			// System.out.println("grade:" + m.group(1).trim());
-			if (m.group(1).trim().length() > 6) {
-				String[] strs = m.group(1).trim().split("\\n");
-				if (strs.length == 2 && strs[1].trim().length() < 5) {
-					rs.setGrade(strs[1].trim());
-					System.out.println("grade:" + strs[1]);
-					num++;
-				} else {
-					rs.setGrade("");
-				}
-			} else {
-				rs.setGrade(m.group(1).trim());
-				System.out.println("grade:" + m.group(1).trim());
-				num++;
-			}
-
+		String grade = fetchGrade(report.getSaname(), content);
+		if (grade == null) {
+			System.out.println("Connot match the grade!");
+		} else {
+			System.out.println("grade: " + grade);
+			rs.setGrade(grade);
+			num++;
 		}
 		String eps = fetchEPS(report.getSaname(), content);
 		if (eps == null) {
@@ -103,6 +92,31 @@ public class ReportExtractorImpl implements ReportExtractor {
 		System.out.println("Extractnum: " + num);
 		rs.setExtractnum(num);
 		return rs;
+	}
+
+	private String fetchGrade(String saname, String content) {
+		List<String> grades = (List<String>) config.getValue(saname).get(
+				"grade");
+		Matcher m = null;
+		for (String str : grades) {
+			Pattern grade = Pattern.compile(str, Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
+			m = grade.matcher(content);
+			if (m != null && m.find()) {
+				System.out.println("grade:" + m.group(1).trim());
+				if (m.group(1).trim().length() > 6) {
+					String[] strs = m.group(1).trim().split("\\n|至");
+					if (strs.length == 2 && strs[1].trim().length() < 5) {
+						return strs[1].trim();
+					} else {
+						return null;
+					}
+				} else {
+					return m.group(1).trim();
+				}
+			}
+		}
+		return null;
 	}
 
 	private String fetchAnaylzer(String saname, String content) {
@@ -135,30 +149,51 @@ public class ReportExtractorImpl implements ReportExtractor {
 			String str = (String) config.getValue(saname).get("analyzer");
 			// System.out.println("anaylzer:" + str);
 			analyzerPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.MULTILINE);
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
 			m = analyzerPattern.matcher(content);
-			if (m != null && m.find()) {
-				System.out.println("anaylzer:" + m.group(1).trim());
+			while (m != null && m.find()) {
+				System.out.println("anaylzer:" + m.group(1));
+				String aname = "";
 				// 处理非正常的前缀
 				if (m.group(1).trim().length() > 10) {
-					String[] tests = m.group(1).trim().split("\\s");
-					String aname = "";
+					String[] tests = m.group(1).trim().split("\n");
+
 					for (String tmp : tests) {
-						if (tmp.trim().length() != 0 && tmp.trim().length() < 4) {
+						// 中金公司，去除有的人名中间的空格
+						if (saname.equals("中金公司")) {
+							tmp = tmp.replaceAll("\\s", "").trim();
+						} else {
+							tmp = tmp.trim();
+						}
+						if (tmp.trim().length() != 0 && tmp.trim().length() < 4
+								&& tmp.trim().length() > 1) {
 							aname += tmp.trim() + " ";
 						}
 					}
-					analyzer = aname.trim();
-					System.out.println("after anaylzer:" + aname.trim());
+					// System.out.println("after anaylzer:" + aname.trim());
 				} else {
-					System.out.println("after anaylzer:" + m.group(1).trim());
-					analyzer = m.group(1).trim();
+					// 中金公司，去除有的人名中间的空格
+					if (saname.equals("中金公司")) {
+						aname = m.group(1).trim().replaceAll("\\s", "").trim()
+								+ " ";
+					} else {
+						aname = m.group(1).trim() + " ";
+					}
 				}
-			} else {
+				if (analyzer == null) {
+					analyzer = aname.trim() + " ";
+				} else {
+					analyzer += aname.trim() + " ";
+				}
+
+			}
+			System.out.println("after anaylzer:" + analyzer);
+			if (analyzer == null) {
 				System.out.println("after anaylzer no match:");
+				return null;
 			}
 		}
-		return analyzer;
+		return analyzer.trim();
 	}
 
 	private String fetchEPS(String saname, String content) {
@@ -184,10 +219,18 @@ public class ReportExtractorImpl implements ReportExtractor {
 							+ epslist.get(1) + "','2012':'n/a'}";
 					break;
 				} else if (epslist.size() >= 3) {
-					eps = "{'2010':'" + epslist.get(epslist.size() - 3)
-							+ "','2011':'" + epslist.get(epslist.size() - 2)
-							+ "','2012':'" + epslist.get(epslist.size() - 1)
-							+ "'}";
+					if ("中金公司".equals(saname) && !content.contains("2012E")) {
+						eps = "{'2010':'" + epslist.get(epslist.size() - 2)
+								+ "','2011':'"
+								+ epslist.get(epslist.size() - 1)
+								+ "','2012':'n/a'}";
+					} else {
+						eps = "{'2010':'" + epslist.get(epslist.size() - 3)
+								+ "','2011':'"
+								+ epslist.get(epslist.size() - 2)
+								+ "','2012':'"
+								+ epslist.get(epslist.size() - 1) + "'}";
+					}
 					break;
 				}
 			}
@@ -215,11 +258,19 @@ public class ReportExtractorImpl implements ReportExtractor {
 						eps = "{'2010':'" + m.group(1) + "','2011':'"
 								+ m.group(2) + "','2012':'n/a'}";
 					} else {
-						System.out.println("2010:" + m.group(1).trim());
-						System.out.println("2011:" + m.group(2).trim());
-						System.out.println("2012:" + m.group(3).trim());
-						eps = "{'2010':'" + m.group(1) + "','2011':'"
-								+ m.group(2) + "','2012':'" + m.group(3) + "'}";
+						if ("中金公司".equals(saname) && !content.contains("2012E")) {
+							System.out.println("2010:" + m.group(2).trim());
+							System.out.println("2011:" + m.group(3).trim());
+							eps = "{'2010':'" + m.group(2) + "','2011':'"
+									+ m.group(3) + "','2012':'n/a'}";
+						} else {
+							System.out.println("2010:" + m.group(1).trim());
+							System.out.println("2011:" + m.group(2).trim());
+							System.out.println("2012:" + m.group(3).trim());
+							eps = "{'2010':'" + m.group(1) + "','2011':'"
+									+ m.group(2) + "','2012':'" + m.group(3)
+									+ "'}";
+						}
 					}
 					break;
 				}
@@ -284,11 +335,26 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		report.setSaname("申银万国");
-
+		report.setSaname("中金公司");
 		RecommendStock rs = extractor.extractFromFile(report,
+		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
+				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+//				"http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+		"http://guru.caijing.com/papers/20100820/6DSQ6AML.txt");
+
+		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
+		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
+		// "http://guru.caijing.com/papers/20100727/6CLPMSD3.txt");
+		// "http://guru.caijing.com/papers/20100722/6CLQ0D0R.txt");
+		// "http://guru.caijing.com/papers/20100722/6CLPVL4E.txt");
+		// "http://guru.caijing.com/papers/20100721/6CLPTHLC.txt");
+		// "http://guru.caijing.com/papers/20100824/6DV7VTTM.txt");
+		// "http://guru.caijing.com/papers/20100817/6DFEUUCV.txt");
+		// "http://guru.caijing.com/papers/20100817/6DFEUH0H.txt");
+
+		// RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100818/6DFFM141.txt",
-				"http://guru.caijing.com/papers/20100805/6CLPSVML.txt");
+		// "http://guru.caijing.com/papers/20100805/6CLPSVML.txt");
 		// "http://guru.caijing.com/papers/20100819/6DMNA4E8.txt");
 		// "http://guru.caijing.com/papers/20100813/6DAKKVV0.txt");
 		// "http://guru.caijing.com/papers/20100819/6DMNAMVB.txt");
@@ -324,33 +390,32 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// 2.20 基本每股收益 1.70 1.55 2.01 1.40 1.80 2.20
 		// 全面摊薄每股收益 0.71 0.74 1.00 1.40 1.80 2.20
 
-		// String str = "我们上调公司 2010-2012年每股收益至 0.65元、0.80元、0.96元（原预\n测为 0.59
-		// 元、0.74 元、0.93 元）";
-//		String str = FileUtil.read(
-//				"http://guru.caijing.com/papers/20100805/6CLPSVML.txt", "GBK");
-//		System.out.println("stri:!" + str);
-//		Pattern publishDatePattern = Pattern
-//				.compile(
-//						"(?:每股[盈利净收益为\\s]{2,4}|(?:EPS))(?:[\\s分别]{1,2}为)?至?(?:（[\u4e00-\u9fa5]+）)?([0-9\\.\\s/和、元]{5,})[,，。！\n（]",
-//						Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-//								| Pattern.UNIX_LINES);
+		// String str = "研究部 \n上调评级至推荐\n天山股份(000877.CH)";
+		// String str = FileUtil.read(
+		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt", "GBK");
+		// System.out.println("stri:!" + str);
 		// Pattern publishDatePattern = Pattern
-		// .compile("2010E\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+([0-9\\.]+)\\s.*?2011E\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+([0-9\\.]+)\\s.*?2012E\\s+[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+-?[0-9,\\.]+\\s+([0-9\\.]+)\\s",
+		// .compile(
+		// "(?:每股[盈利净收益为\\s]{2,4}|(?:EPS))(?:[\\s分别]{1,2}为)?至?(?:（[\u4e00-\u9fa5]+）)?([0-9\\.\\s/和、元]{5,})[,，。！\n（]",
 		// Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 		// | Pattern.UNIX_LINES);
-//		Matcher m = publishDatePattern.matcher("" + str);
-//		// System.out.println("hi:!" + Integer.toHexString((int) hi));
-//		while (m != null && m.find()) {
-//			System.out.println("groupCount: !" + m.groupCount());
-//			String ananlyzer = m.group(1);
-//			// System.out.println("ananlyzer: !" + ananlyzer +
-//			// m.group(2)+m.group(3));
-//			System.out.println("ananlyzer: !" + ananlyzer);
-//			System.out.println("Matcher!");
-//		}
-//		if (m == null || !m.find()) {
-//			System.out.println("Not Matcher!");
-//		}
+		// Pattern publishDatePattern = Pattern
+		// .compile("研究部\\s+([\u4e00-\u9fa5]+)\\s+[\u4e00-\u9fa5]{4}\\(",
+		// Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+		// | Pattern.UNIX_LINES);
+		// Matcher m = publishDatePattern.matcher("" + str);
+		// // System.out.println("hi:!" + Integer.toHexString((int) hi));
+		// while (m != null && m.find()) {
+		// System.out.println("groupCount: !" + m.groupCount());
+		// String ananlyzer = m.group(1);
+		// // System.out.println("ananlyzer: !" + ananlyzer +
+		// // m.group(2)+m.group(3));
+		// System.out.println("ananlyzer: !" + ananlyzer);
+		// System.out.println("Matcher!");
+		// }
+		// if (m == null || !m.find()) {
+		// System.out.println("Not Matcher!");
+		// }
 	}
 
 	public Config getConfig() {
