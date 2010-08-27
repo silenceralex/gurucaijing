@@ -32,16 +32,16 @@ public class ReportExtractorImpl implements ReportExtractor {
 	Pattern characterPattern = Pattern.compile(
 			"^([\\u4e00-\\u9fa5\\u9d84\\s\\?]+)[0-9AS\\s]+\\n",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-	HashMap<String ,String> stockmap=new HashMap<String ,String>();
+	HashMap<String, String> stockmap = new HashMap<String, String>();
 	private Config config = null;
-	
-	private StockDao dao=null;
-	
-	public void init(){
-		List<Stock> list=dao.getAllStock();
-		for(Stock stock:list){
-			if(!stockmap.containsKey(stock.getStockcode())){
-				stockmap.put(stock.getStockcode(),stock.getStockname());
+
+	private StockDao dao = null;
+
+	public void init() {
+		List<Stock> list = dao.getAllStock();
+		for (Stock stock : list) {
+			if (!stockmap.containsKey(stock.getStockcode())) {
+				stockmap.put(stock.getStockcode(), stock.getStockname());
 			}
 		}
 	}
@@ -300,31 +300,33 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 	public Report extractFromTitle(String file, String rid) {
 		String name = new File(file).getName();
-		Matcher m = stockPattern.matcher(name);
-		Report report = new Report();
-		report.setRid(rid);
-		if (m != null && m.find()) {
-			String sanam = m.group(1);
-			String stockname = m.group(2);
-			String stockcode = m.group(3);
-			System.out.println("sanam:" + sanam);
-			System.out.println("stockname:" + stockname);
-			System.out.println("stockcode:" + stockcode);
-			report.setSaname(sanam);
-			report.setStockcode(stockcode);
-			report.setStockname(stockname);
-			report.setType(1);
-			report.setTitle(file.substring(file.lastIndexOf('/') + 1, file
-					.lastIndexOf('.')));
-			return report;
-		}
-		m = stockcodePattern.matcher(name);
-		if (m != null && m.find()) {
-			String stockcode = m.group(1);
-			String[] strs=name.split("-");
-//			if(strs.length>1){
-				String saname=strs[0];
-				String title=strs[strs.length-1];
+		System.out.println("sanam:" + name);
+		try {
+			Matcher m = stockPattern.matcher(name);
+			Report report = new Report();
+			report.setRid(rid);
+			if (m != null && m.find()) {
+				String sanam = m.group(1);
+				String stockname = m.group(2);
+				String stockcode = m.group(3);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname:" + stockname);
+				System.out.println("stockcode:" + stockcode);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1);
+				report.setTitle(file.substring(file.lastIndexOf('/') + 1, file
+						.lastIndexOf('.')));
+				return report;
+			}
+			m = stockcodePattern.matcher(name);
+			if (m != null && m.find()) {
+				String stockcode = m.group(1);
+				String[] strs = name.split("-");
+				// if(strs.length>1){
+				String saname = strs[0];
+				String title = strs[strs.length - 1];
 				report.setSaname(saname);
 				report.setStockcode(stockcode);
 				report.setTitle(title.substring(0, title.lastIndexOf('.')));
@@ -333,26 +335,30 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("sanam:" + saname);
 				System.out.println("stockname:" + stockmap.get(stockcode));
 				System.out.println("stockcode:" + stockcode);
-//			}
-			return report;
-		} else {
-			String title = file.substring(file.lastIndexOf('/') + 1, file
-					.lastIndexOf('.'));
-			String[] strs = title.split("--");
-			String sanam = strs[0];
-			report.setSaname(sanam);
-			report.setTitle(title);
-			// 晨会
-			if (strs[1].length() == 4) {
-				report.setType(0);
-			} else if (strs[1].length() > 4 && strs[1].contains("宏观")) {
-				report.setType(3);
-			} else if (strs[1].length() > 4 && strs[1].contains("业")) {
-				report.setType(2);
+				// }
+				return report;
 			} else {
-				report.setType(4);
+				String title = file.substring(file.lastIndexOf('/') + 1, file
+						.lastIndexOf('.'));
+				String[] strs = title.split("--");
+				String sanam = strs[0];
+				report.setSaname(sanam);
+				report.setTitle(title);
+				// 晨会
+				if (strs[1].length() == 4) {
+					report.setType(0);
+				} else if (strs[1].length() > 4 && strs[1].contains("宏观")) {
+					report.setType(3);
+				} else if (strs[1].length() > 4 && strs[1].contains("业")) {
+					report.setType(2);
+				} else {
+					report.setType(4);
+				}
+				return report;
 			}
-			return report;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 
 	}
