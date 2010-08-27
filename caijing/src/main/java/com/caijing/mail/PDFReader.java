@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
-import com.caijing.crawl.ReportExtractor;
 import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.ReportDao;
 import com.caijing.dao.ibatis.ReportDaoImpl;
@@ -25,16 +24,15 @@ import com.caijing.util.Vutil;
 
 public class PDFReader {
 	private static Log logger = LogFactory.getLog(PDFReader.class);
-	ReportExtractor extractor = new ReportExtractorImpl();
+	ReportExtractorImpl extractor =(ReportExtractorImpl) ContextFactory.getBean("reportExtractor");
 	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
-
-	// @Autowired
-	// @Qualifier("config")
-	// private Config config = null;
 
 	// @Autowired
 	// @Qualifier("vutil")
 	private Vutil vutil = new Vutil();
+	public void init(){
+		extractor.init();
+	}
 
 	public void read(String path) throws Exception {
 		File file = new File(path);
@@ -169,6 +167,7 @@ public class PDFReader {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PDFReader pdfReader = new PDFReader();
+		pdfReader.init();
 		try {
 			// ȡ��E���µ�SpringGuide.pdf������
 			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");

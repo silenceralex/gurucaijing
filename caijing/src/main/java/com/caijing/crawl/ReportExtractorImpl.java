@@ -2,14 +2,17 @@ package com.caijing.crawl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.context.ApplicationContext;
 
+import com.caijing.dao.StockDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
+import com.caijing.domain.Stock;
 import com.caijing.util.Config;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.FileUtil;
@@ -20,12 +23,28 @@ public class ReportExtractorImpl implements ReportExtractor {
 	private Pattern stockPattern = Pattern.compile(
 			"(.*?)--(.*?)\\((((002|000|300|600)[\\d]{3})|60[\\d]{4})\\)",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	private Pattern stockcodePattern = Pattern.compile(
+			"\\((((002|000|300|600)[\\d]{3})|60[\\d]{4})\\)",
+			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 	Pattern numberPattern = Pattern.compile("[0-9\\.]+",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 	Pattern characterPattern = Pattern.compile(
 			"^([\\u4e00-\\u9fa5\\u9d84\\s\\?]+)[0-9AS\\s]+\\n",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+	HashMap<String ,String> stockmap=new HashMap<String ,String>();
 	private Config config = null;
+	
+	private StockDao dao=null;
+	
+	public void init(){
+		List<Stock> list=dao.getAllStock();
+		for(Stock stock:list){
+			if(!stockmap.containsKey(stock.getStockcode())){
+				stockmap.put(stock.getStockcode(),stock.getStockname());
+			}
+		}
+	}
 
 	public RecommendStock extractFromFile(Report report, String file) {
 
@@ -280,8 +299,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 	}
 
 	public Report extractFromTitle(String file, String rid) {
-
-		Matcher m = stockPattern.matcher(new File(file).getName());
+		String name = new File(file).getName();
+		Matcher m = stockPattern.matcher(name);
 		Report report = new Report();
 		report.setRid(rid);
 		if (m != null && m.find()) {
@@ -297,6 +316,24 @@ public class ReportExtractorImpl implements ReportExtractor {
 			report.setType(1);
 			report.setTitle(file.substring(file.lastIndexOf('/') + 1, file
 					.lastIndexOf('.')));
+			return report;
+		}
+		m = stockcodePattern.matcher(name);
+		if (m != null && m.find()) {
+			String stockcode = m.group(1);
+			String[] strs=name.split("-");
+//			if(strs.length>1){
+				String saname=strs[0];
+				String title=strs[strs.length-1];
+				report.setSaname(saname);
+				report.setStockcode(stockcode);
+				report.setTitle(title.substring(0, title.lastIndexOf('.')));
+				report.setType(1);
+				report.setStockname(stockmap.get(stockcode));
+				System.out.println("sanam:" + saname);
+				System.out.println("stockname:" + stockmap.get(stockcode));
+				System.out.println("stockcode:" + stockcode);
+//			}
 			return report;
 		} else {
 			String title = file.substring(file.lastIndexOf('/') + 1, file
@@ -324,7 +361,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		ReportExtractorImpl extractor = new ReportExtractorImpl();
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		Config config = (Config) context.getBean("config");
+		StockDao dao = (StockDao) context.getBean("stockDao");
 		extractor.setConfig(config);
+		extractor.setDao(dao);
+		extractor.init();
 		// extractor.extractFromFile("安信证券",
 		// "F:\\email\\研究报告7.07\\安信证券--广汇股份(600256)参与气化南疆，履行社会责任.txt",
 		// ServerUtil.getid());
@@ -339,8 +379,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
 				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
-//				"http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-		"http://guru.caijing.com/papers/20100820/6DSQ6AML.txt");
+				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+				"http://guru.caijing.com/papers/20100820/6DSQ6AML.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
@@ -424,5 +464,13 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 	public void setConfig(Config config) {
 		this.config = config;
+	}
+
+	public StockDao getDao() {
+		return dao;
+	}
+
+	public void setDao(StockDao dao) {
+		this.dao = dao;
 	}
 }

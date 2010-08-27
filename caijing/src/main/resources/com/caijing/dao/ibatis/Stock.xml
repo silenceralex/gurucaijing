@@ -7,7 +7,9 @@
 	<select id="select" resultClass="Stock">
 		select * from stock where stockcode=#value#
 	</select>
-
+	<select id="getAllStock" resultClass="Stock">
+		select * from stock where
+	</select>
 	<insert id="insert">
 		insert into stock (stockcode,stockname,industryid) values
 		(#stockcode#,#stockname#,#industryid#)
