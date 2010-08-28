@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Economist">
+  
+  <typeAlias alias="Economist" type="com.caijing.domain.Economist"/>
+  
+  <select id="getEconomistByName"  resultClass="Economist" >
+    select * from economist where name = #value#
+  </select>
+
+  
+  <select id="select"  resultClass="Economist" >
+    select * from economist where aid=#value#
+  </select>
+  
+  <insert id="insert" >
+    insert into economist (name,des,status) values (#name#,#des#,#status#)
+  </insert>
+
+  <update id="update" parameterClass="Economist">
+  	update economist
+  	<dynamic prepend="set">		
+  		<isNotEmpty prepend="," property="name">
+  			name = #name#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="des">
+  			des = #des#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="status">
+  			status = #status#
+  		</isNotEmpty>
+  	</dynamic>
+  	where name=#name#
+  </update>
+
+  <delete id="delete" parameterClass="Economist">
+    delete from economist where name=#name#
+  </delete>
+  
+  <select id="getAllEconomistCount" resultClass="java.lang.Integer">
+		select count(1) from economist
+	</select>
+	
+	<select id="getAllEconomist" parameterClass="java.util.Map"
+		resultClass="Economist">
+		select * from economist  limit #start#,#offset#
+	</select>
+
+</sqlMap>

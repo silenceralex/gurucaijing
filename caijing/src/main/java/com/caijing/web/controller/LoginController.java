@@ -1,6 +1,8 @@
 package com.caijing.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.caijing.dao.ColumnArticleDao;
+import com.caijing.dao.EconomistDao;
 import com.caijing.dao.UserDao;
+import com.caijing.domain.ColumnArticle;
+import com.caijing.domain.Economist;
 import com.caijing.domain.User;
+import com.caijing.util.Paginator;
 import com.caijing.util.TopicNameConfig;
 
 
@@ -32,6 +39,8 @@ public class LoginController {
 	@Autowired
 	@Qualifier("TopicNameConfig")
 	private TopicNameConfig topicNameMap = null;
+	
+	
 	
 	@RequestMapping("/admin/login.do")
 	public void showColomn(HttpServletResponse response,
@@ -49,7 +58,7 @@ public class LoginController {
 			e.printStackTrace();
 		}
 	}
-	
+		
 	
 	@RequestMapping("/admin/top.htm")
 	public String topPage(@ModelAttribute("currUser")

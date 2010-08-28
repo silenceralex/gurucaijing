@@ -3,14 +3,20 @@ package com.caijing.domain;
 import java.util.Date;
 
 public class ColumnArticle {
+	private int    aid = 0;
 	private String title = null;
 	private String link = null;
 	private String content = null;
 	private String src = null;
 	private Date ptime = null;
 	private String name = null;
-	
-	
+		
+	public int getAid() {
+		return aid;
+	}
+	public void setAid(int aid) {
+		this.aid = aid;
+	}
 	public String getTitle() {
 		return title;
 	}

@@ -61,13 +61,23 @@
 		</property>
 	</bean>
 
-	<bean id="columnarticleDao"
+	<bean id="columnArticleDao"
 		class="com.caijing.dao.ibatis.ColumnArticleDaoImpl">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
 		</property>
 		<property name="namespace">
 			<value>ColumnArticle</value>
+		</property>
+	</bean>
+	
+	<bean id="economistDao"
+		class="com.caijing.dao.ibatis.EconomistDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Economist</value>
 		</property>
 	</bean>
 

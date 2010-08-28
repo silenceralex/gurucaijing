@@ -3,7 +3,7 @@
 <sqlMap namespace="ColumnArticle">
   
   <typeAlias alias="ColumnArticle" type="com.caijing.domain.ColumnArticle"/>
-
+  
   <select id="getColumnArticleByName"  resultClass="ColumnArticle" >
     select * from columnarticle where name = #value#
   </select>
@@ -45,5 +45,14 @@
   <delete id="delete" parameterClass="ColumnArticle">
     delete from columnarticle where name=#name#
   </delete>
+  
+  <select id="getAllColumnArticleCount" resultClass="java.lang.Integer">
+		select count(1) from columnarticle
+	</select>
+	
+	<select id="getAllColumnArticle" parameterClass="java.util.Map"
+		resultClass="ColumnArticle">
+		select * from columnarticle  limit #start#,#offset#
+	</select>
 
 </sqlMap>
