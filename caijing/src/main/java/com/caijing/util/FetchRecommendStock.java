@@ -27,6 +27,7 @@ public class FetchRecommendStock {
 //		 List<Report> reports = reportDao.getCompanyReportsBySaname("申银万国");
 //		 List<Report> reports = reportDao.getCompanyReportsBySaname("国泰君安");
 		List<Report> reports = reportDao.getCompanyReportsBySaname("中金公司");
+//		List<Report> reports = reportDao.getCompanyReportsBySaname("海通证券");
 		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");
@@ -55,6 +56,11 @@ public class FetchRecommendStock {
 						rs.setReportid(report.getRid());
 						if (rs.getExtractnum() > 2) {
 							recommendStockDao.insert(rs);
+							System.out.println("Reports getAname: "+rs.getAname());
+							System.out.println("Reports getObjectprice: "+rs.getObjectprice());
+							System.out.println("Reports getCreatedate: "+rs.getCreatedate());
+							System.out.println("Reports getGrade: "+rs.getGrade());
+							System.out.println("Reports getEps: "+rs.getEps());
 						}
 					}
 				} else {
@@ -64,7 +70,5 @@ public class FetchRecommendStock {
 			}
 		}
 		System.out.println("process size: " + i);
-
 	}
-
 }

@@ -112,7 +112,8 @@
 							<list>
 								<value><![CDATA[研究报告\s+([\u4e00-\u9fa5]+)\s+[\u4e00-\u9fa5AB]{3,4}\(]]></value>
 								<value><![CDATA[研究部\s+([\u4e00-\u9fa5]+)\s+[\u4e00-\u9fa5]{3,4}\s*[AB]\s*\(]]></value>
-								<value><![CDATA[[维持上下调至\s]{2,3}“?([\u4e00-\u9fa5]{2,4})”?的?(?:投资)?评级]]></value>
+								<value><![CDATA[研究部\s+([\u4e00-\u9fa5]+)\s+[\u4e00-\u9fa5]{3,4}\s*\(\d{6}]]></value>
+								<value><![CDATA[[维持上下调至\s]{2,3}“?([\u4e00-\u9fa5\s]{2,4})”?的?(?:投资)?评级]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
@@ -140,18 +141,23 @@
 						</entry>
 						<entry key="grade">
 							<list>
-								<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n]]></value>
+								<value><![CDATA[\n\s*([买增中减卖]\s*[入持性出]\s*[调首维]\s*[高低持次])\s+\n]]></value>
+								<value><![CDATA[\n\s*([买增中减卖]\s*[入持性出]\s*[调首维]\s*[高低持次])\s+201]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
-							<value><![CDATA[目标价：*([0-9.]+)元]]></value>
+							<value><![CDATA[目标价格?：?\s*([0-9\.]+)\s*元]]></value>
 						</entry>
 						<entry key="analyzer">
 							<value><![CDATA[[分析师|行业]：([\u4e00-\u9fa5\s]+)+\n]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
-								<value><![CDATA[[每股收益|EPS分别]为\s([0-9.]+)元、([0-9.]+)元和\s([0-9.]+)元]]></value>
+								<value><![CDATA[EPS分别为\s*([0-9\.]+)[\s/和、元]+([0-9\.]+)[\s/和、元]+([0-9\.]+)\s*元]]></value>
+								<value><![CDATA[每股收益分别为\s*([0-9\.]+)元、([0-9\.]+)元和\s([0-9\.]+)元]]></value>
+								<value><![CDATA[每股收益(?:（|\()[\u4e00-\u9fa5\s，/]+(?:）|\))\s*-?[0-9\.]+\s+(-?[0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+								<value><![CDATA[每股收益(?:（|\()元(?:）|\))\s*-?[0-9\.]+\s+-?[0-9\.]+\s+(-?[0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+								<value><![CDATA[每股收益(?:（|\()元(?:）|\))\s*-?[0-9\.]+\s+-?[0-9\.]+\s+-?[0-9\.]+\s+(-?[0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>				
 							</list>
 						</entry>
 					</map>

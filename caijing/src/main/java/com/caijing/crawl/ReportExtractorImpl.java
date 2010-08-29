@@ -122,16 +122,20 @@ public class ReportExtractorImpl implements ReportExtractor {
 					| Pattern.DOTALL | Pattern.UNIX_LINES);
 			m = grade.matcher(content);
 			if (m != null && m.find()) {
-				System.out.println("grade:" + m.group(1).trim());
-				if (m.group(1).trim().length() > 6) {
-					String[] strs = m.group(1).trim().split("\\n|至");
+				String grad= m.group(1).trim();
+				System.out.println("grade:" +grad);
+				if (grad.length() > 6) {
+					if(saname.equals("海通证券")){
+						return grad.replaceAll("\\s", "");
+					}
+					String[] strs = grad.split("\\n|至");
 					if (strs.length == 2 && strs[1].trim().length() < 5) {
 						return strs[1].trim();
 					} else {
 						return null;
 					}
 				} else {
-					return m.group(1).trim();
+					return grad;
 				}
 			}
 		}
@@ -259,40 +263,44 @@ public class ReportExtractorImpl implements ReportExtractor {
 			List<String> strs = (List<String>) config.getValue(saname).get(
 					"eps");
 			// System.out.println("str size:" + strs.size());
-
 			for (String str : strs) {
-				// System.out.println("str:" + str);
 				epsPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
 						| Pattern.DOTALL | Pattern.UNIX_LINES);
 				m = epsPattern.matcher(content);
-				if (m != null && m.find()) {
-					System.out.println("Group count:" + m.groupCount());
+				while (m != null && m.find() && eps == null) {
+					// System.out.println("Group count:" + m.groupCount());
 					if (m.groupCount() == 1) {
 						System.out.println("2010:" + m.group(1).trim());
 						eps = "{'2010':'" + m.group(1)
 								+ "','2011':'n/a','2012':'n/a'}";
+						return eps;
 					} else if (m.groupCount() == 2) {
 						System.out.println("2010:" + m.group(1).trim());
 						System.out.println("2011:" + m.group(2).trim());
 						eps = "{'2010':'" + m.group(1) + "','2011':'"
 								+ m.group(2) + "','2012':'n/a'}";
+						return eps;
 					} else {
 						if ("中金公司".equals(saname) && !content.contains("2012E")) {
 							System.out.println("2010:" + m.group(2).trim());
 							System.out.println("2011:" + m.group(3).trim());
 							eps = "{'2010':'" + m.group(2) + "','2011':'"
 									+ m.group(3) + "','2012':'n/a'}";
+							return eps;
 						} else {
+							// System.out.println("count:" + m.groupCount());
 							System.out.println("2010:" + m.group(1).trim());
 							System.out.println("2011:" + m.group(2).trim());
 							System.out.println("2012:" + m.group(3).trim());
 							eps = "{'2010':'" + m.group(1) + "','2011':'"
 									+ m.group(2) + "','2012':'" + m.group(3)
 									+ "'}";
+							return eps;
 						}
 					}
-					break;
 				}
+				if (eps != null)
+					break;
 			}
 		}
 		return eps;
@@ -303,7 +311,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		name = name.substring(0, name.lastIndexOf('.'));
 		System.out.println("name:" + name);
 		try {
-			//老版本的标题格式
+			// 老版本的标题格式
 			Matcher m = stockPattern.matcher(name);
 			Report report = new Report();
 			report.setRid(rid);
@@ -323,17 +331,17 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("title:" + title);
 				return report;
 			}
-			//新版本的标题格式
+			// 新版本的标题格式
 			m = stockcodePattern.matcher(name);
 			if (m != null && m.find()) {
 				String stockcode = m.group(1);
 				String[] strs = name.split("-");
 				if (strs.length > 1) {
 					String saname = strs[0];
-					String title = name.substring(name.indexOf('-')+1);
+					String title = name.substring(name.indexOf('-') + 1);
 					System.out.println("title:" + title);
 					if (strs[1].length() == 6 && strs[1].startsWith("1")) {
-						title=title.substring(title.indexOf('-')+1);
+						title = title.substring(title.indexOf('-') + 1);
 						System.out.println("title:" + title);
 					}
 					report.setSaname(saname);
@@ -361,7 +369,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				}
 				return report;
 			}
-			//老版本的标题格式
+			// 老版本的标题格式
 			String[] strs = name.split("--");
 			if (strs.length > 1) {
 				String sanam = strs[0];
@@ -389,10 +397,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 			if (strs.length > 1) {
 				String sanam = strs[0];
 				report.setSaname(sanam);
-				String title = name.substring(name.indexOf('-')+1);
+				String title = name.substring(name.indexOf('-') + 1);
 				System.out.println("title:" + title);
 				if (strs[1].length() == 6 && strs[1].startsWith("1")) {
-					title=title.substring(title.indexOf('-')+1);
+					title = title.substring(title.indexOf('-') + 1);
 					System.out.println("title:" + title);
 				}
 				report.setTitle(title);
@@ -437,8 +445,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.setConfig(config);
 		extractor.setDao(dao);
 		extractor.init();
-		extractor.extractFromTitle(
-				"中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
+		// extractor.extractFromTitle(
+		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
 
 		// extractor.extractFromFile("安信证券",
 		// "F:\\email\\研究报告7.07\\安信证券--广汇股份(600256)参与气化南疆，履行社会责任.txt",
@@ -450,12 +458,18 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		report.setSaname("中金公司");
-		// RecommendStock rs = extractor.extractFromFile(report,
+//		report.setSaname("海通证券");
+//		RecommendStock rs = extractor.extractFromFile(report,
+//		// "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
+//				// "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
+//				"http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
+
+		 report.setSaname("中金公司");
+		 RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
 		// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
 		// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-		// "http://guru.caijing.com/papers/20100820/6DSQ6AML.txt");
+		 "http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
@@ -508,12 +522,21 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// String str = "研究部 \n上调评级至推荐\n天山股份(000877.CH)";
 		// String str = FileUtil.read(
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt", "GBK");
+		// String str ="\n 增 持 维持 2010年 8月 2日";
+		//
 		// System.out.println("stri:!" + str);
-		// Pattern publishDatePattern = Pattern
-		// .compile(
-		// "(?:每股[盈利净收益为\\s]{2,4}|(?:EPS))(?:[\\s分别]{1,2}为)?至?(?:（[\u4e00-\u9fa5]+）)?([0-9\\.\\s/和、元]{5,})[,，。！\n（]",
-		// Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-		// | Pattern.UNIX_LINES);
+		// Pattern publishDatePattern = Pattern.compile(
+		// "\\n\\s*([买增中减卖]\\s*[入持性出]\\s*[调首维]\\s*[高低持次])\\s+201",
+		// Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+		// Matcher m = publishDatePattern.matcher("" + str);
+		// while (m != null && m.find()) {
+		// System.out.println("groupCount: !" + m.groupCount());
+		// String grade = m.group(1);
+		// // System.out.println("ananlyzer: !" + ananlyzer +
+		// // m.group(2)+m.group(3));
+		// System.out.println("grade: !" + grade);
+		// System.out.println("Matcher!");
+		// }
 		// Pattern publishDatePattern = Pattern
 		// .compile("研究部\\s+([\u4e00-\u9fa5]+)\\s+[\u4e00-\u9fa5]{4}\\(",
 		// Pattern.CASE_INSENSITIVE | Pattern.DOTALL
@@ -532,15 +555,15 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// System.out.println("Not Matcher!");
 		// }
 
-//		Pattern stockcodePattern = Pattern.compile(
-//				"(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
-//				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-//
-//		Matcher m = stockcodePattern
-//				.matcher("中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速");
-//		if (m != null && m.find()) {
-//			System.out.println("code:" + m.group(1));
-//		}
+		// Pattern stockcodePattern = Pattern.compile(
+		// "(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+		// Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+		//
+		// Matcher m = stockcodePattern
+		// .matcher("中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速");
+		// if (m != null && m.find()) {
+		// System.out.println("code:" + m.group(1));
+		// }
 	}
 
 	public Config getConfig() {
