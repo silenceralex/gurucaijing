@@ -112,13 +112,16 @@ public class RssDown {
 				if(site.name.equals("sina")){
 					ContentDown sinadown = new ContentDown();
 					tmp.contents=sinadown.getArticleText(tmp.link, site);
-					ColumnArticle ca=new ColumnArticle();
-					ca.setContent(tmp.contents);
-					ca.setLink(tmp.link);
-					ca.setSrc("blog");
-					ca.setName(peoplename);
-					ca.setTitle(tmp.title);
-					dao.insert(ca);
+//					System.out.println(tmp.contents);
+					if(tmp.contents != null){
+						ColumnArticle ca=new ColumnArticle();
+						ca.setContent(tmp.contents);
+						ca.setLink(tmp.link);
+						ca.setSrc("blog");
+						ca.setName(peoplename);
+						ca.setTitle(tmp.title);
+						dao.insert(ca);
+					}
 				}
 			}
 		}

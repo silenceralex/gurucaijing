@@ -16,7 +16,7 @@ public class ParseContent {
 		divStack = new Vector<ParseDiv>();
 	}
 
-	void getContent(String content) {
+	void getContent1(String content) {
 		HtmlParser p = new HtmlParser(content);
 		int event = p.getEventType();
 		while (true) {
@@ -30,11 +30,11 @@ public class ParseContent {
 						p.mv2RespEnd();
 					} else if (isstat) {
 						if (p.getName().equals("div") || p.getName().equals("td")) {
-							System.out.println(content.substring(p.curpos));
+//							System.out.println(content.substring(p.curpos));
 							ParseDiv curDiv = new ParseDiv();
 							curDiv.startpos = p.curpos;
 							divStack.add(curDiv);
-							System.out.println("div");
+//							System.out.println("div");
 						} else if (p.getName().equals("p") && divStack.size() > 0) {
 							divStack.get(divStack.size() - 1).pnum++;
 						}
@@ -106,45 +106,18 @@ public class ParseContent {
 			return endpos;
 		}
 		
-		String delLable(String content){
-			String rlt="";
-			HtmlParser p = new HtmlParser(content);
-			int event = p.getEventType();
-		    event = p.next();
-		    while(true){
-				switch (event) {
-					 case HtmlParser.START_ELEMENT:
-						 if("script".equals(p.getName()) || "style".equals(p.getName())){
-							 p.mv2RespEnd();
-						 }
-					 break;
-					 case HtmlParser.END_ELEMENT:
-					 break;
-					 case HtmlParser.END_DOCUMENT:
-					 break;
-					 case HtmlParser.CHARACTERS:
-						 rlt+=p.getText();
-					 break;
-					 default : 
-					 break;
-				}
-				 if (p.hasnext()==0)
-				     break;
-				 event = p.next();
-			 }
-		    return rlt;
-		}
+		
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		String con=ContentDown.downContent("http://news.xinmin.cn/world/gjkb/2010/08/21/6417308.html","utf-8");
-		System.out.println(con);
-		ParseContent pc= new ParseContent();
-		pc.getContent(con);
-		pc.printDiv();
-		pc.getMaxPDiv();
-		System.out.println(con.substring(pc.getStartPos(),pc.getEndPos()));
-		System.out.println(pc.delLable(con.substring(pc.getStartPos(),pc.getEndPos())));
+//		String con=ContentDown.downContent("http://blog.sina.com.cn/s/blog_4d4afd100100p1nd.html","utf-8");
+//		System.out.println(con);
+//		ParseContent pc= new ParseContent();
+//		pc.getContent(con);
+//		pc.printDiv();
+//		int i=pc.getMaxPDiv();
+////		System.out.println(con.substring(pc.getStartPos(),pc.getEndPos()));
+//		System.out.println(pc.delLable(con.substring(pc.getStartPos(),pc.getEndPos())));
 	}
 
 }

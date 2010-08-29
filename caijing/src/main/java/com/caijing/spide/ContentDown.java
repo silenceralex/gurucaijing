@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -41,9 +42,43 @@ public class ContentDown {
 	}
 	
 	
+	String delLable(String content){
+		String rlt="";
+		HtmlParser p = new HtmlParser(content);
+		int event = p.getEventType();
+	    event = p.next();
+	    while(true){
+			switch (event) {
+				 case HtmlParser.START_ELEMENT:
+					 if("script".equals(p.getName()) || "style".equals(p.getName())|| "INS".equals(p.getName())){
+						 p.mv2RespEnd();
+					 }
+				 break;
+				 case HtmlParser.END_ELEMENT:
+				 break;
+				 case HtmlParser.END_DOCUMENT:
+				 break;
+				 case HtmlParser.CHARACTERS:
+					 rlt+=p.getText();
+				 break;
+				 default : 
+				 break;
+			}
+			 if (p.hasnext()==0)
+			     break;
+			 event = p.next();
+		 }
+	    return rlt;
+	}
+	
+	
     public String getArticleText(String link, RssItem site){
 		String text=null;
-		String content=ContentDown.downContent(link,site.encoding);			
+		String content=ContentDown.downContent(link,site.encoding);
+		if(content == null){
+			return null;
+		}
+		System.out.println(content);
 
 		HtmlParser p = new HtmlParser(content);
 		int event = p.getEventType();
@@ -60,7 +95,7 @@ public class ContentDown {
 							 String key =p.getAttributeName(i);
 							 String value= p.getAttributeValue(i);
 							 if(key!=null && value!=null &&site.content.start.name.equals(key) && site.content.start.value.equals(value)){
-								text= p.parseRespValue(site);
+								text= delLable(p.getRespValue());
 								return text;
 							 }
 						 }
@@ -69,6 +104,7 @@ public class ContentDown {
 			if(p.hasnext()!=1)break;
 			event = p.next();
 		}
+		
 		return text;
 
 }

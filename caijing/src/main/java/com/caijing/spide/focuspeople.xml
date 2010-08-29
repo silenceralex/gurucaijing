@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
+	<people>
+	    <name>刘纪鹏</name>
+	    <rss> http://blog.sina.com.cn/rss/1296760080.xml</rss>
+	    <sitename>sina</sitename>
+    </people>
     <people>
 	    <name>金岩石</name>
 	    <rss>http://blog.sina.com.cn/rss/1699909555.xml</rss>
@@ -60,11 +65,7 @@
 	    <rss>http://blog.sina.com.cn/rss/1495033135.xml</rss>
 	    <sitename>sina</sitename>
     </people>
-    <people>
-	    <name>刘纪鹏</name>
-	    <rss> http://blog.sina.com.cn/rss/1296760080.xml</rss>
-	    <sitename>sina</sitename>
-    </people>
+    
     <people>
 	    <name>郎咸平</name>
 	    <rss>http://blog.sina.com.cn/rss/1092672395.xml</rss>
