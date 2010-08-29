@@ -300,7 +300,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 	public Report extractFromTitle(String file, String rid) {
 		String name = new File(file).getName();
-		System.out.println("sanam:" + name);
+		name = name.substring(0, name.lastIndexOf('.'));
+		System.out.println("name:" + name);
 		try {
 			Matcher m = stockPattern.matcher(name);
 			Report report = new Report();
@@ -309,53 +310,115 @@ public class ReportExtractorImpl implements ReportExtractor {
 				String sanam = m.group(1);
 				String stockname = m.group(2);
 				String stockcode = m.group(3);
-				System.out.println("sanam:" + sanam);
-				System.out.println("stockname:" + stockname);
-				System.out.println("stockcode:" + stockcode);
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
 				report.setStockname(stockname);
 				report.setType(1);
-				report.setTitle(file.substring(file.lastIndexOf('/') + 1, file
-						.lastIndexOf('.')));
+				String title = name.split("--")[1];
+				report.setTitle(title);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname:" + stockname);
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
 				return report;
 			}
 			m = stockcodePattern.matcher(name);
 			if (m != null && m.find()) {
 				String stockcode = m.group(1);
 				String[] strs = name.split("-");
-				// if(strs.length>1){
-				String saname = strs[0];
-				String title = strs[strs.length - 1];
-				report.setSaname(saname);
-				report.setStockcode(stockcode);
-				report.setTitle(title.substring(0, title.lastIndexOf('.')));
-				report.setType(1);
-				report.setStockname(stockmap.get(stockcode));
-				System.out.println("sanam:" + saname);
-				System.out.println("stockname:" + stockmap.get(stockcode));
-				System.out.println("stockcode:" + stockcode);
-				// }
-				return report;
-			} else {
-				String title = file.substring(file.lastIndexOf('/') + 1, file
-						.lastIndexOf('.'));
-				String[] strs = title.split("--");
-				String sanam = strs[0];
-				report.setSaname(sanam);
-				report.setTitle(title);
-				// 晨会
-				if (strs[1].length() == 4) {
-					report.setType(0);
-				} else if (strs[1].length() > 4 && strs[1].contains("宏观")) {
-					report.setType(3);
-				} else if (strs[1].length() > 4 && strs[1].contains("业")) {
-					report.setType(2);
+				if (strs.length > 1) {
+					String saname = strs[0];
+					String title = "";
+					if (strs[1].length() == 6 && strs[1].startsWith("1")) {
+						title = strs[2];
+					} else {
+						title = strs[1];
+					}
+					report.setSaname(saname);
+					report.setStockcode(stockcode);
+					report.setTitle(title);
+					report.setType(1);
+					report.setStockname(stockmap.get(stockcode));
+					System.out.println("sanam:" + saname);
+					System.out.println("stockname:" + stockmap.get(stockcode));
+					System.out.println("stockcode:" + stockcode);
+					System.out.println("type:" + 1);
+					System.out.println("title:" + title);
 				} else {
-					report.setType(4);
+					name.substring(0, 4);
+					report.setSaname(name.substring(0, 4));
+					report.setStockcode(stockcode);
+					report.setTitle(name.substring(4));
+					report.setType(1);
+					report.setStockname(stockmap.get(stockcode));
+					System.out.println("sanam:" + name.substring(0, 4));
+					System.out.println("stockname:" + stockmap.get(stockcode));
+					System.out.println("stockcode:" + stockcode);
+					System.out.println("type:" + 1);
+					System.out.println("title:" + name.substring(4));
 				}
 				return report;
 			}
+			String[] strs = name.split("--");
+			if (strs.length > 1) {
+				String sanam = strs[0];
+				report.setSaname(sanam);
+				report.setTitle(strs[1]);
+				// 晨会
+				if (strs[1].length() <= 4) {
+					report.setType(0);
+					System.out.println("type:" + 0);
+				} else if (strs[1].length() > 4 && strs[1].contains("宏观")) {
+					report.setType(3);
+					System.out.println("type:" + 3);
+				} else if (strs[1].length() > 4 && strs[1].contains("业")) {
+					report.setType(2);
+					System.out.println("type:" + 2);
+				} else {
+					report.setType(4);
+					System.out.println("type:" + 4);
+				}
+				System.out.println("sanam:" + sanam);
+				System.out.println("title:" + strs[1]);
+				return report;
+			}
+			strs = name.split("-");
+			if (strs.length > 1) {
+				String sanam = strs[0];
+				report.setSaname(sanam);
+				String title = "";
+				if (strs[1].length() == 6 && strs[1].startsWith("1")) {
+					title = strs[2];
+				} else {
+					title = strs[1];
+				}
+				report.setTitle(title);
+				// 晨会
+				if (strs[1].length() <= 4) {
+					report.setType(0);
+					System.out.println("type:" + 0);
+				} else if (strs[1].length() > 4 && strs[1].contains("宏观")) {
+					report.setType(3);
+					System.out.println("type:" + 3);
+				} else if (strs[1].length() > 4 && strs[1].contains("业")) {
+					report.setType(2);
+					System.out.println("type:" + 2);
+				} else {
+					report.setType(4);
+					System.out.println("type:" + 4);
+				}
+				System.out.println("sanam:" + sanam);
+				System.out.println("title:" + title);
+				return report;
+			}
+			System.out.println("sanam:" + name.substring(0, 4));
+			System.out.println("title:" + name.substring(4));
+			System.out.println("type:" + 4);
+			report.setSaname(name.substring(0, 4));
+			report.setTitle(name.substring(4));
+			report.setType(4);
+			return report;
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -371,6 +434,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.setConfig(config);
 		extractor.setDao(dao);
 		extractor.init();
+		extractor.extractFromTitle(
+				"中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
+
 		// extractor.extractFromFile("安信证券",
 		// "F:\\email\\研究报告7.07\\安信证券--广汇股份(600256)参与气化南疆，履行社会责任.txt",
 		// ServerUtil.getid());

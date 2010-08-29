@@ -72,7 +72,7 @@ public class PDFReader {
 						Date ptime = vutil.stringtodate(file.getName());
 						System.out.println("ptime :" + file.getName());
 						report.setPtime(ptime);
-						reportDao.insert(report);
+//						reportDao.insert(report);
 					}
 				} else if (f.isDirectory()) {
 					read(f.getAbsolutePath());
