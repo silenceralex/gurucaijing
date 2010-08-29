@@ -14,7 +14,7 @@
 				<tr>
 					<td bgcolor="#E0E7FF" height="30">
 						&nbsp;&nbsp;
-						<strong>当前栏目: <a
+						<strong>当前人物: <a
 							href="/admin/showArticle.htm?saname=${saname}">${saname}</a>
 							&gt;&gt; </strong>
 					</td>
@@ -31,11 +31,11 @@
 						ID
 					</th>
 					<th scope="col">
-						专栏名称
+						文章标题
 					</th>
 					
 					<th scope="col" width="40">
-						权重
+						来源
 					</th>
 				</tr>
 				<!-- 视频列表 -->
@@ -49,10 +49,10 @@
 						$article.aid
 					</td>
 					<td bgcolor="#E0E7FF">
-						<a href="$article.link">&nbsp; $article.title</a>						
+						<a href="/admin/article.htm?aid=$article.aid" target=_blank>&nbsp; $article.title</a>						
 					</td>					
 					<td bgcolor="#E0E7FF" align="center">
-						60
+						$article.src
 					</td>
 				</tr>
 				#end

@@ -30,19 +30,7 @@ public class EconomistController {
 	@Autowired
 	@Qualifier("economistDao")
 	private EconomistDao economistDao = null;
-	
-//	@RequestMapping("/admin/economist.htm")
-//	public String showEconomist(HttpServletResponse response,
-//			HttpServletRequest request, ModelMap model) {		
-//		return "/admin/economist.htm";
-//	}
-//	
-//	@RequestMapping("/admin/columnframe.htm")
-//	public String showColumnframe(HttpServletResponse response,
-//			HttpServletRequest request, ModelMap model) {		
-//		return "/admin/columnframe.htm";
-//	}
-	
+		
 	
 	@RequestMapping("/admin/columnarticlelist.htm")
 	public String showEcolumnarlst(HttpServletResponse response,
@@ -88,6 +76,15 @@ public class EconomistController {
 		List<Economist> economistList=economistDao.getAllEconomist();
 		model.put("economistList", economistList);
 		return "/admin/ecname.htm";	
+	}
+	
+	@RequestMapping("/admin/article.htm")
+	public String shwoArticle(HttpServletResponse response, @RequestParam(value = "aid", required = true) int aid,
+			ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
+		ColumnArticle article=columnArticleDao.getColumnArticleByaid(aid).get(0);
+		model.put("article", article);
+		return "/admin/article.htm";	
 	}
 	
 

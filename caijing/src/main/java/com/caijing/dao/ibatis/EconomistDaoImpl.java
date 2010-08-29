@@ -9,8 +9,7 @@ import com.caijing.util.CrudDaoDefault;
 public class EconomistDaoImpl extends CrudDaoDefault implements EconomistDao {
 	
 	public int getAllEconomistCount(){
-		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace()+".getAllEconomistCount");
-		
+		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace()+".getAllEconomistCount");		
 	}
 	
 	@SuppressWarnings("unchecked")

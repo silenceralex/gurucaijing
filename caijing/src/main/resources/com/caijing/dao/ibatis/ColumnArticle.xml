@@ -9,7 +9,8 @@
     select * from columnarticle where name = #saname#
   </select>
   
-  <select id="select"  resultClass="ColumnArticle" >
+  <select id="getColumnArticleByaid"  parameterClass="java.util.Map"
+  resultClass="ColumnArticle" >
     select * from columnarticle where aid=#aid#
   </select>
   
