@@ -6,14 +6,15 @@ import java.util.Map;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
-import com.caijing.domain.Report;
 import com.caijing.util.CrudDaoDefault;
 
 public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticleDao {
 
 	@SuppressWarnings("unchecked")
-	public List<ColumnArticle> getColumnArticleByname(String name){
-		return (List<ColumnArticle>)getSqlMapClientTemplate().queryForList(getNameSpace()+".getColumnArticleByname",name);
+	public List<ColumnArticle> getColumnArticleByname(String saname){
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("saname", saname);
+		return (List<ColumnArticle>)getSqlMapClientTemplate().queryForList(getNameSpace()+".getColumnArticleByname",params);
 	}
 	
 	@SuppressWarnings("unchecked")

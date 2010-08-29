@@ -3,14 +3,14 @@
 <sqlMap namespace="ColumnArticle">
   
   <typeAlias alias="ColumnArticle" type="com.caijing.domain.ColumnArticle"/>
-  
-  <select id="getColumnArticleByName"  resultClass="ColumnArticle" >
-    select * from columnarticle where name = #value#
+	
+  <select id="getColumnArticleByname"  parameterClass="java.util.Map"
+  resultClass="ColumnArticle" >
+    select * from columnarticle where name = #saname#
   </select>
-
   
   <select id="select"  resultClass="ColumnArticle" >
-    select * from columnarticle where aid=#value#
+    select * from columnarticle where aid=#aid#
   </select>
   
   <insert id="insert" >

@@ -31,18 +31,20 @@ public class EconomistController {
 	@Qualifier("economistDao")
 	private EconomistDao economistDao = null;
 	
-	@RequestMapping("/admin/economist.html")
-	public void showEconomist(HttpServletResponse response,
-			HttpServletRequest request, ModelMap model) {		
-		try {
-			response.sendRedirect("/admin/economist.html");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	@RequestMapping("/admin/economist.htm")
+//	public String showEconomist(HttpServletResponse response,
+//			HttpServletRequest request, ModelMap model) {		
+//		return "/admin/economist.htm";
+//	}
+//	
+//	@RequestMapping("/admin/columnframe.htm")
+//	public String showColumnframe(HttpServletResponse response,
+//			HttpServletRequest request, ModelMap model) {		
+//		return "/admin/columnframe.htm";
+//	}
 	
 	
-	@RequestMapping("/admin/columnarticlelist.html")
+	@RequestMapping("/admin/columnarticlelist.htm")
 	public String showEcolumnarlst(HttpServletResponse response,
 			@RequestParam(value = "saname", required = false)
 			String saname, @RequestParam(value = "page", required = false)
@@ -63,29 +65,29 @@ public class EconomistController {
 			total=columnArticleDao.getColumnArticleByname(saname).size();
 			paginator.setTotalRecordNumber(total);
 			articlelist=columnArticleDao.getColumnArticleByname(saname,(page-1)*20,20);
-			urlPattern = "/admin/columnarticlelist.html?saname="+saname+"&page=$number$";
+			urlPattern = "/admin/columnarticlelist.htm?saname="+saname+"&page=$number$";
 			model.put("saname", saname);
 		}else{
 			total=columnArticleDao.getAllColumnArticleCount();
 			paginator.setTotalRecordNumber(total);
 			articlelist=columnArticleDao.getAllColumnArticle((page-1)*20,20);
-			urlPattern = "/admin/columnarticlelist.html?page=$number$";
+			urlPattern = "/admin/columnarticlelist.htm?page=$number$";
 		}
 		
 		paginator.setUrl(urlPattern);
 		model.put("articlelist", articlelist);
 		model.put("paginatorLink", paginator.getPageNumberList());
 		
-		return "/admin/columnarticlelist.html";
+		return "/admin/columnarticlelist.htm";
 
 	}
 	
-	@RequestMapping("/admin/ecname.html")
+	@RequestMapping("/admin/ecname.htm")
 	public String shwoEcname(HttpServletResponse response, ModelMap model, HttpServletRequest request)
 			throws IOException, Exception {
 		List<Economist> economistList=economistDao.getAllEconomist();
 		model.put("economistList", economistList);
-		return "/admin/ecname.html";	
+		return "/admin/ecname.htm";	
 	}
 	
 

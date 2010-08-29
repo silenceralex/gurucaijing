@@ -8,12 +8,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.caijing.dao.ColumnArticleDao;
+import com.caijing.domain.ColumnArticle;
+import com.caijing.util.ContextFactory;
+
 public class RssDown {
 	Article ar=null;
 	List<Article> arlist =null;
-//	ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnarticleDao");
+	ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
 	
-	void getRssArList(String siteurl, RssItem site) throws IOException{
+	void getRssArList(String siteurl,String peoplename, RssItem site) throws IOException{
 		
 		URL url = new URL(siteurl);
 		InputStream input = url.openStream();
@@ -107,14 +111,14 @@ public class RssDown {
 				System.out.println(tmp.link+tmp.title);
 				if(site.name.equals("sina")){
 					ContentDown sinadown = new ContentDown();
-//					tmp.contents=sinadown.getArticleText(tmp.link, site);
-////					ColumnArticle ca=new ColumnArticle();
-//					ca.setContent(tmp.contents);
-//					ca.setLink(tmp.link);
-//					ca.setSrc("blog");
-//					ca.setName(site.name);
-//					ca.setTitle(tmp.title);
-//					dao.insert(ca);
+					tmp.contents=sinadown.getArticleText(tmp.link, site);
+					ColumnArticle ca=new ColumnArticle();
+					ca.setContent(tmp.contents);
+					ca.setLink(tmp.link);
+					ca.setSrc("blog");
+					ca.setName(peoplename);
+					ca.setTitle(tmp.title);
+					dao.insert(ca);
 				}
 			}
 		}
@@ -130,7 +134,7 @@ public class RssDown {
 		for(FocusPeople people:r.allpeople){
 			RssItem site=r.getArticle(people.sitename);
 			System.out.println("start ...... "+people.name+".......");
-			down.getRssArList(people.siteurl, site);
+			down.getRssArList(people.siteurl,people.name,site);
 			System.out.println("end ...... "+people.name+".......");
 			System.out.println("");
 		}

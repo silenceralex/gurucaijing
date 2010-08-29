@@ -4,7 +4,7 @@
   
   <typeAlias alias="Economist" type="com.caijing.domain.Economist"/>
   
-  <select id="getEconomistByName"  resultClass="Economist" >
+  <select id="getEconomistByname"  resultClass="Economist" >
     select * from economist where name = #value#
   </select>
 
@@ -43,7 +43,7 @@
 	
 	<select id="getAllEconomist" parameterClass="java.util.Map"
 		resultClass="Economist">
-		select * from economist  limit #start#,#offset#
+		select * from economist
 	</select>
 
 </sqlMap>
