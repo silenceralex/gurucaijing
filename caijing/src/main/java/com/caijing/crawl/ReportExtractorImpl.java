@@ -25,7 +25,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private Pattern stockcodePattern = Pattern.compile(
-			"\\((((002|000|300|600)[\\d]{3})|60[\\d]{4})\\)",
+			"(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 	Pattern numberPattern = Pattern.compile("[0-9\\.]+",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
@@ -303,6 +303,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		name = name.substring(0, name.lastIndexOf('.'));
 		System.out.println("name:" + name);
 		try {
+			//老版本的标题格式
 			Matcher m = stockPattern.matcher(name);
 			Report report = new Report();
 			report.setRid(rid);
@@ -322,17 +323,18 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("title:" + title);
 				return report;
 			}
+			//新版本的标题格式
 			m = stockcodePattern.matcher(name);
 			if (m != null && m.find()) {
 				String stockcode = m.group(1);
 				String[] strs = name.split("-");
 				if (strs.length > 1) {
 					String saname = strs[0];
-					String title = "";
+					String title = name.substring(name.indexOf('-')+1);
+					System.out.println("title:" + title);
 					if (strs[1].length() == 6 && strs[1].startsWith("1")) {
-						title = strs[2];
-					} else {
-						title = strs[1];
+						title=title.substring(title.indexOf('-')+1);
+						System.out.println("title:" + title);
 					}
 					report.setSaname(saname);
 					report.setStockcode(stockcode);
@@ -359,6 +361,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				}
 				return report;
 			}
+			//老版本的标题格式
 			String[] strs = name.split("--");
 			if (strs.length > 1) {
 				String sanam = strs[0];
@@ -386,11 +389,11 @@ public class ReportExtractorImpl implements ReportExtractor {
 			if (strs.length > 1) {
 				String sanam = strs[0];
 				report.setSaname(sanam);
-				String title = "";
+				String title = name.substring(name.indexOf('-')+1);
+				System.out.println("title:" + title);
 				if (strs[1].length() == 6 && strs[1].startsWith("1")) {
-					title = strs[2];
-				} else {
-					title = strs[1];
+					title=title.substring(title.indexOf('-')+1);
+					System.out.println("title:" + title);
 				}
 				report.setTitle(title);
 				// 晨会
@@ -448,11 +451,11 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// ServerUtil.getid());
 		Report report = new Report();
 		report.setSaname("中金公司");
-		RecommendStock rs = extractor.extractFromFile(report,
+		// RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
-				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
-				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-				"http://guru.caijing.com/papers/20100820/6DSQ6AML.txt");
+		// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+		// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+		// "http://guru.caijing.com/papers/20100820/6DSQ6AML.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
@@ -528,6 +531,16 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// if (m == null || !m.find()) {
 		// System.out.println("Not Matcher!");
 		// }
+
+//		Pattern stockcodePattern = Pattern.compile(
+//				"(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+//				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+//
+//		Matcher m = stockcodePattern
+//				.matcher("中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速");
+//		if (m != null && m.find()) {
+//			System.out.println("code:" + m.group(1));
+//		}
 	}
 
 	public Config getConfig() {
