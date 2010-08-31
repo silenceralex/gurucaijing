@@ -122,10 +122,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 					| Pattern.DOTALL | Pattern.UNIX_LINES);
 			m = grade.matcher(content);
 			if (m != null && m.find()) {
-				String grad= m.group(1).trim();
-				System.out.println("grade:" +grad);
+				String grad = m.group(1).trim();
+				System.out.println("grade:" + grad);
 				if (grad.length() > 6) {
-					if(saname.equals("海通证券")){
+					if (saname.equals("海通证券")) {
 						return grad.replaceAll("\\s", "");
 					}
 					String[] strs = grad.split("\\n|至");
@@ -396,30 +396,40 @@ public class ReportExtractorImpl implements ReportExtractor {
 			strs = name.split("-");
 			if (strs.length > 1) {
 				String sanam = strs[0];
-				report.setSaname(sanam);
-				String title = name.substring(name.indexOf('-') + 1);
-				System.out.println("title:" + title);
-				if (strs[1].length() == 6 && strs[1].startsWith("1")) {
-					title = title.substring(title.indexOf('-') + 1);
+				// 针对title为中金公司开头的
+				if (sanam.length() > 6) {
+					sanam.startsWith("中金公司");
+					report.setSaname("中金公司");
+					String title = name.substring(name.indexOf('-') + 5);
 					System.out.println("title:" + title);
+					report.setTitle(title);
+				} else {
+					report.setSaname(sanam);
+					String title = name.substring(name.indexOf('-') + 1);
+					System.out.println("title:" + title);
+					if (strs[1].length() == 6 && strs[1].startsWith("1")) {
+						title = title.substring(title.indexOf('-') + 1);
+						System.out.println("title:" + title);
+					}
+					report.setTitle(title);
 				}
-				report.setTitle(title);
 				// 晨会
-				if (strs[1].length() <= 4) {
+				String tmp = name.substring(name.indexOf('-') + 1);
+				if (tmp.length() <= 4||tmp.contains("晨会")||tmp.contains("早间")||tmp.contains("晨报")||tmp.contains("每日")||tmp.contains("晨间")) {
 					report.setType(0);
 					System.out.println("type:" + 0);
-				} else if (strs[1].length() > 4 && strs[1].contains("宏观")) {
+				} else if (tmp.length() > 4 && strs[1].contains("宏观")) {
 					report.setType(3);
 					System.out.println("type:" + 3);
-				} else if (strs[1].length() > 4 && strs[1].contains("业")) {
+				} else if (tmp.length() > 4 && strs[1].contains("业")) {
 					report.setType(2);
 					System.out.println("type:" + 2);
 				} else {
 					report.setType(4);
 					System.out.println("type:" + 4);
 				}
+			
 				System.out.println("sanam:" + sanam);
-				System.out.println("title:" + title);
 				return report;
 			}
 			System.out.println("sanam:" + name.substring(0, 4));
@@ -458,18 +468,18 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-//		report.setSaname("海通证券");
-//		RecommendStock rs = extractor.extractFromFile(report,
-//		// "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
-//				// "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
-//				"http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
+		// report.setSaname("海通证券");
+		// RecommendStock rs = extractor.extractFromFile(report,
+		// // "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
+		// // "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
+		// "http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
 
-		 report.setSaname("中金公司");
-		 RecommendStock rs = extractor.extractFromFile(report,
+		report.setSaname("中金公司");
+		RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
-		// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
-		// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-		 "http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
+				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+				"http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
