@@ -394,8 +394,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 				return report;
 			}
 			strs = name.split("-");
+			System.out.println("strs:" + strs.length);
 			if (strs.length > 1) {
 				String sanam = strs[0];
+				System.out.println("sanam:" + sanam);
 				// 针对title为中金公司开头的
 				if (sanam.length() > 6) {
 					sanam.startsWith("中金公司");
@@ -473,13 +475,21 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// // "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
 		// // "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
-
-		report.setSaname("中金公司");
+		
+		report.setSaname("安信证券");
+//		extractor.extractFromTitle("/home/app/papers/20100830/中金公司农业100830_现货市场将最终胜出短期内糖价将推升至5800-6000元吨.pdf", "");
 		RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
 				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
 				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-				"http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
+				"http://guru.caijing.com/papers/20100824/6DV7VFM6.txt");
+
+//		report.setSaname("中金公司");
+//		RecommendStock rs = extractor.extractFromFile(report,
+//		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
+//				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+//				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+//				"http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
