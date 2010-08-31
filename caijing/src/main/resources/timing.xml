@@ -37,7 +37,7 @@
               <ref bean="scheduledInfo"/>
          </property> 
          <property name="cronExpression"> 
-             <value>0 30 9,21 * * ?</value> <!-- 每小时执行一次 -->
+             <value>0 30 4,9,14,18,21 * * ?</value> <!-- 每小时执行一次 -->
          </property> 
      </bean> 
      
