@@ -167,6 +167,34 @@
 						</entry>
 					</map>
 				</entry>
+				<entry key="国金证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n\s*(201\d)年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[评级：([强买入增减持有中性卖出]{2}\s*[上下调首维高低持次]{2})评级]]></value>
+								<value><![CDATA[\n\s*([买增中减卖]\s*[入持性出]\s*[上下调首维高低持次]\s*[上下调高低持次])\s+201]]></value>
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[目标价格?：?\s*([0-9\.]+)\s*元]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n([\u4e00-\u9fa5]+)\s+分析师\s+SAC执业编号]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[业绩分别为\s*([0-9\.]+)[\s/和、，元]+([0-9\.]+)[\s/和、，元]+([0-9\.]+)\s*元]]></value>
+								<value><![CDATA[EPS\s*([0-9\.]+)[\s/和、，元]+([0-9\.]+)[\s/和、，元]+]]></value>
+								<value><![CDATA[每股收益(?:（|\()[\u4e00-\u9fa5\s，/]+(?:）|\))\s*-?[0-9\.]+\s+(-?[0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+								<value><![CDATA[每股收益(?:（|\()元(?:）|\))\s*-?[0-9\.]+\s+-?[0-9\.]+\s+(-?[0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+								<value><![CDATA[每股收益(?:（|\()元(?:）|\))\s*-?[0-9\.]+\s+-?[0-9\.]+\s+-?[0-9\.]+\s+(-?[0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s*\n]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>
 			</map>
 		</property>
 		<property name="searchPage"

@@ -115,7 +115,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				String grad = m.group(1).trim();
 				System.out.println("grade:" + grad);
 				if (grad.length() > 6) {
-					if (saname.equals("海通证券")) {
+					if (saname.equals("海通证券")||saname.equals("国金证券")) {
 						return grad.replaceAll("\\s", "");
 					}
 					String[] strs = grad.split("\\n|至");
@@ -168,7 +168,6 @@ public class ReportExtractorImpl implements ReportExtractor {
 				// 处理非正常的前缀
 				if (m.group(1).trim().length() > 10) {
 					String[] tests = m.group(1).trim().split("\n");
-
 					for (String tmp : tests) {
 						// 中金公司，去除有的人名中间的空格
 						if (saname.equals("中金公司")) {
@@ -445,12 +444,19 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		report.setSaname("海通证券");
+		
+		report.setSaname("国金证券");
 		RecommendStock rs = extractor.extractFromFile(report,
+//		"http://guru.caijing.com/papers/20100826/6EBPLO3R.txt");
+		
+		"http://guru.caijing.com/papers/20100824/6DV81AFH.txt");
+			
+//		report.setSaname("海通证券");
+//		RecommendStock rs = extractor.extractFromFile(report,
 		// // "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
 				// // "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
 				// "http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
-				"http://guru.caijing.com/papers/20100830/6EHD98EV.txt");
+//				"http://guru.caijing.com/papers/20100830/6EHD98EV.txt");
 
 		//		report.setSaname("安信证券");
 		////		extractor.extractFromTitle("/home/app/papers/20100830/中金公司农业100830_现货市场将最终胜出短期内糖价将推升至5800-6000元吨.pdf", "");
