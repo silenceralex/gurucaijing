@@ -20,17 +20,13 @@ import com.caijing.util.ServerUtil;
 
 public class ReportExtractorImpl implements ReportExtractor {
 
-	private Pattern stockPattern = Pattern.compile(
-			"(.*?)--(.*?)\\((((002|000|300|600)[\\d]{3})|60[\\d]{4})\\)",
+	private Pattern stockPattern = Pattern.compile("(.*?)--(.*?)\\((((002|000|300|600)[\\d]{3})|60[\\d]{4})\\)",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private Pattern stockcodePattern = Pattern.compile(
-			"(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	Pattern numberPattern = Pattern.compile("[0-9\\.]+",
-			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-	Pattern characterPattern = Pattern.compile(
-			"^([\\u4e00-\\u9fa5\\u9d84\\s\\?]+)[0-9AS\\s]+\\n",
+	Pattern numberPattern = Pattern.compile("[0-9\\.]+", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+	Pattern characterPattern = Pattern.compile("^([\\u4e00-\\u9fa5\\u9d84\\s\\?]+)[0-9AS\\s]+\\n",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 	HashMap<String, String> stockmap = new HashMap<String, String>();
 	private Config config = null;
@@ -48,11 +44,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 	public RecommendStock extractFromFile(Report report, String file) {
 
-		Pattern publishDatePattern = Pattern.compile((String) config.getValue(
-				report.getSaname()).get("publishdate"),
+		Pattern publishDatePattern = Pattern.compile((String) config.getValue(report.getSaname()).get("publishdate"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-		Pattern objectprice = Pattern.compile((String) config.getValue(
-				report.getSaname()).get("objectprice"),
+		Pattern objectprice = Pattern.compile((String) config.getValue(report.getSaname()).get("objectprice"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 		// System.out.println("eps:" + config.getValue(key).get("analyzer"));
 		//
@@ -71,11 +65,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 		if (m != null && m.find()) {
 			String month = m.group(2);
 			String day = m.group(3);
-			month = month.trim().length() > 1 ? month.trim() : "0"
-					+ month.trim();
+			month = month.trim().length() > 1 ? month.trim() : "0" + month.trim();
 			day = day.trim().length() > 1 ? day.trim() : "0" + day.trim();
-			System.out
-					.println("publishdate:" + m.group(1).trim() + month + day);
+			System.out.println("publishdate:" + m.group(1).trim() + month + day);
 			rs.setCreatedate(m.group(1).trim() + month + day);
 			num++;
 		}
@@ -114,12 +106,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 	}
 
 	private String fetchGrade(String saname, String content) {
-		List<String> grades = (List<String>) config.getValue(saname).get(
-				"grade");
+		List<String> grades = (List<String>) config.getValue(saname).get("grade");
 		Matcher m = null;
 		for (String str : grades) {
-			Pattern grade = Pattern.compile(str, Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+			Pattern grade = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 			m = grade.matcher(content);
 			if (m != null && m.find()) {
 				String grad = m.group(1).trim();
@@ -149,8 +139,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		if (config.getValue(saname).get("analyzerEps") != null) {
 			String str = (String) config.getValue(saname).get("analyzerEps");
 			// System.out.println("analyzerEps: " + str);
-			analyzerPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.MULTILINE);
+			analyzerPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 			m = analyzerPattern.matcher(content);
 			if (m != null && m.find()) {
 				String analyzers = m.group(1);
@@ -171,8 +160,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		if (analyzer == null) {
 			String str = (String) config.getValue(saname).get("analyzer");
 			// System.out.println("anaylzer:" + str);
-			analyzerPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+			analyzerPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 			m = analyzerPattern.matcher(content);
 			while (m != null && m.find()) {
 				System.out.println("anaylzer:" + m.group(1));
@@ -188,8 +176,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 						} else {
 							tmp = tmp.trim();
 						}
-						if (tmp.trim().length() != 0 && tmp.trim().length() < 4
-								&& tmp.trim().length() > 1) {
+						if (tmp.trim().length() != 0 && tmp.trim().length() < 4 && tmp.trim().length() > 1) {
 							aname += tmp.trim() + " ";
 						}
 					}
@@ -197,8 +184,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				} else {
 					// 中金公司，去除有的人名中间的空格
 					if (saname.equals("中金公司")) {
-						aname = m.group(1).trim().replaceAll("\\s", "").trim()
-								+ " ";
+						aname = m.group(1).trim().replaceAll("\\s", "").trim() + " ";
 					} else {
 						aname = m.group(1).trim() + " ";
 					}
@@ -225,8 +211,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		String eps = null;
 		if (config.getValue(saname).get("specialEps") != null) {
 			String str = (String) config.getValue(saname).get("specialEps");
-			epsPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+			epsPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 			m = epsPattern.matcher(content);
 			while (m != null && m.find()) {
 				String epss = m.group(1);
@@ -238,21 +223,16 @@ public class ReportExtractorImpl implements ReportExtractor {
 				}
 				System.out.println("epslist size:" + epslist.size());
 				if (epslist.size() == 2) {
-					eps = "{'2010':'" + epslist.get(0) + "','2011':'"
-							+ epslist.get(1) + "','2012':'n/a'}";
+					eps = "{'2010':'" + epslist.get(0) + "','2011':'" + epslist.get(1) + "','2012':'n/a'}";
 					break;
 				} else if (epslist.size() >= 3) {
 					if ("中金公司".equals(saname) && !content.contains("2012E")) {
-						eps = "{'2010':'" + epslist.get(epslist.size() - 2)
-								+ "','2011':'"
-								+ epslist.get(epslist.size() - 1)
-								+ "','2012':'n/a'}";
+						eps = "{'2010':'" + epslist.get(epslist.size() - 2) + "','2011':'"
+								+ epslist.get(epslist.size() - 1) + "','2012':'n/a'}";
 					} else {
-						eps = "{'2010':'" + epslist.get(epslist.size() - 3)
-								+ "','2011':'"
-								+ epslist.get(epslist.size() - 2)
-								+ "','2012':'"
-								+ epslist.get(epslist.size() - 1) + "'}";
+						eps = "{'2010':'" + epslist.get(epslist.size() - 3) + "','2011':'"
+								+ epslist.get(epslist.size() - 2) + "','2012':'" + epslist.get(epslist.size() - 1)
+								+ "'}";
 					}
 					break;
 				}
@@ -260,40 +240,34 @@ public class ReportExtractorImpl implements ReportExtractor {
 			System.out.println("eps:" + eps);
 		}
 		if (eps == null) {
-			List<String> strs = (List<String>) config.getValue(saname).get(
-					"eps");
+			List<String> strs = (List<String>) config.getValue(saname).get("eps");
 			// System.out.println("str size:" + strs.size());
 			for (String str : strs) {
-				epsPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE
-						| Pattern.DOTALL | Pattern.UNIX_LINES);
+				epsPattern = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 				m = epsPattern.matcher(content);
 				while (m != null && m.find() && eps == null) {
 					// System.out.println("Group count:" + m.groupCount());
 					if (m.groupCount() == 1) {
 						System.out.println("2010:" + m.group(1).trim());
-						eps = "{'2010':'" + m.group(1)
-								+ "','2011':'n/a','2012':'n/a'}";
+						eps = "{'2010':'" + m.group(1) + "','2011':'n/a','2012':'n/a'}";
 						return eps;
 					} else if (m.groupCount() == 2) {
 						System.out.println("2010:" + m.group(1).trim());
 						System.out.println("2011:" + m.group(2).trim());
-						eps = "{'2010':'" + m.group(1) + "','2011':'"
-								+ m.group(2) + "','2012':'n/a'}";
+						eps = "{'2010':'" + m.group(1) + "','2011':'" + m.group(2) + "','2012':'n/a'}";
 						return eps;
 					} else {
 						if ("中金公司".equals(saname) && !content.contains("2012E")) {
 							System.out.println("2010:" + m.group(2).trim());
 							System.out.println("2011:" + m.group(3).trim());
-							eps = "{'2010':'" + m.group(2) + "','2011':'"
-									+ m.group(3) + "','2012':'n/a'}";
+							eps = "{'2010':'" + m.group(2) + "','2011':'" + m.group(3) + "','2012':'n/a'}";
 							return eps;
 						} else {
 							// System.out.println("count:" + m.groupCount());
 							System.out.println("2010:" + m.group(1).trim());
 							System.out.println("2011:" + m.group(2).trim());
 							System.out.println("2012:" + m.group(3).trim());
-							eps = "{'2010':'" + m.group(1) + "','2011':'"
-									+ m.group(2) + "','2012':'" + m.group(3)
+							eps = "{'2010':'" + m.group(1) + "','2011':'" + m.group(2) + "','2012':'" + m.group(3)
 									+ "'}";
 							return eps;
 						}
@@ -417,7 +391,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 				}
 				// 晨会
 				String tmp = name.substring(name.indexOf('-') + 1);
-				if (tmp.length() <= 4||tmp.contains("晨会")||tmp.contains("早间")||tmp.contains("晨报")||tmp.contains("每日")||tmp.contains("晨间")) {
+				if (tmp.length() <= 4 || tmp.contains("晨会") || tmp.contains("早间") || tmp.contains("晨报")
+						|| tmp.contains("每日") || tmp.contains("晨间")) {
 					report.setType(0);
 					System.out.println("type:" + 0);
 				} else if (tmp.length() > 4 && strs[1].contains("宏观")) {
@@ -430,7 +405,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					report.setType(4);
 					System.out.println("type:" + 4);
 				}
-			
+
 				System.out.println("sanam:" + sanam);
 				return report;
 			}
@@ -470,26 +445,27 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		// report.setSaname("海通证券");
-		// RecommendStock rs = extractor.extractFromFile(report,
-		// // "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
-		// // "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
-		// "http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
-		
-		report.setSaname("安信证券");
-//		extractor.extractFromTitle("/home/app/papers/20100830/中金公司农业100830_现货市场将最终胜出短期内糖价将推升至5800-6000元吨.pdf", "");
+		report.setSaname("海通证券");
 		RecommendStock rs = extractor.extractFromFile(report,
-		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
-				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
-				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-				"http://guru.caijing.com/papers/20100824/6DV7VFM6.txt");
+		// // "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
+				// // "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
+				// "http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
+				"http://guru.caijing.com/papers/20100830/6EHD98EV.txt");
 
-//		report.setSaname("中金公司");
-//		RecommendStock rs = extractor.extractFromFile(report,
-//		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
-//				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
-//				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-//				"http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
+		//		report.setSaname("安信证券");
+		////		extractor.extractFromTitle("/home/app/papers/20100830/中金公司农业100830_现货市场将最终胜出短期内糖价将推升至5800-6000元吨.pdf", "");
+		//		RecommendStock rs = extractor.extractFromFile(report,
+		//		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
+		//				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+		//				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+		//				"http://guru.caijing.com/papers/20100824/6DV7VFM6.txt");
+
+		//		report.setSaname("中金公司");
+		//		RecommendStock rs = extractor.extractFromFile(report,
+		//		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
+		//				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+		//				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+		//				"http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
