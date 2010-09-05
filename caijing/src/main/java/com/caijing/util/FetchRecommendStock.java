@@ -30,7 +30,7 @@ public class FetchRecommendStock {
 //		List<Report> reports = reportDao.getCompanyReportsBySaname("国金证券");
 		//		List<Report> reports = reportDao.getCompanyReportsBySaname("安信证券");
 //		List<Report> reports = reportDao.getCompanyReportsBySaname("国金证券");
-		List<Report> reports = reportDao.getCompanyReportsBySaname("招商证券");
+		List<Report> reports = reportDao.getCompanyReportsBySaname("广发证券");
 		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");

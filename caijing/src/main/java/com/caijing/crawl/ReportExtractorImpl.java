@@ -449,12 +449,17 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		report.setSaname("招商证券");
+		report.setSaname("广发证券");
 		RecommendStock rs = extractor.extractFromFile(report,
-//		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
-//		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
-//		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
-		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
+//		"http://guru.caijing.com/papers/20100902/6ER8MVG9.txt");
+		"http://guru.caijing.com/papers/20100827/6EHBOMA9.txt");
+		
+//		report.setSaname("招商证券");
+//		RecommendStock rs = extractor.extractFromFile(report,
+////		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
+////		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
+////		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
+//		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
 			
 //		report.setSaname("国金证券");
 //		RecommendStock rs = extractor.extractFromFile(report,

@@ -222,6 +222,36 @@
 						</entry>
 					</map>
 				</entry>
+				<entry key="广发证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n\s*(201\d)\s*年\s*(\d{2})\s*月\s*(\d{2})\s*日\s+]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[[给予上下调首维高低持次\n]{2,3}[\u4e00-\u9fa5\n]*“?([买入持有卖出\n]{2,3})”?的?(?:投资)?(?:评级)?[，。,、]]]></value>
+								<value><![CDATA[\n前次评级\s+([买入持有卖出]{2})\s+]]></value>				
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[目标价格\(元\)\s*([0-9\.-]+)]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n(?:Table_Summary)?\s*([\u4e00-\u9fa5]+)[^\n0-9a-zA-Z]+研究员]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[EPS[（）\u4e00-\u9fa5\n]*\s*[为至]：?\s*([0-9\.]+)[\s/和、，元]+([0-9\.]+)[\s/和、，元]+([0-9\.]+)\s*元]]></value>
+								<value><![CDATA[EPS[（）\u4e00-\u9fa5\n]*\s*[为至]：?\s*([0-9\.]+)[\s/和、，元]+([0-9\.]+)\s*元]]></value>
+								<value><![CDATA[每股净?收益(?:（|\()?元?(?:）|\))?\s+-?[0-9\.]+\s+-?[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s]]></value>
+								<value><![CDATA[[每股收益分别为\n]{4,}\s*([0-9\.]+)[\s/和、，元]+([0-9\.]+)[\s元]]]></value>
+								<value><![CDATA[每股收益EPS（元）\s+-?[0-9\.]+\s+-?[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+]]></value>
+								<value><![CDATA[EPS(?:（|\()?元?(?:）|\))?\s*-?[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s]]></value>
+								
+							</list>
+						</entry>
+					</map>
+				</entry>
 			</map>
 		</property>
 		<property name="searchPage"
