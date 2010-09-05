@@ -28,7 +28,7 @@ public class RssDown {
 			return -1;
 		}
 		for(String tmp:listlink){
-			if(null != db.get(tmp)){
+			if(null == db.get(tmp)){
 				db.put(tmp, "ok");			
 			}
 		}
@@ -147,7 +147,7 @@ public class RssDown {
 						dao.insert(tmp);	
 					}catch (Exception e){
 						logger.debug("there is a insert error here");
-						break;
+						continue;
 						
 					}
 				}

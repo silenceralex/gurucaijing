@@ -13,13 +13,13 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 
 	@SuppressWarnings("unchecked")
 	public List<ColumnArticle> getColumnArticleByname(String saname){
-		Map<String, Object> params = new HashMap<String, Object>(3);
+		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("saname", saname);
 		return (List<ColumnArticle>)getSqlMapClientTemplate().queryForList(getNameSpace()+".getColumnArticleByname",params);
 	}
 	
 	public List<ColumnArticle> getColumnArticleByaid(int aid){
-		Map<String, Object> params = new HashMap<String, Object>(3);
+		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("aid", aid);
 		return (List<ColumnArticle>)getSqlMapClientTemplate().queryForList(getNameSpace()+".getColumnArticleByaid",params);
 	}
