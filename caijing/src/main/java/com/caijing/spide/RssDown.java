@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
@@ -17,7 +19,11 @@ public class RssDown {
 	private static Log logger = LogFactory.getLog(RssDown.class);
 	ColumnArticle ar=null;
 	List<ColumnArticle> arlist =null;
-	ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+	
+	@Autowired
+	@Qualifier("columnArticleDao")
+	private ColumnArticleDao dao = null;
+//	ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
 	HashMap<String ,String> db = new HashMap<String,String>();
 	
 	public int  initRssDown(){
@@ -161,6 +167,8 @@ public class RssDown {
 		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
 		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
 		RssDown down = new RssDown();
+		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+		down.setDao(dao);
 		rlt = down.initRssDown();
 		if(rlt <0){
 			logger.debug("init rssdown failed");
@@ -189,6 +197,16 @@ public class RssDown {
 //      }
       
 	
+	}
+
+
+	public ColumnArticleDao getDao() {
+		return dao;
+	}
+
+
+	public void setDao(ColumnArticleDao dao) {
+		this.dao = dao;
 	}
 
 }

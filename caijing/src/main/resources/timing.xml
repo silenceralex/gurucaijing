@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/tx
@@ -12,71 +12,82 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-2.5.xsd"
->
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
- <!--========================================================================
-        CronTriggerBean
-    =========================================================================-->
-    
-    <!-- 每小时从点击记录表中获取信息往视频更新信息 -->
-    <bean id="timingScheduler"  
-    	class="com.caijing.mail.MailSchedule"/>
-     <bean id="scheduledInfo" 
-         class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-         <property name="targetObject"> 
-              <ref bean="timingScheduler"/> 
-         </property> 
-         <property name="targetMethod"> 
-              <value>processMail</value> 
-         </property> 
-     </bean> 
-     <bean id="cronInfoTrigger" 
-         class="org.springframework.scheduling.quartz.CronTriggerBean"> 
-         <property name="jobDetail"> 
-              <ref bean="scheduledInfo"/>
-         </property> 
-         <property name="cronExpression"> 
-             <value>0 30 4,9,14,18,21 * * ?</value> <!-- 每小时执行一次 -->
-         </property> 
-     </bean> 
-     
-     
-     <!--========================================================================
-        CronTriggerSpide
-    =========================================================================-->
-    <bean id="timeRssDown"  
-    	class="com.caijing.spide.DownTest"/>
-    	
-     <bean id="scheduledSpide" 
-         class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-         <property name="targetObject"> 
-              <ref bean="timeRssDown"/> 
-         </property> 
-         <property name="targetMethod"> 
-              <value>DownRss</value> 
-         </property> 
-     </bean> 
-    
-    <bean id="cronSpide" 
-         class="org.springframework.scheduling.quartz.CronTriggerBean"> 
-         <property name="jobDetail"> 
-              <ref bean="scheduledSpide"/>
-         </property> 
-         <property name="cronExpression"> 
-             <value>0 30 * * * ?</value> <!-- 每小时30分执行一次 -->
-         </property> 
-     </bean> 
-    
-     
-	 	
-     <bean autowire="no"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
-         <property name="triggers"> 
-              <list> 
-                   <ref bean="cronInfoTrigger"/>
-                   <ref bean="cronSpide"/>
-              </list> 
-         </property>
-     </bean> 
+	<!--========================================================================
+		CronTriggerBean
+		=========================================================================-->
+
+	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
+	<bean id="timingScheduler" class="com.caijing.mail.MailSchedule">
+		<property name="extractor">
+			<ref bean="reportExtractor" />
+		</property>
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+	</bean>
+	<bean id="scheduledInfo"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="timingScheduler" />
+		</property>
+		<property name="targetMethod">
+			<value>processMail</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="cronInfoTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledInfo" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 4,9,14,18,21 * * ?</value><!-- 每小时执行一次 -->
+		</property>
+	</bean>
+
+
+	<!--========================================================================
+		CronTriggerSpide
+		=========================================================================-->
+	<bean id="timeRssDown" class="com.caijing.spide.DownTest">
+		<property name="columnArticleDao">
+			<ref bean="columnArticleDao" />
+		</property>
+	</bean>
+
+	<bean id="scheduledSpide"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="timeRssDown" />
+		</property>
+		<property name="targetMethod">
+			<value>DownRss</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="cronSpide"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledSpide" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 * * * ?</value><!-- 每小时30分执行一次 -->
+		</property>
+	</bean>
+
+
+
+	<bean autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronInfoTrigger" />
+				<ref bean="cronSpide" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

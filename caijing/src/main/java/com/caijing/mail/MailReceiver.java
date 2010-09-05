@@ -30,7 +30,11 @@ import org.apache.http.client.methods.HttpGet;
 
 import sun.misc.BASE64Decoder;
 
+import com.caijing.crawl.ReportExtractorImpl;
+import com.caijing.dao.ReportDao;
+import com.caijing.dao.ibatis.ReportDaoImpl;
 import com.caijing.util.Command;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.FileUtil;
 import com.caijing.util.UrlDownload;
 
@@ -52,13 +56,23 @@ public class MailReceiver {
 	private static final String path = "/home/app/papers";
 	private static final String timeStamp = "/home/app/timeStamp";
 	// private static final String path = "f:/email/papers";
-	PDFReader reader = new PDFReader();
+	PDFReader reader = null;
 	UrlDownload down = new UrlDownload();
+
 	private static String cookie = "_ntes_nnid=a3bdacb07d1526c408e89b3b1414d546,0; _ntes_nuid=a3bdacb07d1526c408e89b3b1414d546; P_INFO=johnnychenjun@163.com|1282568634|0|epay|11&24|bej&1282568164&epay#bej&null#10|135473&0; USERTRACK=221.223.99.155.1282567572186371; EUSERTRACK=221.223.99.155.1282581292463386; FSTRACK=1282581306784.010b4637-35d9-4a67-8666-e1fe25355c60";
 
 	public static void main(String[] args) {
 
 		MailReceiver receiver = new MailReceiver();
+		ReportExtractorImpl extractor = (ReportExtractorImpl) ContextFactory
+				.getBean("reportExtractor");
+		ReportDao reportDao = (ReportDaoImpl) ContextFactory
+				.getBean("reportDao");
+		PDFReader reader = new PDFReader();
+		reader.setExtractor(extractor);
+		reader.setReportDao(reportDao);
+		reader.init();
+		receiver.setReader(reader);
 		// receiver.setHost("pop3.126.com");
 		// receiver.setUsername("bg20052008");//ƒ˙µƒ” œ‰’À∫≈
 		// receiver.setPassword("336699");//ƒ˙µƒ” œ‰√‹¬Î
@@ -401,5 +415,13 @@ public class MailReceiver {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public PDFReader getReader() {
+		return reader;
+	}
+
+	public void setReader(PDFReader reader) {
+		this.reader = reader;
 	}
 }

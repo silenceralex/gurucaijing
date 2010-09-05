@@ -11,6 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.ReportDao;
@@ -24,13 +26,19 @@ import com.caijing.util.Vutil;
 
 public class PDFReader {
 	private static Log logger = LogFactory.getLog(PDFReader.class);
-	ReportExtractorImpl extractor =(ReportExtractorImpl) ContextFactory.getBean("reportExtractor");
-	ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
+	@Autowired
+	@Qualifier("reportExtractor")
+	private ReportExtractorImpl extractor = null;
+	
+	@Autowired
+	@Qualifier("reportDao")
+	private ReportDao reportDao = null;
 
 	// @Autowired
 	// @Qualifier("vutil")
 	private Vutil vutil = new Vutil();
-	public void init(){
+
+	public void init() {
 		extractor.init();
 	}
 
@@ -165,13 +173,20 @@ public class PDFReader {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		ReportExtractorImpl extractor = (ReportExtractorImpl) ContextFactory
+				.getBean("reportExtractor");
+		ReportDao reportDao = (ReportDaoImpl) ContextFactory
+				.getBean("reportDao");
 		PDFReader pdfReader = new PDFReader();
+		pdfReader.setExtractor(extractor);
+		pdfReader.setReportDao(reportDao);
 		pdfReader.init();
+
 		try {
 			// ȡ��E���µ�SpringGuide.pdf������
 			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
 			// pdfReader.read("F:\\email\\papers\\�о�����7.19");
+
 			System.out.println(args.length);
 			System.out.println(args[0]);
 			if (args.length == 1) {
@@ -179,12 +194,28 @@ public class PDFReader {
 				System.out.println(args[0]);
 				pdfReader.read(args[0]);
 			} else {
-//				pdfReader.processPath("/home/app/email");
+				// pdfReader.processPath("/home/app/email");
 			}
 			// pdfReader.read("/home/app/email/papers/20100723");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ReportExtractorImpl getExtractor() {
+		return extractor;
+	}
+
+	public void setExtractor(ReportExtractorImpl extractor) {
+		this.extractor = extractor;
+	}
+
+	public ReportDao getReportDao() {
+		return reportDao;
+	}
+
+	public void setReportDao(ReportDao reportDao) {
+		this.reportDao = reportDao;
 	}
 }
