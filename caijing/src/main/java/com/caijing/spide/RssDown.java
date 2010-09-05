@@ -1,38 +1,44 @@
 package com.caijing.spide;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.util.ContextFactory;
 
 public class RssDown {
-	Article ar=null;
-	List<Article> arlist =null;
+	private static Log logger = LogFactory.getLog(RssDown.class);
+	ColumnArticle ar=null;
+	List<ColumnArticle> arlist =null;
 	ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+	HashMap<String ,String> db = new HashMap<String,String>();
 	
-	void getRssArList(String siteurl,String peoplename, RssItem site) throws IOException{
-		
-		URL url = new URL(siteurl);
-		InputStream input = url.openStream();
-		String content="";
-		String s=null;
-		InputStreamReader re = new InputStreamReader(input, site.encoding);
-		BufferedReader br = new BufferedReader(re);
-		s=br.readLine();
-		while(s != null){
-		    s=br.readLine();
-		    content+=s;
+	public int  initRssDown(){
+		List<String> listlink = null;
+		try{
+			listlink = dao.getAllArticlelink();
+		}catch(Exception e){
+			return -1;
 		}
-		br.close();
-//		System.out.println(content);
+		for(String tmp:listlink){
+			if(null != db.get(tmp)){
+				db.put(tmp, "ok");			
+			}
+		}
+		return 0;
+	}
 
+	
+	void getRssArList(String siteurl,String peoplename, RssItem site){
+		String content = Downloads.downByHttpclient(siteurl, site.encoding);
+		if(content == null) return;
 		if(site != null){
 			HtmlParser p = new HtmlParser(content);
 			 int event = p.getEventType();
@@ -40,14 +46,14 @@ public class RssDown {
 			 switch (event) {
 			 case HtmlParser.START_DOCUMENT:
 				 
-				 arlist = new ArrayList<Article>();
-//				 System.out.println("Start Document.");
+				 arlist = new ArrayList<ColumnArticle>();
+//				 logger.debug("Start Document.");
 				 break;
 			case HtmlParser.START_ELEMENT:
-//				 System.out.println("Start Element: " + p.getName());
+//				 logger.debug("Start Element: " + p.getName());
 				 			 
 				 if(site.item.equals(p.getName())){
-					 ar = new Article();				 
+					 ar = new ColumnArticle();				 
 				 }else if(site.link.equals(p.getName())){
 					 if(p.hasnext()==1){
 						 int tmpev = p.next();
@@ -58,8 +64,8 @@ public class RssDown {
 							 ti = p.getCDATA();
 						 }
 						 if(ar != null){
-							 ar.link= ti;
-//							 System.out.println(ar.link);
+							 ar.setLink(ti);
+//							 logger.debug(ar.link);
 						 }
 					 }
 				 }else if(site.title.equals(p.getName())){
@@ -72,8 +78,22 @@ public class RssDown {
 							 ti = p.getCDATA();
 						 }
 						 if(ar != null){
-							 ar.title= ti;
-//							 System.out.println(ar.title);
+							 ar.setTitle(ti);
+						 }
+					 }
+				 }else if(site.date.equals(p.getName())){
+					 if(p.hasnext()==1){
+						 int tmpev = p.next();
+						 String ti="";
+						 if(tmpev == HtmlParser.CHARACTERS){
+							 ti = p.getText();
+						 }else if(tmpev == HtmlParser.START_CDATA ){							 
+							 ti = p.getCDATA();
+						 }
+						 if(ar != null){
+							 Date date=ContentTool.strTime2Date(ti,site.tmformat);
+							 ar.setPtime(date);
+							 logger.debug("data="+date);
 						 }
 					 }
 				 }
@@ -83,20 +103,20 @@ public class RssDown {
 				 if (p.isWhiteSpace()==1)
 				 break;
 				 
-//				 System.out.println("Text: " + p.getText());
+//				 logger.debug("Text: " + p.getText());
 				 break;
 				 case HtmlParser.END_ELEMENT:
-//				 System.out.println("End Element:" + p.getName());
+//				 logger.debug("End Element:" + p.getName());
 				 if("item".equals((p.getName()))){
 					 if(arlist != null ) arlist.add(ar);
 					 ar = null;
 				 }
 				 break;
 				 case HtmlParser.END_DOCUMENT:
-//				 System.out.println("End Document.");
+//				 logger.debug("End Document.");
 				 break;
 				 default :
-//					 System.out.println("error");
+//					 logger.debug("error");
 				 }
 				 
 				 if (p.hasnext()==0)
@@ -107,41 +127,68 @@ public class RssDown {
 		}
 		
 		if(arlist != null){
-			for(Article tmp:arlist){
-				System.out.println(tmp.link+tmp.title);
+			String artext=null;
+			for(ColumnArticle tmp:arlist){
+				if(db.get(tmp.getLink())!=null){
+					logger.debug("NOT down" +tmp.getLink()+tmp.getTitle());
+					break;
+				}else{
+					logger.debug("down" +tmp.getLink()+tmp.getTitle());
+					db.put(tmp.getLink(), "ok");
+				}
 				if(site.name.equals("sina")){
-					ContentDown sinadown = new ContentDown();
-					tmp.contents=sinadown.getArticleText(tmp.link, site);
-//					System.out.println(tmp.contents);
-					if(tmp.contents != null){
-						ColumnArticle ca=new ColumnArticle();
-						ca.setContent(tmp.contents);
-						ca.setLink(tmp.link);
-						ca.setSrc("blog");
-						ca.setName(peoplename);
-						ca.setTitle(tmp.title);
-						dao.insert(ca);
+					artext=Downloads.downByHttpclient(tmp.getLink(), site.encoding);
+					artext=ContentTool.getArticleText(artext, site);
+					//logger.debug(artext);
+					tmp.setContent(artext);
+					tmp.setName(peoplename);						
+					tmp.setSrc("blog");
+					try{
+						dao.insert(tmp);	
+					}catch (Exception e){
+						logger.debug("there is a insert error here");
+						break;
+						
 					}
 				}
 			}
-		}
-		
+		}	
 	}
+	
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		
+		int rlt=0;
 		ReadConfig r = new ReadConfig();
-		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml");
-		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml");
+		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
+		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
 		RssDown down = new RssDown();
-		for(FocusPeople people:r.allpeople){
-			RssItem site=r.getArticle(people.sitename);
-			System.out.println("start ...... "+people.name+".......");
+		rlt = down.initRssDown();
+		if(rlt <0){
+			logger.debug("init rssdown failed");
+			return ;
+		}
+		for(Economistor people:r.allpeople){
+			RssItem site=r.getSiteByName(people.sitename);
+			logger.debug("start ...... "+people.name+".......");
 			down.getRssArList(people.siteurl,people.name,site);
-			System.out.println("end ...... "+people.name+".......");
-			System.out.println("");
+			logger.debug("end ...... "+people.name+".......");
+			logger.debug("");
 		}
 		
+		
+		
+//	  String   dateString   =   "Thu, 02 Sep 2010 08:54:37 +0000"; 
+//	  String   pattern   =      "EEE, dd MMM yyyy HH:mm:ss Z";
+//      
+//      SimpleDateFormat   formatter   =   new   SimpleDateFormat(pattern,Locale.ENGLISH); 
+//      try   { 
+//              Date   date   =   formatter.parse(dateString); 
+//              logger.debug( "date   =   "   +   date); 
+//      } 
+//      catch   (Exception   e)   { 
+//              throw   new   RuntimeException(e.getMessage()); 
+//      }
+      
+	
 	}
 
 }

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
 	<people>
+	    <name>茅于轼</name>
+	    <rss>http://blog.sina.com.cn/rss/1235457821.xml</rss>
+	    <sitename>sina</sitename>
+    </people>
+	<people>
 	    <name>刘纪鹏</name>
 	    <rss> http://blog.sina.com.cn/rss/1296760080.xml</rss>
 	    <sitename>sina</sitename>
@@ -35,11 +40,7 @@
 	    <rss>http://blog.sina.com.cn/rss/1182426800.xml</rss>
 	    <sitename>sina</sitename>
     </people>
-    <people>
-	    <name>茅于轼</name>
-	    <rss>http://blog.sina.com.cn/rss/1235457821.xml</rss>
-	    <sitename>sina</sitename>
-    </people>
+    
     <people>
 	    <name>许小年</name>
 	    <rss>http://xuxiaonian163.blog.163.com/rss/</rss>

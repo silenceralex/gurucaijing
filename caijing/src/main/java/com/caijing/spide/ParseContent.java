@@ -3,7 +3,17 @@ package com.caijing.spide;
 import java.io.IOException;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class ParseContent {
+	private static Log logger = LogFactory.getLog(ParseContent.class);
+	public class ParseDiv {
+		int startpos;
+		int endpos;
+		int pnum;//<p> 
+	}
+	
 	Vector<ParseDiv> divVector;
 	Vector<ParseDiv> divStack;
 	boolean isstat = false;// ÊÇ·ñÍ³¼Æ
@@ -16,13 +26,13 @@ public class ParseContent {
 		divStack = new Vector<ParseDiv>();
 	}
 
-	void getContent1(String content) {
+	void getDivPNum(String content) {
 		HtmlParser p = new HtmlParser(content);
 		int event = p.getEventType();
 		while (true) {
 			switch (event) {
 				case HtmlParser.START_ELEMENT:
-					System.out.println("start"+p.getName());
+					logger.debug("start"+p.getName());
 					if (!isstat && p.getName().equals("body")) {
 						isstat = true;
 					}
@@ -30,11 +40,11 @@ public class ParseContent {
 						p.mv2RespEnd();
 					} else if (isstat) {
 						if (p.getName().equals("div") || p.getName().equals("td")) {
-//							System.out.println(content.substring(p.curpos));
+//							logger.debug(content.substring(p.curpos));
 							ParseDiv curDiv = new ParseDiv();
 							curDiv.startpos = p.curpos;
 							divStack.add(curDiv);
-//							System.out.println("div");
+//							logger.debug("div");
 						} else if (p.getName().equals("p") && divStack.size() > 0) {
 							divStack.get(divStack.size() - 1).pnum++;
 						}
@@ -43,10 +53,10 @@ public class ParseContent {
 				case HtmlParser.CHARACTERS:
 					break;
 				case HtmlParser.END_ELEMENT:
-					System.out.println("end "+p.getName());
+					logger.debug("end "+p.getName());
 					if (p.getName().equals("body")) {
 						isstat = false;
-						System.out.println("reached body");
+						logger.debug("reached body");
 						return;
 					}
 					if (isstat) {
@@ -58,26 +68,26 @@ public class ParseContent {
 					}
 					break;
 				case HtmlParser.END_DOCUMENT:
-					System.out.println("END_DOCUMENT");
+					logger.debug("END_DOCUMENT");
 					break;
 				default:
 					break;
 			}
 
 			if (p.hasnext() == 0){
-				System.out.println("has no event" +
+				logger.debug("has no event" +
 						"");
 				break;
 			}
 
 			event = p.next();
-			System.out.println(event);
+			logger.debug(event);
 		}
 	}
 		
 		void printDiv(){
 			for(ParseDiv tmp:divVector){
-				System.out.println(tmp.startpos+":"+tmp.endpos+":"+tmp.pnum);
+				logger.debug(tmp.startpos+":"+tmp.endpos+":"+tmp.pnum);
 			}
 		}
 		
@@ -109,15 +119,6 @@ public class ParseContent {
 		
 	
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-//		String con=ContentDown.downContent("http://blog.sina.com.cn/s/blog_4d4afd100100p1nd.html","utf-8");
-//		System.out.println(con);
-//		ParseContent pc= new ParseContent();
-//		pc.getContent(con);
-//		pc.printDiv();
-//		int i=pc.getMaxPDiv();
-////		System.out.println(con.substring(pc.getStartPos(),pc.getEndPos()));
-//		System.out.println(pc.delLable(con.substring(pc.getStartPos(),pc.getEndPos())));
 	}
 
 }

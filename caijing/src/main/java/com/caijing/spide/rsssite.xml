@@ -6,6 +6,8 @@
     <title>title</title>
     <link>link</link>
     <encoding>UTF-8</encoding>
+    <date>pubDate</date>
+    <tmformat>EEE, dd MMM yyyy HH:mm:ss 'GMT+8'</tmformat>
     <content>
     <start>div:class:articalContent</start>
     <del>span:id:msb</del>
@@ -27,9 +29,11 @@
     <onesite>
     <name>caijing</name>
     <item>item</item>
-    <title>title</title>
+    <title>title</title>    
     <link>link</link>
     <encoding>UTF-8</encoding>
+    <date>pubDate</date>
+    <tmformat>EEE, dd MMM yyyy HH:mm:ss Z</tmformat>
     <content>
     <start>div:id:articalContent</start>
     <del>span:id:msb</del>

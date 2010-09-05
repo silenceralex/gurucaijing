@@ -7,6 +7,8 @@ public class RssItem {
 	String title;
 	String link;
 	String encoding;
+	String date;
+	String tmformat;
 	ContentItem content;
 	
 	public RssItem(){
@@ -15,6 +17,8 @@ public class RssItem {
 		title="";
 		link = "";
 		encoding="";
+		date="";
+		tmformat="";
 		content = null;
 	}
 

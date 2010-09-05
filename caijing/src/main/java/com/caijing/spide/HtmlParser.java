@@ -1,9 +1,12 @@
 package com.caijing.spide;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 
 public class HtmlParser {
-
+	private static Log logger = LogFactory.getLog(HtmlParser.class);
 	public 
 	static final int START_DOCUMENT=0;
 	static final int START_ELEMENT =1;
@@ -230,13 +233,13 @@ public class HtmlParser {
 	    while(true){
 		switch (event) {
 			 case HtmlParser.START_ELEMENT:
-//			 System.out.println("Start Element: " + getName());
+//			 logger.debug("Start Element: " + getName());
 			 if(tmp.equals(getName())){
 			     level++;
 			 }
 			 break;
 			 case HtmlParser.END_ELEMENT:
-//			 System.out.println("End Element:" + getName());
+//			 logger.debug("End Element:" + getName());
 			 if(tmp.equals(getName())){
 			     level--;
 			     if(level == 0){
@@ -246,7 +249,7 @@ public class HtmlParser {
 			 }
 			 break;
 			 case HtmlParser.END_DOCUMENT:
-//			 System.out.println("End Document.");
+//			 logger.debug("End Document.");
 			 break;
 		}
 		 if (hasnext()==0)
@@ -274,32 +277,20 @@ public class HtmlParser {
 	String parseRespValue(RssItem site){
 		String rlt="";
 		boolean isindel=false;
-	    int i,level=1;
+	    int level=1;
 	    if(curev != START_ELEMENT) return null;
 	    String tmp=getName();
 	    int event = next();
 	    while(true){
 			switch (event) {
 				 case HtmlParser.START_ELEMENT:
-	//			 System.out.println("Start Element: " + getName());
+	//			 logger.debug("Start Element: " + getName());
 				 if(tmp.equals(getName())){
 				     level++;
 				 }
-				 for(Triple t:site.content.del){
-					 if(t.startEle.equals(getName())){
-						 for(i=0;i<getAttributeCount();i++){
-							 if(t.name.equals(getAttributeName(i)) && t.value.equals(getAttributeValue(i))){
-								getRespValue();
-								isindel=true;
-								break;
-							 }
-						 }
-						 if(isindel) break;
-					 }
-				 }
 				 break;
 				 case HtmlParser.END_ELEMENT:
-	//			 System.out.println("End Element:" + getName());
+	//			 logger.debug("End Element:" + getName());
 				 if(tmp.equals(getName().toLowerCase())){
 				     level--;
 				     if(level == 0){
@@ -309,7 +300,7 @@ public class HtmlParser {
 				 }
 				 break;
 				 case HtmlParser.END_DOCUMENT:
-	//			 System.out.println("End Document.");
+	//			 logger.debug("End Document.");
 				 break;
 				 case HtmlParser.CHARACTERS:
 					 rlt+=getText();
