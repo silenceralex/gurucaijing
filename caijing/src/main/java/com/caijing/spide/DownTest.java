@@ -10,8 +10,10 @@ public class DownTest {
 	public void DownRss() throws IOException{
 		int rlt=0;
 		ReadConfig r = new ReadConfig();
-		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
-		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
+//		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
+		r.GetAllSite("/home/app/caijing/src/main/java/com/caijing/spide/rsssite.xml","utf-8");
+//		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
+		r.GetAllPeople("/home/app/caijing/src/main/java/com/caijing/spide/focuspeople.xml","utf-8");
 		RssDown down = new RssDown();
 		rlt = down.initRssDown();
 		if(rlt <0){

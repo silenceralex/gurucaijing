@@ -18,6 +18,7 @@ import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.EconomistDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.domain.Economist;
+import com.caijing.util.DateTools;
 import com.caijing.util.Paginator;
 
 
@@ -49,6 +50,7 @@ public class EconomistController {
 		String urlPattern = "";
 		System.out.println("saname:"+saname);
 		List<ColumnArticle> articlelist= new ArrayList();
+		DateTools datetool=new DateTools();
 		if(saname!=null){
 			total=columnArticleDao.getColumnArticleByname(saname).size();
 			paginator.setTotalRecordNumber(total);
@@ -65,6 +67,7 @@ public class EconomistController {
 		paginator.setUrl(urlPattern);
 		model.put("articlelist", articlelist);
 		model.put("paginatorLink", paginator.getPageNumberList());
+		model.put("datetool", datetool);
 		
 		return "/admin/columnarticlelist.htm";
 
@@ -84,6 +87,8 @@ public class EconomistController {
 			throws IOException, Exception {
 		ColumnArticle article=columnArticleDao.getColumnArticleByaid(aid).get(0);
 		model.put("article", article);
+		DateTools datetool=new DateTools();
+		model.put("datetool", datetool);
 		return "/admin/article.htm";	
 	}
 	

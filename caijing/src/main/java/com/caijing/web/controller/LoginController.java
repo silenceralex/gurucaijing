@@ -40,7 +40,9 @@ public class LoginController {
 	@Qualifier("TopicNameConfig")
 	private TopicNameConfig topicNameMap = null;
 	
-	
+	@Autowired
+	@Qualifier("economistDao")
+	private EconomistDao economistDao = null;
 	
 	@RequestMapping("/admin/login.do")
 	public void showColomn(HttpServletResponse response,
@@ -84,6 +86,8 @@ public class LoginController {
 		Set<String> topicList=topicNameMap.getTopicNameMap().keySet();
 		model.put("topicList", topicList);
 		model.put("topicNameMap", topicNameMap);
+		List<Economist> economistList=economistDao.getAllEconomist();
+		model.put("economistList", economistList);
 		return "/admin/menu2.htm";	
 	}
 	

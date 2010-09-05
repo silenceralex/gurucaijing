@@ -452,7 +452,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		report.setSaname("广发证券");
 		RecommendStock rs = extractor.extractFromFile(report,
 //		"http://guru.caijing.com/papers/20100902/6ER8MVG9.txt");
-		"http://guru.caijing.com/papers/20100827/6EHBOMA9.txt");
+		"http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
 		
 //		report.setSaname("招商证券");
 //		RecommendStock rs = extractor.extractFromFile(report,

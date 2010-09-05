@@ -33,8 +33,10 @@
 					<th scope="col">
 						文章标题
 					</th>
-					
-					<th scope="col" width="40">
+					<th scope="col" width="180">
+						发布时间
+					</th>
+					<th scope="col" width="80">
 						来源
 					</th>
 				</tr>
@@ -50,7 +52,10 @@
 					</td>
 					<td bgcolor="#E0E7FF">
 						<a href="/admin/article.htm?aid=$article.aid" target=_blank>&nbsp; $article.title</a>						
-					</td>					
+					</td>		
+					<td bgcolor="#E0E7FF" align="center">
+						$datetool.transformDate(${article.ptime})
+					</td>			
 					<td bgcolor="#E0E7FF" align="center">
 						$article.src
 					</td>
