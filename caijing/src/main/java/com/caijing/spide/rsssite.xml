@@ -35,7 +35,7 @@
     <date>pubDate</date>
     <tmformat>EEE, dd MMM yyyy HH:mm:ss Z</tmformat>
     <content>
-    <start>div:id:articalContent</start>
+    <start>div:class:bltextcon</start>
     <del>span:id:msb</del>
     </content>
     </onesite>
