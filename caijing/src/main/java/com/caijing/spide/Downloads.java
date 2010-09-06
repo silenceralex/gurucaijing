@@ -80,5 +80,18 @@ public class Downloads {
 	    reader.close();	
 	    return content;
 	}
+	
+	static String downAsStream(String filename, String encoding) throws IOException{
+		String content=null;
+		InputStream   f   =   RssDown.class.getResourceAsStream(filename);  
+		InputStreamReader re = new InputStreamReader(f, encoding);
+	    BufferedReader reader = new BufferedReader(re);
+	    String line;
+	    while ((line = reader.readLine()) != null) {
+            content += line;
+        }
+	    reader.close();	
+	    return content;
+	}
 
 }
