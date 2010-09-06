@@ -25,6 +25,8 @@ public class ContentTool {
 				 case HtmlParser.START_ELEMENT:
 					 if("script".equals(p.getName()) || "style".equals(p.getName())|| "INS".equals(p.getName())){
 						 p.mv2RespEnd();
+					 }else if("div".equals(p.getName())&&p.curpos!=0){
+						 p.mv2RespEndAllowNest();
 					 }
 				 break;
 				 case HtmlParser.END_ELEMENT:
@@ -64,7 +66,7 @@ public class ContentTool {
 							 String value= p.getAttributeValue(i);
 							 if(key!=null && value!=null &&site.content.start.name.equals(key) && site.content.start.value.equals(value)){
 								text=p.getRespValue();
-								//logger.debug("11111"+text);
+								logger.debug("11111"+text);
 
 								text=delLable(text);
 								return text;
