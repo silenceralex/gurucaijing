@@ -274,6 +274,43 @@ public class HtmlParser {
 	    return -1;
 	}
 	
+	//移动到允许嵌套的末尾
+	int mv2RespEndAllowNest(){
+	    int level=1;
+	    int startpos=curpos;
+	    if(curev != START_ELEMENT) return -1;
+	    String tmp=getName();
+	    int event = next();
+	    while(true){	    
+		switch (event) {
+			 case HtmlParser.START_ELEMENT:
+//			 logger.debug("Start Element: " + getName());
+			 if(tmp.equals(getName())){
+			     level++;
+			 }
+			 break;
+			 case HtmlParser.END_ELEMENT:
+//			 logger.debug("End Element:" + getName());
+			 if(tmp.equals(getName())){
+			     level--;
+			     if(level == 0){
+			    	 logger.debug("hehheh del "+buff.substring(startpos, curpos));
+				 return 0;
+			     }
+			 }
+			 break;
+			 case HtmlParser.END_DOCUMENT:
+//			 logger.debug("End Document.");
+			 break;
+		}
+		 if (hasnext()==0)
+		     break;
+		
+		 event = next();
+		 }
+	    return -1;
+	}
+	
 	String parseRespValue(RssItem site){
 		String rlt="";
 		boolean isindel=false;
