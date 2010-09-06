@@ -142,7 +142,7 @@ public class RssDown {
 					logger.debug("down" +tmp.getLink()+tmp.getTitle());
 					db.put(tmp.getLink(), "ok");
 				}
-				if(site.name.equals("sina")){
+				if(site.name.equals("sina")||site.name.equals("caijing")){
 					artext=Downloads.downByHttpclient(tmp.getLink(), site.encoding);
 					artext=ContentTool.getArticleText(artext, site);
 					//logger.debug(artext);
@@ -163,24 +163,47 @@ public class RssDown {
 	
 	public static void main(String[] args) throws IOException {
 		int rlt=0;
-		ReadConfig r = new ReadConfig();
-		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
-		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
+//		ReadConfig r = new ReadConfig();
+//		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
+//		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
+//		RssDown down = new RssDown();
+//		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+//		down.setDao(dao);
+//		rlt = down.initRssDown();
+//		if(rlt <0){
+//			logger.debug("init rssdown failed");
+//			return ;
+//		}
+//		for(Economistor people:r.allpeople){
+//			RssItem site=r.getSiteByName(people.sitename);
+//			logger.debug("start ...... "+people.name+".......");
+//			down.getRssArList(people.siteurl,people.name,site);
+//			logger.debug("end ...... "+people.name+".......");
+//			logger.debug("");
+//		}
+		
+		
+		
+		
+		RssItem onesite = new RssItem();
+		onesite.name="caijing";
+		onesite.item="item";
+		onesite.title="title";
+		onesite.encoding = "UTF-8";
+		onesite.link = "link";
+		onesite.date = "pubDate";		
+		onesite.tmformat="EEE, dd MMM yyyy HH:mm:ss Z";
+		onesite.content = new ContentItem();
+		String[] startstr = {"div","class","bltextcon"};
+		onesite.content.setStart(startstr);
+		
+		Economistor people = new Economistor();
+		people.siteurl="http://blog.caijing.com.cn/rss-u151333.xml";
+		people.name="×óÐ¡ÀÙ";
 		RssDown down = new RssDown();
 		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
 		down.setDao(dao);
-		rlt = down.initRssDown();
-		if(rlt <0){
-			logger.debug("init rssdown failed");
-			return ;
-		}
-		for(Economistor people:r.allpeople){
-			RssItem site=r.getSiteByName(people.sitename);
-			logger.debug("start ...... "+people.name+".......");
-			down.getRssArList(people.siteurl,people.name,site);
-			logger.debug("end ...... "+people.name+".......");
-			logger.debug("");
-		}
+		down.getRssArList(people.siteurl,people.name,onesite);
 		
 		
 		
