@@ -48,6 +48,42 @@
 	</bean>
 
 
+	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
+	<bean id="extractScheduler" class="com.caijing.mail.MailSchedule">
+		<property name="extractor">
+			<ref bean="reportExtractor" />
+		</property>
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+			<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+			<property name="config">
+			<ref bean="config" />
+		</property>
+	</bean>
+	<bean id="scheduledExtract"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="extractScheduler" />
+		</property>
+		<property name="targetMethod">
+			<value>extractAll</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="extractTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledExtract" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 */4 * * ?</value><!-- 每小时执行一次 -->
+		</property>
+	</bean>
+
+
 	<!--========================================================================
 		CronTriggerSpide
 		=========================================================================-->
@@ -86,6 +122,7 @@
 			<list>
 				<ref bean="cronInfoTrigger" />
 				<ref bean="cronSpide" />
+				<ref bean="extractTrigger" />		
 			</list>
 		</property>
 	</bean>

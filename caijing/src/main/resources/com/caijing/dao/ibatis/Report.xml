@@ -14,6 +14,10 @@
 		ptime
 	</select>
 
+	<select id="getCompanyReportsBySanameAfter" parameterClass="java.util.Map" resultClass="reportClass">
+		select * from report where type=1 and saname = #saname# and ptime > #date# order by
+		ptime
+	</select>
 
 	<select id="getAllCompanyReports" resultClass="reportClass">
 		select * from report where type=1 order by ptime
@@ -24,6 +28,9 @@
 		select * from report where saname = #saname# order by ptime desc
 		limit #start#,#offset#
 	</select>
+	
+	
+	
 
 	<select id="getAllReportsCountBySaname"
 		resultClass="java.lang.Integer">
