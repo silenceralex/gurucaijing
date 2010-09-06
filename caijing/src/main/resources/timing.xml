@@ -49,15 +49,15 @@
 
 
 	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
-	<bean id="extractScheduler" class="com.caijing.mail.MailSchedule">
+	<bean id="extractScheduler" class="com.caijing.mail.ExtractSchedule">
 		<property name="extractor">
 			<ref bean="reportExtractor" />
 		</property>
 		<property name="reportDao">
 			<ref bean="reportDao" />
 		</property>
-			<property name="reportDao">
-			<ref bean="reportDao" />
+			<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
 		</property>
 			<property name="config">
 			<ref bean="config" />
