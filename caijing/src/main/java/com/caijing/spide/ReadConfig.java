@@ -26,7 +26,7 @@ public class ReadConfig {
 
 	void GetAllSite(String filename,String encoding) throws IOException{
 	    RssItem site=null;
-	    String content=Downloads.downByReadFile(filename, encoding);
+	    String content=Downloads.downAsStream(filename, encoding);
 		
 	    HtmlParser p = new HtmlParser(content);
 	    int event=p.getEventType();
@@ -96,7 +96,7 @@ public class ReadConfig {
 	
 	void GetAllPeople(String filename, String encoding) throws IOException{
 	    Economistor people=null;
-	    String content=Downloads.downByReadFile(filename, encoding);
+	    String content=Downloads.downAsStream(filename, encoding);
 		
 	    HtmlParser p = new HtmlParser(content);
 	    int event=p.getEventType();
