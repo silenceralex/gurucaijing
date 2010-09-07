@@ -1,5 +1,7 @@
 package com.caijing.mail;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.caijing.dao.ReportDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.util.Config;
+import com.caijing.util.FileUtil;
 
 public class ExtractSchedule {
 
@@ -29,16 +32,22 @@ public class ExtractSchedule {
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
+	
+	private static final String timeStamp = "/home/app/extract_timeStamp";
 
 	public void extractAll() {
-		extract("申银万国", "2010-09-02 12:00:00");
-		extract("国泰君安", "2010-09-02 12:00:00");
-		extract("中金公司", "2010-09-02 12:00:00");
-		extract("海通证券", "2010-09-02 12:00:00");
-		extract("国金证券", "2010-09-02 12:00:00");
-		extract("安信证券", "2010-09-02 12:00:00");
-		extract("招商证券", "2010-09-02 12:00:00");
-		extract("广发证券", "2010-09-02 12:00:00");
+		String judgetime = FileUtil.read(timeStamp, "GBK");
+		Date date =new Date();
+		extract("申银万国", judgetime);
+		extract("国泰君安", judgetime);
+		extract("中金公司", judgetime);
+		extract("海通证券", judgetime);
+		extract("国金证券", judgetime);
+		extract("安信证券", judgetime);
+		extract("招商证券", judgetime);
+		extract("广发证券", judgetime);
+		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		FileUtil.write(timeStamp, sdf.format(date));
 	}
 
 	public void extract(String saname, String date) {
@@ -52,7 +61,7 @@ public class ExtractSchedule {
 		for (Report report : reports) {
 			if (config.getValue(report.getSaname()) != null) {
 				System.out.println("Now process NO.: " + i);
-				String txtpath = "/home/app" + report.getFilepath();
+				String txtpath = "/home/html" + report.getFilepath();
 				System.out.println("Reports txt path: " + txtpath.replace(".pdf", ".txt"));
 				if (recommendStockDao.getRecommendStockbyReportid(report.getRid()) == null) {
 					RecommendStock rs = extractor.extractFromFile(report, txtpath.replace(".pdf", ".txt"));

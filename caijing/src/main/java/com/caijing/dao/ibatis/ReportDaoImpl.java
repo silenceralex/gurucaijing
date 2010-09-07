@@ -45,7 +45,6 @@ public class ReportDaoImpl extends CrudDaoDefault implements ReportDao {
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getCompanyReportsBySaname", saname);
 	}
 
-	@Override
 	public List<Report> getCompanyReportsBySanameAfter(String saname, String date) {
 		Map<String, Object> params = new HashMap<String, Object>(2);
 		params.put("saname", saname);
