@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
+ <people>
+	    <name>陈志武</name>
+	    <rss>http://blog.sina.com.cn/rss/1222713954.xml</rss>
+	    <sitename>sina</sitename>
+    </people>
 	<people>
 	    <name>左小蕾</name>
 	    <rss>http://blog.caijing.com.cn/rss-u151333.xml</rss>
@@ -73,11 +78,7 @@
 	    <rss>http://blog.sina.com.cn/rss/1092672395.xml</rss>
 	    <sitename>sina</sitename>
     </people>
-    <people>
-	    <name>陈志武</name>
-	    <rss>http://blog.sina.com.cn/rss/1222713954.xml</rss>
-	    <sitename>sina</sitename>
-    </people>
+   
      <people>
 	    <name>杨帆</name>
 	    <rss> http://blog.sina.com.cn/rss/1347411011.xml</rss>

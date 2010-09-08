@@ -31,6 +31,7 @@ public class RssDown {
 		try{
 			listlink = dao.getAllArticlelink();
 		}catch(Exception e){
+			e.printStackTrace();
 			return -1;
 		}
 		for(String tmp:listlink){
@@ -158,7 +159,7 @@ public class RssDown {
 					db.put(tmp.getLink(), "ok");
 				}
 //				if(site.name.equals("sina")||site.name.equals("caijing")){
-				System.out.println("kkkk"+tmp.getContent());
+//				System.out.println("kkkk"+tmp.getContent());
 				if(tmp.getContent()==null){
 					System.out.println("xxx"+tmp.getContent());
 					artext=Downloads.downByHttpclient(tmp.getLink(), site.encoding);
@@ -223,27 +224,27 @@ public class RssDown {
 //		down.setDao(dao);
 //		down.getRssArList(people.siteurl,people.name,onesite);
 		
-		RssItem onesite = new RssItem();
-		onesite.name="163";
-		onesite.item="item";
-		onesite.title="title";
-		onesite.encoding = "GBK";
-		onesite.link = "link";
-//		onesite.des="description";
-		onesite.date = "pubDate";		
-		onesite.tmformat="EEE, dd MMM yyyy HH:mm:ss Z";
-		onesite.content = new ContentItem();
-		String[] startstr = {"div","class","bct fc05 fc11 nbw-blog ztag"};
-		onesite.content.setStart(startstr);
-		
-		Economistor people = new Economistor();
-		people.siteurl="http://xuxiaonian163.blog.163.com/rss/";
-		people.name="许小年";
-		RssDown down = new RssDown();
-		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
-		down.setDao(dao);
-		down.initRssDown();
-		down.getRssArList(people.siteurl,people.name,onesite);
+//		RssItem onesite = new RssItem();
+//		onesite.name="163";
+//		onesite.item="item";
+//		onesite.title="title";
+//		onesite.encoding = "GBK";
+//		onesite.link = "link";
+////		onesite.des="description";
+//		onesite.date = "pubDate";		
+//		onesite.tmformat="EEE, dd MMM yyyy HH:mm:ss Z";
+//		onesite.content = new ContentItem();
+//		String[] startstr = {"div","class","bct fc05 fc11 nbw-blog ztag"};
+//		onesite.content.setStart(startstr);
+//		
+//		Economistor people = new Economistor();
+//		people.siteurl="http://xuxiaonian163.blog.163.com/rss/";
+//		people.name="许小年";
+//		RssDown down = new RssDown();
+//		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+//		down.setDao(dao);
+//		down.initRssDown();
+//		down.getRssArList(people.siteurl,people.name,onesite);
 		
 		
 		
@@ -258,6 +259,11 @@ public class RssDown {
 //      catch   (Exception   e)   { 
 //              throw   new   RuntimeException(e.getMessage()); 
 //      }
+		DownTest down = new DownTest();
+		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+		down.setColumnArticleDao(dao);
+		down.DownRss();
+
       
 	
 	}
