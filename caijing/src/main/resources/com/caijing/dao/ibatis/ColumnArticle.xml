@@ -6,7 +6,7 @@
 	
   <select id="getColumnArticleByname"  parameterClass="java.util.Map"
   resultClass="ColumnArticle" >
-    select * from columnarticle where name = #saname#
+    select * from columnarticle where name = #saname# order by ptime desc
   </select>
   
   <select id="getColumnArticleByaid"  parameterClass="java.util.Map"
@@ -58,7 +58,7 @@
 	
 	<select id="getAllColumnArticle" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle  limit #start#,#offset#
+		select * from columnarticle  limit #start#,#offset# order by ptime desc
 	</select>
 
 </sqlMap>
