@@ -15,18 +15,6 @@
     </onesite>
 
     <onesite>
-    <name>sohu</name>
-    <item>item</item>
-    <title>title</title>
-    <link>link</link>
-    <encoding>GBK</encoding>
-    <content>
-    <start>div:id:articalContent</start>
-    <del>span:id:msb</del>
-    </content>
-    </onesite>
-    
-    <onesite>
     <name>caijing</name>
     <item>item</item>
     <title>title</title>    
@@ -34,6 +22,7 @@
     <encoding>UTF-8</encoding>
     <date>pubDate</date>
     <tmformat>EEE, dd MMM yyyy HH:mm:ss Z</tmformat>
+    <des></des>
     <content>
     <start>div:class:bltextcon</start>
     <del>span:id:msb</del>
@@ -47,9 +36,12 @@
     <title>title</title>
     <link>link</link>
     <encoding>GBK</encoding>
+    <date>pubDate</date>
+    <tmformat>EEE, dd MMM yyyy HH:mm:ss Z</tmformat>
+    <des></des>
     <content>
-    <start>div:id:articalContent</start>
-    <del>span:id:msb</del>
+    <start>div:id:bct fc05 fc11 nbw-blog ztag</start>
+    <del>span:id:msb</del> 
     </content>
     </onesite>
 </config>

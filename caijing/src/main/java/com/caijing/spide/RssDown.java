@@ -102,6 +102,21 @@ public class RssDown {
 							 logger.debug("data="+date);
 						 }
 					 }
+				 }else if(site.des.equals(p.getName())){
+					 if(p.hasnext()==1){
+						 int tmpev = p.next();
+						 String ti="";
+						 if(tmpev == HtmlParser.CHARACTERS){
+							 ti = p.getText();
+						 }else if(tmpev == HtmlParser.START_CDATA ){							 
+							 ti = p.getCDATA();
+						 }
+						 if(ar != null){
+							 ti=ContentTool.delLable(ti);
+							 ar.setContent(ti);
+							 logger.debug("des="+ti);
+						 }
+					 }
 				 }
 				 
 				 break;
@@ -142,20 +157,23 @@ public class RssDown {
 					logger.debug("down" +tmp.getLink()+tmp.getTitle());
 					db.put(tmp.getLink(), "ok");
 				}
-				if(site.name.equals("sina")||site.name.equals("caijing")){
+//				if(site.name.equals("sina")||site.name.equals("caijing")){
+				System.out.println("kkkk"+tmp.getContent());
+				if(tmp.getContent()==null){
+					System.out.println("xxx"+tmp.getContent());
 					artext=Downloads.downByHttpclient(tmp.getLink(), site.encoding);
+					System.out.println("kkxxxkk"+tmp.getContent());
 					artext=ContentTool.getArticleText(artext, site);
 					//logger.debug(artext);
 					tmp.setContent(artext);
-					tmp.setName(peoplename);						
-					tmp.setSrc("blog");
-					try{
-						dao.insert(tmp);	
-					}catch (Exception e){
-						logger.debug("there is a insert error here");
-						continue;
-						
-					}
+				}
+				tmp.setName(peoplename);						
+				tmp.setSrc("blog");
+				try{
+					dao.insert(tmp);	
+				}catch (Exception e){
+					logger.debug("there is a insert error here");
+					continue;						
 				}
 			}
 		}	
@@ -185,24 +203,46 @@ public class RssDown {
 		
 		
 		
+//		RssItem onesite = new RssItem();
+//		onesite.name="caijing";
+//		onesite.item="item";
+//		onesite.title="title";
+//		onesite.encoding = "UTF-8";
+//		onesite.link = "link";
+//		onesite.date = "pubDate";		
+//		onesite.tmformat="EEE, dd MMM yyyy HH:mm:ss Z";
+//		onesite.content = new ContentItem();
+//		String[] startstr = {"div","class","bltextcon"};
+//		onesite.content.setStart(startstr);
+//		
+//		Economistor people = new Economistor();
+//		people.siteurl="http://blog.caijing.com.cn/rss-u151333.xml";
+//		people.name="左小蕾";
+//		RssDown down = new RssDown();
+//		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
+//		down.setDao(dao);
+//		down.getRssArList(people.siteurl,people.name,onesite);
+		
 		RssItem onesite = new RssItem();
-		onesite.name="caijing";
+		onesite.name="163";
 		onesite.item="item";
 		onesite.title="title";
-		onesite.encoding = "UTF-8";
+		onesite.encoding = "GBK";
 		onesite.link = "link";
+//		onesite.des="description";
 		onesite.date = "pubDate";		
 		onesite.tmformat="EEE, dd MMM yyyy HH:mm:ss Z";
 		onesite.content = new ContentItem();
-		String[] startstr = {"div","class","bltextcon"};
+		String[] startstr = {"div","class","bct fc05 fc11 nbw-blog ztag"};
 		onesite.content.setStart(startstr);
 		
 		Economistor people = new Economistor();
-		people.siteurl="http://blog.caijing.com.cn/rss-u151333.xml";
-		people.name="左小蕾";
+		people.siteurl="http://xuxiaonian163.blog.163.com/rss/";
+		people.name="许小年";
 		RssDown down = new RssDown();
 		ColumnArticleDao dao=(ColumnArticleDao)ContextFactory.getBean("columnArticleDao");
 		down.setDao(dao);
+		down.initRssDown();
 		down.getRssArList(people.siteurl,people.name,onesite);
 		
 		

@@ -64,7 +64,12 @@ public class ReadConfig {
 					    if(p.hasnext()==1 && p.next()==HtmlParser.CHARACTERS){
 					    	if(site != null) site.date = p.getText();
 					    }
-				     }else if("tmformat".equals(p.getName())){
+				     }else if("des".equals(p.getName())){
+						    if(p.hasnext()==1 && p.next()==HtmlParser.CHARACTERS){
+						    	logger.debug(p.getText());
+						    	if(site != null) site.des = p.getText();
+						    }
+					 }else if("tmformat".equals(p.getName())){
 						    if(p.hasnext()==1 && p.next()==HtmlParser.CHARACTERS){
 						    	if(site != null) site.tmformat = p.getText();
 						    }

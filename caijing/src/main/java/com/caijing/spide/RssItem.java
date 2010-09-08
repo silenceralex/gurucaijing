@@ -9,6 +9,7 @@ public class RssItem {
 	String encoding;
 	String date;
 	String tmformat;
+	String des;
 	ContentItem content;
 	
 	public RssItem(){
@@ -19,6 +20,7 @@ public class RssItem {
 		encoding="";
 		date="";
 		tmformat="";
+		des="";
 		content = null;
 	}
 
