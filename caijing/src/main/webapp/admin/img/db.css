@@ -1,7 +1,8 @@
-body{background:#eee; overflow-x:hidden}
+body{background:#eee;overflow-x:hidden}
+*{padding:0;margin:0;}
 .pageArea {width:980px; height:auto; margin:0 auto;}
-#header {background:#005ea0; height:35px; clear:both;}
-#header h1 {font-size:14px; color:#fff;padding:12px 0 0 15px; text-align:left;}
+#header {background:url(adminTopBg.jpg) repeat-x; height:39px; color:#fff; clear:both;line-height:39px;}
+#header h1 {font-size:14px;height:39px;width:300px;float:left;  text-align:left;}
 .area{clear:both;}
 /* leftside CSS */
 .leftSideArea {
@@ -24,7 +25,7 @@ body{background:#eee; overflow-x:hidden}
 .rightSideArea .rightContent{margin:0 0 0 8px;  height:100%;}
 
 .currentPos{height:30px; background:#404040; border-bottom:1px solid #fff;}
-.currentPos h4{ color:#fff; padding:9px 0 0 10px; font-size:14px; text-align:left;} 
+.currentPos h4{ color:#fff; padding:9px 0 0 10px; font-size:14px; text-align:left;}
 .currentPos a{color:#fff;}
 .currentPos a:visited{color:#fff;}
 .currentPos a:hover{color:#ff0;}

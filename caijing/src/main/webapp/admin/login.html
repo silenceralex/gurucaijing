@@ -1,32 +1,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>研报库系统登录</title>
-<style type="text/css">
-body{padding:0; margin:0; text-align:center; font-size:14px; background:#fff;}
-ul,li,form{padding:0; margin:0;}
-.loginBox{margin:30px auto 0; width:320px; height:200px; background:#EAF2FC; border:1px solid #BDC6D3;}
-.title{ height:36px; clear:both;border-bottom:1px solid #BDC6D3; background:#06c; color:#fff; font-weight:bold; line-height:36px;}
-.loginBlock{margin:0 auto; width:250px; clear:both; padding:12px 0 0;}
-.loginBlock li{text-align:left; padding:15px 0 0; list-style-type:none;}
-.input{width:180px; border:1px solid #ccc; height:19px;}
-.button{width:80px; padding:2px 0 0; cursor:pointer;}
-.text{margin: 0 auto; width:320px; padding:15px 0 0;}
-</style>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>鎶曡祫澶у笀缃戠珯绠＄悊鍚庡彴</title>
+    <style>
+        <!--
+            body{
+                padding:0;
+                margin: 0;
+                border:0;
+                background:#CCC;
+                font-size: 12px;
+            }
+            #loginPanel{
+                width:583px;
+                height:372px;
+                margin:100px auto;
+                background:url('/admin/img/loginBack.jpg') no-repeat;
+            }
+            #loginBox{
+                width: 280px;
+                height:auto;
+                margin:0 auto;
+                padding-top:192px;
+            }
+            #loginBox label{
+                width: 50px;
+                display: inline-block;
+            }
+            .input{
+                width:170px;
+                padding-left: 5px;
+                padding-right:5px;
+            }
+            .button{
+                width: 70px;
+                height:34px;
+                line-height: 34px;
+            }
+            .btn1{
+                margin-left:50px;
+            }
+            .btn2{
+                margin-left:20px;
+            }
+        -->
+    </style>
 </head>
 
 <body>
-<div class="loginBox">
-<div class="title">财经研报库 用户登录</div>
-<form name="LoginForm" name="LoginForm" action="/admin/login.do" method="post" target="_self">
-<ul class="loginBlock">
-<li>用户名：<input name="username" id="username" type="text" class="input" /></li>
-<li>口　令：<input name="password" id="password" type="password" class="input" /></li>
-<li style="text-align:right; padding:15px 15px 0 0;"><input type="submit" value="登　录" class="button" />　<input type="button" value="取　消" class="button" />
-</li>
-</ul>
-</form>
+<div id="loginPanel">
+    <div id="loginBox">
+        <form name="LoginForm" name="LoginForm" action="/admin/login.do" method="post" target="_self">
+            <dir><label for="username">鐢ㄦ埛鍚嶏細</label><input id="username" class="input" name="username" type="text" maxlength="20"/></dir>
+            <dir><label for="password">瀵�  鐮侊細</label><input id="password" class="input" name="password" type="password" maxlength="20" /></dir>
+            <dir>
+                <input type="submit" class="button btn1" value="鐧诲綍"/>
+                <input class="button  btn2" type="button" onclick="window.close();" value="鍙栨秷"/>
+            </dir>
+        </form>
+    </div>
 </div>
 </body>
 </html>

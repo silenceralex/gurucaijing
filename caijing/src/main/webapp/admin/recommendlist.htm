@@ -3,8 +3,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<title>公司研报分析结果列表页</title>
-		<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />
-		<script type="text/javascript" src="/admin/js/jsonrpc.jjs"></script>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
 	</head>
 
 	<body>
@@ -32,7 +33,10 @@
 						标题&nbsp; 
 					</th>
 					<th scope="col" width="160"> 
-						上市公司评级 
+						上市公司 
+					</th>
+                    <th scope="col" width="160"> 
+						评级 
 					</th>
 					<th scope="col" width="120">每股收益 
 					</th>
@@ -56,7 +60,10 @@
 						&nbsp; $recommend.title
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							$recommend.stockname（$recommend.stockcode）&nbsp; <font color="red">$recommend.grade</font>
+							${recommend.stockname}(${recommend.stockcode})
+					</td>
+                    <td height="30" bgcolor="#E0E7FF" align="center">
+							<font color="red">$recommend.grade</font>
 					</td>
 					<td bgcolor="#E0E7FF" align="center">
 						$recommend.eps

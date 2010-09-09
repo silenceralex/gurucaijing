@@ -36,7 +36,7 @@ function byteWordCount(textarea, showelement) {
   document.getElementById(showelement).innerHTML = "<b>" + count/2 + "</b>";
 }
 
-function chkSubmit() {
+/*function chkSubmit() {
 	if (document.getElementById('title').value == '') {
 		alert("请填写标题");
 		return false;
@@ -52,8 +52,22 @@ function chkSubmit() {
 		return false;
 	}
 	return true;
+}*/
+
+function fillToInput() {
+    var valArr = document.recommendForm.eps.value.split(",");
+    document.recommendForm.EPSinput1.value = valArr[0].replace("{","");
+    document.recommendForm.EPSinput2.value = valArr[1];
+    document.recommendForm.EPSinput3.value = valArr[2].replace("}","");
 }
 
+function chkSubmit() {
+    document.recommendForm.eps.value="{"+document.recommendForm.EPSinput1.value.toString()+","+document.recommendForm.EPSinput2.value.toString()+","+document.recommendForm.EPSinput3.value.toString()+"}";
+    document.recommendForm.submit();
+	//return true;
+
+}
+window.onload = fillToInput;
 </script>
 	</head>
 	<body>
@@ -141,9 +155,21 @@ function chkSubmit() {
 						</td>
 						<td>
 							<label>
-								<textarea name="eps" id="eps" cols="45" rows="1">$rstock.eps</textarea>
+
+								<input type="text" name="EPSinput1"/>,
+                                <input type="text" name="EPSinput2"/>,
+                                <input type="text" name="EPSinput3"/>
+
 							</label>
+
+							<label>
+
+								<textarea name="eps" id="eps" cols="45" rows="1">{'2010':'0.28','2011':'0.35','2012':'n/a'}</textarea>
+
+							</label>
+                            <br />
 							注明：
+
 							json格式保存，如2010-2012E,0.5、0.8、1.2元，记为{'2010':'0.5','2011':'0.8','2012':'1.2'}
 						</td>
 					</tr>
@@ -159,7 +185,7 @@ function chkSubmit() {
 					</tr>
 					<tr>
 						<td colspan="3" style="text-align: right;" class="f14px">
-							<input type="submit" value="提 交"></input>
+							<input type="button" onclick="chkSubmit()" value="提 交"></input>
 							&nbsp;
 							<input type="reset" value="重 置"></input>
 						</td>

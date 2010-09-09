@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<title>研报列表页</title>
-		<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />
-		<script type="text/javascript" src="/admin/js/jsonrpc.jjs"></script>
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
 	</head>
 
 	<body>
@@ -64,7 +64,7 @@
 					</td>
 					<td bgcolor="#E0E7FF">
 						#if($report.type==0)
-						<font color="#33FF00">&nbsp;&nbsp;券商晨会</font>
+						<font color="#0C0">&nbsp;&nbsp;券商晨会</font>
 						#elseif($report.type==1)
 						<font color="blue">&nbsp;&nbsp;公司研报</font>
 						#elseif($report.type==2)
@@ -84,7 +84,7 @@
 			</table>
 			<!---列表--->
 			<br />
-			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+			<table class="whtab" width="100%" border="0" cellspacing="2" cellpadding="0">
 				<tr>
 					<td align="center">
 						$paginatorLink
