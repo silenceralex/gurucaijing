@@ -22,17 +22,6 @@ public class DownTest {
 		r.GetAllSite("rsssite.xml", "utf-8");
 		r.GetAllPeople("focuspeople.xml", "utf-8");
 
-<<<<<<< .mine
-//		////		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
-//		r.GetAllSite("/home/app/caijing/src/main/java/com/caijing/spide/rsssite.xml", "utf-8");
-//		////		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
-//		r.GetAllPeople("/home/app/caijing/src/main/java/com/caijing/spide/focuspeople.xml", "utf-8");
-=======
-		////		r.GetAllSite("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\rsssite.xml","utf-8");
-//		r.GetAllSite("/home/app/caijing/src/main/java/com/caijing/spide/rsssite.xml", "utf-8");
-		////		r.GetAllPeople("D:\\opensource\\guru\\caijing\\src\\main\\java\\com\\caijing\\spide\\focuspeople.xml","utf-8");
-//		r.GetAllPeople("/home/app/caijing/src/main/java/com/caijing/spide/focuspeople.xml", "utf-8");
->>>>>>> .r139
 		RssDown down = new RssDown();
 		down.setDao(columnArticleDao);
 		rlt = down.initRssDown();
