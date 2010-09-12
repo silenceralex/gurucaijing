@@ -8,34 +8,51 @@
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
-	
-	<select id="getRecommendStocks"
-		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.*, r.title as title from recommendstock as rs,report as r where rs.reportid=r.rid order by
-		rs.createdate desc limit #start#,#offset#
+
+	<select id="getRecommendStocks" parameterClass="java.util.Map"
+		resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.reportid=r.rid order by rs.createdate desc limit
+		#start#,#offset#
 	</select>
-	
+
 	<select id="getRecommendStocksBySaname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.*, r.title as title from recommendstock as rs,report as r where rs.reportid=r.rid and rs.saname=#saname# order by
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.reportid=r.rid and rs.saname=#saname# order by
 		rs.createdate desc limit #start#,#offset#
 	</select>
-	
+
+	<select id="getUncompletedRecommendStocksBySaname"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.saname=#saname# and ( <![CDATA[rs.extractnum < 4 ]]>or (
+		rs.extractnum=4 and rs.objectprice!=0 )) and r.rid=rs.reportid
+		order by rs.createdate desc limit #start#,#offset#
+	</select>
+
+	<select id="getGoodRecommendStocksBySaname"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.saname=#saname# and ( rs.extractnum=5 or (
+		rs.extractnum=4 and rs.objectprice=0 )) and r.rid=rs.reportid
+		order by rs.createdate desc limit #start#,#offset#
+	</select>
 	<select id="getRecommendStocksCountsbySaname"
 		resultClass="java.lang.Integer">
 		select count(1) from recommendstock where saname=#value#
 	</select>
-	
+
 	<select id="getAllRecommendStocksCount"
 		resultClass="java.lang.Integer">
 		select count(1) from recommendstock
 	</select>
-	
+
 	<select id="getAllRecommendCountBySaname"
 		resultClass="java.lang.Integer" parameterClass="java.lang.String">
 		select count(1) from recommendstock where saname=#value#
-	</select>	
-	
+	</select>
+
 	<select id="getRecommendStockbyReportid"
 		resultClass="RecommendStock">
 		select * from recommendstock where reportid=#reportid#

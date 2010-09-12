@@ -2,6 +2,7 @@ package com.caijing.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,10 @@ import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
+import com.caijing.domain.StockGain;
+import com.caijing.model.StockPrice;
 import com.caijing.util.Config;
+import com.caijing.util.DateTools;
 import com.caijing.util.Paginator;
 import com.caijing.util.ResponseUtil;
 import com.caijing.util.TopicNameConfig;
@@ -143,6 +147,28 @@ public class RecommendController {
 		model.put("rstock", rstock);
 		model.put("report", report);
 		return "/admin/recommendinfo.htm";
+	}
+	
+	@RequestMapping("/admin/stockgain.htm")
+	public String showStockGain(HttpServletResponse response,
+			@RequestParam(value = "rid", required = true)
+			String reportid, HttpServletRequest request, ModelMap model) {
+		Report report = null;
+		report = (Report) reportDao.select(reportid);
+		RecommendStock rstock = recommendStockDao
+				.getRecommendStockbyReportid(reportid);
+		StockPrice sp = new StockPrice();
+		String tmp=rstock.getCreatedate();
+		tmp=tmp.substring(0, 4)+"-"+tmp.substring(4, 6)+"-"+tmp.substring(6,8);
+		StockGain sg=sp.getStockGainByPeriod(rstock.getStockcode(), tmp,DateTools.transformYYYYMMDDDate(new Date()));
+		sg.setSaname(rstock.getSaname());
+		sg.setStockname(rstock.getStockname());
+		sg.setObjectprice(rstock.getObjectprice());
+		model.put("vutil", vutil);
+		model.put("rstock", rstock);
+		model.put("report", report);
+		model.put("stockgain", sg);
+		return "/admin/stockgain.htm";
 	}
 
 	@RequestMapping("/admin/recommendedit.do")

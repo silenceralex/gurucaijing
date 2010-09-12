@@ -69,4 +69,23 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 		return null;
 	}
 
+	public List<RecommendStock> getGoodRecommendStocksBySaname(String saname, int start, int offset) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("offset", offset);
+		params.put("saname", saname);
+		return getSqlMapClientTemplate().queryForList(
+				this.getNameSpace() + ".getGoodRecommendStocksBySaname",params);
+	}
+
+	public List<RecommendStock> getUncompletedRecommendStocksBySaname(String saname, int start,
+			int offset) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("offset", offset);
+		params.put("saname", saname);
+		return getSqlMapClientTemplate().queryForList(
+				this.getNameSpace() + ".getUncompletedRecommendStocksBySaname",params);
+	}
+
 }

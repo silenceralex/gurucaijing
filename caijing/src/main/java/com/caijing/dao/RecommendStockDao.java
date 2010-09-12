@@ -25,4 +25,8 @@ public interface RecommendStockDao extends CrudDao {
 	public List<RecommendStock> getRecommendStocks(int start, int offset);
 
 	public RecommendStock getRecommendStockbyReportid(String reportid);
+	
+	public List<RecommendStock> getGoodRecommendStocksBySaname(String saname, int start, int offset);
+	
+	public List<RecommendStock> getUncompletedRecommendStocksBySaname(String saname, int start, int offset);
 }
