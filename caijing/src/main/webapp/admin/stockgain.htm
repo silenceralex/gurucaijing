@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>券商推荐股票</title>
+		<link href="/img/style.css" rel="stylesheet" type="text/css" />
+		<link href="/img/index.css" rel="stylesheet" type="text/css" />
+		<style>
+#tagWin {
+	display: none;
+	position: absolute;
+	top: 22px;
+	left: -52px;
+	z-index: 3;
+}
+
+#tagFrame {
+	width: 755px;
+	height: 400px;
+}
+
+#ie_historyFrame {
+	width: 0px;
+	height: 0px;
+	display: none;
+}
+</style>
+	</head>
+	<body>
+		<div class="frameBox">
+
+			<DIV id=u35
+				style="position: absolute; left: 46px; top: 02px; width: 880px; height: 17px;;; text-align: left; font-family: Arial; text-align: left; word-wrap: break-word;">
+				<DIV id=u35_rtf>
+					<span
+						style="font-family: '\'cb\'ce\'cc\'e5'; color: #000000; font-size: 13px;"><u><b>公司&nbsp;
+								&nbsp; &nbsp; 所在行业&nbsp;&nbsp; 推荐价&nbsp;&nbsp; 目标价&nbsp; &nbsp;
+								当前价&nbsp; 目标价差距(%)&nbsp;&nbsp; 推荐以来的收益率（%）&nbsp; &nbsp;
+								推荐日&nbsp;&nbsp; 目标达成&nbsp;&nbsp; 研究报告</b> </u> </span>
+				</DIV>
+			</DIV>
+
+
+			<DIV id=u36
+				style="position: absolute; left: 46px; top: 39px; width: 890px; height: 17px;;; text-align: left; font-family: Arial; text-align: left; word-wrap: break-word;">
+				<DIV id=u36_rtf>
+					<span
+						style="font-family: '\'cb\'ce\'cc\'e5'; color: #000000; font-size: 13px;">${stockgain.stockname}&nbsp;
+						&nbsp; &nbsp; 银行&nbsp; &nbsp; &nbsp;&nbsp;
+						${stockgain.startprice}&nbsp; &nbsp;
+						${stockgain.objectprice}&nbsp; &nbsp; &nbsp;
+						${stockgain.endprice}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+						4.32&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						${stockgain.gain}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						${stockgain.startdate}&nbsp;&nbsp; 7.13&nbsp; &nbsp; &nbsp; <u>1</u>
+						<u>2</u> </span>
+				</DIV>
+			</DIV>
+			<DIV id=u37
+				style="position: absolute; left: 46px; top: 69px; width: 890px; height: 17px;;; text-align: left; font-family: Arial; text-align: left; word-wrap: break-word;">
+				<DIV id=u37_rtf>
+					股票名称： ${stockgain.stockname}
+					<br />
+					推荐券商： ${stockgain.saname}
+					<br />
+					推荐日期： ${stockgain.startdate}
+					<br />
+					截止日期： ${stockgain.enddate}
+					<br />
+					推荐日收盘价： ${stockgain.startprice}
+					<br />
+					截止日收盘价： ${stockgain.endprice}
+					<br />
+					区间最低价： ${stockgain.lowest}
+					<br />
+					区间最高价： ${stockgain.highest}
+					<br />
+					推荐以来收益： ${stockgain.gain}%
+					<br />
+					推荐以来换手率： ${stockgain.changerate}%
+					<br />
+				</DIV>
+			</DIV>
+		</div>
+	</body>
+</html>
