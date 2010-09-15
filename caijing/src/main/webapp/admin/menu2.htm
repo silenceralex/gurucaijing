@@ -30,7 +30,7 @@ body {
 						<script type="text/javascript">
 		<!--
 		tree_yanbao = new dTree('tree_yanbao');
-		tree_yanbao.add('main_yanbao','-1','研报库','about:blank','研报库','main');
+		tree_yanbao.add('main_yanbao','-1','研报库','','研报库','main');
 		tree_yanbao.add('yanbao_0001','main_yanbao','券商分类','about:blank','券商分类','main');
 		#foreach($topicid in $topicList)
 		#if(${topicNameMap.getTopicName($topicid)}!="-1")
@@ -56,7 +56,7 @@ body {
 		<!--
 			tree_extractor = new dTree('tree_extractor');
 		tree_extractor.add('tree_extractor','-1','研报抽取库','about:blank','研报抽取库','main');
-		tree_extractor.add('extractor_0001','tree_extractor','券商分类','about:blank','券商分类','main');
+		tree_extractor.add('extractor_0001','tree_extractor','券商分类','','券商分类','main');
 		tree_extractor.add('extractor_10001','extractor_0001','中金公司','/admin/showAllRecommend.htm?page=1&saname=中金公司','中金公司','main','img/folder.gif','img/folderopen.gif');
 		tree_extractor.add('extractor_10002','extractor_0001','国泰君安','/admin/showAllRecommend.htm?page=1&saname=国泰君安','国泰君安','main','img/folder.gif','img/folderopen.gif');
 		tree_extractor.add('extractor_10003','extractor_0001','申银万国','/admin/showAllRecommend.htm?page=1&saname=申银万国','申银万国','main','img/folder.gif','img/folderopen.gif');
@@ -67,6 +67,27 @@ body {
 		tree_extractor.add('extractor_10008','extractor_0001','广发证券','/admin/showAllRecommend.htm?page=1&saname=广发证券','广发证券','main','img/folder.gif','img/folderopen.gif');
 		tree_extractor.config.target = 'main';
 		document.write(tree_extractor);
+			//-->
+	</script>
+							<p>
+							&nbsp;
+						</p>
+						<a href="javascript: tree_analyzer.openAll();">全部展开</a> |
+						<a href="javascript: tree_analyzer.closeAll();">全部关闭</a>
+						<br />
+
+						<script type="text/javascript">
+		<!--
+			tree_analyzer = new dTree('tree_analyzer');
+		tree_analyzer.add('tree_analyzer','-1','知名分析师','about:blank','知名分析师','main');
+		tree_analyzer.add('column_10001','tree_analyzer','专栏博客','','专栏博客','main','img/folder.gif','img/folderopen.gif');
+		#foreach($analyzer in $analyzerList)
+
+		tree_analyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzergainlist.htm?aname=$analyzer.name','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
+
+		#end
+		tree_analyzer.config.target = 'main';
+		document.write(tree_analyzer);
 			//-->
 	</script>
 						<p>
@@ -80,7 +101,7 @@ body {
 		<!--
 			tree_column = new dTree('tree_column');
 		tree_column.add('tree_column','-1','经济学家','about:blank','经济学家','main');
-		tree_column.add('column_10001','tree_column','专栏博客','/admin/columnarticlelist.htm?saname=$economist.name','专栏博客','main','img/folder.gif','img/folderopen.gif');
+		tree_column.add('column_10001','tree_column','专栏博客','','专栏博客','main','img/folder.gif','img/folderopen.gif');
 		#foreach($economist in $economistList)
 
 		tree_column.add('$economist.id','column_10001','$economist.name','/admin/columnarticlelist.htm?saname=$economist.name','$economist.name','main','img/folder.gif','img/folderopen.gif');

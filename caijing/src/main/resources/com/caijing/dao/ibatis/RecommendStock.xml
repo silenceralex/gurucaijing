@@ -26,9 +26,10 @@
 	<select id="getUncompletedRecommendStocksBySaname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
-		as r where rs.saname=#saname# and ( <![CDATA[rs.extractnum < 4 ]]>or (
-		rs.extractnum=4 and rs.objectprice!=0 )) and r.rid=rs.reportid
-		order by rs.createdate desc limit #start#,#offset#
+		as r where rs.saname=#saname# and (
+		<![CDATA[rs.extractnum < 4 ]]>or ( rs.extractnum=4 and rs.objectprice!=0 )) and
+		r.rid=rs.reportid order by rs.createdate desc limit
+		#start#,#offset#
 	</select>
 
 	<select id="getGoodRecommendStocksBySaname"
@@ -53,6 +54,18 @@
 		select count(1) from recommendstock where saname=#value#
 	</select>
 
+	<select id="getRecommendStockCountsByAnalyzer"
+		resultClass="java.lang.Integer">
+		select count(1) from recommendstock where aname like #value#
+	</select>
+
+	<select id="getRecommendStocksByAnalyzer"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.reportid=r.rid and rs.saname like #aname# order by
+		rs.createdate desc limit #start#,#offset#
+	</select>
+	
 	<select id="getRecommendStockbyReportid"
 		resultClass="RecommendStock">
 		select * from recommendstock where reportid=#reportid#
@@ -64,6 +77,16 @@
 		values
 		(#recommendid#,#reportid#,#stockcode#,#saname#,#aname#,#createdate#,#grade#,#eps#,#objectprice#,#buyprice#,#user#,now(),#extractnum#,#stockname#)
 	</insert>
+
+	<update id="updateAnalyzer" parameterClass="java.util.Map">
+		update recommendstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="aid">
+				user = #aid#
+			</isNotEmpty>
+		</dynamic>
+		where aname like #aname#
+	</update>
 
 	<update id="update" parameterClass="RecommendStock">
 		update recommendstock

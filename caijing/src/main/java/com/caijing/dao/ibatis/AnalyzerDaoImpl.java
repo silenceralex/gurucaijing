@@ -13,4 +13,8 @@ public class AnalyzerDaoImpl extends CrudDaoDefault implements AnalyzerDao {
 		return (List<Analyzer>)getSqlMapClientTemplate().queryForList(getNameSpace()+".getAnalyzersByAgency",agency);
 	}
 
+	public List<Analyzer> getAllAnalyzers() {
+		return (List<Analyzer>)getSqlMapClientTemplate().queryForList(getNameSpace()+".getAllAnalyzers");
+	}
+
 }

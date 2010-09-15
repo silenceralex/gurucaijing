@@ -52,7 +52,7 @@ public class ExtractSchedule {
 
 	public void extract(String saname, String date) {
 		long start = System.currentTimeMillis();
-
+		System.out.println("Reports size: " + date);
 		List<Report> reports = reportDao.getCompanyReportsBySanameAfter(saname, date);
 		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
