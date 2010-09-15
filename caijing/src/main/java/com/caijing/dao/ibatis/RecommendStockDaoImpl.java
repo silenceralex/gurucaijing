@@ -98,10 +98,11 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 
 	public int getRecommendStockCountsByAnalyzer(String aname) {
 		Object obj = getSqlMapClientTemplate().queryForObject(
-				this.getNameSpace() + ".getRecommendStockCountsByAnalyzer", "%"+aname+"%");
+				this.getNameSpace() + ".getRecommendStockCountsByAnalyzer",
+				"%" + aname + "%");
 		if (obj == null) {
 			return 0;
-		}else{
+		} else {
 			return (Integer) obj;
 		}
 	}
@@ -111,9 +112,29 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("start", start);
 		params.put("offset", offset);
-		params.put("aname", "%"+aname+"%");
+		params.put("aname", "%" + aname + "%");
 		return getSqlMapClientTemplate().queryForList(
 				this.getNameSpace() + ".getRecommendStocksByAnalyzer", params);
+	}
+
+	public int getGoodCounts(String saname) {
+		Object obj = getSqlMapClientTemplate().queryForObject(
+				this.getNameSpace() + ".getGoodCounts", saname);
+		if (obj == null) {
+			return 0;
+		} else {
+			return (Integer) obj;
+		}
+	}
+
+	public int getUncompletedCounts(String saname) {
+		Object obj = getSqlMapClientTemplate().queryForObject(
+				this.getNameSpace() + ".getUncompletedCounts", saname);
+		if (obj == null) {
+			return 0;
+		} else {
+			return (Integer) obj;
+		}
 	}
 
 }

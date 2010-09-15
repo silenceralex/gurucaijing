@@ -23,6 +23,11 @@
 		rs.createdate desc limit #start#,#offset#
 	</select>
 
+	<select id="getUncompletedCounts" resultClass="java.lang.Integer"
+		parameterClass="java.lang.String">
+		select count(1) from recommendstock where saname=#value# and (
+		<![CDATA[extractnum < 4 ]]>or ( extractnum=4 and objectprice!=0 ))
+	</select>
 	<select id="getUncompletedRecommendStocksBySaname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
@@ -30,6 +35,12 @@
 		<![CDATA[rs.extractnum < 4 ]]>or ( rs.extractnum=4 and rs.objectprice!=0 )) and
 		r.rid=rs.reportid order by rs.createdate desc limit
 		#start#,#offset#
+	</select>
+
+	<select id="getGoodCounts" resultClass="java.lang.Integer"
+		parameterClass="java.lang.String">
+		select count(1) from recommendstock where saname=#value# and (
+		extractnum=5 or ( extractnum=4 and objectprice=0 ))
 	</select>
 
 	<select id="getGoodRecommendStocksBySaname"
@@ -65,7 +76,7 @@
 		as r where rs.reportid=r.rid and rs.saname like #aname# order by
 		rs.createdate desc limit #start#,#offset#
 	</select>
-	
+
 	<select id="getRecommendStockbyReportid"
 		resultClass="RecommendStock">
 		select * from recommendstock where reportid=#reportid#

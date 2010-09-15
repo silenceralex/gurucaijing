@@ -59,7 +59,8 @@ public class RecommendController {
 	public String showAllRecommend(HttpServletResponse response,
 			@RequestParam(value = "saname", required = false)
 			String saname, @RequestParam(value = "page", required = false)
-			Integer page, HttpServletRequest request, ModelMap model) {
+			Integer page, @RequestParam(value = "type", required = false)
+			Integer type, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 		int total = 0;
@@ -72,9 +73,20 @@ public class RecommendController {
 		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
 		if(saname!=null){
 			System.out.println("saname:"+saname);
-			total=recommendStockDao.getAllRecommendCountBySaname(saname);
-			paginator.setTotalRecordNumber(total);
-			recommendlist=recommendStockDao.getRecommendStocksBySaname(saname,(page-1)*20,20);
+			if(type==1){
+				total=recommendStockDao.getGoodCounts(saname);
+				paginator.setTotalRecordNumber(total);
+				recommendlist=recommendStockDao.getGoodRecommendStocksBySaname(saname, (page-1)*20,20);
+				urlPattern = "/admin/showAllRecommend.htm?type=1&saname="+saname+"&page=$number$";
+			}else{
+				total=recommendStockDao.getUncompletedCounts(saname);
+				paginator.setTotalRecordNumber(total);
+				recommendlist=recommendStockDao.getUncompletedRecommendStocksBySaname(saname, (page-1)*20,20);
+				urlPattern = "/admin/showAllRecommend.htm?type=0&saname="+saname+"&page=$number$";
+			}
+//			total=recommendStockDao.getAllRecommendCountBySaname(saname);
+//			paginator.setTotalRecordNumber(total);
+//			recommendlist=recommendStockDao.getRecommendStocksBySaname(saname,(page-1)*20,20);
 			urlPattern = "/admin/showAllRecommend.htm?saname="+saname+"&page=$number$";
 			model.put("saname", saname);
 		}else{

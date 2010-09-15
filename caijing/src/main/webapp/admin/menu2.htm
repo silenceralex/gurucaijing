@@ -31,7 +31,7 @@ body {
 		<!--
 		tree_yanbao = new dTree('tree_yanbao');
 		tree_yanbao.add('main_yanbao','-1','研报库','','研报库','main');
-		tree_yanbao.add('yanbao_0001','main_yanbao','券商分类','about:blank','券商分类','main');
+		tree_yanbao.add('yanbao_0001','main_yanbao','券商分类','','券商分类','main');
 		#foreach($topicid in $topicList)
 		#if(${topicNameMap.getTopicName($topicid)}!="-1")
 		tree_yanbao.add('$topicid','yanbao_0001','${topicNameMap.getTopicName($topicid)}','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
@@ -57,19 +57,27 @@ body {
 			tree_extractor = new dTree('tree_extractor');
 		tree_extractor.add('tree_extractor','-1','研报抽取库','about:blank','研报抽取库','main');
 		tree_extractor.add('extractor_0001','tree_extractor','券商分类','','券商分类','main');
-		tree_extractor.add('extractor_10001','extractor_0001','中金公司','/admin/showAllRecommend.htm?page=1&saname=中金公司','中金公司','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10002','extractor_0001','国泰君安','/admin/showAllRecommend.htm?page=1&saname=国泰君安','国泰君安','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10003','extractor_0001','申银万国','/admin/showAllRecommend.htm?page=1&saname=申银万国','申银万国','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10004','extractor_0001','海通证券','/admin/showAllRecommend.htm?page=1&saname=海通证券','海通证券','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10005','extractor_0001','安信证券','/admin/showAllRecommend.htm?page=1&saname=安信证券','安信证券','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10006','extractor_0001','国金证券','/admin/showAllRecommend.htm?page=1&saname=国金证券','国金证券','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10007','extractor_0001','招商证券','/admin/showAllRecommend.htm?page=1&saname=招商证券','招商证券','main','img/folder.gif','img/folderopen.gif');
-		tree_extractor.add('extractor_10008','extractor_0001','广发证券','/admin/showAllRecommend.htm?page=1&saname=广发证券','广发证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10001','extractor_0001','中金公司','/admin/showAllRecommend.htm?type=1&page=1&saname=中金公司','中金公司','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10011','extractor_10001','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=中金公司','中金公司','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10002','extractor_0001','国泰君安','/admin/showAllRecommend.htm?type=1&page=1&saname=国泰君安','国泰君安','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10022','extractor_10002','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=国泰君安','国泰君安','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10003','extractor_0001','申银万国','/admin/showAllRecommend.htm?type=1&page=1&saname=申银万国','申银万国','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10033','extractor_10003','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=申银万国','申银万国','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10004','extractor_0001','海通证券','/admin/showAllRecommend.htm?type=1&page=1&saname=海通证券','海通证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10044','extractor_10004','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=海通证券','海通证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10005','extractor_0001','安信证券','/admin/showAllRecommend.htm?type=1&page=1&saname=安信证券','安信证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10055','extractor_10005','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=安信证券','安信证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10006','extractor_0001','国金证券','/admin/showAllRecommend.htm?type=1&page=1&saname=国金证券','国金证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10066','extractor_10006','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=国金证券','国金证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10007','extractor_0001','招商证券','/admin/showAllRecommend.htm?type=1&page=1&saname=招商证券','招商证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10077','extractor_10007','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=招商证券','招商证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10008','extractor_0001','广发证券','/admin/showAllRecommend.htm?type=1&page=1&saname=广发证券','广发证券','main','img/folder.gif','img/folderopen.gif');
+		tree_extractor.add('extractor_10088','extractor_10008','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=广发证券','广发证券','main','img/folder.gif','img/folderopen.gif');
 		tree_extractor.config.target = 'main';
 		document.write(tree_extractor);
 			//-->
 	</script>
-							<p>
+						<p>
 							&nbsp;
 						</p>
 						<a href="javascript: tree_analyzer.openAll();">全部展开</a> |
@@ -80,7 +88,7 @@ body {
 		<!--
 			tree_analyzer = new dTree('tree_analyzer');
 		tree_analyzer.add('tree_analyzer','-1','知名分析师','about:blank','知名分析师','main');
-		tree_analyzer.add('column_10001','tree_analyzer','专栏博客','','专栏博客','main','img/folder.gif','img/folderopen.gif');
+		tree_analyzer.add('column_10001','tree_analyzer','分析预测','','分析预测','main','img/folder.gif','img/folderopen.gif');
 		#foreach($analyzer in $analyzerList)
 
 		tree_analyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzergainlist.htm?aname=$analyzer.name','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
@@ -90,6 +98,7 @@ body {
 		document.write(tree_analyzer);
 			//-->
 	</script>
+
 						<p>
 							&nbsp;
 						</p>

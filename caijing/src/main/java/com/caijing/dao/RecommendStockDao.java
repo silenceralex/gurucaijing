@@ -28,8 +28,12 @@ public interface RecommendStockDao extends CrudDao {
 
 	public void updateAnalyzer(String aname, String aid);
 
+	public int getGoodCounts(String saname);
+
 	public List<RecommendStock> getGoodRecommendStocksBySaname(String saname,
 			int start, int offset);
+
+	public int getUncompletedCounts(String saname);
 
 	public List<RecommendStock> getUncompletedRecommendStocksBySaname(
 			String saname, int start, int offset);
