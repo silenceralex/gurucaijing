@@ -55,6 +55,7 @@ public class MailReceiver {
 
 	private static final String path = "/home/app/papers";
 	private static final String timeStamp = "/home/app/timeStamp";
+	private static final String flag = "/home/app/flag";
 	// private static final String path = "f:/email/papers";
 	PDFReader reader = null;
 	UrlDownload down = new UrlDownload();
@@ -245,7 +246,7 @@ public class MailReceiver {
 						continue;
 					}
 					System.out.println("filesize: " + filesize);
-					System.out.println("link: " + link);
+					System.out.println("link: " + link.replace("&amp;", "&"));
 					System.out.println("title: " + title);
 					HttpGet get = new HttpGet(link);
 					get.setHeader("Cookie", cookie);
@@ -257,7 +258,8 @@ public class MailReceiver {
 					// ).replaceAll("&amp;", "&")
 					String url = link.replace("http://fs.163.com/fs/display/",
 							"http://download.fs.163.com/dl/").replace(
-							"p=X-NETEASE-HUGE-ATTACHMENT&amp;", "");
+							"p=X-NETEASE-HUGE-ATTACHMENT&amp;", "").replace(
+							"&amp;extra={preview:false}", "");
 					// + "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("url:" + url);
@@ -286,7 +288,17 @@ public class MailReceiver {
 						continue;
 					}
 					try {
-						down.downAttach(get, filename.replaceAll("\\s", ""));
+						int length = down.downAttach(get, filename.replaceAll(
+								"\\s", ""));
+						int threshold = 0;
+						while (length < 1000000 && threshold < 10) {
+							length = down.downAttach(get, filename.replaceAll(
+									"\\s", ""));
+							threshold++;
+						}
+						if(length < 1000000){
+							FileUtil.write(flag, ""+(new Date())+"\n"+url);
+						}
 					} catch (Exception e) {
 						System.out
 								.println("Catch exceptioin:" + e.getMessage());

@@ -299,7 +299,7 @@ public class UrlDownload {
 		}
 	}
 
-	public void downAttach(HttpGet get, String saveFile) {
+	public int downAttach(HttpGet get, String saveFile) {
 
 		HttpResponse response = null;
 		try {
@@ -332,9 +332,11 @@ public class UrlDownload {
 			input = entity.getContent();
 			FileOutputStream out = new FileOutputStream(new File(saveFile));
 			byte[] b = new byte[1024];
+			int total=0;
 			int tmp = 0;
 			while (true) {
 				tmp = input.read(b, 0, 1024);
+				total+=tmp;
 				if (tmp == -1) {
 					break;
 				} else {
@@ -342,19 +344,17 @@ public class UrlDownload {
 //					out.write(b);
 				}
 			}
+			System.out.print("total Length:"+total);
+		
 			out.close();
 			input.close();
+			return total;
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
+			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		if (entity.getContentEncoding() != null
-				&& entity.getContentEncoding().getValue().equalsIgnoreCase(
-						"gzip")) {
-			// System.out.println("compressed size: "
-			// + entity.toString().getBytes().length);
-			GzipEntity gentity = new GzipEntity(entity);
+			return 0;
 		}
 	}
 
