@@ -248,7 +248,7 @@ public class MailReceiver {
 					System.out.println("filesize: " + filesize);
 					System.out.println("link: " + link.replace("&amp;", "&"));
 					System.out.println("title: " + title);
-					HttpGet get = new HttpGet(link);
+					HttpGet get = new HttpGet(link.replace("&amp;", "&"));
 					get.setHeader("Cookie", cookie);
 					String content = down.load(get);
 					// System.out.println("content: " + content);
