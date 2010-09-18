@@ -8,6 +8,10 @@
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
+	
+	<select id="getProblemData" resultClass="RecommendStock">
+		select * from recommendstock where stockname is null
+	</select>
 
 	<select id="getRecommendStocks" parameterClass="java.util.Map"
 		resultClass="RecommendStock">
@@ -73,7 +77,7 @@
 	<select id="getRecommendStocksByAnalyzer"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
-		as r where rs.reportid=r.rid and rs.saname like #aname# order by
+		as r where rs.reportid=r.rid and rs.aname like #aname# order by
 		rs.createdate desc limit #start#,#offset#
 	</select>
 
@@ -104,6 +108,9 @@
 		<dynamic prepend="set">
 			<isNotEmpty prepend="," property="stockcode">
 				stockcode = #stockcode#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="stockname">
+				stockname = #stockname#
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="objectprice">
 				objectprice = #objectprice#

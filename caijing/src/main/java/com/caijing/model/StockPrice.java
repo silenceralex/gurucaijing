@@ -1,6 +1,8 @@
 package com.caijing.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,6 +97,8 @@ public class StockPrice {
 			StockHQ starthq = new StockHQ();
 			StockHQ endhq = new StockHQ();
 			StockHQ hq = new StockHQ();
+			List<String> dates=new ArrayList<String>();
+			List<Float> peroidprice=new ArrayList<Float>();
 			while (startm != null && startm.find()) {
 				hq.setDate(startm.group(1).trim());
 				hq.setOpenprice(Float.parseFloat(startm.group(2).trim()));
@@ -106,6 +110,8 @@ public class StockPrice {
 				hq.setVolum(Float.parseFloat(startm.group(7).trim()));
 				hq.setChangerate(Float.parseFloat(startm.group(8).trim()));
 				hq.setGainrate(Float.parseFloat(startm.group(4).trim()));
+				dates.add(startm.group(1).trim());
+				peroidprice.add(Float.parseFloat(startm.group(3).trim()));
 				if (i == 0) {
 					endhq.setDate(hq.getDate());
 					endhq.setEndprice(hq.getEndprice());
@@ -129,6 +135,8 @@ public class StockPrice {
 
 			Matcher m = periodPattern.matcher(content);
 			StockGain gain = new StockGain();
+			gain.setPerioddate(dates);
+			gain.setPeriodprice(peroidprice);
 			gain.setStartdate(starthq.getDate());
 			gain.setEnddate(endhq.getDate());
 			gain.setStartprice(starthq.getEndprice());

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>公司研报分析结果列表页</title>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+	</head>
+
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td bgcolor="#E0E7FF" height="30">
+						&nbsp;&nbsp;
+						<strong>当前栏目: $aname
+							&gt;&gt;  </strong>
+					</td>
+				</tr>
+			</table>
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr bgcolor="#0066CC" class="cWhite">
+					<th scope="col" width="80" height="30">
+						推荐股票
+					</th>
+					<th scope="col" width="160"> 
+						评级 
+					</th>
+					<th scope="col" width="80">
+						目标价
+					</th>
+					<th scope="col" width="80">推荐日期
+					</th>
+					<th scope="col" width="160"> 
+						推荐日收盘价
+					</th>
+					<th scope="col" width="80">当前交易日
+					</th>
+					<th scope="col" width="160"> 
+						当前收盘价 
+					</th>
+					<th scope="col" width="80">
+						收益率
+					</th>
+				</tr>
+				<!-- 视频列表 -->
+				#foreach($stockgain in $stockgainlist)
+				<tr id="${stockgain.reportid}">
+					<td bgcolor="#E0E7FF" align="center">
+						<a href="/admin/recommendedit.htm?rid=$stockgain.reportid" title="查看抽取结果">$stockgain.stockname</a>
+					</td>
+					<td bgcolor="#E0E7FF">
+						<font color="blue">&nbsp;&nbsp;$stockgain.grade</font> 
+					</td>
+					<td bgcolor="#E0E7FF">
+						&nbsp;&nbsp;$stockgain.objectprice
+					</td>
+					<td bgcolor="#E0E7FF">
+						$stockgain.startdate
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+							${stockgain.startprice}
+					</td>
+					<td bgcolor="#E0E7FF">
+						$stockgain.enddate
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+							${stockgain.endprice}
+					</td>
+                    <td height="30" bgcolor="#E0E7FF" align="center">
+							<font color="red">$stockgain.gain</font>
+					</td>
+					
+				</tr>
+				#end
+			</table>
+			<!---列表--->
+			<br />
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td align="center">
+						$paginatorLink
+					</td>
+				</tr>
+			</table>
+			<!---分页--->
+
+		</table>
+	</body>
+</html>

@@ -42,4 +42,6 @@ public interface RecommendStockDao extends CrudDao {
 			int start, int offset);
 
 	public int getRecommendStockCountsByAnalyzer(String aname);
+	
+	public List<RecommendStock> getProblemData();
 }

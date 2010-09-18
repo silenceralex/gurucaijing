@@ -1,6 +1,5 @@
 package com.caijing.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,17 +12,17 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.caijing.dao.ColumnArticleDao;
+import com.caijing.business.StockGainManager;
 import com.caijing.dao.RecommendStockDao;
-import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
+import com.caijing.domain.StockGain;
 import com.caijing.util.Paginator;
 
 @Controller
 public class AnalyzerController {
 	@Autowired
-	@Qualifier("columnArticleDao")
-	private ColumnArticleDao columnArticleDao = null;
+	@Qualifier("stockGainManager")
+	private StockGainManager stockGainManager = null;
 
 	@Autowired
 	@Qualifier("recommendStockDao")
@@ -43,18 +42,21 @@ public class AnalyzerController {
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
-		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
 		System.out.println("aname:" + aname);
-		total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
-		paginator.setTotalRecordNumber(total);
-		recommendlist = recommendStockDao.getRecommendStocksByAnalyzer(aname,
-				(page - 1) * 20, 20);
+		List<StockGain> stockgainlist = null;
+		try {
+			total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
+			paginator.setTotalRecordNumber(total);
+
+			stockgainlist = stockGainManager.getStockGainByAname(aname, page);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		urlPattern = "/admin/analyzergainlist.htm?aname=" + aname
 				+ "&page=$number$";
 		model.put("aname", aname);
 		paginator.setUrl(urlPattern);
-
-		model.put("recommendlist", recommendlist);
+		model.put("stockgainlist", stockgainlist);
 		model.put("paginatorLink", paginator.getPageNumberList());
 		return "/admin/analyzergainlist.htm";
 

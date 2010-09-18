@@ -137,4 +137,9 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements
 		}
 	}
 
+	public List<RecommendStock> getProblemData() {
+		return getSqlMapClientTemplate().queryForList(
+				this.getNameSpace() + ".getProblemData");
+	}
+
 }

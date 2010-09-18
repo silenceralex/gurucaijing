@@ -1,9 +1,13 @@
 package com.caijing.domain;
 
+import java.util.List;
+
 public class StockGain {
 
 	private String stockcode = null;
 	private String stockname = null;
+	private String reportid = null;
+	private String grade = null;
 	private String saname = null;
 	private String analyzer = null;
 	private String startdate = null;
@@ -15,6 +19,8 @@ public class StockGain {
 	private float lowest = 0;
 	private float volume = 0;
 	private int dealdays = 0;
+	private List<Float> periodprice = null;
+	private List<String> perioddate = null;
 	private float gain = 0;
 	private float changerate = 0;
 
@@ -136,6 +142,38 @@ public class StockGain {
 
 	public void setObjectprice(float objectprice) {
 		this.objectprice = objectprice;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getReportid() {
+		return reportid;
+	}
+
+	public void setReportid(String reportid) {
+		this.reportid = reportid;
+	}
+
+	public List<Float> getPeriodprice() {
+		return periodprice;
+	}
+
+	public void setPeriodprice(List<Float> periodprice) {
+		this.periodprice = periodprice;
+	}
+
+	public List<String> getPerioddate() {
+		return perioddate;
+	}
+
+	public void setPerioddate(List<String> perioddate) {
+		this.perioddate = perioddate;
 	}
 
 }

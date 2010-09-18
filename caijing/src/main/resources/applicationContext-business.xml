@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-  <bean id="userManager" class="com.caijing.business.impl.UserManagerImpl">
-   <property name="userDao">
-     <ref bean="userDao"/>
-    </property>
-  </bean>  
+	<bean id="userManager"
+		class="com.caijing.business.impl.UserManagerImpl">
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+	</bean>
+
+	<bean id="stockGainManager"
+		class="com.caijing.business.impl.StockGainManagerImpl">
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+	</bean>
 
 </beans>

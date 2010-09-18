@@ -90,7 +90,7 @@ public class LoginController {
 		List<Economist> economistList = economistDao.getAllEconomist();
 		model.put("economistList", economistList);
 		List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
-		model.put("analyzerlist", analyzerlist);
+		model.put("analyzerList", analyzerlist);
 		return "/admin/menu2.htm";
 	}
 
