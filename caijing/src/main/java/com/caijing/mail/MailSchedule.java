@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.crawl.ReportExtractorImpl;
+import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
+import com.caijing.util.Config;
+import com.caijing.util.Vutil;
 
 public class MailSchedule {
 	@Autowired
@@ -14,12 +17,22 @@ public class MailSchedule {
 	@Autowired
 	@Qualifier("reportDao")
 	private ReportDao reportDao = null;
+	
+	@Autowired
+	@Qualifier("recommendStockDao")
+	private RecommendStockDao recommendStockDao = null;
+	
+	@Autowired
+	@Qualifier("config")
+	private Config config = null;
 
 	public void processMail() {
 		MailReceiver receiver = new MailReceiver();
 		PDFReader reader = new PDFReader();
 		reader.setExtractor(extractor);
 		reader.setReportDao(reportDao);
+		reader.setRecommendStockDao(recommendStockDao);
+		reader.setConfig(config);
 		reader.init();
 		receiver.setReader(reader);
 		receiver.setUsername("bg20052008");// ƒ˙µƒ” œ‰’À∫≈
