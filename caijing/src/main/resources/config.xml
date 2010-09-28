@@ -230,7 +230,7 @@
 						<entry key="grade">
 							<list>
 								<value><![CDATA[[给予上下调首维高低持次\n]{2,3}[\u4e00-\u9fa5\n]*“?([买入持有卖出\n]{2,3})”?的?(?:投资)?(?:评级)?[，。,、]]]></value>
-								<value><![CDATA[\n前次评级\s+([买入持有卖出]{2})\s+]]></value>				
+								<value><![CDATA[\n前次评级\s+([买入持有卖出]{2})\s+]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
@@ -247,7 +247,7 @@
 								<value><![CDATA[[每股收益分别为\n]{4,}\s*([0-9\.]+)[\s/和、，元]+([0-9\.]+)[\s元]]]></value>
 								<value><![CDATA[每股收益EPS（元）\s+-?[0-9\.]+\s+-?[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+]]></value>
 								<value><![CDATA[EPS(?:（|\()?元?(?:）|\))?\s*-?[0-9\.]+\s+([0-9\.]+)\s+([0-9\.]+)\s+([0-9\.]+)\s]]></value>
-								
+
 							</list>
 						</entry>
 					</map>
@@ -327,6 +327,57 @@
 				</entry>
 				<entry key="0020">
 					<value>中投证券</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="absConfig" class="com.caijing.util.AbsConfig">
+		<property name="configMap">
+			<map>
+				<entry key="国泰君安">
+					<map>
+						<entry key="2_abs">
+							<value>本报告导读：(.*?)摘要：</value>
+						</entry>
+						<entry key="2_des">
+							<value>摘要：(.*?)。\s*\n\s*\n</value>
+						</entry>
+						<entry key="3_abs">
+							<value>本报告导读：(.*?)摘要：</value>
+						</entry>
+						<entry key="3_des">
+							<value>摘要：(.*?)。\s*\n\s*\n</value>
+						</entry>
+						<entry key="1_abs">
+							<value>本报告导读：(.*?)(?:事件|投资要点)：</value>
+						</entry>
+						<entry key="1_des">
+							<value>本报告导读：(.*?)。\s*\n\s*\n</value>
+						</entry>
+						<entry key="0_abs">
+							<value>今日聚焦：(.*?)目录</value>
+						</entry>
+						<entry key="0_des">
+							<value>目录(.*?)\s*\n\s*\n</value>
+						</entry>
+					</map>
+				</entry>
+				<entry key="中金公司">
+					<map>
+						<entry key="2">
+							<value>本报告导读：(.*?)摘要：</value>
+						</entry>
+						<entry key="3">
+							<value>本报告导读：(.*?)摘要：</value>
+						</entry>
+						<entry key="1">
+							<value>[投资建议公司近况]{4}：(.*?风险：.*?)。\s*\n</value>
+						</entry>
+						<entry key="0">
+							<value>市场回顾：(.*?)后市研判：</value>
+						</entry>
+					</map>
 				</entry>
 			</map>
 		</property>

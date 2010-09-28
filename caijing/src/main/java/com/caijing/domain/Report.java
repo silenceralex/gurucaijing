@@ -12,10 +12,11 @@ public class Report {
 	private String aid = null;
 	private String filepath = null;
 	private String aname = null;
+	private String abs = null;
 	private String description = null;
 	private String stockcode = null;
-	private String stockname=null;
-	private Date ptime=null;
+	private String stockname = null;
+	private Date ptime = null;
 	//0为晨会，1为公司研究，2为行业研究，3为宏观研究,4为其他
 	private int type = 0;
 
@@ -129,6 +130,14 @@ public class Report {
 
 	public void setPtime(Date ptime) {
 		this.ptime = ptime;
+	}
+
+	public String getAbs() {
+		return abs;
+	}
+
+	public void setAbs(String abs) {
+		this.abs = abs;
 	}
 
 }
