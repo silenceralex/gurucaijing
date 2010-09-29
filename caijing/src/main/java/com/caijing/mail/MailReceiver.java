@@ -40,18 +40,14 @@ import com.caijing.util.UrlDownload;
 
 public class MailReceiver {
 	private static Log logger = LogFactory.getLog(MailReceiver.class);
-	private static Pattern titlePattern = Pattern
-			.compile(
-					"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>",
-					Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-							| Pattern.UNIX_LINES);
-	private static Pattern linkPattern = Pattern.compile(
-			"downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-					| Pattern.UNIX_LINES);
-
-	private static Pattern expiredPattern = Pattern.compile(
-			"lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE
+	private static Pattern titlePattern = Pattern.compile(
+			"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>", Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern linkPattern = Pattern.compile("downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE
+			| Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	private static Pattern expiredPattern = Pattern.compile("lExpiredTime = '(.*?)';", Pattern.CASE_INSENSITIVE
+			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static final String path = "/home/app/papers";
 	private static final String timeStamp = "/home/app/timeStamp";
@@ -65,10 +61,8 @@ public class MailReceiver {
 	public static void main(String[] args) {
 
 		MailReceiver receiver = new MailReceiver();
-		ReportExtractorImpl extractor = (ReportExtractorImpl) ContextFactory
-				.getBean("reportExtractor");
-		ReportDao reportDao = (ReportDaoImpl) ContextFactory
-				.getBean("reportDao");
+		ReportExtractorImpl extractor = (ReportExtractorImpl) ContextFactory.getBean("reportExtractor");
+		ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
 		PDFReader reader = new PDFReader();
 		reader.setExtractor(extractor);
 		reader.setReportDao(reportDao);
@@ -118,8 +112,7 @@ public class MailReceiver {
 		// props.setProperty("mail.imap.port", "143");
 		// props.setProperty("mail.imap.socketFactory.port", "143");
 		Session session = Session.getDefaultInstance(props, null);
-		URLName url = new URLName("pop3", "pop.126.com", 110, null,
-				"bg20052008", "336699");
+		URLName url = new URLName("pop3", "pop.126.com", 110, null, "bg20052008", "336699");
 
 		Store store = session.getStore(url);
 		store.connect();
@@ -156,8 +149,7 @@ public class MailReceiver {
 			// profile.add(FetchProfile.Item.ENVELOPE);
 			// folder.fetch(message, profile);
 			// Message mess=folder.getMessage(i);
-			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i
-					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("%%%%%%%%%%%%%%%%%正在处理第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 			Message mess = message[i];
 			Date messdate = mess.getSentDate();
 			System.out.println("date:" + messdate);
@@ -182,8 +174,7 @@ public class MailReceiver {
 				lasttime = sdf.format(messdate);
 			}
 			// ((IMAPMessage) message[i]).;
-			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i
-					+ " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("%%%%%%%%%%%%%%%%%处理完毕第:" + i + " 封邮件！ %%%%%%%%%%%%%%%%%%%%%");
 		}
 		if (lasttime.length() > 0) {
 			System.out.println("write new judgetime:" + lasttime);
@@ -211,23 +202,17 @@ public class MailReceiver {
 			System.out.println("ContentType:" + part.getContentType());
 			System.out.println("disposition:" + disposition);
 			if (disposition != null
-					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition
-							.equalsIgnoreCase(Part.INLINE))) {
-				saveAttach(part, getAttachPath(), msg.getSubject(), msg
-						.getSentDate());
+					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {
+				saveAttach(part, getAttachPath(), msg.getSubject(), msg.getSentDate());
 			} else if (disposition == null) {// 接收的邮件有附件时
 
 			} else if (part.getContent() instanceof MimeMultipart) {// 接收的邮件有附件时
-				BodyPart bodyPart = ((MimeMultipart) part.getContent())
-						.getBodyPart(0);
-				System.out.println(((MimeMultipart) part.getContent())
-						.getContentType());
-				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg
-						.getSentDate());
+				BodyPart bodyPart = ((MimeMultipart) part.getContent()).getBodyPart(0);
+				System.out.println(((MimeMultipart) part.getContent()).getContentType());
+				saveAttach(bodyPart, getAttachPath(), msg.getSubject(), msg.getSentDate());
 			}
 			if (part.getContentType().contains("text/html")) {
-				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO."
-						+ m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
+				System.out.println("!!!!!!! NO ATTACHMENT Fund!!!!! 　body  NO." + m + "  part＄＄＄＄＄＄＄＄＄＄＄＄＄");
 				String body = "";
 				if (part.getContent() instanceof String) {// 接收到的纯文本
 					body = (String) part.getContent();
@@ -256,10 +241,8 @@ public class MailReceiver {
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
 					// ).replaceAll("&amp;", "&")
-					String url = link.replace("http://fs.163.com/fs/display/",
-							"http://download.fs.163.com/dl/").replace(
-							"p=X-NETEASE-HUGE-ATTACHMENT&amp;", "").replace(
-							"&amp;extra={preview:false}", "");
+					String url = link.replace("http://fs.163.com/fs/display/", "http://download.fs.163.com/dl/")
+							.replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "").replace("&amp;extra={preview:false}", "");
 					// + "&callback=coremail";
 					System.out.println("link:" + link);
 					System.out.println("url:" + url);
@@ -276,8 +259,7 @@ public class MailReceiver {
 					// date + ".rar";
 					// File dir = new File(getAttachPath() + "/" + date);
 					String tmpdate = subject.replace("研究报告", "");
-					String filename = getAttachPath() + "/" + tmpdate + "/"
-							+ subject + ".rar";
+					String filename = getAttachPath() + "/" + tmpdate + "/" + subject + ".rar";
 					File dir = new File(getAttachPath() + "/" + tmpdate);
 					if (!dir.exists()) {
 						dir.mkdirs();
@@ -288,26 +270,24 @@ public class MailReceiver {
 						continue;
 					}
 					try {
-						int length = down.downAttach(get, filename.replaceAll(
-								"\\s", ""));
+						int length = down.downAttach(get, filename.replaceAll("\\s", ""));
+						System.out.println("length:" + length);
 						int threshold = 0;
 						while (length < 1000000 && threshold < 10) {
-							length = down.downAttach(get, filename.replaceAll(
-									"\\s", ""));
+							System.out.println("download again at NO.:" + threshold);
+							length = down.downAttach(get, filename.replaceAll("\\s", ""));
 							threshold++;
 						}
-						if(length < 1000000){
-							FileUtil.write(flag, ""+(new Date())+"\n"+url);
+						if (length < 1000000) {
+							FileUtil.write(flag, "" + (new Date()) + "\n" + url);
 						}
 					} catch (Exception e) {
-						System.out
-								.println("Catch exceptioin:" + e.getMessage());
+						System.out.println("Catch exceptioin:" + e.getMessage());
 					}
 
 					// SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 					// String dstr = sdf.format(msg.getSentDate());
-					String toPath = path + "/"
-							+ FileUtil.getDatefromSubject(tmpdate);
+					String toPath = path + "/" + FileUtil.getDatefromSubject(tmpdate);
 					String commendStr = "unrar e " + filename + " " + toPath;
 
 					File ddir = new File(toPath);
@@ -331,8 +311,7 @@ public class MailReceiver {
 		System.out.println("发送日期:" + msg.getSentDate());
 	}
 
-	protected static String decodeText(String text)
-			throws UnsupportedEncodingException {
+	protected static String decodeText(String text) throws UnsupportedEncodingException {
 		if (text == null)
 			return null;
 		if (text.startsWith("=?GB") || text.startsWith("=?gb")) {
@@ -343,8 +322,7 @@ public class MailReceiver {
 		return text;
 	}
 
-	private static void saveAttach(BodyPart part, String filePath,
-			String title, Date date) throws Exception {
+	private static void saveAttach(BodyPart part, String filePath, String title, Date date) throws Exception {
 
 		// String temp = part.getFileName();
 		// System.out.println("fileName:" + temp);
