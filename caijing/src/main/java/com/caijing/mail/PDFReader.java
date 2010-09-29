@@ -88,19 +88,24 @@ public class PDFReader {
 						System.out.println("ptime :" + file.getName());
 						report.setPtime(ptime);
 						reportDao.insert(report);
-						if (config.getConfigMap().containsKey(report.getSaname())) {
-							System.out.println("Be in top10 stockagency start to extrator!" );
-							RecommendStock rs = extractor.extractFromFile(report, textFile);
-							if (rs != null) {
-								rs.setReportid(report.getRid());
-								if (rs.getExtractnum() > 2) {
-									recommendStockDao.insert(rs);
-									System.out.println("Reports getAname: " + rs.getAname());
-									System.out.println("Reports getObjectprice: " + rs.getObjectprice());
-									System.out.println("Reports getCreatedate: " + rs.getCreatedate());
-									System.out.println("Reports getGrade: " + rs.getGrade());
-									System.out.println("Reports getEps: " + rs.getEps());
+						if (report.getType() == 1 && config.getConfigMap().containsKey(report.getSaname())) {
+							System.out.println("Be in top10 stockagency start to extrator!");
+							try {
+								RecommendStock rs = extractor.extractFromFile(report, textFile);
+								if (rs != null) {
+									rs.setReportid(report.getRid());
+									if (rs.getExtractnum() > 2) {
+										recommendStockDao.insert(rs);
+										System.out.println("Reports getAname: " + rs.getAname());
+										System.out.println("Reports getObjectprice: " + rs.getObjectprice());
+										System.out.println("Reports getCreatedate: " + rs.getCreatedate());
+										System.out.println("Reports getGrade: " + rs.getGrade());
+										System.out.println("Reports getEps: " + rs.getEps());
+									}
 								}
+							} catch (Exception e) {
+								System.out.print(e.getMessage());
+								e.printStackTrace();
 							}
 						}
 					}
@@ -190,8 +195,8 @@ public class PDFReader {
 	public static void main(String[] args) {
 		ReportExtractorImpl extractor = (ReportExtractorImpl) ContextFactory.getBean("reportExtractor");
 		ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
-		RecommendStockDao recommendStockDao =(RecommendStockDao)ContextFactory.getBean("recommendStockDao");
-		Config config =(Config)ContextFactory.getBean("config");
+		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		Config config = (Config) ContextFactory.getBean("config");
 		PDFReader pdfReader = new PDFReader();
 		pdfReader.setExtractor(extractor);
 		pdfReader.setReportDao(reportDao);
