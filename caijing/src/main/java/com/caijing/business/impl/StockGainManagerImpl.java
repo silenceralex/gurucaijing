@@ -50,7 +50,6 @@ public class StockGainManagerImpl implements StockGainManager {
 		this.recommendStockDao = recommendStockDao;
 	}
 
-	@Override
 	public StockGain getStockGainByRStock(String stockcode, String start, String end) {
 
 		StockGain sg = sp.getStockGainByPeriod(stockcode, start, end);

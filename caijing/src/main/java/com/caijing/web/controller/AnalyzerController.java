@@ -32,12 +32,11 @@ public class AnalyzerController {
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
 
-	private GroupGain gg = new GroupGain();
-
 	@RequestMapping("/admin/groupgainlist.htm")
 	public String showGroupGainList(HttpServletResponse response, @RequestParam(value = "aname", required = true)
 	String aname, @RequestParam(value = "page", required = false)
 	Integer page, HttpServletRequest request, ModelMap model) {
+		GroupGain gg = new GroupGain();
 		gg.init();
 		gg.setRecommendStockDao(recommendStockDao);
 		GroupStock gs = gg.process(aname);

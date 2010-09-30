@@ -123,7 +123,6 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getProblemData");
 	}
 
-	@Override
 	public List<RecommendStock> getRecommendStocksByAnalyzerASC(String aname, int start, int offset) {
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("start", start);
