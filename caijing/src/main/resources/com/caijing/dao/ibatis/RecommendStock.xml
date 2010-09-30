@@ -8,7 +8,7 @@
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
-	
+
 	<select id="getProblemData" resultClass="RecommendStock">
 		select * from recommendstock where stockname is null
 	</select>
@@ -79,6 +79,13 @@
 		select rs.*, r.title as title from recommendstock as rs,report
 		as r where rs.reportid=r.rid and rs.aname like #aname# order by
 		rs.createdate desc limit #start#,#offset#
+	</select>
+
+	<select id="getRecommendStocksByAnalyzerASC"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.reportid=r.rid and rs.aname like #aname# order by
+		rs.createdate asc limit #start#,#offset#
 	</select>
 
 	<select id="getRecommendStockbyReportid"

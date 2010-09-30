@@ -20,6 +20,7 @@ public class StockGain {
 	private float volume = 0;
 	private int dealdays = 0;
 	private List<Float> periodprice = null;
+	private List<Float> periodratio = null;
 	private List<String> perioddate = null;
 	private float gain = 0;
 	private float changerate = 0;
@@ -174,6 +175,14 @@ public class StockGain {
 
 	public void setPerioddate(List<String> perioddate) {
 		this.perioddate = perioddate;
+	}
+
+	public List<Float> getPeriodratio() {
+		return periodratio;
+	}
+
+	public void setPeriodratio(List<Float> periodratio) {
+		this.periodratio = periodratio;
 	}
 
 }

@@ -21,48 +21,45 @@ public class StockPrice {
 	private Pattern periodPattern = Pattern
 			.compile(
 					"\\['20[01][0-9]-[01][0-9]-[0-3][0-9]至20[01][0-9]-[01][0-9]-[0-3][0-9]','(-?[0-9\\.]+)','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]\\]\\)",
-					Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-							| Pattern.UNIX_LINES);
+					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	public StockHQ fetchhq(String stockcode, String date) {
 		StockHQ hq = new StockHQ();
 		hq.setStockcode(stockcode);
-		String stockurl = hqurl + stockcode + "&sd=" + date + "&ed=" + date;
+		String stockurl = hqurl + stockcode + "&sd=" + date + "&ed=" + date + "&t=d";
+		System.out.println("stockurl: " + stockurl);
 		try {
 			String content = down.load(stockurl);
+
+			if (!content.contains("至")) {
+				stockurl = hqurl + stockcode + "&sd=" + date + "&ed=" + date + "&t=r";
+				content = down.load(stockurl);
+			}
 			Pattern startPattern = Pattern
 					.compile(
 							"\\['"
 									+ date
 									+ "','([0-9\\.]+)','([0-9\\.]+)','-?[0-9\\.]+','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]",
-							Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-									| Pattern.UNIX_LINES);
+							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 			Matcher startm = startPattern.matcher(content);
 			if (startm != null && startm.find()) {
 				System.out.println("Content:" + startm.groupCount());
-				System.out.println(stockcode + "在日期：" + date + "  开盘价："
-						+ startm.group(1));
+				System.out.println(stockcode + "在日期：" + date + "  开盘价：" + startm.group(1));
 				hq.setOpenprice(Float.parseFloat(startm.group(1).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  收盘价："
-						+ startm.group(2));
+				System.out.println(stockcode + "在日期：" + date + "  收盘价：" + startm.group(2));
 				hq.setEndprice(Float.parseFloat(startm.group(2).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  最低价："
-						+ startm.group(4));
+				System.out.println(stockcode + "在日期：" + date + "  最低价：" + startm.group(4));
 				hq.setLowest(Float.parseFloat(startm.group(4).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  最高价："
-						+ startm.group(5));
+				System.out.println(stockcode + "在日期：" + date + "  最高价：" + startm.group(5));
 				hq.setHighest(Float.parseFloat(startm.group(5).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  成交额："
-						+ startm.group(6));
+				System.out.println(stockcode + "在日期：" + date + "  成交额：" + startm.group(6));
 				hq.setVolum(Float.parseFloat(startm.group(6).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  换手率："
-						+ startm.group(7));
+				System.out.println(stockcode + "在日期：" + date + "  换手率：" + startm.group(7));
 				hq.setChangerate(Float.parseFloat(startm.group(7).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  涨跌率："
-						+ startm.group(3));
+				System.out.println(stockcode + "在日期：" + date + "  涨跌率：" + startm.group(3));
 				hq.setGainrate(Float.parseFloat(startm.group(3).trim()));
 			}
-
+			return hq;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -72,33 +69,30 @@ public class StockPrice {
 	}
 
 	// &code=cn_600016&sd=2010-07-30&ed=2010-07-30
-	public StockGain getStockGainByPeriod(String stockcode, String startdate,
-			String enddate) {
-		String stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed="
-				+ enddate+"&t=d";
-		System.out.println("stockurl: "+stockurl);
+	public StockGain getStockGainByPeriod(String stockcode, String startdate, String enddate) {
+		String stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=d";
+		System.out.println("stockurl: " + stockurl);
 		try {
 			String content = down.load(stockurl);
-			
-			if(!content.contains("至")){
-				stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed="
-				+ enddate+"&t=r";
+
+			if (!content.contains("至")) {
+				stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=r";
 				content = down.load(stockurl);
 			}
-					
+
 			// System.out.println("Content:"+content);
 			Pattern startPattern = Pattern
 					.compile(
 							"\\['(20[01][0-9]-[01][0-9]-[0-3][0-9])','([0-9\\.]+)','([0-9\\.]+)','-?[0-9\\.]+','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]",
-							Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-									| Pattern.UNIX_LINES);
+							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 			Matcher startm = startPattern.matcher(content);
 			int i = 0;
 			StockHQ starthq = new StockHQ();
 			StockHQ endhq = new StockHQ();
 			StockHQ hq = new StockHQ();
-			List<String> dates=new ArrayList<String>();
-			List<Float> peroidprice=new ArrayList<Float>();
+			List<String> dates = new ArrayList<String>();
+			List<Float> peroidprice = new ArrayList<Float>();
+			List<Float> periodratio = new ArrayList<Float>();
 			while (startm != null && startm.find()) {
 				hq.setDate(startm.group(1).trim());
 				hq.setOpenprice(Float.parseFloat(startm.group(2).trim()));
@@ -112,6 +106,7 @@ public class StockPrice {
 				hq.setGainrate(Float.parseFloat(startm.group(4).trim()));
 				dates.add(startm.group(1).trim());
 				peroidprice.add(Float.parseFloat(startm.group(3).trim()));
+				periodratio.add(Float.parseFloat(startm.group(4).trim()));
 				if (i == 0) {
 					endhq.setDate(hq.getDate());
 					endhq.setEndprice(hq.getEndprice());
@@ -121,22 +116,18 @@ public class StockPrice {
 				i++;
 			}
 			starthq = hq;
-			System.out.println("开始时间点：" + starthq.getDate() + "  开盘价："
-					+ starthq.getOpenprice() + "  ");
-			System.out.println("结束时间点：" + endhq.getDate() + "  开盘价："
-					+ endhq.getOpenprice() + "  ");
-			System.out.println("开始时间点：" + starthq.getDate() + "  收盘价："
-					+ starthq.getEndprice() + "  ");
-			System.out.println("结束时间点：" + endhq.getDate() + "  收盘价："
-					+ endhq.getEndprice() + "  ");
-			System.out.println("回报率："
-					+ (endhq.getEndprice() - starthq.getEndprice())*100
-					/ starthq.getEndprice() + "%");
+			System.out.println("开始时间点：" + starthq.getDate() + "  开盘价：" + starthq.getOpenprice() + "  ");
+			System.out.println("结束时间点：" + endhq.getDate() + "  开盘价：" + endhq.getOpenprice() + "  ");
+			System.out.println("开始时间点：" + starthq.getDate() + "  收盘价：" + starthq.getEndprice() + "  ");
+			System.out.println("结束时间点：" + endhq.getDate() + "  收盘价：" + endhq.getEndprice() + "  ");
+			System.out.println("回报率：" + (endhq.getEndprice() - starthq.getEndprice()) * 100 / starthq.getEndprice()
+					+ "%");
 
 			Matcher m = periodPattern.matcher(content);
 			StockGain gain = new StockGain();
 			gain.setPerioddate(dates);
 			gain.setPeriodprice(peroidprice);
+			gain.setPeriodratio(periodratio);
 			gain.setStartdate(starthq.getDate());
 			gain.setEnddate(endhq.getDate());
 			gain.setStartprice(starthq.getEndprice());
@@ -172,8 +163,9 @@ public class StockPrice {
 	 */
 	public static void main(String[] args) {
 		StockPrice sp = new StockPrice();
-		sp.getStockGainByPeriod("601939", "2010-07-30", "2010-09-11");
-		// sp.fetchhq("601939", "2010-07-30");
+		//		sp.getStockGainByPeriod("601939", "2010-07-30", "2010-09-11");
+		StockHQ hq = sp.fetchhq("601939", "2010-08-30");
+		System.out.println("收益率：" + hq.getGainrate());
 	}
 
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>公司研报分析结果列表页</title>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+	</head>
+
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td bgcolor="#E0E7FF" height="30">
+						&nbsp;&nbsp;
+						<strong>当前栏目: $aname
+							&gt;&gt;  </strong>
+					</td>
+				</tr>
+			</table>
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr bgcolor="#0066CC" class="cWhite">
+					<th scope="col" width="80" height="30">
+						groupid
+					</th>
+					<th scope="col" width="80">交易日期
+					</th>
+					<th scope="col" width="160"> 
+						组合指数
+					</th>
+					<th scope="col" width="80">
+						组合收益率
+					</th>
+				</tr>
+				<!-- 视频列表 -->
+				#foreach($groupearn in $groupearnlist)
+				<tr id="${stockgain.reportid}">
+					<td bgcolor="#E0E7FF" align="center">
+						<a href="/admin/analyzergainlist.htm?aname=${aname}" title="查看抽取结果">$aname</a>
+					</td>
+					<td bgcolor="#E0E7FF">
+						&nbsp;&nbsp;$groupearn.date
+					</td>
+					<td bgcolor="#E0E7FF">
+						$groupearn.weight
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+							$groupearn.ratio
+					</td>
+					
+				</tr>
+				#end
+			</table>
+			<!---列表--->
+			<br />
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td align="center">
+					</td>
+				</tr>
+			</table>
+			<!---分页--->
+
+		</table>
+	</body>
+</html>
