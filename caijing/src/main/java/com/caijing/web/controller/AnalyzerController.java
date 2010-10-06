@@ -73,6 +73,8 @@ public class AnalyzerController {
 		for(StockGain sg:gs.getStockGains()){
 			codeMap.put(sg.getStockcode(), sg.getStockname());
 		}
+		float weight=gs.getWeights().get(gs.getWeights().size()-1);
+		String totalratio=(weight-100)+"%";
 		model.put("joinmap", gs.getJoinMap());
 		model.put("codeMap", codeMap);
 		model.put("joinmap", gs.getJoinMap());
@@ -83,6 +85,7 @@ public class AnalyzerController {
 		model.put("stockcodes", gs.getStockdateMap().keySet());
 		model.put("ratios",	gs.getRatios());
 		model.put("weights",	gs.getWeights());
+		model.put("totalratio",	totalratio);
 //		model.put("groupearnlist", groupearnlist);
 		return "/admin/groupgainlist.htm";
 	}
@@ -115,6 +118,7 @@ public class AnalyzerController {
 		paginator.setUrl(urlPattern);
 		model.put("stockgainlist", stockgainlist);
 		model.put("paginatorLink", paginator.getPageNumberList());
+		
 		return "/admin/analyzergainlist.htm";
 
 	}

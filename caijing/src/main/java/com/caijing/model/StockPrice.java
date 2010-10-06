@@ -151,7 +151,8 @@ public class StockPrice {
 //				System.out.println("Content:" + m.groupCount());
 //				System.out.println("涨跌价格：" + m.group(1));
 //				System.out.println("回报率：" + m.group(2));
-				gain.setGain(Float.parseFloat(m.group(2).trim()));
+//				gain.setGain(Float.parseFloat(m.group(2).trim()));
+				gain.setGain((weight-1)*100);
 //				System.out.println("区间最低价格：" + m.group(3));
 				gain.setLowest(Float.parseFloat(m.group(3).trim()));
 //				System.out.println("区间最高价格：" + m.group(4));
