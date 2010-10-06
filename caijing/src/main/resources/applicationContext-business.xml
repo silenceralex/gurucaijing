@@ -13,6 +13,9 @@
 		<property name="recommendStockDao">
 			<ref bean="recommendStockDao" />
 		</property>
+		<property name="dao">
+			<ref bean="stockDao" />
+		</property>
 	</bean>
 
 </beans>

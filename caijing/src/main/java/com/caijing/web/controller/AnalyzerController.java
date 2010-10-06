@@ -1,6 +1,7 @@
 package com.caijing.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.business.StockGainManager;
 import com.caijing.dao.RecommendStockDao;
-import com.caijing.domain.GroupEarn;
-import com.caijing.domain.GroupStock;
+import com.caijing.domain.GroupPeriod;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockGain;
 import com.caijing.util.GroupGain;
@@ -31,25 +31,59 @@ public class AnalyzerController {
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
+	
+	@Autowired
+	@Qualifier("groupGain")
+	private GroupGain gg = null;
+	
 
 	@RequestMapping("/admin/groupgainlist.htm")
 	public String showGroupGainList(HttpServletResponse response, @RequestParam(value = "aname", required = true)
 	String aname, @RequestParam(value = "page", required = false)
 	Integer page, HttpServletRequest request, ModelMap model) {
-		GroupGain gg = new GroupGain();
+//		GroupGain gg = new GroupGain();
 		gg.init();
-		gg.setRecommendStockDao(recommendStockDao);
-		GroupStock gs = gg.process(aname);
-		List<GroupEarn> groupearnlist = new ArrayList<GroupEarn>(gs.getDates().size());
-		for (int i = 0; i < gs.getDates().size(); i++) {
-			GroupEarn ge = new GroupEarn();
-			ge.setDate(gs.getDates().get(i));
-			ge.setRatio(gs.getRatios().get(i));
-			ge.setWeight(gs.getWeights().get(i));
-			groupearnlist.add(ge);
-		}
+//		gg.setRecommendStockDao(recommendStockDao);
+		GroupPeriod gs = gg.processASC(aname);
+
+//		List<GroupPeriod> gps=gg.processGroupPeriod(aname);
+//		for(GroupPeriod gp:gps){
+//			for(String code:gp.getStockInGroup().keySet()){
+//				StockGain sg=gp.getStockInGroup().get(code);
+//				System.out.println("Code:"+code);
+//				System.out.println("getStockname:"+sg.getStockname());				
+//			}
+//		}
+//		List<GroupEarn> groupearnlist = new ArrayList<GroupEarn>(gs.getDates().size());
+//		for (int i = 0; i < gs.getDates().size(); i++) {
+//			GroupEarn ge = new GroupEarn();
+//			ge.setDate(gs.getDates().get(i));
+//			ge.setRatio(gs.getRatios().get(i));
+//			ge.setWeight(gs.getWeights().get(i));
+//			groupearnlist.add(ge);
+//		}
+		
 		model.put("aname", aname);
-		model.put("groupearnlist", groupearnlist);
+//		gps.get(1).getStockInGroup().
+//		model.put("gp", gs);
+		
+		System.out.println("gs.getFirstdate():"+gs.getFirstdate());
+		System.out.println("Stockname:"+gs.getFirststock());			
+		HashMap<String,String> codeMap=new HashMap<String,String>();
+		for(StockGain sg:gs.getStockGains()){
+			codeMap.put(sg.getStockcode(), sg.getStockname());
+		}
+		model.put("joinmap", gs.getJoinMap());
+		model.put("codeMap", codeMap);
+		model.put("joinmap", gs.getJoinMap());
+		model.put("firststock", gs.getFirststock());
+		model.put("firstdate", gs.getFirstdate());
+		model.put("dates", gs.getDates());
+		model.put("stockdatemap", gs.getStockdateMap());
+		model.put("stockcodes", gs.getStockdateMap().keySet());
+		model.put("ratios",	gs.getRatios());
+		model.put("weights",	gs.getWeights());
+//		model.put("groupearnlist", groupearnlist);
 		return "/admin/groupgainlist.htm";
 	}
 

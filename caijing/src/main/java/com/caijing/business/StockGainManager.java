@@ -6,6 +6,8 @@ import com.caijing.domain.StockGain;
 
 public interface StockGainManager {
 	List<StockGain> getStockGainByAname(String aname, int page);
+	
+	List<StockGain> getStockGainByAnameASC(String aname);
 
 	StockGain getStockGainByRStock(String stockcode, String start, String end);
 

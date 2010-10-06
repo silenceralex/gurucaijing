@@ -34,26 +34,40 @@
 					<th scope="col" width="80">
 						组合收益率
 					</th>
+					<th scope="col" width="80" height="30">
+						groupid
+					</th>
+					<th scope="col" width="80">交易日期
+					</th>
+					<th scope="col" width="160"> 
+						组合指数
+					</th>
+					<th scope="col" width="80">
+						组合收益率
+					</th>
 				</tr>
 				<!-- 视频列表 -->
-				#foreach($groupearn in $groupearnlist)
-				<tr id="${stockgain.reportid}">
-					<td bgcolor="#E0E7FF" align="center">
-						<a href="/admin/analyzergainlist.htm?aname=${aname}" title="查看抽取结果">$aname</a>
-					</td>
-					<td bgcolor="#E0E7FF">
-						&nbsp;&nbsp;$groupearn.date
-					</td>
-					<td bgcolor="#E0E7FF">
-						$groupearn.weight
-					</td>
-					<td height="30" bgcolor="#E0E7FF" align="center">
-							$groupearn.ratio
-					</td>
-					
-				</tr>
-				#end
+
 			</table>
+			<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate 加入了 $aname 的股票组合</font><br>
+			
+			#foreach($date in $dates)
+				#set($temp=$velocityCount - 1)
+				#if($joinmap.containsKey($date))
+				<font color="blue">股票 $joinmap.get($date) &nbsp;&nbsp; 在 $date 加入了 $aname 的股票组合</font><br><br>
+				#end
+				
+				#foreach($code in $stockcodes)
+					#if($stockdatemap.get(${code}).containsKey($date))
+					股票 $codeMap.get($code) ($code)  &nbsp;&nbsp; 在 $date 的收益率为： 	$stockdatemap.get(${code}).get(${date})<br>
+					#end
+				#end
+				<font color="red">组合 在 $date 的收益率为：$ratios.get(${temp})</font><br>
+				<font color="red">组合 在 $date 的指数为：$weights.get(${temp})</font><br>
+			#end
+				
+
+			
 			<!---列表--->
 			<br />
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">

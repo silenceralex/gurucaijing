@@ -27,5 +27,65 @@
 	</bean>
 	<import resource="timing.xml" />
 	<import resource="config.xml" />
+
+	<bean id="groupGain" class="com.caijing.util.GroupGain">
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+		<property name="dao">
+			<ref bean="stockDao" />
+		</property>
+	</bean>
+	<!--========================================================================
+		AOP Cache
+		=========================================================================-->
+
+	<!-- aop cache by ehcache -->
+	<bean id="ehcacheDaoCacheAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="methodCacheInterceptor" />
+		</property>
+		<property name="patterns">
+			<list>
+				<value>.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ehcacheDaoCacheProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>groupGain</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>ehcacheDaoCacheAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 引用ehCache的配置 -->
+	<bean id="defaultCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache.xml</value>
+		</property>
+	</bean>
+
+	<!-- 定义ehCache的工厂，并设置所使用的Cache name -->
+	<bean id="ehCache"
+		class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref local="defaultCacheManager" />
+		</property>
+		<property name="cacheName">
+			<value>DEFAULT_CACHE</value>
+		</property>
+	</bean>
+
 	<context:component-scan base-package="com.caijing"></context:component-scan>
+
 </beans>
