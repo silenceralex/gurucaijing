@@ -2,6 +2,7 @@ package com.caijing.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -176,10 +177,27 @@ public class RecommendController {
 		sg.setSaname(rstock.getSaname());
 		sg.setStockname(rstock.getStockname());
 		sg.setObjectprice(rstock.getObjectprice());
+		List<String> dates=sg.getPerioddate();
+		List<Float> peroidprice=sg.getPeriodprice();
+		List<Float> periodratio=sg.getPeriodratio();
+		Collections.reverse(dates);
+		Collections.reverse(peroidprice);
+		Collections.reverse(periodratio);
 		model.put("vutil", vutil);
 		model.put("rstock", rstock);
 		model.put("report", report);
+		model.put("dates", dates);
+		model.put("peroidprice", peroidprice);
+		model.put("periodratio", periodratio);
 		model.put("stockgain", sg);
+		StockGain zssg=sp.getZSGainByPeriod(tmp,DateTools.transformYYYYMMDDDate(new Date()));
+		sg.setStockname("上证指数");
+		List<Float> zsperoidprice=zssg.getPeriodprice();
+		List<Float> zsperiodratio=zssg.getPeriodratio();
+		Collections.reverse(zsperoidprice);
+		Collections.reverse(zsperiodratio);
+		model.put("zsperoidprice", zsperoidprice);
+		model.put("zsperiodratio", zsperiodratio);
 		return "/admin/stockgain.htm";
 	}
 

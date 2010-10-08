@@ -19,6 +19,7 @@ import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.GroupPeriod;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockGain;
+import com.caijing.util.FloatUtil;
 import com.caijing.util.GroupGain;
 import com.caijing.util.Paginator;
 
@@ -43,25 +44,7 @@ public class AnalyzerController {
 	Integer page, HttpServletRequest request, ModelMap model) {
 //		GroupGain gg = new GroupGain();
 		gg.init();
-//		gg.setRecommendStockDao(recommendStockDao);
 		GroupPeriod gs = gg.processASC(aname);
-
-//		List<GroupPeriod> gps=gg.processGroupPeriod(aname);
-//		for(GroupPeriod gp:gps){
-//			for(String code:gp.getStockInGroup().keySet()){
-//				StockGain sg=gp.getStockInGroup().get(code);
-//				System.out.println("Code:"+code);
-//				System.out.println("getStockname:"+sg.getStockname());				
-//			}
-//		}
-//		List<GroupEarn> groupearnlist = new ArrayList<GroupEarn>(gs.getDates().size());
-//		for (int i = 0; i < gs.getDates().size(); i++) {
-//			GroupEarn ge = new GroupEarn();
-//			ge.setDate(gs.getDates().get(i));
-//			ge.setRatio(gs.getRatios().get(i));
-//			ge.setWeight(gs.getWeights().get(i));
-//			groupearnlist.add(ge);
-//		}
 		
 		model.put("aname", aname);
 //		gps.get(1).getStockInGroup().
@@ -74,7 +57,7 @@ public class AnalyzerController {
 			codeMap.put(sg.getStockcode(), sg.getStockname());
 		}
 		float weight=gs.getWeights().get(gs.getWeights().size()-1);
-		String totalratio=(weight-100)+"%";
+		String totalratio=FloatUtil.getTwoDecimal(weight-100)+"%";
 		model.put("joinmap", gs.getJoinMap());
 		model.put("codeMap", codeMap);
 		model.put("joinmap", gs.getJoinMap());

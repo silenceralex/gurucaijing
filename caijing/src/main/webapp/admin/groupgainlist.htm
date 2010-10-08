@@ -59,7 +59,7 @@
 				
 				#foreach($code in $stockcodes)
 					#if($stockdatemap.get(${code}).containsKey($date))
-					股票 $codeMap.get($code) ($code)  &nbsp;&nbsp; 在 $date 的收益率为： 	$stockdatemap.get(${code}).get(${date})<br>
+					股票 $codeMap.get($code) ($code)  &nbsp;&nbsp; 在 $date 的收益率为： 	$stockdatemap.get(${code}).get(${date}) %<br>
 					#end
 				#end
 				<font color="red">组合 在 $date 的收益率为：$ratios.get(${temp})%</font><br>

@@ -94,11 +94,12 @@ public class GroupGain {
 				}
 			}
 			ratio = ratio / (count * 100);
-			groupratio.add(ratio);
-			perioddates.add(dates.get(i));
 			System.out.println("ratio at date :" + dates.get(i) + "  is :" + ratio);
 			weight = weight * (1 + ratio);
-			weights.add(weight);
+			ratio=ratio*100;
+			groupratio.add(FloatUtil.getTwoDecimal(ratio));
+			perioddates.add(dates.get(i));
+			weights.add(FloatUtil.getTwoDecimal(weight));
 		}
 		GroupPeriod gp=new GroupPeriod();
 		gp.setStockGains(sgs);

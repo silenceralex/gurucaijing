@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>投资大师</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/raphael.js"></script>
+<script language="javascript" type="text/javascript" src="js/analytics.js"></script>
+<script language="javascript" type="text/javascript">
+function switchTab(id){
+	for(i=1;i<=3;i++){
+		$("#starTb"+i).hide();
+		$("#starTab"+i).attr("class","");
+		}
+	$("#starTb"+id).show();
+	$("#starTab"+id).attr("class","star_de_tabli_on");
+	}
+function showAnaly(num,id,recname){
+	init("star_detail_preview",600,200,id,recname);
+	$("#star_detail_preview").show();
+	$("#star_detail_preview").css("top" , num+"px");
+	$("#star_detail_preview").css("left" , 240+"px");
+	}
+function hideAnaly(){
+	$("#star_detail_preview").hide();
+	$("#star_detail_preview").empty();
+	}
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+	<div class="header">
+    	<div class="logo"><h1>投资大师</h1><img src="img/logo.png" /></div>
+        <div class="controlPanel">
+        	<div class="icons">
+            	<ul>
+                	<li><a href="#">加入收藏</a></li>
+
+                    <li><a href="#">设为首页</a></li>
+                </ul>
+            </div>
+            <div class="search">
+            	<div class="searchForm">
+                    <input type="text" class="searchBox" value="请输入关键词" />
+                    <input type="button" class="searchBtn" value="搜索" />
+                </div>
+
+                <div class="clear"></div>
+            </div>
+            <ul class="nav">
+            	<li><a href="#"><span>首页</span></a></li>
+                <li><a href="#"><span>大师殿堂</span></a></li>
+                <li><a href="#"><span>股票精选</span></a></li>
+                <li><a href="#"><span>草根大师之选</span></a></li>
+
+                <li><a href="#"><span>金牌分析师之选</span></a></li>
+                <li><a href="#"><span>明星机构之选</span></a></li>
+                <li><a href="#"><span>机构共同之选</span></a></li>
+                <li><a href="#"><span>研报大本营</span></a></li>
+                <li><a href="#"><span>财报大本营</span></a></li>
+                <span class="clear"></span>
+
+            </ul>
+        </div>
+    </div><!--header end-->
+    <div class="mainBox">
+    	<div class="colL">
+        	<div id="colL0" class="colL0 colLItem">
+            	<div class="colL_title"><h2>用户登录</h2></div>
+                <form>
+
+                <div class="userLoginForm">
+                    <label>用户名</label>
+                    <input type="text" />
+                    <span class="clear"></span>
+                    <label>密码</label>
+                    <input type="text" />
+                </div>
+              </form>
+
+                <input class="loginBtn" type="button" value="登录" />
+                <a href="#">注册新用户</a>
+            </div>
+   	  		<div class="colL1 colLItem">
+            	<div class="colL_title">
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+
+                <ul>
+                	<li><a href="#">金牌分析师</a></li>
+                    <li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>
+                </ul>
+            </div>
+            <div class="colL2 colLItem">
+
+            	<div class="colL_title">
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                	<li><a href="#">金牌分析师之选</a></li>
+                    <li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>
+
+                    <li><a href="#">机构共同之选</a></li>
+                    <li><a href="#">折价股票精选</a></li>
+                </ul>
+            </div>
+            <div class="colL3 colLItem">
+            	<div class="colL_title">
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+
+                </div>
+                <ul>
+                	<li><a href="#">财报大本营</a></li>
+                    <li><a href="#">研报大本营</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sec_list">
+
+        		<div class="sec_nav">
+            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+            </div>
+            <h2 class="star_detail_star">伍永刚</h2>
+            <div class="star_detail_follow">
+
+            	<a class="followBtn" href="#"><span>跟随</span></a>&nbsp;123人跟随&nbsp;&nbsp;<a href="#">说说你的观点<span class="clear"></span></a>
+            </div>
+            <ol class="star_detail_tab">
+            	<li class="star_de_tabli_on" id="starTab1" onmouseover="switchTab(1)"><a href="#">简介</a></li>
+            	<li id="starTab2" onmouseover="switchTab(2)"><a href="#">他的推荐股票</a></li>
+            	<li id="starTab3" onmouseover="switchTab(3)"><a href="#">他的研究报告</a></li>
+
+						</ol>
+						<div class="star_jump">
+							<label>跳转到另一个大师</label>
+							<select>
+								<option>请选择</option>
+								<option>伍永刚</option>
+								<option>方中信</option>
+
+								<option>范增</option>
+							</select>
+						</div>
+            <div class="star_detail_box">
+            	<div id="starTb1" class="star_detail_intro">
+            		<div class="star_detail_intro_img"><img src="upload/wu.jpg" /></div>
+            		<div class="star_detail_intro_text">
+            			<em>简介：</em>
+
+            			<p>银行业的资深研究员伍永刚，他是国泰君安研究经验非常丰富的研究院，从05年到08年，伍永刚先生在新财富银行行业最佳评比中都是位列前五名。他曾经给打架推荐深发展、浦发银行，这些给打架留下了很深的印象，给投资者创造了价值。</p>
+									<p>银行业的资深研究员伍永刚，他是国泰君安研究经验非常丰富的研究院，从05年到08年，伍永刚先生在新财富银行行业最佳评比中都是位列前五名。他曾经给打架推荐深发展、浦发银行，这些给打架留下了很深的印象，给投资者创造了价值。</p>
+            		</div>
+            		<h2 class="analyticsTitle">伍永刚推荐的全部股票收益率</h2>
+            		<div id="holder1" class="holder"></div>
+            		<table id="data1" class="hidden">  
+		               	<tr>
+		                    <th>2010-08-11</th>
+
+		                    <th>2010-08-12</th>
+		                    <th>2010-08-13</th>
+		                    <th>2010-08-14</th>
+		                    <th>2010-08-15</th>
+		                    <th>2010-08-16</th>
+		                    <th>2010-08-17</th>
+
+		                    <th>2010-08-18</th>
+		                    <th>2010-08-19</th>
+		                    <th>2010-08-20</th>
+		                    <th>2010-08-21</th>
+		                    <th>2010-08-22</th>
+		                </tr>
+
+		                <tr>
+		                    <td>4.76,0.45%</td>
+		                    <td>4.75,0.36%</td>
+		                    <td>4.73,0.40%</td>
+		                    <td>4.75,0.55%</td>
+		                    <td>4.81,0.41%</td>
+
+		                    <td>4.83,0.61%</td>
+		                    <td>4.78,0.61%</td>
+		                    <td>4.81,0.55%</td>
+		                    <td>4.78,0.44%</td>
+		                    <td>4.80,0.44%</td>
+		                    <td>4.77,0.92%</td>
+
+		                    <td>4.70,0.42%</td>
+		                </tr>
+										<tr>
+											<td>4.61,0.92%</td>
+											<td>4.31,0.92%</td>
+											<td>4.21,0.61%</td>
+											<td>4.68,0.61%</td>
+
+											<td>4.52,0.42%</td>
+											<td>4.76,0.45%</td>
+											<td>4.95,0.36%</td>
+											<td>4.21,0.40%</td>
+											<td>4.92,0.41%</td>
+											<td>4.11,0.55%</td>
+
+											<td>4.38,0.44%</td>
+											<td>4.50,0.44%</td>
+		                </tr>
+		        			</table>
+		        			<script language="javascript" type="text/javascript">
+							    	init("holder1",600,200,"data1","全部推荐股票综合收益率");
+							    </script>
+            	</div>
+            	<div id="starTb2" class="star_detail_recommand">
+
+            		<table cellpadding="0" cellspacing="0" onmouseout="hideAnaly()">
+            			<tr>
+            				<th>公司</th>
+            				<th>所在行业</th>
+            				<th>推荐价</th>
+            				<th>目标价</th>
+            				<th>当前价</th>
+
+            				<th>当前价与目标价差距</th>
+            				<th>当前就爱与推荐价的回报率</th>
+            				<th>市盈率</th>
+            				<th>市净率</th>
+            				<th>研究报告</th>
+            			</tr>
+
+            			<tr onmouseover="showAnaly(418,'rec1','深发展A(0001)')">
+            				<td><a href="starGuruDetail2.html">深发展A(0001)</a></td>
+            				<td>银行</td>
+            				<td>18.87</td>
+            				<td>19.21</td>
+            				<td>17.15</td>
+
+            				<td>4.32</td>
+            				<td>14.45</td>
+            				<td>25.9</td>
+            				<td>7.13</td>
+            				<td><a href="#">1</a><a href="#">2</a></td>
+            			</tr>
+
+            			<tr class="star_detail_tb_even" onmouseover="showAnaly(460,'rec2','深发展A(0001)')">
+            				<td><a href="starGuruDetail2.html">深发展A(0001)</a></td>
+            				<td>银行</td>
+            				<td>18.87</td>
+            				<td>19.21</td>
+            				<td>17.15</td>
+
+            				<td>4.32</td>
+            				<td>14.45</td>
+            				<td>25.9</td>
+            				<td>7.13</td>
+            				<td><a href="#">1</a><a href="#">2</a></td>
+            			</tr>
+
+            			<tr onmouseover="showAnaly(500,'rec3','深发展A(0002)')">
+            				<td><a href="starGuruDetail2.html">深发展A(0002)</a></td>
+            				<td>银行</td>
+            				<td>18.87</td>
+            				<td>19.21</td>
+            				<td>17.15</td>
+
+            				<td>4.32</td>
+            				<td>14.45</td>
+            				<td>25.9</td>
+            				<td>7.13</td>
+            				<td><a href="#">1</a><a href="#">2</a></td>
+            			</tr>
+
+            			<tr class="star_detail_tb_even" onmouseover="showAnaly(545,'rec4','深发展A(0003)')">
+            				<td><a href="starGuruDetail2.html">深发展A(0003)</a></td>
+            				<td>银行</td>
+            				<td>18.87</td>
+            				<td>19.21</td>
+            				<td>17.15</td>
+
+            				<td>4.32</td>
+            				<td>14.45</td>
+            				<td>25.9</td>
+            				<td>7.13</td>
+            				<td><a href="#">1</a><a href="#">2</a></td>
+            			</tr>
+
+            		</table>
+            		<div>
+            			<table id="rec1" class="hidden">  
+		               	<tr>
+		                    <th>2010-08-11</th>
+		                    <th>2010-08-12</th>
+		                    <th>2010-08-13</th>
+		                    <th>2010-08-14</th>
+
+		                    <th>2010-08-15</th>
+		                    <th>2010-08-16</th>
+		                    <th>2010-08-17</th>
+		                    <th>2010-08-18</th>
+		                    <th>2010-08-19</th>
+		                    <th>2010-08-20</th>
+
+		                    <th>2010-08-21</th>
+		                    <th>2010-08-22</th>
+		                </tr>
+		                <tr>
+		                    <td>4.76,0.45%</td>
+		                    <td>4.75,0.36%</td>
+		                    <td>4.80,0.44%</td>
+
+		                    <td>4.77,0.92%</td>
+		                    <td>4.70,0.42%</td>
+		                    <td>4.81,0.55%</td>
+		                    <td>4.78,0.44%</td>
+		                    <td>4.73,0.40%</td>
+		                    <td>4.75,0.55%</td>
+
+		                    <td>4.81,0.41%</td>
+		                    <td>4.83,0.61%</td>
+		                    <td>4.78,0.61%</td>
+		                </tr>
+										<tr>
+											<td>4.21,0.40%</td>
+											<td>4.92,0.41%</td>
+
+											<td>4.11,0.55%</td>
+											<td>4.61,0.92%</td>
+											<td>4.31,0.92%</td>
+											<td>4.21,0.61%</td>
+											<td>4.68,0.61%</td>
+											<td>4.52,0.42%</td>
+
+											<td>4.76,0.45%</td>
+											<td>4.95,0.36%</td>
+											<td>4.38,0.44%</td>
+											<td>4.50,0.44%</td>
+		                </tr>
+		        			</table>
+            			<table id="rec2" class="hidden">  
+		               	<tr>
+
+		                    <th>2010-08-11</th>
+		                    <th>2010-08-12</th>
+		                    <th>2010-08-13</th>
+		                    <th>2010-08-14</th>
+		                    <th>2010-08-15</th>
+		                    <th>2010-08-16</th>
+
+		                    <th>2010-08-17</th>
+		                    <th>2010-08-18</th>
+		                    <th>2010-08-19</th>
+		                    <th>2010-08-20</th>
+		                    <th>2010-08-21</th>
+		                    <th>2010-08-22</th>
+
+		                </tr>
+		                <tr>
+		                    <td>4.76,0.45%</td>
+		                    <td>4.75,0.36%</td>
+		                    <td>4.73,0.40%</td>
+		                    <td>4.75,0.55%</td>
+		                    <td>4.81,0.41%</td>
+
+		                    <td>4.83,0.61%</td>
+		                    <td>4.78,0.61%</td>
+		                    <td>4.81,0.55%</td>
+		                    <td>4.78,0.44%</td>
+		                    <td>4.80,0.44%</td>
+		                    <td>4.77,0.92%</td>
+
+		                    <td>4.70,0.42%</td>
+		                </tr>
+										<tr>
+											<td>4.61,0.92%</td>
+											<td>4.31,0.92%</td>
+											<td>4.21,0.61%</td>
+											<td>4.68,0.61%</td>
+
+											<td>4.52,0.42%</td>
+											<td>4.76,0.45%</td>
+											<td>4.95,0.36%</td>
+											<td>4.21,0.40%</td>
+											<td>4.92,0.41%</td>
+											<td>4.11,0.55%</td>
+
+											<td>4.38,0.44%</td>
+											<td>4.50,0.44%</td>
+		                </tr>
+		        			</table>
+		        			<table id="rec3" class="hidden">  
+		               	<tr>
+		                    
+		                    <th>2010-08-17</th>
+		                    <th>2010-08-18</th>
+
+		                    <th>2010-08-19</th>
+		                    <th>2010-08-20</th>
+		                    <th>2010-08-21</th>
+		                    <th>2010-08-22</th>
+		                    <th>2010-08-11</th>
+		                    <th>2010-08-12</th>
+
+		                    <th>2010-08-13</th>
+		                    <th>2010-08-14</th>
+		                    <th>2010-08-15</th>
+		                    <th>2010-08-16</th>
+		                </tr>
+		                <tr>
+		                		<td>4.81,0.41%</td>
+
+		                    <td>4.83,0.61%</td>
+		                    <td>4.78,0.61%</td>
+		                    <td>4.81,0.55%</td>
+		                    <td>4.75,0.55%</td>		                    
+		                    <td>4.70,0.42%</td>
+		                    <td>4.78,0.44%</td>
+
+		                    <td>4.80,0.44%</td>
+		                    <td>4.77,0.92%</td>
+		                    <td>4.76,0.45%</td>
+		                    <td>4.75,0.36%</td>
+		                    <td>4.73,0.40%</td>
+		                </tr>
+
+										<tr>
+											<td>4.21,0.40%</td>
+											<td>4.92,0.41%</td>
+											<td>4.11,0.55%</td>
+											<td>4.61,0.92%</td>
+											<td>4.31,0.92%</td>
+
+											<td>4.21,0.61%</td>
+											<td>4.68,0.61%</td>
+											<td>4.52,0.42%</td>
+											<td>4.76,0.45%</td>
+											<td>4.95,0.36%</td>
+											<td>4.38,0.44%</td>
+
+											<td>4.50,0.44%</td>
+		                </tr>
+		        			</table>
+		        			<table id="rec4" class="hidden">  
+		               	<tr>
+		                    <th>2010-08-11</th>
+		                    <th>2010-08-12</th>
+		                    <th>2010-08-13</th>
+
+		                    <th>2010-08-14</th>
+		                    <th>2010-08-15</th>
+		                    <th>2010-08-16</th>
+		                    <th>2010-08-17</th>
+		                    <th>2010-08-18</th>
+		                    <th>2010-08-19</th>
+
+		                    <th>2010-08-20</th>
+		                    <th>2010-08-21</th>
+		                    <th>2010-08-22</th>
+		                </tr>
+		                <tr>
+		                    <td>4.76,0.45%</td>
+		                    <td>4.75,0.36%</td>
+
+		                    <td>4.73,0.40%</td>
+		                    <td>4.77,0.92%</td>
+		                    <td>4.75,0.55%</td>
+		                    <td>4.81,0.41%</td>
+		                    <td>4.83,0.61%</td>
+		                    <td>4.78,0.61%</td>
+
+		                    <td>4.81,0.55%</td>
+		                    <td>4.78,0.44%</td>
+		                    <td>4.80,0.44%</td>
+		                    <td>4.70,0.42%</td>
+		                </tr>
+										<tr>
+											<td>4.76,0.45%</td>
+
+											<td>4.95,0.36%</td>
+											<td>4.21,0.40%</td>
+											<td>4.92,0.41%</td>
+											<td>4.11,0.55%</td>
+											<td>4.38,0.44%</td>
+											<td>4.50,0.44%</td>
+
+											<td>4.61,0.92%</td>
+											<td>4.31,0.92%</td>
+											<td>4.21,0.61%</td>
+											<td>4.68,0.61%</td>
+											<td>4.52,0.42%</td>
+		                </tr>
+
+		        			</table>
+            		</div>
+            	</div>
+            	<div id="starTb3" class="star_detail_research">
+            		<ul>
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>	
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            		</ul>	
+            		<ul>
+
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            		</ul>	
+            		<ul>
+
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            			<li><span>(2010-06-19 12:35)</span><a href="#">格力电器：有望实现全年增长 强烈推荐</a></li>		
+            		</ul>	
+            	</div>
+
+            </div>
+
+        </div>
+        <div id="star_detail_preview"></div>
+      <div class="clear"></div>
+        <div class="footer">
+   	    <div class="goTop"><a href="#"><img src="img/topBtn.jpg"/></a></div>
+            <img src="img/footer.jpg" />
+            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
+
+        </div>
+    </div><!--mainBox end-->
+</div>
+</body>
+</html>

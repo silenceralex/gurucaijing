@@ -3,47 +3,181 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<title>券商推荐股票</title>
-		<link href="/img/style.css" rel="stylesheet" type="text/css" />
-		<link href="/img/index.css" rel="stylesheet" type="text/css" />
-		<style>
-#tagWin {
-	display: none;
-	position: absolute;
-	top: 22px;
-	left: -52px;
-	z-index: 3;
-}
-
-#tagFrame {
-	width: 755px;
-	height: 400px;
-}
-
-#ie_historyFrame {
-	width: 0px;
-	height: 0px;
-	display: none;
-}
-</style>
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+		<link href="css/second.css" rel="stylesheet" type="text/css" />
+		<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/raphael.js"></script>
+<script language="javascript" type="text/javascript" src="js/analytics.js"></script>
 	</head>
 	<body>
-		<div class="frameBox">
+		
+<div class="wrapper">
+	<div class="header">
+    	<div class="logo"><h1>投资大师</h1><img src="img/logo.png" /></div>
+        <div class="controlPanel">
+        	<div class="icons">
+            	<ul>
+                	<li><a href="#">加入收藏</a></li>
+                    <li><a href="#">设为首页</a></li>
 
-			<DIV id=u35
-				style="position: absolute; left: 46px; top: 02px; width: 880px; height: 17px;;; text-align: left; font-family: Arial; text-align: left; word-wrap: break-word;">
-				<DIV id=u35_rtf>
+                </ul>
+            </div>
+            <div class="search">
+            	<div class="searchForm">
+                    <input type="text" class="searchBox" value="请输入关键词" />
+                    <input type="button" class="searchBtn" value="搜索" />
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <ul class="nav">
+            	<li><a href="#"><span>首页</span></a></li>
+                <li><a href="#"><span>大师殿堂</span></a></li>
+                <li><a href="#"><span>股票精选</span></a></li>
+                <li><a href="#"><span>草根大师之选</span></a></li>
+                <li><a href="#"><span>金牌分析师之选</span></a></li>
+
+                <li><a href="#"><span>明星机构之选</span></a></li>
+                <li><a href="#"><span>机构共同之选</span></a></li>
+                <li><a href="#"><span>研报大本营</span></a></li>
+                <li><a href="#"><span>财报大本营</span></a></li>
+                <span class="clear"></span>
+            </ul>
+        </div>
+
+    </div><!--header end-->
+    <div class="mainBox">
+    	<div class="colL">
+        	<div id="colL0" class="colL0 colLItem">
+            	<div class="colL_title"><h2>用户登录</h2></div>
+                <form>
+                <div class="userLoginForm">
+                    <label>用户名</label>
+
+                    <input type="text" />
+                    <span class="clear"></span>
+                    <label>密码</label>
+                    <input type="text" />
+                </div>
+              </form>
+                <input class="loginBtn" type="button" value="登录" />
+                <a href="#">注册新用户</a>
+
+            </div>
+   	  		<div class="colL1 colLItem">
+            	<div class="colL_title">
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                	<li><a href="#">金牌分析师</a></li>
+
+                    <li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>
+                </ul>
+            </div>
+            <div class="colL2 colLItem">
+            	<div class="colL_title">
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+
+                </div>
+                <ul>
+                	<li><a href="#">金牌分析师之选</a></li>
+                    <li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>
+                    <li><a href="#">机构共同之选</a></li>
+                    <li><a href="#">折价股票精选</a></li>
+
+                </ul>
+            </div>
+            <div class="colL3 colLItem">
+            	<div class="colL_title">
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                	<li><a href="#">财报大本营</a></li>
+
+                    <li><a href="#">研报大本营</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sec_list">
+        		<div class="sec_nav">
+            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+            </div>
+
+            <h2 class="star_detail_star">伍永刚</h2>
+            <div class="star_detail_follow">
+            	<a class="followBtn" href="#"><span>跟随</span></a>&nbsp;123人跟随&nbsp;&nbsp;<a href="#">说说你的观点<span class="clear"></span></a>
+            </div>
+            <ol class="star_detail_tab">
+            	<li id="starTab1"><a href="#">简介</a></li>
+
+            	<li class="star_de_tabli_on" id="starTab2"><a href="#">他的推荐股票</a></li>
+            	<li id="starTab3"><a href="#">他的研究报告</a></li>
+						</ol>
+						<div class="star_jump">
+							<label>跳转到另一个大师</label>
+							<select>
+								<option>请选择</option>
+
+								<option>伍永刚</option>
+								<option>方中信</option>
+								<option>范增</option>
+							</select>
+						</div>
+            <div class="star_detail_box">
+            	<h2 class="analyticsTitle">伍永刚推荐的${stockgain.stockname}(${stockgain.stockcode})</h2>
+
+            	<div id="holder1" class="holder"></div>
+            	<table id="data" class="hidden">  
+               	<tr>
+               		#foreach($date in $dates)
+               		<th>$date</th>
+                    #end
+                </tr>
+                <tr>
+                	#foreach($price in $peroidprice)
+                	#set($temp=$velocityCount - 1)
+               		<td>$price , $periodratio.get($temp)</td>
+                    #end
+                </tr>
+								<tr>
+								#foreach($price in $zsperoidprice)
+                				#set($temp=$velocityCount - 1)
+               						<td>$price , $zsperiodratio.get($temp)</td>
+                    			#end
+									
+                </tr>
+        			</table>
+            	
+						</div>
+
+        </div>
+        
+      <div class="clear"></div>
+        <div class="footer">
+   	    <div class="goTop"><a href="#"><img src="img/topBtn.jpg"/></a></div>
+            <img src="img/footer.jpg" />
+            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
+
+        </div>
+    </div><!--mainBox end-->
+    <script language="javascript" type="text/javascript">
+    	init("holder1",600,200,"data","深发展A(00001)");
+    </script>
+</div>
+
+	<div class="frameBox">
+
+
 					<span
 						style="font-family: '\'cb\'ce\'cc\'e5'; color: #000000; font-size: 13px;"><u><b>公司&nbsp;
 								&nbsp; &nbsp; 所在行业&nbsp;&nbsp; 推荐价&nbsp;&nbsp; 目标价&nbsp; &nbsp;
 								当前价&nbsp; 目标价差距(%)&nbsp;&nbsp; 推荐以来的收益率（%）&nbsp; &nbsp;
 								推荐日&nbsp;&nbsp; 目标达成&nbsp;&nbsp; 研究报告</b> </u> </span>
-				</DIV>
-			</DIV>
 
 
-			<DIV id=u36
-				style="position: absolute; left: 46px; top: 39px; width: 890px; height: 17px;;; text-align: left; font-family: Arial; text-align: left; word-wrap: break-word;">
-				<DIV id=u36_rtf>
+	
 					<span
 						style="font-family: '\'cb\'ce\'cc\'e5'; color: #000000; font-size: 13px;">${stockgain.stockname}&nbsp;
 						&nbsp; &nbsp; 银行&nbsp; &nbsp; &nbsp;&nbsp;
@@ -54,11 +188,8 @@
 						${stockgain.gain}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 						${stockgain.startdate}&nbsp;&nbsp; 7.13&nbsp; &nbsp; &nbsp; <u>1</u>
 						<u>2</u> </span>
-				</DIV>
-			</DIV>
-			<DIV id=u37
-				style="position: absolute; left: 46px; top: 69px; width: 890px; height: 17px;;; text-align: left; font-family: Arial; text-align: left; word-wrap: break-word;">
-				<DIV id=u37_rtf>
+
+
 					股票名称： ${stockgain.stockname}
 					<br />
 					推荐券商： ${stockgain.saname}
@@ -79,8 +210,6 @@
 					<br />
 					推荐以来换手率： ${stockgain.changerate}%
 					<br />
-				</DIV>
-			</DIV>
-		</div>
+		</div>	
 	</body>
 </html>
