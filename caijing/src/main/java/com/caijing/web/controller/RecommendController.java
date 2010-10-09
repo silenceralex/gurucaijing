@@ -56,11 +56,10 @@ public class RecommendController {
 	private Vutil vutil = null;
 
 	@RequestMapping("/admin/showAllRecommend.htm")
-	public String showAllRecommend(HttpServletResponse response,
-			@RequestParam(value = "saname", required = false)
-			String saname, @RequestParam(value = "page", required = false)
-			Integer page, @RequestParam(value = "type", required = false)
-			Integer type, HttpServletRequest request, ModelMap model) {
+	public String showAllRecommend(HttpServletResponse response, @RequestParam(value = "saname", required = false)
+	String saname, @RequestParam(value = "page", required = false)
+	Integer page, @RequestParam(value = "type", required = false)
+	Integer type, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 		int total = 0;
@@ -71,32 +70,30 @@ public class RecommendController {
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
 		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
-		if(saname!=null){
-			System.out.println("saname:"+saname);
-			if(type==1){
-				total=recommendStockDao.getGoodCounts(saname);
+		if (saname != null) {
+			System.out.println("saname:" + saname);
+			if (type == 1) {
+				total = recommendStockDao.getGoodCounts(saname);
 				paginator.setTotalRecordNumber(total);
-				recommendlist=recommendStockDao.getGoodRecommendStocksBySaname(saname, (page-1)*20,20);
-				urlPattern = "/admin/showAllRecommend.htm?type=1&saname="+saname+"&page=$number$";
-			}else{
-				total=recommendStockDao.getUncompletedCounts(saname);
+				recommendlist = recommendStockDao.getGoodRecommendStocksBySaname(saname, (page - 1) * 20, 20);
+				urlPattern = "/admin/showAllRecommend.htm?type=1&saname=" + saname + "&page=$number$";
+			} else {
+				total = recommendStockDao.getUncompletedCounts(saname);
 				paginator.setTotalRecordNumber(total);
-				recommendlist=recommendStockDao.getUncompletedRecommendStocksBySaname(saname, (page-1)*20,20);
-				urlPattern = "/admin/showAllRecommend.htm?type=0&saname="+saname+"&page=$number$";
+				recommendlist = recommendStockDao.getUncompletedRecommendStocksBySaname(saname, (page - 1) * 20, 20);
+				urlPattern = "/admin/showAllRecommend.htm?type=0&saname=" + saname + "&page=$number$";
 			}
-//			total=recommendStockDao.getAllRecommendCountBySaname(saname);
-//			paginator.setTotalRecordNumber(total);
-//			recommendlist=recommendStockDao.getRecommendStocksBySaname(saname,(page-1)*20,20);
-			urlPattern = "/admin/showAllRecommend.htm?saname="+saname+"&page=$number$";
+			//			total=recommendStockDao.getAllRecommendCountBySaname(saname);
+			//			paginator.setTotalRecordNumber(total);
+			//			recommendlist=recommendStockDao.getRecommendStocksBySaname(saname,(page-1)*20,20);
+			urlPattern = "/admin/showAllRecommend.htm?saname=" + saname + "&page=$number$";
 			model.put("saname", saname);
-		}else{
+		} else {
 			total = recommendStockDao.getAllRecommendStocksCount();
 			paginator.setTotalRecordNumber(total);
-			recommendlist = recommendStockDao.getRecommendStocks((page - 1) * 20,
-					20);
+			recommendlist = recommendStockDao.getRecommendStocks((page - 1) * 20, 20);
 			urlPattern = "/admin/showAllRecommend.htm?page=$number$";
 		}
-
 
 		paginator.setUrl(urlPattern);
 		model.put("topicNameMap", topicNameMap);
@@ -108,10 +105,9 @@ public class RecommendController {
 	}
 
 	@RequestMapping("/admin/showRecommend.htm")
-	public String showRecommend(HttpServletResponse response,
-			@RequestParam(value = "saname", required = false)
-			String saname, @RequestParam(value = "page", required = false)
-			Integer page, HttpServletRequest request, ModelMap model) {
+	public String showRecommend(HttpServletResponse response, @RequestParam(value = "saname", required = false)
+	String saname, @RequestParam(value = "page", required = false)
+	Integer page, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 
@@ -127,10 +123,8 @@ public class RecommendController {
 		if (saname != null) {
 			total = reportDao.getAllReportsCountBySaname(saname);
 			paginator.setTotalRecordNumber(total);
-			reportlist = reportDao.getReportsBySaname(saname, (page - 1) * 20,
-					20);
-			urlPattern = "/admin/showRecommend.htm?saname=" + saname
-					+ "&page=$number$";
+			reportlist = reportDao.getReportsBySaname(saname, (page - 1) * 20, 20);
+			urlPattern = "/admin/showRecommend.htm?saname=" + saname + "&page=$number$";
 			model.put("saname", saname);
 		} else {
 			total = reportDao.getAllReportsCount();
@@ -149,37 +143,33 @@ public class RecommendController {
 	}
 
 	@RequestMapping("/admin/recommendedit.htm")
-	public String showRecommend(HttpServletResponse response,
-			@RequestParam(value = "rid", required = true)
-			String reportid, HttpServletRequest request, ModelMap model) {
+	public String showRecommend(HttpServletResponse response, @RequestParam(value = "rid", required = true)
+	String reportid, HttpServletRequest request, ModelMap model) {
 		Report report = null;
 		report = (Report) reportDao.select(reportid);
-		RecommendStock rstock = recommendStockDao
-				.getRecommendStockbyReportid(reportid);
+		RecommendStock rstock = recommendStockDao.getRecommendStockbyReportid(reportid);
 		model.put("vutil", vutil);
 		model.put("rstock", rstock);
 		model.put("report", report);
 		return "/admin/recommendinfo.htm";
 	}
-	
+
 	@RequestMapping("/admin/stockgain.htm")
-	public String showStockGain(HttpServletResponse response,
-			@RequestParam(value = "rid", required = true)
-			String reportid, HttpServletRequest request, ModelMap model) {
+	public String showStockGain(HttpServletResponse response, @RequestParam(value = "rid", required = true)
+	String reportid, HttpServletRequest request, ModelMap model) {
 		Report report = null;
 		report = (Report) reportDao.select(reportid);
-		RecommendStock rstock = recommendStockDao
-				.getRecommendStockbyReportid(reportid);
+		RecommendStock rstock = recommendStockDao.getRecommendStockbyReportid(reportid);
 		StockPrice sp = new StockPrice();
-		String tmp=rstock.getCreatedate();
-		tmp=tmp.substring(0, 4)+"-"+tmp.substring(4, 6)+"-"+tmp.substring(6,8);
-		StockGain sg=sp.getStockGainByPeriod(rstock.getStockcode(), tmp,DateTools.transformYYYYMMDDDate(new Date()));
+		String tmp = rstock.getCreatedate();
+		tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+		StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(), tmp, DateTools.transformYYYYMMDDDate(new Date()));
 		sg.setSaname(rstock.getSaname());
 		sg.setStockname(rstock.getStockname());
 		sg.setObjectprice(rstock.getObjectprice());
-		List<String> dates=sg.getPerioddate();
-		List<Float> peroidprice=sg.getPeriodprice();
-		List<Float> periodratio=sg.getPeriodratio();
+		List<String> dates = sg.getPerioddate();
+		List<Float> peroidprice = sg.getPeriodprice();
+		List<Float> periodratio = sg.getPeriodratio();
 		Collections.reverse(dates);
 		Collections.reverse(peroidprice);
 		Collections.reverse(periodratio);
@@ -190,10 +180,10 @@ public class RecommendController {
 		model.put("peroidprice", peroidprice);
 		model.put("periodratio", periodratio);
 		model.put("stockgain", sg);
-		StockGain zssg=sp.getZSGainByPeriod(tmp,DateTools.transformYYYYMMDDDate(new Date()));
-		sg.setStockname("上证指数");
-		List<Float> zsperoidprice=zssg.getPeriodprice();
-		List<Float> zsperiodratio=zssg.getPeriodratio();
+		StockGain zssg = sp.getZSGainByPeriod(tmp, DateTools.transformYYYYMMDDDate(new Date()));
+		zssg.setStockname("上证指数");
+		List<Float> zsperoidprice = zssg.getPeriodprice();
+		List<Float> zsperiodratio = zssg.getPeriodratio();
 		Collections.reverse(zsperoidprice);
 		Collections.reverse(zsperiodratio);
 		model.put("zsperoidprice", zsperoidprice);
@@ -202,8 +192,7 @@ public class RecommendController {
 	}
 
 	@RequestMapping("/admin/recommendedit.do")
-	public void editRecommend(HttpServletResponse response,
-			RecommendStock recommendStock, HttpServletRequest request,
+	public void editRecommend(HttpServletResponse response, RecommendStock recommendStock, HttpServletRequest request,
 			ModelMap model) throws IOException {
 
 		int ret = recommendStockDao.update(recommendStock);
