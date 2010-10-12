@@ -4,8 +4,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<title>公司研报分析结果列表页</title>
 		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
-        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
-		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script language="javascript" type="text/javascript"
+			src="js/jquery.js"></script>
+		<script language="javascript" type="text/javascript"
+			src="js/raphael.js"></script>
+		<script language="javascript" type="text/javascript"
+			src="js/analytics.js"></script>
 	</head>
 
 	<body>
@@ -15,8 +20,7 @@
 				<tr>
 					<td bgcolor="#E0E7FF" height="30">
 						&nbsp;&nbsp;
-						<strong>当前栏目: $aname
-							&gt;&gt;  </strong>
+						<strong>当前栏目: $aname &gt;&gt; </strong>
 					</td>
 				</tr>
 			</table>
@@ -26,9 +30,10 @@
 					<th scope="col" width="80" height="30">
 						groupid
 					</th>
-					<th scope="col" width="80">交易日期
+					<th scope="col" width="80">
+						交易日期
 					</th>
-					<th scope="col" width="160"> 
+					<th scope="col" width="160">
 						组合指数
 					</th>
 					<th scope="col" width="80">
@@ -37,9 +42,10 @@
 					<th scope="col" width="80" height="30">
 						groupid
 					</th>
-					<th scope="col" width="80">交易日期
+					<th scope="col" width="80">
+						交易日期
 					</th>
-					<th scope="col" width="160"> 
+					<th scope="col" width="160">
 						组合指数
 					</th>
 					<th scope="col" width="80">
@@ -49,26 +55,32 @@
 				<!-- 视频列表 -->
 
 			</table>
-			<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate 加入了 $aname 的股票组合</font><br>
-			
-			#foreach($date in $dates)
-				#set($temp=$velocityCount - 1)
-				#if($joinmap.containsKey($date))
-				<font color="blue">股票 $joinmap.get($date) &nbsp;&nbsp; 在 $date 加入了 $aname 的股票组合</font><br><br>
-				#end
-				
-				#foreach($code in $stockcodes)
-					#if($stockdatemap.get(${code}).containsKey($date))
-					股票 $codeMap.get($code) ($code)  &nbsp;&nbsp; 在 $date 的收益率为： 	$stockdatemap.get(${code}).get(${date}) %<br>
-					#end
-				#end
-				<font color="red">组合 在 $date 的收益率为：$ratios.get(${temp})%</font><br>
-				<font color="red">组合 在 $date 的指数为：$weights.get(${temp})</font><br>
-			#end
-				<font color="red">组合 总体的 收益率为：$totalratio </font><br>
+			<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate
+				加入了 $aname 的股票组合</font>
+			<br>
 
-			
-			<!---列表--->
+				#foreach($date in $dates) #set($temp=$velocityCount - 1)
+				#if($joinmap.containsKey($date)) 
+			<font color="blue">股票 $joinmap.get($date) &nbsp;&nbsp; 在 $date
+				加入了 $aname 的股票组合</font>
+			<br>
+			<br>
+				#end #foreach($code in $stockcodes)
+				#if($stockdatemap.get(${code}).containsKey($date)) 股票
+				$codeMap.get($code) ($code) &nbsp;&nbsp; 在 $date 的收益率为：
+				$stockdatemap.get(${code}).get(${date}) % 
+			<br>
+				#end #end 
+			<font color="red">组合 在 $date 的收益率为：$ratios.get(${temp})%</font>
+			<br>
+			<font color="red">组合 在 $date 的指数为：$weights.get(${temp})</font>
+			<br>
+				#end 
+			<font color="red">组合 总体的 收益率为：$totalratio </font>
+			<br>
+
+
+				<!---列表--->
 			<br />
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
 				<tr>
@@ -77,7 +89,36 @@
 				</tr>
 			</table>
 			<!---分页--->
+			<div id="holder1" class="holder"></div>
 
+			<table id="data" style="display: none">
+				<tr>
+					#foreach($date in $dates)
+					<th>
+						$date
+					</th>
+					#end
+				</tr>
+				<tr>
+					#foreach($weight in $weights) #set($temp=$velocityCount - 1)
+					<td>
+						$weight,$groupearn.get($temp)%
+					</td>
+					#end
+				</tr>
+				<tr>
+					#foreach($price in $zsperoidprice) #set($temp=$velocityCount - 1)
+					<td>
+						$price,$zsperiodratio.get($temp)%
+					</td>
+					#end
+				</tr>
+			</table>
+			<script language="javascript" type="text/javascript">
+	init("holder1",740,200,"data","$aname的组合","沪深300指数",1);
+</script>
 		</table>
+
+
 	</body>
 </html>

@@ -1,5 +1,8 @@
 package com.caijing.web.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.GroupPeriod;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockGain;
+import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.GroupGain;
 import com.caijing.util.Paginator;
@@ -51,8 +55,12 @@ public class AnalyzerController {
 		for (StockGain sg : gs.getStockGains()) {
 			codeMap.put(sg.getStockcode(), sg.getStockname());
 		}
-		float weight = gs.getWeights().get(gs.getWeights().size() - 1);
-		String totalratio = FloatUtil.getTwoDecimal(weight - 100) + "%";
+		//		float weight = gs.getWeights().get(gs.getWeights().size() - 1);
+		List<Float> groupearn = new ArrayList<Float>();
+		for (float weight : gs.getWeights()) {
+			groupearn.add(FloatUtil.getTwoDecimal(weight - 100));
+		}
+		String totalratio = groupearn.get(groupearn.size() - 1) + "%";
 		model.put("joinmap", gs.getJoinMap());
 		model.put("codeMap", codeMap);
 		model.put("joinmap", gs.getJoinMap());
@@ -64,6 +72,19 @@ public class AnalyzerController {
 		model.put("ratios", gs.getRatios());
 		model.put("weights", gs.getWeights());
 		model.put("totalratio", totalratio);
+		model.put("groupearn", groupearn);
+
+		StockGain zssg = stockGainManager.getZSGainByPeriod(gs.getFirstdate(), DateTools
+				.transformYYYYMMDDDate(new Date()));
+		zssg.setStockname("上证指数");
+		List<Float> zsperoidprice = zssg.getPeriodprice();
+		List<Float> zsperiodratio = zssg.getPeriodratio();
+		System.out.println("dates size:" + gs.getDates().size());
+		System.out.println("weights size:" + gs.getWeights().size());
+		System.out.println("getPeriodearn size:" + zssg.getPeriodearn().size());
+		Collections.reverse(zsperoidprice);
+		model.put("zsperoidprice", zsperoidprice);
+		model.put("zsperiodratio", zssg.getPeriodearn());
 		//		model.put("groupearnlist", groupearnlist);
 		return "/admin/groupgainlist.htm";
 	}

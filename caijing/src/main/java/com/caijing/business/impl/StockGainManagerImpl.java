@@ -81,6 +81,11 @@ public class StockGainManagerImpl implements StockGainManager {
 		return sg;
 	}
 
+	public StockGain getZSGainByPeriod(String start, String end) {
+		StockGain sg = sp.getZSGainByPeriod(start, end);
+		return sg;
+	}
+
 	public List<StockGain> getStockGainByAnameASC(String aname) {
 		int count = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
 		List<RecommendStock> recommendlist = recommendStockDao.getRecommendStocksByAnalyzerASC(aname, 0, count);

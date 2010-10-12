@@ -80,9 +80,15 @@ public class GroupGain {
 				stockearnMap.put(dates.get(i), ratios.get(i));
 				//				System.out.println("Date:"+dates.get(i)+"  ratio:"+ ratios.get(i));
 			}
-			stockdateMap.put(sg.getStockcode(), stockearnMap);
+			//防止多次推荐同一只股票
+			if (!stockdateMap.containsKey(sg.getStockcode())) {
+				stockdateMap.put(sg.getStockcode(), stockearnMap);
+			}
 		}
-		List<String> dates = sgs.get(0).getPerioddate();
+		//采用指数的日期，防止首只推荐股票有停牌日期
+		StockGain zsgain = sp.getZSGainByPeriod(sgs.get(0).getStartdate(), DateTools.transformYYYYMMDDDate(new Date()));
+		List<String> dates = zsgain.getPerioddate();
+		//		List<String> dates = sgs.get(0).getPerioddate();
 		List<Float> groupratio = new ArrayList<Float>(dates.size());
 		List<Float> weights = new ArrayList<Float>(dates.size());
 		List<String> perioddates = new ArrayList<String>(dates.size());
