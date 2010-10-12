@@ -4,7 +4,7 @@
 	<diskStore path="/home/app/workspace/cached" />
 	-->
 
-		<diskStore path="G:\\caijing\\ehcached"/>
+		<diskStore path="E:\\caijing\\ehcached"/>
 	<defaultCache maxElementsInMemory="1000" eternal="false"
 		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true" />
 	<!--Default Cache configuration. These will applied to caches programmatically created through

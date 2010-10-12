@@ -8,13 +8,20 @@
 		</property>
 	</bean>
 
+	<bean id="stockPrice"
+		class="com.caijing.model.StockPrice">
+		<property name="stockEarnDao">
+			<ref bean="stockEarnDao" />
+		</property>
+	</bean>
+	
 	<bean id="stockGainManager"
 		class="com.caijing.business.impl.StockGainManagerImpl">
 		<property name="recommendStockDao">
 			<ref bean="recommendStockDao" />
 		</property>
-		<property name="dao">
-			<ref bean="stockDao" />
+		<property name="sp">
+			<ref bean="stockPrice" />
 		</property>
 	</bean>
 

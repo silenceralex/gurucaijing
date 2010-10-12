@@ -52,6 +52,10 @@ public class RecommendController {
 	private Config config = null;
 
 	@Autowired
+	@Qualifier("stockPrice")
+	private StockPrice sp = null;
+
+	@Autowired
 	@Qualifier("vutil")
 	private Vutil vutil = null;
 
@@ -86,7 +90,7 @@ public class RecommendController {
 			//			total=recommendStockDao.getAllRecommendCountBySaname(saname);
 			//			paginator.setTotalRecordNumber(total);
 			//			recommendlist=recommendStockDao.getRecommendStocksBySaname(saname,(page-1)*20,20);
-			urlPattern = "/admin/showAllRecommend.htm?saname=" + saname + "&page=$number$";
+			//			urlPattern = "/admin/showAllRecommend.htm?saname=" + saname + "&page=$number$";
 			model.put("saname", saname);
 		} else {
 			total = recommendStockDao.getAllRecommendStocksCount();
@@ -160,16 +164,16 @@ public class RecommendController {
 		Report report = null;
 		report = (Report) reportDao.select(reportid);
 		RecommendStock rstock = recommendStockDao.getRecommendStockbyReportid(reportid);
-		StockPrice sp = new StockPrice();
-		String tmp = rstock.getCreatedate();
-		tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
-		StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(), tmp, DateTools.transformYYYYMMDDDate(new Date()));
+		StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(), DateTools.transformYYYYMMDDDate(rstock
+				.getCreatedate()), DateTools.transformYYYYMMDDDate(new Date()));
 		sg.setSaname(rstock.getSaname());
 		sg.setStockname(rstock.getStockname());
 		sg.setObjectprice(rstock.getObjectprice());
 		List<String> dates = sg.getPerioddate();
 		List<Float> peroidprice = sg.getPeriodprice();
 		List<Float> periodratio = sg.getPeriodratio();
+		System.out.println("periodratio size:" + periodratio.size());
+		System.out.println("periodearn size:" + sg.getPeriodearn().size());
 		Collections.reverse(dates);
 		Collections.reverse(peroidprice);
 		Collections.reverse(periodratio);
@@ -178,16 +182,20 @@ public class RecommendController {
 		model.put("report", report);
 		model.put("dates", dates);
 		model.put("peroidprice", peroidprice);
-		model.put("periodratio", periodratio);
+		model.put("periodratio", sg.getPeriodearn());
 		model.put("stockgain", sg);
-		StockGain zssg = sp.getZSGainByPeriod(tmp, DateTools.transformYYYYMMDDDate(new Date()));
+		StockGain zssg = sp.getZSGainByPeriod(DateTools.transformYYYYMMDDDate(rstock.getCreatedate()), DateTools
+				.transformYYYYMMDDDate(new Date()));
 		zssg.setStockname("上证指数");
 		List<Float> zsperoidprice = zssg.getPeriodprice();
 		List<Float> zsperiodratio = zssg.getPeriodratio();
+		System.out.println("zsperiodratio size:" + zsperiodratio.size());
+		System.out.println("getPeriodearn size:" + zssg.getPeriodearn().size());
 		Collections.reverse(zsperoidprice);
 		Collections.reverse(zsperiodratio);
 		model.put("zsperoidprice", zsperoidprice);
-		model.put("zsperiodratio", zsperiodratio);
+		model.put("zsperiodratio", zssg.getPeriodearn());
+
 		return "/admin/stockgain.htm";
 	}
 

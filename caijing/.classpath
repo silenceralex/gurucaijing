@@ -55,5 +55,8 @@
 	<classpathentry kind="lib" path="lib/quartz/quartz-all-1.6.6.jar"/>
 	<classpathentry kind="lib" path="lib/spring/spring-webmvc.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox/pdfbox-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/src/xfire-all-1.2.6.jar"/>
+	<classpathentry kind="lib" path="lib/src/zcmsWebservice.jar"/>
+	<classpathentry kind="lib" path="lib/src/wsdl4j.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

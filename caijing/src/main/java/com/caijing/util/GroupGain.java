@@ -33,25 +33,27 @@ public class GroupGain {
 	@Autowired
 	@Qualifier("stockDao")
 	private StockDao dao = null;
-	
+
 	@Autowired
 	@Qualifier("stockGainManager")
 	private StockGainManager stockGainManager = null;
-	
 
-	public void init() {
-//		List<Stock> list = dao.getAllStock();
-//		for (Stock stock : list) {
-//			if (!stockmap.containsKey(stock.getStockcode())) {
-//				stockmap.put(stock.getStockcode(), stock.getStockname());
-//			}
-//		}
-	}
+	@Autowired
+	@Qualifier("stockPrice")
+	private StockPrice sp = null;
 
-	private StockPrice sp = new StockPrice();
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
+
+	public void init() {
+		//		List<Stock> list = dao.getAllStock();
+		//		for (Stock stock : list) {
+		//			if (!stockmap.containsKey(stock.getStockcode())) {
+		//				stockmap.put(stock.getStockcode(), stock.getStockname());
+		//			}
+		//		}
+	}
 
 	static {
 		for (String buy : buys) {
@@ -63,45 +65,46 @@ public class GroupGain {
 	}
 
 	public GroupPeriod processASC(String aname) {
-		List<StockGain> sgs= stockGainManager.getStockGainByAnameASC(aname);
-		HashMap<String,HashMap<String,Float> > stockdateMap=new HashMap<String,HashMap<String,Float> >();
-		HashMap<String, String> joinMap =new HashMap<String, String>();
-		for(StockGain sg:sgs){
-			HashMap<String,Float> stockearnMap=new HashMap<String,Float>();
-			List<String> dates=sg.getPerioddate();
-			List<Float> ratios=sg.getPeriodratio();
-			joinMap.put(sg.getStartdate(),sg.getStockname());
-			System.out.println("stockcode :"+sg.getStockcode()+"  stockname:"+ sg.getStockname()+"  join date:"+sg.getStartdate());
+		List<StockGain> sgs = stockGainManager.getStockGainByAnameASC(aname);
+		HashMap<String, HashMap<String, Float>> stockdateMap = new HashMap<String, HashMap<String, Float>>();
+		HashMap<String, String> joinMap = new HashMap<String, String>();
+		for (StockGain sg : sgs) {
+			HashMap<String, Float> stockearnMap = new HashMap<String, Float>();
+			List<String> dates = sg.getPerioddate();
+			List<Float> ratios = sg.getPeriodratio();
+			joinMap.put(sg.getStartdate(), sg.getStockname());
+			System.out.println("stockcode :" + sg.getStockcode() + "  stockname:" + sg.getStockname() + "  join date:"
+					+ sg.getStartdate());
 			//推荐日之后的交易日开始算起
-			for(int i=dates.size()-2;i>=0;i--){
+			for (int i = dates.size() - 1; i >= 0; i--) {
 				stockearnMap.put(dates.get(i), ratios.get(i));
-//				System.out.println("Date:"+dates.get(i)+"  ratio:"+ ratios.get(i));
+				//				System.out.println("Date:"+dates.get(i)+"  ratio:"+ ratios.get(i));
 			}
 			stockdateMap.put(sg.getStockcode(), stockearnMap);
 		}
-		List<String> dates=sgs.get(0).getPerioddate();
+		List<String> dates = sgs.get(0).getPerioddate();
 		List<Float> groupratio = new ArrayList<Float>(dates.size());
 		List<Float> weights = new ArrayList<Float>(dates.size());
-		List<String> perioddates=new ArrayList<String>(dates.size());
-		float weight=100;
-		for(int i=dates.size()-2;i>=0;i--){
-			float ratio=0;
-			int count=0;
-			for(String code:stockdateMap.keySet()){
-				if(stockdateMap.get(code).containsKey(dates.get(i))){
-					ratio+=stockdateMap.get(code).get(dates.get(i));
+		List<String> perioddates = new ArrayList<String>(dates.size());
+		float weight = 100;
+		for (int i = dates.size() - 1; i >= 0; i--) {
+			float ratio = 0;
+			int count = 0;
+			for (String code : stockdateMap.keySet()) {
+				if (stockdateMap.get(code).containsKey(dates.get(i))) {
+					ratio += stockdateMap.get(code).get(dates.get(i));
 					count++;
 				}
 			}
 			ratio = ratio / (count * 100);
 			System.out.println("ratio at date :" + dates.get(i) + "  is :" + ratio);
 			weight = weight * (1 + ratio);
-			ratio=ratio*100;
+			ratio = ratio * 100;
 			groupratio.add(FloatUtil.getTwoDecimal(ratio));
 			perioddates.add(dates.get(i));
 			weights.add(FloatUtil.getTwoDecimal(weight));
 		}
-		GroupPeriod gp=new GroupPeriod();
+		GroupPeriod gp = new GroupPeriod();
 		gp.setStockGains(sgs);
 		gp.setFirstdate(sgs.get(0).getStartdate());
 		gp.setFirststock(sgs.get(0).getStockname());
@@ -112,8 +115,7 @@ public class GroupGain {
 		gp.setJoinMap(joinMap);
 		return gp;
 	}
-	
-	
+
 	public GroupPeriod process(String aname) {
 		List<String> totaldates = new ArrayList<String>();
 		List<Float> weights = new ArrayList<Float>();
@@ -126,10 +128,11 @@ public class GroupGain {
 			String grade = stock.getGrade();
 			//			String start = stock.getCreatedate();
 			String code = stock.getStockcode();
-			String tmp = stock.getCreatedate();
-			if (tmp == null || tmp.trim().length() < 8)
-				continue;
-			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+			//			String tmp = stock.getCreatedate();
+			//			if (tmp == null || tmp.trim().length() < 8)
+			//				continue;
+			//			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+			String tmp = DateTools.transformYYYYMMDDDate(stock.getCreatedate());
 			if (!groupcode.contains(code) && buyset.contains(grade)) {
 				if (lastdate != null) {
 					float ratio = 0;
@@ -212,33 +215,33 @@ public class GroupGain {
 
 	@MethodCache(expire = 3600 * 24)
 	public List<GroupPeriod> processGroupPeriod(String aname) {
-		List<GroupPeriod> gps=new ArrayList<GroupPeriod>();
+		List<GroupPeriod> gps = new ArrayList<GroupPeriod>();
 		int count = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
 		List<RecommendStock> stocks = recommendStockDao.getRecommendStocksByAnalyzerASC(aname, 0, count);
 		String lastdate = null;
 		float weight = 100;
-		
+
 		for (RecommendStock stock : stocks) {
 			String grade = stock.getGrade();
 			//			String start = stock.getCreatedate();
 			String code = stock.getStockcode();
-			String tmp = stock.getCreatedate();
-			if (tmp == null || tmp.trim().length() < 8)
-				continue;
-			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+			//			String tmp = stock.getCreatedate();
+			//			if (tmp == null || tmp.trim().length() < 8)
+			//				continue;
+			//			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
+			String tmp = DateTools.transformYYYYMMDDDate(stock.getCreatedate());
 			if (!groupcode.contains(code) && buyset.contains(grade)) {
 				if (lastdate != null) {
 					float ratio = 0;
-					
 					String first = (String) groupcode.toArray()[0];
 					List dates = sp.getStockGainByPeriod(first, lastdate, tmp).getPerioddate();
 					List<Float> groupPrice = new ArrayList<Float>(dates.size());
 					for (int i = 0; i < dates.size(); i++) {
 						groupPrice.add(new Float(0.0));
 					}
-					GroupPeriod gp=new GroupPeriod();
+					GroupPeriod gp = new GroupPeriod();
 					System.out.println("starttime :" + lastdate + "  end :" + tmp);
-					HashMap<String,StockGain> stockInGroup=new HashMap<String,StockGain>();
+					HashMap<String, StockGain> stockInGroup = new HashMap<String, StockGain>();
 					for (String scode : groupcode) {
 						StockGain sg = sp.getStockGainByPeriod(scode, lastdate, tmp);
 						sg.setStockname(stockmap.get(scode));
@@ -290,10 +293,10 @@ public class GroupGain {
 		for (int i = 0; i < dates.size(); i++) {
 			groupPrice.add(new Float(0.0));
 		}
-		GroupPeriod gp=new GroupPeriod();
+		GroupPeriod gp = new GroupPeriod();
 
 		System.out.println("starttime :" + lastdate + "  end :" + tmp);
-		HashMap<String,StockGain> stockInGroup=new HashMap<String,StockGain>();
+		HashMap<String, StockGain> stockInGroup = new HashMap<String, StockGain>();
 		for (String scode : groupcode) {
 			StockGain sg = sp.getStockGainByPeriod(scode, lastdate, tmp);
 			//加入group
@@ -327,7 +330,7 @@ public class GroupGain {
 		System.out.println("weight at time :" + tmp + "  is :" + weight);
 		return gps;
 	}
-	
+
 	/**
 	 * @param args
 	 */
@@ -338,7 +341,7 @@ public class GroupGain {
 		gg.setRecommendStockDao(recommendStockDao);
 		gg.setStockGainManager(stockGainManager);
 		gg.init();
-//		gg.process("赵强");
+		//		gg.process("赵强");
 		gg.processASC("赵强");
 	}
 
@@ -358,14 +361,20 @@ public class GroupGain {
 		this.dao = dao;
 	}
 
-
 	public StockGainManager getStockGainManager() {
 		return stockGainManager;
 	}
 
-
 	public void setStockGainManager(StockGainManager stockGainManager) {
 		this.stockGainManager = stockGainManager;
+	}
+
+	public StockPrice getSp() {
+		return sp;
+	}
+
+	public void setSp(StockPrice sp) {
+		this.sp = sp;
 	}
 
 }

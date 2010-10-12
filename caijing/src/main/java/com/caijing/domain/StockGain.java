@@ -10,18 +10,23 @@ public class StockGain {
 	private String grade = null;
 	private String saname = null;
 	private String analyzer = null;
+	//推荐日当天的价格和日期
 	private String startdate = null;
-	private String enddate = null;
 	private float startprice = 0;
+	private String enddate = null;
 	private float endprice = 0;
 	private float objectprice = 0;
 	private float highest = 0;
 	private float lowest = 0;
 	private float volume = 0;
 	private int dealdays = 0;
+
+	//除开推荐日当天的价格，日期，当日涨跌幅，累计涨跌幅
 	private List<Float> periodprice = null;
 	private List<Float> periodratio = null;
 	private List<String> perioddate = null;
+	private List<Float> periodearn = null;
+
 	private float gain = 0;
 	private float changerate = 0;
 
@@ -183,6 +188,14 @@ public class StockGain {
 
 	public void setPeriodratio(List<Float> periodratio) {
 		this.periodratio = periodratio;
+	}
+
+	public List<Float> getPeriodearn() {
+		return periodearn;
+	}
+
+	public void setPeriodearn(List<Float> periodearn) {
+		this.periodearn = periodearn;
 	}
 
 }

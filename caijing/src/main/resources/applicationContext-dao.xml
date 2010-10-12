@@ -32,6 +32,16 @@
 		</property>
 	</bean>
 
+	<bean id="stockEarnDao"
+		class="com.caijing.dao.ibatis.StockEarnDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>StockEarn</value>
+		</property>
+	</bean>
+
 	<bean id="analyzerDao"
 		class="com.caijing.dao.ibatis.AnalyzerDaoImpl">
 		<property name="sqlMapClientTemplate">
@@ -70,7 +80,7 @@
 			<value>ColumnArticle</value>
 		</property>
 	</bean>
-	
+
 	<bean id="economistDao"
 		class="com.caijing.dao.ibatis.EconomistDaoImpl">
 		<property name="sqlMapClientTemplate">

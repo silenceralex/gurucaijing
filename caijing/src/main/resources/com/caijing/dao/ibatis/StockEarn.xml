@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="StockEarn">
+
+	<typeAlias alias="StockEarn" type="com.caijing.domain.StockEarn" />
+
+	<select id="select" resultClass="StockEarn">
+		select * from stockearn where stockcode=#stockcode# and date=#date#
+	</select>
+	
+	<insert id="insert">
+		insert into stockearn (stockcode,date,price,ratio) values
+		(#stockcode#,#date#,#price#,#ratio#)
+	</insert>
+
+	<update id="update" parameterClass="StockEarn">
+		update stockearn
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="price">
+				price = #price#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ratio">
+				ratio = #ratio#
+			</isNotEmpty>
+		</dynamic>
+		where stockcode=#stockcode# and date=#date#
+	</update>
+
+	<delete id="delete" parameterClass="StockEarn">
+		delete from stockearn where stockcode=#stockcode# and date=#date#
+	</delete>
+
+</sqlMap>

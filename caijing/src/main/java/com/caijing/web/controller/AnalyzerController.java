@@ -1,6 +1,5 @@
 package com.caijing.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,32 +31,28 @@ public class AnalyzerController {
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
-	
+
 	@Autowired
 	@Qualifier("groupGain")
 	private GroupGain gg = null;
-	
 
 	@RequestMapping("/admin/groupgainlist.htm")
 	public String showGroupGainList(HttpServletResponse response, @RequestParam(value = "aname", required = true)
 	String aname, @RequestParam(value = "page", required = false)
 	Integer page, HttpServletRequest request, ModelMap model) {
-//		GroupGain gg = new GroupGain();
+		//		GroupGain gg = new GroupGain();
 		gg.init();
 		GroupPeriod gs = gg.processASC(aname);
-		
 		model.put("aname", aname);
-//		gps.get(1).getStockInGroup().
-//		model.put("gp", gs);
-		
-		System.out.println("gs.getFirstdate():"+gs.getFirstdate());
-		System.out.println("Stockname:"+gs.getFirststock());			
-		HashMap<String,String> codeMap=new HashMap<String,String>();
-		for(StockGain sg:gs.getStockGains()){
+
+		System.out.println("gs.getFirstdate():" + gs.getFirstdate());
+		System.out.println("Stockname:" + gs.getFirststock());
+		HashMap<String, String> codeMap = new HashMap<String, String>();
+		for (StockGain sg : gs.getStockGains()) {
 			codeMap.put(sg.getStockcode(), sg.getStockname());
 		}
-		float weight=gs.getWeights().get(gs.getWeights().size()-1);
-		String totalratio=FloatUtil.getTwoDecimal(weight-100)+"%";
+		float weight = gs.getWeights().get(gs.getWeights().size() - 1);
+		String totalratio = FloatUtil.getTwoDecimal(weight - 100) + "%";
 		model.put("joinmap", gs.getJoinMap());
 		model.put("codeMap", codeMap);
 		model.put("joinmap", gs.getJoinMap());
@@ -66,10 +61,10 @@ public class AnalyzerController {
 		model.put("dates", gs.getDates());
 		model.put("stockdatemap", gs.getStockdateMap());
 		model.put("stockcodes", gs.getStockdateMap().keySet());
-		model.put("ratios",	gs.getRatios());
-		model.put("weights",	gs.getWeights());
-		model.put("totalratio",	totalratio);
-//		model.put("groupearnlist", groupearnlist);
+		model.put("ratios", gs.getRatios());
+		model.put("weights", gs.getWeights());
+		model.put("totalratio", totalratio);
+		//		model.put("groupearnlist", groupearnlist);
 		return "/admin/groupgainlist.htm";
 	}
 
@@ -101,7 +96,7 @@ public class AnalyzerController {
 		paginator.setUrl(urlPattern);
 		model.put("stockgainlist", stockgainlist);
 		model.put("paginatorLink", paginator.getPageNumberList());
-		
+
 		return "/admin/analyzergainlist.htm";
 
 	}
