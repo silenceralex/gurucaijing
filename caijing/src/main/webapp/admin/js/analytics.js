@@ -4,11 +4,11 @@
 */
 function init(holder,w,h,id,name1,name2,dot){
 	$("#"+holder).empty();//先清空外部容器
-	var labels = ["0"];//时间数组
-	var percentArr1 = ["0"];//比率数组1
-	var percentArr2 = ["0"];//比率数组2
-	var pointArr1 = ["0,0%"];//原始数据数组1
-	var pointArr2 = ["0,0%"];//原始数据数组2
+	var labels = ["0"],//时间数组
+	percentArr1 = ["0"];//比率数组1
+	percentArr2 = ["0"];//比率数组2
+	pointArr1 = ["0,0%"];//原始数据数组1
+	pointArr2 = ["0,0%"];//原始数据数组2
 	var winWidth = w - 100;//画布的宽度
 	var winHeight = h - 40;//画布的高度
 	var num = "";//每个点元素包含的参数内容
@@ -46,10 +46,10 @@ function init(holder,w,h,id,name1,name2,dot){
 		percentArr1.push(Number(pointArr1[i + 1].split(",")[1].split("%")[0]));
 		percentArr2.push(Number(pointArr2[i + 1].split(",")[1].split("%")[0]));
 		///取得最大比率和最小比率
-		if(percentArr1[i] > maxPercent) maxPercent = percentArr1[i];
-		if(percentArr2[i] > maxPercent) maxPercent = percentArr2[i];
-		if(percentArr1[i] < minPercent) minPercent = percentArr1[i];
-		if(percentArr2[i] < minPercent) minPercent = percentArr2[i];
+		if(percentArr1[i + 1] > maxPercent) maxPercent = percentArr1[i + 1];
+		if(percentArr2[i + 1] > maxPercent) maxPercent = percentArr2[i + 1];
+		if(percentArr1[i + 1] < minPercent) minPercent = percentArr1[i + 1];
+		if(percentArr2[i + 1] < minPercent) minPercent = percentArr2[i + 1];
 		}
 	//if(maxPercent > 1) {maxPercent += 1;}
 	maxPercent = Math.ceil(maxPercent);
@@ -102,10 +102,13 @@ function init(holder,w,h,id,name1,name2,dot){
 		point2_next = (maxPercent - percentArr2[k + 1]) * (winHeight / (maxPercent-minPercent)) + 10;
 		x_cur = k * (winWidth / (labels.length - 1)) + 50;
 		x_next = (k + 1) * (winWidth / (labels.length - 1)) + 50;
-		
 		///开始绘制纵向格线
 		if(k % Multiple_w == 0 && k != 0){
-			paper.text(x_cur - minWidth / 2, winHeight + 20, labels[k]).attr(txt);
+			if(labels.length>10){
+				paper.text(x_cur - minWidth / 2, winHeight + 20, labels[k].replace(/\w{4}-/,"")).attr(txt);
+			} else {
+				paper.text(x_cur - minWidth / 2, winHeight + 20, labels[k]).attr(txt);
+			}
 			paper.path("M" + x_cur + " 10 L" + x_cur  + " " + (winHeight + 10)).attr(grayLine);
 		} else {
 			paper.path("M" + x_cur + " 10 L" + x_cur  + " " + (winHeight + 10)).attr(grayLine2);
