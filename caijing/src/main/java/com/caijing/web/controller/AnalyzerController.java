@@ -42,7 +42,8 @@ public class AnalyzerController {
 
 	@RequestMapping("/admin/groupgainlist.htm")
 	public String showGroupGainList(HttpServletResponse response, @RequestParam(value = "aname", required = true)
-	String aname, @RequestParam(value = "page", required = false)
+	String aname, @RequestParam(value = "debug", required = false)
+	String debug, @RequestParam(value = "page", required = false)
 	Integer page, HttpServletRequest request, ModelMap model) {
 		//		GroupGain gg = new GroupGain();
 		gg.init();
@@ -61,6 +62,12 @@ public class AnalyzerController {
 			groupearn.add(FloatUtil.getTwoDecimal(weight - 100));
 		}
 		String totalratio = groupearn.get(groupearn.size() - 1) + "%";
+		if ("true".equals(debug)) {
+			model.put("debug", 1);
+		} else {
+			model.put("debug", 0);
+		}
+
 		model.put("joinmap", gs.getJoinMap());
 		model.put("codeMap", codeMap);
 		model.put("joinmap", gs.getJoinMap());

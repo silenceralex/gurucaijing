@@ -14,6 +14,34 @@
 	</head>
 
 	<body>
+		<div id="holder1" class="holder"></div>
+
+		<table id="data" style="display: none">
+			<tr>
+				#foreach($date in $dates)
+				<th>
+					$date
+				</th>
+				#end
+			</tr>
+			<tr>
+				#foreach($weight in $weights) #set($temp=$velocityCount - 1)
+				<td>
+					$weight,$groupearn.get($temp)%
+				</td>
+				#end
+			</tr>
+			<tr>
+				#foreach($price in $zsperoidprice) #set($temp=$velocityCount - 1)
+				<td>
+					$price,$zsperiodratio.get($temp)%
+				</td>
+				#end
+			</tr>
+		</table>
+		<script language="javascript" type="text/javascript">
+	init("holder1",740,200,"data","$aname的组合","沪深300指数",1);
+</script>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
@@ -65,12 +93,12 @@
 				加入了 $aname 的股票组合</font>
 			<br>
 			<br>
-				#end #foreach($code in $stockcodes)
+				#end #if($debug==1) #foreach($code in $stockcodes)
 				#if($stockdatemap.get(${code}).containsKey($date)) 股票
 				$codeMap.get($code) ($code) &nbsp;&nbsp; 在 $date 的收益率为：
 				$stockdatemap.get(${code}).get(${date}) % 
 			<br>
-				#end #end 
+				#end #end #end 
 			<font color="red">组合 在 $date 的收益率为：$ratios.get(${temp})%</font>
 			<br>
 			<font color="red">组合 在 $date 的指数为：$weights.get(${temp})</font>
@@ -89,34 +117,7 @@
 				</tr>
 			</table>
 			<!---分页--->
-			<div id="holder1" class="holder"></div>
 
-			<table id="data" style="display: none">
-				<tr>
-					#foreach($date in $dates)
-					<th>
-						$date
-					</th>
-					#end
-				</tr>
-				<tr>
-					#foreach($weight in $weights) #set($temp=$velocityCount - 1)
-					<td>
-						$weight,$groupearn.get($temp)%
-					</td>
-					#end
-				</tr>
-				<tr>
-					#foreach($price in $zsperoidprice) #set($temp=$velocityCount - 1)
-					<td>
-						$price,$zsperiodratio.get($temp)%
-					</td>
-					#end
-				</tr>
-			</table>
-			<script language="javascript" type="text/javascript">
-	init("holder1",740,200,"data","$aname的组合","沪深300指数",1);
-</script>
 		</table>
 
 
