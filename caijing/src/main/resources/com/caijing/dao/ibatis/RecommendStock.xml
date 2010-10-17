@@ -5,6 +5,9 @@
 	<typeAlias alias="RecommendStock"
 		type="com.caijing.domain.RecommendStock" />
 
+	<typeAlias alias="DiscountStock"
+		type="com.caijing.domain.DiscountStock" />
+
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
@@ -18,6 +21,27 @@
 		select rs.*, r.title as title from recommendstock as rs,report
 		as r where rs.reportid=r.rid order by rs.createdate desc limit
 		#start#,#offset#
+	</select>
+
+
+	<select id="getDiscountStocks" resultClass="DiscountStock">
+		select reportid,stockname,stockcode, saname,
+		aname,createdate,grade FROM recommendstock where user is not
+		null;
+	</select>
+
+	<select id="getRecommendStocksByStockcode"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.reportid=r.rid and rs.stockcode=#stockcode# order
+		by rs.createdate desc
+	</select>
+
+	<select id="getRecommendStocksByStockname"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title from recommendstock as rs,report
+		as r where rs.reportid=r.rid and rs.stockname=#stockname# order
+		by rs.createdate desc
 	</select>
 
 	<select id="getRecommendStocksBySaname"

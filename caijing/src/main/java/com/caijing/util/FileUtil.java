@@ -19,31 +19,31 @@ public class FileUtil {
 	static HashMap cache = null;
 	static int MAXCACHE = 100;
 	public static String encoding = "GBK";
-	public static final String THISYEAR="2010";
-	
+	public static final String THISYEAR = "2010";
+
 	public static final String path = "/home/app/papers";
 	public static final String html = "/home/html/papers";
 	public static UrlDownload down = new UrlDownload();
-	
-	public static String getDatefromSubject(String subject){
-		String[] strs=subject.split("\\.");
-		if(strs.length==2){
-			String month=strs[0];
-			if(strs[0].length()==1){
-				month="0"+strs[0];
+
+	public static String getDatefromSubject(String subject) {
+		String[] strs = subject.split("\\.");
+		if (strs.length == 2) {
+			String month = strs[0];
+			if (strs[0].length() == 1) {
+				month = "0" + strs[0];
 			}
-			String day=strs[1];
-			if(strs[1].length()==1){
-				month="0"+strs[1];
+			String day = strs[1];
+			if (strs[1].length() == 1) {
+				month = "0" + strs[1];
 			}
-			return THISYEAR+month+day;
+			return THISYEAR + month + day;
 		}
 		return subject;
 	}
-	
-//	public static Date getDatefromSubject(String subject){
-//		SimpleDateForm
-//	}
+
+	//	public static Date getDatefromSubject(String subject){
+	//		SimpleDateForm
+	//	}
 
 	/**
 	 * Ð´ÈëÎÄ¼þ
@@ -61,6 +61,28 @@ public class FileUtil {
 			mkdir(filename.substring(0, filename.lastIndexOf("/")));
 			fos = new FileOutputStream(filename);
 			fos.write(data.getBytes(encoding));
+			fos.flush();
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fos.flush();
+				fos.close();
+			} catch (Exception e) {
+			}
+		}
+	}
+
+	public static void write(String filename, String data, String encode) {
+		FileOutputStream fos = null;
+		try {
+			if (filename.indexOf("\\") > -1) {
+				filename = StringUtils.replace(filename, "\\", "/");
+			}
+			mkdir(filename.substring(0, filename.lastIndexOf("/")));
+			fos = new FileOutputStream(filename);
+			fos.write(data.getBytes(encode));
 			fos.flush();
 			fos.close();
 		} catch (Exception e) {
@@ -102,12 +124,12 @@ public class FileUtil {
 	 * @return @throws
 	 *         IOException
 	 */
-	public static String read(String filename,String encoding) {
-		return read(filename, "\n",encoding);
+	public static String read(String filename, String encoding) {
+		return read(filename, "\n", encoding);
 	}
 
-	public static String read(String filename, String split,String encoding) {
-		if(filename.startsWith("http://")){
+	public static String read(String filename, String split, String encoding) {
+		if (filename.startsWith("http://")) {
 			try {
 				return down.load(filename);
 			} catch (ClientProtocolException e) {

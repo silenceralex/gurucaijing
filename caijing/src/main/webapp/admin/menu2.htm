@@ -89,12 +89,14 @@ body {
 			tree_analyzer = new dTree('tree_analyzer');
 		tree_analyzer.add('tree_analyzer','-1','知名分析师','about:blank','知名分析师','main');
 		tree_analyzer.add('column_10001','tree_analyzer','分析预测','','分析预测','main','img/folder.gif','img/folderopen.gif');
+		tree_analyzer.add('column_10002','tree_analyzer','折价之选','/admin/discount.htm','折价之选','main','img/folder.gif','img/folderopen.gif');
 		#foreach($analyzer in $analyzerList)
 
 		tree_analyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzergainlist.htm?aname=$analyzer.name','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
 		tree_analyzer.add('2_$analyzer.aid','$analyzer.aid','${analyzer.name}的组合','/admin/groupgainlist.htm?aname=$analyzer.name','${analyzer.name}的组合','main','img/folder.gif','img/folderopen.gif');
 
 		#end
+
 		tree_analyzer.config.target = 'main';
 		document.write(tree_analyzer);
 			//-->

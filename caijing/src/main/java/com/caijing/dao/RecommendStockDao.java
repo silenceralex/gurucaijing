@@ -2,13 +2,14 @@ package com.caijing.dao;
 
 import java.util.List;
 
+import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.util.CrudDao;
 
 public interface RecommendStockDao extends CrudDao {
 	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode);
 
-	public List<RecommendStock> getRecommendStocksByStockname(String stockname, int start, int offset);
+	public List<RecommendStock> getRecommendStocksByStockname(String stockname);
 
 	public List<RecommendStock> getRecommendStocksBySaid(String said);
 
@@ -41,4 +42,6 @@ public interface RecommendStockDao extends CrudDao {
 	public int getRecommendStockCountsByAnalyzer(String aname);
 
 	public List<RecommendStock> getProblemData();
+
+	public List<DiscountStock> getDiscountStocks();
 }

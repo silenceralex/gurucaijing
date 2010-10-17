@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-		<title>公司研报分析结果列表页</title>
+		<title>分析师推荐折价之选</title>
 		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
-        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
 		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
-			<script type="text/javascript">
+		<script type="text/javascript">
 		function search() {
 		var txt = document.getElementById("stockcode").value;
 		self.location = "/admin/search.htm?stockcode="+txt;
@@ -16,14 +16,11 @@
 
 	<body>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
 				<tr>
 					<td bgcolor="#E0E7FF" height="30">
 						&nbsp;&nbsp;
-						<strong>当前栏目: <a
-							href="/admin/showRecommend.htm?saname=${saname}">${saname}</a>
-							&gt;&gt;  </strong>
+						<strong>当前栏目: 分析师推荐折价之选 &gt;&gt; </strong>
 					</td>
 					<td align="right">
 
@@ -40,71 +37,70 @@
 					<th scope="col" width="60" height="30">
 						研报id
 					</th>
-					<th scope="col" width="80">券商 
+					<th scope="col" width="80">
+						券商
 					</th>
-					<th scope="col" width="250"> 
-						标题&nbsp; 
+					<th scope="col" width="160">
+						上市公司
 					</th>
-					<th scope="col" width="160"> 
-						上市公司 
-					</th>
-                    <th scope="col" width="160"> 
-						评级 
-					</th>
-					<th scope="col" width="120">每股收益 
-					</th>
-					<th scope="col" width="120">
+					<th scope="col" width="160">
 						分析师
 					</th>
+					<th scope="col" width="120">
+						评级
+					</th>
 					<th scope="col" width="80">
-						时间
+						推荐日
+					</th>
+					<th scope="col" width="80">
+						推荐日收盘价
+					</th>
+					<th scope="col" width="80">
+						当前收盘价
+					</th>
+					<th scope="col" width="120">
+						折价率
 					</th>
 				</tr>
 				<!-- 视频列表 -->
-				#foreach($recommend in $recommendlist)
+				#foreach($recommend in $discountlist)
 				<tr id="${recommend.reportid}">
 					<td bgcolor="#E0E7FF" align="center">
-						<a href="/admin/recommendedit.htm?rid=$recommend.reportid" title="编辑该抽取结果">$recommend.recommendid</a>
+						<a href="/admin/recommendedit.htm?rid=$recommend.reportid"
+							title="编辑该抽取结果">$recommend.reportid</a>
 					</td>
 					<td bgcolor="#E0E7FF">
-						<font color="blue">&nbsp;&nbsp;$recommend.saname</font> 
+						<font color="blue">&nbsp;&nbsp;$recommend.saname</font>
 					</td>
 					<td bgcolor="#E0E7FF">
-						&nbsp; $recommend.title
+						${recommend.stockname}(${recommend.stockcode})
 						<a href="/admin/stockgain.htm?rid=${recommend.reportid}"
 							title="查看推荐收益"><img src="/admin/img/a1.gif" width="16"
-								height="16" />
-						</a>
+								height="16" /> </a>
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							${recommend.stockname}(${recommend.stockcode})
+						$recommend.aname
 					</td>
-                    <td height="30" bgcolor="#E0E7FF" align="center">
-							<font color="red">$recommend.grade</font>
-					</td>
-					<td bgcolor="#E0E7FF" align="center">
-						$recommend.eps
-					</td>
-
-					<td bgcolor="#E0E7FF">
-						&nbsp;&nbsp;$recommend.aname
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						<font color="red">$recommend.grade</font>
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$recommend.createdate
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						$recommend.recommendprice
+					</td>
+					<td bgcolor="#E0E7FF">
+						$recommend.currentprice
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						<font color="red">$recommend.discountratio</font>
 					</td>
 				</tr>
 				#end
 			</table>
 			<!---列表--->
 			<br />
-			<table width="100%" border="0" cellspacing="2" cellpadding="0">
-				<tr>
-					<td align="center">
-						$paginatorLink
-					</td>
-				</tr>
-			</table>
-			<!---分页--->
 
 		</table>
 	</body>

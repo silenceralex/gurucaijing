@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-		<title>公司研报分析结果列表页</title>
+		<title>研报搜索页</title>
 		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
-        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
 		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
-			<script type="text/javascript">
+		<script type="text/javascript">
 		function search() {
 		var txt = document.getElementById("stockcode").value;
 		self.location = "/admin/search.htm?stockcode="+txt;
@@ -16,14 +16,11 @@
 
 	<body>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
 				<tr>
 					<td bgcolor="#E0E7FF" height="30">
 						&nbsp;&nbsp;
-						<strong>当前栏目: <a
-							href="/admin/showRecommend.htm?saname=${saname}">${saname}</a>
-							&gt;&gt;  </strong>
+						<strong>当前栏目: 搜索结果 &gt;&gt; </strong>
 					</td>
 					<td align="right">
 
@@ -40,18 +37,20 @@
 					<th scope="col" width="60" height="30">
 						研报id
 					</th>
-					<th scope="col" width="80">券商 
+					<th scope="col" width="80">
+						券商
 					</th>
-					<th scope="col" width="250"> 
-						标题&nbsp; 
+					<th scope="col" width="250">
+						标题&nbsp;
 					</th>
-					<th scope="col" width="160"> 
-						上市公司 
+					<th scope="col" width="160">
+						上市公司
 					</th>
-                    <th scope="col" width="160"> 
-						评级 
+					<th scope="col" width="160">
+						评级
 					</th>
-					<th scope="col" width="120">每股收益 
+					<th scope="col" width="120">
+						每股收益
 					</th>
 					<th scope="col" width="120">
 						分析师
@@ -64,30 +63,35 @@
 				#foreach($recommend in $recommendlist)
 				<tr id="${recommend.reportid}">
 					<td bgcolor="#E0E7FF" align="center">
-						<a href="/admin/recommendedit.htm?rid=$recommend.reportid" title="编辑该抽取结果">$recommend.recommendid</a>
+						<a href="/admin/recommendedit.htm?rid=$recommend.reportid"
+							title="编辑该抽取结果">$recommend.recommendid</a>
 					</td>
 					<td bgcolor="#E0E7FF">
-						<font color="blue">&nbsp;&nbsp;$recommend.saname</font> 
+						<font color="blue">&nbsp;&nbsp;$recommend.saname</font>
 					</td>
 					<td bgcolor="#E0E7FF">
-						&nbsp; $recommend.title
+
+						<a
+							href="/papers/${recommend.createdate}/${recommend.reportid}.pdf" title="查看研报内容">&nbsp;
+							$recommend.title</a>
 						<a href="/admin/stockgain.htm?rid=${recommend.reportid}"
 							title="查看推荐收益"><img src="/admin/img/a1.gif" width="16"
-								height="16" />
-						</a>
+								height="16" /> </a>
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							${recommend.stockname}(${recommend.stockcode})
+						${recommend.stockname}(${recommend.stockcode})
 					</td>
-                    <td height="30" bgcolor="#E0E7FF" align="center">
-							<font color="red">$recommend.grade</font>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						<font color="red">$recommend.grade</font>
 					</td>
 					<td bgcolor="#E0E7FF" align="center">
 						$recommend.eps
 					</td>
 
 					<td bgcolor="#E0E7FF">
-						&nbsp;&nbsp;$recommend.aname
+						#if(${recommend.user})
+						<font color="red">&nbsp;&nbsp;$recommend.aname</font> #else
+						<font color="blue">&nbsp;&nbsp;$recommend.aname</font> #end
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$recommend.createdate
@@ -97,14 +101,6 @@
 			</table>
 			<!---列表--->
 			<br />
-			<table width="100%" border="0" cellspacing="2" cellpadding="0">
-				<tr>
-					<td align="center">
-						$paginatorLink
-					</td>
-				</tr>
-			</table>
-			<!---分页--->
 
 		</table>
 	</body>

@@ -5,6 +5,12 @@
 		<title>研报列表页</title>
 		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
 		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+			<script type="text/javascript">
+		function search() {
+		var txt = document.getElementById("stockcode").value;
+		self.location = "/admin/search.htm?stockcode="+txt;
+		}
+		</script>
 	</head>
 
 	<body>
@@ -17,6 +23,13 @@
 						<strong>当前栏目: <a
 							href="/admin/showColumn.htm?saname=${saname}">${saname}</a>
 							&gt;&gt; </strong>
+					</td>
+					<td align="right">
+
+						<input id="stockcode" name="stockcode" type="text"
+							style="height: 16px" title="请输入股票代码或名称" size="16" />
+						&nbsp;
+						<input type="submit" onclick="search()" value="确定" />
 					</td>
 				</tr>
 			</table>

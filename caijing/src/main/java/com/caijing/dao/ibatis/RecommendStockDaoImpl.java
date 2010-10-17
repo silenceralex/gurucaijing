@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.util.CrudDaoDefault;
 
@@ -37,8 +38,15 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 	}
 
 	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("stockcode", stockcode);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStocksByStockcode", params);
+	}
+
+	public List<RecommendStock> getRecommendStocksByStockname(String stockname) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("stockname", stockname);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStocksByStockname", params);
 	}
 
 	public int getAllRecommendCountBySaname(String saname) {
@@ -52,11 +60,6 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		params.put("offset", offset);
 		params.put("saname", saname);
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStocksBySaname", params);
-	}
-
-	public List<RecommendStock> getRecommendStocksByStockname(String stockname, int start, int offset) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public List<RecommendStock> getGoodRecommendStocksBySaname(String saname, int start, int offset) {
@@ -129,6 +132,11 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		params.put("offset", offset);
 		params.put("aname", "%" + aname + "%");
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStocksByAnalyzerASC", params);
+	}
+
+	@Override
+	public List<DiscountStock> getDiscountStocks() {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getDiscountStocks");
 	}
 
 }
