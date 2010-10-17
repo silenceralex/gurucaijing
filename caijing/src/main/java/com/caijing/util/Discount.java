@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.cache.MethodCache;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.StockGain;
@@ -33,6 +34,7 @@ public class Discount {
 		}
 	}
 
+	@MethodCache(expire = 3600 * 2)
 	public List<DiscountStock> process() {
 		List<DiscountStock> discounts = recommendStockDao.getDiscountStocks();
 		List<DiscountStock> retlist = new ArrayList<DiscountStock>();

@@ -36,6 +36,10 @@ public class SearchController {
 	@Qualifier("stockPrice")
 	private StockPrice sp = null;
 
+	@Autowired
+	@Qualifier("discount")
+	private Discount discount = null;
+
 	@RequestMapping("/admin/search.htm")
 	public String searchRecommend(HttpServletResponse response, @RequestParam(value = "stockcode", required = true)
 	String stockcode, HttpServletRequest request, ModelMap model) {
@@ -59,9 +63,6 @@ public class SearchController {
 
 	@RequestMapping("/admin/discount.htm")
 	public String discount(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		Discount discount = new Discount();
-		discount.setRecommendStockDao(recommendStockDao);
-		discount.setSp(sp);
 		List<DiscountStock> discounts = discount.process();
 		model.put("discountlist", discounts);
 		return "/admin/discount.htm";

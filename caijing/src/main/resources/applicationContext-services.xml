@@ -63,6 +63,7 @@
 		<property name="beanNames">
 			<list>
 				<value>groupGain</value>
+				<value>discount</value>
 			</list>
 		</property>
 		<property name="interceptorNames">
