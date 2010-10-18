@@ -11,37 +11,44 @@
 			src="js/raphael.js"></script>
 		<script language="javascript" type="text/javascript"
 			src="js/analytics.js"></script>
+		<style>
+<!--
+body {
+	font-size: 14px;
+	font-family: verdana;
+	line-height: 22px;
+}
+
+.stockTb {
+	width: 80%;
+}
+
+.stockTb tr th {
+	border-bottom: #CCC solid 1px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-weight: bold;
+	color: #000
+}
+
+.stockTb tr td {
+	height: 32px;
+	line-height: 32px;
+	border-bottom: #CCC dotted 1px;
+	text-align: center;
+	background: none
+}
+
+.even {
+	background: #E0E7FF;
+}
+-->
+</style>
 	</head>
 
 	<body>
-		<div id="holder1" class="holder"></div>
 
-		<table id="data" style="display: none">
-			<tr>
-				#foreach($date in $dates)
-				<th>
-					$date
-				</th>
-				#end
-			</tr>
-			<tr>
-				#foreach($weight in $weights) #set($temp=$velocityCount - 1)
-				<td>
-					$weight,$groupearn.get($temp)%
-				</td>
-				#end
-			</tr>
-			<tr>
-				#foreach($price in $zsperoidprice) #set($temp=$velocityCount - 1)
-				<td>
-					$price,$zsperiodratio.get($temp)%
-				</td>
-				#end
-			</tr>
-		</table>
-		<script language="javascript" type="text/javascript">
-	init("holder1",740,200,"data","$aname的组合","沪深300指数",1);
-</script>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
@@ -52,38 +59,122 @@
 					</td>
 				</tr>
 			</table>
+			<br />
 
-			<table width="100%" border="0" cellspacing="2" cellpadding="0">
-				<tr bgcolor="#0066CC" class="cWhite">
-					<th scope="col" width="80" height="30">
-						groupid
+			<div id="holder1" class="holder"></div>
+			<table id="data" style="display: none">
+				<tr>
+					#foreach($date in $dates)
+					<th>
+						$date
 					</th>
-					<th scope="col" width="80">
-						交易日期
+					#end
+				</tr>
+				<tr>
+					#foreach($weight in $weights) #set($temp=$velocityCount - 1)
+					<td>
+						$weight,$groupearn.get($temp)%
+					</td>
+					#end
+				</tr>
+				<tr>
+					#foreach($price in $zsperoidprice) #set($temp=$velocityCount - 1)
+					<td>
+						$price,$zsperiodratio.get($temp)%
+					</td>
+					#end
+				</tr>
+			</table>
+			<script language="javascript" type="text/javascript">
+				init("holder1",740,200,"data","$aname的组合","沪深300指数",1);
+			</script>
+
+
+
+
+			<br />
+			<table class="stockTb" cellpadding="0" cellspacing="0">
+				<tr>
+					<th>
+						组合名称
 					</th>
-					<th scope="col" width="160">
-						组合指数
+					<th>
+						推荐日期
 					</th>
-					<th scope="col" width="80">
-						组合收益率
-					</th>
-					<th scope="col" width="80" height="30">
-						groupid
-					</th>
-					<th scope="col" width="80">
-						交易日期
-					</th>
-					<th scope="col" width="160">
-						组合指数
-					</th>
-					<th scope="col" width="80">
-						组合收益率
+					<th>
+						新加入股票
 					</th>
 				</tr>
-				<!-- 视频列表 -->
-
+				#foreach($date in $joinmap.keySet())
+				<tr>
+					<td>
+						$!aname 的组合
+					</td>
+					<td>
+						$date
+					</td>
+					<td>
+						$joinmap.get($date)
+					</td>
+				</tr>
+				#end
 			</table>
-			<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate
+
+			<table class="stockTb" cellpadding="0" cellspacing="0">
+				<tr>
+					<th>
+						组合名称
+					</th>
+					<th>
+						交易日期
+					</th>
+					<th>
+						指数
+					</th>
+					<th>
+						收益率
+					</th>
+				</tr>
+			
+				#foreach($date in $dates) #set($temp=$velocityCount - 1)
+					#if($debug==1) 
+					#foreach($code in $stockcodes)
+					#if($stockdatemap.get(${code}).containsKey($date))
+				<tr>
+					<td>
+						$codeMap.get($code) ($code)
+					</td>
+					<td>
+						$date
+					</td>
+					<td>
+						$stockdatemap.get(${code}).get(${date}) %
+					</td>
+					<td>
+						$weights.get(${temp})
+					</td>
+				</tr>
+				#end #end #end 
+				<tr>
+					<td>
+						$!aname 的组合
+					</td>
+					<td>
+						$date
+					</td>
+					<td>
+						$weights.get(${temp})
+					</td>
+					<td>
+						$ratios.get(${temp})%
+					</td>
+				</tr>
+				#end
+			</table>
+			<font color="red">组合 总体的 收益率为：$totalratio </font>
+
+
+			<!--<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate
 				加入了 $aname 的股票组合</font>
 			<br>
 
@@ -105,10 +196,10 @@
 			<br>
 				#end 
 			<font color="red">组合 总体的 收益率为：$totalratio </font>
-			<br>
+			<br>-->
 
 
-				<!---列表--->
+			<!---列表--->
 			<br />
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
 				<tr>

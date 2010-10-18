@@ -6,6 +6,7 @@
 		<link href="/img/style.css" rel="stylesheet" type="text/css" />
 		<link href="/img/index.css" rel="stylesheet" type="text/css" />
 		<style>
+body{font-size:14px;font-family:verdana;line-height:22px;}
 #tagWin {
 	display: none;
 	position: absolute;
@@ -24,6 +25,8 @@
 	height: 0px;
 	display: none;
 }
+.hidden{display:none;}
+.btn{width:70px;text-align:center;line-height:30px;height:30px;}
 </style>
 
 		<script language="javascript">
@@ -72,7 +75,19 @@ window.onload = fillToInput;
 	</head>
 	<body>
 		<div class="frameBox">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tbody>
+						<tr>
+						<td bgcolor="#E0E7FF" height="30">
+							&nbsp;&nbsp;
+							<strong>当前栏目: <a href="/admin/showColumn.htm?saname=${rstock.saname}">${rstock.saname}</a>&nbsp;&gt;&nbsp;修改分析推荐股票
+								&gt;&gt; </strong>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!--<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				class="lineH24 hasBorder" style="text-align: left;">
 				<tr>
 					<td style="padding: 5px 9px;">
@@ -81,7 +96,7 @@ window.onload = fillToInput;
 							修改分析推荐股票 </span>
 					</td>
 				</tr>
-			</table>
+			</table>-->
 			<div class="blank9"></div>
 			<form action="/admin/recommendedit.do" target="_self"
 				name="recommendForm" method="post" enctype="multipart/form-data"
@@ -93,7 +108,7 @@ window.onload = fillToInput;
 				<input type="hidden" id="saname" name="saname"
 					value="${rstock.saname}"></input>
 				<table width="100%" border="0" cellspacing="0" cellpadding="6"
-					style="text-align: left; border: 1px solid #ccc;">
+					style="text-align: left; border: 1px solid #ccc;padding:30px 0;">
 					<tr>
 						<td style="text-align: right;" class="f14px">
 							研报标题：
@@ -104,10 +119,18 @@ window.onload = fillToInput;
 					</tr>
 					<tr>
 						<td style="text-align: right;" class="f14px">
-							股票代码： ${rstock.stockcode}
+							股票代码：
 						</td>
 						<td>
-							名称： ${rstock.stockname}
+							${rstock.stockcode}
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right;" class="f14px">
+							名称：
+						</td>
+						<td>
+							${rstock.stockname}
 						</td>
 					</tr>
 					<tr>
@@ -117,9 +140,8 @@ window.onload = fillToInput;
 						<td>
 							<label>
 								<input type="text" name="grade" id="grade" value="$rstock.grade"
-									onkeyup="byteWordCount(this,'keylength')" style="width: 20em;" />
-								字数：
-								<span id="keylength"><b>0</b> </span>
+								style="width: 20em;" />
+								
 							</label>
 						</td>
 					</tr>
@@ -131,9 +153,8 @@ window.onload = fillToInput;
 						<td>
 							<label>
 								<input type="text" name="aname" id="aname" value="$rstock.aname"
-									onkeyup="byteWordCount(this,'keylength')" style="width: 20em;" />
-								字数：
-								<span id="keylength"><b>0</b> </span>
+								style="width: 20em;" />
+
 							</label>
 						</td>
 					</tr>
@@ -154,17 +175,17 @@ window.onload = fillToInput;
 							EPS：
 						</td>
 						<td>
-							<label>
+							<span>
 
 								<input type="text" name="EPSinput1"/>,
                                 <input type="text" name="EPSinput2"/>,
                                 <input type="text" name="EPSinput3"/>
 
-							</label>
+							</span>
 
 							<label>
 
-								<textarea name="eps" id="eps" cols="45" rows="1">$rstock.eps</textarea>
+								<textarea class="hidden" name="eps" id="eps" cols="45" rows="1">$rstock.eps</textarea>
 
 							</label>
                             <br />
@@ -184,12 +205,12 @@ window.onload = fillToInput;
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3" style="text-align: right;" class="f14px">
-							<input type="button" onclick="chkSubmit()" value="提 交"></input>
+						<td></td>
+						<td colspan="3"class="f14px">
+							<input type="button" class="btn" onclick="chkSubmit()" value="提 交"></input>
 							&nbsp;
-							<input type="reset" value="重 置"></input>
+							<input type="reset" class="btn" value="重 置"></input>
 						</td>
-
 					</tr>
 				</table>
 			</form>

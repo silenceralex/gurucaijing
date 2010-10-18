@@ -40,9 +40,9 @@ function init(holder,w,h,id,name1,name2,dot){
 	var percentCount = 4;//纵向比率保留的位数，有调整时需要改动第86行paper.text()的第一个参数
 	///获得数据
 	for (var i = 0; i < $("#" + id + " th").length; i++) {
-		labels.push($("#" + id + " th:eq(" + i + ")").html());
-		pointArr1.push($("#" + id + " tr:eq(1) td:eq(" + i + ")").html());
-		pointArr2.push($("#" + id + " tr:eq(2) td:eq(" + i + ")").html());
+		labels.push($("#" + id + " th:eq(" + i + ")").html().replace(/\s/mg,""));
+		pointArr1.push($("#" + id + " tr:eq(1) td:eq(" + i + ")").html().replace(/\s/mg,""));
+		pointArr2.push($("#" + id + " tr:eq(2) td:eq(" + i + ")").html().replace(/\s/mg,""));
 		percentArr1.push(Number(pointArr1[i + 1].split(",")[1].split("%")[0]));
 		percentArr2.push(Number(pointArr2[i + 1].split(",")[1].split("%")[0]));
 		///取得最大比率和最小比率
@@ -130,13 +130,14 @@ function init(holder,w,h,id,name1,name2,dot){
 			blueDot.posY = point2_cur;
 			blueDot.num = "日期:" + labels[k] + "\n点数:" + pointArr2[k].split(",")[0] + "比率:" + pointArr2[k].split(",")[1];
 			
-			var greenDot = paper.circle(x_cur, point1_cur,2).attr(greenLine);
+			var greenDot = paper.circle(x_cur, point1_cur, 2).attr(greenLine);
 			greenDot.posX = x_cur;
 			greenDot.posY = point1_cur;
 			greenDot.num = "日期:" + labels[k] + "\n点数:" + pointArr1[k].split(",")[0] + "比率:" + pointArr1[k].split(",")[1];
 			///当鼠标经过蓝点时
 			blueDot.hover(
 				function () {
+					//alert("blueDot");
 					var t = this;
 				  	this.attr({fill: "#FFF"});
 				  	this.animate({scale:1.8}, 600, "backOut");
@@ -165,14 +166,15 @@ function init(holder,w,h,id,name1,name2,dot){
 					datatxt.attr(dataFormat);
 				},
 				function () {
-					this.attr({fill: "#53AFAC"});
+					this.attr({fill: "#547CAF"});
 				  	this.animate({scale: 1}, 1000, "elastic");
-				  	tipBlue.animate({opacity: 0}, 1000, "elastic");
+				  	tipBlue.animate({opacity: 0, y: -50}, 1000, "elastic");
 				  	datatxt.remove();
 			});
 			///当鼠标经过绿点时
 			greenDot.hover(
 				function () {
+					//alert("greenDot");
 					var t = this;
 				  	t.attr({fill: "#FFF"});
 				  	t.animate({scale: 1.8}, 600, "backOut");
@@ -202,9 +204,9 @@ function init(holder,w,h,id,name1,name2,dot){
 				},
 				function () {
 					this.attr({fill: "#53AFAC"});
-				  	this.animate({scale: 1}, 1000, "elastic");
-				  	tipGreen.animate({opacity: 0}, 1000, "elastic");
-				  	datatxt.remove();
+				  this.animate({scale: 1}, 1000, "elastic");
+				  tipGreen.animate({opacity: 0, y: -50}, 1000, "elastic");
+				  datatxt.remove();
 				
 				});
 		}

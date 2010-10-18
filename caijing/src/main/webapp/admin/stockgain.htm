@@ -9,48 +9,80 @@
 			src="js/raphael.js"></script>
 		<script language="javascript" type="text/javascript"
 			src="js/analytics.js"></script>
+		<style>
+		<!--
+		body{font-size:14px;font-family:verdana;line-height:22px;}
+		.stockTb tr th{border-bottom:#CCC solid 1px;height:30px;line-height:30px;text-align:center;font-weight:bold}
+		.stockTb tr td{height:42px;line-height:42px;border-bottom:#CCC dotted 1px;text-align:center}
+		-->	
+		</style>
 	</head>
 	<body>
-		<h1>
-			$rstock.aname推荐的${stockgain.stockname}(${stockgain.stockcode})
-		</h1>
-	<div class="frameBox">
+		<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tbody>
+						<tr>
+						<td bgcolor="#E0E7FF" height="30">
+							&nbsp;&nbsp;
+							<strong>当前栏目: &nbsp;$rstock.aname推荐的${stockgain.stockname}(${stockgain.stockcode})
+								&gt;&gt; </strong>
+						</td>
+					</tr>
+				</tbody>
+		</table>
+		<br />
+		<div class="frameBox">
+			
+			<table class="stockTb" cellpadding="0" cellspacing="0">
+				<tr>
+					<th>公司</th>
+					<th>推荐价</th>
+					<th>目标价</th>
+					<th>当前价</th>
+					<th>目标价差距</th>
+					<th>回报率</th>
+					<th>研究报告</th>
+				</tr>
+				<tr>
+					<td>${stockgain.stockname}</td>
+					<td>${stockgain.startprice}</td>
+					<td>${stockgain.objectprice}</td>
+					<td>${stockgain.endprice}</td>
+					<td>${stockgain.gain}</td>
+					<td>${stockgain.startdate}</td>
+					<td><a href="#">1</a><a href="#">2</a></td>
+				</tr>
+			</table>
+			<br />
+			
+			<table class="stockTb" cellpadding="0" cellspacing="0">
+				<tr>
+					<th>股票名称</th>
+					<th>推荐券商</th>
+					<th>推荐日期</th>
+					<th>截止日期</th>
+					<th>推荐日收盘价</th>
+					<th>截止日收盘价</th>
+					<th>区间最低价</th>
+					<th>区间最高价</th>
+					<th>推荐以来收益</th>
+					<th>推荐以来换手率</th>
+				</tr>
+				<tr>
+					<td>${stockgain.stockname}</td>
+					<td>${stockgain.saname}</td>
+					<td>${stockgain.startdate}</td>
+					<td>${stockgain.enddate}</td>
+					<td>${stockgain.startprice}</td>
+					<td>${stockgain.endprice}</td>
+					<td>${stockgain.lowest}</td>
+					<td>${stockgain.highest}</td>
+					<td>${stockgain.gain}%</td>
+					<td>${stockgain.changerate}%</td>
+				</tr>
+			</table>
 
-
-			<span
-				style="font-family: '\'cb\'ce\'cc\'e5'; color: #000000; font-size: 13px;"><u><b>公司&nbsp;
-						&nbsp; &nbsp;推荐价&nbsp;&nbsp; 目标价&nbsp; &nbsp;
-						当前价&nbsp; &nbsp; 推荐以来的收益率（%）&nbsp; &nbsp;
-						推荐日&nbsp;&nbsp;  研究报告</b> </u> </span>
-<br />
-			<span
-				style="font-family: '\'cb\'ce\'cc\'e5'; color: #000000; font-size: 13px;">${stockgain.stockname}&nbsp;
-				&nbsp; &nbsp; ${stockgain.startprice}&nbsp; &nbsp; ${stockgain.objectprice}&nbsp;
-				&nbsp; &nbsp; ${stockgain.endprice}&nbsp; &nbsp; &nbsp; &nbsp;
-				${stockgain.gain}&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp; 
-				${stockgain.startdate}&nbsp;&nbsp;  &nbsp; <u>1</u>
-				<u>2</u> </span>
-<br />   股票名称： ${stockgain.stockname}
-			<br />
-			推荐券商： ${stockgain.saname}
-			<br />
-			推荐日期： ${stockgain.startdate}
-			<br />
-			截止日期： ${stockgain.enddate}
-			<br />
-			推荐日收盘价： ${stockgain.startprice}
-			<br />
-			截止日收盘价： ${stockgain.endprice}
-			<br />
-			区间最低价： ${stockgain.lowest}
-			<br />
-			区间最高价： ${stockgain.highest}
-			<br />
-			推荐以来收益： ${stockgain.gain}%
-			<br />
-			推荐以来换手率： ${stockgain.changerate}%
-			<br />
 		</div>
+		<br /><br />
 		<div id="holder1" class="holder"></div>
 
 		<table id="data" style="display: none">
