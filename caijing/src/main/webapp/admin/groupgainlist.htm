@@ -92,7 +92,9 @@ body {
 
 
 
-			<br />
+			<br />               <font color="red" size="10">               组合 总体的 收益率为：$totalratio </font><br/>
+			
+			
 			<table class="stockTb" cellpadding="0" cellspacing="0">
 				<tr>
 					<th>
@@ -105,7 +107,8 @@ body {
 						新加入股票
 					</th>
 				</tr>
-				#foreach($date in $joinmap.keySet())
+				#foreach($date in $reversedates)
+				#if($joinmap.containsKey($date)) 
 				<tr>
 					<td>
 						$!aname 的组合
@@ -117,6 +120,7 @@ body {
 						$joinmap.get($date)
 					</td>
 				</tr>
+				#end
 				#end
 			</table>
 
@@ -136,7 +140,7 @@ body {
 					</th>
 				</tr>
 			
-				#foreach($date in $dates) #set($temp=$velocityCount - 1)
+				#foreach($date in $reversedates) #set($temp=$reversedates.size() - $velocityCount)
 					#if($debug==1) 
 					#foreach($code in $stockcodes)
 					#if($stockdatemap.get(${code}).containsKey($date))
@@ -171,8 +175,7 @@ body {
 				</tr>
 				#end
 			</table>
-			<font color="red">组合 总体的 收益率为：$totalratio </font>
-
+			
 
 			<!--<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate
 				加入了 $aname 的股票组合</font>

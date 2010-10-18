@@ -67,7 +67,10 @@ public class AnalyzerController {
 		} else {
 			model.put("debug", 0);
 		}
-
+		List reversedates = new ArrayList<String>();
+		reversedates.addAll(gs.getDates());
+		Collections.reverse(reversedates);
+		model.put("reversedates", reversedates);
 		model.put("joinmap", gs.getJoinMap());
 		model.put("codeMap", codeMap);
 		model.put("joinmap", gs.getJoinMap());

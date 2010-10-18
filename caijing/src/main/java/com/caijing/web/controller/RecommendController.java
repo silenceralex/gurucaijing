@@ -167,6 +167,7 @@ public class RecommendController {
 		StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(), DateTools.transformYYYYMMDDDate(rstock
 				.getCreatedate()), DateTools.transformYYYYMMDDDate(new Date()));
 		sg.setSaname(rstock.getSaname());
+		sg.setReportid(reportid);
 		sg.setStockname(rstock.getStockname());
 		sg.setObjectprice(rstock.getObjectprice());
 		List<String> dates = sg.getPerioddate();
@@ -183,7 +184,12 @@ public class RecommendController {
 		model.put("dates", dates);
 		model.put("peroidprice", peroidprice);
 		model.put("periodratio", sg.getPeriodearn());
+		if (sg.getObjectprice() != 0) {
+			model.put("change", sg.getEndprice() - sg.getObjectprice());
+		}
 		model.put("stockgain", sg);
+		model.put("startdate", rstock.getCreatedate());
+
 		StockGain zssg = sp.getZSGainByPeriod(DateTools.transformYYYYMMDDDate(rstock.getCreatedate()), DateTools
 				.transformYYYYMMDDDate(new Date()));
 		zssg.setStockname("上证指数");

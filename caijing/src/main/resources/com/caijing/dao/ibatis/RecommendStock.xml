@@ -40,7 +40,7 @@
 	<select id="getRecommendStocksByStockname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
-		as r where rs.reportid=r.rid and rs.stockname=#stockname# order
+		as r where rs.reportid=r.rid and rs.stockname like #stockname# order
 		by rs.createdate desc
 	</select>
 

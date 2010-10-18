@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>研报搜索页</title>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+		<script type="text/javascript">
+		function search() {
+		var txt = document.getElementById("stockcode").value;
+		self.location = "/admin/search.htm?stockcode="+txt;
+		}
+		</script>
+	</head>
+
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td bgcolor="#E0E7FF" height="30">
+						&nbsp;&nbsp;
+						<strong>当前栏目: 搜索抽取研报 &gt;&gt; </strong>
+					</td>
+				</tr>
+			</table>
+	
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					请输入想要搜索的股票名称 或者 代码：
+				</tr>
+		
+					<input id="stockcode" name="stockcode" type="text"
+							style="height: 16px" title="请输入股票代码或名称" size="16" />
+						&nbsp;
+						<input type="submit" onclick="search()" value="搜索" />
+		
+			</table>
+			<br />
+
+		</table>
+	</body>
+</html>
