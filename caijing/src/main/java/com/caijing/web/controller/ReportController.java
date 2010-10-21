@@ -25,7 +25,6 @@ public class ReportController {
 	@Autowired
 	@Qualifier("reportDao")
 	private ReportDao reportDao = null;
-	
 
 	@Autowired
 	@Qualifier("TopicNameConfig")
@@ -38,45 +37,53 @@ public class ReportController {
 	@Autowired
 	@Qualifier("vutil")
 	private Vutil vutil = null;
-	
+
 	@RequestMapping("/admin/showColumn.htm")
-	public String showColomn(HttpServletResponse response,
-			@RequestParam(value = "saname", required = false)
-			String saname, @RequestParam(value = "page", required = false)
-			Integer page, HttpServletRequest request, ModelMap model) {
+	public String showColomn(HttpServletResponse response, @RequestParam(value = "saname", required = false)
+	String saname, @RequestParam(value = "page", required = false)
+	Integer page, @RequestParam(value = "type", required = false)
+	Integer type, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
-	
-		int total=0;
+
+		int total = 0;
 		// 分页显示时，标识当前第几页
 		if (page == null || page < 1) {
 			page = 1;
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
-		System.out.println("saname:"+saname);
-		List<Report> reportlist= new ArrayList();
-		if(saname!=null){
-			total=reportDao.getAllReportsCountBySaname(saname);
+		System.out.println("saname:" + saname);
+		List<Report> reportlist = new ArrayList();
+		if (saname != null) {
+			if (type == null) {
+				total = reportDao.getAllReportsCountBySaname(saname);
+				paginator.setTotalRecordNumber(total);
+				reportlist = reportDao.getReportsBySaname(saname, (page - 1) * 20, 20);
+				urlPattern = "/admin/showColumn.htm?saname=" + saname + "&page=$number$";
+				model.put("saname", saname);
+			} else {
+				System.out.println("type: " + type);
+				total = reportDao.getReportsCountBySanameType(saname, type);
+				paginator.setTotalRecordNumber(total);
+				reportlist = reportDao.getReportsBySanameType(saname, type, (page - 1) * 20, 20);
+				urlPattern = "/admin/showColumn.htm?saname=" + saname + "&type=" + type + "&page=$number$";
+				model.put("saname", saname);
+			}
+		} else {
+			total = reportDao.getAllReportsCount();
 			paginator.setTotalRecordNumber(total);
-			reportlist=reportDao.getReportsBySaname(saname,(page-1)*20,20);
-			urlPattern = "/admin/showColumn.htm?saname="+saname+"&page=$number$";
-			model.put("saname", saname);
-		}else{
-			total=reportDao.getAllReportsCount();
-			paginator.setTotalRecordNumber(total);
-			reportlist=reportDao.getAllReports((page-1)*20,20);
+			reportlist = reportDao.getAllReports((page - 1) * 20, 20);
 			urlPattern = "/admin/showColumn.htm?page=$number$";
 		}
-		
+
 		paginator.setUrl(urlPattern);
 		model.put("topicNameMap", topicNameMap);
 		model.put("vutil", vutil);
 		model.put("reportlist", reportlist);
 		model.put("paginatorLink", paginator.getPageNumberList());
-		
+
 		return "/admin/reportlist.htm";
 
 	}
-
 }

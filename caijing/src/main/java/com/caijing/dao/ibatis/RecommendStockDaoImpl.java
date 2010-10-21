@@ -139,4 +139,9 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getDiscountStocks");
 	}
 
+	@Override
+	public List<RecommendStock> getRecommendStocksGroupByCode() {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStocksGroupByCode");
+	}
+
 }

@@ -15,6 +15,10 @@
 	<select id="select" resultClass="Analyzer">
 		select * from analyzer where aid=#value#
 	</select>
+	
+	<select id="getAnalyzerByName" resultClass="Analyzer">
+		select * from analyzer where name=#value#
+	</select>
 
 	<insert id="insert">
 		insert into analyzer

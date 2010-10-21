@@ -35,10 +35,13 @@ body {
 		#foreach($topicid in $topicList)
 		#if(${topicNameMap.getTopicName($topicid)}!="-1")
 		tree_yanbao.add('$topicid','yanbao_0001','${topicNameMap.getTopicName($topicid)}','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
+		tree_yanbao.add('${topicid}_0001','$topicid','晨会','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}&type=0','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
+		tree_yanbao.add('${topicid}_0002','$topicid','公司研报','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}&type=1','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
+		tree_yanbao.add('${topicid}_0003','$topicid','行业研报','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}&type=2','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
+		tree_yanbao.add('${topicid}_0004','$topicid','宏观策略','/admin/showColumn.htm?saname=${topicNameMap.getTopicName($topicid)}&type=3','${topicNameMap.getTopicName($topicid)}','main','img/folder.gif','img/folderopen.gif');
 		#end
 		#end
-	    tree_yanbao.add('10001','main_yanbao','抽取研报','/admin/showAllRecommend.htm?page=1','抽取研报','main','img/new.gif','img/new.gif');
-		tree_yanbao.add('10002','main_yanbao','搜索抽取研报','/admin/search.html','搜索抽取研报','main','img/glass2.gif','img/glass2.gif');
+		tree_yanbao.add('10002','main_yanbao','搜索研报库','/admin/searchreport.html','搜索抽取研报','main','img/glass2.gif','img/glass2.gif');
 		tree_yanbao.config.target = 'main';
 		document.write(tree_yanbao);
 		
@@ -73,6 +76,10 @@ body {
 		tree_extractor.add('extractor_10077','extractor_10007','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=招商证券','招商证券','main','img/folder.gif','img/folderopen.gif');
 		tree_extractor.add('extractor_10008','extractor_0001','广发证券','/admin/showAllRecommend.htm?type=1&page=1&saname=广发证券','广发证券','main','img/folder.gif','img/folderopen.gif');
 		tree_extractor.add('extractor_10088','extractor_10008','待检查','/admin/showAllRecommend.htm?type=0&page=1&saname=广发证券','广发证券','main','img/folder.gif','img/folderopen.gif');
+		
+		tree_extractor.add('extractor_0002','tree_extractor','抽取研报','/admin/showAllRecommend.htm?page=1','抽取研报','main','img/new.gif','img/new.gif');
+		tree_extractor.add('extractor_0003','tree_extractor','搜索抽取研报','/admin/search.html','搜索抽取研报','main','img/glass2.gif','img/glass2.gif');
+		
 		tree_extractor.config.target = 'main';
 		document.write(tree_extractor);
 			//-->

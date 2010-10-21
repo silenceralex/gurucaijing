@@ -24,13 +24,22 @@
 		select * from report where type=1 order by ptime
 	</select>
 
-	<select id="getReportsBySanme" parameterClass="java.util.Map"
+	<select id="getReportsBySaname" parameterClass="java.util.Map"
 		resultClass="reportClass">
 		select * from report where saname = #saname# order by ptime desc
 		limit #start#,#offset#
 	</select>
+	
+	<select id="getReportsBySanameType" parameterClass="java.util.Map"
+		resultClass="reportClass">
+		select * from report where saname = #saname# and type = #type# order by ptime desc
+		limit #start#,#offset#
+	</select>
 
-
+	<select id="getReportsCountBySanameType" parameterClass="java.util.Map"
+		resultClass="java.lang.Integer">
+		select count(1) from report where saname = #saname# and type = #type#
+	</select>
 
 
 	<select id="getAllReportsCountBySaname"

@@ -2,42 +2,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-		<title>公司研报分析结果列表页</title>
+		<title>研报搜索页</title>
 		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
-        <link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
 		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
-			<script type="text/javascript">
+				<script type="text/javascript">
 		function search() {
-		var txt = document.getElementById("stockcode").value;
-		self.location = "/admin/search.htm?stockcode="+txt;
+		var txt = document.getElementById("q").value;
+		var type = document.getElementById("type").value;
+		self.location = "/admin/searchreport.htm?q="+txt+"&type="+type;
 		}
 		</script>
 	</head>
 
 	<body>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
 				<tr>
 					<td bgcolor="#E0E7FF" height="30">
 						&nbsp;&nbsp;
-						<strong>当前栏目:
-						#if($saname) 
-						<a href="/admin/showRecommend.htm?saname=${saname}">${saname}</a>
-							&gt;&gt;  </strong>
-						#else
-						<a href="#">最新抽取研报</a>
-							&gt;&gt;  </strong>
-						#end
-					</td>
-					<td align="right">
-
-						<input id="stockcode" name="stockcode" type="text"
-							style="height: 16px" title="请输入股票代码或名称" size="16" />
-						&nbsp;
-						<input type="submit" onclick="search()" value="确定" />
+						<strong>当前栏目: 搜索结果 &gt;&gt; </strong>
 					</td>
 				</tr>
+			</table>
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					目前支持三种方式的查询：
+						按机构名、按分析师、按股票名称或者代码进行搜索。
+				</tr>
+				<SELECT id="type">
+					<OPTION selected value="1">
+						按机构名称
+					</OPTION>
+					<OPTION value="2">
+						按分析师
+					</OPTION>
+					<OPTION value="0">
+						按股票名称
+					</OPTION>
+				</SELECT>
+
+				<input id="q" name="q" type="text"
+					style="height: 16px" title="请输入股票代码或名称" size="16" />
+				&nbsp;
+				<input type="submit" onclick="search()" value="搜索" />
 			</table>
 
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
@@ -45,18 +54,14 @@
 					<th scope="col" width="60" height="30">
 						研报id
 					</th>
-					<th scope="col" width="80">券商 
+					<th scope="col" width="80">
+						券商
 					</th>
-					<th scope="col" width="250"> 
-						标题&nbsp; 
+					<th scope="col" width="250">
+						标题&nbsp;
 					</th>
-					<th scope="col" width="160"> 
-						上市公司 
-					</th>
-                    <th scope="col" width="160"> 
-						评级 
-					</th>
-					<th scope="col" width="120">每股收益 
+					<th scope="col" width="160">
+						上市公司
 					</th>
 					<th scope="col" width="120">
 						分析师
@@ -65,34 +70,31 @@
 						时间
 					</th>
 				</tr>
-				<!-- 视频列表 -->
+				<!-- 研报列表 -->
 				#foreach($recommend in $recommendlist)
 				<tr id="${recommend.reportid}">
 					<td bgcolor="#E0E7FF" align="center">
-						<a href="/admin/recommendedit.htm?rid=$recommend.reportid" title="编辑该抽取结果">$recommend.recommendid</a>
+						<a href="/admin/recommendedit.htm?rid=$recommend.reportid"
+							title="编辑该抽取结果">$recommend.recommendid</a>
 					</td>
 					<td bgcolor="#E0E7FF">
-						<font color="blue">&nbsp;&nbsp;$recommend.saname</font> 
+						<font color="blue">&nbsp;&nbsp;$recommend.saname</font>
 					</td>
 					<td bgcolor="#E0E7FF">
-						&nbsp; $recommend.title
+						<a
+							href="/papers/${recommend.createdate}/${recommend.reportid}.pdf" title="查看研报内容">&nbsp;
+							$recommend.title</a>
 						<a href="/admin/stockgain.htm?rid=${recommend.reportid}"
 							title="查看推荐收益"><img src="/admin/img/a1.gif" width="16"
-								height="16" />
-						</a>
+								height="16" /> </a>
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							${recommend.stockname}(${recommend.stockcode})
+						${recommend.stockname}(${recommend.stockcode})
 					</td>
-                    <td height="30" bgcolor="#E0E7FF" align="center">
-							<font color="red">$recommend.grade</font>
-					</td>
-					<td bgcolor="#E0E7FF" align="center">
-						$recommend.eps
-					</td>
-
 					<td bgcolor="#E0E7FF">
-						&nbsp;&nbsp;$recommend.aname
+						#if(${recommend.user})
+						<font color="red">&nbsp;&nbsp;$recommend.aname</font> #else
+						<font color="blue">&nbsp;&nbsp;$recommend.aname</font> #end
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$recommend.createdate
@@ -109,8 +111,6 @@
 					</td>
 				</tr>
 			</table>
-			<!---分页--->
-
 		</table>
 	</body>
 </html>

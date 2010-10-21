@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>研报搜索页</title>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+		<script type="text/javascript">
+		function search() {
+		var txt = document.getElementById("q").value;
+		var type = document.getElementById("type").value;
+		self.location = "/admin/searchreport.htm?q="+txt+"&type="+type;
+		}
+		</script>
+	</head>
+
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td bgcolor="#E0E7FF" height="30">
+						&nbsp;&nbsp;
+						<strong>当前栏目: 搜索抽取研报 &gt;&gt; </strong>
+					</td>
+				</tr>
+			</table>
+
+
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					目前支持三种方式的查询：
+						按机构名、按分析师、按股票名称或者代码进行搜索。
+				</tr>
+				<SELECT id="type">
+					<OPTION selected value="1">
+						按机构名称
+					</OPTION>
+					<OPTION value="2">
+						按分析师
+					</OPTION>
+					<OPTION value="0">
+						按股票名称
+					</OPTION>
+				</SELECT>
+
+				<input id="q" name="q" type="text"
+					style="height: 16px" title="请输入股票代码或名称" size="16" />
+				&nbsp;
+				<input type="submit" onclick="search()" value="搜索" />
+			</table>
+			<br />
+
+		</table>
+	</body>
+</html>

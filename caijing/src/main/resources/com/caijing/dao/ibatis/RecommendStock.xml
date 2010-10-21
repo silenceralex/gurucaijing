@@ -116,6 +116,11 @@
 		resultClass="RecommendStock">
 		select * from recommendstock where reportid=#reportid#
 	</select>
+	
+	<select id="getRecommendStocksGroupByCode"
+		resultClass="RecommendStock">
+		select * from recommendstock group by stockcode order by createdate
+	</select>
 
 	<insert id="insert">
 		insert into recommendstock

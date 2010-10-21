@@ -44,4 +44,6 @@ public interface RecommendStockDao extends CrudDao {
 	public List<RecommendStock> getProblemData();
 
 	public List<DiscountStock> getDiscountStocks();
+
+	public List<RecommendStock> getRecommendStocksGroupByCode();
 }

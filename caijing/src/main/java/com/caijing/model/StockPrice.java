@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.StockEarnDao;
 import com.caijing.dao.ibatis.StockEarnDaoImpl;
+import com.caijing.domain.StockEarn;
 import com.caijing.domain.StockGain;
 import com.caijing.domain.StockHQ;
 import com.caijing.util.ContextFactory;
@@ -169,6 +170,36 @@ public class StockPrice {
 		}
 	}
 
+	public void storeStockPrice(String stockcode, String startdate, String enddate) {
+		String stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=d";
+		System.out.println("stockurl: " + stockurl);
+		try {
+			String content = down.load(stockurl);
+
+			if (!content.contains("至")) {
+				stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=r";
+				content = down.load(stockurl);
+			}
+			Pattern startPattern = Pattern
+					.compile(
+							"\\['(20[01][0-9]-[01][0-9]-[0-3][0-9])','([0-9\\.]+)','([0-9\\.]+)','-?[0-9\\.]+','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]",
+							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+			Matcher startm = startPattern.matcher(content);
+			while (startm != null && startm.find()) {
+				StockEarn se = new StockEarn();
+				se.setStockcode(stockcode);
+				se.setDate(startm.group(1).trim().replaceAll("-", ""));
+				se.setPrice(Float.parseFloat(startm.group(3).trim()));
+				se.setRatio(Float.parseFloat(startm.group(4).trim()));
+				stockEarnDao.insert(se);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	// &code=cn_600016&sd=2010-07-30&ed=2010-07-30
 	public StockGain getStockGainByPeriod(String stockcode, String startdate, String enddate) {
 		String stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=d";
@@ -210,14 +241,14 @@ public class StockPrice {
 				float rtio = Float.parseFloat(startm.group(4).trim());
 				periodratio.add(rtio);
 				//行情存入本地数据库
-				//				StockEarn se = new StockEarn();
-				//				se.setStockcode(stockcode);
-				//				se.setDate(hq.getDate().replaceAll("-", ""));
-				//				se.setPrice(hq.getEndprice());
-				//				se.setRatio(hq.getGainrate());
-				//				if (stockEarnDao.select(se) == null) {
-				//					stockEarnDao.insert(se);
-				//				}
+				//								StockEarn se = new StockEarn();
+				//								se.setStockcode(stockcode);
+				//								se.setDate(hq.getDate().replaceAll("-", ""));
+				//								se.setPrice(hq.getEndprice());
+				//								se.setRatio(hq.getGainrate());
+				//								if (stockEarnDao.select(se) == null) {
+				//									stockEarnDao.insert(se);
+				//								}
 				if (i == 0) {
 					endhq.setDate(hq.getDate());
 					endhq.setEndprice(hq.getEndprice());
