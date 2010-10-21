@@ -9,7 +9,7 @@
 	</select>
 
 	<select id="getAllAnalyzers" resultClass="Analyzer">
-		select * from analyzer
+		select * from analyzer where status=0
 	</select>
 	
 	<select id="select" resultClass="Analyzer">

@@ -64,6 +64,7 @@ public class GroupGain {
 		}
 	}
 
+	@MethodCache(expire = 3600 * 4)
 	public GroupPeriod processASC(String aname) {
 		List<StockGain> sgs = stockGainManager.getStockGainByAnameASC(aname);
 		HashMap<String, HashMap<String, Float>> stockdateMap = new HashMap<String, HashMap<String, Float>>();
@@ -219,7 +220,7 @@ public class GroupGain {
 		return gs;
 	}
 
-	@MethodCache(expire = 3600 * 24)
+	@MethodCache(expire = 3600 * 4)
 	public List<GroupPeriod> processGroupPeriod(String aname) {
 		List<GroupPeriod> gps = new ArrayList<GroupPeriod>();
 		int count = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);

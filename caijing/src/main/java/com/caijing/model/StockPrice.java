@@ -236,19 +236,11 @@ public class StockPrice {
 				hq.setVolum(Float.parseFloat(startm.group(7).trim()));
 				hq.setChangerate(Float.parseFloat(startm.group(8).trim()));
 				hq.setGainrate(Float.parseFloat(startm.group(4).trim()));
+				System.out.println("date:" + startm.group(1).trim());
 				dates.add(startm.group(1).trim());
 				peroidprice.add(Float.parseFloat(startm.group(3).trim()));
 				float rtio = Float.parseFloat(startm.group(4).trim());
 				periodratio.add(rtio);
-				//行情存入本地数据库
-				//								StockEarn se = new StockEarn();
-				//								se.setStockcode(stockcode);
-				//								se.setDate(hq.getDate().replaceAll("-", ""));
-				//								se.setPrice(hq.getEndprice());
-				//								se.setRatio(hq.getGainrate());
-				//								if (stockEarnDao.select(se) == null) {
-				//									stockEarnDao.insert(se);
-				//								}
 				if (i == 0) {
 					endhq.setDate(hq.getDate());
 					endhq.setEndprice(hq.getEndprice());
@@ -314,7 +306,7 @@ public class StockPrice {
 		StockPrice sp = new StockPrice();
 		StockEarnDao stockEarnDao = (StockEarnDaoImpl) ContextFactory.getBean("stockEarnDao");
 		sp.setStockEarnDao(stockEarnDao);
-		sp.getStockGainByPeriod("000982", "2010-07-19", "2010-09-30");
+		sp.getStockGainByPeriod("002477", "2010-08-27", "2010-10-21");
 		// StockHQ hq = sp.fetchhq("601939", "2010-08-30");
 		// System.out.println("收益率：" + hq.getGainrate());
 	}

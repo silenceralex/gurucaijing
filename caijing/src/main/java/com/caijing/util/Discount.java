@@ -42,16 +42,20 @@ public class Discount {
 		for (DiscountStock discount : discounts) {
 			if (discount.getGrade() != null && buyset.contains(discount.getGrade())) {
 				String date = DateTools.transformYYYYMMDDDate(discount.getCreatedate());
-				StockGain sg = sp.getStockGainByPeriod(discount.getStockcode(), date, DateTools
-						.transformYYYYMMDDDate(new Date()));
-				if (sg.getGain() < 0) {
-					discount.setDiscountratio(0 - sg.getGain());
-					discount.setRecommendprice(sg.getStartprice());
-					discount.setCurrentprice(sg.getEndprice());
-					retlist.add(discount);
-					i++;
+				try {
+					StockGain sg = sp.getStockGainByPeriod(discount.getStockcode(), date, DateTools
+							.transformYYYYMMDDDate(new Date()));
+					if (sg.getGain() < 0) {
+						discount.setDiscountratio(0 - sg.getGain());
+						discount.setRecommendprice(sg.getStartprice());
+						discount.setCurrentprice(sg.getEndprice());
+						retlist.add(discount);
+						i++;
+					}
+				} catch (Exception e) {
+					System.out.println("Exception : " + e.getMessage());
+					e.printStackTrace();
 				}
-
 			}
 		}
 		System.out.println("discount <0  records :" + i);

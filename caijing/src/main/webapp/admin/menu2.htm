@@ -109,27 +109,6 @@ body {
 			//-->
 	</script>
 
-						<p>
-							&nbsp;
-						</p>
-						<a href="javascript: tree_column.openAll();">全部展开</a> |
-						<a href="javascript: tree_column.closeAll();">全部关闭</a>
-						<br />
-
-						<script type="text/javascript">
-		<!--
-			tree_column = new dTree('tree_column');
-		tree_column.add('tree_column','-1','经济学家','about:blank','经济学家','main');
-		tree_column.add('column_10001','tree_column','专栏博客','','专栏博客','main','img/folder.gif','img/folderopen.gif');
-		#foreach($economist in $economistList)
-
-		tree_column.add('$economist.id','column_10001','$economist.name','/admin/columnarticlelist.htm?saname=$economist.name','$economist.name','main','img/folder.gif','img/folderopen.gif');
-
-		#end
-		tree_column.config.target = 'main';
-		document.write(tree_column);
-			//-->
-	</script>
 					</div>
 				</div>
 			</div>
