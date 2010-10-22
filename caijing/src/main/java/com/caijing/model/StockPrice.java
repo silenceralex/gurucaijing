@@ -11,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.StockEarnDao;
-import com.caijing.dao.ibatis.StockEarnDaoImpl;
 import com.caijing.domain.StockEarn;
 import com.caijing.domain.StockGain;
 import com.caijing.domain.StockHQ;
-import com.caijing.util.ContextFactory;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.UrlDownload;
 
@@ -236,7 +234,6 @@ public class StockPrice {
 				hq.setVolum(Float.parseFloat(startm.group(7).trim()));
 				hq.setChangerate(Float.parseFloat(startm.group(8).trim()));
 				hq.setGainrate(Float.parseFloat(startm.group(4).trim()));
-				System.out.println("date:" + startm.group(1).trim());
 				dates.add(startm.group(1).trim());
 				peroidprice.add(Float.parseFloat(startm.group(3).trim()));
 				float rtio = Float.parseFloat(startm.group(4).trim());
@@ -304,11 +301,12 @@ public class StockPrice {
 	 */
 	public static void main(String[] args) {
 		StockPrice sp = new StockPrice();
-		StockEarnDao stockEarnDao = (StockEarnDaoImpl) ContextFactory.getBean("stockEarnDao");
-		sp.setStockEarnDao(stockEarnDao);
-		sp.getStockGainByPeriod("002477", "2010-08-27", "2010-10-21");
-		// StockHQ hq = sp.fetchhq("601939", "2010-08-30");
-		// System.out.println("收益率：" + hq.getGainrate());
+		//		StockEarnDao stockEarnDao = (StockEarnDaoImpl) ContextFactory.getBean("stockEarnDao");
+		//		sp.setStockEarnDao(stockEarnDao);
+		//		sp.getStockGainByPeriod("002477", "2010-08-27", "2010-10-21");
+		StockHQ hq = sp.fetchhq("601939", "2010-10-21");
+		System.out.println("收盘价：" + hq.getEndprice());
+		System.out.println("收益率：" + hq.getGainrate());
 	}
 
 	public StockEarnDao getStockEarnDao() {

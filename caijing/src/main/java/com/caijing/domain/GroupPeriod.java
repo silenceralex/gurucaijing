@@ -1,15 +1,16 @@
 package com.caijing.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupPeriod {
+public class GroupPeriod implements Serializable {
 	private HashMap<String, StockGain> stockInGroup = null;
 	private List<StockGain> stockGains = null;
 	private HashMap<String, String> joinMap = null;
-	private HashMap<String,HashMap<String,Float> > stockdateMap=new HashMap<String,HashMap<String,Float> >();
-	private String firstdate=null;
-	private String firststock=null;
+	private HashMap<String, HashMap<String, Float>> stockdateMap = new HashMap<String, HashMap<String, Float>>();
+	private String firstdate = null;
+	private String firststock = null;
 	private List<String> dates = null;
 	private List<Float> weights = null;
 	private List<Float> ratios = null;

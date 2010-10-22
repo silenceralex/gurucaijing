@@ -1,8 +1,9 @@
 package com.caijing.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class StockGain {
+public class StockGain implements Serializable {
 
 	private String stockcode = null;
 	private String stockname = null;
