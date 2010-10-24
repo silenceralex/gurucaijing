@@ -192,7 +192,7 @@ public class RecommendController {
 
 		StockGain zssg = sp.getZSGainByPeriod(DateTools.transformYYYYMMDDDate(rstock.getCreatedate()), DateTools
 				.transformYYYYMMDDDate(new Date()));
-		zssg.setStockname("上证指数");
+		zssg.setStockname("沪深300指数");
 		List<Float> zsperoidprice = zssg.getPeriodprice();
 		List<Float> zsperiodratio = zssg.getPeriodratio();
 		System.out.println("zsperiodratio size:" + zsperiodratio.size());

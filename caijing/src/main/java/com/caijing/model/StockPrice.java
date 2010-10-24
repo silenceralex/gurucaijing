@@ -14,6 +14,7 @@ import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.StockEarn;
 import com.caijing.domain.StockGain;
 import com.caijing.domain.StockHQ;
+import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.UrlDownload;
 
@@ -23,6 +24,7 @@ public class StockPrice {
 
 	private static String zshqurl = "http://q.stock.sohu.com/app2/history.up?method=history&code=zs_000300&t=d&res=js";
 
+	private static String hexunurl = "http://quote.stock.hexun.com/stockdata/stock_quote.aspx?stocklist=";
 	private UrlDownload down = new UrlDownload();
 
 	@Autowired
@@ -32,6 +34,46 @@ public class StockPrice {
 			.compile(
 					"\\['20[01][0-9]-[01][0-9]-[0-3][0-9]至20[01][0-9]-[01][0-9]-[0-3][0-9]','(-?[0-9\\.]+)','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]\\]\\)",
 					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	private Pattern currentPattern = Pattern
+			.compile(
+					"dataArr = \\[\\['[0-9]{6}','.*?',([0-9\\.]+),(-?[0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),[0-9\\.]+,([0-9\\.]+),[0-9\\.]+,[0-9\\.]+\\]\\]",
+					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	public StockHQ currentPrice(String stockcode) {
+		String stockurl = hexunurl + stockcode;
+		System.out.println("stockurl: " + stockurl);
+		StockHQ hq = new StockHQ();
+		hq.setStockcode(stockcode);
+		try {
+			String content = down.load(stockurl);
+			Matcher startm = currentPattern.matcher(content);
+			if (startm != null && startm.find()) {
+				System.out.println("Content:" + startm.groupCount());
+				System.out.println(stockcode + "  开盘价：" + startm.group(4));
+				hq.setOpenprice(Float.parseFloat(startm.group(4).trim()));
+				System.out.println(stockcode + "  收盘价：" + startm.group(1));
+				hq.setEndprice(Float.parseFloat(startm.group(1).trim()));
+				System.out.println(stockcode + "  最低价：" + startm.group(6));
+				hq.setLowest(Float.parseFloat(startm.group(6).trim()));
+				System.out.println(stockcode + "  最高价：" + startm.group(5));
+				hq.setHighest(Float.parseFloat(startm.group(5).trim()));
+				System.out.println(stockcode + "  成交额：" + startm.group(7));
+				hq.setVolum(Float.parseFloat(startm.group(7).trim()));
+				System.out.println(stockcode + "  换手率：" + startm.group(8));
+				hq.setChangerate(Float.parseFloat(startm.group(8).trim()));
+				System.out.println(stockcode + "  涨跌率：" + startm.group(2));
+				hq.setGainrate(Float.parseFloat(startm.group(2).trim()));
+			}
+			return hq;
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public StockHQ fetchhq(String stockcode, String date) {
 		StockHQ hq = new StockHQ();
@@ -129,7 +171,7 @@ public class StockPrice {
 			gain.setEnddate(endhq.getDate());
 			gain.setStartprice(starthq.getEndprice());
 			gain.setEndprice(endhq.getEndprice());
-			gain.setStockcode("000001");
+			gain.setStockcode("000300");
 			gain.setDealdays(i);
 
 			//除去推荐日当天的行情
@@ -168,8 +210,22 @@ public class StockPrice {
 		}
 	}
 
-	public void storeStockPrice(String stockcode, String startdate, String enddate) {
-		String stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=d";
+	public void storeStockPrice(String stockcode, int type, String startdate, String enddate) {
+		String stockurl = "";
+		Pattern startPattern = null;
+		if (type == 1) {
+			stockurl = zshqurl + "&sd=" + startdate + "&ed=" + enddate;
+			startPattern = Pattern
+					.compile(
+							"\\['(20[01][0-9]-[01][0-9]-[0-3][0-9])','([0-9\\.]+)','([0-9\\.]+)','-?[0-9\\.]+','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','(-)'\\]",
+							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+		} else {
+			stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=d";
+			startPattern = Pattern
+					.compile(
+							"\\['(20[01][0-9]-[01][0-9]-[0-3][0-9])','([0-9\\.]+)','([0-9\\.]+)','-?[0-9\\.]+','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]",
+							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+		}
 		System.out.println("stockurl: " + stockurl);
 		try {
 			String content = down.load(stockurl);
@@ -178,19 +234,17 @@ public class StockPrice {
 				stockurl = hqurl + stockcode + "&sd=" + startdate + "&ed=" + enddate + "&t=r";
 				content = down.load(stockurl);
 			}
-			Pattern startPattern = Pattern
-					.compile(
-							"\\['(20[01][0-9]-[01][0-9]-[0-3][0-9])','([0-9\\.]+)','([0-9\\.]+)','-?[0-9\\.]+','(-?[0-9\\.]+)%','([0-9\\.]+)','([0-9\\.]+)','[0-9\\.]+','([0-9\\.]+)','([0-9\\.]+)%'\\]",
-							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
 			Matcher startm = startPattern.matcher(content);
 			while (startm != null && startm.find()) {
 				StockEarn se = new StockEarn();
 				se.setStockcode(stockcode);
-				se.setDate(startm.group(1).trim().replaceAll("-", ""));
+				se.setDate(DateTools.parseYYYYMMDDDate(startm.group(1).trim()));
 				se.setPrice(Float.parseFloat(startm.group(3).trim()));
 				se.setRatio(Float.parseFloat(startm.group(4).trim()));
 				stockEarnDao.insert(se);
 			}
+			System.out.println("end!!! " + stockurl);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -304,7 +358,8 @@ public class StockPrice {
 		//		StockEarnDao stockEarnDao = (StockEarnDaoImpl) ContextFactory.getBean("stockEarnDao");
 		//		sp.setStockEarnDao(stockEarnDao);
 		//		sp.getStockGainByPeriod("002477", "2010-08-27", "2010-10-21");
-		StockHQ hq = sp.fetchhq("601939", "2010-10-21");
+		//		StockHQ hq = sp.fetchhq("000001", "2010-10-21");
+		StockHQ hq = sp.currentPrice("000001");
 		System.out.println("收盘价：" + hq.getEndprice());
 		System.out.println("收益率：" + hq.getGainrate());
 	}

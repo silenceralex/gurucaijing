@@ -92,9 +92,11 @@ body {
 
 
 
-			<br />               <font color="red" size="10">               组合 总体的 收益率为：$totalratio </font><br/>
-			
-			
+			<br />
+			<font color="red" size="10"> 组合 总体的 收益率为：$totalratio </font>
+			<br />
+
+
 			<table class="stockTb" cellpadding="0" cellspacing="0">
 				<tr>
 					<th>
@@ -107,8 +109,8 @@ body {
 						新加入股票
 					</th>
 				</tr>
-				#foreach($date in $reversedates)
-				#if($joinmap.containsKey($date)) 
+				#foreach($date in $zsdate) #if($joinmap.containsKey($date))
+				#foreach($stockname in $joinmap.get($date))
 				<tr>
 					<td>
 						$!aname 的组合
@@ -117,11 +119,10 @@ body {
 						$date
 					</td>
 					<td>
-						$joinmap.get($date)
+						$stockname
 					</td>
 				</tr>
-				#end
-				#end
+				#end #end #end
 			</table>
 
 			<table class="stockTb" cellpadding="0" cellspacing="0">
@@ -139,11 +140,10 @@ body {
 						收益率
 					</th>
 				</tr>
-			
-				#foreach($date in $reversedates) #set($temp=$reversedates.size() - $velocityCount)
-					#if($debug==1) 
-					#foreach($code in $stockcodes)
-					#if($stockdatemap.get(${code}).containsKey($date))
+
+				#foreach($date in $reversedates) #set($temp=$reversedates.size() -
+				$velocityCount) #if($debug==1) #foreach($code in $stockcodes)
+				#if($stockdatemap.get(${code}).containsKey($date))
 				<tr>
 					<td>
 						$codeMap.get($code) ($code)
@@ -158,7 +158,7 @@ body {
 						$weights.get(${temp})
 					</td>
 				</tr>
-				#end #end #end 
+				#end #end #end
 				<tr>
 					<td>
 						$!aname 的组合
@@ -175,7 +175,7 @@ body {
 				</tr>
 				#end
 			</table>
-			
+
 
 			<!--<font color="blue">股票 $firststock &nbsp;&nbsp; 在 $firstdate
 				加入了 $aname 的股票组合</font>

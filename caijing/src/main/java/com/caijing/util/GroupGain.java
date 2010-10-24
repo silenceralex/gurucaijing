@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.business.StockGainManager;
-import com.caijing.business.impl.StockGainManagerImpl;
 import com.caijing.cache.MethodCache;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.StockDao;
@@ -67,48 +66,79 @@ public class GroupGain {
 	@MethodCache(expire = 3600 * 4)
 	public GroupPeriod processASC(String aname) {
 		List<StockGain> sgs = stockGainManager.getStockGainByAnameASC(aname);
+		if (sgs.size() == 0)
+			return new GroupPeriod();
 		HashMap<String, HashMap<String, Float>> stockdateMap = new HashMap<String, HashMap<String, Float>>();
-		HashMap<String, String> joinMap = new HashMap<String, String>();
+		HashMap<String, List<String>> joinMap = new HashMap<String, List<String>>();
+		//采用指数的日期，防止首只推荐股票有停牌日期
+		StockGain zsgain = sp.getZSGainByPeriod(sgs.get(0).getStartdate(), DateTools.transformYYYYMMDDDate(new Date()));
+		List<String> zsdates = zsgain.getPerioddate();
 		for (StockGain sg : sgs) {
 			HashMap<String, Float> stockearnMap = new HashMap<String, Float>();
 			List<String> dates = sg.getPerioddate();
 			List<Float> ratios = sg.getPeriodratio();
-			joinMap.put(sg.getStartdate(), sg.getStockname());
+			if (joinMap.containsKey(sg.getStartdate())) {
+				joinMap.get(sg.getStartdate()).add(sg.getStockname());
+			} else {
+				List<String> stocknames = new ArrayList<String>();
+				stocknames.add(sg.getStockname());
+				joinMap.put(sg.getStartdate(), stocknames);
+			}
 			System.out.println("stockcode :" + sg.getStockcode() + "  stockname:" + sg.getStockname() + "  join date:"
 					+ sg.getStartdate());
+			//			StockGain zsGain = sp.getZSGainByPeriod(sg.getStartdate(), DateTools.transformYYYYMMDDDate(new Date()));
+			//			zsGain.getPerioddate()
 			//推荐日之后的交易日开始算起
-			for (int i = dates.size() - 1; i >= 0; i--) {
-				stockearnMap.put(dates.get(i), ratios.get(i));
-				//				System.out.println("Date:"+dates.get(i)+"  ratio:"+ ratios.get(i));
+			//			for (int i = dates.size() - 1; i >= 0; i--) {
+			//				stockearnMap.put(dates.get(i), ratios.get(i));
+			//				//				System.out.println("Date:"+dates.get(i)+"  ratio:"+ ratios.get(i));
+			//			}
+			int i = 0;
+			int j = 0;
+			System.out.println("zsdate :" + zsdates.size() + "  dates.get(i):" + dates.size());
+			while ((i < dates.size()) && (j < zsdates.size())) {
+				if (zsdates.get(j).endsWith(dates.get(i))) {
+					stockearnMap.put(dates.get(i), ratios.get(i));
+					//					System.out.println("zsdate :" + zsdates.get(j) + "  dates.get(i):" + dates.get(i));
+					//					System.out.println("ratio at date :" + dates.get(i) + "  is :" + ratios.get(i));
+					i++;
+					j++;
+				} else {
+					//					System.out.println("zsdate :" + zsdates.get(j) + "  dates.get(i):" + dates.get(i));
+					//					System.out.println("ratio at date :" + zsdates.get(j) + "  is :" + 0);
+					stockearnMap.put(zsdates.get(j), new Float(0));
+					j++;
+				}
 			}
+
 			//防止多次推荐同一只股票
 			if (!stockdateMap.containsKey(sg.getStockcode())) {
 				stockdateMap.put(sg.getStockcode(), stockearnMap);
+			} else {
+				System.out.println("sg.getStockcode() is already in the map!");
 			}
 		}
-		//采用指数的日期，防止首只推荐股票有停牌日期
-		StockGain zsgain = sp.getZSGainByPeriod(sgs.get(0).getStartdate(), DateTools.transformYYYYMMDDDate(new Date()));
-		List<String> dates = zsgain.getPerioddate();
+
 		//		List<String> dates = sgs.get(0).getPerioddate();
-		List<Float> groupratio = new ArrayList<Float>(dates.size());
-		List<Float> weights = new ArrayList<Float>(dates.size());
-		List<String> perioddates = new ArrayList<String>(dates.size());
+		List<Float> groupratio = new ArrayList<Float>(zsdates.size());
+		List<Float> weights = new ArrayList<Float>(zsdates.size());
+		List<String> perioddates = new ArrayList<String>(zsdates.size());
 		float weight = 100;
-		for (int i = dates.size() - 1; i >= 0; i--) {
+		for (int i = zsdates.size() - 1; i >= 0; i--) {
 			float ratio = 0;
 			int count = 0;
 			for (String code : stockdateMap.keySet()) {
-				if (stockdateMap.get(code).containsKey(dates.get(i))) {
-					ratio += stockdateMap.get(code).get(dates.get(i));
+				if (stockdateMap.get(code).containsKey(zsdates.get(i))) {
+					ratio += stockdateMap.get(code).get(zsdates.get(i));
 					count++;
 				}
 			}
 			ratio = ratio / (count * 100);
-			System.out.println("ratio at date :" + dates.get(i) + "  is :" + ratio);
+			System.out.println("ratio at date :" + zsdates.get(i) + "  is :" + ratio);
 			weight = weight * (1 + ratio);
 			ratio = ratio * 100;
 			groupratio.add(FloatUtil.getTwoDecimal(ratio));
-			perioddates.add(dates.get(i));
+			perioddates.add(zsdates.get(i));
 			weights.add(FloatUtil.getTwoDecimal(weight));
 		}
 		GroupPeriod gp = new GroupPeriod();
@@ -344,9 +374,11 @@ public class GroupGain {
 	public static void main(String[] args) {
 		GroupGain gg = new GroupGain();
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-		StockGainManagerImpl stockGainManager = (StockGainManagerImpl) ContextFactory.getBean("stockGainManager");
+		StockGainManager stockGainManager = (StockGainManager) ContextFactory.getBean("stockGainManager");
+		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
 		gg.setRecommendStockDao(recommendStockDao);
 		gg.setStockGainManager(stockGainManager);
+		gg.setSp(sp);
 		gg.init();
 		//		gg.process("赵强");
 		gg.processASC("赵强");

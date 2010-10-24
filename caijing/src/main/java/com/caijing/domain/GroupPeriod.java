@@ -7,7 +7,7 @@ import java.util.List;
 public class GroupPeriod implements Serializable {
 	private HashMap<String, StockGain> stockInGroup = null;
 	private List<StockGain> stockGains = null;
-	private HashMap<String, String> joinMap = null;
+	private HashMap<String, List<String>> joinMap = null;
 	private HashMap<String, HashMap<String, Float>> stockdateMap = new HashMap<String, HashMap<String, Float>>();
 	private String firstdate = null;
 	private String firststock = null;
@@ -55,11 +55,11 @@ public class GroupPeriod implements Serializable {
 		this.stockdateMap = stockdateMap;
 	}
 
-	public HashMap<String, String> getJoinMap() {
+	public HashMap<String, List<String>> getJoinMap() {
 		return joinMap;
 	}
 
-	public void setJoinMap(HashMap<String, String> joinMap) {
+	public void setJoinMap(HashMap<String, List<String>> joinMap) {
 		this.joinMap = joinMap;
 	}
 

@@ -87,12 +87,17 @@ public class AnalyzerController {
 		StockGain zssg = stockGainManager.getZSGainByPeriod(gs.getFirstdate(), DateTools
 				.transformYYYYMMDDDate(new Date()));
 		zssg.setStockname("上证指数");
+		List<String> zsdate = zssg.getPerioddate();
+		//加入第一只股票的时间
+		zsdate.add(gs.getFirstdate());
+		//		Collections.reverse(zsdate);
 		List<Float> zsperoidprice = zssg.getPeriodprice();
 		List<Float> zsperiodratio = zssg.getPeriodratio();
 		System.out.println("dates size:" + gs.getDates().size());
 		System.out.println("weights size:" + gs.getWeights().size());
 		System.out.println("getPeriodearn size:" + zssg.getPeriodearn().size());
 		Collections.reverse(zsperoidprice);
+		model.put("zsdate", zsdate);
 		model.put("zsperoidprice", zsperoidprice);
 		model.put("zsperiodratio", zssg.getPeriodearn());
 		//		model.put("groupearnlist", groupearnlist);

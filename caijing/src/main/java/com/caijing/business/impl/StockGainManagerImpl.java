@@ -26,9 +26,9 @@ public class StockGainManagerImpl implements StockGainManager {
 	@Qualifier("stockPrice")
 	private StockPrice sp = null;
 
-	static String[] buys = { "买入", "推荐", "强烈推荐", "长期推荐", "增持" };
+	static String[] buys = { "买入", "推荐", "强烈推荐", "长期推荐", "增持", "维持推荐", "买 入 维持", "上调至推荐", "增 持 维持", "买入维持", "买入首次" };
 
-	static String[] sells = { "中性", "维持审慎推荐", "审慎推荐", "增持" };
+	static String[] sells = { "中性", "维持审慎推荐", "审慎推荐", "减持", "中 性 调低" };
 
 	static HashSet<String> buyset = new HashSet<String>();
 	static HashSet<String> sellset = new HashSet<String>();
@@ -94,6 +94,7 @@ public class StockGainManagerImpl implements StockGainManager {
 	}
 
 	public List<StockGain> getStockGainByAnameASC(String aname) {
+		HashSet<String> stockdateMap = new HashSet<String>();
 		int count = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
 		List<RecommendStock> recommendlist = recommendStockDao.getRecommendStocksByAnalyzerASC(aname, 0, count);
 		if (recommendlist == null)
@@ -101,6 +102,13 @@ public class StockGainManagerImpl implements StockGainManager {
 		List<StockGain> gainlist = new ArrayList<StockGain>(recommendlist.size());
 		for (RecommendStock rstock : recommendlist) {
 			if (buyset.contains(rstock.getGrade())) {
+				//防止多次推荐同一只股票
+				if (!stockdateMap.contains(rstock.getStockcode())) {
+					stockdateMap.add(rstock.getStockcode());
+				} else {
+					System.out.println("StockGainManager sg.getStockcode() is already in the map!");
+					continue;
+				}
 				try {
 					StockGain sg = sp
 							.getStockGainByPeriod(rstock.getStockcode(), DateTools.transformYYYYMMDDDate(rstock

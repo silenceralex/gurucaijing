@@ -1,5 +1,6 @@
 package com.caijing.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,11 @@ public class DateTools {
 	public static String transformYYYYMMDDDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);
+	}
+
+	public static Date parseYYYYMMDDDate(String date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.parse(date);
 	}
 
 	/**

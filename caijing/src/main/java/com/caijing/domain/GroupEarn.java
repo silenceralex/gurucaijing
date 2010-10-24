@@ -1,8 +1,10 @@
 package com.caijing.domain;
 
+import java.util.Date;
+
 public class GroupEarn {
 	private String groupid = null;
-	private String date = null;
+	private Date date = null;
 	private float ratio = 0;
 	private float weight = 0;
 
@@ -12,14 +14,6 @@ public class GroupEarn {
 
 	public void setGroupid(String groupid) {
 		this.groupid = groupid;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public float getRatio() {
@@ -36,6 +30,14 @@ public class GroupEarn {
 
 	public void setWeight(float weight) {
 		this.weight = weight;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

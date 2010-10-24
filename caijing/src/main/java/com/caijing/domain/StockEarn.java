@@ -1,8 +1,10 @@
 package com.caijing.domain;
 
+import java.util.Date;
+
 public class StockEarn {
 	private String stockcode = null;
-	private String date = null;
+	private Date date = null;
 	private float ratio = 0;
 	private float price = 0;
 
@@ -12,14 +14,6 @@ public class StockEarn {
 
 	public void setStockcode(String stockcode) {
 		this.stockcode = stockcode;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public float getRatio() {
@@ -36,5 +30,13 @@ public class StockEarn {
 
 	public void setPrice(float price) {
 		this.price = price;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

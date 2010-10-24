@@ -82,10 +82,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		m = objectprice.matcher(content);
 		if (m != null && m.find()) {
 			System.out.println("objectprice:" + m.group(1));
-			String oprice=m.group(1);
-			String[] strs=oprice.split("-");
-			if(strs.length>1){
-				oprice=strs[1];
+			String oprice = m.group(1);
+			String[] strs = oprice.split("-");
+			if (strs.length > 1) {
+				oprice = strs[1];
 			}
 			rs.setObjectprice(Float.parseFloat(oprice));
 			num++;
@@ -120,7 +120,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				String grad = m.group(1).trim();
 				System.out.println("grade:" + grad);
 				if (grad.length() > 6) {
-					if (saname.equals("海通证券")||saname.equals("国金证券")) {
+					if (saname.equals("海通证券") || saname.equals("国金证券")) {
 						return grad.replaceAll("\\s", "");
 					}
 					String[] strs = grad.split("\\n|至");
@@ -449,30 +449,30 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		report.setSaname("广发证券");
+		//		report.setSaname("广发证券");
+		//		RecommendStock rs = extractor.extractFromFile(report,
+		//		"http://guru.caijing.com/papers/20100902/6ER8MVG9.txt");
+		//		"http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
+
+		//		report.setSaname("招商证券");
+		//		RecommendStock rs = extractor.extractFromFile(report,
+		////		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
+		////		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
+		////		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
+		//		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
+
+		//		report.setSaname("国金证券");
+		//		RecommendStock rs = extractor.extractFromFile(report,
+		////		"http://guru.caijing.com/papers/20100826/6EBPLO3R.txt");
+		//		
+		//		"http://guru.caijing.com/papers/20100824/6DV81AFH.txt");
+
+		report.setSaname("海通证券");
 		RecommendStock rs = extractor.extractFromFile(report,
-//		"http://guru.caijing.com/papers/20100902/6ER8MVG9.txt");
-		"http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
-		
-//		report.setSaname("招商证券");
-//		RecommendStock rs = extractor.extractFromFile(report,
-////		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
-////		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
-////		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
-//		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
-			
-//		report.setSaname("国金证券");
-//		RecommendStock rs = extractor.extractFromFile(report,
-////		"http://guru.caijing.com/papers/20100826/6EBPLO3R.txt");
-//		
-//		"http://guru.caijing.com/papers/20100824/6DV81AFH.txt");
-			
-//		report.setSaname("海通证券");
-//		RecommendStock rs = extractor.extractFromFile(report,
-		// // "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
-				// // "http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
-				// "http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
-//				"http://guru.caijing.com/papers/20100830/6EHD98EV.txt");
+		// "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
+				"http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
+		//				"http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
+		//				"http://guru.caijing.com/papers/20100830/6EHD98EV.txt");
 
 		//		report.setSaname("安信证券");
 		////		extractor.extractFromTitle("/home/app/papers/20100830/中金公司农业100830_现货市场将最终胜出短期内糖价将推升至5800-6000元吨.pdf", "");
@@ -484,10 +484,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 		//		report.setSaname("中金公司");
 		//		RecommendStock rs = extractor.extractFromFile(report,
-		//		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
-		//				// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
-		//				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
-		//				"http://guru.caijing.com/papers/20100826/6EBPMCS3.txt");
+		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
+		// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
+		// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
+		//				"http://guru.caijing.com/papers/20100823/6DSQ8PNA.txt");
 
 		// "http://guru.caijing.com/papers/20100729/6CLQ6V6M.txt");
 		// "http://guru.caijing.com/papers/20100728/6CLQDDU5.txt");
