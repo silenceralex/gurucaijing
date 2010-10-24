@@ -5,8 +5,8 @@
 function init(holder,w,h,id,name1,name2,dot){
 	$("#"+holder).empty();//先清空外部容器
 	var labels = ["0"],//时间数组
-	percentArr1 = ["0"];//比率数组1
-	percentArr2 = ["0"];//比率数组2
+	percentArr1 = ["0"];//涨幅数组1
+	percentArr2 = ["0"];//涨幅数组2
 	pointArr1 = ["0,0%"];//原始数据数组1
 	pointArr2 = ["0,0%"];//原始数据数组2
 	var winWidth = w - 100;//画布的宽度
@@ -14,8 +14,8 @@ function init(holder,w,h,id,name1,name2,dot){
 	var num = "";//每个点元素包含的参数内容
 	var paper = Raphael(holder, winWidth + 100, winHeight + 40);//声明一个画布
 	
-	var blueLine = {stroke: "#547CAF", "stroke-width": 3, "stroke-linejoin": "round", "fill": "#547CAF"};//蓝线样式
-	var greenLine = {stroke: "#53AFAC", "stroke-width": 3, "stroke-linejoin": "round", "fill": "#53AFAC"};//绿线样式	
+	var blueLine = {stroke: "#DC3912", "stroke-width": 3, "stroke-linejoin": "round", "fill": "#DC3912"};//蓝线样式
+	var greenLine = {stroke: "#0066FF", "stroke-width": 3, "stroke-linejoin": "round", "fill": "#0066FF"};//绿线样式	
 	var grayLine = {stroke: "#CCC", "stroke-width": 0.5, "stroke-linejoin": "round"};//背景灰线样式
 	var grayLine2 = {stroke: "#DDD", "stroke-width": 0.5, "stroke-linejoin": "round"};//背景灰线样式
 	
@@ -25,8 +25,8 @@ function init(holder,w,h,id,name1,name2,dot){
 	var datatxt;//提示文字
 	var Multiple_w = 1;//宽度的倍数
 	var Multiple_h = 1;//高度的倍数
-	var maxPercent = 0;//最大比率
-	var minPercent = 0;//最小比率
+	var maxPercent = 0;//最大涨幅
+	var minPercent = 0;//最小涨幅
 	
 	var point1_cur ,
 		point1_next ,
@@ -37,7 +37,7 @@ function init(holder,w,h,id,name1,name2,dot){
 	///下面是常量
 	var minWidth = 35;//最小宽度
 	var minHeightCount = 10;//纵轴最少刻度数
-	var percentCount = 4;//纵向比率保留的位数，有调整时需要改动第86行paper.text()的第一个参数
+	var percentCount = 4;//纵向涨幅保留的位数，有调整时需要改动第86行paper.text()的第一个参数
 	///获得数据
 	for (var i = 0; i < $("#" + id + " th").length; i++) {
 		labels.push($("#" + id + " th:eq(" + i + ")").html().replace(/\s/mg,""));
@@ -45,7 +45,7 @@ function init(holder,w,h,id,name1,name2,dot){
 		pointArr2.push($("#" + id + " tr:eq(2) td:eq(" + i + ")").html().replace(/\s/mg,""));
 		percentArr1.push(Number(pointArr1[i + 1].split(",")[1].split("%")[0]));
 		percentArr2.push(Number(pointArr2[i + 1].split(",")[1].split("%")[0]));
-		///取得最大比率和最小比率
+		///取得最大涨幅和最小涨幅
 		if(percentArr1[i + 1] > maxPercent) maxPercent = percentArr1[i + 1];
 		if(percentArr2[i + 1] > maxPercent) maxPercent = percentArr2[i + 1];
 		if(percentArr1[i + 1] < minPercent) minPercent = percentArr1[i + 1];
@@ -121,19 +121,19 @@ function init(holder,w,h,id,name1,name2,dot){
 		var blue = paper.path("M" + x_cur + " " + point2_cur + "L" + x_next + " " + point2_next);
 		blue.attr(blueLine);
 		
-		var tipGreen = paper.image("img/tip.gif", -134, 0, 134, 45).attr({opacity: 0});//提示气泡1
-		var tipBlue = paper.image("img/tip2.gif", -134, 0, 134, 45).attr({opacity: 0});//提示气泡2
+		var tipGreen = paper.image("img/tip.gif", -134, 0, 160, 45).attr({opacity: 0});//提示气泡1
+		var tipBlue = paper.image("img/tip2.gif", -134, 0, 160, 45).attr({opacity: 0});//提示气泡2
 		///如果需要显示圆点时
 		if(dot) {
 			var blueDot = paper.circle(x_cur, point2_cur, 2).attr(blueLine);
 			blueDot.posX = x_cur;
 			blueDot.posY = point2_cur;
-			blueDot.num = "日期:" + labels[k] + "\n点数:" + pointArr2[k].split(",")[0] + "比率:" + pointArr2[k].split(",")[1];
+			blueDot.num = "日期:" + labels[k] + "\n点数:" + pointArr2[k].split(",")[0] + "涨幅:" + pointArr2[k].split(",")[1];
 			
 			var greenDot = paper.circle(x_cur, point1_cur, 2).attr(greenLine);
 			greenDot.posX = x_cur;
 			greenDot.posY = point1_cur;
-			greenDot.num = "日期:" + labels[k] + "\n点数:" + pointArr1[k].split(",")[0] + "比率:" + pointArr1[k].split(",")[1];
+			greenDot.num = "日期:" + labels[k] + "\n点数:" + pointArr1[k].split(",")[0] + "涨幅:" + pointArr1[k].split(",")[1];
 			///当鼠标经过蓝点时
 			blueDot.hover(
 				function () {
@@ -149,13 +149,13 @@ function init(holder,w,h,id,name1,name2,dot){
 					} else if (t.posX > (winWidth - 34) & t.posY > 45) {//右下角
 						tipBlue.rotate(0, true); 
 						tipBlue.scale(-1, 1);
-						tipBlue.animate({x: t.posX - 120 , y: t.posY - 48, opacity: 0.9}, 1000, "backOut");
-						datatxt = paper.text(t.posX - 120, t.posY-25, t.num).attr({opacity: 0});
+						tipBlue.animate({x: t.posX - 145 , y: t.posY - 48, opacity: 0.9}, 1000, "backOut");
+						datatxt = paper.text(t.posX - 140, t.posY-25, t.num).attr({opacity: 0});
 					} else if (t.posX > (winWidth-34) & t.posY < 45) {//右上角
 						tipBlue.rotate(180, true);
 						tipBlue.scale(1, 1);
-						tipBlue.animate({x: t.posX - 120, y: t.posY, opacity: 0.9}, 1000, "backOut");
-						datatxt = paper.text(t.posX-115, t.posY+25, t.num).attr({opacity: 0});
+						tipBlue.animate({x: t.posX - 145, y: t.posY, opacity: 0.9}, 1000, "backOut");
+						datatxt = paper.text(t.posX-135, t.posY+25, t.num).attr({opacity: 0});
 					} else {//左上角
 						tipBlue.rotate(0, true); 
 						tipBlue.scale(1, -1);
@@ -186,18 +186,18 @@ function init(holder,w,h,id,name1,name2,dot){
 					} else if (t.posX > (winWidth - 34) & t.posY > 45) {//右下角
 						tipGreen.rotate(0, true); 
 						tipGreen.scale(-1, 1);
-						tipGreen.animate({x: t.posX - 120, y: t.posY - 48, opacity: 0.9}, 1000, "backOut");
-						datatxt = paper.text(t.posX-120, t.posY-25, t.num).attr({opacity: 0});
+						tipGreen.animate({x: t.posX - 145, y: t.posY - 48, opacity: 0.9}, 1000, "backOut");
+						datatxt = paper.text(t.posX-140, t.posY - 25, t.num).attr({opacity: 0});
 					} else if (t.posX > (winWidth - 34) & t.posY < 45) {//右上角
 						tipGreen.rotate(180, true);
 						tipGreen.scale(1, 1);
-						tipGreen.animate({x: t.posX - 120, y: t.posY, opacity: 0.9}, 1000, "backOut");
-						datatxt = paper.text(t.posX-115, t.posY+25, t.num).attr({opacity: 0});
+						tipGreen.animate({x: t.posX - 145, y: t.posY, opacity: 0.9}, 1000, "backOut");
+						datatxt = paper.text(t.posX - 135, t.posY+25, t.num).attr({opacity: 0});
 					} else {//左上角
 						tipGreen.rotate(0, true); 
 						tipGreen.scale(1, -1);
 						tipGreen.animate({x: t.posX - 15, y: t.posY, opacity: 0.9}, 1000, "backOut");
-						datatxt = paper.text(t.posX-10, t.posY+25, t.num).attr({opacity: 0});
+						datatxt = paper.text(t.posX - 10, t.posY + 25, t.num).attr({opacity: 0});
 					}
 					datatxt.animate({opacity: 1},1000);
 					datatxt.attr(dataFormat);
@@ -216,8 +216,8 @@ function init(holder,w,h,id,name1,name2,dot){
 		
 		}
 	///开始绘制下面的图例
-	paper.rect(50, winHeight + 30, 10, 10).attr({fill: "#53AFAC", stroke: "none"});
-	paper.rect(230, winHeight + 30, 10, 10).attr({fill: "#547CAF", stroke: "none"});
+	paper.rect(50, winHeight + 30, 10, 10).attr({fill: "#0066FF", stroke: "none"});
+	paper.rect(230, winHeight + 30, 10, 10).attr({fill: "#DC3912", stroke: "none"});
 	paper.text(70, winHeight + 34, name1).attr(txt);
 	paper.text(250, winHeight + 34, name2).attr(txt);
 }
