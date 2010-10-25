@@ -35,11 +35,20 @@
 		<property name="dao">
 			<ref bean="stockDao" />
 		</property>
+		<property name="groupEarnDao">
+			<ref bean="groupEarnDao" />
+		</property>
+		<property name="groupStockDao">
+			<ref bean="groupStockDao" />
+		</property>
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
 		<property name="sp">
 			<ref bean="stockPrice" />
 		</property>
 	</bean>
-	
+
 
 	<!--========================================================================
 		AOP Cache
@@ -96,18 +105,18 @@
 	<context:component-scan base-package="com.caijing"></context:component-scan>
 
 	<!-- 定义zcms的webservice，并b设置所使用的Cache name
-	<bean id="cmsService"
+		<bean id="cmsService"
 		class="org.codehaus.xfire.spring.remoting.XFireClientFactoryBean">
 		<property name="serviceClass">
-			<value>
-				com.zving.cms.webservice.CmsService
-			</value>
+		<value>
+		com.zving.cms.webservice.CmsService
+		</value>
 		</property>
 		<property name="wsdlDocumentUrl">
-			<value>
-				http://cms.caijing.com:8080/Services/wsdl/CmsService?WSDL
-			</value>
+		<value>
+		http://cms.caijing.com:8080/Services/wsdl/CmsService?WSDL
+		</value>
 		</property>
-	</bean>
- -->
+		</bean>
+	-->
 </beans>

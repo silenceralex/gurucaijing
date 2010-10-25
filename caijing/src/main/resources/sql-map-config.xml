@@ -15,5 +15,7 @@
 	<sqlMap resource="com/caijing/dao/ibatis/Industry.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/Stock.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/StockEarn.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/GroupEarn.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/GroupStock.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/RecommendStock.xml" />
 </sqlMapConfig>

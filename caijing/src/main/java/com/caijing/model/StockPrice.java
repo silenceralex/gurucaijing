@@ -2,6 +2,7 @@ package com.caijing.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,13 +65,14 @@ public class StockPrice {
 				hq.setChangerate(Float.parseFloat(startm.group(8).trim()));
 				System.out.println(stockcode + "  ÕÇµøÂÊ£º" + startm.group(2));
 				hq.setGainrate(Float.parseFloat(startm.group(2).trim()));
+
+				StockEarn se = new StockEarn();
+				se.setStockcode(stockcode);
+				se.setDate(new Date());
+				se.setPrice(Float.parseFloat(startm.group(1).trim()));
+				se.setRatio(Float.parseFloat(startm.group(2).trim()));
+				stockEarnDao.insert(se);
 			}
-			StockEarn se = new StockEarn();
-			se.setStockcode(stockcode);
-			//			se.setDate(DateTools.parseYYYYMMDDDate(startm.group(1).trim()));
-			se.setPrice(Float.parseFloat(startm.group(3).trim()));
-			se.setRatio(Float.parseFloat(startm.group(4).trim()));
-			stockEarnDao.insert(se);
 
 			return hq;
 		} catch (ClientProtocolException e) {

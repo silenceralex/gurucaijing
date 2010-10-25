@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GroupEarnDao">
+
+	<typeAlias alias="GroupEarn" type="com.caijing.domain.GroupEarn" />
+
+	<select id="select" resultClass="GroupEarn" parameterClass="java.util.Map">
+		select * from groupgain where groupid=#groupid# and date=#date#
+	</select>
+	
+	
+	<select id="getGroupEarnByIDAndDate" resultClass="GroupEarn" parameterClass="java.util.Map">
+		select * from groupgain where groupid=#groupid# and date=#date#
+	</select>
+	
+	<insert id="insert">
+		insert into groupgain (groupid,date,weight,ratio) values
+		(#groupid#,#date#,#weight#,#ratio#)
+	</insert>
+
+	<update id="update" parameterClass="GroupEarn">
+		update groupgain
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="weight">
+				weight = #weight#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ratio">
+				ratio = #ratio#
+			</isNotEmpty>
+		</dynamic>
+		where groupid=#groupid# and date=#date#
+	</update>
+
+	<delete id="delete" parameterClass="GroupEarn">
+		delete from groupgain where groupid=#groupid# and date=#date#
+	</delete>
+
+</sqlMap>

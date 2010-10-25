@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GroupStockDao">
+
+	<typeAlias alias="GroupStock" type="com.caijing.domain.GroupStock" />
+
+	<select id="select" resultClass="GroupStock" parameterClass="java.util.Map">
+		select * from groupstock where groupid=#groupid#
+	</select>
+	
+	
+	<select id="getCurrentStockByGroupid" resultClass="GroupStock" parameterClass="java.lang.String">
+		select * from groupstock where groupid=#value#
+	</select>
+	
+	<insert id="insert">
+		insert into groupstock (groupid,groupname,stockcode,intime) values
+		(#groupid#,#groupname#,#stockcode#,#intime#)
+	</insert>
+
+	<update id="update" parameterClass="GroupStock">
+		update groupstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="outtime">
+				outtime = #outtime#
+			</isNotEmpty>				
+		</dynamic>
+		status = 0 where groupid=#groupid# and stockcode=#stockcode#
+	</update>
+
+	<delete id="delete" parameterClass="GroupStock">
+	
+	</delete>
+
+</sqlMap>

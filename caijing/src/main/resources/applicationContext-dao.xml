@@ -91,4 +91,23 @@
 		</property>
 	</bean>
 
+	<bean id="groupEarnDao"
+		class="com.caijing.dao.ibatis.GroupEarnDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>GroupEarnDao</value>
+		</property>
+	</bean>
+	<bean id="groupStockDao"
+		class="com.caijing.dao.ibatis.GroupStockDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>GroupStockDao</value>
+		</property>
+	</bean>
+
 </beans>
