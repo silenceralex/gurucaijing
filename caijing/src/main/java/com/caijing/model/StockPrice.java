@@ -65,6 +65,13 @@ public class StockPrice {
 				System.out.println(stockcode + "  ÕÇµøÂÊ£º" + startm.group(2));
 				hq.setGainrate(Float.parseFloat(startm.group(2).trim()));
 			}
+			StockEarn se = new StockEarn();
+			se.setStockcode(stockcode);
+			//			se.setDate(DateTools.parseYYYYMMDDDate(startm.group(1).trim()));
+			se.setPrice(Float.parseFloat(startm.group(3).trim()));
+			se.setRatio(Float.parseFloat(startm.group(4).trim()));
+			stockEarnDao.insert(se);
+
 			return hq;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -344,7 +351,7 @@ public class StockPrice {
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			return null;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}

@@ -41,8 +41,10 @@ public class Discount {
 		int i = 0;
 		for (DiscountStock discount : discounts) {
 			if (discount.getGrade() != null && buyset.contains(discount.getGrade())) {
-				String date = DateTools.transformYYYYMMDDDate(discount.getCreatedate());
+				String date = null;
 				try {
+					date = DateTools.transformYYYYMMDDDate(discount.getCreatedate());
+
 					StockGain sg = sp.getStockGainByPeriod(discount.getStockcode(), date, DateTools
 							.transformYYYYMMDDDate(new Date()));
 					if (sg.getGain() < 0) {
@@ -53,7 +55,7 @@ public class Discount {
 						i++;
 					}
 				} catch (Exception e) {
-					System.out.println("Exception : " + e.getMessage());
+					System.out.println("Exception : " + e.getMessage() + " date:" + date);
 					e.printStackTrace();
 				}
 			}
