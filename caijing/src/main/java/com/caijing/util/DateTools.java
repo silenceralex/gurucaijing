@@ -21,6 +21,11 @@ public class DateTools {
 		return sdf.parse(date);
 	}
 
+	//	public static Date parseYYYYMMDDDate(String date) throws ParseException {
+	//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	//		return sdf.parse(date);
+	//	}
+
 	/**
 	 * 
 	 * @param date
@@ -29,6 +34,13 @@ public class DateTools {
 	public static String transformYYYYMMDDDate(String date) {
 		String tmp = date.substring(0, 4) + "-" + date.substring(4, 6) + "-" + date.substring(6, 8);
 		return tmp;
+	}
+
+	public static Date getYesterday(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, -1);
+		return cal.getTime();
 	}
 
 	/**

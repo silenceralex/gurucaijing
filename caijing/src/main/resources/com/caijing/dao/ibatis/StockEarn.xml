@@ -8,6 +8,11 @@
 		select * from stockearn where stockcode=#stockcode# and date=#date#
 	</select>
 	
+	<select id="getStockEarnByCodeDate" resultClass="StockEarn" parameterClass="java.util.Map">
+		select * from stockearn where stockcode=#stockcode# and date=#date#
+	</select>
+	
+	
 	<insert id="insert">
 		insert into stockearn (stockcode,date,price,ratio) values
 		(#stockcode#,#date#,#price#,#ratio#)

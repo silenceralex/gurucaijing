@@ -115,6 +115,28 @@
 	</bean>
 
 
+	<bean id="scheduledlocalStorage"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="localStorage" />
+		</property>
+		<property name="targetMethod">
+			<value>localStore</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="cronStore"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledlocalStorage" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 15 * * ?</value><!-- 每天下午3点半执行一次本地计算 -->
+		</property>
+	</bean>
+	
+
 
 	<bean autowire="no"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -122,7 +144,8 @@
 			<list>
 				<ref bean="cronInfoTrigger" />
 				<ref bean="cronSpide" />
-				<ref bean="extractTrigger" />		
+				<ref bean="extractTrigger" />	
+				<ref bean="cronStore" />	
 			</list>
 		</property>
 	</bean>

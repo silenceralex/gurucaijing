@@ -16,7 +16,7 @@ public class ReportDaoImpl extends CrudDaoDefault implements ReportDao {
 		params.put("saname", saname);
 		params.put("start", start);
 		params.put("offset", offset);
-		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getReportsBySanme", params);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getReportsBySaname", params);
 	}
 
 	public int getAllReportsCount() {

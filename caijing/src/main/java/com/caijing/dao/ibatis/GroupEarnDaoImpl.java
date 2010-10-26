@@ -14,7 +14,8 @@ public class GroupEarnDaoImpl extends CrudDaoDefault implements GroupEarnDao {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("groupid", groupid);
 		params.put("date", date);
-		return (GroupEarn) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getGroupEarnByIDAndDate", params);
+		return (GroupEarn) getSqlMapClientTemplate()
+				.queryForObject(getNameSpace() + ".getGroupEarnByIDAndDate", params);
 	}
 
 }
