@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.business.StockGainManager;
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.domain.Analyzer;
+import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupPeriod;
+import com.caijing.domain.GroupStock;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockGain;
 import com.caijing.util.DateTools;
@@ -49,7 +52,10 @@ public class AnalyzerController {
 		gg.init();
 		GroupPeriod gs = gg.processASC(aname);
 		model.put("aname", aname);
-
+		Analyzer analyzer = gg.getAnalyzerDao().getAnalyzerByName(aname);
+		model.put("analyzer", analyzer);
+		List<GroupStock> currentstocks = gg.getGroupStockDao().getCurrentStockByGroupid("A" + analyzer.getAid());
+		model.put("currentstocks", currentstocks);
 		System.out.println("gs.getFirstdate():" + gs.getFirstdate());
 		System.out.println("Stockname:" + gs.getFirststock());
 		HashMap<String, String> codeMap = new HashMap<String, String>();
@@ -134,6 +140,24 @@ public class AnalyzerController {
 		model.put("paginatorLink", paginator.getPageNumberList());
 
 		return "/admin/analyzergainlist.htm";
+	}
 
+	@RequestMapping("/admin/analyzerrank.htm")
+	public String showAnalyzerRank(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		Date date = gg.getGroupEarnDao().getLatestDate();
+		List<GroupEarn> groupearnlist = gg.getGroupEarnDao().getGroupEarnRankByDate(date);
+		List<Analyzer> analyzers = new ArrayList<Analyzer>();
+		List<Float> gains = new ArrayList<Float>();
+		for (GroupEarn groupearn : groupearnlist) {
+			String aid = groupearn.getGroupid().substring(1);
+			Analyzer analyzer = (Analyzer) gg.getAnalyzerDao().select(aid);
+			analyzers.add(analyzer);
+			gains.add(FloatUtil.getTwoDecimal(groupearn.getWeight() - 100));
+		}
+		model.put("currentdate", DateTools.transformYYYYMMDDDate(date));
+		model.put("groupearnlist", groupearnlist);
+		model.put("analyzers", analyzers);
+		model.put("gains", gains);
+		return "/admin/analyzerrank.htm";
 	}
 }

@@ -4,15 +4,26 @@
 
 	<typeAlias alias="GroupEarn" type="com.caijing.domain.GroupEarn" />
 
-	<select id="select" resultClass="GroupEarn" parameterClass="java.util.Map">
+	<select id="select" resultClass="GroupEarn"
+		parameterClass="java.util.Map">
 		select * from groupgain where groupid=#groupid# and date=#date#
 	</select>
-	
-	
-	<select id="getGroupEarnByIDAndDate" resultClass="GroupEarn" parameterClass="java.util.Map">
+
+
+	<select id="getGroupEarnByIDAndDate" resultClass="GroupEarn"
+		parameterClass="java.util.Map">
 		select * from groupgain where groupid=#groupid# and date=#date#
 	</select>
-	
+
+	<select id="getLatestDate" resultClass="java.util.Date">
+		select date from groupgain order by date desc limit 1
+	</select>
+
+
+	<select id="getGroupEarnRankByDate" resultClass="GroupEarn" parameterClass="java.util.Date">
+		select * from groupgain where date=#value# order by weight desc
+	</select>
+
 	<insert id="insert">
 		insert into groupgain (groupid,date,weight,ratio) values
 		(#groupid#,#date#,#weight#,#ratio#)

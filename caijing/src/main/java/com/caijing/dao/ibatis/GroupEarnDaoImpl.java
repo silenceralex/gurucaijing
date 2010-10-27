@@ -2,6 +2,7 @@ package com.caijing.dao.ibatis;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.domain.GroupEarn;
@@ -16,6 +17,16 @@ public class GroupEarnDaoImpl extends CrudDaoDefault implements GroupEarnDao {
 		params.put("date", date);
 		return (GroupEarn) getSqlMapClientTemplate()
 				.queryForObject(getNameSpace() + ".getGroupEarnByIDAndDate", params);
+	}
+
+	@Override
+	public Date getLatestDate() {
+		return (Date) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getLatestDate");
+	}
+
+	public List<GroupEarn> getGroupEarnRankByDate(Date date) {
+		return (List<GroupEarn>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getGroupEarnRankByDate",
+				date);
 	}
 
 }

@@ -10,7 +10,7 @@
 	
 	
 	<select id="getCurrentStockByGroupid" resultClass="GroupStock" parameterClass="java.lang.String">
-		select * from groupstock where groupid=#value#
+		select * from groupstock where groupid=#value# and status=1
 	</select>
 	
 	<insert id="insert">

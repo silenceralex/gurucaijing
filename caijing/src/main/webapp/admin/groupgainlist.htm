@@ -55,7 +55,7 @@ body {
 				<tr>
 					<td bgcolor="#E0E7FF" height="30">
 						&nbsp;&nbsp;
-						<strong>当前栏目: $aname &gt;&gt; </strong>
+						<strong>当前栏目: ${analyzer.name} &gt;&gt;${analyzer.agency}&gt;&gt;${analyzer.industry}</strong>
 					</td>
 				</tr>
 			</table>
@@ -94,6 +94,11 @@ body {
 
 			<br />
 			<font color="red" size="10"> 组合 总体的 收益率为：$totalratio </font>
+			<font color="red" size="10"> 当前组合内股票有：
+			#foreach($currentstock in $currentstocks)
+				$codeMap.get($currentstock.stockcode)(${currentstock.stockcode}) &nbsp; 
+			 #end
+			 </font>
 			<br />
 
 

@@ -69,13 +69,13 @@ public class LocalStorage {
 	public static void main(String[] args) {
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 
-		List<RecommendStock> lists = recommendStockDao.getRecommendStocksGroupByCode();
+		//		List<RecommendStock> lists = recommendStockDao.getRecommendStocksGroupByCode();
 		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
 		//		for (int i = 0; i < lists.size(); i++) {
 		//			System.out.println("Current process :" + i);
 		//			RecommendStock rs = lists.get(i);
-		//			sp.currentPrice(rs.getStockcode());
-		//			//			sp.storeStockPrice(rs.getStockcode(), 0, "2010-10-20", DateTools.transformYYYYMMDDDate(new Date()));
+		//			//			sp.currentPrice(rs.getStockcode());
+		//			sp.storeStockPrice(rs.getStockcode(), 0, "2010-10-26", DateTools.transformYYYYMMDDDate(new Date()));
 		//		}
 		//		System.out.println("lists.size() :" + lists.size());
 		//		sp.storeStockPrice("000300", 1, "2010-03-22", DateTools.transformYYYYMMDDDate(new Date()));
@@ -97,16 +97,16 @@ public class LocalStorage {
 				for (GroupStock stock : stocks) {
 					System.out.println("Stock : " + stock.getStockcode());
 					StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
-							.parseYYYYMMDDDate("2010-10-25"));
+							.parseYYYYMMDDDate("2010-10-26"));
 					if (se != null) {
 						ratios += se.getRatio();
 					}
 				}
 				GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
-						.parseYYYYMMDDDate("2010-10-22"));
+						.parseYYYYMMDDDate("2010-10-25"));
 				GroupEarn ge = new GroupEarn();
 				ge.setGroupid("A" + analyzer.getAid());
-				ge.setDate(DateTools.parseYYYYMMDDDate("2010-10-25"));
+				ge.setDate(DateTools.parseYYYYMMDDDate("2010-10-26"));
 				ratios = ratios / stocks.size();
 				System.out.println("Gourp : " + analyzer.getName() + "   gain: " + ratios);
 				ge.setRatio(FloatUtil.getTwoDecimal(ratios));

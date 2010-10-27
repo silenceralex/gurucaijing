@@ -1,10 +1,15 @@
 package com.caijing.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import com.caijing.domain.GroupEarn;
 import com.caijing.util.CrudDao;
 
 public interface GroupEarnDao extends CrudDao {
-	GroupEarn getGroupEarnByIDAndDate(String groupid, Date date);
+	public GroupEarn getGroupEarnByIDAndDate(String groupid, Date date);
+
+	public Date getLatestDate();
+
+	public List<GroupEarn> getGroupEarnRankByDate(Date date);
 }

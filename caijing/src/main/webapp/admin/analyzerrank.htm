@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>分析师组合收益排行榜</title>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+		<script type="text/javascript">
+		function search() {
+		var txt = document.getElementById("stockcode").value;
+		self.location = "/admin/search.htm?stockcode="+txt;
+		}
+		</script>
+	</head>
+
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td bgcolor="#E0E7FF" height="30">
+						&nbsp;&nbsp;
+						<strong>当前栏目: 分析师组合收益排行榜 &gt;&gt; </strong>
+					</td>
+					<td align="right">
+
+						<input id="stockcode" name="stockcode" type="text"
+							style="height: 16px" title="请输入股票代码或名称" size="16" />
+						&nbsp;
+						<input type="submit" onclick="search()" value="确定" />
+					</td>
+				</tr>
+			</table>
+				
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+			<tr>
+			<font color="red" size="10">各分析师组合截止 ${currentdate} 收益排行榜
+			</font>
+			</tr>
+				<tr bgcolor="#0066CC" class="cWhite">
+					<th scope="col" width="60" height="30">
+						分析师组合id
+					</th>
+					<th scope="col" width="80">
+						分析师名称
+					</th>
+					<th scope="col" width="80">
+						所属券商
+					</th>
+					<th scope="col" width="160">
+						行业
+					</th>
+					<th scope="col" width="80">
+						当前指数
+					</th>
+					<th scope="col" width="120">
+						收益率
+					</th>
+				</tr>
+				<!-- 视频列表 -->
+				#foreach($groupearn in $groupearnlist)
+				#set($temp=$velocityCount - 1)
+				<tr id="${recommend.reportid}">
+					<td bgcolor="#E0E7FF" align="center">
+						$groupearn.groupid
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						<font color="blue">&nbsp;&nbsp;$analyzers.get($temp).name</font>
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						<font color="#FFCC33">$analyzers.get($temp).agency</font>
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						$analyzers.get($temp).industry
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						$groupearn.weight
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						<font color="red">$gains.get($temp)%</font>
+					</td>
+				</tr>
+				#end
+			</table>
+			<!---列表--->
+			<br />
+
+		</table>
+	</body>
+</html>
