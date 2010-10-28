@@ -101,11 +101,14 @@ public class StockGainManagerImpl implements StockGainManager {
 			return null;
 		List<StockGain> gainlist = new ArrayList<StockGain>(recommendlist.size());
 		for (RecommendStock rstock : recommendlist) {
+			System.out.println("rstock:" + rstock.getCreatedate() + "  Stockcode:" + rstock.getStockcode()
+					+ "  Stockname:" + rstock.getStockname());
 			if (buyset.contains(rstock.getGrade())) {
 				//防止多次推荐同一只股票
 				if (!stockdateMap.contains(rstock.getStockcode())) {
 					stockdateMap.add(rstock.getStockcode());
 				} else {
+					//					System.out.println("rstock:" + rstock.getCreatedate() + "  Stockname:" + rstock.getStockname());
 					System.out.println("StockGainManager sg.getStockcode() is already in the map!");
 					continue;
 				}

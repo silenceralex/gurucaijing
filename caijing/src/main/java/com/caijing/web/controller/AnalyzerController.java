@@ -126,6 +126,8 @@ public class AnalyzerController {
 		System.out.println("aname:" + aname);
 		List<StockGain> stockgainlist = null;
 		try {
+			Analyzer analyzer = gg.getAnalyzerDao().getAnalyzerByName(aname);
+			model.put("analyzer", analyzer);
 			total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
 			paginator.setTotalRecordNumber(total);
 
