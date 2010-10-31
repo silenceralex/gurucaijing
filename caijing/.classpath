@@ -59,5 +59,7 @@
 	<classpathentry kind="lib" path="lib/src/zcmsWebservice.jar"/>
 	<classpathentry kind="lib" path="lib/src/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="lib/velocity/velocity-tools-view-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/jdom/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/jdom/jaxen-1.1-beta-4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

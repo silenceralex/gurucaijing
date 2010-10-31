@@ -1,0 +1,26 @@
+<job start="http://www.caijing.com.cn/rss/column.xml" threads="10"
+	maxconnections="10" charset="utf-8" urldb="E:\\urldb\\caijing">
+	<root property="rss"></root>
+	<list property="channel/item"></list>
+	<src property="channel/title"></src>
+	<page>
+		<innermatch property="author" mapping="author">
+			<filter><![CDATA[/文]]></filter>
+		</innermatch>
+		<innermatch property="title" mapping="title"></innermatch>
+		<innermatch property="ptime" mapping="pubDate"
+			dateformat="EEE, d MMM yyyy HH:mm:ss Z" locale="US">
+		</innermatch>
+		<innermatch property="abs" mapping="description">
+			<filter userPattern="true"><![CDATA[<a.*?</a>]]></filter>
+			<filter><![CDATA[<br>]]></filter>
+		</innermatch>
+		<innermatch property="link" mapping="link"></innermatch>
+		<innermatch property="content" mapping="link" isdown="true">
+			<repexp><![CDATA[<div .*?id=\"the_content\".*?>(.*?)</div>]]></repexp>
+			<filter userPattern="true"><![CDATA[<div class=\"videoFlip\">.*?<div class=\"clear\">]]></filter>
+			<filter userPattern="true"><![CDATA[<P>\[?<A .*?</A>\]?</P>]]></filter>
+			<filter userPattern="true"><![CDATA[<P align=right>.*?网络编辑.*?</P>]]></filter>
+		</innermatch>
+	</page>
+</job>
