@@ -14,6 +14,7 @@ import org.apache.pdfbox.util.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.business.GroupGainManager;
 import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
@@ -48,6 +49,10 @@ public class PDFReader {
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
+
+	@Autowired
+	@Qualifier("groupGainManager")
+	private GroupGainManager groupGainManager = null;
 
 	public void init() {
 		extractor.init();
@@ -101,6 +106,7 @@ public class PDFReader {
 										System.out.println("Reports getCreatedate: " + rs.getCreatedate());
 										System.out.println("Reports getGrade: " + rs.getGrade());
 										System.out.println("Reports getEps: " + rs.getEps());
+										groupGainManager.extractGroupStock(rs);
 									}
 								}
 							} catch (Exception e) {

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.util.ContextFactory;
+import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
 public class RssJob {
@@ -71,6 +72,7 @@ public class RssJob {
 				}
 				if (!urlDB.contains(article.getLink())) {
 					urlDB.putUrl(article.getLink());
+					article.setAid(MD5Utils.hash(article.getLink()));
 					columnArticleDao.insert(article);
 				}
 				System.out.println("author: " + article.getAuthor());
@@ -85,11 +87,22 @@ public class RssJob {
 		}
 	}
 
+	private static void printUsage() {
+		System.out.println("USAGE:\t#>./RssJob JOBXML");
+		System.out.println("\t\t-JOBXML\t\t\tJob Descriptive File in XML format");
+	}
+
 	public static void main(String[] args) {
+
+		if (args.length == 0) {
+			printUsage();
+			return;
+		}
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-			xml = sr.read(new File("jobs\\caijing.xml"));
+			//			xml = sr.read(new File("jobs\\caijing.xml"));
+			xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}

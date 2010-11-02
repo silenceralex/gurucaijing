@@ -97,16 +97,16 @@ public class LocalStorage {
 				for (GroupStock stock : stocks) {
 					System.out.println("Stock : " + stock.getStockcode());
 					StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
-							.parseYYYYMMDDDate("2010-10-29"));
+							.parseYYYYMMDDDate("2010-11-01"));
 					if (se != null) {
 						ratios += se.getRatio();
 					}
 				}
 				GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
-						.parseYYYYMMDDDate("2010-10-28"));
+						.parseYYYYMMDDDate("2010-10-29"));
 				GroupEarn ge = new GroupEarn();
 				ge.setGroupid("A" + analyzer.getAid());
-				ge.setDate(DateTools.parseYYYYMMDDDate("2010-10-29"));
+				ge.setDate(DateTools.parseYYYYMMDDDate("2010-11-01"));
 				ratios = ratios / stocks.size();
 				System.out.println("Gourp : " + analyzer.getName() + "   gain: " + ratios);
 				ge.setRatio(FloatUtil.getTwoDecimal(ratios));

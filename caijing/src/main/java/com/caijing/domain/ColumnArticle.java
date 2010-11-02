@@ -3,7 +3,7 @@ package com.caijing.domain;
 import java.util.Date;
 
 public class ColumnArticle {
-	private int aid = 0;
+	private String aid = null;
 	private String title = null;
 	private String link = null;
 	private String content = null;
@@ -12,11 +12,11 @@ public class ColumnArticle {
 	private String author = null;
 	private String abs = null;
 
-	public int getAid() {
+	public String getAid() {
 		return aid;
 	}
 
-	public void setAid(int aid) {
+	public void setAid(String aid) {
 		this.aid = aid;
 	}
 

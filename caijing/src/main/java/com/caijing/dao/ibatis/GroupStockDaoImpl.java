@@ -13,5 +13,4 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getCurrentStockByGroupid",
 				groupid);
 	}
-
 }

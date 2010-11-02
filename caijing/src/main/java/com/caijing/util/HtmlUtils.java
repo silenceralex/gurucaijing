@@ -1,10 +1,6 @@
 package com.caijing.util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 存放处理html或者转换的有效函数的一些公共类
@@ -13,31 +9,28 @@ import java.util.Date;
  */
 public class HtmlUtils {
 
-	public final static SimpleDateFormat DATE_OUT_FORMAT = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+	public final static SimpleDateFormat DATE_OUT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public final static SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd");
-	public final static SimpleDateFormat YMD_FORMAT = new SimpleDateFormat(
-			"yyyyMMdd");
+	public final static SimpleDateFormat YMD_FORMAT = new SimpleDateFormat("yyyyMMdd");
 	public final static SimpleDateFormat MON_FORMAT = new SimpleDateFormat("MM");
 
-    //判断是否为标点符号
+	//判断是否为标点符号
 	public static boolean isSymbol(char ch) {
-		return (0x0020 < ch) && (ch < 0x007F) || (0x2000 < ch) && (ch < 0x206F)   //半角、通用
-				|| (ch < 0x303f) && (ch > 0x3000) || (ch < 0xFFEF)   //全角
+		return (0x0020 < ch) && (ch < 0x007F) || (0x2000 < ch) && (ch < 0x206F) //半角、通用
+				|| (ch < 0x303f) && (ch > 0x3000) || (ch < 0xFFEF) //全角
 				&& (ch > 0xFF00);
 	}
 
 	public static String stripTags(String html) {
 		if (html != null) {
-			String tmp = html.replaceAll("<.*?>", " ")
-					.replaceAll("&nbsp;", " ").replaceAll("  > \"> ", "").replaceAll("\\s+", " ");
+			String tmp = html.replaceAll("<.*?>", " ").replaceAll("&nbsp;", " ").replaceAll("  > \"> ", "").replaceAll(
+					"\\s+", " ");
 			String ret = "";
 			char[] chars = tmp.toCharArray();
 			for (char c : chars) {
-				if (Character.isLetterOrDigit(c) || Character.isWhitespace(c)
-						|| isSymbol(c)) {
+				if (Character.isLetterOrDigit(c) || Character.isWhitespace(c) || isSymbol(c)) {
 					ret += c;
-				} 
+				}
 			}
 			return ret.trim();
 		}
@@ -82,7 +75,8 @@ public class HtmlUtils {
 		} else {
 			System.out.println("c is not Symbol!");
 		}
-
+		String md5 = MD5Utils.hash("http://www.caijing.com.cn/rss/column.xml");
+		System.out.println("md5: " + md5);
 		// try {
 		// Date dt1 = HtmlUtils.DATE_OUT_FORMAT.parse("2008-01-02 00:00:00");
 		// Date dt2 = HtmlUtils.DATE_OUT_FORMAT.parse("2008-01-01 00:00:00");

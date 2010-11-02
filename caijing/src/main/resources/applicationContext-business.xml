@@ -25,6 +25,17 @@
 	</bean>
 
 
+	<bean id="groupGainManager"
+		class="com.caijing.business.impl.GroupGainManagerImpl">
+		<property name="groupStockDao">
+			<ref bean="groupStockDao" />
+		</property>
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
+	</bean>
+
+
 	<bean id="discount" class="com.caijing.util.Discount">
 		<property name="recommendStockDao">
 			<ref bean="recommendStockDao" />

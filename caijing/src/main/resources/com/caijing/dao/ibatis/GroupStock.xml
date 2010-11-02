@@ -25,7 +25,7 @@
 				outtime = #outtime#
 			</isNotEmpty>				
 		</dynamic>
-		status = 0 where groupid=#groupid# and stockcode=#stockcode#
+		,status = 0 where groupid=#groupid# and stockcode=#stockcode#
 	</update>
 
 	<delete id="delete" parameterClass="GroupStock">
