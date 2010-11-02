@@ -11,7 +11,7 @@ import com.caijing.util.CrudDaoDefault;
 public class GroupEarnDaoImpl extends CrudDaoDefault implements GroupEarnDao {
 
 	@Override
-	public GroupEarn getGroupEarnByIDAndDate(String groupid, Date date) {
+	public GroupEarn getGroupEarnByIDAndDate(String groupid, String date) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("groupid", groupid);
 		params.put("date", date);

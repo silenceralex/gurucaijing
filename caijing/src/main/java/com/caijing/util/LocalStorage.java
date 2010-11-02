@@ -1,19 +1,16 @@
 package com.caijing.util;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.caijing.dao.AnalyzerDao;
-import com.caijing.dao.GroupEarnDao;
-import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
+import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockEarn;
 
 public class LocalStorage {
@@ -27,13 +24,13 @@ public class LocalStorage {
 	private StockEarnDao stockEarnDao = null;
 
 	public void localStore() {
-		//		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
-		//		for (int i = 0; i < lists.size(); i++) {
-		//			RecommendStock rs = lists.get(i);
-		//			System.out.println("Current process :" + i + " stockcode: " + rs.getStockcode());
-		//			groupGain.getSp().currentPrice(rs.getStockcode());
-		//		}
-		//		groupGain.getSp().currentPrice("000300");
+		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
+		for (int i = 0; i < lists.size(); i++) {
+			RecommendStock rs = lists.get(i);
+			System.out.println("Current process :" + i + " stockcode: " + rs.getStockcode());
+			groupGain.getSp().currentPrice(rs.getStockcode());
+		}
+		groupGain.getSp().currentPrice("000300");
 
 		List<Analyzer> analyzerlist = groupGain.getAnalyzerDao().getAllAnalyzers();
 		for (Analyzer analyzer : analyzerlist) {
@@ -46,17 +43,20 @@ public class LocalStorage {
 			List<GroupStock> stocks = groupGain.getGroupStockDao().getCurrentStockByGroupid("A" + analyzer.getAid());
 			float ratios = 0;
 			for (GroupStock stock : stocks) {
-				System.out.println("Stock : " + stock.getStockcode());
-				StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), new Date());
+				StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
+						.transformYYYYMMDDDate(new Date()));
 				if (se != null) {
 					ratios += se.getRatio();
 				}
+				System.out.println("Stock : " + stock.getStockcode() + " ratio:" + se.getRatio());
 			}
 			GroupEarn tmp = groupGain.getGroupEarnDao().getGroupEarnByIDAndDate("A" + analyzer.getAid(),
 					DateTools.getYesterday(new Date()));
+
 			GroupEarn ge = new GroupEarn();
 			ge.setGroupid("A" + analyzer.getAid());
 			ge.setDate(new Date());
+			System.out.println("ratios : " + ratios + "  stocks.size():" + stocks.size());
 			ratios = ratios / stocks.size();
 			ge.setRatio(FloatUtil.getTwoDecimal(ratios));
 			ge.setWeight(FloatUtil.getTwoDecimal(tmp.getWeight() * (1 + ratios / 100)));
@@ -81,41 +81,41 @@ public class LocalStorage {
 		//		System.out.println("lists.size() :" + lists.size());
 		//		sp.storeStockPrice("000300", 1, "2010-03-22", DateTools.transformYYYYMMDDDate(new Date()));
 		//		sp.currentPrice("000300");
-		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
-		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
-		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
-		List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
-		for (Analyzer analyzer : analyzerlist) {
-			List<GroupStock> stocks = groupStockDao.getCurrentStockByGroupid("A" + analyzer.getAid());
-			float ratios = 0;
-			if (stocks == null || stocks.size() == 0) {
-				System.out.println("analyzer : " + analyzer.getName() + " have No GroupStock");
-				continue;
-			}
-			try {
-				for (GroupStock stock : stocks) {
-					System.out.println("Stock : " + stock.getStockcode());
-					StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
-							.parseYYYYMMDDDate("2010-11-01"));
-					if (se != null) {
-						ratios += se.getRatio();
-					}
-				}
-				GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
-						.parseYYYYMMDDDate("2010-10-29"));
-				GroupEarn ge = new GroupEarn();
-				ge.setGroupid("A" + analyzer.getAid());
-				ge.setDate(DateTools.parseYYYYMMDDDate("2010-11-01"));
-				ratios = ratios / stocks.size();
-				System.out.println("Gourp : " + analyzer.getName() + "   gain: " + ratios);
-				ge.setRatio(FloatUtil.getTwoDecimal(ratios));
-				ge.setWeight(FloatUtil.getTwoDecimal(tmp.getWeight() * (1 + ratios / 100)));
-				groupEarnDao.insert(ge);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
+		//		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+		//		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
+		//		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
+		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+		//		List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
+		//		for (Analyzer analyzer : analyzerlist) {
+		//			List<GroupStock> stocks = groupStockDao.getCurrentStockByGroupid("A" + analyzer.getAid());
+		//			float ratios = 0;
+		//			if (stocks == null || stocks.size() == 0) {
+		//				System.out.println("analyzer : " + analyzer.getName() + " have No GroupStock");
+		//				continue;
+		//			}
+		//			try {
+		//				for (GroupStock stock : stocks) {
+		//					System.out.println("Stock : " + stock.getStockcode());
+		//					StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
+		//							.parseYYYYMMDDDate("2010-11-01"));
+		//					if (se != null) {
+		//						ratios += se.getRatio();
+		//					}
+		//				}
+		//				GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
+		//						.parseYYYYMMDDDate("2010-10-29"));
+		//				GroupEarn ge = new GroupEarn();
+		//				ge.setGroupid("A" + analyzer.getAid());
+		//				ge.setDate(DateTools.parseYYYYMMDDDate("2010-11-01"));
+		//				ratios = ratios / stocks.size();
+		//				System.out.println("Gourp : " + analyzer.getName() + "   gain: " + ratios);
+		//				ge.setRatio(FloatUtil.getTwoDecimal(ratios));
+		//				ge.setWeight(FloatUtil.getTwoDecimal(tmp.getWeight() * (1 + ratios / 100)));
+		//				groupEarnDao.insert(ge);
+		//			} catch (ParseException e) {
+		//				e.printStackTrace();
+		//			}
+		//		}
 		//		GroupGain gg = (GroupGain) ContextFactory.getBean("groupGain");
 		//		List<StockGain> sgs = gg.getStockGainManager().getStockGainByAnameASC("’≤¡Ë—‡");
 		//		for (StockGain sg : sgs) {
@@ -134,9 +134,19 @@ public class LocalStorage {
 		//		for (Analyzer analyzer : analyzerlist) {
 		//			gg.processASCStore(analyzer.getName());
 		//		}
-		//
-		//		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		//		storage.localStore();
+		//		List<Analyzer> analyzerlist = gg.getAnalyzerDao().getAllAnalyzers();
+		//		for (Analyzer analyzer : analyzerlist) {
+		//			System.out.println("analyzer.getAid() :" + "A" + analyzer.getAid());
+		//			GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
+		//					.getYesterday(new Date()));
+		//			if (tmp == null) {
+		//				System.out.println("analyzer.getAid() :" + analyzer.getAid() + "  tmp is null!");
+		//			}
+		//		}
+
+		//		System.out.print(DateTools.getYesterday(new Date()));
+		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		storage.localStore();
 	}
 
 	public GroupGain getGroupGain() {

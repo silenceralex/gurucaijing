@@ -36,11 +36,11 @@ public class DateTools {
 		return tmp;
 	}
 
-	public static Date getYesterday(Date date) {
+	public static String getYesterday(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.add(Calendar.DATE, -1);
-		return cal.getTime();
+		return new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
 	}
 
 	/**

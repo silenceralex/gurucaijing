@@ -1,6 +1,5 @@
 package com.caijing.dao.ibatis;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import com.caijing.dao.StockEarnDao;
@@ -10,7 +9,7 @@ import com.caijing.util.CrudDaoDefault;
 public class StockEarnDaoImpl extends CrudDaoDefault implements StockEarnDao {
 
 	@Override
-	public StockEarn getStockEarnByCodeDate(String stockcode, Date date) {
+	public StockEarn getStockEarnByCodeDate(String stockcode, String date) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("stockcode", stockcode);
 		params.put("date", date);
