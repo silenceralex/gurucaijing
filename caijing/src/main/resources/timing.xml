@@ -49,17 +49,18 @@
 
 
 	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
-	<bean id="extractScheduler" class="com.caijing.mail.ExtractSchedule">
+	<bean id="extractScheduler"
+		class="com.caijing.mail.ExtractSchedule">
 		<property name="extractor">
 			<ref bean="reportExtractor" />
 		</property>
 		<property name="reportDao">
 			<ref bean="reportDao" />
 		</property>
-			<property name="recommendStockDao">
+		<property name="recommendStockDao">
 			<ref bean="recommendStockDao" />
 		</property>
-			<property name="config">
+		<property name="config">
 			<ref bean="config" />
 		</property>
 	</bean>
@@ -87,19 +88,24 @@
 	<!--========================================================================
 		CronTriggerSpide
 		=========================================================================-->
-	<bean id="timeRssDown" class="com.caijing.spide.DownTest">
+
+	<bean id="timeSpiderSchedule"
+		class="com.caijing.spider.SpiderSchedule">
 		<property name="columnArticleDao">
 			<ref bean="columnArticleDao" />
+		</property>
+		<property name="paramXml">
+			<value>/home/app/caijing/jobs/caijing.xml</value>
 		</property>
 	</bean>
 
 	<bean id="scheduledSpide"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject">
-			<ref bean="timeRssDown" />
+			<ref bean="timeSpiderSchedule" />
 		</property>
 		<property name="targetMethod">
-			<value>DownRss</value>
+			<value>run</value>
 		</property>
 		<property name="concurrent" value="false" />
 	</bean>
@@ -110,7 +116,7 @@
 			<ref bean="scheduledSpide" />
 		</property>
 		<property name="cronExpression">
-			<value>0 30 * * * ?</value><!-- 每小时30分执行一次 -->
+			<value>0 30 3 * * ?</value><!-- 每天晚上3点30分执行一次 -->
 		</property>
 	</bean>
 
@@ -135,7 +141,7 @@
 			<value>0 30 15 * * ?</value><!-- 每天下午3点半执行一次本地计算 -->
 		</property>
 	</bean>
-	
+
 
 
 	<bean autowire="no"
@@ -144,8 +150,8 @@
 			<list>
 				<ref bean="cronInfoTrigger" />
 				<ref bean="cronSpide" />
-				<ref bean="extractTrigger" />	
-				<ref bean="cronStore" />	
+				<ref bean="extractTrigger" />
+				<ref bean="cronStore" />
 			</list>
 		</property>
 	</bean>
