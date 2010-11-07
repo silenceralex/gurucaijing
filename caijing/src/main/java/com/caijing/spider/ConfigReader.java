@@ -80,6 +80,13 @@ public class ConfigReader {
 				job.getExcludes().add(p);
 			}
 
+			// starturl  多个起始的url
+			List starturlNodes = root.selectNodes("starturl");
+			for (int i = 0; i < starturlNodes.size(); i++) {
+				Element elm = (Element) starturlNodes.get(i);
+				job.getStarturls().add(elm.getTextTrim());
+			}
+
 			// onlys
 			List onlyNodes = root.selectNodes("only");
 			for (int i = 0; i < onlyNodes.size(); i++) {

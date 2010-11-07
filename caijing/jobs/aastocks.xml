@@ -1,14 +1,20 @@
 <job
 	start="http://www.aastocks.com.cn/newsdata/4c3878e8-14e8-4431-980d-8572ba889b2f/list_1.html"
-	threads="10" maxconnections="10" charset="GB2312" source="aastocks"
+	threads="2" maxconnections="10" charset="GB2312" source="aastocks"
 	downMethod="0" urldb="/home/app/urldb/aastocks">
+	<starturl>
+		http://www.aastocks.com.cn/NewsData/71EE28D4-A661-45FC-BAAF-BC94FD183E15/list_1.html
+	</starturl>
 	<only>
 		http://www\.aastocks\.com\.cn/newsdata/4c3878e8-14e8-4431-980d-8572ba889b2f/list_\d\.html
+	</only>
+	<only>
+		http://www\.aastocks\.com\.cn/News/201\d/[01]?[0-9]/[0-3]?[0-9]/[0-9a-z-]{36}.shtml
 	</only>
 	<rangePattern><![CDATA[<div class="newsline">(.*?)<div class="page">]]></rangePattern>
 	<specials>
 		<pattern
-			regexp="http://www\.aastocks\.com\.cn/News/201\d/[01][0-9]/[0-3][0-9]/[0-9a-z-]{36}.shtml"
+			regexp="http://www\.aastocks\.com\.cn/News/201\d/[01]?[0-9]/[0-3]?[0-9]/[0-9a-z-]{36}.shtml"
 			revisit="no">
 			<contentpattern><![CDATA[<div class="read2">.*?</div>\s+</div>\s+</div>]]></contentpattern>
 			<page>
@@ -28,6 +34,12 @@
 						<![CDATA[<div class="n_date">(.*?)&nbsp;]]>
 					</regexp>
 				</innermatch>
+				<innermatch property="source">
+					<regexp>
+						<![CDATA[来源:(.*?)&nbsp;]]>
+					</regexp>
+				</innermatch>
+
 				<innermatch property="abs">
 					<regexp>
 						<![CDATA[<div class="news_nr" id="changesize">\s+<P>(.*?)</P>]]>

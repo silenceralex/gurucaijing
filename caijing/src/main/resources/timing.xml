@@ -97,6 +97,9 @@
 		<property name="paramXml">
 			<value>/home/app/caijing/jobs/caijing.xml</value>
 		</property>
+		<property name="astockXml">
+			<value>/home/app/caijing/jobs/aastocks.xml</value>
+		</property>
 	</bean>
 
 	<bean id="scheduledSpide"

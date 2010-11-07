@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,8 +65,7 @@ public class UrlDownload {
 
 		// Create and initialize scheme registry
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory
-				.getSocketFactory(), 80));
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
 		// Create an HttpClient with the ThreadSafeClientConnManager.
 		// This connection manager must be used if more than one thread will
@@ -121,16 +119,14 @@ public class UrlDownload {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public String getLastModified(String video_url)
-			throws ClientProtocolException, IOException, ParseException {
+	public String getLastModified(String video_url) throws ClientProtocolException, IOException, ParseException {
 		HttpGet get = new HttpGet(video_url);
 		HttpResponse response = httpClient.execute(get);
 		String time = response.getFirstHeader("Last-Modified").getValue();
 		//  Õ∑≈get
 		get.abort();
 		time = time.substring(0, time.indexOf(" GMT"));
-		SimpleDateFormat sdf = new SimpleDateFormat(
-				"EEE, dd MMM yyyy HH:mm:ss", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.US);
 		SimpleDateFormat standard = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = sdf.parse(time);
 		return standard.format(date);
@@ -168,8 +164,7 @@ public class UrlDownload {
 		// new NameValuePair("zhcxModel_dom", "")};
 		List<BasicNameValuePair> data4 = new ArrayList<BasicNameValuePair>();
 
-		data4.add(new BasicNameValuePair("zhcxModel.lic_reg_no",
-				"110000001141090"));
+		data4.add(new BasicNameValuePair("zhcxModel.lic_reg_no", "110000001141090"));
 		data4.add(new BasicNameValuePair("zhcxModel.ent_name", ""));
 		data4.add(new BasicNameValuePair("zhcxModel.corp_rpt", ""));
 		data4.add(new BasicNameValuePair("zhcxModel.dom", ""));
@@ -177,21 +172,15 @@ public class UrlDownload {
 		try {
 			httpost.setEntity(new UrlEncodedFormEntity(data4, HTTP.UTF_8));
 			httpost.addHeader("Host", "qyxy.baic.gov.cn");
-			httpost
-					.addHeader(
-							"User-Agent",
-							"Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+			httpost.addHeader("User-Agent",
+					"Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 			httpost.addHeader("Accept-Encoding", "GB2312,utf-8;q=0.7,*;q=0.7");
 			httpost.addHeader("Keep-Alive", "115");
 			httpost.addHeader("Accept-Encoding", "gzip,deflate");
-			httpost
-					.addHeader("Accept",
-							"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+			httpost.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 			httpost.addHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-			httpost.addHeader("Content-Type",
-					"application/x-www-form-urlencoded ");
-			httpost.addHeader("Referer",
-					"http://qyxy.baic.gov.cn/zhcx/zhcxAction!query.dhtml");
+			httpost.addHeader("Content-Type", "application/x-www-form-urlencoded ");
+			httpost.addHeader("Referer", "http://qyxy.baic.gov.cn/zhcx/zhcxAction!query.dhtml");
 			httpost
 					.addHeader(
 							"Cookie",
@@ -224,20 +213,25 @@ public class UrlDownload {
 
 	public String load(String url) throws ClientProtocolException, IOException {
 		HttpGet get = new HttpGet(url);
-		get.setHeader("Accept-Encoding", "gzip");
+		get.setHeader("User-Agent",
+				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12");
+		get.setHeader("Accept-Encoding", "gzip,deflate");
+		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+		get
+				.setHeader(
+						"Cookie",
+						"aastocks_stocksHistory=000001.HK%2c000002.HK%2c000003.HK%2c000004.HK%2c000005.HK%2c000006.HK%2c000007.HK; aastocks_astocksHistory=000001.SZ%2c000002.SZ%2c000004.SZ%2c000005.SZ%2c000006.SZ%2c000007.SZ%2c000008.SZ; BIGipServerCNWEB2.0=17563914.20480.0000");
+		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		return load(get);
 	}
 
-	public String load(String url, boolean isGzip)
-			throws ClientProtocolException, IOException {
+	public String load(String url, boolean isGzip) throws ClientProtocolException, IOException {
 		HttpGet get = new HttpGet(url);
 		if (isGzip) {
 			get.setHeader("Accept-Encoding", "gzip");
 			HttpResponse response = httpClient.execute(get);
 			HttpEntity entity = response.getEntity();
-			if (entity.getContentEncoding() != null
-					&& entity.getContentEncoding().getValue().equalsIgnoreCase(
-							"gzip")) {
+			if (entity.getContentEncoding() != null && entity.getContentEncoding().getValue().equalsIgnoreCase("gzip")) {
 				GzipEntity gentity = new GzipEntity(entity);
 				String content = EntityUtils.toString(gentity, charset);
 				return content;
@@ -252,16 +246,14 @@ public class UrlDownload {
 		// return load(get);
 	}
 
-	public String loadSince(String url, String lastModified)
-			throws ClientProtocolException, IOException {
+	public String loadSince(String url, String lastModified) throws ClientProtocolException, IOException {
 		HttpGet get = new HttpGet(url);
 		get.setHeader("Accept-Encoding", "gzip");
 		get.setHeader("If-Modified-Since", lastModified);
 		return load(get);
 	}
 
-	public String getRelocation(HttpGet get) throws ClientProtocolException,
-			IOException {
+	public String getRelocation(HttpGet get) throws ClientProtocolException, IOException {
 		HttpResponse response = httpClient.execute(get);
 		return response.getFirstHeader("location").getValue();
 	}
@@ -284,9 +276,7 @@ public class UrlDownload {
 		// + header.getValue());
 		// }
 		HttpEntity entity = response.getEntity();
-		if (entity.getContentEncoding() != null
-				&& entity.getContentEncoding().getValue().equalsIgnoreCase(
-						"gzip")) {
+		if (entity.getContentEncoding() != null && entity.getContentEncoding().getValue().equalsIgnoreCase("gzip")) {
 			// System.out.println("compressed size: "
 			// + entity.toString().getBytes().length);
 			GzipEntity gentity = new GzipEntity(entity);
@@ -305,8 +295,7 @@ public class UrlDownload {
 		try {
 			response = httpClient.execute(get);
 
-			System.out.println("status:"
-					+ response.getStatusLine().getStatusCode());
+			System.out.println("status:" + response.getStatusLine().getStatusCode());
 			if (response.getStatusLine().getStatusCode() == 302) {
 				System.out.println("Not Modified");
 				String move = response.getFirstHeader("Location").getValue();
@@ -322,30 +311,29 @@ public class UrlDownload {
 		}
 		Header[] headers = response.getAllHeaders();
 		for (Header header : headers) {
-			System.out.println("header name :" + header.getName() + " value:"
-					+ header.getValue());
+			System.out.println("header name :" + header.getName() + " value:" + header.getValue());
 		}
-		System.out.print("saveFile:"+saveFile);
+		System.out.print("saveFile:" + saveFile);
 		HttpEntity entity = response.getEntity();
 		InputStream input = null;
 		try {
 			input = entity.getContent();
 			FileOutputStream out = new FileOutputStream(new File(saveFile));
 			byte[] b = new byte[1024];
-			int total=0;
+			int total = 0;
 			int tmp = 0;
 			while (true) {
 				tmp = input.read(b, 0, 1024);
-				total+=tmp;
+				total += tmp;
 				if (tmp == -1) {
 					break;
 				} else {
 					out.write(b, 0, tmp);
-//					out.write(b);
+					//					out.write(b);
 				}
 			}
-			System.out.print("total Length:"+total);
-		
+			System.out.print("total Length:" + total);
+
 			out.close();
 			input.close();
 			return total;
@@ -386,8 +374,7 @@ public class UrlDownload {
 		// System.out.println("content:" + content);
 
 		long end = System.currentTimeMillis();
-		System.out.println("Download Used: time:" + (end - start)
-				+ "  miliseconds!");
+		System.out.println("Download Used: time:" + (end - start) + "  miliseconds!");
 		// System.out.println("content:"+content);
 		// str = down
 		// .load("http://218.22.14.84:8080/soms4/web/jwzt/player/vod_player.jsp?fileId=22951");
@@ -396,8 +383,7 @@ public class UrlDownload {
 		// System.out.println(str);
 		// str = down.download("http://www.997788.com");
 		// System.out.println(str);
-		HttpGet get = new HttpGet(
-				"http://220.112.42.246/newsoft.asp?type=%D0%D0%D2%B5%D1%D0%BE%BF");
+		HttpGet get = new HttpGet("http://220.112.42.246/newsoft.asp?type=%D0%D0%D2%B5%D1%D0%BE%BF");
 		String cookie = "Newasp%5Fnet=onlineid=22122398114; ASPSESSIONIDCSQDTRDS=ELPNDMPCFMCKMIFKKCHMLEKF; virtualwall=vsid=73bad331ca1c4f5c1f6b3f3069edb063; test=logo=221%2E223%2E98%2E114&Grade=3&isencrypt=1&dby=90&uid=110&dbyDayHits=0&point=0&password=28ad49f7c66e5707&card=0&userid=131445&username=silenceralex; zq=softname=%B5%C8%B4%FD%D6%FE%B5%D7%2D%2D2010%C4%EA5%2D6%D4%C2A%B9%C9%B2%DF%C2%D4%B1%A8%B8%E6%A1%AA%A1%AA%D4%AC%D2%CB+%B3%C2%BD%DC+; date=authori=&typei=%CA%D0%B3%A1%D1%D0%BE%BF";
 		get.setHeader("Cookie", cookie);
 		HttpResponse response = null;
@@ -412,8 +398,7 @@ public class UrlDownload {
 		}
 		Header[] headers = response.getAllHeaders();
 		for (Header header : headers) {
-			System.out.println("response:" + header.getName() + " : "
-					+ header.getValue());
+			System.out.println("response:" + header.getName() + " : " + header.getValue());
 		}
 		HttpEntity entity = response.getEntity();
 		try {

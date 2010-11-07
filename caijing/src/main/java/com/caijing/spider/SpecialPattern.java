@@ -22,6 +22,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
 import com.caijing.domain.ColumnArticle;
+import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
 /**
@@ -187,7 +188,6 @@ public class SpecialPattern {
 
 	public ColumnArticle processPage(URL pageUrl, String inner, UrlDownload loader) {
 		Map<String, String> properties = new HashMap<String, String>();
-		// if (isDetailPage(pageUrl)) {
 		if (contentRegexp != null) {
 			inner = contentRegexp.matcher(inner).replaceAll("");
 		}
@@ -196,10 +196,6 @@ public class SpecialPattern {
 		if (properties.size() == 0) {
 			return null;
 		}
-		// for (String k : properties.keySet()) {
-		// System.out.println("k is :" + k + " \nvalue:" + properties.get(k));
-		// }
-		// properties.putAll(processPageInnerMatch(pageUrl, inner, loader));
 
 		if (properties.containsKey("publish_time")) {
 			String ptime = properties.get("publish_time");
@@ -218,10 +214,35 @@ public class SpecialPattern {
 				// e.printStackTrace();
 			}
 		}
-		for (String k : properties.keySet()) {
-			System.out.println("k is :" + k + " \nvalue:" + properties.get(k));
+		ColumnArticle article = new ColumnArticle();
+		article.setLink(pageUrl.toString());
+		article.setAid(MD5Utils.hash(article.getLink()));
+		if (properties.get("abs") != null && properties.get("abs").length() > 255) {
+			article.setAbs(properties.get("abs").substring(0, 255));
+		} else {
+			article.setAbs(properties.get("abs"));
 		}
-		return null;
+
+		article.setAuthor(properties.get("author"));
+		article.setTitle(properties.get("title"));
+		try {
+			article.setPtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(properties.get("ptime")));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//		article.setSrc(properties.get("source"));
+		if (properties.get("source") != null && properties.get("source").length() > 20) {
+			article.setSrc(properties.get("source").substring(0, 20));
+		} else {
+			article.setSrc(properties.get("source"));
+		}
+		article.setContent(properties.get("content"));
+
+		//		for (String k : properties.keySet()) {
+		//			System.out.println("k is :" + k + " \nvalue:" + properties.get(k));
+		//		}
+		return article;
 	}
 
 	public String getSource() {

@@ -18,7 +18,12 @@ import org.apache.http.client.ClientProtocolException;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.dao.ColumnArticleDao;
+import com.caijing.domain.ColumnArticle;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.UrlDownload;
 import com.sleepycat.je.DatabaseException;
 
@@ -45,6 +50,7 @@ public class CrawlJob implements Runnable {
 	private Pattern rangePattern = null;
 	private List<Pattern> excludes = new ArrayList<Pattern>();
 	private List<Pattern> onlys = new ArrayList<Pattern>();
+	private List<String> starturls = new ArrayList<String>();
 	// URLs to be searched
 	private Vector<String> urlsToSearch = new Vector<String>();
 	// URLs already searched
@@ -60,6 +66,10 @@ public class CrawlJob implements Runnable {
 	private UrlDownload urldown = new UrlDownload();
 
 	private BerkeleyDB urlDB = null;
+
+	@Autowired
+	@Qualifier("columnArticleDao")
+	private ColumnArticleDao columnArticleDao = null;
 
 	public String getCharset() {
 		return charset;
@@ -97,7 +107,7 @@ public class CrawlJob implements Runnable {
 				String outlink = m.group(1);
 				try {
 					URL ou = normalizeUrl(normalizeOutlink(url, outlink));
-					// System.out.println("after normalizeUrl:"+ou.toString());
+					System.out.println("after normalizeUrl:" + ou.toString());
 					// System.out.println(ou.toString());
 					if (ou != null) {
 						if (notExcluded(ou)) {
@@ -160,11 +170,12 @@ public class CrawlJob implements Runnable {
 		if (rangePattern != null) {
 			// 有内容rangePattern的限制，将只取中间部分进行parse
 			Matcher rangeM = rangePattern.matcher(content);
-			if (rangeM != null && rangeM.find())
+			if (rangeM != null && rangeM.find()) {
 				content = rangeM.group();
+				processLink(url, content); // 整个页面进行链接爬取
+			}
+			//			logger.warn("Content:" + content);
 		}
-
-		processLink(url, content); // 整个页面进行链接爬取
 
 		// 只在最终页面进行page解析
 		SpecialPattern special = getSpecialPattern(url, content);
@@ -173,12 +184,13 @@ public class CrawlJob implements Runnable {
 				if (urlDB.contains(url.toString())) {
 					return;
 				} else {
-					special.processPage(url, content, urldown);
+					ColumnArticle article = special.processPage(url, content, urldown);
+					columnArticleDao.insert(article);
 					urlDB.putUrl(url.toString());
 				}
 			} catch (DatabaseException e) {
 				logger.warn(e.getMessage());
-				// e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
@@ -223,7 +235,7 @@ public class CrawlJob implements Runnable {
 				return url;
 			} else {
 				// System.out.println("Normalize url is null! url : " + uStr);
-				logger.warn("Normalize url is null!  url : " + uStr);
+				//				logger.warn("Normalize url is null!  url : " + uStr);
 				return null;
 			}
 		} catch (MalformedURLException e) {
@@ -336,13 +348,13 @@ public class CrawlJob implements Runnable {
 	private void startJob() {
 		// addWithoutDuplication(urlsToSearch, startUrl.toString());
 		while (this.urlsToSearch.size() > 0) {
-			// long time = System.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			String urlto = urlsToSearch.remove(0);
 			URL url = normalizeUrl(urlto);
 			if (url != null)
 				processPage(url);
-			// System.out.println("Time used on page #" + url.toString() + ":"
-			// + (System.currentTimeMillis() - time) + "ms");
+			System.out.println("Time used on page #" + url.toString() + ":" + (System.currentTimeMillis() - time)
+					+ "ms");
 		}
 	}
 
@@ -353,7 +365,11 @@ public class CrawlJob implements Runnable {
 		this.urlsSearched.removeAllElements();
 		this.urlsToSearch.removeAllElements();
 
-		processPage(startUrl);
+		//		processPage(startUrl);
+
+		for (String starturl : starturls) {
+			addWithoutDuplication(urlsToSearch, starturl);
+		}
 
 		// System.out.println("urlsSearched size:" + urlsSearched.size());
 		// System.out.println("urlsToSearch size:" + urlsToSearch.size());
@@ -361,6 +377,9 @@ public class CrawlJob implements Runnable {
 			logger.debug("urlsSearched size:" + urlsSearched.size());
 			logger.debug("urlsToSearch size:" + urlsToSearch.size());
 		}
+		//		for (int i = 0; i < this.urlsToSearch.size(); i++) {
+		//			System.out.println("urlsToSearch :" + urlsToSearch.get(i));
+		//		}
 
 		class JobThread extends Thread {
 			protected boolean finished = false;
@@ -459,21 +478,24 @@ public class CrawlJob implements Runnable {
 
 	// 主抓取程序的入口
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			printUsage();
-			return;
-		}
+		//		if (args.length == 0) {
+		//			printUsage();
+		//			return;
+		//		}
 
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 
 		try {
-			xml = sr.read(new File("jobs\\chongqingTV.xml"));
+			xml = sr.read(new File("jobs\\aastocks.xml"));
 			// xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
 		CrawlJob job = ConfigReader.fromXML(xml);
+
+		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		job.setColumnArticleDao(columnArticleDao);
 		long startTime = System.currentTimeMillis();
 
 		// System.out.println("CrawlJob: \tThreads:" + job.getThreads()
@@ -568,6 +590,22 @@ public class CrawlJob implements Runnable {
 
 	public void setUrldown(UrlDownload urldown) {
 		this.urldown = urldown;
+	}
+
+	public ColumnArticleDao getColumnArticleDao() {
+		return columnArticleDao;
+	}
+
+	public void setColumnArticleDao(ColumnArticleDao columnArticleDao) {
+		this.columnArticleDao = columnArticleDao;
+	}
+
+	public List<String> getStarturls() {
+		return starturls;
+	}
+
+	public void setStarturls(List<String> starturls) {
+		this.starturls = starturls;
 	}
 
 }
