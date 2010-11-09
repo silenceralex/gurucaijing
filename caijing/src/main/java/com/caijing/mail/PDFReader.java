@@ -59,43 +59,44 @@ public class PDFReader {
 	}
 
 	public void read(String path) throws Exception {
-		File file = new File(path);
-		if (file.isDirectory()) {
-			File[] files = file.listFiles();
-			for (File f : files) {
-				if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
-					String pdfPath = f.getAbsolutePath();
-					System.out.println("path:" + pdfPath);
-					String textFile = null;
-					String rid = ServerUtil.getid();
-					textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/') + 1) + rid + ".txt";
-					String mvpath = pdfPath.replace(FileUtil.path, FileUtil.html);
-					mvpath = mvpath.substring(0, mvpath.lastIndexOf('/') + 1);
-					String mvfile = mvpath + rid + ".pdf";
-					String commendStr = "cp " + pdfPath + " " + mvfile;
-					File ddir = new File(mvpath);
-					System.out.println("Copy path:" + mvpath);
-					if (!ddir.exists()) {
-						ddir.mkdirs();
-					}
-					StringWriter sw = new StringWriter();
-					Command.run(commendStr, sw);
-					logger.debug(sw.toString());
+		try {
+			File file = new File(path);
+			if (file.isDirectory()) {
+				File[] files = file.listFiles();
+				for (File f : files) {
+					if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
+						String pdfPath = f.getAbsolutePath();
+						System.out.println("path:" + pdfPath);
+						String textFile = null;
+						String rid = ServerUtil.getid();
+						textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/') + 1) + rid + ".txt";
+						String mvpath = pdfPath.replace(FileUtil.path, FileUtil.html);
+						mvpath = mvpath.substring(0, mvpath.lastIndexOf('/') + 1);
+						String mvfile = mvpath + rid + ".pdf";
+						String commendStr = "cp " + pdfPath + " " + mvfile;
+						File ddir = new File(mvpath);
+						System.out.println("Copy path:" + mvpath);
+						if (!ddir.exists()) {
+							ddir.mkdirs();
+						}
+						StringWriter sw = new StringWriter();
+						Command.run(commendStr, sw);
+						logger.debug(sw.toString());
 
-					textFile = mvfile.replace(".pdf", ".txt");
-					System.out.println("Copy path:" + pdfPath);
-					readFdf(pdfPath, textFile);
-					Report report = extractor.extractFromTitle(pdfPath, rid);
-					if (report != null) {
-						System.out.println("url:" + mvfile.replace("/home/html", ""));
-						report.setFilepath(mvfile.replace("/home/html", ""));
-						Date ptime = vutil.stringtodate(file.getName());
-						System.out.println("ptime :" + file.getName());
-						report.setPtime(ptime);
-						reportDao.insert(report);
-						if (report.getType() == 1 && config.getConfigMap().containsKey(report.getSaname())) {
-							System.out.println("Be in top10 stockagency start to extrator!");
-							try {
+						textFile = mvfile.replace(".pdf", ".txt");
+						System.out.println("Copy path:" + pdfPath);
+						readFdf(pdfPath, textFile);
+						Report report = extractor.extractFromTitle(pdfPath, rid);
+						if (report != null) {
+							System.out.println("url:" + mvfile.replace("/home/html", ""));
+							report.setFilepath(mvfile.replace("/home/html", ""));
+							Date ptime = vutil.stringtodate(file.getName());
+							System.out.println("ptime :" + file.getName());
+							report.setPtime(ptime);
+							reportDao.insert(report);
+							if (report.getType() == 1 && config.getConfigMap().containsKey(report.getSaname())) {
+								System.out.println("Be in top10 stockagency start to extrator!");
+
 								RecommendStock rs = extractor.extractFromFile(report, textFile);
 								if (rs != null) {
 									rs.setReportid(report.getRid());
@@ -109,18 +110,19 @@ public class PDFReader {
 										groupGainManager.extractGroupStock(rs);
 									}
 								}
-							} catch (Exception e) {
-								System.out.print(e.getMessage());
-								e.printStackTrace();
+
 							}
 						}
+					} else if (f.isDirectory()) {
+						read(f.getAbsolutePath());
 					}
-				} else if (f.isDirectory()) {
-					read(f.getAbsolutePath());
 				}
+			} else {
+				System.out.println("path:" + path);
 			}
-		} else {
-			System.out.println("path:" + path);
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

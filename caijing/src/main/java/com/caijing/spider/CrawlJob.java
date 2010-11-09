@@ -25,7 +25,6 @@ import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.UrlDownload;
-import com.sleepycat.je.DatabaseException;
 
 /**
  * Main entrance for crawl a video website, it could control several thread to
@@ -188,7 +187,7 @@ public class CrawlJob implements Runnable {
 					columnArticleDao.insert(article);
 					urlDB.putUrl(url.toString());
 				}
-			} catch (DatabaseException e) {
+			} catch (Exception e) {
 				logger.warn(e.getMessage());
 				e.printStackTrace();
 			}
