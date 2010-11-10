@@ -7,6 +7,7 @@ public class GroupEarn {
 	private Date date = null;
 	private float ratio = 0;
 	private float weight = 0;
+	private int type = 0;
 
 	public String getGroupid() {
 		return groupid;
@@ -38,6 +39,14 @@ public class GroupEarn {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }

@@ -9,6 +9,7 @@ public class GroupStock {
 	Date intime = null;
 	Date outtime = null;
 	int status = 1;
+	int type = 0;
 
 	public String getGroupid() {
 		return groupid;
@@ -56,5 +57,13 @@ public class GroupStock {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

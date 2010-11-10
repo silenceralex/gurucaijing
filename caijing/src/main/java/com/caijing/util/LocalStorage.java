@@ -40,7 +40,7 @@ public class LocalStorage {
 
 	private void storeAnaylzerGain(Analyzer analyzer) {
 		try {
-			List<GroupStock> stocks = groupGain.getGroupStockDao().getCurrentStockByGroupid("A" + analyzer.getAid());
+			List<GroupStock> stocks = groupGain.getGroupStockDao().getCurrentStockByGroupid(analyzer.getAid());
 			float ratios = 0;
 			for (GroupStock stock : stocks) {
 				StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
@@ -50,11 +50,11 @@ public class LocalStorage {
 				}
 				System.out.println("Stock : " + stock.getStockcode() + " ratio:" + se.getRatio());
 			}
-			GroupEarn tmp = groupGain.getGroupEarnDao().getGroupEarnByIDAndDate("A" + analyzer.getAid(),
+			GroupEarn tmp = groupGain.getGroupEarnDao().getGroupEarnByIDAndDate(analyzer.getAid(),
 					DateTools.getYesterday(new Date()));
 
 			GroupEarn ge = new GroupEarn();
-			ge.setGroupid("A" + analyzer.getAid());
+			ge.setGroupid(analyzer.getAid());
 			ge.setDate(new Date());
 			System.out.println("ratios : " + ratios + "  stocks.size():" + stocks.size());
 			ratios = ratios / stocks.size();
@@ -87,7 +87,7 @@ public class LocalStorage {
 		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		//		List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
 		//		for (Analyzer analyzer : analyzerlist) {
-		//			List<GroupStock> stocks = groupStockDao.getCurrentStockByGroupid("A" + analyzer.getAid());
+		//			List<GroupStock> stocks = groupStockDao.getCurrentStockByGroupid(analyzer.getAid());
 		//			float ratios = 0;
 		//			if (stocks == null || stocks.size() == 0) {
 		//				System.out.println("analyzer : " + analyzer.getName() + " have No GroupStock");
@@ -102,10 +102,10 @@ public class LocalStorage {
 		//						ratios += se.getRatio();
 		//					}
 		//				}
-		//				GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
+		//				GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate( analyzer.getAid(), DateTools
 		//						.parseYYYYMMDDDate("2010-10-29"));
 		//				GroupEarn ge = new GroupEarn();
-		//				ge.setGroupid("A" + analyzer.getAid());
+		//				ge.setGroupid( analyzer.getAid());
 		//				ge.setDate(DateTools.parseYYYYMMDDDate("2010-11-01"));
 		//				ratios = ratios / stocks.size();
 		//				System.out.println("Gourp : " + analyzer.getName() + "   gain: " + ratios);
@@ -136,8 +136,8 @@ public class LocalStorage {
 		//		}
 		//		List<Analyzer> analyzerlist = gg.getAnalyzerDao().getAllAnalyzers();
 		//		for (Analyzer analyzer : analyzerlist) {
-		//			System.out.println("analyzer.getAid() :" + "A" + analyzer.getAid());
-		//			GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate("A" + analyzer.getAid(), DateTools
+		//			System.out.println("analyzer.getAid() :"  + analyzer.getAid());
+		//			GroupEarn tmp = groupEarnDao.getGroupEarnByIDAndDate( analyzer.getAid(), DateTools
 		//					.getYesterday(new Date()));
 		//			if (tmp == null) {
 		//				System.out.println("analyzer.getAid() :" + analyzer.getAid() + "  tmp is null!");

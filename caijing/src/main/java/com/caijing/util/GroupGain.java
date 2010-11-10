@@ -104,7 +104,7 @@ public class GroupGain {
 			}
 			try {
 				GroupStock gs = new GroupStock();
-				gs.setGroupid("A" + analyzer.getAid());
+				gs.setGroupid(analyzer.getAid());
 				gs.setGroupname(analyzer.getName());
 				gs.setStockcode(sg.getStockcode());
 				gs.setIntime(DateTools.parseYYYYMMDDDate(sg.getStartdate()));
@@ -161,7 +161,7 @@ public class GroupGain {
 		//			GroupEarn ge = new GroupEarn();
 		//			try {
 		//				ge.setDate(DateTools.parseYYYYMMDDDate(zsdates.get(i)));
-		//				ge.setGroupid("A" + analyzer.getAid());
+		//				ge.setGroupid(analyzer.getAid());
 		//				ge.setRatio(FloatUtil.getTwoDecimal(ratio));
 		//				ge.setWeight(FloatUtil.getTwoDecimal(weight));
 		//				groupEarnDao.insert(ge);

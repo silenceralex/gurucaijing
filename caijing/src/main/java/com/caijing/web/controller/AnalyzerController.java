@@ -54,7 +54,7 @@ public class AnalyzerController {
 		model.put("aname", aname);
 		Analyzer analyzer = gg.getAnalyzerDao().getAnalyzerByName(aname);
 		model.put("analyzer", analyzer);
-		List<GroupStock> currentstocks = gg.getGroupStockDao().getCurrentStockByGroupid("A" + analyzer.getAid());
+		List<GroupStock> currentstocks = gg.getGroupStockDao().getCurrentStockByGroupid(analyzer.getAid());
 		model.put("currentstocks", currentstocks);
 		System.out.println("gs.getFirstdate():" + gs.getFirstdate());
 		System.out.println("Stockname:" + gs.getFirststock());

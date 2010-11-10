@@ -50,7 +50,7 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 		for (String name : names) {
 			if (analyzerMap.containsKey(name)) {
 				GroupStock gs = new GroupStock();
-				gs.setGroupid("A" + analyzerMap.get(name).getAid());
+				gs.setGroupid(analyzerMap.get(name).getAid());
 				gs.setGroupname(name);
 				gs.setStockcode(rs.getStockcode());
 				try {
