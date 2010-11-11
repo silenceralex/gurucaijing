@@ -44,4 +44,8 @@
 
 	</delete>
 
+
+	<select id="getEarliestIntimeByAid" resultClass="java.util.Date" parameterClass="java.lang.String">
+		select intime from groupstock where groupid=#aid# order by intime limit 1
+	</select>
 </sqlMap>

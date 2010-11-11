@@ -1,5 +1,6 @@
 package com.caijing.dao.ibatis;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,11 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	public List<GroupStock> getCurrentStockByGroupid(String groupid) {
 		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getCurrentStockByGroupid",
 				groupid);
+	}
+
+	@Override
+	public Date getEarliestIntimeByAid(String aid) {
+		return (Date) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getEarliestIntimeByAid", aid);
 	}
 
 	@Override

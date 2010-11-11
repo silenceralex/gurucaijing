@@ -29,4 +29,12 @@ public class GroupEarnDaoImpl extends CrudDaoDefault implements GroupEarnDao {
 				date);
 	}
 
+	@Override
+	public List<Float> getWeightList(String aid, Date date) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("aid", aid);
+		params.put("startdate", date);
+		return (List<Float>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getWeightList", params);
+	}
+
 }

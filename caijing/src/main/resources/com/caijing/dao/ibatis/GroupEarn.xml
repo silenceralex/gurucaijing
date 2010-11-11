@@ -45,5 +45,9 @@
 	<delete id="delete" parameterClass="GroupEarn">
 		delete from groupgain where groupid=#groupid# and date=#date#
 	</delete>
+	
+	<select id="getWeightList" resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select weight from groupgain where groupid=#aid# and date > #startdate#
+	</select>
 
 </sqlMap>

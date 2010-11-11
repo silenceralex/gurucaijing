@@ -75,10 +75,24 @@ public class DateTools {
 		return df.format(date);
 	}
 
+	public static String transformMMDDDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+		return sdf.format(date);
+	}
+
+	public static Date getToday() {
+		Calendar cld = Calendar.getInstance();
+		cld.set(Calendar.HOUR, 0);
+		cld.set(Calendar.MINUTE, 0);
+		cld.set(Calendar.HOUR, 0);
+		cld.set(Calendar.SECOND, 0);
+		return cld.getTime();
+	}
+
 	public static void main(String[] args) {
 		DateTools tools = new DateTools();
 		System.out.println(tools.transformYYYYMMDDDate("20100830"));
-
-		tools.getAfterDay("20100830");
+		System.out.println(DateTools.getToday());
+		//tools.getAfterDay("20100830");
 	}
 }

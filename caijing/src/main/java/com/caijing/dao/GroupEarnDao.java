@@ -12,4 +12,6 @@ public interface GroupEarnDao extends CrudDao {
 	public Date getLatestDate();
 
 	public List<GroupEarn> getGroupEarnRankByDate(Date date);
+
+	public List<Float> getWeightList(String aid, Date date);
 }

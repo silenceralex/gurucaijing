@@ -61,5 +61,6 @@
 	<classpathentry kind="lib" path="lib/jdom/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/jdom/jaxen-1.1-beta-4.jar"/>
 	<classpathentry kind="lib" path="lib/build/ddd.jar"/>
+	<classpathentry kind="lib" path="lib/velocity/velocity-1.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
