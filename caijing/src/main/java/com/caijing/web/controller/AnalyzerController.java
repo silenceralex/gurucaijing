@@ -151,7 +151,8 @@ public class AnalyzerController {
 		List<Analyzer> analyzers = new ArrayList<Analyzer>();
 		List<Float> gains = new ArrayList<Float>();
 		for (GroupEarn groupearn : groupearnlist) {
-			String aid = groupearn.getGroupid().substring(1);
+			String aid = groupearn.getGroupid();
+			//						String aid = groupearn.getGroupid().substring(1);
 			Analyzer analyzer = (Analyzer) gg.getAnalyzerDao().select(aid);
 			analyzers.add(analyzer);
 			gains.add(FloatUtil.getTwoDecimal(groupearn.getWeight() - 100));

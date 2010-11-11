@@ -27,6 +27,11 @@ public class CmsWebservice {
 		return cmsService.addArticle(catalogID, title, author, content, publishDate);
 	}
 
+	public long addArticle(long catalogID, String title, String author, String summary, String content,
+			String publishDate) {
+		return cmsService.addArticle(catalogID, title, author, summary, content, publishDate);
+	}
+
 	public static void main(String[] args) {
 		//		try {
 		//			ObjectServiceFactory serviceFactory = new ObjectServiceFactory();
@@ -37,7 +42,9 @@ public class CmsWebservice {
 		//			cmsService.addArticle(9129, "测试标题1", "admin", "测试内容1", "2010-05-04");
 
 		CmsWebservice cmsService = new CmsWebservice();
-		long id = cmsService.addArticle(9129, "测试标题5", "admin", "测试内容5", "2010-05-04 01:23:12");
+		//		long id = cmsService.addArticle(9129, "测试标题5", "admin", "测试内容5", "2010-05-04 01:23:12");
+		long id = cmsService.addArticle(9129, "摘要测试", "admin", "summary", "测试内容5", "2010-05-04 01:23:12");
+
 		System.out.println(id);
 		//		} catch (MalformedURLException e) {
 		//			// TODO Auto-generated catch block
