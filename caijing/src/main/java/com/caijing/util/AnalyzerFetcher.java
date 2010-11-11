@@ -7,10 +7,12 @@ import java.util.List;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
+import com.caijing.business.GroupGainManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ibatis.AnalyzerDaoImpl;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.RecommendStock;
 
 public class AnalyzerFetcher {
 
@@ -38,10 +40,18 @@ public class AnalyzerFetcher {
 	public static void main(String[] args) {
 		AnalyzerDao analyzerDao = (AnalyzerDaoImpl) ContextFactory.getBean("analyzerDao");
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		GroupGainManager groupGainManager = (GroupGainManager) ContextFactory.getBean("groupGainManager");
+
 		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
 		int i = 0;
 		for (Analyzer analyzer : analyzers) {
-			recommendStockDao.updateAnalyzer(analyzer.getName(), analyzer.getAid());
+			//			recommendStockDao.updateAnalyzer(analyzer.getName(), analyzer.getAid());
+			List<RecommendStock> rstocks = recommendStockDao
+					.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 100);
+			System.out.println("rstocks size : " + rstocks.size());
+			for (RecommendStock rs : rstocks) {
+				groupGainManager.extractGroupStock(rs);
+			}
 			i++;
 		}
 

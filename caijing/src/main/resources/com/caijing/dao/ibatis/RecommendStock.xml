@@ -40,8 +40,8 @@
 	<select id="getRecommendStocksByStockname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
-		as r where rs.reportid=r.rid and rs.stockname like #stockname# order
-		by rs.createdate desc
+		as r where rs.reportid=r.rid and rs.stockname like #stockname#
+		order by rs.createdate desc
 	</select>
 
 	<select id="getRecommendStocksBySaname"
@@ -116,10 +116,11 @@
 		resultClass="RecommendStock">
 		select * from recommendstock where reportid=#reportid#
 	</select>
-	
+
 	<select id="getRecommendStocksGroupByCode"
 		resultClass="RecommendStock">
-		select * from recommendstock group by stockcode order by createdate
+		select * from recommendstock group by stockcode order by
+		createdate
 	</select>
 
 	<insert id="insert">
@@ -137,6 +138,17 @@
 			</isNotEmpty>
 		</dynamic>
 		where aname like #aname#
+	</update>
+
+	<update id="updateAnalyzerByReportid"
+		parameterClass="java.util.Map">
+		update recommendstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="aid">
+				user = #aid#
+			</isNotEmpty>
+		</dynamic>
+		where reportid= #reportid#
 	</update>
 
 	<update id="update" parameterClass="RecommendStock">

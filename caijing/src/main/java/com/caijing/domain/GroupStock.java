@@ -8,6 +8,13 @@ public class GroupStock {
 	String groupname = null;
 	Date intime = null;
 	Date outtime = null;
+	Date ltime = null;
+	String inreportid = null;
+	String outreportid = null;
+	float inprice = 0;
+	float objectprice = 0;
+	float currentprice = 0;
+	float gain = 0;
 	int status = 1;
 	int type = 0;
 
@@ -65,5 +72,61 @@ public class GroupStock {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public String getInreportid() {
+		return inreportid;
+	}
+
+	public void setInreportid(String inreportid) {
+		this.inreportid = inreportid;
+	}
+
+	public String getOutreportid() {
+		return outreportid;
+	}
+
+	public void setOutreportid(String outreportid) {
+		this.outreportid = outreportid;
+	}
+
+	public float getInprice() {
+		return inprice;
+	}
+
+	public void setInprice(float inprice) {
+		this.inprice = inprice;
+	}
+
+	public float getObjectprice() {
+		return objectprice;
+	}
+
+	public void setObjectprice(float objectprice) {
+		this.objectprice = objectprice;
+	}
+
+	public float getGain() {
+		return gain;
+	}
+
+	public void setGain(float gain) {
+		this.gain = gain;
+	}
+
+	public Date getLtime() {
+		return ltime;
+	}
+
+	public void setLtime(Date ltime) {
+		this.ltime = ltime;
+	}
+
+	public float getCurrentprice() {
+		return currentprice;
+	}
+
+	public void setCurrentprice(float currentprice) {
+		this.currentprice = currentprice;
 	}
 }

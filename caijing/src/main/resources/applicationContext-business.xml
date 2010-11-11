@@ -33,6 +33,15 @@
 		<property name="analyzerDao">
 			<ref bean="analyzerDao" />
 		</property>
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+		<property name="stockEarnDao">
+			<ref bean="stockEarnDao" />
+		</property>
+		<property name="sp">
+			<ref bean="stockPrice" />
+		</property>
 	</bean>
 
 

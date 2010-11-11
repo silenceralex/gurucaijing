@@ -21,6 +21,11 @@ public class DateTools {
 		return sdf.parse(date);
 	}
 
+	public static Date parseShortDate(String date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		return sdf.parse(date);
+	}
+
 	//	public static Date parseYYYYMMDDDate(String date) throws ParseException {
 	//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	//		return sdf.parse(date);

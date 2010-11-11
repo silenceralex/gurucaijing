@@ -4,18 +4,26 @@
 
 	<typeAlias alias="GroupStock" type="com.caijing.domain.GroupStock" />
 
-	<select id="select" resultClass="GroupStock" parameterClass="java.util.Map">
+	<select id="select" resultClass="GroupStock"
+		parameterClass="java.util.Map">
 		select * from groupstock where groupid=#groupid#
 	</select>
-	
-	
-	<select id="getCurrentStockByGroupid" resultClass="GroupStock" parameterClass="java.lang.String">
+
+
+	<select id="getCurrentStockByGroupid" resultClass="GroupStock"
+		parameterClass="java.lang.String">
 		select * from groupstock where groupid=#value# and status=1
 	</select>
-	
+
+	<select id="getCurrentStockByGroupidAndStockcode"
+		resultClass="GroupStock" parameterClass="java.util.Map">
+		select * from groupstock where groupid=#groupid# and
+		stockcode=#stockcode# and status=1
+	</select>
+
 	<insert id="insert">
-		insert into groupstock (groupid,groupname,stockcode,intime) values
-		(#groupid#,#groupname#,#stockcode#,#intime#)
+		insert into groupstock (groupid,groupname,stockcode,intime,inreportid,objectprice,inprice)
+		values (#groupid#,#groupname#,#stockcode#,#intime#,#inreportid#,#objectprice#,#inprice#)
 	</insert>
 
 	<update id="update" parameterClass="GroupStock">
@@ -23,13 +31,17 @@
 		<dynamic prepend="set">
 			<isNotEmpty prepend="," property="outtime">
 				outtime = #outtime#
-			</isNotEmpty>				
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="outreportid">
+				outreportid = #outreportid#
+			</isNotEmpty>
 		</dynamic>
 		,status = 0 where groupid=#groupid# and stockcode=#stockcode#
+		and status =1
 	</update>
 
 	<delete id="delete" parameterClass="GroupStock">
-	
+
 	</delete>
 
 </sqlMap>

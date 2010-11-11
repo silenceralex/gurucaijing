@@ -7,4 +7,6 @@ import com.caijing.util.CrudDao;
 
 public interface GroupStockDao extends CrudDao {
 	List<GroupStock> getCurrentStockByGroupid(String groupid);
+
+	GroupStock getCurrentStockByGroupidAndStockcode(String groupid, String stockcode);
 }

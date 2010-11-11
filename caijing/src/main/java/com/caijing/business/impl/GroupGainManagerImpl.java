@@ -10,9 +10,13 @@ import org.springframework.beans.factory.InitializingBean;
 import com.caijing.business.GroupGainManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.GroupStockDao;
+import com.caijing.dao.RecommendStockDao;
+import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendStock;
+import com.caijing.domain.StockEarn;
+import com.caijing.model.StockPrice;
 import com.caijing.util.DateTools;
 
 public class GroupGainManagerImpl implements GroupGainManager, InitializingBean {
@@ -30,6 +34,12 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 	private AnalyzerDao analyzerDao = null;
 
 	private GroupStockDao groupStockDao = null;
+
+	private RecommendStockDao recommendStockDao = null;
+
+	private StockEarnDao stockEarnDao = null;
+
+	private StockPrice sp = null;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -50,17 +60,36 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 		for (String name : names) {
 			if (analyzerMap.containsKey(name)) {
 				GroupStock gs = new GroupStock();
-				gs.setGroupid(analyzerMap.get(name).getAid());
+				String aid = analyzerMap.get(name).getAid();
+				gs.setGroupid(aid);
 				gs.setGroupname(name);
 				gs.setStockcode(rs.getStockcode());
+				recommendStockDao.updateAnalyzerByReportid(rs.getReportid(), aid);
+				GroupStock oldstock = groupStockDao.getCurrentStockByGroupidAndStockcode(aid, rs.getStockcode());
+
 				try {
-					if (buyset.contains(rs.getGrade())) {
-						gs.setIntime(DateTools.parseYYYYMMDDDate(rs.getCreatedate()));
+					if (buyset.contains(rs.getGrade()) && (oldstock == null)) {
+						gs.setIntime(DateTools.parseShortDate(rs.getCreatedate()));
+						gs.setInreportid(rs.getReportid());
+						gs.setObjectprice(rs.getObjectprice());
+						StockEarn se = stockEarnDao.getStockEarnByCodeDate(rs.getStockcode(), DateTools
+								.transformYYYYMMDDDate(rs.getCreatedate()));
+						float inprice = 0;
+						if (se != null) {
+							inprice = se.getPrice();
+						} else {
+							inprice = sp
+									.fetchhq(rs.getStockcode(), DateTools.transformYYYYMMDDDate(rs.getCreatedate()))
+									.getEndprice();
+						}
+
+						gs.setInprice(inprice);
 						groupStockDao.insert(gs);
 					}
-					if (sellset.contains(rs.getGrade())) {
-						gs.setOuttime(DateTools.parseYYYYMMDDDate(rs.getCreatedate()));
-						groupStockDao.update(gs);
+					if (sellset.contains(rs.getGrade()) && (oldstock != null)) {
+						oldstock.setOuttime(DateTools.parseShortDate(rs.getCreatedate()));
+						oldstock.setOutreportid(rs.getReportid());
+						groupStockDao.update(oldstock);
 					}
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -83,6 +112,30 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 
 	public void setGroupStockDao(GroupStockDao groupStockDao) {
 		this.groupStockDao = groupStockDao;
+	}
+
+	public RecommendStockDao getRecommendStockDao() {
+		return recommendStockDao;
+	}
+
+	public void setRecommendStockDao(RecommendStockDao recommendStockDao) {
+		this.recommendStockDao = recommendStockDao;
+	}
+
+	public StockEarnDao getStockEarnDao() {
+		return stockEarnDao;
+	}
+
+	public void setStockEarnDao(StockEarnDao stockEarnDao) {
+		this.stockEarnDao = stockEarnDao;
+	}
+
+	public StockPrice getSp() {
+		return sp;
+	}
+
+	public void setSp(StockPrice sp) {
+		this.sp = sp;
 	}
 
 }
