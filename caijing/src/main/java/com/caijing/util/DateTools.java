@@ -11,6 +11,11 @@ public class DateTools {
 		return sdf.format(date);
 	}
 
+	public static String transformDateDetail(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(date);
+	}
+
 	public static String transformYYYYMMDDDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);

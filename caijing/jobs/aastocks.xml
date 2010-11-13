@@ -25,7 +25,7 @@
 				</innermatch>
 				<innermatch property="author">
 					<regexp>
-						<![CDATA[<h1><span>([\u4e00-\u9fa5]*)：]]>
+						<![CDATA[<h1><span>([\u4e00-\u9fa5]*)[：:]]]>
 					</regexp>
 				</innermatch>
 				<innermatch property="ptime"

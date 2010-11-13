@@ -63,8 +63,7 @@
 
 	<select id="getAllColumnArticle" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle limit #start#,#offset# order by
-		ptime desc
+		select * from columnarticle order by ptime desc limit #start#,#offset# 
 	</select>
 
 </sqlMap>

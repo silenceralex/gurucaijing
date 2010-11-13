@@ -23,7 +23,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
+import com.caijing.remote.CmsWebservice;
 import com.caijing.util.ContextFactory;
+import com.caijing.util.DateTools;
 import com.caijing.util.UrlDownload;
 
 /**
@@ -185,6 +187,15 @@ public class CrawlJob implements Runnable {
 				} else {
 					ColumnArticle article = special.processPage(url, content, urldown);
 					columnArticleDao.insert(article);
+					long articleid = CmsWebservice.getInstance().addArticle(CmsWebservice.catelogID,
+							article.getTitle(), article.getAuthor(), article.getSrc(), article.getAbs(),
+							article.getContent(), DateTools.transformDateDetail(article.getPtime()));
+					if (CmsWebservice.getInstance().publishArticle(articleid)) {
+						System.out.println("publish article:" + article.getTitle() + " success!");
+					} else {
+						System.out.println("publish article:" + article.getTitle() + " failed!");
+					}
+
 					urlDB.putUrl(url.toString());
 				}
 			} catch (Exception e) {
