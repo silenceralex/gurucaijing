@@ -153,4 +153,12 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 
 	}
 
+	@Override
+	public List<String> getFilePathByAid(String aid, String stockcode, int length) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("aid", aid);
+		params.put("stockcode", stockcode);
+		params.put("length", length);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getFilePathByAid", params);
+	}
 }

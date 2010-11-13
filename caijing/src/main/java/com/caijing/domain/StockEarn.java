@@ -7,6 +7,7 @@ public class StockEarn {
 	private Date date = null;
 	private float ratio = 0;
 	private float price = 0;
+	private float currratio = 0;
 
 	public String getStockcode() {
 		return stockcode;
@@ -39,4 +40,13 @@ public class StockEarn {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	public float getCurrratio() {
+		return currratio;
+	}
+
+	public void setCurrratio(float currratio) {
+		this.currratio = currratio;
+	}
+
 }

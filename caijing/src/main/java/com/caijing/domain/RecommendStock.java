@@ -3,8 +3,8 @@ package com.caijing.domain;
 import java.util.Date;
 
 public class RecommendStock {
-	private String recommendid=null;
-	private String reportid=null;
+	private String recommendid = null;
+	private String reportid = null;
 	private String stockcode = null;
 	private String stockname = null;
 	private String aname = null;
@@ -14,16 +14,17 @@ public class RecommendStock {
 	private String createdate = null;
 	private String enddate = null;
 	private String info = null;
-	private String title=null;
+	private String title = null;
 	private String user = null;
 	private float buyprice = 0;
 	private float objectprice = 0;
-	private int extractnum=0;
+	private int extractnum = 0;
 	// private Date ptime = null;
 	private Date lmodify = null;
 	private String eps = null;
 	// 推荐级别，下调，推荐，买入，卖出，维持
 	private String grade = null;
+	private String filepath = null;
 
 	public String getStockcode() {
 		return stockcode;
@@ -181,5 +182,13 @@ public class RecommendStock {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 }

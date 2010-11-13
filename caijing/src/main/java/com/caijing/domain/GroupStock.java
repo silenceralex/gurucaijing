@@ -1,10 +1,12 @@
 package com.caijing.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class GroupStock {
 	String groupid = null;
 	String stockcode = null;
+	String stockname = null;
 	String groupname = null;
 	Date intime = null;
 	Date outtime = null;
@@ -17,6 +19,7 @@ public class GroupStock {
 	float gain = 0;
 	int status = 1;
 	int type = 0;
+	List<String> filePathList = null;
 
 	public String getGroupid() {
 		return groupid;
@@ -32,6 +35,14 @@ public class GroupStock {
 
 	public void setStockcode(String stockcode) {
 		this.stockcode = stockcode;
+	}
+
+	public String getStockname() {
+		return stockname;
+	}
+
+	public void setStockname(String stockname) {
+		this.stockname = stockname;
 	}
 
 	public String getGroupname() {
@@ -128,5 +139,13 @@ public class GroupStock {
 
 	public void setCurrentprice(float currentprice) {
 		this.currentprice = currentprice;
+	}
+
+	public List<String> getFilePathList() {
+		return filePathList;
+	}
+
+	public void setFilePathList(List<String> filePathList) {
+		this.filePathList = filePathList;
 	}
 }

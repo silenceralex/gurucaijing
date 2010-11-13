@@ -35,8 +35,8 @@
 		delete from stockearn where stockcode=#stockcode# and date=#date#
 	</delete>
 
-	<select id="getPriceByCodeDate" resultClass="java.lang.Integer" parameterClass="java.util.Map">
-		select price from stockearn where stockcode=#stockcode# and date>#date# order by date
+	<select id="getPriceByCodeDate" resultClass="StockEarn" parameterClass="java.util.Map">
+		select * from stockearn where stockcode=#stockcode# and date>#date# order by date
 	</select>
 
 </sqlMap>

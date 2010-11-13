@@ -1,9 +1,10 @@
 package com.caijing.flush;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.GroupEarnDao;
@@ -12,6 +13,10 @@ import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.DiscountStock;
+import com.caijing.domain.GroupEarn;
+import com.caijing.domain.GroupStock;
+import com.caijing.domain.RecommendStock;
+import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
@@ -46,36 +51,76 @@ public class HtmlFlusher {
 		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		List<Analyzer> analyzerList = analyzerDao.getAllAnalyzers();
 		if (analyzerList != null && analyzerList.size() > 0) {
-			VMFactory vmf = new VMFactory();
+			DateTools dateTools = new DateTools();
 			for (Analyzer analyzer : analyzerList) {
+				//生成分析师intro页面
 				String aid = analyzer.getAid();
 				GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 				Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(startDate);
-				Date today = DateTools.getToday();
-				List<String> dateList = new ArrayList<String>();
-				while (calendar.getTime().compareTo(today) <= 0) {
-					dateList.add(DateTools.transformMMDDDate(calendar.getTime()));
-					calendar.add(Calendar.DAY_OF_YEAR, 1);
-				}
 
 				GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-				List<Float> weightList = groupEarnDao.getWeightList(aid, startDate);
+				List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
 
-				StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("groupEarnDao");
+				StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
 						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-				List<Float> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
+				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
 						.transformYYYYMMDDDate(startDate));
+				VMFactory introvmf = new VMFactory();
+				introvmf.setTemplate("/admin/starintro.htm");
+				introvmf.put("dateTools", dateTools);
+				introvmf.put("analyzer", analyzer);
+				introvmf.put("analyzerList", analyzerList);
+				introvmf.put("weightList", weightList);
+				introvmf.put("startprice", startprice);
+				introvmf.put("priceList", priceList);
+				introvmf.save(ADMINDIR + aid + "_intro.html");
 
-				vmf.setTemplate("/admin/starintro.htm");
-				vmf.put("analyzer", analyzer);
-				vmf.put("dateList", dateList);
-				vmf.put("weightList", weightList);
-				vmf.put("startprice", startprice);
-				vmf.put("priceList", priceList);
-				vmf.save(ADMINDIR + analyzer.getAid() + "_intro.html");
+				//生成分析师stock页面
+				RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+				List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
+				Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+				for (GroupStock stock : stockDetailList) {
+					List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(), DateTools
+							.transformYYYYMMDDDate(stock.getIntime()));
+					List<String> filePathList = recommendStockDao.getFilePathByAid(aid, stock.getStockcode(), 3);
+					stock.setFilePathList(filePathList);
+					for (int i = 0; i < stockEarnList.size(); i++) {
+						StockEarn stockEarn = stockEarnList.get(i);
+						float currratio = 0;
+						if (i != 0) {
+							currratio = stockEarn.getRatio() / 100;
+						} else {
+							currratio = (1 + stockEarnList.get(i - 1).getCurrratio())
+									* (1 + stockEarn.getRatio() / 100) - 1;
+						}
+						stockEarn.setCurrratio(currratio);
+					}
+					stockDetailMap.put(stock.getStockcode(), stockEarnList);
+				}
+				VMFactory stockvmf = new VMFactory();
+				stockvmf.setTemplate("/admin/starstock.htm");
+				stockvmf.put("dateTools", dateTools);
+				stockvmf.put("analyzer", analyzer);
+				stockvmf.put("analyzerList", analyzerList);
+				stockvmf.put("stockDetailList", stockDetailList);
+				stockvmf.put("startprice", startprice);
+				stockvmf.put("priceList", priceList);
+				stockvmf.put("stockDetailMap", stockDetailMap);
+				stockvmf.save(ADMINDIR + aid + "_stock.html");
+
+				//生成分析师report页面
+				List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0,
+						15);
+				VMFactory reportvmf = new VMFactory();
+				reportvmf.setTemplate("/admin/starreport.htm");
+				reportvmf.put("dateTools", dateTools);
+				reportvmf.put("analyzer", analyzer);
+				reportvmf.put("analyzerList", analyzerList);
+				reportvmf.put("stockList", stockList);
+				reportvmf.save(ADMINDIR + aid + "_report.html");
 			}
 		}
 	}

@@ -80,9 +80,15 @@ public class DateTools {
 		return df.format(date);
 	}
 
-	public static String transformMMDDDate(Date date) {
+	public String transformMMDDDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
 		return sdf.format(date);
+	}
+
+	public String transformDate(String date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date dateObj = sdf.parse(date);
+		return transformDate(dateObj);
 	}
 
 	public static Date getToday() {
