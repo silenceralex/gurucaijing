@@ -47,7 +47,7 @@ public class HtmlFlusher {
 		}
 	}
 
-	public void flushStarGuruDetailIntro() {
+	public void flushStarGuruDetail() {
 		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		List<Analyzer> analyzerList = analyzerDao.getAllAnalyzers();
 		if (analyzerList != null && analyzerList.size() > 0) {
