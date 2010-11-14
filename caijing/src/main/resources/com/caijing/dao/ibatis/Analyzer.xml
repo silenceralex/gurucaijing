@@ -62,4 +62,7 @@
 		delete from analyzer where aid=#aid#
 	</delete>
 
+	<select id="getAnalyzerRankList" parameterClass="java.util.Map" resultClass="Analyzer">
+		select a.aid,g.weight as weight,a.industry,a.agency,a.name from groupgain g,analyzer a where g.date=#date# and g.groupid=a.aid order by g.weight desc limit #length#
+	</select>
 </sqlMap>

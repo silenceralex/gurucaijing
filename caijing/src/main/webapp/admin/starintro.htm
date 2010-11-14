@@ -132,7 +132,7 @@
 					                </tr>
 			                        <tr>
 										#if ($priceList)#foreach ($one in $priceList)
-                                        <td>${one.getPrice()},${(one.getPrice()-startprice)*100}%</td>
+                                        <td>${one.getPrice()},${(one.getPrice()-startprice)/startprice*100}%</td>
 										#end#end
 					                </tr>
 					        		</table>

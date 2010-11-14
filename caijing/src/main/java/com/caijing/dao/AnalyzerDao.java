@@ -1,5 +1,6 @@
 package com.caijing.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.caijing.domain.Analyzer;
@@ -11,4 +12,6 @@ public interface AnalyzerDao extends CrudDao {
 	public List<Analyzer> getAllAnalyzers();
 
 	public Analyzer getAnalyzerByName(String name);
+
+	public List<Analyzer> getAnalyzerRankList(Date date, int length);
 }

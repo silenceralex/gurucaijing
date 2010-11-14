@@ -128,7 +128,7 @@
 									#if ($stockDetailList)#foreach ($one in $stockDetailList)
 									#if ($count%2 == 1)
 									<tr onmouseover="showAnaly($count,'rec$count','${one.getStockname()}(${one.getStockcode()})','´óÅÌÕÇµø·ù¶È')">
-									#elseif
+									#else
 									<tr class="star_detail_tb_even" onmouseover="showAnaly($count,'rec$count','${one.getStockname()}(${one.getStockcode()})','´óÅÌÕÇµø·ù¶È')">
 									#end
 									<td>${one.getStockname()}(${one.getStockcode()})</td>
@@ -138,7 +138,7 @@
 			            			<td>${one.getCurrentprice()}</td>
 									#if (${one.getObjectprice() != 0})
 			            			<td>${one.getObjectprice()-one.getCurrentprice()}</td>
-									#elseif
+									#else
 									<td> - </td>
 									#end
 			            			<td>${one.getGain()}</td>
@@ -171,7 +171,7 @@
 									</tr>
 									<tr>
 										#if ($priceList)#foreach ($one in $priceList)
-                                        <td>${one.getPrice()},${(one.getPrice()-startprice)*100}%</td>
+                                        <td>${one.getPrice()},${(one.getPrice()-startprice)/startprice*100}%</td>
 										#end#end
 									</tr>
 								</table>

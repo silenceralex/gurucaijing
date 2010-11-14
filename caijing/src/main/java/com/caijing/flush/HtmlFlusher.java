@@ -125,6 +125,42 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushAnalyzerRank() {
+		DateTools dateTools = new DateTools();
+		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
+		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
+		Date date = DateTools.getToday();
+		List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(date, 10);
+		Map<String, String> startDateMap = new HashMap<String, String>();
+		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
+		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
+		Map<String, Float> startPriceMap = new HashMap<String, Float>();
+		for (Analyzer analyzer : analyzerList) {
+			Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
+			startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
+			List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
+			groupEarnMap.put(analyzer.getAid(), weightList);
+			float startprice = stockEarnDao
+					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+			startPriceMap.put(analyzer.getAid(), startprice);
+			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
+					.transformYYYYMMDDDate(startDate));
+			stockEarnMap.put(analyzer.getAid(), priceList);
+		}
+		VMFactory vmf = new VMFactory();
+		vmf.setTemplate("/admin/analyzerrank.htm");
+		vmf.put("dateTools", dateTools);
+		vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
+		vmf.put("analyzerList", analyzerList);
+		vmf.put("startDateMap", startDateMap);
+		vmf.put("groupEarnMap", groupEarnMap);
+		vmf.put("stockEarnMap", stockEarnMap);
+		vmf.put("startPriceMap", startPriceMap);
+		vmf.save(ADMINDIR + "_ranking.html");
+	}
+
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
 		flusher.flushDiscount();

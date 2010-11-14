@@ -1,6 +1,9 @@
 package com.caijing.dao.ibatis;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.domain.Analyzer;
@@ -21,6 +24,14 @@ public class AnalyzerDaoImpl extends CrudDaoDefault implements AnalyzerDao {
 	@Override
 	public Analyzer getAnalyzerByName(String name) {
 		return (Analyzer) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getAnalyzerByName", name);
+	}
+
+	@Override
+	public List<Analyzer> getAnalyzerRankList(Date date, int length) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("date", date);
+		params.put("length", length);
+		return (List<Analyzer>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getAnalyzerRankList", params);
 	}
 
 }
