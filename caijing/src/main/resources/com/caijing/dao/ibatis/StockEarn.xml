@@ -38,5 +38,9 @@
 	<select id="getPriceByCodeDate" resultClass="StockEarn" parameterClass="java.util.Map">
 		select * from stockearn where stockcode=#stockcode# and date>#date# order by date
 	</select>
+	
+	<select id="getRatiosByCodeFromDate" resultClass="StockEarn" parameterClass="java.util.Map">
+		select * from stockearn where stockcode=#stockcode# and date>#date# order by date
+	</select>
 
 </sqlMap>

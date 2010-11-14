@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupEarn;
@@ -22,6 +23,10 @@ public class LocalStorage {
 	@Autowired
 	@Qualifier("stockEarnDao")
 	private StockEarnDao stockEarnDao = null;
+
+	@Autowired
+	@Qualifier("groupStockDao")
+	private GroupStockDao groupStockDao = null;
 
 	public void localStore() {
 		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
@@ -49,6 +54,11 @@ public class LocalStorage {
 					ratios += se.getRatio();
 				}
 				System.out.println("Stock : " + stock.getStockcode() + " ratio:" + se.getRatio());
+				stock.setCurrentprice(se.getPrice());
+				float gain = (1 + stock.getGain() / 100) * (1 + se.getRatio() / 100);
+				stock.setGain(FloatUtil.getTwoDecimal((gain - 1) * 100));
+				stock.setLtime(new Date());
+				groupStockDao.updateStockGain(stock);
 			}
 			GroupEarn tmp = groupGain.getGroupEarnDao().getGroupEarnByIDAndDate(analyzer.getAid(),
 					DateTools.getYesterday(new Date()));
@@ -64,7 +74,22 @@ public class LocalStorage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	public void storeGroupStockGain() {
+		List<GroupStock> stocks = groupStockDao.getAllGroupStock();
+		for (GroupStock stock : stocks) {
+			List<StockEarn> stockEarns = stockEarnDao.getRatiosByCodeFromDate(stock.getStockcode(), DateTools
+					.transformYYYYMMDDDate(stock.getIntime()));
+			float gain = 1;
+			for (int i = 0; i < stockEarns.size(); i++) {
+				gain = (1 + stockEarns.get(i).getRatio() / 100) * gain;
+			}
+			stock.setCurrentprice(stockEarns.get(stockEarns.size() - 1).getPrice());
+			stock.setGain(FloatUtil.getTwoDecimal((gain - 1) * 100));
+			stock.setLtime(stockEarns.get(stockEarns.size() - 1).getDate());
+			groupStockDao.updateStockGain(stock);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -146,7 +171,8 @@ public class LocalStorage {
 
 		//		System.out.print(DateTools.getYesterday(new Date()));
 		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		storage.localStore();
+		//		storage.localStore();
+		storage.storeGroupStockGain();
 	}
 
 	public GroupGain getGroupGain() {
@@ -163,5 +189,13 @@ public class LocalStorage {
 
 	public void setStockEarnDao(StockEarnDao stockEarnDao) {
 		this.stockEarnDao = stockEarnDao;
+	}
+
+	public GroupStockDao getGroupStockDao() {
+		return groupStockDao;
+	}
+
+	public void setGroupStockDao(GroupStockDao groupStockDao) {
+		this.groupStockDao = groupStockDao;
 	}
 }

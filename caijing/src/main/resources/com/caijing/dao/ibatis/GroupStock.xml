@@ -22,9 +22,29 @@
 	</select>
 
 	<insert id="insert">
-		insert into groupstock (groupid,groupname,stockcode,intime,inreportid,objectprice,inprice)
-		values (#groupid#,#groupname#,#stockcode#,#intime#,#inreportid#,#objectprice#,#inprice#)
+		insert into groupstock
+		(groupid,groupname,stockcode,intime,inreportid,objectprice,inprice)
+		values
+		(#groupid#,#groupname#,#stockcode#,#intime#,#inreportid#,#objectprice#,#inprice#)
 	</insert>
+	
+	<update id="updateStockGain" parameterClass="GroupStock">
+		update groupstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="currentprice">
+				currentprice = #currentprice#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gain">
+				gain = #gain#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ltime">
+				ltime = #ltime#
+			</isNotEmpty>
+		</dynamic>
+		where groupid=#groupid# and stockcode=#stockcode# and status =1
+	</update>
+	
+	
 
 	<update id="update" parameterClass="GroupStock">
 		update groupstock
@@ -36,8 +56,7 @@
 				outreportid = #outreportid#
 			</isNotEmpty>
 		</dynamic>
-		,status = 0 where groupid=#groupid# and stockcode=#stockcode#
-		and status =1
+		,status = 0 where groupid=#groupid# and stockcode=#stockcode# and status =1
 	</update>
 
 	<delete id="delete" parameterClass="GroupStock">
@@ -45,9 +64,16 @@
 	</delete>
 
 
-	<select id="getEarliestIntimeByAid" resultClass="java.util.Date" parameterClass="java.lang.String">
-		select intime from groupstock where groupid=#aid# order by intime limit 1
+	<select id="getEarliestIntimeByAid" resultClass="java.util.Date"
+		parameterClass="java.lang.String">
+		select intime from groupstock where groupid=#aid# order by
+		intime limit 1
 	</select>
+
+	<select id="getAllGroupStock" resultClass="GroupStock">
+		select * from groupstock where status=1
+	</select>
+
 	
 	<select id="getNameAndCodeByAid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
 		select s.stockname as stockname,gs.* from groupstock gs,stock s where gs.groupid=#aid# and gs.stockcode = s.stockcode and gs.status=1

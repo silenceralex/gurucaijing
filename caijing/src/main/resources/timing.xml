@@ -141,7 +141,7 @@
 			<ref bean="scheduledlocalStorage" />
 		</property>
 		<property name="cronExpression">
-			<value>0 30 15 * * ?</value><!-- 每天下午3点半执行一次本地计算 -->
+			<value>0 30 15 ? * MON-FRI</value><!-- 每天下午3点半执行一次本地计算 -->
 		</property>
 	</bean>
 

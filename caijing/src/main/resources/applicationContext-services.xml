@@ -56,6 +56,9 @@
 		<property name="stockEarnDao">
 			<ref bean="stockEarnDao" />
 		</property>
+		<property name="groupStockDao">
+			<ref bean="groupStockDao" />
+		</property>
 	</bean>
 	
 	<import resource="timing.xml" />

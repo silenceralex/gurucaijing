@@ -9,4 +9,6 @@ public interface StockEarnDao extends CrudDao {
 	public StockEarn getStockEarnByCodeDate(String stockcode, String date);
 
 	public List<StockEarn> getPriceByCodeDate(String stockcode, String date);
+
+	public List<StockEarn> getRatiosByCodeFromDate(String stockcode, String date);
 }
