@@ -38,12 +38,13 @@ public class LocalStorage {
 		groupGain.getSp().currentPrice("000300");
 
 		List<Analyzer> analyzerlist = groupGain.getAnalyzerDao().getAllAnalyzers();
+		Date date = groupGain.getGroupEarnDao().getLatestDate();
 		for (Analyzer analyzer : analyzerlist) {
-			storeAnaylzerGain(analyzer);
+			storeAnaylzerGain(analyzer, date);
 		}
 	}
 
-	private void storeAnaylzerGain(Analyzer analyzer) {
+	private void storeAnaylzerGain(Analyzer analyzer, Date date) {
 		try {
 			List<GroupStock> stocks = groupGain.getGroupStockDao().getCurrentStockByGroupid(analyzer.getAid());
 			float ratios = 0;
@@ -61,7 +62,7 @@ public class LocalStorage {
 				groupStockDao.updateStockGain(stock);
 			}
 			GroupEarn tmp = groupGain.getGroupEarnDao().getGroupEarnByIDAndDate(analyzer.getAid(),
-					DateTools.getYesterday(new Date()));
+					DateTools.transformYYYYMMDDDate(date));
 
 			GroupEarn ge = new GroupEarn();
 			ge.setGroupid(analyzer.getAid());
@@ -171,8 +172,8 @@ public class LocalStorage {
 
 		//		System.out.print(DateTools.getYesterday(new Date()));
 		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		//		storage.localStore();
-		storage.storeGroupStockGain();
+		storage.localStore();
+		//		storage.storeGroupStockGain();
 	}
 
 	public GroupGain getGroupGain() {

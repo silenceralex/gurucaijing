@@ -164,5 +164,7 @@ public class HtmlFlusher {
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
 		flusher.flushDiscount();
+		flusher.flushAnalyzerRank();
+		flusher.flushStarGuruDetail();
 	}
 }
