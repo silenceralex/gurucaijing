@@ -142,7 +142,7 @@ function showAnaly(num,id,name1,name2){
 							<td class="rank_name">${one.getName()}</td>
 							<td>${one.getAgency()}</td>
             				<td>${one.getIndustry()}</td>
-            				<td>${startDateMap.get({$one.getAid()})}</td>
+            				<td>${startDateMap.get(${one.getAid()})}</td>
             				<td>${currDate}</td>
             				<td>${one.getWeight() - 100}%</td>
             			</tr>
