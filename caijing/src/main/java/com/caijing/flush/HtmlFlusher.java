@@ -24,7 +24,7 @@ import com.caijing.util.Discount;
 
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/admin/static/";
-	public static String TemplateDIR = "/home/html/admin/";
+	public static String TemplateDIR = "/home/html/";
 
 	public boolean flushDiscount() {
 		try {
@@ -163,7 +163,7 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
-		flusher.flushDiscount();
+		//		flusher.flushDiscount();
 		flusher.flushAnalyzerRank();
 		flusher.flushStarGuruDetail();
 	}
