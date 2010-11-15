@@ -3,6 +3,7 @@ package com.caijing.flush;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,7 +44,10 @@ public class VMFactory implements MethodExceptionEventHandler {
 		context = new VelocityContext();
 		try {
 			//			engine.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, new MyVelocityLog());
-			engine.init();
+			Properties p = new Properties();
+			p.setProperty("file.resource.loader.path", "/home/html");
+
+			engine.init(p);
 
 		} catch (Exception e) {
 			e.printStackTrace();

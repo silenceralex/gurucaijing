@@ -24,7 +24,8 @@ import com.caijing.util.Discount;
 
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/admin/static/";
-	public static String TemplateDIR = "/home/html/";
+
+	//	public static String TemplateDIR = "/home/html/";
 
 	public boolean flushDiscount() {
 		try {
