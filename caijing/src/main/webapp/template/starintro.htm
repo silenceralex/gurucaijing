@@ -127,12 +127,14 @@
 					                </tr>
 					                <tr>
 										#if ($weightList)#foreach ($one in $weightList)
-                                        <td>${one.getWeight()},${one.getWeight()-100}%</td>
+										#set ($weight = $one.getWeight() - 100)
+                                        <td>${one.getWeight()},${weight}%</td>
 										#end#end
 					                </tr>
 			                        <tr>
 										#if ($priceList)#foreach ($one in $priceList)
-                                        <td>${one.getPrice()},${(one.getPrice()-startprice)/startprice*100}%</td>
+										#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
+                                        <td>${ratio}%</td>
 										#end#end
 					                </tr>
 					        		</table>

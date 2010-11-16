@@ -136,8 +136,9 @@
 			            			<td>${one.getInprice()}</td>
 			            			<td>${one.getObjectprice()}</td>
 			            			<td>${one.getCurrentprice()}</td>
-									#if (${one.getObjectprice() != 0})
-			            			<td>${one.getObjectprice()-one.getCurrentprice()}</td>
+									#if ($one.getObjectprice() != 0)
+									#set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
+			            			<td>${ratio}</td>
 									#else
 									<td> - </td>
 									#end
@@ -152,7 +153,7 @@
 									#set ($pathcount = $pathcount + 1)
 									#end#end
 									</td>
-									$set ($count = $count + 1)
+									#set ($count = $count + 1)
 									#end#end
 			            		</table>
 								#set ($count = 1)
@@ -171,11 +172,12 @@
 									</tr>
 									<tr>
 										#if ($priceList)#foreach ($one in $priceList)
-                                        <td>${one.getPrice()},${(one.getPrice()-startprice)/startprice*100}%</td>
+										#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
+                                        <td>${one.getPrice()},${ratio}%</td>
 										#end#end
 									</tr>
 								</table>
-								$set ($count = $count + 1)
+								#set ($count = $count + 1)
 								#end#end
 						</div><!-- starTb2 -->
             </div>

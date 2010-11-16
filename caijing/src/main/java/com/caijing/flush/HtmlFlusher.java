@@ -98,7 +98,7 @@ public class HtmlFlusher {
 					for (int i = 0; i < stockEarnList.size(); i++) {
 						StockEarn stockEarn = stockEarnList.get(i);
 						float currratio = 0;
-						if (i != 0) {
+						if (i == 0) {
 							currratio = stockEarn.getRatio() / 100;
 						} else {
 							currratio = (1 + stockEarnList.get(i - 1).getCurrratio())
@@ -192,8 +192,6 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
-		flusher.flushDiscount();
-		flusher.flushAnalyzerRank();
 		flusher.flushStarGuruDetail();
 	}
 }

@@ -75,7 +75,7 @@
 	</select>
 
 	
-	<select id="getNameAndCodeByAid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+	<select id="getNameAndCodeByAid" resultClass="GroupStock" parameterClass="java.lang.String">
 		select s.stockname as stockname,gs.* from groupstock gs,stock s where gs.groupid=#aid# and gs.stockcode = s.stockcode and gs.status=1
 	</select>
 </sqlMap>
