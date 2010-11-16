@@ -39,6 +39,7 @@ public class HtmlFlusher {
 			vmf.setTemplate("/admin/discount.htm");
 			vmf.put("discountlist", discounts);
 			vmf.save(ADMINDIR + "discount.html");
+			System.out.println("write page : " + ADMINDIR + "discount.html");
 			return true;
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
@@ -69,16 +70,22 @@ public class HtmlFlusher {
 						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
 				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
 						.transformYYYYMMDDDate(startDate));
-				VMFactory introvmf = new VMFactory();
-				introvmf.setTemplate("/template/starintro.htm");
-				introvmf.put("dateTools", dateTools);
-				introvmf.put("analyzer", analyzer);
-				introvmf.put("analyzerList", analyzerList);
-				introvmf.put("weightList", weightList);
-				introvmf.put("startprice", startprice);
-				introvmf.put("priceList", priceList);
-				introvmf.save(ADMINDIR + aid + "_intro.html");
-
+				try {
+					VMFactory introvmf = new VMFactory();
+					introvmf.setTemplate("/template/starintro.htm");
+					introvmf.put("dateTools", dateTools);
+					introvmf.put("analyzer", analyzer);
+					introvmf.put("analyzerList", analyzerList);
+					introvmf.put("weightList", weightList);
+					introvmf.put("startprice", startprice);
+					introvmf.put("priceList", priceList);
+					introvmf.save(ADMINDIR + aid + "_intro.html");
+					System.out.println("write page : " + ADMINDIR + aid + "_intro.html");
+				} catch (Exception e) {
+					System.out.println("===> exception !!");
+					System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+					e.printStackTrace();
+				}
 				//生成分析师stock页面
 				RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 				List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
@@ -101,27 +108,40 @@ public class HtmlFlusher {
 					}
 					stockDetailMap.put(stock.getStockcode(), stockEarnList);
 				}
-				VMFactory stockvmf = new VMFactory();
-				stockvmf.setTemplate("/template/starstock.htm");
-				stockvmf.put("dateTools", dateTools);
-				stockvmf.put("analyzer", analyzer);
-				stockvmf.put("analyzerList", analyzerList);
-				stockvmf.put("stockDetailList", stockDetailList);
-				stockvmf.put("startprice", startprice);
-				stockvmf.put("priceList", priceList);
-				stockvmf.put("stockDetailMap", stockDetailMap);
-				stockvmf.save(ADMINDIR + aid + "_stock.html");
-
+				try {
+					VMFactory stockvmf = new VMFactory();
+					stockvmf.setTemplate("/template/starstock.htm");
+					stockvmf.put("dateTools", dateTools);
+					stockvmf.put("analyzer", analyzer);
+					stockvmf.put("analyzerList", analyzerList);
+					stockvmf.put("stockDetailList", stockDetailList);
+					stockvmf.put("startprice", startprice);
+					stockvmf.put("priceList", priceList);
+					stockvmf.put("stockDetailMap", stockDetailMap);
+					stockvmf.save(ADMINDIR + aid + "_stock.html");
+					System.out.println("write page : " + ADMINDIR + aid + "_stock.html");
+				} catch (Exception e) {
+					System.out.println("===> exception !!");
+					System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+					e.printStackTrace();
+				}
 				//生成分析师report页面
 				List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0,
 						15);
-				VMFactory reportvmf = new VMFactory();
-				reportvmf.setTemplate("/template/starreport.htm");
-				reportvmf.put("dateTools", dateTools);
-				reportvmf.put("analyzer", analyzer);
-				reportvmf.put("analyzerList", analyzerList);
-				reportvmf.put("stockList", stockList);
-				reportvmf.save(ADMINDIR + aid + "_report.html");
+				try {
+					VMFactory reportvmf = new VMFactory();
+					reportvmf.setTemplate("/template/starreport.htm");
+					reportvmf.put("dateTools", dateTools);
+					reportvmf.put("analyzer", analyzer);
+					reportvmf.put("analyzerList", analyzerList);
+					reportvmf.put("stockList", stockList);
+					reportvmf.save(ADMINDIR + aid + "_report.html");
+					System.out.println("write page : " + ADMINDIR + aid + "_report.html");
+				} catch (Exception e) {
+					System.out.println("===> exception !!");
+					System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -150,21 +170,29 @@ public class HtmlFlusher {
 					.transformYYYYMMDDDate(startDate));
 			stockEarnMap.put(analyzer.getAid(), priceList);
 		}
-		VMFactory vmf = new VMFactory();
-		vmf.setTemplate("/template/analyzerrank.htm");
-		vmf.put("dateTools", dateTools);
-		vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
-		vmf.put("analyzerList", analyzerList);
-		vmf.put("startDateMap", startDateMap);
-		vmf.put("groupEarnMap", groupEarnMap);
-		vmf.put("stockEarnMap", stockEarnMap);
-		vmf.put("startPriceMap", startPriceMap);
-		vmf.save(ADMINDIR + "_ranking.html");
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/analyzerrank.htm");
+			vmf.put("dateTools", dateTools);
+			vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
+			vmf.put("analyzerList", analyzerList);
+			vmf.put("startDateMap", startDateMap);
+			vmf.put("groupEarnMap", groupEarnMap);
+			vmf.put("stockEarnMap", stockEarnMap);
+			vmf.put("startPriceMap", startPriceMap);
+			vmf.save(ADMINDIR + "star_ranking.html");
+			System.out.println("write page : " + ADMINDIR + "star_ranking.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+
 	}
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
-		//		flusher.flushDiscount();
+		flusher.flushDiscount();
 		flusher.flushAnalyzerRank();
 		flusher.flushStarGuruDetail();
 	}
