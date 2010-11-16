@@ -70,7 +70,7 @@ public class HtmlFlusher {
 				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
 						.transformYYYYMMDDDate(startDate));
 				VMFactory introvmf = new VMFactory();
-				introvmf.setTemplate("/admin/starintro.htm");
+				introvmf.setTemplate("/template/starintro.htm");
 				introvmf.put("dateTools", dateTools);
 				introvmf.put("analyzer", analyzer);
 				introvmf.put("analyzerList", analyzerList);
@@ -102,7 +102,7 @@ public class HtmlFlusher {
 					stockDetailMap.put(stock.getStockcode(), stockEarnList);
 				}
 				VMFactory stockvmf = new VMFactory();
-				stockvmf.setTemplate("/admin/starstock.htm");
+				stockvmf.setTemplate("/template/starstock.htm");
 				stockvmf.put("dateTools", dateTools);
 				stockvmf.put("analyzer", analyzer);
 				stockvmf.put("analyzerList", analyzerList);
@@ -116,7 +116,7 @@ public class HtmlFlusher {
 				List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0,
 						15);
 				VMFactory reportvmf = new VMFactory();
-				reportvmf.setTemplate("/admin/starreport.htm");
+				reportvmf.setTemplate("/template/starreport.htm");
 				reportvmf.put("dateTools", dateTools);
 				reportvmf.put("analyzer", analyzer);
 				reportvmf.put("analyzerList", analyzerList);
@@ -151,7 +151,7 @@ public class HtmlFlusher {
 			stockEarnMap.put(analyzer.getAid(), priceList);
 		}
 		VMFactory vmf = new VMFactory();
-		vmf.setTemplate("/admin/analyzerrank.htm");
+		vmf.setTemplate("/template/analyzerrank.htm");
 		vmf.put("dateTools", dateTools);
 		vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
 		vmf.put("analyzerList", analyzerList);

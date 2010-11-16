@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="js/raphael.js"></script>
+<script language="javascript" type="text/javascript" src="js/analytics.js"></script>
+<script language="javascript" type="text/javascript">
+function switchTab(id){
+	for(i=1;i<=3;i++){
+		$("#starTb"+i).hide();
+		$("#starTab"+i).attr("class","");
+		}
+	$("#starTb"+id).show();
+	$("#starTab"+id).attr("class","star_de_tabli_on");
+	}
+function showAnaly(num,id,name1,name2){
+	var leftCount = ($(document).width()-$(".wrapper:eq(0)").width())/2 + 200;
+	init("star_detail_preview",550,200,id,name1,name2,1);
+	$("#star_detail_preview").show();
+	$("#star_detail_preview").css("top" , num+"px");
+	$("#star_detail_preview").css("left" , (leftCount+210)+"px");
+	}
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+	<div class="header">
+    	<div class="logo"><h1>投资大师</h1><img src="img/logo.png" /></div>
+        <div class="controlPanel">
+        	<div class="icons">
+            	<ul>
+                	<li><a href="#">加入收藏</a></li>
+                    <li><a href="#">设为首页</a></li>
+                </ul>
+            </div>
+            <div class="search">
+            	<div class="searchForm">
+                    <input type="text" class="searchBox" value="请输入关键词" />
+                    <input type="button" class="searchBtn" value="搜索" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <ul class="nav">
+            	<li><a href="#"><span>首页</span></a></li>
+                <li><a href="#"><span>大师殿堂</span></a></li>
+                <li><a href="#"><span>股票精选</span></a></li>
+                <li><a href="#"><span>草根大师之选</span></a></li>
+                <li><a href="#"><span>金牌分析师之选</span></a></li>
+                <li><a href="#"><span>明星机构之选</span></a></li>
+                <li><a href="#"><span>机构共同之选</span></a></li>
+                <li><a href="#"><span>研报大本营</span></a></li>
+                <li><a href="#"><span>财报大本营</span></a></li>
+                <span class="clear"></span>
+            </ul>
+        </div>
+    </div><!--header end-->
+    <div class="mainBox">
+    	<div class="colL">
+        	<div id="colL0" class="colL0 colLItem">
+            	<div class="colL_title"><h2>用户登录</h2></div>
+                <form>
+                <div class="userLoginForm">
+                    <label>用户名</label>
+                    <input type="text" />
+                    <span class="clear"></span>
+                    <label>密码</label>
+                    <input type="text" />
+                </div>
+              </form>
+                <input class="loginBtn" type="button" value="登录" />
+                <a href="#">注册新用户</a>
+            </div>
+   	  		<div class="colL1 colLItem">
+            	<div class="colL_title">
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="#">金牌分析师</a></li>
+                    <!--<li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>-->
+                </ul>
+            </div>
+            <div class="colL2 colLItem">
+            	<div class="colL_title">
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="#">金牌分析师之选</a></li>
+                    <!--<li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>-->
+                    <li><a href="#">机构共同之选</a></li>
+                    <li><a href="#">折价股票精选</a></li>
+                </ul>
+            </div>
+            <div class="colL3 colLItem">
+            	<div class="colL_title">
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="#">财报大本营</a></li>
+                    <li><a href="#">研报大本营</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sec_list">
+        		<div class="sec_nav">
+            	<h2><a href="#">投资大师首页</a> &gt; 组合排行榜</h2> 
+            </div>
+            <div style="padding-left:20px;padding-top:5px;height:39px;background:url(img/rankTitleBack.gif)"><img src="img/rankTitle.gif" /></div>
+            <!--<div class="onsaleTitle">分析师折价之选</div>-->
+            <div class="star_detail_box">
+            	<div class="onsaleTable">
+            		<table cellpadding="0" cellspacing="0">
+            			<tr>
+            				<th class="rank_score">排名</th>
+            				<th>分析师组合名称</th>
+            				<th>证券公司</th>
+            				<th>研究行业</th>
+            				<th>起始时间</th>
+            				<th>当前日期</th>
+            				<th>收益率</th>
+            			</tr>
+						#set ($count = 1)
+						#if ($analyzerList)#foreach ($one in $analyzerList)
+						#if ($count%2 == 1)
+						<tr onmouseover="showAnaly(358,'rec${count}','${one.getName()}','大盘涨跌幅度')">
+						#else
+						<tr class="star_detail_tb_even" onmouseover="showAnaly(358,'rec${count}','${one.getName()}','大盘涨跌幅度')">
+						#end
+            				<td class="rank_score">
+							#if ($count <= 3)
+							<div class="rank_top3">${count}</div>
+							#else
+							${count}
+							#end
+							</td>
+							<td class="rank_name">${one.getName()}</td>
+							<td>${one.getAgency()}</td>
+            				<td>${one.getIndustry()}</td>
+            				<td>${startDateMap.get(${one.getAid()})}</td>
+            				<td>${currDate}</td>
+            				<td>${one.getWeight() - 100}%</td>
+            			</tr>
+						#set ($count = $count + 1)
+						#end#end
+            		</table>
+            	</div>
+            	<div>
+						#set ($count = 1)
+						#if ($analyzerList)#foreach ($one in $analyzerList)
+						<table id="rec${count}" class="hidden">  
+		               	<tr>
+							#set ($weightList = $groupEarnMap.get(${one.getAid()}))
+							#if ($weightList)#foreach ($one in $weightList)
+							<th>${dateTools.transformMMDDDate(${one.getDate()})}</th>
+							#end#end
+		                </tr>
+		                <tr>
+							#if ($weightList)#foreach ($one in $weightList)
+                            <td>${one.getWeight()},${one.getWeight()-100}%</td>
+							#end#end
+					    </tr>
+                        <tr>
+							#set ($priceList = $stockEarnMap.get(${one.getAid()}))
+							#if ($priceList)#foreach ($one in $priceList)
+							<td>${one.getPrice()},${(one.getPrice()-startprice)/startprice*100}%</td>
+							#end#end
+		                </tr>
+		        		</table>
+						#set ($count = $count + 1)
+						#end#end
+            		</div>
+            </div>
+
+        </div>
+        <div id="star_detail_preview"></div>
+      <div class="clear"></div>
+        <div class="footer">
+   	    <div class="goTop"><a href="#"><img src="img/topBtn.jpg"/></a></div>
+            <img src="img/footer.jpg" />
+            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
+        </div>
+    </div><!--mainBox end-->
+    <script language="javascript" type="text/javascript">
+    	$("#star_detail_preview").hover(
+			function () {
+				$(this).show();
+			},
+			function (){
+				$(this).hide();
+				$(this).empty();
+			}
+		)
+    </script>
+</div>
+</body>
+</html>
