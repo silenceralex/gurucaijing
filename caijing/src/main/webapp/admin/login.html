@@ -55,6 +55,7 @@
         <form name="LoginForm" name="LoginForm" action="/admin/login.do" method="post" target="_self">
             <dir><label for="username">用户名：</label><input id="username" class="input" name="username" type="text" maxlength="20"/></dir>
             <dir><label for="password">密  码：</label><input id="password" class="input" name="password" type="password" maxlength="20" /></dir>
+           	<dir><label for="random"> 验证码：</label><input id="random" class="input" name="random" type="text" maxlength="6"/> <image src="/RandImage" /></dir>
             <dir>
                 <input type="submit" class="button btn1" value="登录"/>
                 <input class="button  btn2" type="button" onclick="window.close();" value="取消"/>

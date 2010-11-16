@@ -46,21 +46,31 @@ public class LoginController {
 	private EconomistDao economistDao = null;
 
 	@RequestMapping("/admin/login.do")
-	public void showColomn(HttpServletResponse response,
-			@RequestParam(value = "username", required = false)
-			String username,
-			@RequestParam(value = "password", required = false)
-			String password, HttpServletRequest request, ModelMap model) {
+	public String showColomn(HttpServletResponse response, @RequestParam(value = "username", required = false)
+	String username, @RequestParam(value = "password", required = false)
+	String password, @RequestParam(value = "random", required = false)
+	String random, HttpServletRequest request, ModelMap model) {
 		User user = new User();
-		if (ibatisUserDao.identify(username, password)) {
-			user.setUsername(username);
-		}
-		model.put("currUser", user);
+		String srandom = (String) request.getSession().getAttribute("random");
+		System.out.println("srandom : " + srandom);
+
+		System.out.println("random : " + random);
 		try {
-			response.sendRedirect("/admin/index.html");
+			if (ibatisUserDao.identify(username, password)) {
+				System.out.println("用户名验证成功！");
+				if (random != null && random.equals(srandom)) {
+					System.out.println("随即图验证成功！");
+					user.setUsername(username);
+					model.put("currUser", user);
+					response.sendRedirect("/admin/index.html");
+					return null;
+				}
+			}
+			response.sendRedirect("/admin/err.html?login=true");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@RequestMapping("/admin/top.htm")
@@ -71,8 +81,8 @@ public class LoginController {
 	}
 
 	@RequestMapping("/admin/menu.htm")
-	public String showMenu(HttpServletResponse response, ModelMap model,
-			HttpServletRequest request) throws IOException, Exception {
+	public String showMenu(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
 		User user = (User) request.getSession().getAttribute("currUser");
 		Set<String> topicList = topicNameMap.getTopicNameMap().keySet();
 		model.put("topicList", topicList);
@@ -81,8 +91,8 @@ public class LoginController {
 	}
 
 	@RequestMapping("/admin/menu2.htm")
-	public String showMenu2(HttpServletResponse response, ModelMap model,
-			HttpServletRequest request) throws IOException, Exception {
+	public String showMenu2(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
 		User user = (User) request.getSession().getAttribute("currUser");
 		Set<String> topicList = topicNameMap.getTopicNameMap().keySet();
 		model.put("topicList", topicList);
@@ -95,8 +105,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/admin/logout.do")
-	public void logout(HttpServletResponse response, ModelMap model,
-			SessionStatus status, HttpServletRequest request)
+	public void logout(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
 			throws IOException, Exception {
 		status.setComplete();
 		HttpSession session = request.getSession();

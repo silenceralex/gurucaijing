@@ -26,6 +26,7 @@ import com.caijing.util.Config;
 import com.caijing.util.DateTools;
 import com.caijing.util.Paginator;
 import com.caijing.util.ResponseUtil;
+import com.caijing.util.ServerUtil;
 import com.caijing.util.TopicNameConfig;
 import com.caijing.util.Vutil;
 
@@ -211,6 +212,12 @@ public class RecommendController {
 
 		int ret = recommendStockDao.update(recommendStock);
 		if (ret > 0) {
+			resUtil.alertAndBack("修改研报抽取结果成功", 2, response);
+		} else if (ret == 0) {
+			if (recommendStock.getRecommendid() == null && recommendStock.getRecommendid().isEmpty()) {
+				recommendStock.setRecommendid(ServerUtil.getid());
+			}
+			recommendStockDao.insert(recommendStock);
 			resUtil.alertAndBack("修改研报抽取结果成功", 2, response);
 		} else {
 			resUtil.alertAndBack("修改研报抽取结果失败", 2, response);

@@ -80,33 +80,27 @@ window.onload = fillToInput;
 						<tr>
 						<td bgcolor="#E0E7FF" height="30">
 							&nbsp;&nbsp;
-							<strong>当前栏目: <a href="/admin/showColumn.htm?saname=${rstock.saname}">${rstock.saname}</a>&nbsp;&gt;&nbsp;修改分析推荐股票
+							<strong>当前栏目: <a href="/admin/showColumn.htm?saname=$!{report.saname}">$!{report.saname}</a>&nbsp;&gt;&nbsp;修改分析推荐股票
 								&gt;&gt; </strong>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			
-			<!--<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				class="lineH24 hasBorder" style="text-align: left;">
-				<tr>
-					<td style="padding: 5px 9px;">
-						<span class="f14px">当前位置：<a
-							href="/admin/showColumn.htm?saname=${rstock.saname}">${rstock.saname}</a>&gt;&gt;
-							修改分析推荐股票 </span>
-					</td>
-				</tr>
-			</table>-->
 			<div class="blank9"></div>
 			<form action="/admin/recommendedit.do" target="_self"
 				name="recommendForm" method="post" enctype="multipart/form-data"
 				onsubmit="return chkSubmit()" id="articleForm">
 				<input type="hidden" id="recommendid" name="recommendid"
-					value="${rstock.recommendid}"></input>
+					value="$!{rstock.recommendid}"></input>
 				<input type="hidden" id="reportid" name="reportid"
-					value="${rstock.reportid}"></input>
+					value="${report.rid}"></input>
 				<input type="hidden" id="saname" name="saname"
-					value="${rstock.saname}"></input>
+					value="${report.saname}"></input>
+				<input type="hidden" id="stockcode" name="stockcode"
+					value="${report.stockcode}"></input>
+				<input type="hidden" id="stockname" name="stockname"
+					value="${report.stockname}"></input>
 				<table width="100%" border="0" cellspacing="0" cellpadding="6"
 					style="text-align: left; border: 1px solid #ccc;padding:30px 0;">
 					<tr>
@@ -122,7 +116,7 @@ window.onload = fillToInput;
 							股票代码：
 						</td>
 						<td>
-							${rstock.stockcode}
+							${report.stockcode}
 						</td>
 					</tr>
 					<tr>
@@ -130,7 +124,7 @@ window.onload = fillToInput;
 							名称：
 						</td>
 						<td>
-							${rstock.stockname}
+							${report.stockname}
 						</td>
 					</tr>
 					<tr>
@@ -139,7 +133,7 @@ window.onload = fillToInput;
 						</td>
 						<td>
 							<label>
-								<input type="text" name="grade" id="grade" value="$rstock.grade"
+								<input type="text" name="grade" id="grade" value="$!rstock.grade"
 								style="width: 20em;" />
 								
 							</label>
@@ -152,7 +146,7 @@ window.onload = fillToInput;
 						</td>
 						<td>
 							<label>
-								<input type="text" name="aname" id="aname" value="$rstock.aname"
+								<input type="text" name="aname" id="aname" value="$!rstock.aname"
 								style="width: 20em;" />
 
 							</label>
@@ -165,8 +159,9 @@ window.onload = fillToInput;
 						<td>
 							<label>
 								<input type="text" name="createdate" id="createdate"
-									value="$rstock.createdate" style="width: 20em;" />
+									value="$!rstock.createdate" style="width: 20em;" />
 							</label>
+							<font color="red">注明：日期格式请填写YYYYMMDD，如20101011</font>
 						</td>
 					</tr>
 
@@ -189,9 +184,8 @@ window.onload = fillToInput;
 
 							</label>
                             <br />
-							注明：
-
-							json格式保存，如2010-2012E,0.5、0.8、1.2元，记为{'2010':'0.5','2011':'0.8','2012':'1.2'}
+							<font color="red">注明：
+							json格式保存，如2010-2012E,0.5、0.8、1.2元，记为{'2010':'0.5','2011':'0.8','2012':'1.2'}</font>
 						</td>
 					</tr>
 
@@ -201,8 +195,10 @@ window.onload = fillToInput;
 						</td>
 						<td>
 							<input type="text" name="objectprice" id="objectprice"
-								value="$rstock.objectprice" style="width: 20em;" />
+								value="$!rstock.objectprice" style="width: 20em;" />
+							<font color="red">注明：如没有标明目标价，请填入0</font>
 						</td>
+						
 					</tr>
 					<tr>
 						<td></td>

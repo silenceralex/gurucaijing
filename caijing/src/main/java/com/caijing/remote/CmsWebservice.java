@@ -61,16 +61,16 @@ public class CmsWebservice {
 
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		ColumnArticleDao columnArticleDao = (ColumnArticleDao) context.getBean("columnArticleDao");
-		for (int i = 0; i < 10; i++) {
-			List<ColumnArticle> articles = columnArticleDao.getAllColumnArticle(i * 40, 40);
-			for (ColumnArticle article : articles) {
-				long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
-						article.getSrc(), article.getAbs(), article.getContent(),
-						DateTools.transformDateDetail(article.getPtime()));
-				CmsWebservice.getInstance().publishArticle(aid);
-				System.out.println(aid);
-			}
+		//		for (int i = 0; i < 10; i++) {
+		List<ColumnArticle> articles = columnArticleDao.getAllColumnArticle(0, 7);
+		for (ColumnArticle article : articles) {
+			long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
+					article.getSrc(), article.getAbs(), article.getContent(),
+					DateTools.transformDateDetail(article.getPtime()));
+			CmsWebservice.getInstance().publishArticle(aid);
+			System.out.println(aid);
 		}
+		//		}
 
 	}
 }

@@ -19,7 +19,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.caijing.domain.User;
 
-
 public class SecurityFilter extends HttpServlet implements Filter {
 
 	/**
@@ -32,10 +31,11 @@ public class SecurityFilter extends HttpServlet implements Filter {
 	private boolean isUsed = true;
 
 	private static Log logger = LogFactory.getLog(SecurityFilter.class);
-	
-	private boolean containsOneOfList (String str, String[] list) {
-		for (int i = 0; list!=null && i < list.length; i++){
-			if (str.indexOf(list[i]) != -1) return true;
+
+	private boolean containsOneOfList(String str, String[] list) {
+		for (int i = 0; list != null && i < list.length; i++) {
+			if (str.indexOf(list[i]) != -1)
+				return true;
 		}
 		return false;
 	}
@@ -47,11 +47,9 @@ public class SecurityFilter extends HttpServlet implements Filter {
 		this.filterConfig = filterConfig;
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain filterChain) {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) {
 		HttpServletRequest sRequest = (HttpServletRequest) request;
 		HttpServletResponse sResponse = (HttpServletResponse) response;
-
 
 		boolean isValid = true;
 		try {
@@ -67,10 +65,10 @@ public class SecurityFilter extends HttpServlet implements Filter {
 			if (useFilter != null && useFilter.equalsIgnoreCase("false")) {
 				this.isUsed = false;
 			}
-			
+
 			String ignoreFile = filterConfig.getInitParameter("ignores").toUpperCase();
 			String[] ignoreList = null;
-			if (ignoreFile!=null&&StringUtils.isNotEmpty(ignoreFile)) {
+			if (ignoreFile != null && StringUtils.isNotEmpty(ignoreFile)) {
 				if (ignoreFile.indexOf(",") == -1) {
 					ignoreFile = ignoreFile + ",";
 				}
@@ -78,12 +76,17 @@ public class SecurityFilter extends HttpServlet implements Filter {
 			}
 
 			if (isUsed) {
-				User user = (User)session.getAttribute("currUser");
-				
+				User user = (User) session.getAttribute("currUser");
+				if (user != null) {
+					logger.debug("user: " + user.getUsername());
+				} else {
+					logger.debug("user is null!");
+				}
+
 				if (containsOneOfList(URL, ignoreList)) {
 					logger.debug("对请求的 " + URL + " 忽略检查。");
 					isValid = true;
-				} else if ((user == null) || (!StringUtils.isEmpty(user.getUsername()))) {
+				} else if ((user == null) || (StringUtils.isEmpty(user.getUsername()))) {
 					logger.debug("对请求的 " + URL + " 进行安全检查。");
 					isValid = false;
 				}

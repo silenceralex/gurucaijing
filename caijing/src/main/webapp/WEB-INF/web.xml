@@ -67,20 +67,18 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
-	
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	
-	  <!--========================================================================
-        Filters
-    =========================================================================-->
-    
-    <filter>
+
+	<!--========================================================================
+		Filters
+		=========================================================================-->
+
+	<filter>
 		<filter-name>Set Character Encoding</filter-name>
-		<filter-class>
-			com.caijing.util.EncodingFilter
-		</filter-class>
+		<filter-class>com.caijing.util.EncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>GBK</param-value>
@@ -94,17 +92,15 @@
 			<param-value>/tag/,/search/</param-value>
 		</init-param>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>Set Character Encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-		<filter>
+
+	<filter>
 		<filter-name>Security Filter</filter-name>
-		<filter-class>
-			com.caijing.util.SecurityFilter
-		</filter-class>
+		<filter-class>com.caijing.util.SecurityFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>GBK</param-value>
@@ -118,10 +114,20 @@
 			<param-value>login,err.html</param-value>
 		</init-param>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>Security Filter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
-	
+
+	<servlet>
+		<servlet-name>RandImage</servlet-name>
+		<servlet-class>com.caijing.model.RandomGraphServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>RandImage</servlet-name>
+		<url-pattern>/RandImage</url-pattern>
+	</servlet-mapping>
+
 </web-app>
