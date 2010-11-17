@@ -134,7 +134,7 @@
 			                        <tr>
 										#if ($priceList)#foreach ($one in $priceList)
 										#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
-                                        <td>${ratio}%</td>
+                                        <td>$one.getPrice(),${ratio}%</td>
 										#end#end
 					                </tr>
 					        		</table>
