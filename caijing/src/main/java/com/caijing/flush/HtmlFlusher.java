@@ -55,22 +55,23 @@ public class HtmlFlusher {
 		if (analyzerList != null && analyzerList.size() > 0) {
 			DateTools dateTools = new DateTools();
 			for (Analyzer analyzer : analyzerList) {
-				//生成分析师intro页面
-				String aid = analyzer.getAid();
-				GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
-				Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(startDate);
-
-				GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-				List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
-
-				StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
-				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
-						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
-						.transformYYYYMMDDDate(startDate));
 				try {
+					//生成分析师intro页面
+					String aid = analyzer.getAid();
+					GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+					Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(startDate);
+
+					GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
+					List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
+
+					StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
+					float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
+							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+					List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
+							.transformYYYYMMDDDate(startDate));
+
 					VMFactory introvmf = new VMFactory();
 					introvmf.setTemplate("/template/starintro.htm");
 					introvmf.put("dateTools", dateTools);
@@ -81,34 +82,31 @@ public class HtmlFlusher {
 					introvmf.put("priceList", priceList);
 					introvmf.save(ADMINDIR + aid + "_intro.html");
 					System.out.println("write page : " + ADMINDIR + aid + "_intro.html");
-				} catch (Exception e) {
-					System.out.println("===> exception !!");
-					System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
-					e.printStackTrace();
-				}
-				//生成分析师stock页面
-				RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-				List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
-				Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
-				for (GroupStock stock : stockDetailList) {
-					List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(), DateTools
-							.transformYYYYMMDDDate(stock.getIntime()));
-					List<String> filePathList = recommendStockDao.getFilePathByAid(aid, stock.getStockcode(), 3);
-					stock.setFilePathList(filePathList);
-					for (int i = 0; i < stockEarnList.size(); i++) {
-						StockEarn stockEarn = stockEarnList.get(i);
-						float currratio = 0;
-						if (i == 0) {
-							currratio = stockEarn.getRatio() / 100;
-						} else {
-							currratio = (1 + stockEarnList.get(i - 1).getCurrratio())
-									* (1 + stockEarn.getRatio() / 100) - 1;
+
+					//生成分析师stock页面
+					RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory
+							.getBean("recommendStockDao");
+					List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
+					Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+					for (GroupStock stock : stockDetailList) {
+						List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(), DateTools
+								.transformYYYYMMDDDate(stock.getIntime()));
+						List<String> filePathList = recommendStockDao.getFilePathByAid(aid, stock.getStockcode(), 3);
+						stock.setFilePathList(filePathList);
+						for (int i = 0; i < stockEarnList.size(); i++) {
+							StockEarn stockEarn = stockEarnList.get(i);
+							float currratio = 0;
+							if (i == 0) {
+								currratio = stockEarn.getRatio() / 100;
+							} else {
+								currratio = (1 + stockEarnList.get(i - 1).getCurrratio())
+										* (1 + stockEarn.getRatio() / 100) - 1;
+							}
+							stockEarn.setCurrratio(currratio);
 						}
-						stockEarn.setCurrratio(currratio);
+						stockDetailMap.put(stock.getStockcode(), stockEarnList);
 					}
-					stockDetailMap.put(stock.getStockcode(), stockEarnList);
-				}
-				try {
+
 					VMFactory stockvmf = new VMFactory();
 					stockvmf.setTemplate("/template/starstock.htm");
 					stockvmf.put("dateTools", dateTools);
@@ -120,15 +118,11 @@ public class HtmlFlusher {
 					stockvmf.put("stockDetailMap", stockDetailMap);
 					stockvmf.save(ADMINDIR + aid + "_stock.html");
 					System.out.println("write page : " + ADMINDIR + aid + "_stock.html");
-				} catch (Exception e) {
-					System.out.println("===> exception !!");
-					System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
-					e.printStackTrace();
-				}
-				//生成分析师report页面
-				List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0,
-						15);
-				try {
+
+					//生成分析师report页面
+					List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(),
+							0, 15);
+
 					VMFactory reportvmf = new VMFactory();
 					reportvmf.setTemplate("/template/starreport.htm");
 					reportvmf.put("dateTools", dateTools);
