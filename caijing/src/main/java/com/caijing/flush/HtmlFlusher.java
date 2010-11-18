@@ -132,8 +132,8 @@ public class HtmlFlusher {
 					reportvmf.save(ADMINDIR + aid + "_report.html");
 					System.out.println("write page : " + ADMINDIR + aid + "_report.html");
 				} catch (Exception e) {
-					System.out.println("===> exception !!");
-					System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+					System.out.println("===> exception !! £º" + analyzer.getAid() + "  name : " + analyzer.getName());
+					System.out.println("While generating stars stock html --> GET ERROR MESSAGE: " + e.getMessage());
 					e.printStackTrace();
 				}
 			}
