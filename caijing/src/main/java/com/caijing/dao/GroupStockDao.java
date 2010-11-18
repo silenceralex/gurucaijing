@@ -12,10 +12,12 @@ public interface GroupStockDao extends CrudDao {
 	Date getEarliestIntimeByAid(String aid);
 
 	GroupStock getCurrentStockByGroupidAndStockcode(String groupid, String stockcode);
-	
+
 	List<GroupStock> getNameAndCodeByAid(String aid);
 
 	List<GroupStock> getAllGroupStock();
 
 	int updateStockGain(GroupStock groupStock);
+
+	List<GroupStock> getGroupStockList(int length);
 }

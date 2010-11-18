@@ -5,9 +5,6 @@
 <title>投资大师</title>
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 <link href="css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="js/raphael.js"></script>
-<script language="javascript" type="text/javascript" src="js/analytics.js"></script>
 </head>
 
 <body>
@@ -29,7 +26,7 @@
                 <div class="clear"></div>
             </div>
             <ul class="nav">
-            	<li><a href="#"><span>首页</span></a></li>
+            		<li><a href="#"><span>首页</span></a></li>
                 <li><a href="#"><span>大师殿堂</span></a></li>
                 <li><a href="#"><span>股票精选</span></a></li>
                 <li><a href="#"><span>草根大师之选</span></a></li>
@@ -63,9 +60,9 @@
                 	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
                 </div>
                 <ul>
-                		<li><a href="#">金牌分析师</a></li>
-                    <!--<li><a href="#">草根大师</a></li>
-                    <li><a href="#">明星机构</a></li>-->
+                	<li><a href="#">金牌分析师</a></li>
+                    <li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>
                 </ul>
             </div>
             <div class="colL2 colLItem">
@@ -73,9 +70,9 @@
                 	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
                 </div>
                 <ul>
-                		<li><a href="#">金牌分析师之选</a></li>
-                    <!--<li><a href="#">草根大师之选</a></li>
-                    <li><a href="#">明星机构之选</a></li>-->
+                	<li><a href="#">金牌分析师之选</a></li>
+                    <li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>
                     <li><a href="#">机构共同之选</a></li>
                     <li><a href="#">折价股票精选</a></li>
                 </ul>
@@ -92,59 +89,67 @@
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+                    <h2><a href="#">投资大师首页</a> &gt; 研报大本营</h2> 
+                </div>
+                <div class="report_search">
+                    <label>研报搜索</label>
+                    <select>
+                        <option>按分析师</option>
+                        <option>按股票代码</option>
+                        <option>按股票名称</option>
+                    </select>
+                    <input type="text" />
+                    <input type="button" value="搜索" class="report_searchBtn" />
+                </div>
+            <!--<div class="onsaleTitle">分析师折价之选</div>-->
+            	<div class="star_detail_research" style="display:block">
+					#set ($count = 0)
+					#if ($reportList)#foreach ($one in $reportList)
+					#if ($count%5==0)
+					<ul>
+					#end
+						<li><span>($dateTools.transformDate($one.getPtime()))</span><a href="http://guru.caijing.com$one.getFilepath()">$one.getTitle()</a></li>	
+					#set ($count = $count + 1)
+            		#if ($count%5==0)
+					</ul>
+					#end
+					#end#end
+            	</div>
+            	<div class="pageSet">
+		            	<table width="100%" border="0">
+		                  <tbody>
+				                  <tr>
+					                    <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./report_lab_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./report_lab_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./report_lab_${next}.html">下一页</a>
+											<a href="./report_lab_${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
+				                  </tr>
+		                	</tbody>
+		              </table>
+	            </div>
             </div>
-            <h2 class="star_detail_star">${analyzer.getName()}</h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-            	<li class="star_de_tabli_on" id="starTab1"><a href="#">简介</a></li>
-            	<li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
-            	<li id="starTab3"><a href="${analyzer.getAid()}_report.html">研究报告</a></li>
-						</ol>
-						<div class="star_jump">
-							<label>跳转到另一个大师</label>
-							<select>
-								<option>请选择</option>
-								#if ($analyzerList)#foreach ($one in $analyzerList)
-								<option value="${analyzer.getAid()}_intro.html">${one.getName()}</option>
-								#end#end
-							</select>
-						</div>
-            <div id="star_detail_box" class="star_detail_box">
-	            		<div id="starTb1" class="star_detail_intro">
-			            		<div class="star_detail_intro_img"><img src="upload/wu.jpg" /></div>
-			            		<div class="star_detail_intro_text">
-				            			<em>简介：</em>
-				            			<p>银行业的资深研究员伍永刚，他是国泰君安研究经验非常丰富的研究院，从05年到08年，伍永刚先生在新财富银行行业最佳评比中都是位列前五名。他曾经给打架推荐深发展、浦发银行，这些给打架留下了很深的印象，给投资者创造了价值。</p>
-													<p>银行业的资深研究员伍永刚，他是国泰君安研究经验非常丰富的研究院，从05年到08年，伍永刚先生在新财富银行行业最佳评比中都是位列前五名。他曾经给打架推荐深发展、浦发银行，这些给打架留下了很深的印象，给投资者创造了价值。</p>
-			            		</div>
-			            		<h2 class="analyticsTitle">股票组合回报率趋势图</h2>
-			            		<div id="holder1" class="holder"></div>
-			            		<table id="data1" class="hidden">  
-					               	<tr>
-									    #if ($weightList)#foreach ($one in $weightList)
-                                        <th>${dateTools.transformMMDDDate(${one.getDate()})}</th>
-										#end#end
-					                </tr>
-					                <tr>
-										#if ($weightList)#foreach ($one in $weightList)
-										#set ($weight = $one.getWeight() - 100)
-                                        <td>${one.getWeight()},${floatUtil.getTwoDecimalNumber($weight)}%</td>
-										#end#end
-					                </tr>
-			                        <tr>
-										#if ($priceList)#foreach ($one in $priceList)
-										#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
-                                        <td>$one.getPrice(),${floatUtil.getTwoDecimalNumber($ratio)}%</td>
-										#end#end
-					                </tr>
-					        		</table>
-											<script language="javascript" type="text/javascript">
-					            		init("holder1",740,200,"data1","${analyzer.getName()}的股票组合","沪深300指数",1);
-				              </script>
-			            </div><!-- starTb1 -->
-            </div>
-
         </div>
+        
       <div class="clear"></div>
         <div class="footer">
    	    <div class="goTop"><a href="#"><img src="img/topBtn.jpg"/></a></div>

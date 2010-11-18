@@ -108,5 +108,13 @@
 	<delete id="delete" parameterClass="reportClass">
 		delete from report where rid=#rid#
 	</delete>
+	
+	<select id="getReportsCountByType" resultClass="java.lang.Integer">
+		select count(1) from report where type = #type#
+	</select>
+	
+	<select id="getReportsListByType" parameterClass="java.util.Map" resultClass="reportClass">
+		select * from report where type = #type# order by ptime desc  limit #offset#,#length#
+	</select>
 
 </sqlMap>

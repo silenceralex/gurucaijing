@@ -12,7 +12,13 @@ public class FloatUtil {
 		bd = bd.setScale(twoScale, roundingMode);
 		return bd.floatValue();
 	}
-	
+
+	public float getTwoDecimalNumber(float f) {
+		BigDecimal bd = new BigDecimal(f);
+		bd = bd.setScale(twoScale, roundingMode);
+		return bd.floatValue();
+	}
+
 	public static float getFourDecimal(float f) {
 		BigDecimal bd = new BigDecimal(f);
 		bd = bd.setScale(fourScale, roundingMode);

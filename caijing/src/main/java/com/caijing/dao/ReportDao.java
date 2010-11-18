@@ -24,4 +24,8 @@ public interface ReportDao extends CrudDao {
 
 	public List<Report> getCompanyReportsBySanameAfter(String saname, String date);
 
+	public int getReportsCountByType(int type);
+
+	public List<Report> getReportsListByType(int type, int offset, int length);
+
 }
