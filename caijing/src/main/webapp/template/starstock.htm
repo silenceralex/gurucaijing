@@ -167,7 +167,8 @@
 									</tr>
 									<tr>
 										#if ($stockEarnList)#foreach ($one in $stockEarnList)
-										<td>${one.getPrice()},${floatUtil.getTwoDecimalNumber(${one.getCurrratio()}*100)}%</td>
+										#set ($ratio = $one.getCurrratio() * 100)
+										<td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
 										#end#end
 									</tr>
 									<tr>
