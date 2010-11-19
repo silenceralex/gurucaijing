@@ -152,7 +152,7 @@ public class HtmlFlusher {
 		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
 		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 		Date date = DateTools.getToday();
-		List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(date, 10);
+		List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(date), 10);
 		Map<String, String> startDateMap = new HashMap<String, String>();
 		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
 		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();

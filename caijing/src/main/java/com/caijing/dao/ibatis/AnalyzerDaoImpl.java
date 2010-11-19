@@ -1,6 +1,5 @@
 package com.caijing.dao.ibatis;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class AnalyzerDaoImpl extends CrudDaoDefault implements AnalyzerDao {
 	}
 
 	@Override
-	public List<Analyzer> getAnalyzerRankList(Date date, int length) {
+	public List<Analyzer> getAnalyzerRankList(String date, int length) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("date", date);
 		params.put("length", length);
