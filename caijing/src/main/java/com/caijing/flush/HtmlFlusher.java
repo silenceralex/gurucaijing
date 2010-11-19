@@ -104,7 +104,7 @@ public class HtmlFlusher {
 								currratio = (1 + stockEarnList.get(i - 1).getCurrratio())
 										* (1 + stockEarn.getRatio() / 100) - 1;
 							}
-							stockEarn.setCurrratio(currratio);
+							stockEarn.setCurrratio(currratio * 100);
 						}
 						stockDetailMap.put(stock.getStockcode(), stockEarnList);
 					}
