@@ -100,7 +100,7 @@
 						</ol>
 						<div class="star_jump">
 							<label>跳转到另一个大师</label>
-							<select>
+							<select onchange="window.location = this.value;">
 								<option>请选择</option>
 								#if ($analyzerList)#foreach ($one in $analyzerList)
 								<option value="${analyzer.getAid()}_report.html">${one.getName()}</option>

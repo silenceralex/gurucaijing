@@ -125,8 +125,12 @@ function showAnaly(num,id,name1,name2){
             			<tr class="star_detail_tb_even" onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','´óÅÌÕÇµø·ù¶È')">
             			#end
             				<td><a href="./${one.getGroupid()}_stock.html">${one.getStockname()}($one.getStockcode())</a></td>
-            				<td>${one.getInprice()}</td>
-            				<td>${one.getObjectprice()}</td>
+            				<td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
+            				#if(${one.getObjectprice()==0)
+            				<td> - </td>
+            				#else
+            				<td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
+            				#end
             				<td>${one.getCurrentprice()}</td>
             				#if ($one.getObjectprice() != 0)
 							#set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
@@ -134,7 +138,7 @@ function showAnaly(num,id,name1,name2){
 							#else
 							<td> - </td>
 							#end
-            				<td>${one.getGain()}</td>
+            				<td>${one.getGain()}%</td>
             				<td>
             				#set ($pathcount = 1)
 							#set ($filePathList = $one.getFilePathList())
