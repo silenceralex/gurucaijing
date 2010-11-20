@@ -13,6 +13,7 @@ import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockEarn;
+import com.caijing.model.StockPrice;
 
 public class LocalStorage {
 
@@ -97,7 +98,7 @@ public class LocalStorage {
 		//		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 
 		//		List<RecommendStock> lists = recommendStockDao.getRecommendStocksGroupByCode();
-		//		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
+		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
 		//		for (int i = 0; i < lists.size(); i++) {
 		//			System.out.println("Current process :" + i);
 		//			RecommendStock rs = lists.get(i);
@@ -106,6 +107,8 @@ public class LocalStorage {
 		//		}
 		//		System.out.println("lists.size() :" + lists.size());
 		//		sp.storeStockPrice("000300", 1, "2010-03-22", DateTools.transformYYYYMMDDDate(new Date()));
+
+		sp.storeStockPrice("600298", 0, "2010-07-23", "2010-07-24");
 		//		sp.currentPrice("000300");
 		//		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		//		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
@@ -171,8 +174,8 @@ public class LocalStorage {
 		//		}
 
 		//		System.out.print(DateTools.getYesterday(new Date()));
-		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		storage.localStore();
+		//		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		//		storage.localStore();
 		//		storage.storeGroupStockGain();
 	}
 

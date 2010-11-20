@@ -25,7 +25,8 @@ import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
 
 public class HtmlFlusher {
-	public static String ADMINDIR = "/home/html/admin/static/";
+	public static String ADMINDIR = "/home/html/analyzer/";
+	public static String REPORTDIR = "/home/html/report/";
 
 	//	public static String TemplateDIR = "/home/html/";
 
@@ -82,7 +83,7 @@ public class HtmlFlusher {
 					introvmf.put("weightList", weightList);
 					introvmf.put("startprice", startprice);
 					introvmf.put("priceList", priceList);
-					introvmf.save(ADMINDIR + aid + "_intro.html");
+					introvmf.save(ADMINDIR + "static/" + aid + "_intro.html");
 					System.out.println("write page : " + ADMINDIR + aid + "_intro.html");
 
 					//生成分析师stock页面
@@ -119,7 +120,7 @@ public class HtmlFlusher {
 					stockvmf.put("startprice", startprice);
 					stockvmf.put("priceList", priceList);
 					stockvmf.put("stockDetailMap", stockDetailMap);
-					stockvmf.save(ADMINDIR + aid + "_stock.html");
+					stockvmf.save(ADMINDIR + "static/" + aid + "_stock.html");
 					System.out.println("write page : " + ADMINDIR + aid + "_stock.html");
 
 					//生成分析师report页面
@@ -133,7 +134,7 @@ public class HtmlFlusher {
 					reportvmf.put("analyzer", analyzer);
 					reportvmf.put("analyzerList", analyzerList);
 					reportvmf.put("stockList", stockList);
-					reportvmf.save(ADMINDIR + aid + "_report.html");
+					reportvmf.save(ADMINDIR + "static/" + aid + "_report.html");
 					System.out.println("write page : " + ADMINDIR + aid + "_report.html");
 				} catch (Exception e) {
 					System.out.println("===> exception !! ：" + analyzer.getAid() + "  name : " + analyzer.getName());
@@ -180,8 +181,8 @@ public class HtmlFlusher {
 			vmf.put("groupEarnMap", groupEarnMap);
 			vmf.put("stockEarnMap", stockEarnMap);
 			vmf.put("startPriceMap", startPriceMap);
-			vmf.save(ADMINDIR + "star_ranking.html");
-			System.out.println("write page : " + ADMINDIR + "star_ranking.html");
+			vmf.save(ADMINDIR + "rank.html");
+			System.out.println("write page : " + ADMINDIR + "rank.html");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
 			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -208,8 +209,8 @@ public class HtmlFlusher {
 				vmf.put("current", current);
 				vmf.put("page", page);
 				vmf.put("reportList", reportList);
-				vmf.save(ADMINDIR + "report_lab_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + "report_lab_" + current + ".html");
+				vmf.save(REPORTDIR + "reportLab_" + current + ".html");
+				System.out.println("write page : " + REPORTDIR + "reportLab_" + current + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -271,8 +272,8 @@ public class HtmlFlusher {
 		vmf.put("groupEarnMap", groupEarnMap);
 		vmf.put("startPriceMap", startPriceMap);
 		vmf.put("stockEarnMap", stockEarnMap);
-		vmf.save(ADMINDIR + "star_on_sale.html");
-		System.out.println("write page : " + ADMINDIR + "star_on_sale.html");
+		vmf.save(ADMINDIR + "starDiscount.html");
+		System.out.println("write page : " + ADMINDIR + "starDiscount.html");
 	}
 
 	public static void main(String[] args) {

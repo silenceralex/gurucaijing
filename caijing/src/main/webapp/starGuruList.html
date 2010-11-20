@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>投资大师_大师殿堂</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript">
+function switchTab(id){
+	for(i=1;i<=3;i++){
+		$("#starTb"+i).hide();
+		$("#starTab"+i).attr("class","starLi");
+		}
+	$("#starTb"+id).show();
+	$("#starTab"+id).attr("class","starOn");
+	}
+</script>
+<style>
+	<!--
+		.starList tr td{line-height:28px;}
+        .starList tr td a{color:blue;padding:4px;}
+	-->
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+	<div class="header">
+    	<div class="logo"><h1>投资大师</h1><img src="/img/logo.png" /></div>
+        <div class="controlPanel">
+        	<div class="icons">
+            	<ul>
+                	<li><a href="#">加入收藏</a></li>
+                    <li><a href="#">设为首页</a></li>
+                </ul>
+            </div>
+            <div class="search">
+            	<div class="searchForm">
+                    <input type="text" class="searchBox" value="请输入关键词" />
+                    <input type="button" class="searchBtn" value="搜索" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <ul class="nav">
+            	<li><a href="#"><span>首页</span></a></li>
+                <li><a href="/analyzer/starGuruList.html"><span>大师殿堂</span></a></li>
+                <li><a href="#"><span>股票精选</span></a></li>
+                <li><a href="#"><span>草根大师之选</span></a></li>
+                <li><a href="/analyzer/starEarn.html"><span>金牌分析师之选</span></a></li>
+                <li><a href="#"><span>明星机构之选</span></a></li>
+                <li><a href="#"><span>机构共同之选</span></a></li>
+                <li><a href="/report/reportLab_1.html"><span>研报大本营</span></a></li>
+                <li><a href="#"><span>财报大本营</span></a></li>
+                <span class="clear"></span>
+            </ul>
+        </div>
+    </div><!--header end-->
+    <div class="mainBox">
+    	<div class="colL">
+        	<div id="colL0" class="colL0 colLItem">
+            	<div class="colL_title"><h2>用户登录</h2></div>
+                <form>
+                <div class="userLoginForm">
+                    <label>用户名</label>
+                    <input type="text" />
+                    <span class="clear"></span>
+                    <label>密码</label>
+                    <input type="text" />
+                </div>
+              </form>
+                <input class="loginBtn" type="button" value="登录" />
+                <a href="#">注册新用户</a>
+            </div>
+   	  		<div class="colL1 colLItem">
+            	<div class="colL_title">
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="/analyzer/starGuruList.html">金牌分析师</a></li>
+                    <!--<li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>-->
+                </ul>
+            </div>
+            <div class="colL2 colLItem">
+            	<div class="colL_title">
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="/analyzer/starEarn.html">金牌分析师之选</a></li>
+                    <!--<li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>-->
+                    <li><a href="#">机构共同之选</a></li>
+                    <li><a href="/analyzer/starDiscount.html">折价股票精选</a></li>
+                </ul>
+            </div>
+            <div class="colL3 colLItem">
+            	<div class="colL_title">
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                	<li><a href="#">财报大本营</a></li>
+                  <li><a href="/report/reportLab_1.html">研报大本营</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sec_list">
+        	<div class="sec_nav">
+            	<h2><a href="#">投资大师首页</a> &gt; 大师殿堂</h2>
+          </div>
+          <ol class="star_tab">
+            <li class="starOn" style="width:50%;" id="starTab1" onmouseover="switchTab(1)"><a href="#">新财富最佳分析师</a></li>
+            <li class="starLi" style="width:50%;" id="starTab2" onmouseover="switchTab(2)"><a href="#">证券市场本周最佳分析师</a></li>
+					</ol>
+         
+					<table id="starTb1" class="starList" width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+		            <td width="22%" bgcolor="#EBEBEB"><div align="center"><strong>宏观经济</strong></div></td>
+		            <td width="78%" bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：中信证券 研究小组（诸建芳等）;<strong>第二名</strong>：中金公司 研究小组（沈建光等）;<strong>第三名</strong>：申银万国 研究小组（李慧勇等）;<strong>第四名</strong>：安信证券 研究小组（高善文等）;<strong>第五名</strong>：光大证券 研究小组</div></td>
+		          </tr>
+		          <tr>
+		            <td width="22%" bgcolor="#FFFFFF"><div align="center"><strong>策略研究</strong></div></td>
+		            <td width="78%" bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：申银万国 研究小组（袁宜等）;<strong>第二名</strong>：安信证券 研究小组（程定华等）;<strong>第三名</strong>：长江证券 研究小组（周金涛等）;<strong>第四名</strong>：中信证券研究小组（于军等）;<strong>第五名</strong>：中金公司 研究小组（高挺等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>金融工程</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：联合证券 研究小组（杨戈等）;<strong>第二名</strong>：国信证券 研究小组(葛新元等);<strong>第三名</strong>：申银万国 研究小组（提云涛等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>固定收益研究</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中金公司 研究小组（徐小庆等）;<strong>第二名</strong>：国泰君安 研究小组（姜超等）;<strong>第三名</strong>：申银万国 研究小组</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>房地产</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：国泰君安 <a href="http://51gurus.com/analyzer/static/6IHTNQU7_intro.html">孙建平</a>;<strong>第二名</strong>：中信证券 陈聪;<strong>第三名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67IN_intro.html">白宏炜</a>等）<strong>;第四名</strong>：长江证券 研究小组（苏雪晶等）;<strong>第五名</strong>：光大证券 研究小组(<a href="http://51gurus.com/analyzer/static/6EJV66CI_intro.html">赵强</a>等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>银行业</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券 研究小组（朱琰等）;<strong>第二名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67JN_intro.html">毛军华</a>等）;<strong>第三名</strong>：国金证券 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNR7G_intro.html">李伟奇</a>等）;<strong>第四名</strong>：国泰君安 <a href="http://51gurus.com/analyzer/static/6EJV67J8_intro.html">伍永刚</a>;<strong>第五名</strong>：申银万国 研究小组(<a href="http://51gurus.com/analyzer/static/6IHTNRCC_intro.html">励雅敏</a>等)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>非银行金融</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNRG9_intro.html">周光</a>等）;<strong>第二名</strong>：平安证券 研究小组（邵子钦等）;<strong>第三名</strong>：长江证券 研究小组（刘俊等）;<strong>第四名</strong>：安信证券 杨建海;<strong>第五名</strong>：国泰君安 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67K7_intro.html">梁静</a>等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>交通运输仓储</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券 研究小组（马晓立等）;<strong>第二名</strong>：平安证券 研究小组（郑武等）;<strong>第三名</strong>：申银万国 研究小组（李树荣等);<strong>第四名</strong>：国泰君安 研究小组（孙利萍等）;<strong>第五名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNU0S_intro.html">陶薇</a>等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>钢铁行业</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：国金证券 研究小组（周涛等）;<strong>第二名</strong>：中信证券 研究小组（周希增等）;<strong>第三名</strong>：申银万国 研究小组（赵湘鄂等);<strong>第四名</strong>：招商证券 研究小组（张士宝等）;<strong>第五名</strong>：国信证券 研究小组(郑东等)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>电力、煤气及水等公用事业</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券 研究小组（杨治山等）;<strong>第二名</strong>：招商证券 <a href="http://51gurus.com/analyzer/static/6IHTNRVT_intro.html">彭全刚</a>;<strong>第三名</strong>：国信证券 研究小组(徐颖真等);<strong>第四名</strong>：申银万国 研究小组;<strong>第五名</strong>：国泰君安 研究小组（王威等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>有色金属</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：中信证券 研究小组（李追阳等）;<strong>第二名</strong>：联合证券 叶洮;<strong>第三名</strong>：安信证券 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67LU_intro.html">衡昆</a>等）;<strong>第四名</strong>：国信证券 研究小组(彭波等）;<strong>第五名</strong>：长江证券 葛军<br>
+		            </div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>基础化工</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：申银万国 研究小组(<a href="http://51gurus.com/analyzer/static/6EJV67MF_intro.html">周小波</a>等);<strong>第二名</strong>：光大证券 研究小组(张力扬等）;<strong>第三名</strong>：中金公司 <a href="http://51gurus.com/analyzer/static/6EJV67MV_intro.html">时雪松</a>;<strong>第四名</strong>：中信证券 刘旭明;<strong>第五名</strong>：国信证券 研究小组(邱伟等)</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>石油化工</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：中信证券 研究小组（殷孝东等）;<strong>第二名</strong>：招商证券 裘孝锋;<strong>第三名</strong>：申银万国 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNU3P_intro.html">郑治国</a>等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>机械行业</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">第一名：招商证券 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67NG_intro.html">刘荣</a>等）;<strong>第二名</strong>：国金证券 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNUNA_intro.html">董亚光</a>等）;<strong>第三名</strong>：中信证券 研究小组（郭亚凌等）;<strong>第四名</strong>：申银万国 研究小组（胡丽梅等）;<strong>第五名</strong>：光大证券 研究小组（邱世梁等）<br>
+		            </div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>电力设备与新能源</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：中信证券 研究小组（刘磊等）;<strong>第二名</strong>：申银万国 研究小组;<strong>第三名</strong>：国金证券 研究小组（刘江啸等）;<strong>第四名</strong>：国信证券 研究小组(彭继忠等);<strong>第五名</strong>：中投证券 熊琳<br>
+		            </div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>医药生物</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：申银万国 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNSEI_intro.html">罗鶄</a>等);<strong>第二名</strong>：国金证券 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNSHG_intro.html">黄挺</a>等）;<strong>第三名</strong>：国信证券 研究小组(贺平鸽等);<strong>第四名</strong>：安信证券 研究小组;<strong>第五名</strong>：中信证券 研究小组（姚杰等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>汽车和汽车零部件</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：中信证券 研究小组（李春波等）;<strong>第二名</strong>：申银万国 <a href="http://51gurus.com/analyzer/static/6EJV67P9_intro.html">姜雪晴</a>;<strong>第三名</strong>：联合证券 研究小组（姚宏光等）;<strong>第四名</strong>：招商证券 研究小组（汪刘胜等）;<strong>第五名</strong>：光大证券 研究小组<br>
+		            </div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>煤炭开采</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：国金证券 研究小组（龚云华等）;<strong>第二名</strong>：招商证券 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNT3I_intro.html">卢平</a>等）;<strong>第三名</strong>：申银万国 研究小组;<strong>第四名</strong>：海通证券 韩振国;<strong>第五名</strong>：光大证券 研究小组（陈亮等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>通信行业</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：光大证券 研究小组（周励谦等）;<strong>第二名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNV3H_intro.html">陈昊飞</a>等）;<strong>第三名</strong>：申银万国 研究小组;<strong>第四名</strong>：国金证券 陈运红;<strong>第五名</strong>：长江证券 陈志坚</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>批发和零售贸易</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：海通证券 研究小组（路颖等）;<strong>第二名</strong>：联合证券 研究小组（吴红光等）;<strong>第三名</strong>：申银万国 <a href="http://51gurus.com/analyzer/static/6EJV67QB_intro.html">金泽斐</a>;<strong>第四名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNTBS_intro.html">郭海燕</a>等）;<strong>第五名</strong>：中信证券 研究小组（赵雪芹等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>非金属类建材</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：国金证券 贺国文;<strong>第二名</strong>：中信证券 研究小组（潘建平等）;<strong>第三名</strong>：国泰君安 <a href="http://51gurus.com/analyzer/static/6EJV67R0_intro.html">韩其成</a>;<strong>第四名</strong>：中投证券 研究小组（李凡等）;<strong>第五名</strong>：安信证券 研究小组（石磊等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>建筑和工程</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券 研究小组（潘建平等）;<strong>第二名</strong>：国泰君安 <a href="http://51gurus.com/analyzer/static/6EJV67R0_intro.html">韩其成</a>;<strong>第三名</strong>：国信证券 研究小组(邱波等)</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>家电行业</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：中信证券 研究小组（胡雅丽等）;<strong>第二名</strong>：申银万国 <a href="http://51gurus.com/analyzer/static/6EJV67RH_intro.html">付娟</a>;<strong>第三名</strong>：国信证券 王念春</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>计算机行业</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：国泰君安 <a href="http://51gurus.com/analyzer/static/6EJV67S1_intro.html">魏兴耘</a>;<strong>第二名</strong>：海通证券 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNV8T_intro.html">陈美风</a>等）;<strong>第三名</strong>：申银万国 尹沿技</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>电子行业</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：东方证券 研究小组（陈刚等）;<strong>第二名</strong>：招商证券 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNVAR_intro.html">张良勇</a>等）;<strong>第三名</strong>：国泰君安 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67S1_intro.html">魏兴耘</a>等）;<strong>第四名</strong>：中投证券 王海军;<strong>第五名</strong>：中信证券 研究小组<br>
+		            </div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>纺织和服装</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券 李鑫;<strong>第二名</strong>：招商证券 王薇;<strong>第三名</strong>：国泰君安 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67SG_intro.html">李质仙</a>等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>造纸印刷</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：中信证券 许骏;<strong>第二名</strong>：申银万国 <a href="http://51gurus.com/analyzer/static/6IHTNVIL_intro.html">周海晨</a>;<strong>第三名</strong>：国泰君安 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67T0_intro.html">王峰<a>等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>农林牧渔</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：申银万国 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNVCA_intro.html">赵金厚</a>等）;<strong>第二名</strong>：国金证券 谢刚;<strong>第三名</strong>：中信证券 研究小组（毛长青等）</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>食品饮料</strong></div></td>
+		            <td><div align="left"><strong>第一名</strong>：申银万国 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNVL3_intro.html">童驯</a>等）;<strong>第二名</strong>：招商证券 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67TF_intro.html">朱卫华</a>等）;<strong>第三名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6IHTNVP0_intro.html">袁霏阳</a>等）;<strong>第四名</strong>：中信证券 研究小组（许彪等）;<strong>第五名</strong>：中投证券 黄巍</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>社会服务业</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券 研究小组（赵雪芹等）;<strong>第二名</strong>：招商证券 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67TV_intro.html">苏平</a>等）;<strong>第三名</strong>：申银万国 陈海明</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td><div align="center"><strong>传播与文化</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：中金公司 研究小组（<a href="http://51gurus.com/analyzer/static/6EJV67UF_intro.html">金宇</a>等）;<strong>第二名</strong>：招商证券 赵宇杰;<strong>第三名</strong>：国信证券 研究小组（廖绪发等）</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>最具慧眼奖</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：南方基金管理有限公司;<strong>第二名</strong>：博时基金管理有限公司;<strong>第三名</strong>：中国人寿保险资产管理有限公司;<strong>第四名</strong>：中再资产管理股份有限公司;<strong>第五名</strong>：长盛基金管理有限公司</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>最佳销售服务经理（北京）</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：招商证券 李杨;<strong>第二名</strong>：国金证券 李琳;<strong>第三名</strong>：光大证券 孙威;<strong>第四名</strong>：国信证券 王立法;<strong>第五名</strong>：长江证券 李靖;<strong>第六名</strong>：安信证券 马正南;<strong>第七名</strong>：中金公司 龙波;<strong>第八名</strong>：兴业证券 韩吟华;<strong>第九名</strong>：中信证券 骆鹏飞;<strong>第十名</strong>：申银万国 王莉娟<br>
+		            </div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>最佳销售服务经理（上海）</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：光大证券 杨日昕;<strong>第二名</strong>：招商证券 董佳芳;<strong>第三名</strong>：国信证券 马小丹;<strong>第四名</strong>：中金公司 耿德健;<strong>第五名</strong>：国金证券 郭晶晶;<strong>第六名</strong>：国泰君安 奚怿之;<strong>第七名</strong>：中信证券 孙超;<strong>第八名</strong>：国金证券 文襄林;<strong>第九名</strong>：国信证券 黄胜蓝;<strong>第十名</strong>：中信证券 刘屹</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>最佳销售服务经理（广深）</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：国信证券 刘宇华;<strong>第二名</strong>：中金公司 朱英伟;<strong>第三名</strong>：中金公司 刘蔓;<strong>第四名</strong>：兴业证券 严长胜;<strong>第五名</strong>：中金公司 郭红梅;<strong>第六名</strong>：平安证券 李涛;<strong>第七名</strong>：中信证券 杜多;<strong>第八名</strong>：中信证券 何夕伟;<strong>第九名</strong>：海通证券 贺振华;<strong>第十名</strong>：联合证券 侯敏</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>最佳销售服务团队</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中金公司;<strong>第二名</strong>：中信证券;<strong>第三名</strong>：申银万国;<strong>第四名</strong>：国泰君安;<strong>第五名</strong>：国信证券;<strong>第六名</strong>：国金证券;<strong>第七名</strong>：安信证券;<strong>第八名</strong>：招商证券;<strong>第九名</strong>：海通证券;<strong>第十名</strong>：光大证券</div></td>
+		          </tr>
+				  		<tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>最具潜力研究机构</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：长城证券;<strong>第二名</strong>：山西证券;<strong>第三名</strong>：东海证券</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>进步最快研究机构</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：长江证券;<strong>第二名</strong>：光大证券;<strong>第三名</strong>：广发证券</div></td>
+		          </tr>
+		          <tr bgcolor="#EBEBEB">
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>最具影响力研究机构</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><strong>第一名</strong>：申银万国证券;<strong>第二名</strong>：中金公司;<strong>第三名</strong>：中信证券;<strong>第四名</strong>：国泰君安证券;<strong>第五名</strong>：安信证券;<strong>第六名</strong>：国金证券;<strong>第七名</strong>：国信证券;<strong>第八名</strong>：招商证券;<strong>第九名</strong>：高盛高华证券;<strong>第十名</strong>：长江证券<br>
+		            </div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>本土最佳研究团队</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><strong>第一名</strong>：中信证券;<strong>第二名</strong>：申银万国;<strong>第三名</strong>：招商证券;<strong>并列第四名</strong>：中金公司、国金证券、国泰君安证券;<strong>第七名</strong>：国信证券;<strong>第八名</strong>：海通证券;<strong>第九名</strong>：联合证券;<strong>并列第十名</strong>：光大证券、安信证券</div></td>
+		          </tr>
+		        </tbody>
+        	    </table>
+					<table id="starTb2" style="display:none" class="starList" width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>宏观经济</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">高善文、莫倩、高伟栋(安信证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>策略研究</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">袁宜、徐妍、朱安平、朱康平、冯宇、夏钦(申银万国 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>金融工程</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">胡倩、单开佳、周健、张峰、丁鲁明、石建民、倪韵婷(海通证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>衍生品研究</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">提云涛、杨国平、朱岚、马骏、袁英杰、刘敦、李鹏、刘均伟(申银万国 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>金融工程</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">胡倩、单开佳、周健、张峰、丁鲁明、石建民、倪韵婷(海通证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>债券研究</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">徐小庆、陈健恒、徐寒飞、姬江帆、陶铄、许艳、张继强(中金公司 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>农林牧渔</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><a href="http://51gurus.com/analyzer/static/6IHTNVCA_intro.html">赵金厚</a>、王鹏、李宏鹏(申银万国 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>食品饮料</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">王鹏、<a href="http://51gurus.com/analyzer/static/6IHTNVL3_intro.html">童驯</a>、<a href="http://51gurus.com/analyzer/static/6IHTNVCA_intro.html">赵金厚</a>、韩威俊(申银万国 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>纺织和服饰</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">李鑫(中信证券)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>造纸和印刷</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><a href="http://51gurus.com/analyzer/static/6IHTNVIL_intro.html">周海晨</a>(申银万国)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>煤炭开采</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">龚云华(国金证券)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>石油化工</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">殷孝东、黄莉莉(中信证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>基础化工</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left"><a href="http://51gurus.com/analyzer/static/6IHTNU3P_intro.html">郑治国</a>、<a href="http://51gurus.com/analyzer/static/6EJV67MF_intro.html">周小波</a>、王立平(申银万国 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>电子</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">陈刚、赵晓光(东方证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>非金属类建材</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">贺国文(国金证券)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>钢铁</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">周涛、笃慧(国金证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>有色金属</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">李追阳、薛峰(中信证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>家电、休闲品和奢侈品</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">胡雅丽、廖欣宇(中信证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>汽车和汽车零部件</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">李春波、许英博(中信证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>机械</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><a href="http://51gurus.com/analyzer/static/6EJV67NG_intro.html">刘荣</a>、王轶铭(招商证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>电力设备</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">韩玲、李博(中银国际 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>医药生物</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left"><a href="http://51gurus.com/analyzer/static/6IHTNSEI_intro.html">罗鶄</a>、娄圣睿、应振洲、叶飞(申银万国 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#EBEBEB"><div align="center"><strong>电力、煤气及水等公用事业</strong></div></td>
+		            <td bgcolor="#EBEBEB"><div align="left">杨治山、吴非(中信证券 团队)</div></td>
+		          </tr>
+		          <tr>
+		            <td bgcolor="#FFFFFF"><div align="center"><strong>建筑和工程</strong></div></td>
+		            <td bgcolor="#FFFFFF"><div align="left">潘建平、杨涛(中信证券 团队)</div></td>
+		          </tr>
+		        </tbody>
+        	</table>
+            <!--<div class="pageSet">
+            	<table width="100%" border="0">
+                  <tr>
+                    <td width="28%">&nbsp;</td>
+                    <td width="51%">
+                    	<a href="#">第一页</a>
+                        <a href="#">上一页</a>
+                        <a href="#">下一页</a>
+                        <a href="#">末一页</a>
+                    </td>
+                    <td width="21%">
+                        <span class="curPage">1</span>/12&nbsp;&nbsp;&nbsp;&nbsp;
+                        到第<input class="toPage" type="text" />页
+                        <input class="toPageBtn" type="button" value="跳转"/>
+                    </td>
+                  </tr>
+                </table>
+            </div>-->
+        </div>
+        
+      <div class="clear"></div>
+        <div class="footer">
+   	    <div class="goTop"><a href="#"><img src="/img/topBtn.jpg"/></a></div>
+            <img src="/img/footer.jpg" />
+            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
+        </div>
+    </div><!--mainBox end-->
+</div>
+</body>
+</html>

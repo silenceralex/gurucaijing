@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>投资大师</title>
-<link href="css/main.css" rel="stylesheet" type="text/css" />
-<link href="css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="js/raphael.js"></script>
-<script language="javascript" type="text/javascript" src="js/analytics.js"></script>
+<title>投资大师——分析师组合排行榜</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/raphael.js"></script>
+<script language="javascript" type="text/javascript" src="/js/analytics.js"></script>
 <script language="javascript" type="text/javascript">
 function switchTab(id){
 	for(i=1;i<=3;i++){
@@ -30,7 +30,7 @@ function showAnaly(num,id,name1,name2){
 <body>
 <div class="wrapper">
 	<div class="header">
-    	<div class="logo"><h1>投资大师</h1><img src="img/logo.png" /></div>
+    	<div class="logo"><h1>投资大师</h1><img src="/img/logo.png" /></div>
         <div class="controlPanel">
         	<div class="icons">
             	<ul>
@@ -47,13 +47,13 @@ function showAnaly(num,id,name1,name2){
             </div>
             <ul class="nav">
             	<li><a href="#"><span>首页</span></a></li>
-                <li><a href="#"><span>大师殿堂</span></a></li>
+                <li><a href="/analyzer/starGuruList.html"><span>大师殿堂</span></a></li>
                 <li><a href="#"><span>股票精选</span></a></li>
                 <li><a href="#"><span>草根大师之选</span></a></li>
-                <li><a href="#"><span>金牌分析师之选</span></a></li>
+                <li><a href="/analyzer/starEarn.html"><span>金牌分析师之选</span></a></li>
                 <li><a href="#"><span>明星机构之选</span></a></li>
                 <li><a href="#"><span>机构共同之选</span></a></li>
-                <li><a href="#"><span>研报大本营</span></a></li>
+                <li><a href="/report/reportLab_1.html"><span>研报大本营</span></a></li>
                 <li><a href="#"><span>财报大本营</span></a></li>
                 <span class="clear"></span>
             </ul>
@@ -77,33 +77,33 @@ function showAnaly(num,id,name1,name2){
             </div>
    	  		<div class="colL1 colLItem">
             	<div class="colL_title">
-                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
                 </div>
                 <ul>
-                		<li><a href="#">金牌分析师</a></li>
+                		<li><a href="/analyzer/starGuruList.html">金牌分析师</a></li>
                     <!--<li><a href="#">草根大师</a></li>
                     <li><a href="#">明星机构</a></li>-->
                 </ul>
             </div>
             <div class="colL2 colLItem">
             	<div class="colL_title">
-                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
                 </div>
                 <ul>
-                		<li><a href="#">金牌分析师之选</a></li>
+                		<li><a href="/analyzer/starEarn.html">金牌分析师之选</a></li>
                     <!--<li><a href="#">草根大师之选</a></li>
                     <li><a href="#">明星机构之选</a></li>-->
                     <li><a href="#">机构共同之选</a></li>
-                    <li><a href="#">折价股票精选</a></li>
+                    <li><a href="/analyzer/starDiscount.html">折价股票精选</a></li>
                 </ul>
             </div>
             <div class="colL3 colLItem">
             	<div class="colL_title">
-                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
                 </div>
                 <ul>
-                		<li><a href="#">财报大本营</a></li>
-                    <li><a href="#">研报大本营</a></li>
+                	<li><a href="#">财报大本营</a></li>
+                  <li><a href="/report/reportLab_1.html">研报大本营</a></li>
                 </ul>
             </div>
         </div>
@@ -111,7 +111,7 @@ function showAnaly(num,id,name1,name2){
         		<div class="sec_nav">
             	<h2><a href="#">投资大师首页</a> &gt; 组合排行榜</h2> 
             </div>
-            <div style="padding-left:20px;padding-top:5px;height:39px;background:url(img/rankTitleBack.gif)"><img src="img/rankTitle.gif" /></div>
+            <div style="padding-left:20px;padding-top:5px;height:39px;background:url(/img/rankTitleBack.gif)"><img src="/img/rankTitle.gif" /></div>
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
             <div class="star_detail_box">
             	<div class="onsaleTable">
@@ -185,8 +185,8 @@ function showAnaly(num,id,name1,name2){
         <div id="star_detail_preview"></div>
       <div class="clear"></div>
         <div class="footer">
-   	    <div class="goTop"><a href="#"><img src="img/topBtn.jpg"/></a></div>
-            <img src="img/footer.jpg" />
+   	    <div class="goTop"><a href="#"><img src="/img/topBtn.jpg"/></a></div>
+            <img src="/img/footer.jpg" />
             <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
         </div>
     </div><!--mainBox end-->
