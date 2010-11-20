@@ -125,17 +125,17 @@
 					                    	<a href="#">第一页</a>
 											<a href="#">上一页</a>
 											#else
-											<a href="./report_lab_1.html">第一页</a>
+											<a href="./reportLab_1.html">第一页</a>
 											#set ($prev = $current - 1)
-											<a href="./report_lab_${prev}.html">上一页</a>
+											<a href="./reportLab_${prev}.html">上一页</a>
 											#end
 											#if ($current == $page)
 											<a href="#">下一页</a>
 					                        <a href="#">末一页</a>
 											#else
 											#set ($next = $current + 1)
-											<a href="./report_lab_${next}.html">下一页</a>
-											<a href="./report_lab_${page}.html">末一页</a>
+											<a href="./reportLab_${next}.html">下一页</a>
+											<a href="./reportLab_${page}.html">末一页</a>
 											#end
 					                    </td>
 					                    <td width="21%">
