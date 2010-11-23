@@ -34,13 +34,11 @@ public class ConfigReader {
 			String strMaxConnections = root.attributeValue("maxconnections");
 			int downMethod = Integer.parseInt(root.attributeValue("downMethod"));
 			String source = root.attributeValue("source");
-			String urlDB_path = root.attributeValue("urldb");
-			Element rangeNode = (Element) root.selectSingleNode("rangePattern");
-			String rangePattern = rangeNode.getTextTrim();
-			Pattern rangeP = null;
-			if (rangePattern != null) {
-				rangeP = Pattern.compile(rangePattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+			int type = 0;
+			if (root.attributeValue("type") != null) {
+				type = Integer.parseInt(root.attributeValue("type"));
 			}
+			String urlDB_path = root.attributeValue("urldb");
 
 			int maxConnections = 5;
 			if (strMaxConnections != null) {
@@ -66,11 +64,19 @@ public class ConfigReader {
 			job.setMaxConnections(maxConnections);
 			job.setThreads(threads);
 			job.setDownMethod(downMethod);
-			job.setRangePattern(rangeP);
+			job.setType(type);
 
 			BerkeleyDB urlDB = new BerkeleyDB();
 			urlDB.setup(urlDB_path, false);
 			job.setUrlDB(urlDB);
+
+			// ranges
+			List rangeNodes = root.selectNodes("rangePattern");
+			for (int i = 0; i < rangeNodes.size(); i++) {
+				Element elm = (Element) rangeNodes.get(i);
+				Pattern p = Pattern.compile(elm.getTextTrim(), Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+				job.getRangePattern().add(p);
+			}
 
 			// excludes
 			List excludeNodes = root.selectNodes("exclude");
@@ -103,7 +109,10 @@ public class ConfigReader {
 				String regexp = patternNode.attributeValue("regexp");
 
 				Element contentpatternNode = (Element) patternNode.selectSingleNode("contentpattern");
-				String contentpattern = contentpatternNode.getTextTrim();
+				String contentpattern = null;
+				if (contentpatternNode != null) {
+					contentpattern = contentpatternNode.getTextTrim();
+				}
 				String revisit = patternNode.attributeValue("revisit");
 				boolean isJoint = Boolean.parseBoolean(patternNode.attributeValue("isjoint"));
 				// String docset = patternNode.attributeValue("docset");

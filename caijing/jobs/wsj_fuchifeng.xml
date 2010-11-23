@@ -1,0 +1,48 @@
+<job start="http://cn.wsj.com/gb/arpt.asp" threads="2"
+	maxconnections="10" charset="GB2312" source="wsj_fuchifeng" type="1"
+	downMethod="0" urldb="/home/app/urldb/wsj">
+	<only>
+		http://cn\.wsj\.com/gb/[0-9]{8}/[a-zA-Z]{3}[0-9]{6}\.asp
+	</only>
+	<rangePattern><![CDATA[<div id="t1news">(.*?)<div id="top1space">]]></rangePattern>
+	<specials>
+		<pattern
+			regexp="http://cn\.wsj\.com/gb/[0-9]{8}/[a-zA-Z]{3}[0-9]{6}\.asp"
+			revisit="no">
+			<page>
+				<innermatch property="title">
+					<regexp>
+						<![CDATA[<title>(.*?)_]]>
+					</regexp>
+				</innermatch>
+				<innermatch property="author">
+					<regexp>
+						<![CDATA[本文作者(.*?)是《华尔街日报》中文网专栏撰稿人]]>
+					</regexp>
+				</innermatch>
+				<innermatch property="ptime"
+					dateformat="yyyy/MM/dd HH:mm:ss">
+					<regexp>
+						<![CDATA[<div id="datetime">(.*?)</div>]]>
+					</regexp>
+				</innermatch>
+				<innermatch property="source">
+					<regexp>
+						<![CDATA[<title>.*?_(.*?)_wsj.com</title>]]>
+					</regexp>
+				</innermatch>
+
+				<innermatch property="abs">
+					<regexp>
+						<![CDATA[meta name="description" content="(.*?)" />]]>
+					</regexp>
+				</innermatch>
+				<innermatch property="content">
+					<regexp>
+						<![CDATA[<!content_tag txt>(.*?)<div id='divCopyright']]>
+					</regexp>
+				</innermatch>
+			</page>
+		</pattern>
+	</specials>
+</job>

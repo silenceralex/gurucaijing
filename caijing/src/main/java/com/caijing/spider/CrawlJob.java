@@ -47,8 +47,9 @@ public class CrawlJob implements Runnable {
 	private String charset = "GBK";
 	private int maxConnections = 5;
 	private int threads = 5;
+	private int type = 0;
 	// 为了限制页面html内容部分的pattern,链接页和最终页的区分。
-	private Pattern rangePattern = null;
+	private List<Pattern> rangePattern = new ArrayList<Pattern>();
 	private List<Pattern> excludes = new ArrayList<Pattern>();
 	private List<Pattern> onlys = new ArrayList<Pattern>();
 	private List<String> starturls = new ArrayList<String>();
@@ -108,8 +109,8 @@ public class CrawlJob implements Runnable {
 				String outlink = m.group(1);
 				try {
 					URL ou = normalizeUrl(normalizeOutlink(url, outlink));
-					System.out.println("after normalizeUrl:" + ou.toString());
-					// System.out.println(ou.toString());
+					//					System.out.println("after normalizeUrl:" + ou.toString());
+					//					System.out.println(ou.toString());
 					if (ou != null) {
 						if (notExcluded(ou)) {
 							boolean prior = false;
@@ -170,10 +171,12 @@ public class CrawlJob implements Runnable {
 
 		if (rangePattern != null) {
 			// 有内容rangePattern的限制，将只取中间部分进行parse
-			Matcher rangeM = rangePattern.matcher(content);
-			if (rangeM != null && rangeM.find()) {
-				content = rangeM.group();
-				processLink(url, content); // 整个页面进行链接爬取
+			for (Pattern pattern : rangePattern) {
+				Matcher rangeM = pattern.matcher(content);
+				if (rangeM != null && rangeM.find()) {
+					content = rangeM.group();
+					processLink(url, content); // 整个页面进行链接爬取
+				}
 			}
 			//			logger.warn("Content:" + content);
 		}
@@ -185,11 +188,15 @@ public class CrawlJob implements Runnable {
 				if (urlDB.contains(url.toString())) {
 					return;
 				} else {
+					//					logger.warn("Content:" + content);
 					ColumnArticle article = special.processPage(url, content, urldown);
+					article.setType(type);
 					columnArticleDao.insert(article);
 					long articleid = CmsWebservice.getInstance().addArticle(CmsWebservice.catelogID,
 							article.getTitle(), article.getAuthor(), article.getSrc(), article.getAbs(),
 							article.getContent(), DateTools.transformDateDetail(article.getPtime()));
+					article.setCmsid(articleid);
+					columnArticleDao.update(article);
 					if (CmsWebservice.getInstance().publishArticle(articleid)) {
 						System.out.println("publish article:" + article.getTitle() + " success!");
 					} else {
@@ -375,7 +382,7 @@ public class CrawlJob implements Runnable {
 		this.urlsSearched.removeAllElements();
 		this.urlsToSearch.removeAllElements();
 
-		//		processPage(startUrl);
+		processPage(startUrl);
 
 		for (String starturl : starturls) {
 			addWithoutDuplication(urlsToSearch, starturl);
@@ -497,7 +504,7 @@ public class CrawlJob implements Runnable {
 		Document xml = null;
 
 		try {
-			xml = sr.read(new File("jobs\\aastocks.xml"));
+			xml = sr.read(new File("jobs\\wsj_fuchifeng.xml"));
 			// xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
@@ -582,11 +589,11 @@ public class CrawlJob implements Runnable {
 		this.urlDB = urlDB;
 	}
 
-	public Pattern getRangePattern() {
+	public List<Pattern> getRangePattern() {
 		return rangePattern;
 	}
 
-	public void setRangePattern(Pattern rangePattern) {
+	public void setRangePattern(List<Pattern> rangePattern) {
 		this.rangePattern = rangePattern;
 	}
 
@@ -616,6 +623,14 @@ public class CrawlJob implements Runnable {
 
 	public void setStarturls(List<String> starturls) {
 		this.starturls = starturls;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }

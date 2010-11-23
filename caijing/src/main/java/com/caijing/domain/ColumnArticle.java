@@ -11,6 +11,8 @@ public class ColumnArticle {
 	private Date ptime = null;
 	private String author = null;
 	private String abs = null;
+	private int type = 0;
+	private long cmsid = 0;
 
 	public String getAid() {
 		return aid;
@@ -74,6 +76,22 @@ public class ColumnArticle {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public long getCmsid() {
+		return cmsid;
+	}
+
+	public void setCmsid(long cmsid) {
+		this.cmsid = cmsid;
 	}
 
 }

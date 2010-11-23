@@ -23,8 +23,8 @@
 
 	<insert id="insert">
 		insert into columnarticle
-		(aid,title,link,content,src,ptime,author,abs) values
-		(#aid#,#title#,#link#,#content#,#src#,#ptime#,#author#,#abs#)
+		(aid,title,link,content,src,ptime,author,abs,type) values
+		(#aid#,#title#,#link#,#content#,#src#,#ptime#,#author#,#abs#,#type#)
 	</insert>
 
 	<update id="update" parameterClass="ColumnArticle">
@@ -47,6 +47,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="author">
 				author = #author#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="cmsid">
+				cmsid = #cmsid#
 			</isNotEmpty>
 		</dynamic>
 		where aid=#aid#

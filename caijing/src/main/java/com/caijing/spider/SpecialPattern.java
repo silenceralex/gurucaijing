@@ -290,7 +290,7 @@ public class SpecialPattern {
 		Document xml = null;
 
 		try {
-			xml = sr.read(new File("jobs\\aastocks.xml"));
+			xml = sr.read(new File("jobs\\wsj_fuchifeng.xml"));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
@@ -300,9 +300,8 @@ public class SpecialPattern {
 		urldown.setCharset("GB2312");
 		String content = null;
 		try {
-			content = urldown
-					.load("http://www.aastocks.com.cn/News/2010/10/28/30287cec-db7b-4a72-b634-919033d061c3.shtml");
-			URL url = new URL("http://www.aastocks.com.cn/News/2010/10/28/30287cec-db7b-4a72-b634-919033d061c3.shtml");
+			content = urldown.load("http://cn.wsj.com/gb/20101123/ASD162425.asp");
+			URL url = new URL("http://cn.wsj.com/gb/20101123/ASD162425.asp");
 			special.processPage(url, content, urldown);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
