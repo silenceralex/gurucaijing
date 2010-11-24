@@ -66,17 +66,19 @@
 
 	<select id="getAllColumnArticle" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle order by ptime desc limit #start#,#offset# 
+		select * from columnarticle order by ptime desc limit
+		#start#,#offset#
 	</select>
-	
+
 	<select id="getColumnArticleBySource" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle where src=#source# order by ptime desc
+		select * from columnarticle where src=#source# order by ptime
+		desc
 	</select>
-	
-		<select id="getColumnArticleByDomain" parameterClass="java.util.Map"
-		resultClass="ColumnArticle">
-		select * from columnarticle where link like #domain# 
+
+	<select id="getColumnArticleByDomain" resultClass="ColumnArticle">
+		select * from columnarticle where link like
+		"http://www.aastocks.com.cn%"
 	</select>
 
 </sqlMap>

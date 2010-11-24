@@ -20,5 +20,5 @@ public interface ColumnArticleDao extends CrudDao {
 
 	public List<ColumnArticle> getColumnArticleBySource(String source);
 
-	public List<ColumnArticle> getColumnArticleByDomain(String domain);
+	public List<ColumnArticle> getColumnArticleByDomain();
 }
