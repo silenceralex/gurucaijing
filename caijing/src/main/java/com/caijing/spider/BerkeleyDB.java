@@ -152,22 +152,9 @@ public class BerkeleyDB {
 
 	public static void main(String argv[]) {
 		BerkeleyDB db = new BerkeleyDB();
-		db.setup("/home/app/urldb/wsj", false);
 		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
-		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("华尔街日报");
-		for (ColumnArticle article : articles) {
-			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
-			if (!db.contains(md5)) {
-				System.out.println("article.getTitle():" + article.getTitle());
-				System.out.println("article.getAuthor():" + article.getAuthor());
-				db.putUrl(md5);
-			}
-		}
-		db.close();
-		System.out.println("wsj articles:" + articles.size());
-		db = new BerkeleyDB();
 		db.setup("/home/app/urldb/caijing", false);
-		articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
+		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
 		for (ColumnArticle article : articles) {
 			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
 			if (!db.contains(md5)) {
