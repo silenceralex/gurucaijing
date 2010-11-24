@@ -52,4 +52,18 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getAllColumnArticle", params);
 	}
 
+	@Override
+	public List<ColumnArticle> getColumnArticleBySource(String source) {
+		Map<String, Object> params = new HashMap<String, Object>(2);
+		params.put("source", source);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getColumnArticleBySource", params);
+	}
+
+	@Override
+	public List<ColumnArticle> getColumnArticleByDomain(String domain) {
+		Map<String, Object> params = new HashMap<String, Object>(2);
+		params.put("domain", domain + "%");
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getColumnArticleByDomain", params);
+	}
+
 }

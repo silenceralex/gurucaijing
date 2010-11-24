@@ -26,6 +26,7 @@ import com.caijing.domain.ColumnArticle;
 import com.caijing.remote.CmsWebservice;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
+import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
 /**
@@ -185,11 +186,14 @@ public class CrawlJob implements Runnable {
 		SpecialPattern special = getSpecialPattern(url, content);
 		if (special != null) {
 			try {
-				if (urlDB.contains(url.toString())) {
+				ColumnArticle article = special.processPage(url, content, urldown);
+				//改用标题+作者进行去重
+				String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+				if (urlDB.contains(md5)) {
 					return;
 				} else {
 					//					logger.warn("Content:" + content);
-					ColumnArticle article = special.processPage(url, content, urldown);
+					urlDB.putUrl(md5);
 					article.setType(type);
 					columnArticleDao.insert(article);
 					long articleid = CmsWebservice.getInstance().addArticle(CmsWebservice.catelogID,
@@ -203,7 +207,6 @@ public class CrawlJob implements Runnable {
 						System.out.println("publish article:" + article.getTitle() + " failed!");
 					}
 
-					urlDB.putUrl(url.toString());
 				}
 			} catch (Exception e) {
 				logger.warn(e.getMessage());

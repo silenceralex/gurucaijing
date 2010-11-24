@@ -3,6 +3,7 @@ package com.caijing.spider;
 import java.io.File;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
-import com.caijing.util.ContextFactory;
+import com.caijing.remote.CmsWebservice;
+import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
@@ -29,11 +31,15 @@ public class RssJob {
 	private String root = null;
 	private String list = null;
 	private String src = null;
+	private long columnid = 0;
 	private String charset = "GBK";
 	private int maxConnections = 5;
 	private int threads = 5;
 	private UrlDownload urldown = null;
 	private List<RssInnerMatch> innerMatches = null;
+
+	private List<String> startUrls = new ArrayList<String>();
+	private int type = 0;
 
 	@Autowired
 	@Qualifier("columnArticleDao")
@@ -43,44 +49,60 @@ public class RssJob {
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-			String rss = urldown.load(startPage);
-			xml = sr.read(new StringReader(rss));
-			Element root = (Element) xml.selectSingleNode("//" + this.root);
-			Element srcNode = (Element) root.selectSingleNode(src);
-			String src = srcNode.getTextTrim();
-			List<Element> patternNodes = root.selectNodes(list);
-			for (Element patternNode : patternNodes) {
-				ColumnArticle article = new ColumnArticle();
-				article.setSrc(src);
-				for (RssInnerMatch innerMatch : innerMatches) {
-					if (innerMatch.getDateformat() != null) {
-						Date ptime = (Date) innerMatch.getMatchResult(patternNode, urldown);
-						article.setPtime(ptime);
-					} else {
-						if ("author".equals(innerMatch.getProperty())) {
-							article.setAuthor((String) innerMatch.getMatchResult(patternNode, urldown));
-						} else if ("title".equals(innerMatch.getProperty())) {
-							article.setTitle((String) innerMatch.getMatchResult(patternNode, urldown));
-						} else if ("link".equals(innerMatch.getProperty())) {
-							article.setLink((String) innerMatch.getMatchResult(patternNode, urldown));
-						} else if ("abs".equals(innerMatch.getProperty())) {
-							article.setAbs((String) innerMatch.getMatchResult(patternNode, urldown));
-						} else if ("content".equals(innerMatch.getProperty())) {
-							article.setContent((String) innerMatch.getMatchResult(patternNode, urldown));
+			for (String startUrl : startUrls) {
+				String rss = urldown.load(startUrl);
+				xml = sr.read(new StringReader(rss));
+				Element root = (Element) xml.selectSingleNode("//" + this.root);
+				Element srcNode = (Element) root.selectSingleNode(src);
+				String src = srcNode.getTextTrim();
+				List<Element> patternNodes = root.selectNodes(list);
+				for (Element patternNode : patternNodes) {
+					ColumnArticle article = new ColumnArticle();
+					article.setSrc(src);
+					for (RssInnerMatch innerMatch : innerMatches) {
+						if (innerMatch.getDateformat() != null) {
+							Date ptime = (Date) innerMatch.getMatchResult(patternNode, urldown);
+							article.setPtime(ptime);
+						} else {
+							if ("author".equals(innerMatch.getProperty())) {
+								article.setAuthor((String) innerMatch.getMatchResult(patternNode, urldown));
+							} else if ("title".equals(innerMatch.getProperty())) {
+								article.setTitle((String) innerMatch.getMatchResult(patternNode, urldown));
+							} else if ("link".equals(innerMatch.getProperty())) {
+								article.setLink((String) innerMatch.getMatchResult(patternNode, urldown));
+							} else if ("abs".equals(innerMatch.getProperty())) {
+								article.setAbs((String) innerMatch.getMatchResult(patternNode, urldown));
+							} else if ("content".equals(innerMatch.getProperty())) {
+								article.setContent((String) innerMatch.getMatchResult(patternNode, urldown));
+							}
 						}
 					}
+					//改用标题+作者进行去重
+					String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+					if (!urlDB.contains(md5)) {
+						urlDB.putUrl(md5);
+						article.setAid(MD5Utils.hash(article.getLink()));
+						article.setType(type);
+						columnArticleDao.insert(article);
+						long articleid = CmsWebservice.getInstance().addArticle(
+								columnid == 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
+								article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
+								DateTools.transformDateDetail(article.getPtime()));
+						article.setCmsid(articleid);
+						columnArticleDao.update(article);
+						if (CmsWebservice.getInstance().publishArticle(articleid)) {
+							System.out.println("publish article:" + article.getTitle() + " success!");
+						} else {
+							System.out.println("publish article:" + article.getTitle() + " failed!");
+						}
+					}
+					//					System.out.println("author: " + article.getAuthor());
+					//					System.out.println("title: " + article.getTitle());
+					//					System.out.println("pubDate: " + article.getPtime());
+					//					System.out.println("abs: " + article.getAbs());
+					//					System.out.println("link: " + article.getLink());
+					//					System.out.println("content: " + article.getContent());
 				}
-				if (!urlDB.contains(article.getLink())) {
-					urlDB.putUrl(article.getLink());
-					article.setAid(MD5Utils.hash(article.getLink()));
-					columnArticleDao.insert(article);
-				}
-				System.out.println("author: " + article.getAuthor());
-				System.out.println("title: " + article.getTitle());
-				System.out.println("pubDate: " + article.getPtime());
-				System.out.println("abs: " + article.getAbs());
-				System.out.println("link: " + article.getLink());
-				System.out.println("content: " + article.getContent());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,23 +116,36 @@ public class RssJob {
 
 	public static void main(String[] args) {
 
-		if (args.length == 0) {
-			printUsage();
-			return;
-		}
+		//		if (args.length == 0) {
+		//			printUsage();
+		//			return;
+		//		}
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-			//			xml = sr.read(new File("jobs\\caijing.xml"));
-			System.out.println("Input xml : " + args[0]);
-			xml = sr.read(new File(args[0]));
+			xml = sr.read(new File("jobs\\caijing.xml"));
+			//			System.out.println("Input xml : " + args[0]);
+			//			xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
-		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		RssJob rssjob = ConfigReader.getRssJobFromXML(xml);
-		rssjob.setColumnArticleDao(columnArticleDao);
+		//		rssjob.setColumnArticleDao(columnArticleDao);
 		rssjob.run();
+		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
+		//		for (ColumnArticle article : articles) {
+		//			long articleid = CmsWebservice.getInstance().addArticle(CmsWebservice.catelogID, article.getTitle(),
+		//					article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
+		//					DateTools.transformDateDetail(article.getPtime()));
+		//			article.setCmsid(articleid);
+		//			columnArticleDao.update(article);
+		//			if (CmsWebservice.getInstance().publishArticle(articleid)) {
+		//				System.out.println("publish article:" + article.getTitle() + " success!");
+		//			} else {
+		//				System.out.println("publish article:" + article.getTitle() + " failed!");
+		//			}
+		//		}
 	}
 
 	public BerkeleyDB getUrlDB() {
@@ -207,5 +242,29 @@ public class RssJob {
 
 	public void setColumnArticleDao(ColumnArticleDao columnArticleDao) {
 		this.columnArticleDao = columnArticleDao;
+	}
+
+	public List<String> getStartUrls() {
+		return startUrls;
+	}
+
+	public void setStartUrls(List<String> startUrls) {
+		this.startUrls = startUrls;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public long getColumnid() {
+		return columnid;
+	}
+
+	public void setColumnid(long columnid) {
+		this.columnid = columnid;
 	}
 }

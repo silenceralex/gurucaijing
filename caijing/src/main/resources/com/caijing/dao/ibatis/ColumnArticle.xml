@@ -68,5 +68,15 @@
 		resultClass="ColumnArticle">
 		select * from columnarticle order by ptime desc limit #start#,#offset# 
 	</select>
+	
+	<select id="getColumnArticleBySource" parameterClass="java.util.Map"
+		resultClass="ColumnArticle">
+		select * from columnarticle where src=#source# order by ptime desc
+	</select>
+	
+		<select id="getColumnArticleByDomain" parameterClass="java.util.Map"
+		resultClass="ColumnArticle">
+		select * from columnarticle where link like #domain# 
+	</select>
 
 </sqlMap>

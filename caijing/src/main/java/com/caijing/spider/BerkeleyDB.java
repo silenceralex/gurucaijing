@@ -1,7 +1,11 @@
 package com.caijing.spider;
 
 import java.io.File;
+import java.util.List;
 
+import com.caijing.dao.ColumnArticleDao;
+import com.caijing.domain.ColumnArticle;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.MD5Utils;
 import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.tuple.TupleBinding;
@@ -147,25 +151,46 @@ public class BerkeleyDB {
 	}
 
 	public static void main(String argv[]) {
-		// BerkeleyDB db = new BerkeleyDB();
-		// String url = "www.hia.com";
-		// System.out.println("url's md5: " + db.makeUrlId(url));
-		//
-		// try {
-		// db.setup("d:\\urldb\\anhuiTV", false);
-// // db.putUrl(url);
-		// // if (db.contains(url)) {
-		// // System.out.println("Contains the url!");
-		// // } else {
-		// // System.out.println("Not Contains the url!");
-		// // }
-		// // String url2=db.getUrl(db.makeUrlId(url));
-		// // System.out.println("URL:"+url2);
-		// db.insertFromMysql("安徽卫视");
-		// } catch (DatabaseException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		BerkeleyDB db = new BerkeleyDB();
+		db.setup("/home/app/urldb/wsj", false);
+		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("华尔街日报");
+		for (ColumnArticle article : articles) {
+			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+			if (!db.contains(md5)) {
+				System.out.println("article.getTitle():" + article.getTitle());
+				System.out.println("article.getAuthor():" + article.getAuthor());
+				db.putUrl(md5);
+			}
+		}
+		db.close();
+		System.out.println("wsj articles:" + articles.size());
+		db = new BerkeleyDB();
+		db.setup("/home/app/urldb/caijing", false);
+		articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
+		for (ColumnArticle article : articles) {
+			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+			if (!db.contains(md5)) {
+				System.out.println("article.getTitle():" + article.getTitle());
+				System.out.println("article.getAuthor():" + article.getAuthor());
+				db.putUrl(md5);
+			}
+		}
+		db.close();
+		System.out.println("caijing articles:" + articles.size());
 
+		db = new BerkeleyDB();
+		db.setup("/home/app/urldb/asstocks", false);
+		articles = columnArticleDao.getColumnArticleBySource("http://www.aastocks.com.cn/");
+		for (ColumnArticle article : articles) {
+			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+			if (!db.contains(md5)) {
+				System.out.println("article.getTitle():" + article.getTitle());
+				System.out.println("article.getAuthor():" + article.getAuthor());
+				db.putUrl(md5);
+			}
+		}
+		db.close();
+		System.out.println("asstocks articles:" + articles.size());
 	}
 }

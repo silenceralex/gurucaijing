@@ -13,6 +13,7 @@ import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockEarn;
+import com.caijing.flush.HtmlFlusher;
 import com.caijing.model.StockPrice;
 
 public class LocalStorage {
@@ -43,6 +44,13 @@ public class LocalStorage {
 		for (Analyzer analyzer : analyzerlist) {
 			storeAnaylzerGain(analyzer, date);
 		}
+
+		//抓取完毕直接进行刷新动作
+		HtmlFlusher flusher = new HtmlFlusher();
+		flusher.flushStarGuruDetail();
+		flusher.flushAnalyzerRank();
+		flusher.flushReportLab();
+		flusher.flushStarOnSale();
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {

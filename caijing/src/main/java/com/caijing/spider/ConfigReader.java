@@ -166,12 +166,16 @@ public class ConfigReader {
 
 		Element root = (Element) xml.selectSingleNode("//job");
 
-		String startPage = root.attributeValue("start");
+		String columnid = root.attributeValue("columnid");
+		rssjob.setColumnid(Long.parseLong(columnid));
+
+		String type = root.attributeValue("type");
+		rssjob.setType(Integer.parseInt(type));
 		String charset = root.attributeValue("charset");
 		String urlDB_path = root.attributeValue("urldb");
 		urldown.setCharset(charset);
 		rssjob.setUrldown(urldown);
-		rssjob.setStartPage(startPage);
+		//		rssjob.setStartPage(startPage);
 		BerkeleyDB urlDB = new BerkeleyDB();
 		urlDB.setup(urlDB_path, false);
 		rssjob.setUrlDB(urlDB);
@@ -181,6 +185,11 @@ public class ConfigReader {
 		rssjob.setList(node.attributeValue("property"));
 		node = (Element) root.selectSingleNode("src");
 		rssjob.setSrc(node.attributeValue("property"));
+
+		List<Element> starturlNodes = root.selectNodes("starturl");
+		for (Element starturlNode : starturlNodes) {
+			rssjob.getStartUrls().add(starturlNode.getTextTrim());
+		}
 		List<Element> patternNodes = root.selectNodes("page/innermatch");
 		List<RssInnerMatch> innerMatches = new ArrayList<RssInnerMatch>();
 		for (Element patternNode : patternNodes) {
