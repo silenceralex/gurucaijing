@@ -77,8 +77,7 @@
 	</select>
 
 	<select id="getColumnArticleByDomain" resultClass="ColumnArticle">
-		select * from columnarticle where link like
-		"http://www.aastocks.com.cn%"
+		select * from columnarticle where link like "http://www.aastocks.com.cn%"
 	</select>
 
 </sqlMap>

@@ -154,7 +154,7 @@ public class BerkeleyDB {
 		BerkeleyDB db = new BerkeleyDB();
 		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
-		db.setup("/home/app/urldb/asstocks", false);
+		db.setup("/home/app/urldb/aastocks", false);
 		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByDomain();
 		for (ColumnArticle article : articles) {
 			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
