@@ -122,10 +122,9 @@
 			<ref bean="scheduledSpide" />
 		</property>
 		<property name="cronExpression">
-			<value>0 10 7,9,12,16,20 * * ?</value><!-- 每天晚上3点30分执行一次 -->
+			<value>0 10,40 7,9,12,15,16,20 * * ?</value><!-- 每天晚上3点30分执行一次 -->
 		</property>
 	</bean>
-
 
 	<bean id="scheduledlocalStorage"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">

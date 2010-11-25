@@ -6,10 +6,6 @@
 		http://www.aastocks.com.cn/NewsData/71EE28D4-A661-45FC-BAAF-BC94FD183E15/list_1.html
 	</starturl>
 	<only>
-		http://www\.aastocks\.com\.cn/newsdata/4c3878e8-14e8-4431-980d-8572ba889b2f/list_\d\.html
-		http://www\.aastocks\.com\.cn/newsdata/71EE28D4-A661-45FC-BAAF-BC94FD183E15/list_\d\.html
-	</only>
-	<only>
 		http://www\.aastocks\.com\.cn/News/201\d/[01]?[0-9]/[0-3]?[0-9]/[0-9a-z-]{36}.shtml
 	</only>
 	<rangePattern><![CDATA[<div class="newsline">(.*?)<div class="page">]]></rangePattern>

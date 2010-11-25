@@ -111,7 +111,7 @@ public class CrawlJob implements Runnable {
 				try {
 					URL ou = normalizeUrl(normalizeOutlink(url, outlink));
 					//					System.out.println("after normalizeUrl:" + ou.toString());
-					//					System.out.println(ou.toString());
+					//System.out.println(ou.toString());
 					if (ou != null) {
 						if (notExcluded(ou)) {
 							boolean prior = false;
