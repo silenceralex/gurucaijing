@@ -100,8 +100,11 @@
 		<property name="astockXml">
 			<value>/home/app/caijing/jobs/aastocks.xml</value>
 		</property>
-		<property name="wsjXml">
+		<property name="wsjdashiXml">
 			<value>/home/app/caijing/jobs/wsj_fuchifeng.xml</value>
+		</property>
+		<property name="wsjhongguanXml">
+			<value>/home/app/caijing/jobs/wsj.xml</value>
 		</property>
 	</bean>
 

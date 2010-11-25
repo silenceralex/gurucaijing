@@ -1,4 +1,4 @@
-<job start="http://cn.wsj.com/gb/arpt.asp" threads="2"
+<job start="http://cn.wsj.com/gb/arpt.asp" threads="2" columnid="9135"
 	maxconnections="10" charset="GB2312" source="wsj_fuchifeng" type="1"
 	downMethod="0" urldb="/home/app/urldb/wsj">
 	<only>

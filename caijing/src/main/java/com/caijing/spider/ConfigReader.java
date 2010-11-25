@@ -38,6 +38,11 @@ public class ConfigReader {
 			if (root.attributeValue("type") != null) {
 				type = Integer.parseInt(root.attributeValue("type"));
 			}
+			long columnid = 0;
+			if (root.attributeValue("columnid") != null) {
+				columnid = Long.parseLong(root.attributeValue("columnid"));
+			}
+
 			String urlDB_path = root.attributeValue("urldb");
 
 			int maxConnections = 5;
@@ -65,6 +70,7 @@ public class ConfigReader {
 			job.setThreads(threads);
 			job.setDownMethod(downMethod);
 			job.setType(type);
+			job.setColumnid(columnid);
 
 			BerkeleyDB urlDB = new BerkeleyDB();
 			urlDB.setup(urlDB_path, false);
@@ -74,8 +80,7 @@ public class ConfigReader {
 			List rangeNodes = root.selectNodes("rangePattern");
 			for (int i = 0; i < rangeNodes.size(); i++) {
 				Element elm = (Element) rangeNodes.get(i);
-				Pattern p = Pattern.compile(elm.getTextTrim(), Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-				job.getRangePattern().add(p);
+				job.getRangePatterns().add(elm.getTextTrim());
 			}
 
 			// excludes

@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.remote.CmsWebservice;
-import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
@@ -48,9 +47,13 @@ public class CrawlJob implements Runnable {
 	private String charset = "GBK";
 	private int maxConnections = 5;
 	private int threads = 5;
+	//对应分类，0专栏，1大势研判，2宏观动态，3草根
 	private int type = 0;
+	//发布栏目的id
+	private long columnid = 0;
 	// 为了限制页面html内容部分的pattern,链接页和最终页的区分。
-	private List<Pattern> rangePattern = new ArrayList<Pattern>();
+	//	private List<Pattern> rangePattern = new ArrayList<Pattern>();
+	private List<String> rangePatterns = new ArrayList<String>();
 	private List<Pattern> excludes = new ArrayList<Pattern>();
 	private List<Pattern> onlys = new ArrayList<Pattern>();
 	private List<String> starturls = new ArrayList<String>();
@@ -170,13 +173,14 @@ public class CrawlJob implements Runnable {
 			return;
 		bytesDownloaded += content.getBytes().length;
 
-		if (rangePattern != null) {
+		if (rangePatterns != null) {
 			// 有内容rangePattern的限制，将只取中间部分进行parse
-			for (Pattern pattern : rangePattern) {
-				Matcher rangeM = pattern.matcher(content);
+			for (String pattern : rangePatterns) {
+				Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+				Matcher rangeM = p.matcher(content);
 				if (rangeM != null && rangeM.find()) {
-					content = rangeM.group();
-					processLink(url, content); // 整个页面进行链接爬取
+					String rangeStr = rangeM.group();
+					processLink(url, rangeStr); // 整个页面进行链接爬取
 				}
 			}
 			//			logger.warn("Content:" + content);
@@ -184,9 +188,14 @@ public class CrawlJob implements Runnable {
 
 		// 只在最终页面进行page解析
 		SpecialPattern special = getSpecialPattern(url, content);
+		if (special == null) {
+			logger.warn("special is null");
+		}
 		if (special != null) {
 			try {
 				ColumnArticle article = special.processPage(url, content, urldown);
+				if (article == null)
+					return;
 				//改用标题+作者进行去重
 				String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
 				if (urlDB.contains(md5)) {
@@ -196,9 +205,10 @@ public class CrawlJob implements Runnable {
 					urlDB.putUrl(md5);
 					article.setType(type);
 					columnArticleDao.insert(article);
-					long articleid = CmsWebservice.getInstance().addArticle(CmsWebservice.catelogID,
-							article.getTitle(), article.getAuthor(), article.getSrc(), article.getAbs(),
-							article.getContent(), DateTools.transformDateDetail(article.getPtime()));
+					long articleid = CmsWebservice.getInstance().addArticle(
+							columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
+							article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
+							DateTools.transformDateDetail(article.getPtime()));
 					article.setCmsid(articleid);
 					columnArticleDao.update(article);
 					if (CmsWebservice.getInstance().publishArticle(articleid)) {
@@ -507,15 +517,15 @@ public class CrawlJob implements Runnable {
 		Document xml = null;
 
 		try {
-			xml = sr.read(new File("jobs\\wsj_fuchifeng.xml"));
+			xml = sr.read(new File("jobs\\wsj.xml"));
 			// xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
 		CrawlJob job = ConfigReader.fromXML(xml);
 
-		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
-		job.setColumnArticleDao(columnArticleDao);
+		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		//		job.setColumnArticleDao(columnArticleDao);
 		long startTime = System.currentTimeMillis();
 
 		// System.out.println("CrawlJob: \tThreads:" + job.getThreads()
@@ -592,13 +602,6 @@ public class CrawlJob implements Runnable {
 		this.urlDB = urlDB;
 	}
 
-	public List<Pattern> getRangePattern() {
-		return rangePattern;
-	}
-
-	public void setRangePattern(List<Pattern> rangePattern) {
-		this.rangePattern = rangePattern;
-	}
 
 	public List<SpecialPattern> getSpecials() {
 		return specials;
@@ -634,6 +637,22 @@ public class CrawlJob implements Runnable {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public long getColumnid() {
+		return columnid;
+	}
+
+	public void setColumnid(long columnid) {
+		this.columnid = columnid;
+	}
+
+	public List<String> getRangePatterns() {
+		return rangePatterns;
+	}
+
+	public void setRangePatterns(List<String> rangePatterns) {
+		this.rangePatterns = rangePatterns;
 	}
 
 }

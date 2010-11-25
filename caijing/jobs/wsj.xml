@@ -1,6 +1,6 @@
 <job start="http://chinese.wsj.com/gb/checo.asp" threads="2"
-	maxconnections="10" charset="GB2312" source="wsj" downMethod="0"
-	urldb="/home/app/urldb/wsj">
+	columnid="9136" type="2" maxconnections="10" charset="GB2312"
+	source="wsj" downMethod="0" urldb="/home/app/urldb/wsj">
 	<only>
 		http://chinese\.wsj\.com/gb/[0-9]{8}/[a-zA-Z]{3}[0-9]{6}\.asp
 	</only>
@@ -10,7 +10,6 @@
 		<pattern
 			regexp="http://chinese\.wsj\.com/gb/[0-9]{8}/[a-zA-Z]{3}[0-9]{6}\.asp"
 			revisit="no">
-			<contentpattern><![CDATA[<div class="read2">.*?</div>\s+</div>\s+</div>]]></contentpattern>
 			<page>
 				<innermatch property="title">
 					<regexp>

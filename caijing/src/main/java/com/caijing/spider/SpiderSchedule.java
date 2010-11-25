@@ -13,28 +13,40 @@ import com.caijing.dao.ColumnArticleDao;
 public class SpiderSchedule {
 	private String paramXml = null;
 	private ColumnArticleDao columnArticleDao = null;
-
 	private String astockXml = null;
-
-	private String wsjXml = null;
+	private String wsjdashiXml = null;
+	private String wsjhongguanXml = null;
+	private String caogenXml = null;
 	private static Log logger = LogFactory.getLog(SpiderSchedule.class);
 
 	public void run() {
+		crawlRss(paramXml);
+		crawlRss(caogenXml);
+		crawlHtml(astockXml);
+		crawlHtml(wsjdashiXml);
+		crawlHtml(wsjhongguanXml);
+		//华尔街大师研判
+	}
+
+	private void crawlRss(String rss) {
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-
-			System.out.println("Input xml : " + paramXml);
-			xml = sr.read(new File(paramXml));
+			System.out.println("Input xml : " + rss);
+			xml = sr.read(new File(rss));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
 		RssJob rssjob = ConfigReader.getRssJobFromXML(xml);
 		rssjob.setColumnArticleDao(columnArticleDao);
 		rssjob.run();
+	}
 
+	private void crawlHtml(String confxml) {
+		SAXReader sr = new SAXReader();
+		Document xml = null;
 		try {
-			xml = sr.read(new File(astockXml));
+			xml = sr.read(new File(confxml));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
@@ -54,47 +66,6 @@ public class SpiderSchedule {
 			long queued = s[1];
 			long bytes = s[2];
 			long timeElpased = (System.currentTimeMillis() - startTime);
-			double speed = timeElpased == 0 ? 0 : s[0] * 1.0 / timeElpased;
-			double timeEst = queued / speed;
-			double dlSpeed = timeElpased == 0 ? 0 : bytes * 1.0 / timeElpased;
-
-			System.out.println("Crawled:" + crawled + "\tQueued:" + queued + "\tSpeed:" + (speed * 1000)
-					+ " pps\tTime Used:" + (timeElpased / 1000) + "s\tTime Remain:" + (timeEst / 1000)
-					+ "s\tDownload Speed: " + (dlSpeed) + "KBPS");
-
-			for (String key : job.getWorkingOnPages().keySet()) {
-				System.out.println("\t" + key + "\t" + job.getWorkingOnPages().get(key) + "\tErr:"
-						+ job.getWorkingErrors().get(key));
-			}
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		//华尔街大师研判
-		try {
-			xml = sr.read(new File(wsjXml));
-		} catch (DocumentException e1) {
-			e1.printStackTrace();
-		}
-		CrawlJob wsjjob = ConfigReader.fromXML(xml);
-		wsjjob.setColumnArticleDao(columnArticleDao);
-		long startTime2 = System.currentTimeMillis();
-		if (logger.isDebugEnabled()) {
-			logger.debug("CrawlJob: \tThreads:" + job.getThreads() + "\tMax Connections Per Host:"
-					+ job.getMaxConnections());
-		}
-		t = new Thread(wsjjob);
-		t.start();
-
-		while (t.isAlive()) {
-			long[] s = job.getStatus();
-			long crawled = s[0];
-			long queued = s[1];
-			long bytes = s[2];
-			long timeElpased = (System.currentTimeMillis() - startTime2);
 			double speed = timeElpased == 0 ? 0 : s[0] * 1.0 / timeElpased;
 			double timeEst = queued / speed;
 			double dlSpeed = timeElpased == 0 ? 0 : bytes * 1.0 / timeElpased;
@@ -140,11 +111,27 @@ public class SpiderSchedule {
 		this.astockXml = astockXml;
 	}
 
-	public String getWsjXml() {
-		return wsjXml;
+	public String getCaogenXml() {
+		return caogenXml;
 	}
 
-	public void setWsjXml(String wsjXml) {
-		this.wsjXml = wsjXml;
+	public void setCaogenXml(String caogenXml) {
+		this.caogenXml = caogenXml;
+	}
+
+	public String getWsjdashiXml() {
+		return wsjdashiXml;
+	}
+
+	public void setWsjdashiXml(String wsjdashiXml) {
+		this.wsjdashiXml = wsjdashiXml;
+	}
+
+	public String getWsjhongguanXml() {
+		return wsjhongguanXml;
+	}
+
+	public void setWsjhongguanXml(String wsjhongguanXml) {
+		this.wsjhongguanXml = wsjhongguanXml;
 	}
 }
