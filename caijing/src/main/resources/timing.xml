@@ -97,6 +97,9 @@
 		<property name="paramXml">
 			<value>/home/app/caijing/jobs/caijing.xml</value>
 		</property>
+		<property name="caogenXml">
+			<value>/home/app/caijing/jobs/163_huigensi.xml</value>
+		</property>
 		<property name="astockXml">
 			<value>/home/app/caijing/jobs/aastocks.xml</value>
 		</property>
