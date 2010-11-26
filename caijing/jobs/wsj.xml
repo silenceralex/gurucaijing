@@ -40,7 +40,7 @@
 				</innermatch>
 				<innermatch property="content">
 					<regexp>
-						<![CDATA[<!content_tag txt>(.*?)<div id='divCopyright']]>
+						<![CDATA[<!content_tag txt>(.*?)<!/content_tag txt>]]>
 					</regexp>
 				</innermatch>
 			</page>
