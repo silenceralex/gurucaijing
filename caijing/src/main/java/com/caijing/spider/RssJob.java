@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.remote.CmsWebservice;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
@@ -129,9 +130,9 @@ public class RssJob {
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
-		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		RssJob rssjob = ConfigReader.getRssJobFromXML(xml);
-		//		rssjob.setColumnArticleDao(columnArticleDao);
+		rssjob.setColumnArticleDao(columnArticleDao);
 		rssjob.run();
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
 		//		for (ColumnArticle article : articles) {
