@@ -1,6 +1,8 @@
 package com.caijing.web.controller;
 
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,6 +11,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -31,6 +35,7 @@ import com.caijing.util.Vutil;
 
 @Controller
 public class SearchController {
+	private Log logger = LogFactory.getLog(SearchController.class);
 
 	@Autowired
 	@Qualifier("recommendStockDao")
@@ -61,13 +66,20 @@ public class SearchController {
 
 		List<RecommendStock> recommendlist = null;
 		if (m != null && m.find()) {
-			System.out.println("search by stockcode:" + stockcode);
+			logger.debug("search by stockcode:" + stockcode);
 			recommendlist = recommendStockDao.getRecommendStocksByStockcode(stockcode);
 		} else {
-			System.out.println("search by stockname:" + stockcode);
+			try {
+				stockcode = URLDecoder.decode(stockcode, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
+			logger.debug("search by stockname:" + stockcode);
 			recommendlist = recommendStockDao.getRecommendStocksByStockname(stockcode);
 		}
-
+		logger.debug("size of recommendlist:" + recommendlist.size());
 		model.put("vutil", vutil);
 		model.put("recommendlist", recommendlist);
 		return "/admin/searchrecommend.htm";

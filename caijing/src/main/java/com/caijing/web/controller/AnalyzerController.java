@@ -1,5 +1,7 @@
 package com.caijing.web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,6 +35,9 @@ import com.caijing.util.Paginator;
 
 @Controller
 public class AnalyzerController {
+
+	private Log logger = LogFactory.getLog(AnalyzerController.class);
+
 	@Autowired
 	@Qualifier("stockGainManager")
 	private StockGainManager stockGainManager = null;
@@ -49,6 +56,13 @@ public class AnalyzerController {
 	String debug, @RequestParam(value = "page", required = false)
 	Integer page, HttpServletRequest request, ModelMap model) {
 		//		GroupGain gg = new GroupGain();
+		try {
+			aname = URLDecoder.decode(aname, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 		gg.init();
 		GroupPeriod gs = gg.processASC(aname);
 		model.put("aname", aname);
@@ -123,6 +137,13 @@ public class AnalyzerController {
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
+		try {
+			aname = URLDecoder.decode(aname, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 		System.out.println("aname:" + aname);
 		List<StockGain> stockgainlist = null;
 		try {
