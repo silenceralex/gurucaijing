@@ -20,11 +20,15 @@ public class SpiderSchedule {
 	private static Log logger = LogFactory.getLog(SpiderSchedule.class);
 
 	public void run() {
-		crawlRss(paramXml);
-		crawlRss(caogenXml);
-		crawlHtml(astockXml);
-		crawlHtml(wsjdashiXml);
-		crawlHtml(wsjhongguanXml);
+		try {
+			crawlRss(paramXml);
+			crawlRss(caogenXml);
+			crawlHtml(astockXml);
+			crawlHtml(wsjdashiXml);
+			crawlHtml(wsjhongguanXml);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		//华尔街大师研判
 	}
 
