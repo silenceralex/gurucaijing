@@ -181,12 +181,13 @@ public class ConfigReader {
 		urldown.setCharset(charset);
 		rssjob.setUrldown(urldown);
 		//		rssjob.setStartPage(startPage);
-		BerkeleyDB urlDB = new BerkeleyDB();
+
 		if (urlDB_path == null) {
 			System.out.println("urlDB_path is null£¡");
 		} else {
 			System.out.println("urlDB_path is :" + urlDB_path);
 		}
+		BerkeleyDB urlDB = new BerkeleyDB();
 		urlDB.setup(urlDB_path, false);
 		rssjob.setUrlDB(urlDB);
 		Element node = (Element) root.selectSingleNode("root");

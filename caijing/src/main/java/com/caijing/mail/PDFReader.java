@@ -205,11 +205,13 @@ public class PDFReader {
 		ReportDao reportDao = (ReportDaoImpl) ContextFactory.getBean("reportDao");
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 		Config config = (Config) ContextFactory.getBean("config");
+		GroupGainManager groupGainManager = (GroupGainManager) ContextFactory.getBean("groupGainManager");
 		PDFReader pdfReader = new PDFReader();
 		pdfReader.setExtractor(extractor);
 		pdfReader.setReportDao(reportDao);
 		pdfReader.setRecommendStockDao(recommendStockDao);
 		pdfReader.setConfig(config);
+		pdfReader.setGroupGainManager(groupGainManager);
 		pdfReader.init();
 
 		try {
@@ -263,5 +265,13 @@ public class PDFReader {
 
 	public void setConfig(Config config) {
 		this.config = config;
+	}
+
+	public GroupGainManager getGroupGainManager() {
+		return groupGainManager;
+	}
+
+	public void setGroupGainManager(GroupGainManager groupGainManager) {
+		this.groupGainManager = groupGainManager;
 	}
 }
