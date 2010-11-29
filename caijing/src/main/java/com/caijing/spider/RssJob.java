@@ -97,9 +97,9 @@ public class RssJob {
 							System.out.println("publish article:" + article.getTitle() + " failed!");
 						}
 					}
-					//					System.out.println("author: " + article.getAuthor());
-					//					System.out.println("title: " + article.getTitle());
-					//					System.out.println("pubDate: " + article.getPtime());
+					System.out.println("author: " + article.getAuthor());
+					System.out.println("title: " + article.getTitle());
+					System.out.println("pubDate: " + article.getPtime());
 					//					System.out.println("abs: " + article.getAbs());
 					//					System.out.println("link: " + article.getLink());
 					//					System.out.println("content: " + article.getContent());
