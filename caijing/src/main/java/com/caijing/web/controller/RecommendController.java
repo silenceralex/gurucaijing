@@ -1,6 +1,8 @@
 package com.caijing.web.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -32,6 +36,7 @@ import com.caijing.util.Vutil;
 
 @Controller
 public class RecommendController {
+	private Log logger = LogFactory.getLog(RecommendController.class);
 	@Autowired
 	@Qualifier("reportDao")
 	private ReportDao reportDao = null;
@@ -76,7 +81,14 @@ public class RecommendController {
 		String urlPattern = "";
 		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
 		if (saname != null) {
-			System.out.println("saname:" + saname);
+			try {
+				saname = URLDecoder.decode(saname, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
+			logger.debug("saname:" + saname);
 			if (type == 1) {
 				total = recommendStockDao.getGoodCounts(saname);
 				paginator.setTotalRecordNumber(total);
@@ -123,7 +135,14 @@ public class RecommendController {
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
-		System.out.println("saname:" + saname);
+		try {
+			saname = URLDecoder.decode(saname, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("saname:" + saname);
 		List<Report> reportlist = new ArrayList();
 		if (saname != null) {
 			total = reportDao.getAllReportsCountBySaname(saname);
