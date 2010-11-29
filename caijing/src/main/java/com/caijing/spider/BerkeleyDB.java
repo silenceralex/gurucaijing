@@ -1,11 +1,7 @@
 package com.caijing.spider;
 
 import java.io.File;
-import java.util.List;
 
-import com.caijing.dao.ColumnArticleDao;
-import com.caijing.domain.ColumnArticle;
-import com.caijing.util.ContextFactory;
 import com.caijing.util.MD5Utils;
 import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.tuple.TupleBinding;
@@ -152,19 +148,20 @@ public class BerkeleyDB {
 
 	public static void main(String argv[]) {
 		BerkeleyDB db = new BerkeleyDB();
-		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
-		db.setup("/home/app/urldb/aastocks", false);
-		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByDomain();
-		for (ColumnArticle article : articles) {
-			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
-			if (!db.contains(md5)) {
-				System.out.println("article.getTitle():" + article.getTitle());
-				System.out.println("article.getAuthor():" + article.getAuthor());
-				db.putUrl(md5);
-			}
-		}
-		System.out.println("asstocks articles:" + articles.size());
+		db.setup("/home/app/urldb/caijing", false);
+		System.out.println("/home/app/urldb/aastocks:  success!");
+		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByDomain();
+		//		for (ColumnArticle article : articles) {
+		//			String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+		//			if (!db.contains(md5)) {
+		//				System.out.println("article.getTitle():" + article.getTitle());
+		//				System.out.println("article.getAuthor():" + article.getAuthor());
+		//				db.putUrl(md5);
+		//			}
+		//		}
+		//		System.out.println("asstocks articles:" + articles.size());
 		db.close();
 
 	}
