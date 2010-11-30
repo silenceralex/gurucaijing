@@ -23,7 +23,7 @@ public class CmsWebservice {
 		if (cmsService == null) {
 			Service serviceModel = new ObjectServiceFactory().create(CmsService.class);
 			XFireProxyFactory factory = new XFireProxyFactory(XFireFactory.newInstance().getXFire());
-			String url = "http://cms.caijing.com:8080/Services/wsdl/CmsService";
+			String url = "http://cms.51gurus.com:8080/Services/wsdl/CmsService";
 			try {
 				cmsService = (CmsService) factory.create(serviceModel, url);
 			} catch (MalformedURLException e) {
@@ -52,23 +52,36 @@ public class CmsWebservice {
 		//			Service serviceModel = serviceFactory.create(CmsService.class);
 		//			XFireProxyFactory factory = new XFireProxyFactory(XFireFactory.newInstance().getXFire());
 		//			String url = "http://cms.caijing.com:8080/Services/wsdl/CmsService";
-		//			CmsService cmsService = (CmsService) factory.create(serviceModel, url);
-		//			cmsService.addArticle(9129, "≤‚ ‘±ÍÃ‚1", "admin", "≤‚ ‘ƒ⁄»›1", "2010-05-04");
+		//		CmsService cmsService = (CmsService) factory.create(serviceModel, url);
+		//		cmsService.addArticle(9129, "≤‚ ‘±ÍÃ‚1", "admin", "≤‚ ‘ƒ⁄»›1", "2010-05-04");
 
 		//		CmsWebservice cmsService = new CmsWebservice();
 		//		long id = cmsService.addArticle(9129, "≤‚ ‘±ÍÃ‚5", "admin", "≤‚ ‘ƒ⁄»›5", "2010-05-04 01:23:12");
 		//		long id = cmsService.addArticle(9129, "’™“™≤‚ ‘", "admin", "summary", "≤‚ ‘ƒ⁄»›5", "2010-05-04 01:23:12");
+		//		long aid = CmsWebservice.getInstance().addArticle(9129, "’™“™≤‚ ‘", "admin", "summary", "»‹Ω‚", "≤‚ ‘ƒ⁄»›5",
+		//				"2010-05-04 01:23:12");
+		//		CmsWebservice.getInstance().publishArticle(aid);
+		//		System.out.println(aid);
 
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		ColumnArticleDao columnArticleDao = (ColumnArticleDao) context.getBean("columnArticleDao");
 		//		for (int i = 0; i < 10; i++) {
-		List<ColumnArticle> articles = columnArticleDao.getAllColumnArticle(0, 7);
+		List<ColumnArticle> articles = columnArticleDao.getAllColumnArticle(0, 2);
 		for (ColumnArticle article : articles) {
-			long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
-					article.getSrc(), article.getAbs(), article.getContent(),
-					DateTools.transformDateDetail(article.getPtime()));
-			CmsWebservice.getInstance().publishArticle(aid);
-			System.out.println(aid);
+			if (article.getType() == 0) {
+				long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
+						article.getSrc(), article.getAbs(), article.getContent(),
+						DateTools.transformDateDetail(article.getPtime()));
+				System.out.println(aid);
+				CmsWebservice.getInstance().publishArticle(aid);
+				System.out.println(aid);
+			} else if (article.getType() == 3) {
+				long aid = CmsWebservice.getInstance().addArticle(9134, article.getTitle(), article.getAuthor(),
+						article.getSrc(), article.getAbs(), article.getContent(),
+						DateTools.transformDateDetail(article.getPtime()));
+				CmsWebservice.getInstance().publishArticle(aid);
+				System.out.println(aid);
+			}
 		}
 		//		}
 
