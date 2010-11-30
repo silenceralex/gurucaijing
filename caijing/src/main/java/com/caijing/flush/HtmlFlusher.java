@@ -306,7 +306,7 @@ public class HtmlFlusher {
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
 			List<String> reportids = groupStockDao.getRecommendReportids(3);
 			List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
-
+			System.out.println("recommendstocks size: " + recommendstocks.size());
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/home.htm");
 			vmf.put("dateTools", dateTools);
@@ -336,6 +336,7 @@ public class HtmlFlusher {
 				if (strs.length == 3) {
 					url += strs[0] + "/" + strs[1] + article.getCmsid() + ".shtml";
 					article.setLink(url);
+					System.out.println("url:" + url);
 				} else {
 					System.out.println("Date Format Parse ERROR!");
 				}
