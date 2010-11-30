@@ -200,7 +200,7 @@
 		order by rs.createdate desc limit #length#
 	</select>
 
-	<select id="getRecommendStocksByReportids" resultClass="java.lang.String"
+	<select id="getRecommendStocksByReportids" resultClass="RecommendStock"
 		parameterClass="java.util.Map">
 		select rs.*, r.title as title,r.filepath as filepath from
 		recommendstock as rs,report r where rs.reportid in

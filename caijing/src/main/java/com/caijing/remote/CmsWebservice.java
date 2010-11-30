@@ -1,12 +1,18 @@
 package com.caijing.remote;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 import org.codehaus.xfire.XFireFactory;
 import org.codehaus.xfire.client.XFireProxyFactory;
 import org.codehaus.xfire.service.Service;
 import org.codehaus.xfire.service.binding.ObjectServiceFactory;
+import org.springframework.context.ApplicationContext;
 
+import com.caijing.dao.ColumnArticleDao;
+import com.caijing.domain.ColumnArticle;
+import com.caijing.util.ContextFactory;
+import com.caijing.util.DateTools;
 import com.zving.cms.webservice.CmsService;
 
 public class CmsWebservice {
@@ -52,31 +58,48 @@ public class CmsWebservice {
 		//		CmsWebservice cmsService = new CmsWebservice();
 		//		long id = cmsService.addArticle(9129, "≤‚ ‘±ÍÃ‚5", "admin", "≤‚ ‘ƒ⁄»›5", "2010-05-04 01:23:12");
 		//		long id = cmsService.addArticle(9129, "’™“™≤‚ ‘", "admin", "summary", "≤‚ ‘ƒ⁄»›5", "2010-05-04 01:23:12");
-		long aid = CmsWebservice.getInstance().addArticle(9129, "’™“™≤‚ ‘444", "admin", "summary", "»‹Ω‚", "≤‚ ‘ƒ⁄»›5",
-				"2010-11-04 11:23:12");
-		CmsWebservice.getInstance().publishArticle(aid);
-		System.out.println(aid);
+		//		long aid = CmsWebservice.getInstance().addArticle(9129, "’™“™≤‚ ‘444", "admin", "summary", "»‹Ω‚", "≤‚ ‘ƒ⁄»›5",
+		//				"2010-11-04 11:23:12");
+		//		CmsWebservice.getInstance().publishArticle(aid);
+		//		System.out.println(aid);
 
-		//		ApplicationContext context = ContextFactory.getApplicationContext();
-		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) context.getBean("columnArticleDao");
-		//		//		for (int i = 0; i < 10; i++) {
+		ApplicationContext context = ContextFactory.getApplicationContext();
+		ColumnArticleDao columnArticleDao = (ColumnArticleDao) context.getBean("columnArticleDao");
+		//		for (int i = 0; i < 10; i++) {
 		//		List<ColumnArticle> articles = columnArticleDao.getAllColumnArticle(0, 2);
-		//		for (ColumnArticle article : articles) {
-		//			if (article.getType() == 0) {
-		//				long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
-		//						article.getSrc(), article.getAbs(), article.getContent(),
-		//						DateTools.transformDateDetail(article.getPtime()));
-		//				System.out.println(aid);
-		//				CmsWebservice.getInstance().publishArticle(aid);
-		//				System.out.println(aid);
-		//			} else if (article.getType() == 3) {
-		//				long aid = CmsWebservice.getInstance().addArticle(9134, article.getTitle(), article.getAuthor(),
-		//						article.getSrc(), article.getAbs(), article.getContent(),
-		//						DateTools.transformDateDetail(article.getPtime()));
-		//				CmsWebservice.getInstance().publishArticle(aid);
-		//				System.out.println(aid);
-		//			}
-		//		}
+		List<ColumnArticle> articles = columnArticleDao.getUnpublishArticles();
+		for (ColumnArticle article : articles) {
+			if (article.getType() == 0) {
+				long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
+						article.getSrc(), article.getAbs(), article.getContent(),
+						DateTools.transformDateDetail(article.getPtime()));
+				System.out.println(aid);
+				article.setCmsid(aid);
+				columnArticleDao.update(article);
+				CmsWebservice.getInstance().publishArticle(aid);
+			} else if (article.getType() == 3) {
+				long aid = CmsWebservice.getInstance().addArticle(9134, article.getTitle(), article.getAuthor(),
+						article.getSrc(), article.getAbs(), article.getContent(),
+						DateTools.transformDateDetail(article.getPtime()));
+				columnArticleDao.update(article);
+				CmsWebservice.getInstance().publishArticle(aid);
+				System.out.println(aid);
+			} else if (article.getType() == 1) {
+				long aid = CmsWebservice.getInstance().addArticle(9135, article.getTitle(), article.getAuthor(),
+						article.getSrc(), article.getAbs(), article.getContent(),
+						DateTools.transformDateDetail(article.getPtime()));
+				columnArticleDao.update(article);
+				CmsWebservice.getInstance().publishArticle(aid);
+				System.out.println(aid);
+			} else if (article.getType() == 2) {
+				long aid = CmsWebservice.getInstance().addArticle(9136, article.getTitle(), article.getAuthor(),
+						article.getSrc(), article.getAbs(), article.getContent(),
+						DateTools.transformDateDetail(article.getPtime()));
+				columnArticleDao.update(article);
+				CmsWebservice.getInstance().publishArticle(aid);
+				System.out.println(aid);
+			}
+		}
 		//		}
 
 	}

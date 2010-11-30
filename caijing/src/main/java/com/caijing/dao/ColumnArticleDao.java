@@ -29,4 +29,6 @@ public interface ColumnArticleDao extends CrudDao {
 	 * @return
 	 */
 	public List<ColumnArticle> getColumnArticleByType(int type, int length);
+
+	public List<ColumnArticle> getUnpublishArticles();
 }

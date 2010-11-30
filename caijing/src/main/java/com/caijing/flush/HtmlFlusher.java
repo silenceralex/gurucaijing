@@ -339,14 +339,14 @@ public class HtmlFlusher {
 	}
 
 	private void alertUrl(List<ColumnArticle> articles) {
-		for (ColumnArticle article : articles) {
-			if (article.getType() == 0) {
+		for (int i = 0; i < articles.size(); i++) {
+			if (articles.get(i).getType() == 0) {
 				String url = "http://51gurus.com/cms/";
-				String date = DateTools.transformDateDetail(article.getPtime());
+				String date = DateTools.transformDateDetail(articles.get(i).getPtime());
 				String[] strs = date.split("-");
 				if (strs.length == 3) {
-					url += strs[0] + "/" + strs[1] + article.getCmsid() + ".shtml";
-					article.setLink(url);
+					url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
+					articles.get(i).setLink(url);
 					System.out.println("url:" + url);
 				} else {
 					System.out.println("Date Format Parse ERROR!");

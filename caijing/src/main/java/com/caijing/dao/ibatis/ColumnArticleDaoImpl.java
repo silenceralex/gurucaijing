@@ -72,4 +72,9 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getColumnArticleByType", params);
 	}
 
+	@Override
+	public List<ColumnArticle> getUnpublishArticles() {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getUnpublishArticles");
+	}
+
 }

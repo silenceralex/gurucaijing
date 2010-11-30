@@ -87,6 +87,9 @@
 		select * from columnarticle where link like "http://www.aastocks.com.cn%"
 	</select>
 	
+	<select id="getUnpublishArticles" resultClass="ColumnArticle">
+		select * from columnarticle where cmsid=0  order by ptime desc limit 10
+	</select>
 	
 
 </sqlMap>
