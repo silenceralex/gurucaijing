@@ -161,4 +161,11 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		params.put("length", length);
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getFilePathByAid", params);
 	}
+
+	@Override
+	public List<RecommendStock> getRecommendStocksByReportids(List<String> list) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("list", list);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStocksByReportids", params);
+	}
 }

@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>投资大师</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript">
+function getLength(){
+	var liArr1 = document.getElementById("colR2").getElementsByTagName("ul")[0].getElementsByTagName("li");
+	var liArr2 = document.getElementById("colR3").getElementsByTagName("ul")[0].getElementsByTagName("li");
+	for(i=0;i<liArr2.length;i++){
+		if(i%2!=0){
+			liArr1[i].style.background = "#EEE";
+			liArr2[i].style.background = "#EEE";
+			}
+		}
+	}
+window.onload = getLength;
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+	<div class="header">
+    	<div class="logo"><h1>投资大师</h1><!--<img src="img/logo.png" />--></div>
+
+        <div class="controlPanel">
+        	<div class="icons">
+            	<ul>
+                	<li><a href="#">加入收藏</a></li>
+                    <li><a href="#">设为首页</a></li>
+                </ul>
+            </div>
+            <div class="search">
+
+            	<div class="searchForm">
+                    <input type="text" class="searchBox" value="请输入关键词" />
+                    <input type="button" class="searchBtn" value="搜索" />
+                </div>
+                <div class="clear"></div>
+            </div>
+                   <ul class="nav">
+            	<li><a href="#"><span>首页</span></a></li>         	
+                <li><a href="/analyzer/starGuruList.html"><span>大师殿堂</span></a></li>
+                <li><a href="#"><span>股票精选</span></a></li>
+                <li><a href="#"><span>草根大师之选</span></a></li>
+                <li><a href="/analyzer/starEarn.html"><span>金牌分析师之选</span></a></li>
+                <li><a href="#"><span>明星机构之选</span></a></li>           
+                <li><a href="#"><span>机构共同之选</span></a></li>
+                <li><a href="/report/reportLab_1.html"><span>研报大本营</span></a></li>
+                <li><a href="#"><span>财报大本营</span></a></li>
+                <span class="clear"></span>
+            </ul>
+        </div>
+    </div><!--header end-->
+    <div class="mainBox">
+    	<div class="colL">
+
+           	  		<div class="colL1 colLItem">
+            	<div class="colL_title">
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="/analyzer/starGuruList.html">金牌分析师</a></li>
+                    <!--<li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>-->
+                </ul>
+            </div>
+            <div class="colL2 colLItem">
+            	<div class="colL_title">
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="/analyzer/starEarn.html">金牌分析师之选</a></li>
+                    <!--<li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>-->
+                    <li><a href="#">机构共同之选</a></li>
+                    <li><a href="/analyzer/starDiscount.html">折价股票精选</a></li>
+                </ul>
+            </div>
+            <div class="colL3 colLItem">
+            	<div class="colL_title">
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                	<li><a href="#">财报大本营</a></li>
+                  <li><a href="/report/reportLab_1.html">研报大本营</a></li>
+                </ul>
+            </div>
+        </div>
+
+            <div class="colL4 colLItem">
+            	<div class="colL_title">
+
+                	<h2>上市公司动态</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+					<li><a href="http://static.sse.com.cn/sseportal/ps/zhs/ggts/ssgsggqw_full.shtml">上交所公司最新公告</a></li>
+                    <li><a href="http://static.sse.com.cn/sseportal/webapp/datapresent/querytradetipsnew">上交所交易提示</a></li>
+                    <li><a href="http://disclosure.szse.cn/m/drgg.htm">深交所最新公司公告</a></li>
+                    <li><a href="http://www.szse.cn/main/disclosure/news/tfpts/">深交所交易提示</a></li>
+                    <li><a href="http://www.cninfo.com.cn/">巨潮资讯</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="colM">
+        	<div class="colML">
+            	<div class="colM_title">
+
+                	<h2>大势研判</h2><a class="moreBtn" href="http://51gurus.com/cms/dsyp/index.shtml"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul style="height:240px">
+                #foreach ($one in $dsyp)
+                		<li>
+                    	<h3><em><a href="$one.link">$one.author</a></em><a href="$one.link">$one.title</a></h3>
+                        <p>$one.abs</p>
+                        <span class="clear"></span>
+                    </li>
+                #end
+                </ul>
+            </div>
+
+            <div class="colMR">
+            	<div class="colM2_title">
+                	<h2>大师专栏</h2><a class="moreBtn" href="http://51gurus.com/cms/cjzl/index.shtml"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul id="colMRUL">
+                   #set ($count = 0)
+                   #foreach ($one in $dsyp)
+                       #if($count == $dsypsize)   
+                       		<li style="background:none;" class="noBg">
+                       #else            
+                       		<li>
+                       #end
+                    	<h3><em><a href="$one.link">$one.author</a></em><a href="$one.link">$one.title</a></h3>
+                         <p>$one.abs</p>
+                        <p><em class="colMR_date">${dateTools.transformTomm($one.ptime)}</em><a class="moreBtn2" href="$one.link"><img src="img/block.gif"/></a></p>
+                        <div class="clear"></div>
+                       </li>
+               		#end
+                    <p class="colM_more"><a href="http://51gurus.com/cms/cjzl/index.shtml">查看更多大师专栏</a></p>
+                </ul>
+
+            </div>
+            <div class="colML">
+            	<div class="colM_title">
+                	<h2>宏观动态</h2><a class="moreBtn" href="http://51gurus.com/cms/hgdt/index.shtml"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul>
+                #foreach ($one in $hgdt)
+					<li><a href="$one.link"><span class="agency">[$one.src]</span>$one.title</a></li>
+				#end
+                </ul>
+            </div>
+            <div class="colML">
+            	<div class="colM_title">
+                	<h2>个股研究</h2><a class="moreBtn" href="#"><span>more</span><img src="img/block.gif"/></a>
+                </div>
+                <ul style="height: 192px;">
+                  #foreach ($one in $recommendstocks)
+                	<li>
+                    	<h3><em><a href="http://51gurus.com${one.filepath}">$one.aname</a></em><a href="http://51gurus.com${one.filepath}">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
+                        <p>$one.title</p>
+                        <span class="clear"></span>
+                    </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="colR">
+        	<div id="colR1" class="colR1 colRItem">
+            	<div class="colR_title"><h2>用户登录</h2></div>
+
+                <div class="colR1Form">
+                    <label>用户名</label>
+                    <input type="text" />
+                </div>
+                <div class="colR1Form">
+                <label>密码</label>
+                <input type="text" />
+                </div>
+
+                <input class="loginBtn" type="button" value="登录" />
+                <a href="#">注册新用户</a>
+            </div>
+            <div id="colR2" class="colR2 colRItem">
+            	<div class="colR_title"><h2>大师排行榜</h2></div>
+                <ul>
+                #foreach ($one in $analyzerList)
+					<li><em><img src="img/num1.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html"><span class="name">$one.name</span><span>[$one.agency]</span><span class="percent">
+					#set ($ratio = $one.getWeight() - 100)
+            		<td>${floatUtil.getTwoDecimalNumber(${ratio})}%</td>52.3%</span></li>
+				#end
+                </ul>
+            </div>
+            <div id="colR3" class="colR3 colRItem">
+            	<div class="colR_title"><h2>赚钱排行榜</h2></div>
+                <ul>
+                 #foreach ($one in $groupStockList)
+					<li><em><img src="img/num1.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
+				#end
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="links">
+        	<div class="links_title"><h2>友情链接</h2><em></div>
+            <ul>
+                <li><a href="#"><img src="upload/163.jpg" /></a></li>
+                <li><a href="#"><img src="upload/baidu.jpg" /></a></li>
+                <li><a href="#"><img src="upload/enorth.jpg" /></a></li>
+                <li><a href="#"><img src="upload/google.jpg" /></a></li>
+                <li><a href="#"><img src="upload/ielts.jpg" /></a></li>
+                <li><a href="#"><img src="upload/liuxue.jpg" /></a></li>
+                <li><a href="#"><img src="upload/people.jpg" /></a></li>
+                <li><a href="#"><img src="upload/sohu.jpg" /></a></li>
+
+                <span class="clear"></span>
+            </ul>
+            <span class="clear"></span>
+        </div>
+        <div class="footer">
+        	<div class="goTop"><a href="#"><img src="img/topBtn.jpg"/></a></div>
+            <img src="img/footer.jpg" />
+            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
+
+        </div>
+    </div><!--mainBox end-->
+</div>
+</body>
+</html>

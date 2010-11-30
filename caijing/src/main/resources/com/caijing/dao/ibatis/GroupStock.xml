@@ -3,6 +3,7 @@
 <sqlMap namespace="GroupStockDao">
 
 	<typeAlias alias="GroupStock" type="com.caijing.domain.GroupStock" />
+	<typeAlias alias="RecommendStock" type="com.caijing.domain.RecommendStock" />
 
 	<select id="select" resultClass="GroupStock"
 		parameterClass="java.util.Map">
@@ -79,7 +80,15 @@
 		select s.stockname as stockname,gs.* from groupstock gs,stock s where gs.groupid=#aid# and gs.stockcode = s.stockcode and gs.status=1
 	</select>
 	
-	<select id="getGroupStockList" resultClass="GroupStock">
+	<select id="getGroupStockListAsc" resultClass="GroupStock">
 		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain limit #length#
+	</select>
+	
+	<select id="getGroupStockListDesc" resultClass="GroupStock">
+		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain desc limit #length#
+	</select>
+	
+	<select id="getRecommendReportids" resultClass="java.lang.String">
+		select inreportid from groupstock order by intime desc limit #length#
 	</select>
 </sqlMap>

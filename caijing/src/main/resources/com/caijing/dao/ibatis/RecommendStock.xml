@@ -100,9 +100,10 @@
 
 	<select id="getRecommendStocksByAnalyzer"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.*, r.title as title, r.filepath as filepath from recommendstock as rs,report
-		as r where rs.reportid=r.rid and rs.aname like #aname# order by
-		rs.createdate desc limit #start#,#offset#
+		select rs.*, r.title as title, r.filepath as filepath from
+		recommendstock as rs,report as r where rs.reportid=r.rid and
+		rs.aname like #aname# order by rs.createdate desc limit
+		#start#,#offset#
 	</select>
 
 	<select id="getRecommendStocksByAnalyzerASC"
@@ -191,9 +192,22 @@
 	<delete id="delete" parameterClass="RecommendStock">
 		delete from recommendstock where recommendid=#recommendid#
 	</delete>
-	
-	<select id="getFilePathByAid" resultClass="java.lang.String" parameterClass="java.util.Map" >
-		select r.filepath from recommendstock as rs,report as r where rs.user=#aid# and rs.stockcode=#stockcode# and rs.reportid=r.rid order by rs.createdate desc limit #length#
+
+	<select id="getFilePathByAid" resultClass="java.lang.String"
+		parameterClass="java.util.Map">
+		select r.filepath from recommendstock as rs,report as r where
+		rs.user=#aid# and rs.stockcode=#stockcode# and rs.reportid=r.rid
+		order by rs.createdate desc limit #length#
+	</select>
+
+	<select id="getRecommendStocksByReportids" resultClass="java.lang.String"
+		parameterClass="java.util.Map">
+		select rs.*, r.title as title,r.filepath as filepath from
+		recommendstock as rs,report r where rs.reportid in
+		<iterate property="list" conjunction="," close=")" open="(">
+			#list[]#
+		</iterate>
+		and r.rid=rs.reportid
 	</select>
 
 </sqlMap>

@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.ColumnArticle;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
@@ -230,7 +232,7 @@ public class HtmlFlusher {
 		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-		List<GroupStock> groupStockList = groupStockDao.getGroupStockList(10);
+		List<GroupStock> groupStockList = groupStockDao.getGroupStockListAsc(10);
 		Map<String, String> filePathMap = new HashMap<String, String>();
 		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
 		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
@@ -278,13 +280,75 @@ public class HtmlFlusher {
 		vmf.put("stockEarnMap", stockEarnMap);
 		vmf.save(ADMINDIR + "starDiscount.html");
 		System.out.println("write page : " + ADMINDIR + "starDiscount.html");
+
+	}
+
+	public void flushIndex() {
+		DateTools dateTools = new DateTools();
+		FloatUtil floatUtil = new FloatUtil();
+		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
+		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		try {
+
+			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(10);
+			Date lastdate = groupEarnDao.getLatestDate();
+			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+			List<Analyzer> analyzerList = analyzerDao
+					.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 10);
+			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);
+			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
+			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
+			alertUrl(dsyp);
+			alertUrl(hgdt);
+			alertUrl(cjzl);
+			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
+			List<String> reportids = groupStockDao.getRecommendReportids(3);
+			List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
+
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/home.htm");
+			vmf.put("dateTools", dateTools);
+			vmf.put("floatUtil", floatUtil);
+			vmf.put("dsyp", dsyp);
+			vmf.put("hgdt", hgdt);
+			vmf.put("cjzl", cjzl);
+			vmf.put("recommendstocks", recommendstocks);
+			vmf.put("groupStockList", groupStockList);
+			vmf.put("analyzerList", analyzerList);
+
+			vmf.save(ADMINDIR + "home.html");
+			System.out.println("write page : " + ADMINDIR + "home.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	private void alertUrl(List<ColumnArticle> articles) {
+		for (ColumnArticle article : articles) {
+			if (article.getType() == 0) {
+				String url = "http://51gurus.com/cms/";
+				String date = DateTools.transformDateDetail(article.getPtime());
+				String[] strs = date.split("-");
+				if (strs.length == 3) {
+					url += strs[0] + "/" + strs[1] + article.getCmsid() + ".shtml";
+					article.setLink(url);
+				} else {
+					System.out.println("Date Format Parse ERROR!");
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
-		flusher.flushStarGuruDetail();
-		flusher.flushAnalyzerRank();
-		flusher.flushReportLab();
-		flusher.flushStarOnSale();
+		//		flusher.flushStarGuruDetail();
+		//		flusher.flushAnalyzerRank();
+		//		flusher.flushReportLab();
+		//		flusher.flushStarOnSale();
+		flusher.flushIndex();
 	}
 }

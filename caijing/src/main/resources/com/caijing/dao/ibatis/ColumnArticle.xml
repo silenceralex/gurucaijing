@@ -76,8 +76,17 @@
 		desc
 	</select>
 
+	<select id="getColumnArticleByType" parameterClass="java.util.Map"
+		resultClass="ColumnArticle">
+		select * from columnarticle where type=#type# order by ptime
+		desc limit #length#
+	</select>
+
+
 	<select id="getColumnArticleByDomain" resultClass="ColumnArticle">
 		select * from columnarticle where link like "http://www.aastocks.com.cn%"
 	</select>
+	
+	
 
 </sqlMap>

@@ -21,6 +21,11 @@ public class DateTools {
 		return sdf.format(date);
 	}
 
+	public static String transformTomm(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return sdf.format(date);
+	}
+
 	public static Date parseYYYYMMDDDate(String date) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.parse(date);

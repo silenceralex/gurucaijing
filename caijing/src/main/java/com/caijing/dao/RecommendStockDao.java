@@ -50,4 +50,7 @@ public interface RecommendStockDao extends CrudDao {
 	public void updateAnalyzerByReportid(String reportid, String aid);
 
 	public List<String> getFilePathByAid(String aid, String stockcode, int length);
+
+	public List<RecommendStock> getRecommendStocksByReportids(List<String> ids);
+
 }
