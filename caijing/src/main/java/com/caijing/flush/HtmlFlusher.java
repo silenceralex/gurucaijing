@@ -325,11 +325,12 @@ public class HtmlFlusher {
 			vmf.put("dsyp", dsyp);
 			vmf.put("hgdt", hgdt);
 			vmf.put("cjzl", cjzl);
+			vmf.put("cjzlsize", cjzl.size());
 			vmf.put("recommendstocks", recommendstocks);
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("analyzerList", analyzerList);
 
-			vmf.save("/home/html/home.html", "utf8");
+			vmf.save("/home/html/home.html");
 			System.out.println("write page : " + "/home/html/home.html");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
