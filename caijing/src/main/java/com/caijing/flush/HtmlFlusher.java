@@ -301,11 +301,22 @@ public class HtmlFlusher {
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
 			alertUrl(dsyp);
+			System.out.println("dsyp link: " + dsyp.get(0).getLink());
 			alertUrl(hgdt);
+			System.out.println("hgdt link: " + hgdt.get(0).getLink());
 			alertUrl(cjzl);
+			System.out.println("cjzl link: " + cjzl.get(0).getLink());
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
 			List<String> reportids = groupStockDao.getRecommendReportids(3);
 			List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
+			for (RecommendStock stock : recommendstocks) {
+				System.out.println("url: " + "http://51gurus.com" + stock.getFilepath());
+				System.out.println("title: " + stock.getTitle());
+				System.out.println("aname: " + stock.getAname());
+				System.out.println("getGrade: " + stock.getGrade());
+				System.out.println("getStockcode: " + stock.getStockcode());
+				System.out.println("getStockname: " + stock.getStockname());
+			}
 			System.out.println("recommendstocks size: " + recommendstocks.size());
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/home.htm");
