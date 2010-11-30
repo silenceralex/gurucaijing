@@ -318,7 +318,7 @@ public class HtmlFlusher {
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("analyzerList", analyzerList);
 
-			vmf.save(ADMINDIR + "home.html");
+			vmf.save(ADMINDIR + "home.html", "utf8");
 			System.out.println("write page : " + ADMINDIR + "home.html");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
