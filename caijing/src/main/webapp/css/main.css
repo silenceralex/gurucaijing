@@ -28,8 +28,8 @@ a{text-decoration:none}
 .wrapper{width:993px; height:auto; margin:0 auto; padding:10px; background:#FFF}
 .header{width:100%; height:178px}
 .logo{float:left; width:184px; height:100%; background:url(../img/logoBack.jpg) no-repeat;}
-.logo h1{width:124px; height:135px;margin:30px auto 0 auto;display:block;text-indent:-1000px;background:url(../img/logo.png) no-repeat center;-background: none;
-	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/logo.png", sizingMethod="noscale");}
+.logo h1{display:none;_background: none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../img/logo.png", sizingMethod="noscale");}
 .logo img{width:124px; margin:25px auto auto 30px}
 .controlPanel{float:left; width:809px; height:179px; background:url(../img/banner.jpg) repeat-x}
 .icons{width:100%; height:36px}
@@ -71,7 +71,7 @@ a{text-decoration:none}
 .colML ul li h3 em a:link, .colML ul li h3 em a:visited, .colMR ul li h3 em a:link, .colMR ul li h3 em a:visited{color:#FFF}
 .colML ul, .colMR ul{width:268px; padding:10px; padding-bottom:0; border:#CCC solid 1px; border-top:none; margin-bottom:10px}
 .colML ul{height:172px; overflow:hidden}
-.colML ul li, .colMR ul li{padding-top:5px; padding-bottom:6px;-padding-top:2px;}
+.colML ul li, .colMR ul li{padding-top:5px; padding-bottom:6px}
 .colMR ul li{line-height:25px}
 .colMR ul li{margin-bottom:6px}
 .colML ul li p, .colMR ul li p{clear:both; font-size:12px; padding-bottom:5px; padding-top:5px; color:#666;line-height:20px;}
@@ -108,13 +108,12 @@ a{text-decoration:none}
 .colR_title{width:100%; height:25px; line-height:25px; border-bottom:#CCC solid 1px; font-family:"&#23435; &#20307; ",Verdana,Geneva,sans-serif; background:url(../img/sprite2.png) repeat-x left -365px; margin:0}
 .colR_title h2{padding-left:12px; float:left; width:80px; padding-top:2px; display:inline}
 .colR1Form{clear:both; padding:5px; padding-top:14px; _padding-top:7px; +padding-top:9px}
-.colR1{padding-bottom:14px;-padding-bottom:10px;}
+.colR1{padding-bottom:14px;}
 .colR1 label{float:left; width:40px; height:20px; line-height:20px; padding-right:5px; text-align:right}
 .loginBtn{width:40px; height:20px; margin-left:50px; font-size:12px; margin-top:10px}
-.colR1Form input{float:left; width:120px; heigh height:20px; margin-left:50px; font-size:12px; margin-top:10px}
 .colR1Form input{float:left; width:120px; height:18px; border:#CCC solid 1px}
 .colRItem ul{padding:10px}
-.colRItem ul li{clear:both; font-size:12px; line-height:24px;height:24px;-line-height:23px;-height:23px;}
+.colRItem ul li{clear:both; font-size:12px; line-height:24px;height:24px;}
 .colRItem ul li span{width:70px; display:inline-block;overflow:hidden;white-space:nowrap;}
 .colRItem ul li span.name, .colRItem ul li span.percent{width:40px;}
 .rec{color:#C00;}
