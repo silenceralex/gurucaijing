@@ -1,10 +1,10 @@
-<job start="http://cn.wsj.com/gb/arpt.asp" threads="2" columnid="9135"
+<job start="http://chinese.wsj.com/gb/chinastock.asp" threads="2" columnid="9135"
 	maxconnections="10" charset="GB2312" source="wsj_fuchifeng" type="1"
 	downMethod="0" urldb="/home/app/urldb/wsj">
 	<only>
 		http://cn\.wsj\.com/gb/[0-9]{8}/[a-zA-Z]{3}[0-9]{6}\.asp
 	</only>
-	<rangePattern><![CDATA[<div id="t1news">(.*?)<div id="top1space">]]></rangePattern>
+	<rangePattern><![CDATA[<div id="top2right1">(.*?)<div id="top2right2">]]></rangePattern>
 	<specials>
 		<pattern
 			regexp="http://cn\.wsj\.com/gb/[0-9]{8}/[a-zA-Z]{3}[0-9]{6}\.asp"
