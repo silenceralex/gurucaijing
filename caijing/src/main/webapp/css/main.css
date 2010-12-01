@@ -1,0 +1,120 @@
+@charset "utf-8";
+body{font-family:"微软雅黑",Arial,sans-serif,\5b8b\4f53; background:#CCC; font-size:12px; color:#2b2b2b}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, blockquote, p{margin:0; padding:0}
+table, td, tr, th{font-size:12px}
+li{list-style-type:none}
+table{margin:0 auto}
+img{vertical-align:top; border:0}
+ol, ul{list-style:none}
+h1, h2, h3, h4, h5, h6{font-size:12px; font-weight:400}
+q:before, q:after{content:''}
+abbr, acronym{border:0}
+address, caption, cite, code, dfn, em, th, var{font-weight:400; font-style:normal}
+input, textarea, select, option{font-family:Arial,sans-serif,\5b8b\4f53; font-size:14px}
+a{color:#000; text-decoration:none}
+a:visited{text-decoration:none}
+.fr{float:right}
+.fS14{font-size:14px}
+.hidden{display:none !important}
+.clear{clear:both; height:0; overflow:hidden; display:block}
+.clearfix{*zoom:1}
+.clearfix:after{clear:both; height:0; overflow:hidden; display:block; visibility:hidden; content:"."}
+caption, th, .tAl{text-align:left}
+a:hover, .underline, .underline a{text-decoration:underline}
+h2{font-weight:bold}
+
+em{font-style:normal}
+a{text-decoration:none}
+.wrapper{width:993px; height:auto; margin:0 auto; padding:10px; background:#FFF}
+.header{width:100%; height:178px}
+.logo{float:left; width:184px; height:100%; background:url(../img/logoBack.jpg) no-repeat;}
+.logo h1{width:124px; height:135px;margin:30px auto 0 auto;display:block;text-indent:-1000px;background:url(../img/logo.png) no-repeat center;-background: none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/logo.png", sizingMethod="noscale");}
+.logo img{width:124px; margin:25px auto auto 30px}
+.controlPanel{float:left; width:809px; height:179px; background:url(../img/banner.jpg) repeat-x}
+.icons{width:100%; height:36px}
+.icons ul{float:right; width:235px; padding-top:15px}
+.icons ul li{float:left; width:60px; padding-left:10px; background:url(../img/sprite2.png) no-repeat left -406px; font-size:12px}
+.icons ul li a:link, .icons ul li a:visited{color:#2b2b2b}
+.search{clear:both; width:100%; height:auto}
+.searchForm{float:right; width:226px; padding-right:10px}
+.searchBox{float:left; width:124px; height:15px; line-height:15px; padding:2px; background:#FFF; border:none; color:#666; font-size:12px}
+
+.searchBtn{float:left; width:75px; height:19px; background:url(../img/sprite1.png) no-repeat left -203px; text-indent:-100px; border:none; cursor:pointer}
+.nav{width:610px; height:auto; margin-top:60px; padding-left:50px}
+.nav li{float:left; width:108px; font-size:14px; background:url(../img/whiteArrow.gif) no-repeat; padding-left:12px}
+.nav li a{line-height:28px}
+.nav li a:link, .nav li a:visited{text-decoration:none; color:#FFF}
+.colL_title em span, .colM_title em span, .colM2_title em span{text-indent:-100px; display:inline-block}
+.mainBox{width:100%}
+.colL{float:left; width:178px; margin-right:10px}
+.colM{float:left; width:598px; padding-top:10px; overflow:hidden}
+.colR{float:right; padding-top:10px; width:204px; overflow:hidden}
+.colLItem{width:176px; border:#CCC solid 1px; margin-top:10px; font-size:12px}
+.colL_title{width:164px; padding-left:12px; height:25px; line-height:25px; border-bottom:#CCC solid 1px; font-family:"&#23435; &#20307; ",Verdana,Geneva,sans-serif; background:url(../img/sprite2.png) repeat-x left -365px; margin:0}
+.colL_title h2{float:left; width:80px; padding-top:2px; display:inline;}
+.colL ul{margin:0; padding:0; padding-top:10px}
+.colL1 ul li{clear:both; width:120px; height:32px; padding-left:36px; line-height:32px; border:#CCC solid 1px; margin:0 auto 10px auto; background:url(../img/sprite3.png) repeat-x}
+.colL2 ul li{clear:both; width:120px; height:32px; padding-left:36px; line-height:36px; border:#CCC solid 1px; margin:0 auto 10px auto; background:url(../img/sprite3.png) repeat-x left -46px}
+.colL3 ul li{width:120px; height:22px; padding-left:36px; line-height:22px; margin:0 auto 10px auto; background:url(../img/sprite1.png) no-repeat 22px -262px}
+.colL4 ul{margin:10px;height:296px;_height:276px;overflow:hidden;}
+.colL4 ul li{line-height:24px;border-bottom:#CCC dotted 1px;}
+.moreBtn{float:right; margin-right:10px}
+.moreBtn span{display:none}
+.moreBtn img{width:38px; height:14px; border:none}
+.colL_title .moreBtn{width:38px; height:25px; background:url(../img/sprite1.png) no-repeat left -61px}
+.colML{float:left; width:290px; margin-right:10px}
+.colMR{float:right; width:290px; margin-right:8px; /*height:652px*/}
+.colML ul li h3, .colMR ul li h3{font-weight:bold}
+.colML .agency, .colML .star{float:right;}
+.colML ul li h3 em, .colMR ul li h3 em{float:left; width:42px; height:21px; line-height:21px; font-weight:bold; display:block; text-align:center; overflow:hidden; margin-right:5px; background:url(../img/sprite1.png) no-repeat}
+.colML ul li h3 em a:link, .colML ul li h3 em a:visited, .colMR ul li h3 em a:link, .colMR ul li h3 em a:visited{color:#FFF}
+.colML ul, .colMR ul{width:268px; padding:10px; padding-bottom:0; border:#CCC solid 1px; border-top:none; margin-bottom:10px}
+.colML ul{height:172px; overflow:hidden}
+.colML ul li, .colMR ul li{padding-top:5px; padding-bottom:6px;-padding-top:2px;}
+.colMR ul li{line-height:25px}
+.colMR ul li{margin-bottom:6px}
+.colML ul li p, .colMR ul li p{clear:both; font-size:12px; padding-bottom:5px; padding-top:5px; color:#666;line-height:20px;}
+.colMR ul li p{line-height:18px}
+.colM_more{clear:both; width:100%; height:22px; text-align:right; background:url(../img/sprite2.png) no-repeat 155px -405px}
+.colM_more a{font-size:12px}
+.colM_more a:link, .colM_more a:visited{color:#666}
+.followBum{padding-left:5px; color:#666}
+.followBtn{float:left; width:50px; height:21px; display:inline-block; background:url(../img/sprite1.png) no-repeat left -126px}
+.followBtn span{display:none}
+.followBtn img{width:50px; height:21px}
+.colM_title, .colM2_title{width:288px; height:25px; border:#CCC solid 1px;_border-bottom:none;line-height:25px; color:#000; background:url(../img/sprite2.png) repeat-x left -315px}
+.colM_title h2, .colM2_title h2{float:left; width:60px;height:23px;_height:23px;_overflow:hidden;border-bottom:#C00 solid 3px;padding-left:15px; }
+.colMR ul{height:700px; overflow:hidden}
+.colML ul li, .colMR ul li{background:url(../img/dotLine.gif) repeat-x bottom}
+.moreBtn2 span{display:none}
+.moreBtn2 img{width:49px; height:10px}
+.colMR_date{float:left; color:#CCC}
+.moreBtn2{float:right; width:49px; height:10px; background:url(../img/sprite1.png) no-repeat left -98px}
+.links{clear:both; border:#CCC solid 1px}
+.links_title{float:left; width:41px; height:72px; background:url(../img/links_tit.jpg) no-repeat}
+.links_title{text-indent:-200px}
+.links ul li{float:left; margin-left:7px; padding-top:14px}
+.links ul li a img{width:109px; height:43px; border:#CCC solid 1px}
+.footer{clear:both; width:993px; margin:0 auto}
+
+.colM_title .moreBtn, .colM2_title .moreBtn{float:right; width:38px; height:14px; margin-top:6px;  background:url(../img/sprite1.png) no-repeat left -37px}
+.colM_title .moreBtn img, .colM2_title .moreBtn img{width:38px; height:14px}
+.colRItem{border:#CCC solid 1px; font-size:12px; margin-bottom:10px}
+.goTop{width:100%; height:15px; text-align:center; margin:10px auto; background:url(../img/dotLine.gif) repeat-x left bottom}
+.colR2 ul li em img, .colR3 ul li em img{margin-top:6px; margin-right:6px; margin-left:5px;}
+.footerInfo{float:right; width:200px; text-align:right; font-size:12px; color:#666}
+.footerInfo a:link, .footerInfo a:visited{color:#666}
+.colR_title{width:100%; height:25px; line-height:25px; border-bottom:#CCC solid 1px; font-family:"&#23435; &#20307; ",Verdana,Geneva,sans-serif; background:url(../img/sprite2.png) repeat-x left -365px; margin:0}
+.colR_title h2{padding-left:12px; float:left; width:80px; padding-top:2px; display:inline}
+.colR1Form{clear:both; padding:5px; padding-top:14px; _padding-top:7px; +padding-top:9px}
+.colR1{padding-bottom:14px;-padding-bottom:10px;}
+.colR1 label{float:left; width:40px; height:20px; line-height:20px; padding-right:5px; text-align:right}
+.loginBtn{width:40px; height:20px; margin-left:50px; font-size:12px; margin-top:10px}
+.colR1Form input{float:left; width:120px; heigh height:20px; margin-left:50px; font-size:12px; margin-top:10px}
+.colR1Form input{float:left; width:120px; height:18px; border:#CCC solid 1px}
+.colRItem ul{padding:10px}
+.colRItem ul li{clear:both; font-size:12px; line-height:24px;height:24px;-line-height:23px;-height:23px;}
+.colRItem ul li span{width:70px; display:inline-block;overflow:hidden;white-space:nowrap;}
+.colRItem ul li span.name, .colRItem ul li span.percent{width:40px;}
+.rec{color:#C00;}
