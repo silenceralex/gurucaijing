@@ -50,6 +50,33 @@ public class HtmlUtils {
 		return new String(c);
 	}
 
+	public static String getString(String str, int length, String more) {
+		int threshold = length - more.getBytes().length;
+		int count = 0;
+		int pos = 0;
+		boolean out = false;
+		if (str == null)
+			return null;
+		char[] chars = str.toCharArray();
+		for (char c : chars) {
+			int len = String.valueOf(c).getBytes().length;
+			//			System.out.println("char :" + c + "  len:" + len);
+			count += len;
+			if (count > threshold) {
+				out = true;
+				break;
+			} else if (count == threshold) {
+				out = false;
+			}
+			pos++;
+		}
+		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
+				+ "  threshold:" + threshold);
+		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
+		System.out.println("return string length:" + retStr.getBytes().length);
+		return retStr;
+	}
+
 	/**
 	 * @param args
 	 */
@@ -65,18 +92,22 @@ public class HtmlUtils {
 		// e.printStackTrace();
 		// }
 		// System.out.println("match is NULL!");
+		String test = "11月份的中国P“数据并未减轻市场对通胀的顾虑，还需要CPI和PPI数据的支持。在此之前，市场难以打消对紧缩政策的担忧，这也会造成市场持续的弱势表现和惨淡成交。 ";
 
-		char c = '。';
-		char d = 0x0020;
-		System.out.println(d);
-		System.out.println(Integer.toHexString((int) c));
-		if (HtmlUtils.isSymbol(c)) {
-			System.out.println("c is a Symbol!");
-		} else {
-			System.out.println("c is not Symbol!");
-		}
-		String md5 = MD5Utils.hash("http://www.caijing.com.cn/rss/column.xml");
-		System.out.println("md5: " + md5);
+		String out = HtmlUtils.getString(test, 40, "...");
+		System.out.println("out:" + out);
+
+		//		char c = '。';
+		//		char d = 0x0020;
+		//		System.out.println(d);
+		//		System.out.println(Integer.toHexString((int) c));
+		//		if (HtmlUtils.isSymbol(c)) {
+		//			System.out.println("c is a Symbol!");
+		//		} else {
+		//			System.out.println("c is not Symbol!");
+		//		}
+		//		String md5 = MD5Utils.hash("http://www.caijing.com.cn/rss/column.xml");
+		//		System.out.println("md5: " + md5);
 		// try {
 		// Date dt1 = HtmlUtils.DATE_OUT_FORMAT.parse("2008-01-02 00:00:00");
 		// Date dt2 = HtmlUtils.DATE_OUT_FORMAT.parse("2008-01-01 00:00:00");
