@@ -116,5 +116,7 @@ a{text-decoration:none}
 .colRItem ul{padding:10px}
 .colRItem ul li{clear:both; font-size:12px; line-height:24px;height:24px;-line-height:23px;-height:23px;}
 .colRItem ul li span{width:70px; display:inline-block;overflow:hidden;white-space:nowrap;}
-.colRItem ul li span.name, .colRItem ul li span.percent{width:40px;}
+.colRItem ul li span.name{width:40px;}
+.colR .colRDate{float:right;-webkit-text-size-adjust:none;font-size:11px;padding-right:5px}
+.colRItem ul li span.percent{-webkit-text-size-adjust:none;font-size:11px;width:42px;}
 .rec{color:#C00;}
