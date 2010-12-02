@@ -71,7 +71,7 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 		params.put("length", length);
 		//宏观动态栏目没有作者
 		if (type != 2) {
-			params.put("author", "");
+			params.put("author", "111");
 		}
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getColumnArticleByType", params);
 	}
