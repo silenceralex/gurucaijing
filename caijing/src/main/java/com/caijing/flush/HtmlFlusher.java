@@ -303,11 +303,17 @@ public class HtmlFlusher {
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
+			System.out.println("dsyp1 size: " + dsyp.size());
 			dsyp = alertUrl(dsyp);
+			System.out.println("dsyp2 size: " + dsyp.size());
 			System.out.println("dsyp link: " + dsyp.get(0).getLink());
+			System.out.println("hgdt2 size: " + hgdt.size());
 			hgdt = alertUrl(hgdt);
+			System.out.println("hgdt2 size: " + hgdt.size());
 			System.out.println("hgdt link: " + hgdt.get(0).getLink());
+			System.out.println("cjzl size: " + cjzl.size());
 			cjzl = alertUrl(cjzl);
+			System.out.println("cjzl size: " + cjzl.size());
 			System.out.println("cjzl link: " + cjzl.get(0).getLink());
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
 			List<String> reportids = groupStockDao.getRecommendReportids(3);
@@ -366,10 +372,10 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
-		flusher.flushStarGuruDetail();
-		flusher.flushAnalyzerRank();
-		flusher.flushReportLab();
-		flusher.flushStarOnSale();
+		//		flusher.flushStarGuruDetail();
+		//		flusher.flushAnalyzerRank();
+		//		flusher.flushReportLab();
+		//		flusher.flushStarOnSale();
 		flusher.flushIndex();
 	}
 }
