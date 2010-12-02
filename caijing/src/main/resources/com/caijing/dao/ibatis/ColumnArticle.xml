@@ -78,8 +78,16 @@
 
 	<select id="getColumnArticleByType" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle where type=#type# and author is not null order by ptime
-		desc limit #length#
+		select * from columnarticle 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="type">
+				type = #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="author">
+				author is not null
+			</isNotEmpty>
+		</dynamic>
+		order by ptime desc limit #length#
 	</select>
 
 
