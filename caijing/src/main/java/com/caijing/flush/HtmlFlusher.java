@@ -336,7 +336,7 @@ public class HtmlFlusher {
 			vmf.put("analyzerList", analyzerList);
 
 			vmf.save("/home/html/home.html");
-			System.out.println("write page : " + "/home/html/home.html");
+			System.out.println("write page : " + "/home/html/index.html");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
 			System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -355,7 +355,7 @@ public class HtmlFlusher {
 					url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
 					articles.get(i).setLink(url);
 					System.out.println("url:" + articles.get(i).getLink());
-					retlist.set(i, articles.get(i));
+					retlist.add(articles.get(i));
 				} else {
 					System.out.println("Date Format Parse ERROR!");
 				}
@@ -366,10 +366,10 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = new HtmlFlusher();
-		//		flusher.flushStarGuruDetail();
-		//		flusher.flushAnalyzerRank();
-		//		flusher.flushReportLab();
-		//		flusher.flushStarOnSale();
+		flusher.flushStarGuruDetail();
+		flusher.flushAnalyzerRank();
+		flusher.flushReportLab();
+		flusher.flushStarOnSale();
 		flusher.flushIndex();
 	}
 }
