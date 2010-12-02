@@ -356,7 +356,9 @@ public class HtmlFlusher {
 			if (articles.get(i).getType() == 0) {
 				String url = "http://51gurus.com/cms/";
 				String date = DateTools.transformDateDetail(articles.get(i).getPtime());
+				System.out.println("date:" + date);
 				String[] strs = date.split("-");
+				System.out.println("strs length:" + strs);
 				if (strs.length == 3) {
 					url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
 					articles.get(i).setLink(url);
