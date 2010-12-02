@@ -251,15 +251,7 @@
                         </div>
                         <ul>
                             #foreach ($one in $analyzerList)
-                                <li>
-                                <em><img src="img/num${velocityCount}.gif" /></em>
-                                <span class="name"><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html">$one.name</a></span>
-                                <span>[$one.agency]</span>
-                                <span class="percent">
-                                    #set ($ratio = $one.getWeight() - 100)
-                                    ${floatUtil.getTwoDecimalNumber(${ratio})}%
-                                </span>
-                                </li>
+                                <li><em><img src="img/num${velocityCount}.gif" /></em><span class="name"><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html">$one.name</a></span><span>[$one.agency]</span><span class="percent">#set ($ratio = $one.getWeight() - 100)${floatUtil.getTwoDecimalNumber(${ratio})}%</span></li>
                             #end
                         </ul>
                     </div>
@@ -269,12 +261,7 @@
                         </div>
                         <ul>
                             #foreach ($one in $groupStockList)
-                            <li>
-                                <em><img src="img/num${velocityCount}.gif" /></em>
-                                <span title="${one.stockname}(${one.stockcode})">${one.stockname}</span>
-                                <span class="name">${one.groupname}</span>
-                                <span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span>
-                            </li>
+                            <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
                             #end
                         </ul>
                     </div>
