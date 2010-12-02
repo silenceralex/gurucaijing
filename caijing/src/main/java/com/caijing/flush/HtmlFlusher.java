@@ -74,8 +74,8 @@ public class HtmlFlusher {
 					StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 					float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
 							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-					List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
-							.transformYYYYMMDDDate(startDate));
+					List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+							DateTools.transformYYYYMMDDDate(startDate));
 
 					VMFactory introvmf = new VMFactory();
 					introvmf.setTemplate("/template/starintro.htm");
@@ -95,8 +95,8 @@ public class HtmlFlusher {
 					List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
 					Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
 					for (GroupStock stock : stockDetailList) {
-						List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(), DateTools
-								.transformYYYYMMDDDate(stock.getIntime()));
+						List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+								DateTools.transformYYYYMMDDDate(stock.getIntime()));
 						List<String> filePathList = recommendStockDao.getFilePathByAid(aid, stock.getStockcode(), 3);
 						stock.setFilePathList(filePathList);
 						for (int i = 0; i < stockEarnList.size(); i++) {
@@ -173,8 +173,8 @@ public class HtmlFlusher {
 			float startprice = stockEarnDao
 					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
 			startPriceMap.put(analyzer.getAid(), startprice);
-			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
-					.transformYYYYMMDDDate(startDate));
+			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+					DateTools.transformYYYYMMDDDate(startDate));
 			stockEarnMap.put(analyzer.getAid(), priceList);
 		}
 		try {
@@ -249,12 +249,12 @@ public class HtmlFlusher {
 			float startprice = stockEarnDao
 					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
 			startPriceMap.put(stock.getGroupid(), startprice);
-			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300", DateTools
-					.transformYYYYMMDDDate(startDate));
+			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+					DateTools.transformYYYYMMDDDate(startDate));
 			stockEarnMap.put(stock.getGroupid(), priceList);
 
-			List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(), DateTools
-					.transformYYYYMMDDDate(stock.getIntime()));
+			List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+					DateTools.transformYYYYMMDDDate(stock.getIntime()));
 			List<String> filePathList = recommendStockDao.getFilePathByAid(stock.getGroupid(), stock.getStockcode(), 3);
 			stock.setFilePathList(filePathList);
 			for (int i = 0; i < stockEarnList.size(); i++) {
@@ -323,6 +323,7 @@ public class HtmlFlusher {
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/home.htm");
 			vmf.put("dateTools", dateTools);
+			vmf.put("currdate", lastdate);
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("dsyp", dsyp);
 			vmf.put("hgdt", hgdt);

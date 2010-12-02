@@ -46,31 +46,31 @@
                     </div>
                     <ul class="nav">
                         <li>
-                            <a href="#"><span>首页</span></a>
+                            <a href="/index.html" target="_blank"><span>首页</span></a>
                         </li>
                         <li>
-                            <a href="/analyzer/starGuruList.html"><span>大师殿堂</span></a>
+                            <a href="/analyzer/starGuruList.html" target="_blank"><span>大师殿堂</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>股票精选</span></a>
+                            <a href="#" target="_blank"><span>股票精选</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>草根大师之选</span></a>
+                            <a href="#" target="_blank"><span>草根大师之选</span></a>
                         </li>
                         <li>
-                            <a href="/analyzer/starEarn.html"><span>金牌分析师之选</span></a>
+                            <a href="/analyzer/starEarn.html" target="_blank"><span>金牌分析师之选</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>明星机构之选</span></a>
+                            <a href="#" target="_blank"><span>明星机构之选</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>机构共同之选</span></a>
+                            <a href="#" target="_blank"><span>机构共同之选</span></a>
                         </li>
                         <li>
-                            <a href="/report/reportLab_1.html"><span>研报大本营</span></a>
+                            <a href="/report/reportLab_1.html" target="_blank"><span>研报大本营</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>财报大本营</span></a>
+                            <a href="#" target="_blank"><span>财报大本营</span></a>
                         </li>
                         <span class="clear"></span>
                     </ul>
@@ -153,14 +153,14 @@
                     <div class="colML">
                         <div class="colM_title">
                             <h2>大势研判</h2>
-                            <a class="moreBtn" href="http://51gurus.com/cms/dsyp/index.shtml" target="_blank"><span>more</span><img src="img/block.gif"/></a>
+                            <a class="moreBtn" href="http://51gurus.com/cms/dsyp/index.shtml"  target="_blank"><span>more</span><img src="img/block.gif"/></a>
                         </div>
                         <ul style="height:240px">
-                            #foreach ($one in $dsyp)<!--限制在40个字以内，控制简介在两行-->
+                            #foreach ($one in $dsyp)
                             <li>
-                                <h3><em><a href="$one.link" target="_blank">$one.author</a></em><a href="$one.link" target="_blank">$one.title</a></h3>
-                                <p>
-                                    $one.abs
+                                <h3><em><a href="$one.link" target="_blank">$one.author</a></em><a title="$one.title" href="$one.link" target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--这里放截取的内容，限制在15个字以内，控制简介在一行--></a></h3>
+                                <p title="$one.abs">
+                                    ${htmlUtil.getSubStr($one.abs,40,'...')}<!--这里放截取的内容，限制在40个字以内，控制简介在两行-->
                                 </p>
                                 <span class="clear"></span>
                             </li>
@@ -179,9 +179,9 @@
                             <li style="background:none;" class="noBg">
                             #else 
                             <li>
-                                #end<h3><em><a href="$one.link">$one.author</a></em><a href="$one.link">$one.title<!--限制在15个字以内，控制简介在一行--></a></h3>
-                                <p>
-                                    $one.abs<!--限制在40个字以内，控制简介在两行-->
+                                #end<h3><em><a href="$one.link"  target="_blank">$one.author</a></em><a title="$one.title" href="$one.link"  target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--限制在15个字以内，控制简介在一行--></a></h3>
+                                <p title="$one.abs">
+                                    ${htmlUtil.getSubStr($one.abs,40,'...')}<!--这里放截取的内容，限制在40个字以内，控制简介在两行-->
                                 </p>
                                 <p>
                                     <em class="colMR_date">${dateTools.transformTomm($one.ptime)}</em>
@@ -202,9 +202,9 @@
                             <a class="moreBtn" href="http://51gurus.com/cms/hgdt/index.shtml" target="_blank"><span>more</span><img src="img/block.gif"/></a>
                         </div>
                         <ul>
-                            #foreach ($one in $hgdt)<!--限制在15个字以内，控制简介在一行-->
+                            #foreach ($one in $hgdt)
                             <li>
-                                <a href="$one.link" target="_blank"><span class="agency">[$one.src]</span>$one.title</a>
+                                <a title="$one.title" href="$one.link" target="_blank"><span class="agency">[$one.src]</span>${htmlUtil.getSubStr($one.title,15,'...')}<!--这里放截取后的标题，限制在15个字以内，控制简介在一行--></a>
                             </li>
                             #end
                         </ul>
@@ -217,9 +217,9 @@
                         <ul style="height: 192px;">
                             #foreach ($one in $recommendstocks)
                             <li>
-                                <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
-                                <p>
-                                    $one.title<!--限制在18个字以内，控制简介在一行-->
+                                <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
+                                <p title="$one.title">
+                                    ${htmlUtil.getSubStr($one.title,18,'...')}<!--这里放截取的标题，限制在18个字以内，控制简介在一行-->
                                 </p>
                                 <span class="clear"></span>
                             </li>
@@ -247,23 +247,23 @@
                     </div>
                     <div id="colR2" class="colR2 colRItem">
                         <div class="colR_title">
-                            <span class="colRDate">2010-11-20</span>
+                            <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
                             <h2>大师排行榜</h2>
                         </div>
                         <ul>
                             #foreach ($one in $analyzerList)
-                                <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</span><span>[$one.agency]</span><span class="percent">#set ($ratio = $one.getWeight() - 100)${floatUtil.getTwoDecimalNumber(${ratio})}%</span></a></li>
+                                <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">#set ($ratio = $one.getWeight() - 100)${floatUtil.getTwoDecimalNumber(${ratio})}%</span></li>
                             #end
                         </ul>
                     </div>
                     <div id="colR3" class="colR3 colRItem">
                         <div class="colR_title">
-                            <span class="colRDate">2010-11-20</span>
+                            <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
                             <h2>赚钱排行榜</h2>
                         </div>
                         <ul>
                             #foreach ($one in $groupStockList)
-                            <li><em><img src="img/num${velocityCount}.gif" /></em><!--这个链接我加的，不对--><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></a></li>
+                            <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
                             #end
                         </ul>
                     </div>
