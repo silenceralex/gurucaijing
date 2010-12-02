@@ -23,8 +23,8 @@ public class HtmlUtils {
 
 	public static String stripTags(String html) {
 		if (html != null) {
-			String tmp = html.replaceAll("<.*?>", " ").replaceAll("&nbsp;", " ").replaceAll("  > \"> ", "").replaceAll(
-					"\\s+", " ");
+			String tmp = html.replaceAll("<.*?>", " ").replaceAll("&nbsp;", " ").replaceAll("  > \"> ", "")
+					.replaceAll("\\s+", " ");
 			String ret = "";
 			char[] chars = tmp.toCharArray();
 			for (char c : chars) {
@@ -50,8 +50,8 @@ public class HtmlUtils {
 		return new String(c);
 	}
 
-	public static String getSubStr(String str, int length, String more) {
-		int threshold = length - more.getBytes().length;
+	public String getSubStr(String str, int length, String more) {
+		int threshold = length * 2 - more.getBytes().length;
 		int count = 0;
 		int pos = 0;
 		boolean out = false;
@@ -92,8 +92,8 @@ public class HtmlUtils {
 		// }
 		// System.out.println("match is NULL!");
 		String test = "11月份的中国P“数据并未减轻市场对通胀的顾虑，还需要CPI和PPI数据的支持。在此之前，市场难以打消对紧缩政策的担忧，这也会造成市场持续的弱势表现和惨淡成交。 ";
-
-		String out = HtmlUtils.getSubStr(test, 40, "...");
+		HtmlUtils htmlUtils = new HtmlUtils();
+		String out = htmlUtils.getSubStr(test, 40, "...");
 		System.out.println("out:" + out);
 
 		//		char c = '。';

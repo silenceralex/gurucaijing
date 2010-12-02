@@ -78,7 +78,7 @@
 
 	<select id="getColumnArticleByType" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle where type=#type# order by ptime
+		select * from columnarticle where type=#type# and author is not null order by ptime
 		desc limit #length#
 	</select>
 

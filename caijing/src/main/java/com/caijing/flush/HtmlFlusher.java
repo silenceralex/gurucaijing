@@ -1,5 +1,6 @@
 package com.caijing.flush;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -302,11 +303,11 @@ public class HtmlFlusher {
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
-			alertUrl(dsyp);
+			dsyp = alertUrl(dsyp);
 			System.out.println("dsyp link: " + dsyp.get(0).getLink());
-			alertUrl(hgdt);
+			hgdt = alertUrl(hgdt);
 			System.out.println("hgdt link: " + hgdt.get(0).getLink());
-			alertUrl(cjzl);
+			cjzl = alertUrl(cjzl);
 			System.out.println("cjzl link: " + cjzl.get(0).getLink());
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
 			List<String> reportids = groupStockDao.getRecommendReportids(3);
@@ -343,7 +344,8 @@ public class HtmlFlusher {
 		}
 	}
 
-	private void alertUrl(List<ColumnArticle> articles) {
+	private List<ColumnArticle> alertUrl(List<ColumnArticle> articles) {
+		List<ColumnArticle> retlist = new ArrayList<ColumnArticle>(articles.size());
 		for (int i = 0; i < articles.size(); i++) {
 			if (articles.get(i).getType() == 0) {
 				String url = "http://51gurus.com/cms/";
@@ -352,12 +354,14 @@ public class HtmlFlusher {
 				if (strs.length == 3) {
 					url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
 					articles.get(i).setLink(url);
-					System.out.println("url:" + url);
+					System.out.println("url:" + articles.get(i).getLink());
+					retlist.set(i, articles.get(i));
 				} else {
 					System.out.println("Date Format Parse ERROR!");
 				}
 			}
 		}
+		return retlist;
 	}
 
 	public static void main(String[] args) {
