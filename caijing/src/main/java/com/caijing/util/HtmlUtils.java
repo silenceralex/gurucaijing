@@ -50,7 +50,7 @@ public class HtmlUtils {
 		return new String(c);
 	}
 
-	public static String getString(String str, int length, String more) {
+	public static String getSubStr(String str, int length, String more) {
 		int threshold = length - more.getBytes().length;
 		int count = 0;
 		int pos = 0;
@@ -60,7 +60,6 @@ public class HtmlUtils {
 		char[] chars = str.toCharArray();
 		for (char c : chars) {
 			int len = String.valueOf(c).getBytes().length;
-			//			System.out.println("char :" + c + "  len:" + len);
 			count += len;
 			if (count > threshold) {
 				out = true;
@@ -70,11 +69,11 @@ public class HtmlUtils {
 			}
 			pos++;
 		}
-		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
-				+ "  threshold:" + threshold);
-		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
-		System.out.println("return string length:" + retStr.getBytes().length);
-		return retStr;
+		//		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
+		//				+ "  threshold:" + threshold);
+		//		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
+		//		System.out.println("return string length:" + retStr.getBytes().length);
+		return str.substring(0, out ? pos : (pos + 1)) + more;
 	}
 
 	/**
@@ -94,7 +93,7 @@ public class HtmlUtils {
 		// System.out.println("match is NULL!");
 		String test = "11月份的中国P“数据并未减轻市场对通胀的顾虑，还需要CPI和PPI数据的支持。在此之前，市场难以打消对紧缩政策的担忧，这也会造成市场持续的弱势表现和惨淡成交。 ";
 
-		String out = HtmlUtils.getString(test, 40, "...");
+		String out = HtmlUtils.getSubStr(test, 40, "...");
 		System.out.println("out:" + out);
 
 		//		char c = '。';

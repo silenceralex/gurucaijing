@@ -23,9 +23,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
-import com.caijing.remote.CmsWebservice;
-import com.caijing.util.DateTools;
-import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
 /**
@@ -196,28 +193,28 @@ public class CrawlJob implements Runnable {
 				ColumnArticle article = special.processPage(url, content, urldown);
 				if (article == null)
 					return;
+				System.out.println(" article:" + article.getTitle() + "   author:" + article.getAuthor());
 				//改用标题+作者进行去重
-				String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
-				if (urlDB.contains(md5)) {
-					return;
-				} else {
-					//					logger.warn("Content:" + content);
-					urlDB.putUrl(md5);
-					article.setType(type);
-					columnArticleDao.insert(article);
-					long articleid = CmsWebservice.getInstance().addArticle(
-							columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
-							article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
-							DateTools.transformDateDetail(article.getPtime()));
-					article.setCmsid(articleid);
-					columnArticleDao.update(article);
-					if (CmsWebservice.getInstance().publishArticle(articleid)) {
-						System.out.println("publish article:" + article.getTitle() + " success!");
-					} else {
-						System.out.println("publish article:" + article.getTitle() + " failed!");
-					}
-
-				}
+				//				String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
+				//				if (urlDB.contains(md5)) {
+				//					return;
+				//				} else {
+				//					//					logger.warn("Content:" + content);
+				//					urlDB.putUrl(md5);
+				//					article.setType(type);
+				//					columnArticleDao.insert(article);
+				//					long articleid = CmsWebservice.getInstance().addArticle(
+				//							columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
+				//							article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
+				//							DateTools.transformDateDetail(article.getPtime()));
+				//					article.setCmsid(articleid);
+				//					columnArticleDao.update(article);
+				//					if (CmsWebservice.getInstance().publishArticle(articleid)) {
+				//						System.out.println("publish article:" + article.getTitle() + " success!");
+				//					} else {
+				//						System.out.println("publish article:" + article.getTitle() + " failed!");
+				//					}
+				//				}
 			} catch (Exception e) {
 				logger.warn(e.getMessage());
 				e.printStackTrace();
@@ -517,7 +514,7 @@ public class CrawlJob implements Runnable {
 		Document xml = null;
 
 		try {
-			xml = sr.read(new File("jobs\\wsj.xml"));
+			xml = sr.read(new File("jobs\\wsj_fuchifeng.xml"));
 			// xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
@@ -601,7 +598,6 @@ public class CrawlJob implements Runnable {
 	public void setUrlDB(BerkeleyDB urlDB) {
 		this.urlDB = urlDB;
 	}
-
 
 	public List<SpecialPattern> getSpecials() {
 		return specials;

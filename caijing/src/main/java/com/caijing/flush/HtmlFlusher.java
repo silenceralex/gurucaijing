@@ -25,6 +25,7 @@ import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
+import com.caijing.util.HtmlUtils;
 
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
@@ -286,6 +287,7 @@ public class HtmlFlusher {
 	public void flushIndex() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
+		HtmlUtils htmlUtil = new HtmlUtils();
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
@@ -326,6 +328,7 @@ public class HtmlFlusher {
 			vmf.put("hgdt", hgdt);
 			vmf.put("cjzl", cjzl);
 			vmf.put("cjzlsize", cjzl.size());
+			vmf.put("htmlUtil", htmlUtil);
 			vmf.put("recommendstocks", recommendstocks);
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("analyzerList", analyzerList);
