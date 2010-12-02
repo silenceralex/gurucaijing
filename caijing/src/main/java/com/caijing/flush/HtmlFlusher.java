@@ -303,18 +303,9 @@ public class HtmlFlusher {
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
-			System.out.println("dsyp1 size: " + dsyp.size());
 			dsyp = alertUrl(dsyp);
-			System.out.println("dsyp2 size: " + dsyp.size());
-			System.out.println("dsyp link: " + dsyp.get(0).getLink());
-			System.out.println("hgdt2 size: " + hgdt.size());
 			hgdt = alertUrl(hgdt);
-			System.out.println("hgdt2 size: " + hgdt.size());
-			System.out.println("hgdt link: " + hgdt.get(0).getLink());
-			System.out.println("cjzl size: " + cjzl.size());
 			cjzl = alertUrl(cjzl);
-			System.out.println("cjzl size: " + cjzl.size());
-			System.out.println("cjzl link: " + cjzl.get(0).getLink());
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
 			List<String> reportids = groupStockDao.getRecommendReportids(3);
 			List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
@@ -353,20 +344,18 @@ public class HtmlFlusher {
 	private List<ColumnArticle> alertUrl(List<ColumnArticle> articles) {
 		List<ColumnArticle> retlist = new ArrayList<ColumnArticle>(articles.size());
 		for (int i = 0; i < articles.size(); i++) {
-			if (articles.get(i).getType() == 0) {
-				String url = "http://51gurus.com/cms/";
-				String date = DateTools.transformDateDetail(articles.get(i).getPtime());
-				System.out.println("date:" + date);
-				String[] strs = date.split("-");
-				System.out.println("strs length:" + strs);
-				if (strs.length == 3) {
-					url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
-					articles.get(i).setLink(url);
-					System.out.println("url:" + articles.get(i).getLink());
-					retlist.add(articles.get(i));
-				} else {
-					System.out.println("Date Format Parse ERROR!");
-				}
+			String url = "http://51gurus.com/cms/";
+			String date = DateTools.transformDateDetail(articles.get(i).getPtime());
+			System.out.println("date:" + date);
+			String[] strs = date.split("-");
+			System.out.println("strs length:" + strs);
+			if (strs.length == 3) {
+				url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
+				articles.get(i).setLink(url);
+				System.out.println("url:" + articles.get(i).getLink());
+				retlist.add(articles.get(i));
+			} else {
+				System.out.println("Date Format Parse ERROR!");
 			}
 		}
 		return retlist;
