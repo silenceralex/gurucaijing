@@ -31,7 +31,7 @@ import com.caijing.util.UrlDownload;
 public class CrawlNotice {
 	String starturl = "http://data.eastmoney.com/notice/Notice_List.aspx";
 	private static Log logger = LogFactory.getLog(CrawlNotice.class);
-	private static String PREFIX = "http://51.gurus.com/notice/";
+	private static String PREFIX = "http://51gurus.com/notice/";
 
 	Map keyMap = new HashMap<String, Integer>();
 	UrlDownload downloader = new UrlDownload();
@@ -269,7 +269,7 @@ public class CrawlNotice {
 				if (titlenode != null) {
 					Notice notice = new Notice();
 					notice.setId(ServerUtil.getid());
-					if ("¿¯µÇ".equals(m.group(4).trim())) {
+					if (m.group(4).trim().startsWith("¿¯µÇ")) {
 						notice.setTitle(m.group(4).trim().substring(2));
 					} else {
 						notice.setTitle(m.group(4).trim());
@@ -334,7 +334,7 @@ public class CrawlNotice {
 					if (titlenode != null) {
 						Notice notice = new Notice();
 						notice.setId(ServerUtil.getid());
-						if ("¿¯µÇ".equals(m.group(4).trim())) {
+						if (m.group(4).trim().startsWith("¿¯µÇ")) {
 							notice.setTitle(m.group(4).trim().substring(2));
 						} else {
 							notice.setTitle(m.group(4).trim());
