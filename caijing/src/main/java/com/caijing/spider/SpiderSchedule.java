@@ -149,4 +149,12 @@ public class SpiderSchedule {
 	public void setWsjhongguanXml(String wsjhongguanXml) {
 		this.wsjhongguanXml = wsjhongguanXml;
 	}
+
+	public NoticeDao getNoticeDao() {
+		return noticeDao;
+	}
+
+	public void setNoticeDao(NoticeDao noticeDao) {
+		this.noticeDao = noticeDao;
+	}
 }
