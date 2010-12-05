@@ -109,5 +109,15 @@
 			<value>GroupStockDao</value>
 		</property>
 	</bean>
+	
+	<bean id="noticeDao"
+		class="com.caijing.dao.ibatis.NoticeDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>NoticeDao</value>
+		</property>
+	</bean>
 
 </beans>

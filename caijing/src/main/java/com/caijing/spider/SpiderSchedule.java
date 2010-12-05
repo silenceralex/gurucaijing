@@ -9,10 +9,12 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
 import com.caijing.dao.ColumnArticleDao;
+import com.caijing.dao.NoticeDao;
 
 public class SpiderSchedule {
 	private String paramXml = null;
 	private ColumnArticleDao columnArticleDao = null;
+	private NoticeDao noticeDao = null;
 	private String astockXml = null;
 	private String wsjdashiXml = null;
 	private String wsjhongguanXml = null;
@@ -26,10 +28,19 @@ public class SpiderSchedule {
 			crawlHtml(astockXml);
 			crawlHtml(wsjdashiXml);
 			crawlHtml(wsjhongguanXml);
+			crawlNotice();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		//华尔街大师研判
+	}
+
+	private void crawlNotice() {
+		CrawlNotice notice = new CrawlNotice();
+		notice.init();
+		notice.setNoticeDao(noticeDao);
+		notice.runHexun();
+		notice.runEastMoney();
 	}
 
 	private void crawlRss(String rss) {

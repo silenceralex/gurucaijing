@@ -10,6 +10,7 @@ import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
+import com.caijing.dao.NoticeDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.dao.StockEarnDao;
@@ -18,6 +19,7 @@ import com.caijing.domain.ColumnArticle;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
+import com.caijing.domain.Notice;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
@@ -31,6 +33,7 @@ import com.caijing.util.HtmlUtils;
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
 	public static String REPORTDIR = "/home/html/report/";
+	public static String NOTICEDIR = "/home/html/notice/";
 
 	//	public static String TemplateDIR = "/home/html/";
 
@@ -227,6 +230,33 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushNotice() {
+		DateTools dateTools = new DateTools();
+		NoticeDao noticeDao = (NoticeDao) ContextFactory.getBean("noticeDao");
+		int size = 20;
+		int total = noticeDao.getNoticesCount();
+		int page = total % size == 0 ? total / size : total / size + 1;
+		int current = 1;
+		for (; current <= page; current++) {
+			int start = (current - 1) * size;
+			try {
+				List<Notice> noticeList = noticeDao.getNotices(start, size);
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/noticeList.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("current", current);
+				vmf.put("page", page);
+				vmf.put("noticeList", noticeList);
+				vmf.save(NOTICEDIR + "notice_" + current + ".html");
+				System.out.println("write page : " + NOTICEDIR + "notice_" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void flushStarOnSale() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
@@ -367,6 +397,6 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
-		flusher.flushIndex();
+		flusher.flushNotice();
 	}
 }

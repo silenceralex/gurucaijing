@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="NoticeDao">
+
+	<typeAlias alias="Notice"
+		type="com.caijing.domain.Notice" />
+
+	<select id="getNotices" resultClass="Notice">
+		select * from notice order by date desc limit #start#,#length#
+	</select>
+
+	<select id="select" parameterClass="Notice"
+		resultClass="Notice">
+		select * from notice where id=#id#
+	</select>
+	
+	<select id="getNoticesCount" resultClass="java.lang.Integer">
+		select count(1) from notice
+	</select>
+
+	<insert id="insert">
+		insert into notice
+		(id,title,content,stockname,stockcode,date,type,url) values
+		(#id#,#title#,#content#,#stockname#,#stockcode#,#date#,#type#,#url#)
+	</insert>
+
+	<update id="update" parameterClass="Notice">
+		update notice
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="title">
+				title = #title#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="content">
+				content = #content#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="stockcode">
+				stockcode = #stockcode#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="stockname">
+				stockname = #stockname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="date">
+				date = #date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="url">
+				url = #url#
+			</isNotEmpty>
+		</dynamic>
+		where id=#id#
+	</update>
+
+	<delete id="delete" parameterClass="Notice">
+		delete from notice where id=#id#
+	</delete>
+
+</sqlMap>

@@ -29,11 +29,11 @@ import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
 /**
- * Main entrance for crawl a video website, it could control several thread to
+ * Main entrance for crawl a website, it could control several thread to
  * parse the pages which fit for the rule.
  * 该类下载的流程是由入口进入后沿着url深度遍历去下载所有符合url规则的页面，并且解析相关页面 优势：给定入口，遍历所有，多栏目的爬取，一次性爬取所有栏目
  * 
- * @author chenjun <jun-chen@corp.netease.com>
+ * @author chenjun 
  */
 public class CrawlJob implements Runnable {
 	private static Log logger = LogFactory.getLog(CrawlJob.class);

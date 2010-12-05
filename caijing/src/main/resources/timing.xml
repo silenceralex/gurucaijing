@@ -94,6 +94,9 @@
 		<property name="columnArticleDao">
 			<ref bean="columnArticleDao" />
 		</property>
+		<property name="noticeDao">
+			<ref bean="noticeDao" />
+		</property>
 		<property name="paramXml">
 			<value>/home/app/caijing/jobs/caijing.xml</value>
 		</property>

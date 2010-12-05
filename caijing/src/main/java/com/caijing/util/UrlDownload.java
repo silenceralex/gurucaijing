@@ -181,10 +181,9 @@ public class UrlDownload {
 			httpost.addHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 			httpost.addHeader("Content-Type", "application/x-www-form-urlencoded ");
 			httpost.addHeader("Referer", "http://qyxy.baic.gov.cn/zhcx/zhcxAction!query.dhtml");
-			httpost
-					.addHeader(
-							"Cookie",
-							"JSESSIONID=MtpVL0hQnsk3dMyJxY7YQL8f8BV1BBT0wqtr5f9vv5pZ7v3xSv3z!529400894; BIGipServerPool_xy=202746048.22811.0000; wdcid=139beaaecc801ecb; wdlast=1270130881");
+			httpost.addHeader(
+					"Cookie",
+					"JSESSIONID=MtpVL0hQnsk3dMyJxY7YQL8f8BV1BBT0wqtr5f9vv5pZ7v3xSv3z!529400894; BIGipServerPool_xy=202746048.22811.0000; wdcid=139beaaecc801ecb; wdlast=1270130881");
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -217,10 +216,9 @@ public class UrlDownload {
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		get
-				.setHeader(
-						"Cookie",
-						"aastocks_stocksHistory=000001.HK%2c000002.HK%2c000003.HK%2c000004.HK%2c000005.HK%2c000006.HK%2c000007.HK; aastocks_astocksHistory=000001.SZ%2c000002.SZ%2c000004.SZ%2c000005.SZ%2c000006.SZ%2c000007.SZ%2c000008.SZ; BIGipServerCNWEB2.0=17563914.20480.0000");
+		get.setHeader(
+				"Cookie",
+				"aastocks_stocksHistory=000001.HK%2c000002.HK%2c000003.HK%2c000004.HK%2c000005.HK%2c000006.HK%2c000007.HK; aastocks_astocksHistory=000001.SZ%2c000002.SZ%2c000004.SZ%2c000005.SZ%2c000006.SZ%2c000007.SZ%2c000008.SZ; BIGipServerCNWEB2.0=17563914.20480.0000");
 		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		return load(get);
 	}
@@ -383,9 +381,9 @@ public class UrlDownload {
 		// System.out.println(str);
 		// str = down.download("http://www.997788.com");
 		// System.out.println(str);
-		HttpGet get = new HttpGet("http://220.112.42.246/newsoft.asp?type=%D0%D0%D2%B5%D1%D0%BE%BF");
-		String cookie = "Newasp%5Fnet=onlineid=22122398114; ASPSESSIONIDCSQDTRDS=ELPNDMPCFMCKMIFKKCHMLEKF; virtualwall=vsid=73bad331ca1c4f5c1f6b3f3069edb063; test=logo=221%2E223%2E98%2E114&Grade=3&isencrypt=1&dby=90&uid=110&dbyDayHits=0&point=0&password=28ad49f7c66e5707&card=0&userid=131445&username=silenceralex; zq=softname=%B5%C8%B4%FD%D6%FE%B5%D7%2D%2D2010%C4%EA5%2D6%D4%C2A%B9%C9%B2%DF%C2%D4%B1%A8%B8%E6%A1%AA%A1%AA%D4%AC%D2%CB+%B3%C2%BD%DC+; date=authori=&typei=%CA%D0%B3%A1%D1%D0%BE%BF";
-		get.setHeader("Cookie", cookie);
+		HttpGet get = new HttpGet("http://210.52.215.72/ycpj/GetUpdateConfig.aspx?type=init&version=2.48.csv");
+		//		String cookie = "Newasp%5Fnet=onlineid=22122398114; ASPSESSIONIDCSQDTRDS=ELPNDMPCFMCKMIFKKCHMLEKF; virtualwall=vsid=73bad331ca1c4f5c1f6b3f3069edb063; test=logo=221%2E223%2E98%2E114&Grade=3&isencrypt=1&dby=90&uid=110&dbyDayHits=0&point=0&password=28ad49f7c66e5707&card=0&userid=131445&username=silenceralex; zq=softname=%B5%C8%B4%FD%D6%FE%B5%D7%2D%2D2010%C4%EA5%2D6%D4%C2A%B9%C9%B2%DF%C2%D4%B1%A8%B8%E6%A1%AA%A1%AA%D4%AC%D2%CB+%B3%C2%BD%DC+; date=authori=&typei=%CA%D0%B3%A1%D1%D0%BE%BF";
+		//		get.setHeader("Cookie", cookie);
 		HttpResponse response = null;
 		try {
 			response = down.getHttpClient().execute(get);
@@ -397,13 +395,32 @@ public class UrlDownload {
 			e.printStackTrace();
 		}
 		Header[] headers = response.getAllHeaders();
+		String cookie = "";
 		for (Header header : headers) {
 			System.out.println("response:" + header.getName() + " : " + header.getValue());
+			if ("Set-Cookie".equals(header.getName())) {
+				cookie = header.getValue();
+			}
 		}
-		HttpEntity entity = response.getEntity();
+		cookie = cookie.substring(0, cookie.indexOf(';'));
+		System.out.println("cookie:" + cookie);
+
+		get = new HttpGet("http://210.52.215.72//YCPJ/Logon.aspx?type=logon");
+		get.setHeader("user", "johnnychenjun");
+		get.setHeader("pwd", "4a91b5691286687a5d8eccb47f153ed2");
+		get.setHeader("sn", "5CAC-4C53-FA52-BFEBFBFF00020655-WD-WXR1A60H9613");
+		get.setHeader("ver", "2.48");
+		get.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+		get.setHeader("Cookie", cookie);
+		String authority = "";
 		try {
-			System.out.println(EntityUtils.toString(entity, "gbk"));
-		} catch (org.apache.http.ParseException e) {
+			response = down.getHttpClient().execute(get);
+			HttpEntity entity = response.getEntity();
+			authority = EntityUtils.toString(entity, "gbk");
+			System.out.println("retStr:" + authority);
+			authority = authority.substring(authority.lastIndexOf('=') + 1);
+			System.out.println("authority:" + authority);
+		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -411,6 +428,72 @@ public class UrlDownload {
 			e.printStackTrace();
 		}
 
+		//		get = new HttpGet("http://210.52.215.72/ycpj/GetBinaryStream.aspx?id=10001");
+		//		get.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+		//		get.setHeader("Cookie", cookie);
+		//
+		//		try {
+		//			response = down.getHttpClient().execute(get);
+		//			System.out.print("StatusCode:" + response.getStatusLine().getStatusCode());
+		//			headers = response.getAllHeaders();
+		//			for (Header header : headers) {
+		//				System.out.println("response:" + header.getName() + " : " + header.getValue());
+		//			}
+		//			HttpEntity entity = response.getEntity();
+		//			GzipEntity gentity = new GzipEntity(entity);
+		//			content = EntityUtils.toString(gentity, "gbk");
+		//			FileUtil.write("D://test", content);
+		//			FileOutputStream out = new FileOutputStream(new File("D://test"));
+		//			byte[] b = new byte[1024];
+		//			int total = 0;
+		//			int tmp = 0;
+		//			while (true) {
+		//				tmp = input.read(b, 0, 1024);
+		//				total += tmp;
+		//				if (tmp == -1) {
+		//					break;
+		//				} else {
+		//					out.write(b, 0, tmp);
+		//					//					out.write(b);
+		//				}
+		//			}
+		//			System.out.print("total Length:" + total);
+
+		//			out.close();
+		//			input.close();
+
+		//		} catch (IOException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
+
+		String url = "http://210.52.215.72/YCPJ/GetStockJS.aspx?type=TitleList&user=johnnychenjun&guid=" + authority
+				+ "&articleBm=wyxs_new_Cache_TOP_syzy";
+		System.out.println("url:" + url);
+		get = new HttpGet(url);
+		get.setHeader("User-Agent",
+				"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET4.0C; .NET4.0E)");
+		get.setHeader("Cookie", cookie);
+		get.setHeader("Accept", "*/*");
+		get.setHeader("Accept-Language", "zh-cn");
+		get.setHeader("Accept-Encoding", "gzip, deflate");
+		get.setHeader("Connection", "Keep-Alive");
+
+		String recentArticleList = "";
+		try {
+			response = down.getHttpClient().execute(get);
+			HttpEntity entity = response.getEntity();
+			System.out.print("StatusCode:" + response.getStatusLine().getStatusCode());
+			headers = response.getAllHeaders();
+			for (Header header : headers) {
+				System.out.println("response:" + header.getName() + " : " + header.getValue());
+			}
+			recentArticleList = EntityUtils.toString(entity, "gbk");
+			System.out.println("recentArticleList:" + recentArticleList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getCharset() {

@@ -31,6 +31,11 @@ public class DateTools {
 		return sdf.parse(date);
 	}
 
+	public static Date parseChineseDate(String date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyƒÍMM‘¬dd»’");
+		return sdf.parse(date);
+	}
+
 	public static Date parseShortDate(String date) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		return sdf.parse(date);
@@ -87,6 +92,21 @@ public class DateTools {
 
 	public String transformMMDDDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+		return sdf.format(date);
+	}
+
+	public static String getYear(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+		return sdf.format(date);
+	}
+
+	public static String getMonth(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		return sdf.format(date);
+	}
+
+	public static String getDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd");
 		return sdf.format(date);
 	}
 
