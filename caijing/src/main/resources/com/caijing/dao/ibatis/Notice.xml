@@ -5,7 +5,7 @@
 	<typeAlias alias="Notice"
 		type="com.caijing.domain.Notice" />
 
-	<select id="getNotices" resultClass="Notice">
+	<select id="getNotices"  parameterClass="java.util.Map" resultClass="Notice">
 		select * from notice order by date desc limit #start#,#length#
 	</select>
 

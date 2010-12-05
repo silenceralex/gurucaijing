@@ -15,7 +15,7 @@ public class NoticeDaoImpl extends CrudDaoDefault implements NoticeDao {
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("start", start);
 		params.put("length", length);
-		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getNotices");
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getNotices", params);
 	}
 
 	@Override
