@@ -198,6 +198,7 @@ public class CrawlNotice {
 						} else {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 							noticeDao.insert(notice);
+							urlDB.putUrl(md5);
 						}
 					}
 				}
@@ -294,6 +295,7 @@ public class CrawlNotice {
 						//						System.out.println("desc:" + desc);
 						System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 						noticeDao.insert(notice);
+						urlDB.putUrl(md5);
 					}
 				}
 			}
@@ -361,6 +363,8 @@ public class CrawlNotice {
 						} else {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 							noticeDao.insert(notice);
+							urlDB.putUrl(md5);
+
 						}
 					}
 				}
