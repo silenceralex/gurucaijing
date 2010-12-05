@@ -174,14 +174,18 @@ public class CrawlNotice {
 					notice.setId(ServerUtil.getid());
 
 					notice.setContent(m.group(4).trim());
-					notice.setTitle(m.group(3));
-					notice.setStockcode(m.group(1));
-					notice.setStockname(m.group(2));
+					notice.setTitle(m.group(3).trim());
+					notice.setStockcode(m.group(1).trim());
+					notice.setStockname(m.group(2).trim());
 					notice.setDate(date);
 					TrieNode titlenode = trie.searchNode(notice.getTitle());
 					TrieNode contentnode = trie.searchNode(notice.getContent());
-					if (titlenode != null) {
-						notice.setType(titlenode.getType());
+					if (titlenode != null || contentnode != null) {
+						if (titlenode != null) {
+							notice.setType(titlenode.getType());
+						} else if (contentnode != null) {
+							notice.setType(contentnode.getType());
+						}
 						String pageurl = PREFIX + DateTools.getYear(date) + "/" + DateTools.getMonth(date) + "/"
 								+ notice.getId() + ".html";
 						notice.setUrl(pageurl);
@@ -189,24 +193,10 @@ public class CrawlNotice {
 						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
 								+ DateTools.transformYYYYMMDDDate(date));
 						if (urlDB.contains(md5)) {
+							System.out.println("Duplicate £¡£¡£¡notice ID:" + notice.getId() + "  md5:" + md5);
 							continue;
 						} else {
-							noticeDao.insert(notice);
-						}
-					} else if (contentnode != null) {
-						notice.setType(contentnode.getType());
-						String pageurl = PREFIX + DateTools.getYear(date) + "/" + DateTools.getMonth(date) + "/"
-								+ notice.getId() + ".html";
-						notice.setUrl(pageurl);
-						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
-								+ DateTools.transformYYYYMMDDDate(date));
-						if (urlDB.contains(md5)) {
-							continue;
-						} else {
-							System.out.println("stockcode:" + m.group(1));
-							System.out.println("stockname:" + m.group(2));
-							System.out.println("title:" + m.group(3));
-							System.out.println("content:" + m.group(4).trim());
+							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 							noticeDao.insert(notice);
 						}
 					}
@@ -291,17 +281,18 @@ public class CrawlNotice {
 					String pageurl = PREFIX + DateTools.getYear(notice.getDate()) + "/"
 							+ DateTools.getMonth(notice.getDate()) + "/" + notice.getId() + ".html";
 					notice.setUrl(pageurl);
-					String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
-							+ DateTools.transformYYYYMMDDDate(notice.getDate()));
+					String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode() + currentdate);
 					if (urlDB.contains(md5)) {
+						System.out.println("Duplicate £¡£¡£¡notice ID:" + notice.getId() + "  md5:" + md5);
 						continue;
 					} else {
-						System.out.println("url:" + url);
-						System.out.println("stockcode:" + m.group(3));
-						System.out.println("stockname:" + m.group(2));
-						System.out.println("title:" + m.group(4));
-						System.out.println("time:" + m.group(5).trim());
-						System.out.println("desc:" + desc);
+						//						System.out.println("url:" + url);
+						//						System.out.println("stockcode:" + m.group(3));
+						//						System.out.println("stockname:" + m.group(2));
+						//						System.out.println("title:" + m.group(4));
+						//						System.out.println("time:" + m.group(5).trim());
+						//						System.out.println("desc:" + desc);
+						System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 						noticeDao.insert(notice);
 					}
 				}
@@ -348,12 +339,12 @@ public class CrawlNotice {
 						notice.setStockname(m.group(2).trim());
 						notice.setType(titlenode.getType());
 						String desc = parseContent(url);
-						System.out.println("url:" + url);
-						System.out.println("stockcode:" + m.group(3));
-						System.out.println("stockname:" + m.group(2));
-						System.out.println("title:" + m.group(4));
-						System.out.println("time:" + m.group(5).trim());
-						System.out.println("desc:" + desc);
+						//						System.out.println("url:" + url);
+						//						System.out.println("stockcode:" + m.group(3));
+						//						System.out.println("stockname:" + m.group(2));
+						//						System.out.println("title:" + m.group(4));
+						//						System.out.println("time:" + m.group(5).trim());
+						//						System.out.println("desc:" + desc);
 						notice.setContent(desc);
 						try {
 							notice.setDate(DateTools.parseYYYYMMDDDate(m.group(5).trim()));
@@ -363,11 +354,12 @@ public class CrawlNotice {
 						String pageurl = PREFIX + DateTools.getYear(notice.getDate()) + "/"
 								+ DateTools.getMonth(notice.getDate()) + "/" + notice.getId() + ".html";
 						notice.setUrl(pageurl);
-						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
-								+ DateTools.transformYYYYMMDDDate(notice.getDate()));
+						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode() + currentdate);
 						if (urlDB.contains(md5)) {
+							System.out.println("Duplicate £¡£¡£¡notice ID:" + notice.getId() + "  md5:" + md5);
 							continue;
 						} else {
+							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 							noticeDao.insert(notice);
 						}
 					}
