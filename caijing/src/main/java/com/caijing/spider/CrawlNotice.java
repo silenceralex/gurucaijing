@@ -172,10 +172,7 @@ public class CrawlNotice {
 					//					System.out.println(m.groupCount());
 					Notice notice = new Notice();
 					notice.setId(ServerUtil.getid());
-					System.out.println("stockcode:" + m.group(1));
-					System.out.println("stockname:" + m.group(2));
-					System.out.println("title:" + m.group(3));
-					System.out.println("content:" + m.group(4).trim());
+
 					notice.setContent(m.group(4).trim());
 					notice.setTitle(m.group(3));
 					notice.setStockcode(m.group(1));
@@ -188,7 +185,9 @@ public class CrawlNotice {
 						String pageurl = PREFIX + DateTools.getYear(date) + "/" + DateTools.getMonth(date) + "/"
 								+ notice.getId() + ".html";
 						notice.setUrl(pageurl);
-						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode() + date);
+
+						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
+								+ DateTools.transformYYYYMMDDDate(date));
 						if (urlDB.contains(md5)) {
 							continue;
 						} else {
@@ -199,10 +198,15 @@ public class CrawlNotice {
 						String pageurl = PREFIX + DateTools.getYear(date) + "/" + DateTools.getMonth(date) + "/"
 								+ notice.getId() + ".html";
 						notice.setUrl(pageurl);
-						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode() + date);
+						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
+								+ DateTools.transformYYYYMMDDDate(date));
 						if (urlDB.contains(md5)) {
 							continue;
 						} else {
+							System.out.println("stockcode:" + m.group(1));
+							System.out.println("stockname:" + m.group(2));
+							System.out.println("title:" + m.group(3));
+							System.out.println("content:" + m.group(4).trim());
 							noticeDao.insert(notice);
 						}
 					}
@@ -283,20 +287,21 @@ public class CrawlNotice {
 						e.printStackTrace();
 					}
 					String desc = parseContent(url);
-					System.out.println("url:" + url);
-					System.out.println("stockcode:" + m.group(3));
-					System.out.println("stockname:" + m.group(2));
-					System.out.println("title:" + m.group(4));
-					System.out.println("time:" + m.group(5).trim());
-					System.out.println("desc:" + desc);
 					notice.setContent(desc);
 					String pageurl = PREFIX + DateTools.getYear(notice.getDate()) + "/"
 							+ DateTools.getMonth(notice.getDate()) + "/" + notice.getId() + ".html";
 					notice.setUrl(pageurl);
-					String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode() + notice.getDate());
+					String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
+							+ DateTools.transformYYYYMMDDDate(notice.getDate()));
 					if (urlDB.contains(md5)) {
 						continue;
 					} else {
+						System.out.println("url:" + url);
+						System.out.println("stockcode:" + m.group(3));
+						System.out.println("stockname:" + m.group(2));
+						System.out.println("title:" + m.group(4));
+						System.out.println("time:" + m.group(5).trim());
+						System.out.println("desc:" + desc);
 						noticeDao.insert(notice);
 					}
 				}
@@ -358,7 +363,8 @@ public class CrawlNotice {
 						String pageurl = PREFIX + DateTools.getYear(notice.getDate()) + "/"
 								+ DateTools.getMonth(notice.getDate()) + "/" + notice.getId() + ".html";
 						notice.setUrl(pageurl);
-						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode() + notice.getDate());
+						String md5 = MD5Utils.hash(notice.getTitle() + notice.getStockcode()
+								+ DateTools.transformYYYYMMDDDate(notice.getDate()));
 						if (urlDB.contains(md5)) {
 							continue;
 						} else {
