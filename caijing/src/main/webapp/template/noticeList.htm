@@ -107,17 +107,7 @@
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-                    <h2><a href="#">投资大师首页</a> &gt; 研报大本营</h2> 
-                </div>
-                <div class="report_search">
-                    <label>研报搜索</label>
-                    <select>
-                        <option>按分析师</option>
-                        <option>按股票代码</option>
-                        <option>按股票名称</option>
-                    </select>
-                    <input type="text" />
-                    <input type="button" value="搜索" class="report_searchBtn" />
+                    <h2><a href="#">投资大师首页</a> &gt; 公告掘金列表</h2> 
                 </div>
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
             	<div class="star_detail_research" style="display:block">
@@ -126,7 +116,17 @@
 					#if ($count%5==0)
 					<ul>
 					#end
-						<li><span>($dateTools.transformDate($one.date))</span><a href="$one.getUrl()">$one.getTitle()</a></li>	
+						<li><span>($dateTools.transformDate($one.date))</span><a href="$one.getUrl()">${one.stockname}(${one.stockcode})：$one.getTitle()</a>&nbsp;&nbsp;&nbsp;
+			        #if($one.type == 0 )
+			           	股权激励
+			        #elseif($one.type == 1)	
+			        	资产重组
+			        #elseif($one.type == 2)	
+			         	股东增持
+			      	#elseif($one.type == 3)	
+			        	股东减持
+			        #end
+			        </li>
 					#set ($count = $count + 1)
             		#if ($count%5==0)
 					</ul>

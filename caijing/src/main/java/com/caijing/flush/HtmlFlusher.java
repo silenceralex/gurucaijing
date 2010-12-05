@@ -1,5 +1,6 @@
 package com.caijing.flush;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -241,6 +242,9 @@ public class HtmlFlusher {
 			int start = (current - 1) * size;
 			try {
 				List<Notice> noticeList = noticeDao.getNotices(start, size);
+				for (Notice notice : noticeList) {
+					flushOneNotice(notice);
+				}
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/noticeList.htm");
 				vmf.put("dateTools", dateTools);
@@ -254,6 +258,28 @@ public class HtmlFlusher {
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
 				e.printStackTrace();
 			}
+		}
+	}
+
+	private void flushOneNotice(Notice notice) {
+		DateTools dateTools = new DateTools();
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/noticeContent.htm");
+			vmf.put("dateTools", dateTools);
+			vmf.put("notice", notice);
+			String filepath = notice.getUrl().replaceAll("http://51gurus.com", "/home/html");
+			String dirpath = filepath.substring(0, filepath.lastIndexOf('/'));
+			File file = new File(dirpath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			vmf.save(filepath);
+			System.out.println("write page : " + filepath);
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

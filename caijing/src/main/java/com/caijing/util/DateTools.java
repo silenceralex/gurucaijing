@@ -96,7 +96,7 @@ public class DateTools {
 	}
 
 	public static String getYear(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		return sdf.format(date);
 	}
 
@@ -129,6 +129,7 @@ public class DateTools {
 		DateTools tools = new DateTools();
 		System.out.println(tools.transformYYYYMMDDDate("20100830"));
 		System.out.println(DateTools.getToday());
+		System.out.println(DateTools.getYear(new Date()));
 		//tools.getAfterDay("20100830");
 	}
 }

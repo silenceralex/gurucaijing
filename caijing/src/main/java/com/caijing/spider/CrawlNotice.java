@@ -100,6 +100,7 @@ public class CrawlNotice {
 		trie.add("并购", 1);
 		trie.add("股权激励", 0);
 		trie.add("期权激励", 0);
+		trie.add("激励计划", 0);
 		urlsToSearch.add("http://stockdata.stock.hexun.com/2008/jrgg.aspx?type=3");
 		urlsToSearch.add("http://stockdata.stock.hexun.com/2008/jrgg.aspx?type=2");
 		urlDB.setup("/home/app/urldb/notice", false);
