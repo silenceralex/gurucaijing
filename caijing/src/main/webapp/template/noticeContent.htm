@@ -95,7 +95,7 @@
                 </div>
             <h2 class="sec_conTitle">${notice.title}</h2>
             <div class="sec_dtlSet">
-            	<span>公告公司：${notice.stockname}(${notice.stockcode})</span>　${notice.date}
+            	<span>公告公司：${notice.stockname}(${notice.stockcode})</span>　${dateTools.transformDate(${notice.date})
             	<em class="redFont">
             		#if($notice.type == 0 )
 			           	股权激励
@@ -116,7 +116,6 @@
             <div class="sec_conRelat">
                 <span class="clear"></span>
             </div>
-			<div class="sec_commments"><cms:comment count="5">{ZCMS:评论区域}</cms:comment></div>
         </div>
       <div class="clear"></div>
         <div class="footer">
