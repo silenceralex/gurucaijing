@@ -191,6 +191,7 @@
 				<ref bean="cronSpide" />
 				<ref bean="extractTrigger" />
 				<ref bean="cronStore" />
+				<ref bean="cronFlush" />
 			</list>
 		</property>
 	</bean>
