@@ -8,7 +8,7 @@
 	<list property="channel/item"></list>
 	<src property="channel/generator"></src>
 	<page>
-		<innermatch property="author" mapping="dc:creator"></innermatch>
+		<innermatch property="author" mapping="author"></innermatch>
 		<innermatch property="title" mapping="title"></innermatch>
 		<innermatch property="ptime" mapping="pubDate"
 			dateformat="EEE, d MMM yyyy HH:mm:ss Z" locale="US">
