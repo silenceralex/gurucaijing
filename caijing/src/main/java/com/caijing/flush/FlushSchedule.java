@@ -25,8 +25,12 @@ public class FlushSchedule {
 		CrawlNotice notice = new CrawlNotice();
 		notice.init();
 		notice.setNoticeDao(noticeDao);
+		logger.debug("crawl hexun notice!");
 		notice.runHexun();
+
+		logger.debug("crawl EastMoney notice!");
 		notice.runEastMoney();
+
 	}
 
 	public NoticeDao getNoticeDao() {

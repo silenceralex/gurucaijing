@@ -96,10 +96,11 @@ public class RssJob {
 						} else {
 							System.out.println("publish article:" + article.getTitle() + " failed!");
 						}
+						System.out.println("author: " + article.getAuthor());
+						System.out.println("title: " + article.getTitle());
+						System.out.println("pubDate: " + article.getPtime());
 					}
-					System.out.println("author: " + article.getAuthor());
-					System.out.println("title: " + article.getTitle());
-					System.out.println("pubDate: " + article.getPtime());
+
 					//					System.out.println("abs: " + article.getAbs());
 					//					System.out.println("link: " + article.getLink());
 					//					System.out.println("content: " + article.getContent());
@@ -117,16 +118,16 @@ public class RssJob {
 
 	public static void main(String[] args) {
 
-		if (args.length == 0) {
-			printUsage();
-			return;
-		}
+		//		if (args.length == 0) {
+		//			printUsage();
+		//			return;
+		//		}
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-			//			xml = sr.read(new File("jobs\\163_huigensi.xml"));
-			System.out.println("Input xml : " + args[0]);
-			xml = sr.read(new File(args[0]));
+			xml = sr.read(new File("jobs\\163_huigensi.xml"));
+			//			System.out.println("Input xml : " + args[0]);
+			//			xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
