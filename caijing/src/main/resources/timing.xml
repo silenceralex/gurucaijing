@@ -176,7 +176,7 @@
 	<bean id="cronFlush"
 		class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
-			<ref bean="scheduledlocalStorage" />
+			<ref bean="scheduledFlush" />
 		</property>
 		<property name="cronExpression">
 			<value>0 30 8,9,15,16 ? * MON-FRI</value><!-- 每天进行4次公告抓取并发布公告页 -->
