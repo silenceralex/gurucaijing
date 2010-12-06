@@ -113,6 +113,12 @@
 			<value>/home/app/caijing/jobs/wsj.xml</value>
 		</property>
 	</bean>
+	
+	<bean id="flushSchedule" class="com.caijing.flush.FlushSchedule">
+		<property name="noticeDao">
+			<ref bean="noticeDao" />
+		</property>
+	</bean>
 
 	<bean id="scheduledSpide"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -156,7 +162,26 @@
 		</property>
 	</bean>
 
-
+	<bean id="scheduledFlush"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="flushSchedule" />
+		</property>
+		<property name="targetMethod">
+			<value>run</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="cronFlush"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledlocalStorage" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 8,9,15,16 ? * MON-FRI</value><!-- 每天进行4次公告抓取并发布公告页 -->
+		</property>
+	</bean>
 
 	<bean autowire="no"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

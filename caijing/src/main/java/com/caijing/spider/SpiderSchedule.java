@@ -10,6 +10,7 @@ import org.dom4j.io.SAXReader;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.NoticeDao;
+import com.caijing.flush.HtmlFlusher;
 
 public class SpiderSchedule {
 	private String paramXml = null;
@@ -20,6 +21,7 @@ public class SpiderSchedule {
 	private String wsjhongguanXml = null;
 	private String caogenXml = null;
 	private static Log logger = LogFactory.getLog(SpiderSchedule.class);
+	private HtmlFlusher htmlFlush = new HtmlFlusher();
 
 	public void run() {
 		try {
@@ -28,20 +30,21 @@ public class SpiderSchedule {
 			crawlHtml(astockXml);
 			crawlHtml(wsjdashiXml);
 			crawlHtml(wsjhongguanXml);
-			crawlNotice();
+			htmlFlush.flushIndex();
+			//			crawlNotice();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		//华尔街大师研判
 	}
 
-	private void crawlNotice() {
-		CrawlNotice notice = new CrawlNotice();
-		notice.init();
-		notice.setNoticeDao(noticeDao);
-		notice.runHexun();
-		notice.runEastMoney();
-	}
+	//	private void crawlNotice() {
+	//		CrawlNotice notice = new CrawlNotice();
+	//		notice.init();
+	//		notice.setNoticeDao(noticeDao);
+	//		notice.runHexun();
+	//		notice.runEastMoney();
+	//	}
 
 	private void crawlRss(String rss) {
 		SAXReader sr = new SAXReader();

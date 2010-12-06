@@ -22,6 +22,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.caijing.dao.NoticeDao;
 import com.caijing.domain.Notice;
+import com.caijing.flush.HtmlFlusher;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
@@ -57,6 +58,8 @@ public class CrawlNotice {
 
 	// URLs to be searched
 	private Vector<String> urlsToSearch = new Vector<String>();
+
+	private HtmlFlusher htmlFlush = new HtmlFlusher();
 
 	public Vector<String> getUrlsToSearch() {
 		return urlsToSearch;
@@ -197,8 +200,11 @@ public class CrawlNotice {
 							continue;
 						} else {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
-							noticeDao.insert(notice);
+							Object obj = noticeDao.insert(notice);
 							urlDB.putUrl(md5);
+							if (obj != null) {
+								htmlFlush.flushOneNotice(notice);
+							}
 						}
 					}
 				}
@@ -294,8 +300,11 @@ public class CrawlNotice {
 						//						System.out.println("time:" + m.group(5).trim());
 						//						System.out.println("desc:" + desc);
 						System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
-						noticeDao.insert(notice);
+						Object obj = noticeDao.insert(notice);
 						urlDB.putUrl(md5);
+						if (obj != null) {
+							htmlFlush.flushOneNotice(notice);
+						}
 					}
 				}
 			}
@@ -362,8 +371,11 @@ public class CrawlNotice {
 							continue;
 						} else {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
-							noticeDao.insert(notice);
+							Object obj = noticeDao.insert(notice);
 							urlDB.putUrl(md5);
+							if (obj != null) {
+								htmlFlush.flushOneNotice(notice);
+							}
 
 						}
 					}

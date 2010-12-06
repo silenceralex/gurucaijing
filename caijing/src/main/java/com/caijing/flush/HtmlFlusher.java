@@ -242,9 +242,9 @@ public class HtmlFlusher {
 			int start = (current - 1) * size;
 			try {
 				List<Notice> noticeList = noticeDao.getNotices(start, size);
-				for (Notice notice : noticeList) {
-					flushOneNotice(notice);
-				}
+				//				for (Notice notice : noticeList) {
+				//					flushOneNotice(notice);
+				//				}
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/noticeList.htm");
 				vmf.put("dateTools", dateTools);
@@ -261,7 +261,7 @@ public class HtmlFlusher {
 		}
 	}
 
-	private void flushOneNotice(Notice notice) {
+	public void flushOneNotice(Notice notice) {
 		DateTools dateTools = new DateTools();
 		try {
 			VMFactory vmf = new VMFactory();
@@ -388,7 +388,7 @@ public class HtmlFlusher {
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("analyzerList", analyzerList);
 
-			vmf.save("/home/html/home.html");
+			vmf.save("/home/html/index.html");
 			System.out.println("write page : " + "/home/html/index.html");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
