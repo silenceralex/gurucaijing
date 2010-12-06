@@ -200,11 +200,15 @@ public class CrawlNotice {
 							continue;
 						} else {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
-							Object obj = noticeDao.insert(notice);
-							urlDB.putUrl(md5);
-							if (obj != null) {
-								htmlFlush.flushOneNotice(notice);
+							try {
+								Object obj = noticeDao.insert(notice);
+								if (obj != null) {
+									htmlFlush.flushOneNotice(notice);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
+							urlDB.putUrl(md5);
 						}
 					}
 				}
@@ -300,11 +304,15 @@ public class CrawlNotice {
 						//						System.out.println("time:" + m.group(5).trim());
 						//						System.out.println("desc:" + desc);
 						System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
-						Object obj = noticeDao.insert(notice);
-						urlDB.putUrl(md5);
-						if (obj != null) {
-							htmlFlush.flushOneNotice(notice);
+						try {
+							Object obj = noticeDao.insert(notice);
+							if (obj != null) {
+								htmlFlush.flushOneNotice(notice);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+						urlDB.putUrl(md5);
 					}
 				}
 			}
@@ -371,12 +379,15 @@ public class CrawlNotice {
 							continue;
 						} else {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
-							Object obj = noticeDao.insert(notice);
-							urlDB.putUrl(md5);
-							if (obj != null) {
-								htmlFlush.flushOneNotice(notice);
+							try {
+								Object obj = noticeDao.insert(notice);
+								if (obj != null) {
+									htmlFlush.flushOneNotice(notice);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-
+							urlDB.putUrl(md5);
 						}
 					}
 				}
