@@ -50,7 +50,8 @@ public class LocalStorage {
 		flusher.flushStarGuruDetail();
 		flusher.flushAnalyzerRank();
 		flusher.flushReportLab();
-		flusher.flushStarOnSale();
+		flusher.flushStarOnSale(true);
+		flusher.flushStarOnSale(false);
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {
@@ -58,8 +59,8 @@ public class LocalStorage {
 			List<GroupStock> stocks = groupGain.getGroupStockDao().getCurrentStockByGroupid(analyzer.getAid());
 			float ratios = 0;
 			for (GroupStock stock : stocks) {
-				StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(), DateTools
-						.transformYYYYMMDDDate(new Date()));
+				StockEarn se = stockEarnDao.getStockEarnByCodeDate(stock.getStockcode(),
+						DateTools.transformYYYYMMDDDate(new Date()));
 				if (se != null) {
 					ratios += se.getRatio();
 				}
@@ -89,8 +90,8 @@ public class LocalStorage {
 	public void storeGroupStockGain() {
 		List<GroupStock> stocks = groupStockDao.getAllGroupStock();
 		for (GroupStock stock : stocks) {
-			List<StockEarn> stockEarns = stockEarnDao.getRatiosByCodeFromDate(stock.getStockcode(), DateTools
-					.transformYYYYMMDDDate(stock.getIntime()));
+			List<StockEarn> stockEarns = stockEarnDao.getRatiosByCodeFromDate(stock.getStockcode(),
+					DateTools.transformYYYYMMDDDate(stock.getIntime()));
 			float gain = 1;
 			for (int i = 0; i < stockEarns.size(); i++) {
 				gain = (1 + stockEarns.get(i).getRatio() / 100) * gain;

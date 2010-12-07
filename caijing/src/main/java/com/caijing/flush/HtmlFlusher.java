@@ -284,14 +284,19 @@ public class HtmlFlusher {
 		}
 	}
 
-	public void flushStarOnSale() {
+	public void flushStarOnSale(boolean isAsc) {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-		List<GroupStock> groupStockList = groupStockDao.getGroupStockListAsc(10);
+		List<GroupStock> groupStockList = null;
+		if (isAsc) {
+			groupStockList = groupStockDao.getGroupStockListAsc(10);
+		} else {
+			groupStockList = groupStockDao.getGroupStockListDesc(10);
+		}
 		Map<String, String> filePathMap = new HashMap<String, String>();
 		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
 		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
@@ -337,8 +342,13 @@ public class HtmlFlusher {
 		vmf.put("groupEarnMap", groupEarnMap);
 		vmf.put("startPriceMap", startPriceMap);
 		vmf.put("stockEarnMap", stockEarnMap);
-		vmf.save(ADMINDIR + "starDiscount.html");
-		System.out.println("write page : " + ADMINDIR + "starDiscount.html");
+		if (isAsc) {
+			vmf.save(ADMINDIR + "starDiscount.html");
+			System.out.println("write page : " + ADMINDIR + "starDiscount.html");
+		} else {
+			vmf.save(ADMINDIR + "stockRank.html");
+			System.out.println("write page : " + ADMINDIR + "starEarn.html");
+		}
 
 	}
 
@@ -425,5 +435,6 @@ public class HtmlFlusher {
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		flusher.flushNotice();
+		flusher.flushStarOnSale(false);
 	}
 }
