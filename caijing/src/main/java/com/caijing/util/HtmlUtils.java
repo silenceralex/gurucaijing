@@ -63,7 +63,6 @@ public class HtmlUtils {
 		for (char c : chars) {
 			int len = String.valueOf(c).getBytes().length;
 			count += len;
-			System.out.println("char: " + c + "  len:" + len);
 			if (count > threshold) {
 				out = true;
 				break;
