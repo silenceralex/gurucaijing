@@ -471,5 +471,6 @@ public class HtmlFlusher {
 		flusher.flushIndex();
 		flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true);
+		flusher.flushStockResearch();
 	}
 }
