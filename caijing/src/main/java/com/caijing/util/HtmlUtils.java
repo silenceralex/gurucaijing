@@ -53,7 +53,7 @@ public class HtmlUtils {
 	public String getSubStr(String str, int length, String more) {
 		if (str.length() <= length)
 			return str;
-		int threshold = length * 2 - more.getBytes().length;
+		int threshold = length * 3 - more.getBytes().length;
 		int count = 0;
 		int pos = 0;
 		boolean out = false;
