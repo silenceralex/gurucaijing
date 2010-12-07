@@ -88,7 +88,11 @@
 		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain desc limit #length#
 	</select>
 	
-	<select id="getRecommendReportids" resultClass="java.lang.String">
-		select inreportid from groupstock order by intime desc limit #length#
+	<select id="getRecommendReportids" resultClass="java.lang.String"  parameterClass="java.util.Map">
+		select inreportid from groupstock order by intime desc limit #start#,#length#
+	</select>
+	
+	<select id="getRecommendReportids" resultClass="java.lang.Integer">
+		select count(1) from groupstock
 	</select>
 </sqlMap>

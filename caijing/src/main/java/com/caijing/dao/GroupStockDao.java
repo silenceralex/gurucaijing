@@ -23,5 +23,7 @@ public interface GroupStockDao extends CrudDao {
 
 	List<GroupStock> getGroupStockListDesc(int length);
 
-	List<String> getRecommendReportids(int length);
+	List<String> getRecommendReportids(int start, int length);
+
+	int getRecommendReportCount();
 }

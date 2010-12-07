@@ -72,10 +72,10 @@ public class HtmlUtils {
 			}
 			pos++;
 		}
-		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
-				+ "  threshold:" + threshold);
-		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
-		System.out.println("return string length:" + retStr.getBytes().length);
+		//		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
+		//				+ "  threshold:" + threshold);
+		//		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
+		//		System.out.println("return string length:" + retStr.getBytes().length);
 		return str.substring(0, out ? pos : (pos + 1)) + more;
 	}
 

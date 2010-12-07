@@ -231,6 +231,37 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushStockResearch() {
+		DateTools dateTools = new DateTools();
+		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+		int type = 1;
+		int size = 20;
+		int total = groupStockDao.getRecommendReportCount();
+		int page = total % size == 0 ? total / size : total / size + 1;
+		int current = 1;
+		for (; current <= page; current++) {
+			int start = (current - 1) * size;
+			try {
+				//				List<Report> reportList = reportDao.getReportsListByType(type, start, size);
+				List<String> reportids = groupStockDao.getRecommendReportids(start, size);
+				List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/stockresearch.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("current", current);
+				vmf.put("page", page);
+				vmf.put("recommendstocks", recommendstocks);
+				vmf.save("/home/html/stockresearch/stockResearch_" + current + ".html");
+				System.out.println("write page : " + "/home/html/stockresearch/stockResearch_" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void flushNotice() {
 		DateTools dateTools = new DateTools();
 		NoticeDao noticeDao = (NoticeDao) ContextFactory.getBean("noticeDao");
@@ -376,7 +407,7 @@ public class HtmlFlusher {
 			hgdt = alertUrl(hgdt);
 			cjzl = alertUrl(cjzl);
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
-			List<String> reportids = groupStockDao.getRecommendReportids(3);
+			List<String> reportids = groupStockDao.getRecommendReportids(0, 3);
 			List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
 			for (RecommendStock stock : recommendstocks) {
 				System.out.println("url: " + "http://51gurus.com" + stock.getFilepath());
