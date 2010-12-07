@@ -92,7 +92,7 @@
 		select inreportid from groupstock order by intime desc limit #start#,#length#
 	</select>
 	
-	<select id="getRecommendReportids" resultClass="java.lang.Integer">
+	<select id="getRecommendReportCount" resultClass="java.lang.Integer">
 		select count(1) from groupstock
 	</select>
 </sqlMap>
