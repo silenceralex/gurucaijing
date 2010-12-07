@@ -297,6 +297,8 @@ public class HtmlFlusher {
 		} else {
 			groupStockList = groupStockDao.getGroupStockListDesc(10);
 		}
+
+		System.out.println("groupStockList.size() : " + groupStockList.size());
 		Map<String, String> filePathMap = new HashMap<String, String>();
 		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
 		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
@@ -434,7 +436,9 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
-		flusher.flushNotice();
+		//		flusher.flushNotice();
+		flusher.flushIndex();
 		flusher.flushStarOnSale(false);
+		flusher.flushStarOnSale(true);
 	}
 }
