@@ -202,6 +202,7 @@ public class CrawlNotice {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 							try {
 								Object obj = noticeDao.insert(notice);
+								System.out.println("notice insert return:" + notice.getId() + "  obj");
 								if (obj != null) {
 									htmlFlush.flushOneNotice(notice);
 								}
@@ -306,6 +307,7 @@ public class CrawlNotice {
 						System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 						try {
 							Object obj = noticeDao.insert(notice);
+							System.out.println("notice insert return:" + notice.getId() + "  obj");
 							if (obj != null) {
 								htmlFlush.flushOneNotice(notice);
 							}
@@ -381,6 +383,7 @@ public class CrawlNotice {
 							System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 							try {
 								Object obj = noticeDao.insert(notice);
+								System.out.println("notice insert return:" + notice.getId() + "  obj");
 								if (obj != null) {
 									htmlFlush.flushOneNotice(notice);
 								}

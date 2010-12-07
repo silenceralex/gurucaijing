@@ -242,9 +242,9 @@ public class HtmlFlusher {
 			int start = (current - 1) * size;
 			try {
 				List<Notice> noticeList = noticeDao.getNotices(start, size);
-				for (Notice notice : noticeList) {
-					flushOneNotice(notice);
-				}
+				//				for (Notice notice : noticeList) {
+				//					flushOneNotice(notice);
+				//				}
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/noticeList.htm");
 				vmf.put("dateTools", dateTools);
@@ -262,8 +262,8 @@ public class HtmlFlusher {
 	}
 
 	public void flushOneNotice(Notice notice) {
-		DateTools dateTools = new DateTools();
 		System.out.println("flushOneNotice : " + notice.getTitle() + "  " + notice.getStockname());
+		DateTools dateTools = new DateTools();
 		try {
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/noticeContent.htm");
