@@ -348,7 +348,7 @@ public class HtmlFlusher {
 			vmf.save(ADMINDIR + "starDiscount.html");
 			System.out.println("write page : " + ADMINDIR + "starDiscount.html");
 		} else {
-			vmf.save(ADMINDIR + "stockRank.html");
+			vmf.save(ADMINDIR + "starEarn.html");
 			System.out.println("write page : " + ADMINDIR + "starEarn.html");
 		}
 

@@ -71,10 +71,10 @@ public class HtmlUtils {
 			}
 			pos++;
 		}
-		//		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
-		//				+ "  threshold:" + threshold);
-		//		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
-		//		System.out.println("return string length:" + retStr.getBytes().length);
+		System.out.println("total lenth:" + count + "  pos:" + pos + "  out:" + (out ? "true" : "false")
+				+ "  threshold:" + threshold);
+		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
+		System.out.println("return string length:" + retStr.getBytes().length);
 		return str.substring(0, out ? pos : (pos + 1)) + more;
 	}
 
@@ -93,9 +93,9 @@ public class HtmlUtils {
 		// e.printStackTrace();
 		// }
 		// System.out.println("match is NULL!");
-		String test = "11月份的中国P“数据并未减轻市场对通胀的顾虑，还需要CPI和PPI数据的支持。在此之前，市场难以打消对紧缩政策的担忧，这也会造成市场持续的弱势表现和惨淡成交。 ";
+		String test = "郎咸平：谁掌控了全球大宗商品定价权 ";
 		HtmlUtils htmlUtils = new HtmlUtils();
-		String out = htmlUtils.getSubStr(test, 40, "...");
+		String out = htmlUtils.getSubStr(test, 15, "...");
 		System.out.println("out:" + out);
 
 		//		char c = '。';
