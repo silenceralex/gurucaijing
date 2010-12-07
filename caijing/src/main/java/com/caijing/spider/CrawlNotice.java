@@ -18,12 +18,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 
 import com.caijing.dao.NoticeDao;
 import com.caijing.domain.Notice;
 import com.caijing.flush.HtmlFlusher;
-import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
 import com.caijing.util.ServerUtil;
@@ -289,6 +287,7 @@ public class CrawlNotice {
 						e.printStackTrace();
 					}
 					String desc = parseContent(url);
+					System.out.println("Time used on page #" + url.toString());
 					notice.setContent(desc);
 					String pageurl = PREFIX + DateTools.getYear(notice.getDate()) + "/"
 							+ DateTools.getMonth(notice.getDate()) + "/" + notice.getId() + ".html";
@@ -422,11 +421,11 @@ public class CrawlNotice {
 
 	public static void main(String[] args) {
 		CrawlNotice notice = new CrawlNotice();
-		ApplicationContext context = ContextFactory.getApplicationContext();
-		NoticeDao noticeDao = (NoticeDao) context.getBean("noticeDao");
-		notice.setNoticeDao(noticeDao);
+		//		ApplicationContext context = ContextFactory.getApplicationContext();
+		//		NoticeDao noticeDao = (NoticeDao) context.getBean("noticeDao");
+		//		notice.setNoticeDao(noticeDao);
 		notice.init();
-		notice.runHexun();
+		//		notice.runHexun();
 		notice.runEastMoney();
 
 	}
