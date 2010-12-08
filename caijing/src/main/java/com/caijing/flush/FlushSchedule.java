@@ -16,6 +16,14 @@ public class FlushSchedule {
 	@Qualifier("htmlFlush")
 	private HtmlFlusher htmlFlush = null;
 
+	public HtmlFlusher getHtmlFlush() {
+		return htmlFlush;
+	}
+
+	public void setHtmlFlush(HtmlFlusher htmlFlush) {
+		this.htmlFlush = htmlFlush;
+	}
+
 	public void run() {
 		try {
 			crawlNotice();
@@ -30,6 +38,7 @@ public class FlushSchedule {
 		CrawlNotice notice = new CrawlNotice();
 		notice.init();
 		notice.setNoticeDao(noticeDao);
+		notice.setHtmlFlush(htmlFlush);
 		logger.debug("crawl hexun notice!");
 		notice.runHexun();
 

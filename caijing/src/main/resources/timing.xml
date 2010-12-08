@@ -97,6 +97,9 @@
 		<property name="noticeDao">
 			<ref bean="noticeDao" />
 		</property>
+		<property name="htmlFlush">
+			<ref bean="htmlFlush" />
+		</property>
 		<property name="paramXml">
 			<value>/home/app/caijing/jobs/caijing.xml</value>
 		</property>
@@ -117,6 +120,9 @@
 	<bean id="flushSchedule" class="com.caijing.flush.FlushSchedule">
 		<property name="noticeDao">
 			<ref bean="noticeDao" />
+		</property>
+		<property name="htmlFlush">
+			<ref bean="htmlFlush" />
 		</property>
 	</bean>
 

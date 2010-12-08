@@ -59,6 +59,9 @@
 		<property name="groupStockDao">
 			<ref bean="groupStockDao" />
 		</property>
+		<property name="htmlFlush">
+			<ref bean="htmlFlush" />
+		</property>
 	</bean>
 	
 	<import resource="timing.xml" />

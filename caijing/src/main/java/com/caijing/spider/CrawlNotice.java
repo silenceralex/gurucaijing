@@ -61,6 +61,14 @@ public class CrawlNotice {
 	@Qualifier("htmlFlush")
 	private HtmlFlusher htmlFlush = null;
 
+	public HtmlFlusher getHtmlFlush() {
+		return htmlFlush;
+	}
+
+	public void setHtmlFlush(HtmlFlusher htmlFlush) {
+		this.htmlFlush = htmlFlush;
+	}
+
 	public Vector<String> getUrlsToSearch() {
 		return urlsToSearch;
 	}

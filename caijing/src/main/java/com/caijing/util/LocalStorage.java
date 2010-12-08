@@ -34,6 +34,14 @@ public class LocalStorage {
 	@Qualifier("htmlFlush")
 	private HtmlFlusher htmlFlush = null;
 
+	public HtmlFlusher getHtmlFlush() {
+		return htmlFlush;
+	}
+
+	public void setHtmlFlush(HtmlFlusher htmlFlush) {
+		this.htmlFlush = htmlFlush;
+	}
+
 	public void localStore() {
 		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
 		for (int i = 0; i < lists.size(); i++) {
