@@ -449,9 +449,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
 		Report report = new Report();
-		//		report.setSaname("广发证券");
-		//		RecommendStock rs = extractor.extractFromFile(report,
-		//		"http://guru.caijing.com/papers/20100902/6ER8MVG9.txt");
+		report.setSaname("广发证券");
+		RecommendStock rs = extractor.extractFromFile(report, "http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
 		//		"http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
 
 		//		report.setSaname("招商证券");
@@ -467,10 +466,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//		
 		//		"http://guru.caijing.com/papers/20100824/6DV81AFH.txt");
 
-		//report.setSaname("海通证券");
-		//RecommendStock rs = extractor.extractFromFile(report,
+		//		report.setSaname("海通证券");
+		//		RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100803/6CLPPQ0P.txt");
-		//		"http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
+		//				"http://guru.caijing.com/papers/20100806/6CR50GB0.txt");
 		//				"http://guru.caijing.com/papers/20100728/6CLQESHQ.txt");
 		//				"http://guru.caijing.com/papers/20100830/6EHD98EV.txt");
 
@@ -482,8 +481,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//				// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
 		//				"http://guru.caijing.com/papers/20100824/6DV7VFM6.txt");
 
-				report.setSaname("中金公司");
-				RecommendStock rs = extractor.extractFromFile(report,
+		//		report.setSaname("中金公司");
+		//		RecommendStock rs = extractor.extractFromFile(report,
 		// "http://guru.caijing.com/papers/20100823/6DSQ8GD4.txt");
 		// "http://guru.caijing.com/papers/20100823/6DSQ8I7I.txt");
 		// "http://guru.caijing.com/papers/20100824/6DV81EQ7.txt");
@@ -495,7 +494,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// "http://guru.caijing.com/papers/20100722/6CLQ0D0R.txt");
 		// "http://guru.caijing.com/papers/20100722/6CLPVL4E.txt");
 		// "http://guru.caijing.com/papers/20100721/6CLPTHLC.txt");
-		 "http://51gurus.com/papers/20100824/6DV7VTTM.txt");
+		// "http://guru.caijing.com/papers/20100824/6DV7VTTM.txt");
 		// "http://guru.caijing.com/papers/20100817/6DFEUUCV.txt");
 		// "http://guru.caijing.com/papers/20100817/6DFEUH0H.txt");
 
@@ -582,7 +581,6 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// if (m != null && m.find()) {
 		// System.out.println("code:" + m.group(1));
 		// }
-		System.out.println(rs.getGrade());
 	}
 
 	public Config getConfig() {

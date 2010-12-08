@@ -53,4 +53,7 @@ public interface RecommendStockDao extends CrudDao {
 
 	public List<RecommendStock> getRecommendStocksByReportids(List<String> ids);
 
+	public int getResearchRecommendStockCounts();
+
+	public List<RecommendStock> getResearchRecommendStocks(int start, int length);
 }

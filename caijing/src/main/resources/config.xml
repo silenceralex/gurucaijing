@@ -237,7 +237,7 @@
 							<value><![CDATA[目标价格\(元\)\s*([0-9\.-]+)]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[\n(?:Table_Summary)?\s*([\u4e00-\u9fa5]+)[^\n0-9a-zA-Z]+研究员]]></value>
+							<value><![CDATA[\s+([\u4e00-\u9fa5]+)\s+[研究员分析师]{3}]]></value>
 						</entry>
 						<entry key="eps">
 							<list>

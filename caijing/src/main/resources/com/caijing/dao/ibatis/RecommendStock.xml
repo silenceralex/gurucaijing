@@ -209,5 +209,13 @@
 		</iterate>
 		and r.rid=rs.reportid
 	</select>
-
+	
+	<select id="getResearchRecommendStocks" resultClass="RecommendStock"
+		parameterClass="java.util.Map">
+		select * from recommendstock where aname is not null and aname!='N/A' and grade is not null order by createdate desc limit #start#,#length#
+	</select>
+	
+	<select id="getResearchRecommendStockCounts" resultClass="java.lang.Integer">
+		select count(1) from recommendstock where aname is not null and aname!='N/A' and grade is not null
+	</select>
 </sqlMap>
