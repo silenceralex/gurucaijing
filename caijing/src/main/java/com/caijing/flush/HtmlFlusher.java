@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.GroupEarnDao;
@@ -25,24 +29,55 @@ import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
-import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.HtmlUtils;
 
+@Component("htmlFlusher")
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
 	public static String REPORTDIR = "/home/html/report/";
 	public static String NOTICEDIR = "/home/html/notice/";
+	@Autowired
+	@Qualifier("reportDao")
+	private ReportDao reportDao = null;
 
-	//	public static String TemplateDIR = "/home/html/";
+	@Autowired
+	@Qualifier("stockEarnDao")
+	private StockEarnDao stockEarnDao = null;
+
+	@Autowired
+	@Qualifier("groupStockDao")
+	private GroupStockDao groupStockDao = null;
+
+	@Autowired
+	@Qualifier("groupEarnDao")
+	private GroupEarnDao groupEarnDao = null;
+
+	@Autowired
+	@Qualifier("recommendStockDao")
+	private RecommendStockDao recommendStockDao = null;
+
+	@Autowired
+	@Qualifier("analyzerDao")
+	private AnalyzerDao analyzerDao = null;
+
+	@Autowired
+	@Qualifier("columnArticleDao")
+	private ColumnArticleDao columnArticleDao = null;
+
+	@Autowired
+	@Qualifier("noticeDao")
+	private NoticeDao noticeDao = null;
+
+	@Autowired
+	@Qualifier("stockPrice")
+	private StockPrice sp = null;
 
 	public boolean flushDiscount() {
 		try {
 			Discount gg = new Discount();
-			RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-			StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
 			gg.setRecommendStockDao(recommendStockDao);
 			gg.setSp(sp);
 			List<DiscountStock> discounts = gg.process();
@@ -61,7 +96,6 @@ public class HtmlFlusher {
 	}
 
 	public void flushStarGuruDetail() {
-		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		List<Analyzer> analyzerList = analyzerDao.getAllAnalyzers();
 		if (analyzerList != null && analyzerList.size() > 0) {
 			DateTools dateTools = new DateTools();
@@ -70,13 +104,8 @@ public class HtmlFlusher {
 				try {
 					//生成分析师intro页面
 					String aid = analyzer.getAid();
-					GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 					Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
-
-					GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
 					List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
-
-					StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 					float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
 							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
 					List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
@@ -95,8 +124,8 @@ public class HtmlFlusher {
 					System.out.println("write page : " + ADMINDIR + aid + "_intro.html");
 
 					//生成分析师stock页面
-					RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory
-							.getBean("recommendStockDao");
+					//					RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory
+					//							.getBean("recommendStockDao");
 					List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
 					Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
 					for (GroupStock stock : stockDetailList) {
@@ -156,10 +185,6 @@ public class HtmlFlusher {
 	public void flushAnalyzerRank() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
-		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
-		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
-		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 		Date date = DateTools.getToday();
 		Date lastdate = groupEarnDao.getLatestDate();
 		List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 10);
@@ -205,7 +230,6 @@ public class HtmlFlusher {
 
 	public void flushReportLab() {
 		DateTools dateTools = new DateTools();
-		ReportDao reportDao = (ReportDao) ContextFactory.getBean("reportDao");
 		int type = 1;
 		int size = 20;
 		int total = reportDao.getReportsCountByType(type);
@@ -233,8 +257,6 @@ public class HtmlFlusher {
 
 	public void flushStockResearch() {
 		DateTools dateTools = new DateTools();
-		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		//		int type = 1;
 		int size = 20;
 		//		int total = groupStockDao.getRecommendReportCount();
@@ -266,7 +288,6 @@ public class HtmlFlusher {
 
 	public void flushNotice() {
 		DateTools dateTools = new DateTools();
-		NoticeDao noticeDao = (NoticeDao) ContextFactory.getBean("noticeDao");
 		int size = 20;
 		int total = noticeDao.getNoticesCount();
 		int page = total % size == 0 ? total / size : total / size + 1;
@@ -320,10 +341,6 @@ public class HtmlFlusher {
 	public void flushStarOnSale(boolean isAsc) {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
-		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
-		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
-		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
 		List<GroupStock> groupStockList = null;
 		if (isAsc) {
 			groupStockList = groupStockDao.getGroupStockListAsc(10);
@@ -391,15 +408,15 @@ public class HtmlFlusher {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
 		HtmlUtils htmlUtil = new HtmlUtils();
-		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
-		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		//		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		//		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+		//		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
+		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		try {
 
 			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(10);
 			Date lastdate = groupEarnDao.getLatestDate();
-			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 			List<Analyzer> analyzerList = analyzerDao
 					.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 10);
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);

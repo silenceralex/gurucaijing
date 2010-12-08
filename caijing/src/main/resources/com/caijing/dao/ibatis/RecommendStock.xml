@@ -212,7 +212,7 @@
 	
 	<select id="getResearchRecommendStocks" resultClass="RecommendStock"
 		parameterClass="java.util.Map">
-		select * from recommendstock where aname is not null and aname!='N/A' and grade is not null order by createdate desc limit #start#,#length#
+		select rs.*,r.title as title,r.filepath as filepath from recommendstock as rs,report r where aname is not null and aname!='N/A' and grade is not null and r.rid=rs.reportid order by rs.createdate desc limit #start#,#length#
 	</select>
 	
 	<select id="getResearchRecommendStockCounts" resultClass="java.lang.Integer">

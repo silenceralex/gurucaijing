@@ -30,6 +30,10 @@ public class LocalStorage {
 	@Qualifier("groupStockDao")
 	private GroupStockDao groupStockDao = null;
 
+	@Autowired
+	@Qualifier("htmlFlush")
+	private HtmlFlusher htmlFlush = null;
+
 	public void localStore() {
 		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
 		for (int i = 0; i < lists.size(); i++) {
@@ -46,12 +50,11 @@ public class LocalStorage {
 		}
 
 		//抓取完毕直接进行刷新动作
-		HtmlFlusher flusher = new HtmlFlusher();
-		flusher.flushStarGuruDetail();
-		flusher.flushAnalyzerRank();
-		flusher.flushReportLab();
-		flusher.flushStarOnSale(true);
-		flusher.flushStarOnSale(false);
+		htmlFlush.flushStarGuruDetail();
+		htmlFlush.flushAnalyzerRank();
+		htmlFlush.flushReportLab();
+		htmlFlush.flushStarOnSale(true);
+		htmlFlush.flushStarOnSale(false);
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {

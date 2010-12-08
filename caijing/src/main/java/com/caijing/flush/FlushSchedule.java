@@ -2,6 +2,8 @@ package com.caijing.flush;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.NoticeDao;
 import com.caijing.spider.CrawlNotice;
@@ -9,7 +11,10 @@ import com.caijing.spider.CrawlNotice;
 public class FlushSchedule {
 	private NoticeDao noticeDao = null;
 	private static Log logger = LogFactory.getLog(FlushSchedule.class);
-	private HtmlFlusher htmlFlush = new HtmlFlusher();
+
+	@Autowired
+	@Qualifier("htmlFlush")
+	private HtmlFlusher htmlFlush = null;
 
 	public void run() {
 		try {

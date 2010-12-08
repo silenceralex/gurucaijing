@@ -7,6 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.NoticeDao;
@@ -21,7 +23,9 @@ public class SpiderSchedule {
 	private String wsjhongguanXml = null;
 	private String caogenXml = null;
 	private static Log logger = LogFactory.getLog(SpiderSchedule.class);
-	private HtmlFlusher htmlFlush = new HtmlFlusher();
+	@Autowired
+	@Qualifier("htmlFlush")
+	private HtmlFlusher htmlFlush = null;
 
 	public void run() {
 		try {

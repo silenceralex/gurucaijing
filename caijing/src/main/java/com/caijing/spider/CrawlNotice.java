@@ -57,7 +57,9 @@ public class CrawlNotice {
 	// URLs to be searched
 	private Vector<String> urlsToSearch = new Vector<String>();
 
-	private HtmlFlusher htmlFlush = new HtmlFlusher();
+	@Autowired
+	@Qualifier("htmlFlush")
+	private HtmlFlusher htmlFlush = null;
 
 	public Vector<String> getUrlsToSearch() {
 		return urlsToSearch;
@@ -306,7 +308,7 @@ public class CrawlNotice {
 						System.out.println("notice ID:" + notice.getId() + "  md5:" + md5);
 						try {
 							Object obj = noticeDao.insert(notice);
-							System.out.println("notice insert return:" + notice.getId() + "  obj");
+							System.out.println("notice insert return:" + notice.getId() + "  md5:" + md5);
 							if (obj != null) {
 								htmlFlush.flushOneNotice(notice);
 							}
