@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
@@ -34,11 +33,11 @@ import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.HtmlUtils;
 
-@Component("htmlFlusher")
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
 	public static String REPORTDIR = "/home/html/report/";
 	public static String NOTICEDIR = "/home/html/notice/";
+
 	@Autowired
 	@Qualifier("reportDao")
 	private ReportDao reportDao = null;
@@ -493,4 +492,77 @@ public class HtmlFlusher {
 		flusher.flushStarOnSale(true);
 		flusher.flushStockResearch();
 	}
+
+	public ReportDao getReportDao() {
+		return reportDao;
+	}
+
+	public void setReportDao(ReportDao reportDao) {
+		this.reportDao = reportDao;
+	}
+
+	public StockEarnDao getStockEarnDao() {
+		return stockEarnDao;
+	}
+
+	public void setStockEarnDao(StockEarnDao stockEarnDao) {
+		this.stockEarnDao = stockEarnDao;
+	}
+
+	public GroupStockDao getGroupStockDao() {
+		return groupStockDao;
+	}
+
+	public void setGroupStockDao(GroupStockDao groupStockDao) {
+		this.groupStockDao = groupStockDao;
+	}
+
+	public GroupEarnDao getGroupEarnDao() {
+		return groupEarnDao;
+	}
+
+	public void setGroupEarnDao(GroupEarnDao groupEarnDao) {
+		this.groupEarnDao = groupEarnDao;
+	}
+
+	public RecommendStockDao getRecommendStockDao() {
+		return recommendStockDao;
+	}
+
+	public void setRecommendStockDao(RecommendStockDao recommendStockDao) {
+		this.recommendStockDao = recommendStockDao;
+	}
+
+	public AnalyzerDao getAnalyzerDao() {
+		return analyzerDao;
+	}
+
+	public void setAnalyzerDao(AnalyzerDao analyzerDao) {
+		this.analyzerDao = analyzerDao;
+	}
+
+	public ColumnArticleDao getColumnArticleDao() {
+		return columnArticleDao;
+	}
+
+	public void setColumnArticleDao(ColumnArticleDao columnArticleDao) {
+		this.columnArticleDao = columnArticleDao;
+	}
+
+	public NoticeDao getNoticeDao() {
+		return noticeDao;
+	}
+
+	public void setNoticeDao(NoticeDao noticeDao) {
+		this.noticeDao = noticeDao;
+	}
+
+	public StockPrice getSp() {
+		return sp;
+	}
+
+	public void setSp(StockPrice sp) {
+		this.sp = sp;
+	}
+
 }

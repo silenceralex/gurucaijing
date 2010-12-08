@@ -65,6 +65,36 @@
 			<ref bean="stockPrice" />
 		</property>
 	</bean>
+	
+	<bean id="htmlFlusher" class="com.caijing.flush.HtmlFlusher">
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+		<property name="groupStockDao">
+			<ref bean="groupStockDao" />
+		</property>
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
+		<property name="stockEarnDao">
+			<ref bean="stockEarnDao" />
+		</property>
+		<property name="groupEarnDao">
+			<ref bean="groupEarnDao" />
+		</property>
+		<property name="columnArticleDao">
+			<ref bean="columnArticleDao" />
+		</property>
+		<property name="noticeDao">
+			<ref bean="noticeDao" />
+		</property>
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+		<property name="sp">
+			<ref bean="stockPrice" />
+		</property>
+	</bean>
 
 <context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>

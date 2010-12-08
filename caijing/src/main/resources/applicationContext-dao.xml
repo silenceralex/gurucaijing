@@ -128,5 +128,5 @@
 			<value>NoticeDao</value>
 		</property>
 	</bean>
-
+	<context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>
