@@ -93,3 +93,5 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .rank_other{width:37px;height:19px;line-height:19px;background:url(../img/rankImgGray.gif) no-repeat 3px 0;color:#FFF;font-weight:bold;}
 .rank_score{width:40px;padding-left:20px;}
 .rank_name{width:140px;text-align:left;}
+.research-time {float:right;height:38px;line-height:38px;color:#999;}
+.notice_list ul{width: 100%;margin: 10px 0px;border-bottom: 1px dotted #CCC;}
