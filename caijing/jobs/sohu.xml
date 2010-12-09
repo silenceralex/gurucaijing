@@ -1,0 +1,16 @@
+<job type="3" columnid="9134" threads="10" maxconnections="10"
+	charset="utf-8" urldb="/home/app/urldb/163">
+	<starturl>http://ybhyj8888.blog.sohu.com/rss</starturl>
+	<root property="rss"></root>
+	<list property="channel/item"></list>
+	<src property="channel/generator"></src>
+	<page>
+		<innermatch property="author" mapping="dc:creator"></innermatch>
+		<innermatch property="title" mapping="title"></innermatch>
+		<innermatch property="ptime" mapping="pubDate"
+			dateformat="EEE, d MMM yyyy HH:mm:ss Z" locale="US">
+		</innermatch>
+		<innermatch property="link" mapping="link"></innermatch>
+		<innermatch property="content" mapping="description"></innermatch>
+	</page>
+</job>
