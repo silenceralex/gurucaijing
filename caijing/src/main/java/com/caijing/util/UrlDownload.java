@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.http.Header;
@@ -18,9 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -28,13 +23,10 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -62,7 +54,10 @@ public class UrlDownload {
 		params.setBooleanParameter("http.protocol.handle-redirects", false);
 
 		ConnManagerParams.setMaxTotalConnections(params, 100);
-
+		ConnManagerParams.setTimeout(params, 30000);
+		HttpConnectionParams.setConnectionTimeout(params, 30000);
+		HttpConnectionParams.setSoTimeout(params, 30000);
+		HttpConnectionParams.setSocketBufferSize(params, 8192);
 		// Create and initialize scheme registry
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
 		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -71,43 +66,8 @@ public class UrlDownload {
 		// This connection manager must be used if more than one thread will
 		// be using the HttpClient.
 		cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+
 		httpClient = new DefaultHttpClient(cm, params);
-	}
-
-	// // 原始下载用
-	public int testURL(String url) throws ClientProtocolException, IOException {
-		HttpGet get = new HttpGet(url);
-		// get.setHeader("User-Agent", agent);
-		HttpContext localContext = new BasicHttpContext();
-		// get.setHeader("refer", "http://www.autohome.com.cn/145/");
-		HttpResponse response = httpClient.execute(get);
-
-		// 判断页面返回状态判断是否进行转向抓取新链接
-		int statusCode = response.getStatusLine().getStatusCode();
-		get.abort();
-		return statusCode;
-		// System.out.println("statusCode: " + statusCode);
-		// if ((statusCode == HttpStatus.SC_MOVED_PERMANENTLY)
-		// || (statusCode == HttpStatus.SC_MOVED_TEMPORARILY)
-		// || (statusCode == HttpStatus.SC_SEE_OTHER)
-		// || (statusCode == HttpStatus.SC_TEMPORARY_REDIRECT)) {
-		// // 此处重定向处理 此处还未验证
-		// HttpHost target = (HttpHost) localContext
-		// .getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-		//
-		// String newUri = response.getLastHeader("Location").getValue();
-		// System.out.println("Redirect url: " + newUri);
-		// System.out.println("HttpHost: " + target);
-		// response = httpClient.execute(target, new HttpGet(newUri));
-		// System.out.println(response.getStatusLine());
-		// System.out.println("Redirect url html: " +
-		// EntityUtils.toString(response.getEntity(), "gb2312"));
-		// }
-		//
-		// String status = response.getStatusLine().toString();
-		//
-		// get.abort();
-		// return status;
 	}
 
 	/**
@@ -130,84 +90,6 @@ public class UrlDownload {
 		SimpleDateFormat standard = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = sdf.parse(time);
 		return standard.format(date);
-	}
-
-	// httpclient的下载方式
-	// public String load(String url) throws ClientProtocolException,
-	// IOException {
-	// HttpGet get = new HttpGet(url);
-	// // System.out.println("response:" + get.getRequestLine());
-	// HttpResponse response = httpClient.execute(get);
-	//
-	// HttpEntity entity = response.getEntity();
-	// BufferedReader br = new BufferedReader(new InputStreamReader(entity
-	// .getContent(), charset));
-	// String line;
-	// StringBuffer sb = new StringBuffer();
-	// while ((line = br.readLine()) != null) {
-	// sb.append(line);
-	// sb.append("\n");
-	// }
-	// return sb.toString();
-	// }
-
-	public String post(String url) {
-		HttpPost post = new HttpPost(url);
-		// post.
-		org.apache.http.client.HttpClient client = new DefaultHttpClient();
-		HttpPost httpost = new HttpPost(url);
-		// NameValuePair[] data = { new NameValuePair("zhcxModel_ent_name",
-		// "北京中关村科技担保有限公司 "),
-		// new NameValuePair("zhcxModel_lic_reg_no", ""),
-		// new NameValuePair("zhcxModel_corp_rpt", ""),
-		// new NameValuePair("zhcxModel_cer_no", ""),
-		// new NameValuePair("zhcxModel_dom", "")};
-		List<BasicNameValuePair> data4 = new ArrayList<BasicNameValuePair>();
-
-		data4.add(new BasicNameValuePair("zhcxModel.lic_reg_no", "110000001141090"));
-		data4.add(new BasicNameValuePair("zhcxModel.ent_name", ""));
-		data4.add(new BasicNameValuePair("zhcxModel.corp_rpt", ""));
-		data4.add(new BasicNameValuePair("zhcxModel.dom", ""));
-		data4.add(new BasicNameValuePair("zhcxModel.cer_no", ""));
-		try {
-			httpost.setEntity(new UrlEncodedFormEntity(data4, HTTP.UTF_8));
-			httpost.addHeader("Host", "qyxy.baic.gov.cn");
-			httpost.addHeader("User-Agent",
-					"Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-			httpost.addHeader("Accept-Encoding", "GB2312,utf-8;q=0.7,*;q=0.7");
-			httpost.addHeader("Keep-Alive", "115");
-			httpost.addHeader("Accept-Encoding", "gzip,deflate");
-			httpost.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-			httpost.addHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-			httpost.addHeader("Content-Type", "application/x-www-form-urlencoded ");
-			httpost.addHeader("Referer", "http://qyxy.baic.gov.cn/zhcx/zhcxAction!query.dhtml");
-			httpost.addHeader(
-					"Cookie",
-					"JSESSIONID=MtpVL0hQnsk3dMyJxY7YQL8f8BV1BBT0wqtr5f9vv5pZ7v3xSv3z!529400894; BIGipServerPool_xy=202746048.22811.0000; wdcid=139beaaecc801ecb; wdlast=1270130881");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			System.out.println("<< httpost: " + httpost.getRequestLine());
-			HttpResponse response = client.execute(httpost);
-			HttpEntity entity = response.getEntity();
-			System.out.println("<< Response: " + response.getStatusLine());
-			if (entity != null) {
-				return EntityUtils.toString(entity);
-			}
-			return null;
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} finally {
-			client.getConnectionManager().shutdown();
-		}
 	}
 
 	public String load(String url) throws ClientProtocolException, IOException {
@@ -327,7 +209,6 @@ public class UrlDownload {
 					break;
 				} else {
 					out.write(b, 0, tmp);
-					//					out.write(b);
 				}
 			}
 			System.out.print("total Length:" + total);
