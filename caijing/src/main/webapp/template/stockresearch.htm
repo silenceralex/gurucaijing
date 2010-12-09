@@ -111,13 +111,14 @@
                 </div>
 
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
-            	<div class="star_detail_research" style="display:block">
+            	<div>
 					#set ($count = 0)
 					#if ($recommendstocks) #foreach ($one in $recommendstocks)
 					#if ($count%5==0)
 					<ul>
 					#end
                             <li>
+                                <span class="research-time">[2010-10-11]</span>
                                 <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
                                 <p title="$one.title">
                                     $one.title
