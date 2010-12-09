@@ -30,8 +30,6 @@ public class LocalStorage {
 	@Qualifier("groupStockDao")
 	private GroupStockDao groupStockDao = null;
 
-	@Autowired
-	@Qualifier("htmlFlush")
 	private HtmlFlusher htmlFlush = null;
 
 	public HtmlFlusher getHtmlFlush() {
@@ -63,6 +61,7 @@ public class LocalStorage {
 		htmlFlush.flushReportLab();
 		htmlFlush.flushStarOnSale(true);
 		htmlFlush.flushStarOnSale(false);
+		htmlFlush.flushStockResearch();
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {
