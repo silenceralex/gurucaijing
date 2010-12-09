@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_挣钱排行榜</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/raphael.js"></script>
+<script language="javascript" type="text/javascript" src="/js/analytics.js"></script>
+<script language="javascript" type="text/javascript">
+function showAnaly(num,id,name1,name2){
+					var leftCount = (document.body.scrollWidth-1013)/2+360;
+					var topCount = 270;
+					init("star_detail_preview",600,200,id,name1,name2,1);
+					$("#star_detail_preview").show();
+					$("#star_detail_preview").css("top" , topCount+num*43+"px");
+					$("#star_detail_preview").css("left" , (leftCount)+"px");
+			}
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+	<div class="header">
+    	<div class="logo"><h1>投资大师</h1></div>
+        <div class="controlPanel">
+        	<div class="icons">
+            	<ul>
+                	<li><a href="#">加入收藏</a></li>
+                    <li><a href="#">设为首页</a></li>
+                </ul>
+            </div>
+            <div class="search">
+            	<div class="searchForm">
+                    <input type="text" class="searchBox" value="请输入关键词" />
+                    <input type="button" class="searchBtn" value="搜索" />
+                </div>
+                <div class="clear"></div>
+            </div>
+                               <ul class="nav">
+                        <li>
+                            <a href="/" target="_blank"><span>首页</span></a>
+                        </li>
+                        <li>
+                            <a href="/analyzer/starGuruList.html" target="_blank"><span>大师殿堂</span></a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"><span>股票精选</span></a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"><span>草根大师之选</span></a>
+                        </li>
+                        <li>
+                            <a href="/analyzer/starEarn.html" target="_blank"><span>金牌分析师之选</span></a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"><span>明星机构之选</span></a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"><span>机构共同之选</span></a>
+                        </li>
+                        <li>
+                            <a href="/report/reportLab_1.html" target="_blank"><span>研报大本营</span></a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"><span>财报大本营</span></a>
+                        </li>
+                        <span class="clear"></span>
+                    </ul>
+        </div>
+    </div><!--header end-->
+    <div class="mainBox">
+    	<div class="colL">
+        	<div id="colL0" class="colL0 colLItem">
+            	<div class="colL_title"><h2>用户登录</h2></div>
+                <form>
+                <div class="userLoginForm">
+                    <label>用户名</label>
+                    <input type="text" />
+                    <span class="clear"></span>
+                    <label>密码</label>
+                    <input type="text" />
+                </div>
+              </form>
+                <input class="loginBtn" type="button" value="登录" />
+                <a href="#">注册新用户</a>
+            </div>
+   	  		<div class="colL1 colLItem">
+            	<div class="colL_title">
+                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="/analyzer/starGuruList.html">金牌分析师</a></li>
+                    <!--<li><a href="#">草根大师</a></li>
+                    <li><a href="#">明星机构</a></li>-->
+                </ul>
+            </div>
+            <div class="colL2 colLItem">
+            	<div class="colL_title">
+                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                		<li><a href="/analyzer/starEarn.html">金牌分析师之选</a></li>
+                    <!--<li><a href="#">草根大师之选</a></li>
+                    <li><a href="#">明星机构之选</a></li>-->
+                    <li><a href="#">机构共同之选</a></li>
+                    <li><a href="/analyzer/starDiscount.html">折价股票精选</a></li>
+                </ul>
+            </div>
+            <div class="colL3 colLItem">
+            	<div class="colL_title">
+                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
+                </div>
+                <ul>
+                	<li><a href="#">财报大本营</a></li>
+                  <li><a href="/report/reportLab_1.html">研报大本营</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sec_list">
+        		<div class="sec_nav">
+            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 挣钱排行榜<</h2> 
+            </div>
+            <!--<div class="onsaleTitle">分析师折价之选</div>-->
+            <div class="star_detail_box">
+            	<div class="onsaleTable">
+            		<table cellpadding="0" cellspacing="0">
+            			<tr>
+            				<th>公司</th>
+            				<th>推荐价</th>
+            				<th>目标价</th>
+            				<th>当前价</th>
+            				<th>目标价差距</th>
+            				<th>回报率</th>
+            				<th>研究报告</th>
+            			</tr>
+            			#set ($count = 1)
+            			#if ($groupStockList)#foreach ($one in $groupStockList)
+						#if ($count%2 == 1)
+            			<tr onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">
+            			#else
+            			<tr class="star_detail_tb_even" onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">
+            			#end
+            				<td><a href="./${one.getGroupid()}_stock.html">${one.getStockname()}($one.getStockcode())</a></td>
+            				<td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
+            				#if($one.getObjectprice()!= 0)
+            				<td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
+            				#else
+            				<td> - </td>
+            				#end
+            				<td>${one.getCurrentprice()}</td>
+            				#if ($one.getObjectprice() != 0)
+							#set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
+			            	<td>${floatUtil.getTwoDecimalNumber(${ratio})}</td>
+							#else
+							<td> - </td>
+							#end
+            				<td>${one.getGain()}%</td>
+            				<td>
+            				#set ($pathcount = 1)
+							#set ($filePathList = $one.getFilePathList())
+							#if ($filePathList)#foreach ($one in $filePathList)
+							<a href="http://51gurus.com${one}">$pathcount</a>
+							#set ($pathcount = $pathcount + 1)
+							#end#end
+            				</td>
+            			</tr>
+            			#set ($count = $count + 1)
+            			#end#end
+            		</table>
+            	</div>
+            	<div>
+            			#set ($count = 1)
+						#if ($groupStockList)#foreach ($one in $groupStockList)
+            			<table id="rec$count" class="hidden">  
+            			#set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
+			               	<tr>
+			               		#if ($stockEarnList)#foreach ($one in $stockEarnList)
+								<th>${dateTools.transformMMDDDate(${one.getDate()})}</th>
+								#end#end
+			                </tr>
+			                <tr>
+								#if ($stockEarnList)#foreach ($one in $stockEarnList)
+								#set ($ratio = $one.getCurrratio() * 100)
+								<td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
+								#end#end
+							</tr>
+							<tr>
+								#set ($priceList = $stockEarnMap.get($one.getGroupid()))
+								#set ($startprice = $startPriceMap.get($one.getGroupid()))
+								#if ($priceList)#foreach ($one in $priceList)
+								#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
+	                            <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
+								#end#end
+							</tr>
+		        		</table>
+		        		#set ($count = $count + 1)
+		        		#end#end
+            	</div>
+            </div>
+
+        </div>
+        <div id="star_detail_preview"></div>
+      <div class="clear"></div>
+        <div class="footer">
+   	    <div class="goTop"><a href="#"><img src="/img/topBtn.jpg"/></a></div>
+            <img src="/img/footer.jpg" />
+            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
+        </div>
+    </div><!--mainBox end-->
+    <script language="javascript" type="text/javascript">
+    	$("#star_detail_preview").hover(
+				function () {
+					$(this).show();
+				},
+				function (){
+					$(this).hide();
+					$(this).empty();
+				}
+			)
+    </script>
+</div>
+</body>
+</html>
