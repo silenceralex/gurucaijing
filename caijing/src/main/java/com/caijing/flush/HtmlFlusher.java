@@ -384,7 +384,7 @@ public class HtmlFlusher {
 			stockDetailMap.put(stock.getStockcode(), stockEarnList);
 		}
 		VMFactory vmf = new VMFactory();
-		vmf.setTemplate("/template/staronsale.htm");
+
 		vmf.put("dateTools", dateTools);
 		vmf.put("floatUtil", floatUtil);
 		vmf.put("filePathMap", filePathMap);
@@ -394,9 +394,11 @@ public class HtmlFlusher {
 		vmf.put("startPriceMap", startPriceMap);
 		vmf.put("stockEarnMap", stockEarnMap);
 		if (isAsc) {
+			vmf.setTemplate("/template/staronsale.htm");
 			vmf.save(ADMINDIR + "starDiscount.html");
 			System.out.println("write page : " + ADMINDIR + "starDiscount.html");
 		} else {
+			vmf.setTemplate("/template/earnRank.htm");
 			vmf.save(ADMINDIR + "starEarn.html");
 			System.out.println("write page : " + ADMINDIR + "starEarn.html");
 		}
