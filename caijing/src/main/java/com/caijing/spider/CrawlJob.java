@@ -213,9 +213,11 @@ public class CrawlJob implements Runnable {
 					article.setCmsid(articleid);
 					columnArticleDao.update(article);
 					if (CmsWebservice.getInstance().publishArticle(articleid)) {
-						System.out.println("publish article:" + article.getTitle() + " success!");
+						System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
+								+ " success!");
 					} else {
-						System.out.println("publish article:" + article.getTitle() + " failed!");
+						System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
+								+ " failed!");
 					}
 				}
 			} catch (Exception e) {

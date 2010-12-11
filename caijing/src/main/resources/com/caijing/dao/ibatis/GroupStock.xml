@@ -80,12 +80,12 @@
 		select s.stockname as stockname,gs.* from groupstock gs,stock s where gs.groupid=#aid# and gs.stockcode = s.stockcode and gs.status=1
 	</select>
 	
-	<select id="getGroupStockListAsc" resultClass="GroupStock">
-		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain limit #length#
+	<select id="getGroupStockListAsc" resultClass="GroupStock" parameterClass="java.util.Map">
+		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain limit #start#,#length#
 	</select>
 	
-	<select id="getGroupStockListDesc" resultClass="GroupStock">
-		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain desc limit #length#
+	<select id="getGroupStockListDesc" resultClass="GroupStock" parameterClass="java.util.Map">
+		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain desc limit #start#,#length#
 	</select>
 	
 	<select id="getRecommendReportids" resultClass="java.lang.String"  parameterClass="java.util.Map">

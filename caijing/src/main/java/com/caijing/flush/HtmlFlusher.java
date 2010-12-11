@@ -28,6 +28,7 @@ import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
@@ -341,68 +342,73 @@ public class HtmlFlusher {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
 		List<GroupStock> groupStockList = null;
-		if (isAsc) {
-			groupStockList = groupStockDao.getGroupStockListAsc(10);
-		} else {
-			groupStockList = groupStockDao.getGroupStockListDesc(10);
-		}
-
-		System.out.println("groupStockList.size() : " + groupStockList.size());
-		Map<String, String> filePathMap = new HashMap<String, String>();
-		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
-		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
-		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
-		Map<String, Float> startPriceMap = new HashMap<String, Float>();
-		for (GroupStock stock : groupStockList) {
-			RecommendStock recommendStock = recommendStockDao.getRecommendStockbyReportid(stock.getInreportid());
-			filePathMap.put(stock.getInreportid(), recommendStock.getFilepath());
-
-			Date startDate = groupStockDao.getEarliestIntimeByAid(stock.getGroupid());
-			List<GroupEarn> weightList = groupEarnDao.getWeightList(stock.getGroupid(), startDate);
-			groupEarnMap.put(stock.getGroupid(), weightList);
-			float startprice = stockEarnDao
-					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-			startPriceMap.put(stock.getGroupid(), startprice);
-			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
-					DateTools.transformYYYYMMDDDate(startDate));
-			stockEarnMap.put(stock.getGroupid(), priceList);
-
-			List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
-					DateTools.transformYYYYMMDDDate(stock.getIntime()));
-			List<String> filePathList = recommendStockDao.getFilePathByAid(stock.getGroupid(), stock.getStockcode(), 3);
-			stock.setFilePathList(filePathList);
-			for (int i = 0; i < stockEarnList.size(); i++) {
-				StockEarn stockEarn = stockEarnList.get(i);
-				float currratio = 0;
-				if (i == 0) {
-					currratio = stockEarn.getRatio() / 100;
-				} else {
-					currratio = (1 + stockEarnList.get(i - 1).getCurrratio()) * (1 + stockEarn.getRatio() / 100) - 1;
-				}
-				stockEarn.setCurrratio(currratio);
+		int size = 20;
+		for (int current = 1; current <= 3; current++) {
+			if (isAsc) {
+				groupStockList = groupStockDao.getGroupStockListAsc((current - 1) * size, size);
+			} else {
+				groupStockList = groupStockDao.getGroupStockListDesc((current - 1) * size, size);
 			}
-			stockDetailMap.put(stock.getStockcode(), stockEarnList);
-		}
-		VMFactory vmf = new VMFactory();
+			Date lastdate = groupEarnDao.getLatestDate();
+			System.out.println("groupStockList.size() : " + groupStockList.size());
+			Map<String, String> filePathMap = new HashMap<String, String>();
+			Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+			Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
+			Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
+			Map<String, Float> startPriceMap = new HashMap<String, Float>();
+			for (GroupStock stock : groupStockList) {
+				RecommendStock recommendStock = recommendStockDao.getRecommendStockbyReportid(stock.getInreportid());
+				filePathMap.put(stock.getInreportid(), recommendStock.getFilepath());
 
-		vmf.put("dateTools", dateTools);
-		vmf.put("floatUtil", floatUtil);
-		vmf.put("filePathMap", filePathMap);
-		vmf.put("groupStockList", groupStockList);
-		vmf.put("stockDetailMap", stockDetailMap);
-		vmf.put("groupEarnMap", groupEarnMap);
-		vmf.put("startPriceMap", startPriceMap);
-		vmf.put("stockEarnMap", stockEarnMap);
-		if (isAsc) {
-			vmf.setTemplate("/template/staronsale.htm");
-			vmf.save(ADMINDIR + "starDiscount.html");
-			System.out.println("write page : " + ADMINDIR + "starDiscount.html");
-		} else {
-			vmf.setTemplate("/template/earnRank.htm");
-			vmf.save(ADMINDIR + "starEarn.html");
-			System.out.println("write page : " + ADMINDIR + "starEarn.html");
-		}
+				Date startDate = groupStockDao.getEarliestIntimeByAid(stock.getGroupid());
+				List<GroupEarn> weightList = groupEarnDao.getWeightList(stock.getGroupid(), startDate);
+				groupEarnMap.put(stock.getGroupid(), weightList);
+				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
+						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+				startPriceMap.put(stock.getGroupid(), startprice);
+				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+						DateTools.transformYYYYMMDDDate(startDate));
+				stockEarnMap.put(stock.getGroupid(), priceList);
 
+				List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+						DateTools.transformYYYYMMDDDate(stock.getIntime()));
+				List<String> filePathList = recommendStockDao.getFilePathByAid(stock.getGroupid(),
+						stock.getStockcode(), 3);
+				stock.setFilePathList(filePathList);
+				for (int i = 0; i < stockEarnList.size(); i++) {
+					StockEarn stockEarn = stockEarnList.get(i);
+					float currratio = 0;
+					if (i == 0) {
+						currratio = stockEarn.getRatio() / 100;
+					} else {
+						currratio = (1 + stockEarnList.get(i - 1).getCurrratio()) * (1 + stockEarn.getRatio() / 100)
+								- 1;
+					}
+					stockEarn.setCurrratio(currratio);
+				}
+				stockDetailMap.put(stock.getStockcode(), stockEarnList);
+			}
+			VMFactory vmf = new VMFactory();
+
+			vmf.put("dateTools", dateTools);
+			vmf.put("currdate", lastdate);
+			vmf.put("floatUtil", floatUtil);
+			vmf.put("filePathMap", filePathMap);
+			vmf.put("groupStockList", groupStockList);
+			vmf.put("stockDetailMap", stockDetailMap);
+			vmf.put("groupEarnMap", groupEarnMap);
+			vmf.put("startPriceMap", startPriceMap);
+			vmf.put("stockEarnMap", stockEarnMap);
+			if (isAsc) {
+				vmf.setTemplate("/template/staronsale.htm");
+				vmf.save(ADMINDIR + "starDiscount_" + current + ".html");
+				System.out.println("write page : " + ADMINDIR + "starDiscount_" + current + ".html");
+			} else {
+				vmf.setTemplate("/template/earnRank.htm");
+				vmf.save(ADMINDIR + "starEarn_" + current + ".html");
+				System.out.println("write page : " + ADMINDIR + "starEarn_" + current + ".html");
+			}
+		}
 	}
 
 	public void flushIndex() {
@@ -415,7 +421,7 @@ public class HtmlFlusher {
 		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		try {
 
-			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(10);
+			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10);
 			Date lastdate = groupEarnDao.getLatestDate();
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 			List<Analyzer> analyzerList = analyzerDao
@@ -483,7 +489,7 @@ public class HtmlFlusher {
 	}
 
 	public static void main(String[] args) {
-		HtmlFlusher flusher = new HtmlFlusher();
+		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
 		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();

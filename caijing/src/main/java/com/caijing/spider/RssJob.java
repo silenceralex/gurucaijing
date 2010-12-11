@@ -92,9 +92,11 @@ public class RssJob {
 						article.setCmsid(articleid);
 						columnArticleDao.update(article);
 						if (CmsWebservice.getInstance().publishArticle(articleid)) {
-							System.out.println("publish article:" + article.getTitle() + " success!");
+							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
+									+ " success!");
 						} else {
-							System.out.println("publish article:" + article.getTitle() + " failed!");
+							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
+									+ " failed!");
 						}
 						System.out.println("author: " + article.getAuthor());
 						System.out.println("title: " + article.getTitle());
