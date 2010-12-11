@@ -127,6 +127,7 @@ function showAnaly(num,id,name1,name2){
             	<div class="onsaleTable">
             		<table cellpadding="0" cellspacing="0">
             			<tr>
+            				<th class="rank_score">排名</th>
             				<th>公司</th>
             				<th>推荐价</th>
             				<th>目标价</th>
@@ -142,6 +143,13 @@ function showAnaly(num,id,name1,name2){
             			#else
             			<tr class="star_detail_tb_even" onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">
             			#end
+            			    <td class="rank_score">
+							#if ($count <= 3)
+							<div class="rank_top3">${count}</div>
+							#else
+							${count}
+							#end
+							</td>
             				<td><a href="./${one.getGroupid()}_stock.html">${one.getStockname()}($one.getStockcode())</a></td>
             				<td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
             				#if($one.getObjectprice()!= 0)
