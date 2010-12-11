@@ -143,7 +143,7 @@ function showAnaly(num,id,name1,name2){
             				<th>当前日期</th>
             				<th>收益率</th>
             			</tr>
-						#set ($count = 1)
+						#set ($count = ($current-1)*20)
 						#if ($analyzerList)#foreach ($one in $analyzerList)
 						#if ($count%2 == 1)
 						<tr onmouseover="showAnaly(358,'rec${count}','${one.getName()}','大盘涨跌幅度')">
@@ -157,7 +157,7 @@ function showAnaly(num,id,name1,name2){
 							${count}
 							#end
 							</td>
-							<td class="rank_name">${one.getName()}</td>
+							<td class="rank_name"><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank">${one.getName()}</a></td>
 							<td>${one.getAgency()}</td>
             				<td>${one.getIndustry()}</td>
             				<td>${startDateMap.get(${one.getAid()})}</td>
@@ -197,6 +197,38 @@ function showAnaly(num,id,name1,name2){
 						#set ($count = $count + 1)
 						#end#end
             		</div>
+            		          	           	<div class="pageSet">
+		            	<table width="100%" border="0">
+		                  <tbody>
+				                  <tr>
+					                    <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./starEarn_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./starEarn_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./starEarn_${next}.html">下一页</a>
+											<a href="./starEarn_${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
+				                  </tr>
+		                	</tbody>
+		              </table>
+	            </div>
             </div>
 
         </div>

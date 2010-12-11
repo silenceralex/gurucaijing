@@ -26,10 +26,11 @@ public class AnalyzerDaoImpl extends CrudDaoDefault implements AnalyzerDao {
 	}
 
 	@Override
-	public List<Analyzer> getAnalyzerRankList(String date, int length) {
+	public List<Analyzer> getAnalyzerRankList(String date, int start, int length) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("date", date);
 		params.put("length", length);
+		params.put("start", start);
 		return (List<Analyzer>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getAnalyzerRankList", params);
 	}
 

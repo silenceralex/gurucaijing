@@ -187,45 +187,50 @@ public class HtmlFlusher {
 		FloatUtil floatUtil = new FloatUtil();
 		Date date = DateTools.getToday();
 		Date lastdate = groupEarnDao.getLatestDate();
-		List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 10);
-		System.out.println("Today: " + DateTools.transformYYYYMMDDDate(date) + "  lastday:"
-				+ DateTools.transformYYYYMMDDDate(lastdate));
+		int size = 20;
+		for (int current = 1; current <= 2; current++) {
+			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate),
+					(current - 1) * size, size);
+			System.out.println("Today: " + DateTools.transformYYYYMMDDDate(date) + "  lastday:"
+					+ DateTools.transformYYYYMMDDDate(lastdate));
 
-		Map<String, String> startDateMap = new HashMap<String, String>();
-		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
-		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
-		Map<String, Float> startPriceMap = new HashMap<String, Float>();
-		for (Analyzer analyzer : analyzerList) {
-			Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
-			startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
-			List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
-			groupEarnMap.put(analyzer.getAid(), weightList);
-			float startprice = stockEarnDao
-					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-			startPriceMap.put(analyzer.getAid(), startprice);
-			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
-					DateTools.transformYYYYMMDDDate(startDate));
-			stockEarnMap.put(analyzer.getAid(), priceList);
+			Map<String, String> startDateMap = new HashMap<String, String>();
+			Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
+			Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
+			Map<String, Float> startPriceMap = new HashMap<String, Float>();
+			for (Analyzer analyzer : analyzerList) {
+				Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
+				startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
+				List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
+				groupEarnMap.put(analyzer.getAid(), weightList);
+				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
+						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+				startPriceMap.put(analyzer.getAid(), startprice);
+				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+						DateTools.transformYYYYMMDDDate(startDate));
+				stockEarnMap.put(analyzer.getAid(), priceList);
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/analyzerrank.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("floatUtil", floatUtil);
+				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
+				vmf.put("current", current);
+				vmf.put("page", 2);
+				vmf.put("analyzerList", analyzerList);
+				vmf.put("startDateMap", startDateMap);
+				vmf.put("groupEarnMap", groupEarnMap);
+				vmf.put("stockEarnMap", stockEarnMap);
+				vmf.put("startPriceMap", startPriceMap);
+				vmf.save(ADMINDIR + "rank_" + current + ".html");
+				System.out.println("write page : " + ADMINDIR + "rank_" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
 		}
-		try {
-			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/analyzerrank.htm");
-			vmf.put("dateTools", dateTools);
-			vmf.put("floatUtil", floatUtil);
-			vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
-			vmf.put("analyzerList", analyzerList);
-			vmf.put("startDateMap", startDateMap);
-			vmf.put("groupEarnMap", groupEarnMap);
-			vmf.put("stockEarnMap", stockEarnMap);
-			vmf.put("startPriceMap", startPriceMap);
-			vmf.save(ADMINDIR + "rank.html");
-			System.out.println("write page : " + ADMINDIR + "rank.html");
-		} catch (Exception e) {
-			System.out.println("===> exception !!");
-			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
-			e.printStackTrace();
-		}
-
 	}
 
 	public void flushReportLab() {
@@ -426,8 +431,8 @@ public class HtmlFlusher {
 			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10);
 			Date lastdate = groupEarnDao.getLatestDate();
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
-			List<Analyzer> analyzerList = analyzerDao
-					.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 10);
+			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 0,
+					10);
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
@@ -500,7 +505,8 @@ public class HtmlFlusher {
 		flusher.flushIndex();
 		flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true);
-		flusher.flushStockResearch();
+		flusher.flushAnalyzerRank();
+		//		flusher.flushStockResearch();
 	}
 
 	public ReportDao getReportDao() {
