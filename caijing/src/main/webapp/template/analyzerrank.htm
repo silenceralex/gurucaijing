@@ -207,17 +207,17 @@ function showAnaly(num,id,name1,name2){
 					                    	<a href="#">第一页</a>
 											<a href="#">上一页</a>
 											#else
-											<a href="./starEarn_1.html">第一页</a>
+											<a href="./rank_1.html">第一页</a>
 											#set ($prev = $current - 1)
-											<a href="./starEarn_${prev}.html">上一页</a>
+											<a href="./rank_${prev}.html">上一页</a>
 											#end
 											#if ($current == $page)
 											<a href="#">下一页</a>
 					                        <a href="#">末一页</a>
 											#else
 											#set ($next = $current + 1)
-											<a href="./starEarn_${next}.html">下一页</a>
-											<a href="./starEarn_${page}.html">末一页</a>
+											<a href="./rank_${next}.html">下一页</a>
+											<a href="./rank_${page}.html">末一页</a>
 											#end
 					                    </td>
 					                    <td width="21%">
