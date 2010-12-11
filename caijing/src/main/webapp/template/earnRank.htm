@@ -150,7 +150,7 @@ function showAnaly(num,id,name1,name2){
 							${count}
 							#end
 							</td>
-            				<td><a href="./${one.getGroupid()}_stock.html">${one.getStockname()}($one.getStockcode())</a></td>
+            				<td>${one.getStockname()}($one.getStockcode())</td>
             				<td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
             				#if($one.getObjectprice()!= 0)
             				<td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
