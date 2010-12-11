@@ -393,6 +393,8 @@ public class HtmlFlusher {
 			vmf.put("dateTools", dateTools);
 			vmf.put("currdate", lastdate);
 			vmf.put("floatUtil", floatUtil);
+			vmf.put("current", current);
+			vmf.put("page", 3);
 			vmf.put("filePathMap", filePathMap);
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("stockDetailMap", stockDetailMap);

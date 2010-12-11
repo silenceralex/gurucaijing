@@ -75,7 +75,19 @@ public class HtmlUtils {
 		//				+ "  threshold:" + threshold);
 		//		String retStr = str.substring(0, out ? pos : (pos + 1)) + more;
 		//		System.out.println("return string length:" + retStr.getBytes().length);
-		return str.substring(0, out ? pos : (pos + 1)) + more;
+		if (out) {
+			if (pos >= str.length()) {
+				return str;
+			} else {
+				return str.substring(0, pos);
+			}
+		} else {
+			if (pos >= str.length() - 1) {
+				return str;
+			} else {
+				return str.substring(0, pos + 1);
+			}
+		}
 	}
 
 	/**
@@ -93,7 +105,7 @@ public class HtmlUtils {
 		// e.printStackTrace();
 		// }
 		// System.out.println("match is NULL!");
-		String test = "郎咸平：谁掌控了全球大宗商品定价权 ";
+		String test = "中国11月份CPI同比上升5.1% ";
 		HtmlUtils htmlUtils = new HtmlUtils();
 		String out = htmlUtils.getSubStr(test, 15, "...");
 		System.out.println("out:" + out);
