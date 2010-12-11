@@ -143,7 +143,7 @@ function showAnaly(num,id,name1,name2){
             				<th>当前日期</th>
             				<th>收益率</th>
             			</tr>
-						#set ($count = $start)
+						#set ($count = $start + 1)
 						#if ($analyzerList)#foreach ($one in $analyzerList)
 						#if ($count%2 == 1)
 						<tr onmouseover="showAnaly(358,'rec${count}','${one.getName()}','大盘涨跌幅度')">

@@ -136,7 +136,7 @@ function showAnaly(num,id,name1,name2){
             				<th>回报率</th>
             				<th>研究报告</th>
             			</tr>
-            			#set ($count = $start)
+            			#set ($count = $start + 1)
             			#if ($groupStockList)#foreach ($one in $groupStockList)
 						#if ($count%2 == 1)
             			<tr onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">

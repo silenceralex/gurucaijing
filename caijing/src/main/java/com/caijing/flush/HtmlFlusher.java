@@ -217,6 +217,7 @@ public class HtmlFlusher {
 				vmf.put("floatUtil", floatUtil);
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
 				vmf.put("start", (current - 1) * 20);
+				vmf.put("current", current);
 				vmf.put("page", 2);
 				vmf.put("analyzerList", analyzerList);
 				vmf.put("startDateMap", startDateMap);
@@ -400,6 +401,7 @@ public class HtmlFlusher {
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("start", (current - 1) * 20);
 			vmf.put("page", 3);
+			vmf.put("current", current);
 			vmf.put("filePathMap", filePathMap);
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("stockDetailMap", stockDetailMap);
