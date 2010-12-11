@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>投资大师</title>
+<title>投资大师_折价股票精选</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
@@ -105,7 +105,7 @@ function showAnaly(num,id,name1,name2){
                     <!--<li><a href="#">草根大师之选</a></li>
                     <li><a href="#">明星机构之选</a></li>-->
                     <li><a href="#">机构共同之选</a></li>
-                    <li><a href="/analyzer/starDiscount.html">折价股票精选</a></li>
+                    <li><a href="/analyzer/starDiscount_1.html">折价股票精选</a></li>
                 </ul>
             </div>
             <div class="colL3 colLItem">
@@ -120,7 +120,7 @@ function showAnaly(num,id,name1,name2){
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 分析师折价之选</h2>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
+            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 分析师折价之选</h2>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$dateTools.transformYYYYMMDDDate($currdate)
             </div>
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
             <div class="star_detail_box">
@@ -198,6 +198,39 @@ function showAnaly(num,id,name1,name2){
 		        		#set ($count = $count + 1)
 		        		#end#end
             	</div>
+            	           	<div class="pageSet">
+		            	<table width="100%" border="0">
+		                  <tbody>
+				                  <tr>
+					                    <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./starDiscount_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./starDiscount_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./starDiscount_${next}.html">下一页</a>
+											<a href="./starDiscount_${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
+				                  </tr>
+		                	</tbody>
+		              </table>
+	            </div>
+            	
             </div>
 
         </div>

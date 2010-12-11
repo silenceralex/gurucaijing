@@ -120,7 +120,7 @@ function showAnaly(num,id,name1,name2){
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 挣钱排行榜<</h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
+            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 挣钱排行榜<</h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$dateTools.transformYYYYMMDDDate($currdate)
             </div>
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
             <div class="star_detail_box">
@@ -198,6 +198,38 @@ function showAnaly(num,id,name1,name2){
 		        		#set ($count = $count + 1)
 		        		#end#end
             	</div>
+            	            	           	<div class="pageSet">
+		            	<table width="100%" border="0">
+		                  <tbody>
+				                  <tr>
+					                    <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./starEarn_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./starEarn_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./starEarn_${next}.html">下一页</a>
+											<a href="./starEarn_${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
+				                  </tr>
+		                	</tbody>
+		              </table>
+	            </div>
             </div>
 
         </div>
