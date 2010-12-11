@@ -127,7 +127,7 @@ function showAnaly(num,id,name1,name2){
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-            	<h2><a href="#">投资大师首页</a> &gt; 组合排行榜</h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$currdate
+            	<h2><a href="#">投资大师首页</a> &gt; 组合排行榜</h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$currDate
             </div>
             <div style="padding-left:20px;padding-top:5px;height:39px;background:url(/img/rankTitleBack.gif)"><img src="/img/rankTitle.gif" /></div>
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
@@ -143,7 +143,7 @@ function showAnaly(num,id,name1,name2){
             				<th>当前日期</th>
             				<th>收益率</th>
             			</tr>
-						#set ($count = ($current-1)*20)
+						#set ($count = $start)
 						#if ($analyzerList)#foreach ($one in $analyzerList)
 						#if ($count%2 == 1)
 						<tr onmouseover="showAnaly(358,'rec${count}','${one.getName()}','大盘涨跌幅度')">
