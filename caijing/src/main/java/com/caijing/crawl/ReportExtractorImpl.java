@@ -436,6 +436,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.setConfig(config);
 		extractor.setDao(dao);
 		extractor.init();
+
+		//Test
+		testHuaTai(extractor);
+		
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
 
@@ -583,6 +587,14 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// }
 	}
 
+	public static void testHuaTai(ReportExtractor extractor){
+		//公司研报
+		Report report = new Report();
+		report.setSaname("华泰联合");
+		extractor.extractFromFile(report,
+		 		"http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
+	}
+	
 	public Config getConfig() {
 		return config;
 	}
