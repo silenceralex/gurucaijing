@@ -116,7 +116,7 @@
 					#if ($count%5==0)
 					<ul>
 					#end
-						<li><span>($dateTools.transformDate($one.date))</span><a href="$one.getUrl()">${one.stockname}(${one.stockcode})£º$one.getTitle()</a>&nbsp;&nbsp;&nbsp;
+						<li><span class="notice_list_date">($dateTools.transformDate($one.date))</span><a href="$one.getUrl()">${one.stockname}(${one.stockcode})£º$one.getTitle()</a>&nbsp;&nbsp;&nbsp;
 			        #if($one.type == 0 )
 			           	¹ÉÈ¨¼¤Àø
 			        #elseif($one.type == 1)	
