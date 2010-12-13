@@ -66,6 +66,7 @@ public class EconomistController {
 			total = columnArticleDao.getColumnArticleCountByAuthor(author);
 			paginator.setTotalRecordNumber(total);
 			articlelist = columnArticleDao.getColumnArticleByAuthor(author, (page - 1) * 20, 20);
+			articlelist = alertUrl(articlelist);
 			logger.debug("articlelist size :" + articlelist.size());
 			urlPattern = "/search/columnarticlelist.htm?author=" + author + "&page=$number$";
 			model.put("author", author);
@@ -74,6 +75,7 @@ public class EconomistController {
 			total = columnArticleDao.getAllColumnArticleCount();
 			paginator.setTotalRecordNumber(total);
 			articlelist = columnArticleDao.getAllColumnArticle((page - 1) * 20, 20);
+			articlelist = alertUrl(articlelist);
 			logger.debug("articlelist size :" + articlelist.size());
 			urlPattern = "/search/columnarticlelist.htm?page=$number$";
 		}
@@ -103,6 +105,26 @@ public class EconomistController {
 		DateTools datetool = new DateTools();
 		model.put("datetool", datetool);
 		return "/admin/article.htm";
+	}
+
+	private List<ColumnArticle> alertUrl(List<ColumnArticle> articles) {
+		List<ColumnArticle> retlist = new ArrayList<ColumnArticle>(articles.size());
+		for (int i = 0; i < articles.size(); i++) {
+			String url = "http://51gurus.com/cms/";
+			String date = DateTools.transformDateDetail(articles.get(i).getPtime());
+			System.out.println("date:" + date);
+			String[] strs = date.split("-");
+			System.out.println("strs length:" + strs);
+			if (strs.length == 3) {
+				url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
+				articles.get(i).setLink(url);
+				System.out.println("url:" + articles.get(i).getLink());
+				retlist.add(articles.get(i));
+			} else {
+				System.out.println("Date Format Parse ERROR!");
+			}
+		}
+		return retlist;
 	}
 
 }
