@@ -1,6 +1,8 @@
 package com.caijing.web.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,19 +51,30 @@ public class EconomistController {
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
-		logger.debug("author:" + author);
+		try {
+			author = URLDecoder.decode(author, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+
 		List<ColumnArticle> articlelist = new ArrayList();
 		DateTools datetool = new DateTools();
 		if (author != null) {
+			logger.debug("author:" + author);
 			total = columnArticleDao.getColumnArticleCountByAuthor(author);
 			paginator.setTotalRecordNumber(total);
 			articlelist = columnArticleDao.getColumnArticleByAuthor(author, (page - 1) * 20, 20);
+			logger.debug("articlelist size :" + articlelist.size());
 			urlPattern = "/search/columnarticlelist.htm?author=" + author + "&page=$number$";
 			model.put("author", author);
 		} else {
+
 			total = columnArticleDao.getAllColumnArticleCount();
 			paginator.setTotalRecordNumber(total);
 			articlelist = columnArticleDao.getAllColumnArticle((page - 1) * 20, 20);
+			logger.debug("articlelist size :" + articlelist.size());
 			urlPattern = "/search/columnarticlelist.htm?page=$number$";
 		}
 

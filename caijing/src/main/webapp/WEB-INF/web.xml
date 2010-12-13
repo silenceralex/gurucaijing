@@ -89,7 +89,7 @@
 		</init-param>
 		<init-param>
 			<param-name>ignores</param-name>
-			<param-value>/tag/,/search/</param-value>
+			<param-value>/tag/</param-value>
 		</init-param>
 	</filter>
 

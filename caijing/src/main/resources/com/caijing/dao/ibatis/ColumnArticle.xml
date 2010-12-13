@@ -71,8 +71,7 @@
 
 	<select id="getAllColumnArticle" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle where cmsid!=0 order by ptime desc limit
-		#start#,#offset#
+		select * from columnarticle where cmsid!=0 order by ptime desc limit #start#,#offset#
 	</select>
 
 	<select id="getColumnArticleBySource" parameterClass="java.util.Map"
