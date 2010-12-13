@@ -92,16 +92,22 @@
 <h2><a href="#">投资大师首页</a> &gt; $!author 专栏文章列表</h2>
 </div>
 <!--<div class="onsaleTitle">分析师折价之选</div>-->
-<div class="notice_list">#set ($count = 0) #if
-($articleList)#foreach ($one in $articlelist) #if ($count%5==0)
-<ul>
-	#end
-	<li><span class="notice_list_date">($dateTools.transformDate($one.date))</span>
-	<a title="$one.title" href="$one.link"  target="_blank">$one.getTitle()</a>
+<div class="notice_list">
+#set ($count = 0) 
+#if($articlelist)
+   #foreach ($one in $articlelist) 
+		#if ($count%5==0)
+		<ul>
+		#end
+		<li><span class="notice_list_date">($dateTools.transformDate($one.date))</span>
+		<a title="$one.title" href="$one.link"  target="_blank">$one.getTitle()</a>
 	&nbsp;&nbsp;&nbsp;
-	 #if ($count%5==0)
-</ul>
-#end #end#end</div>
+		 #if ($count%5==0)
+		</ul>
+		#end 
+	#end
+#end
+</div>
 <div class="pageSet">
 <table width="100%" border="0">
 	<tbody>
