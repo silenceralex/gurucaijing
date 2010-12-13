@@ -100,6 +100,7 @@ public class CmsWebservice {
 				System.out.println(aid);
 			}
 		}
+		System.out.println(articles.size());
 		//		}
 
 	}

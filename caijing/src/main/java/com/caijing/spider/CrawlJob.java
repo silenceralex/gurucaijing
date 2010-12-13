@@ -210,6 +210,10 @@ public class CrawlJob implements Runnable {
 							columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
 							article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
 							DateTools.transformDateDetail(article.getPtime()));
+					if (articleid == 0) {
+						System.out.println("insert cms failed! article:" + article.getTitle() + "  articleid:"
+								+ articleid + " failed!");
+					}
 					article.setCmsid(articleid);
 					columnArticleDao.update(article);
 					if (CmsWebservice.getInstance().publishArticle(articleid)) {

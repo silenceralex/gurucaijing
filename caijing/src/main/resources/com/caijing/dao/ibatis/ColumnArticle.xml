@@ -5,10 +5,15 @@
 	<typeAlias alias="ColumnArticle"
 		type="com.caijing.domain.ColumnArticle" />
 
-	<select id="getColumnArticleByname" parameterClass="java.util.Map"
+	<select id="getColumnArticleByAuthor" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle where author = #author# order by
-		ptime desc
+		select * from columnarticle where author = #author# and cmsid!=0 order by
+		ptime desc limit #start#,#length#
+	</select>
+	
+		<select id="getColumnArticleCountByAuthor"
+		resultClass="java.lang.Integer" parameterClass="java.lang.String">
+		select count(1) from columnarticle where author=#value#
 	</select>
 
 	<select id="getColumnArticleByaid" parameterClass="java.util.Map"
@@ -61,12 +66,12 @@
 
 	<select id="getAllColumnArticleCount"
 		resultClass="java.lang.Integer">
-		select count(1) from columnarticle
+		select count(1) from columnarticle where cmsid!=0 
 	</select>
 
 	<select id="getAllColumnArticle" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle order by ptime desc limit
+		select * from columnarticle where cmsid!=0 order by ptime desc limit
 		#start#,#offset#
 	</select>
 
@@ -87,7 +92,7 @@
 				author is not null
 			</isNotEmpty>
 		</dynamic>
-		order by ptime desc limit #length#
+		and cmsid!=0 order by ptime desc limit #length#
 	</select>
 
 

@@ -439,7 +439,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 		//Test
 		testHuaTai(extractor);
-		
+
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
 
@@ -452,9 +452,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// RecommendStock rs = extractor.extractFromFile("国泰君安", "中国平安",
 		// "http://guru.caijing.com/papers/20100818/6DFFKFR8.txt",
 		// ServerUtil.getid());
-		Report report = new Report();
-		report.setSaname("广发证券");
-		RecommendStock rs = extractor.extractFromFile(report, "http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
+		//		Report report = new Report();
+		//		report.setSaname("广发证券");
+		//		RecommendStock rs = extractor.extractFromFile(report, "http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
 		//		"http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
 
 		//		report.setSaname("招商证券");
@@ -587,14 +587,14 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// }
 	}
 
-	public static void testHuaTai(ReportExtractor extractor){
+	public static void testHuaTai(ReportExtractor extractor) {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("华泰联合");
-		extractor.extractFromFile(report,
-		 		"http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
+		//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
 	}
-	
+
 	public Config getConfig() {
 		return config;
 	}

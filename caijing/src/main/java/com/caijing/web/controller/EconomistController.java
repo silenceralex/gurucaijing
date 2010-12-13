@@ -35,10 +35,10 @@ public class EconomistController {
 	@Qualifier("economistDao")
 	private EconomistDao economistDao = null;
 
-	@RequestMapping("/admin/columnarticlelist.htm")
-	public String showEcolumnarlst(HttpServletResponse response, @RequestParam(value = "saname", required = false)
-	String saname, @RequestParam(value = "page", required = false)
-	Integer page, HttpServletRequest request, ModelMap model) {
+	@RequestMapping("/search/columnarticlelist.htm")
+	public String showEcolumnarlst(HttpServletResponse response,
+			@RequestParam(value = "author", required = false) String author,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 		Paginator<ColumnArticle> paginator = new Paginator<ColumnArticle>();
 		paginator.setPageSize(20);
 
@@ -49,28 +49,28 @@ public class EconomistController {
 		}
 		paginator.setCurrentPageNumber(page);
 		String urlPattern = "";
-		logger.debug("saname:" + saname);
+		logger.debug("author:" + author);
 		List<ColumnArticle> articlelist = new ArrayList();
 		DateTools datetool = new DateTools();
-		if (saname != null) {
-			total = columnArticleDao.getColumnArticleByname(saname).size();
+		if (author != null) {
+			total = columnArticleDao.getColumnArticleCountByAuthor(author);
 			paginator.setTotalRecordNumber(total);
-			articlelist = columnArticleDao.getColumnArticleByname(saname, (page - 1) * 20, 20);
-			urlPattern = "/admin/columnarticlelist.htm?saname=" + saname + "&page=$number$";
-			model.put("saname", saname);
+			articlelist = columnArticleDao.getColumnArticleByAuthor(author, (page - 1) * 20, 20);
+			urlPattern = "/search/columnarticlelist.htm?author=" + author + "&page=$number$";
+			model.put("author", author);
 		} else {
 			total = columnArticleDao.getAllColumnArticleCount();
 			paginator.setTotalRecordNumber(total);
 			articlelist = columnArticleDao.getAllColumnArticle((page - 1) * 20, 20);
-			urlPattern = "/admin/columnarticlelist.htm?page=$number$";
+			urlPattern = "/search/columnarticlelist.htm?page=$number$";
 		}
 
 		paginator.setUrl(urlPattern);
 		model.put("articlelist", articlelist);
 		model.put("paginatorLink", paginator.getPageNumberList());
-		model.put("datetool", datetool);
+		model.put("dateTools", datetool);
 
-		return "/admin/columnarticlelist.htm";
+		return "/template/list.htm";
 
 	}
 
@@ -83,8 +83,8 @@ public class EconomistController {
 	}
 
 	@RequestMapping("/admin/article.htm")
-	public String shwoArticle(HttpServletResponse response, @RequestParam(value = "aid", required = true)
-	int aid, ModelMap model, HttpServletRequest request) throws IOException, Exception {
+	public String shwoArticle(HttpServletResponse response, @RequestParam(value = "aid", required = true) int aid,
+			ModelMap model, HttpServletRequest request) throws IOException, Exception {
 		ColumnArticle article = columnArticleDao.getColumnArticleByaid(aid).get(0);
 		model.put("article", article);
 		DateTools datetool = new DateTools();

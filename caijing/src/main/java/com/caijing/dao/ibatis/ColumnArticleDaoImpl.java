@@ -11,11 +11,18 @@ import com.caijing.util.CrudDaoDefault;
 public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticleDao {
 
 	@SuppressWarnings("unchecked")
-	public List<ColumnArticle> getColumnArticleByname(String author) {
+	public List<ColumnArticle> getColumnArticleByAuthor(String author, int start, int length) {
 		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("author", author);
-		return (List<ColumnArticle>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getColumnArticleByname",
-				params);
+		params.put("start", start);
+		params.put("length", length);
+		return (List<ColumnArticle>) getSqlMapClientTemplate().queryForList(
+				getNameSpace() + ".getColumnArticleByAuthor", params);
+	}
+
+	public int getColumnArticleCountByAuthor(String author) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getColumnArticleCountByAuthor",
+				author);
 	}
 
 	public List<ColumnArticle> getColumnArticleByaid(int aid) {

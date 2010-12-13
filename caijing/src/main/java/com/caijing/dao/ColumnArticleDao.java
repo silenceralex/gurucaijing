@@ -6,7 +6,9 @@ import com.caijing.domain.ColumnArticle;
 import com.caijing.util.CrudDao;
 
 public interface ColumnArticleDao extends CrudDao {
-	public List<ColumnArticle> getColumnArticleByname(String name);
+	public List<ColumnArticle> getColumnArticleByAuthor(String name, int start, int length);
+
+	public int getColumnArticleCountByAuthor(String name);
 
 	public List<ColumnArticle> getColumnArticleByaid(int aid);
 
