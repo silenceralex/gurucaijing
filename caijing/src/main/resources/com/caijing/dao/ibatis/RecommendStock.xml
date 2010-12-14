@@ -7,6 +7,9 @@
 
 	<typeAlias alias="DiscountStock"
 		type="com.caijing.domain.DiscountStock" />
+		
+	<typeAlias alias="StockAgencyEntity"
+		type="com.caijing.domain.StockAgencyEntity" />
 
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
@@ -218,4 +221,28 @@
 	<select id="getResearchRecommendStockCounts" resultClass="java.lang.Integer">
 		select count(1) from recommendstock where aname is not null and aname!='N/A' and grade is not null
 	</select>
+	
+	<select id="getGradeRecommendStocks" resultClass="RecommendStock">
+		select recommendid,reportid,grade from recommendstock where grade is not null
+	</select>
+	
+	<update id="updateStatus"
+		parameterClass="java.util.Map">
+		update recommendstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="status">
+				status = #status#
+			</isNotEmpty>
+		</dynamic>
+		where recommendid= #recommendid#
+	</update>
+	
+	<select id="getTopStockAgency" resultClass="StockAgencyEntity" parameterClass="java.util.Map">
+		select count(distinct(saname)) as sacounts,stockcode,stockname from recommendstock where status=2 group by stockcode order by count(distinct(saname)) desc limit #start#,#length#
+	</select>
+	
+	<select id="getSanamesByStockcode" resultClass="java.lang.String" parameterClass="java.lang.String">
+		select distinct(saname) from recommendstock where stockcode=#value# and status=2
+	</select>
+	
 </sqlMap>

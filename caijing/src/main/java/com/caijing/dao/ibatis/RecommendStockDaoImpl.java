@@ -7,6 +7,7 @@ import java.util.Map;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
+import com.caijing.domain.StockAgencyEntity;
 import com.caijing.util.CrudDaoDefault;
 
 public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendStockDao {
@@ -181,5 +182,31 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		params.put("start", start);
 		params.put("length", length);
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getResearchRecommendStocks", params);
+	}
+
+	@Override
+	public List<RecommendStock> getGradeRecommendStocks() {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getGradeRecommendStocks");
+	}
+
+	@Override
+	public int updateStatus(String recommendid, int status) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("recommendid", recommendid);
+		params.put("status", status);
+		return getSqlMapClientTemplate().update(this.getNameSpace() + ".updateStatus", params);
+	}
+
+	@Override
+	public List<StockAgencyEntity> getTopStockAgency(int start, int length) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("length", length);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getTopStockAgency", params);
+	}
+
+	@Override
+	public List<String> getSanamesByStockcode(String stockcode) {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getSanamesByStockcode", stockcode);
 	}
 }

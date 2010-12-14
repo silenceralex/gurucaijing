@@ -508,7 +508,7 @@ public class HtmlFlusher {
 		flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true);
 		flusher.flushAnalyzerRank();
-		//		flusher.flushStockResearch();
+		flusher.flushStockResearch();
 	}
 
 	public ReportDao getReportDao() {

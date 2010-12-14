@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
+import com.caijing.domain.StockAgencyEntity;
 import com.caijing.util.CrudDao;
 
 public interface RecommendStockDao extends CrudDao {
@@ -56,4 +57,29 @@ public interface RecommendStockDao extends CrudDao {
 	public int getResearchRecommendStockCounts();
 
 	public List<RecommendStock> getResearchRecommendStocks(int start, int length);
+
+	public List<RecommendStock> getGradeRecommendStocks();
+
+	/**
+	 * 更新推荐状态位
+	 * @param recommendid
+	 * @param status
+	 * @return
+	 */
+	public int updateStatus(String recommendid, int status);
+
+	/**
+	 * 获取结构一致之选的数据，按照推荐家数排序
+	 * @param start  
+	 * @param length
+	 * @return
+	 */
+	public List<StockAgencyEntity> getTopStockAgency(int start, int length);
+
+	/**
+	 * 获取推荐某个股票的所有机构名称
+	 * @param stockcode
+	 * @return
+	 */
+	public List<String> getSanamesByStockcode(String stockcode);
 }

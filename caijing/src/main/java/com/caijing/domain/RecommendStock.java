@@ -10,6 +10,7 @@ public class RecommendStock {
 	private String aname = null;
 	private String saname = null;
 	private int level = 0;
+	//买入及等同状态2，中性或卖出等同状态1,0为未标注或者谨慎推荐类
 	private int status = 0;
 	private String createdate = null;
 	private String enddate = null;
