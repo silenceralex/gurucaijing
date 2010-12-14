@@ -591,8 +591,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("华泰联合");
-		//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
+		
 	}
 
 	public Config getConfig() {
