@@ -59,12 +59,12 @@ public class PDFReader {
 	}
 
 	public void read(String path) throws Exception {
-		try {
-			File file = new File(path);
-			if (file.isDirectory()) {
-				File[] files = file.listFiles();
-				for (File f : files) {
-					if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
+		File file = new File(path);
+		if (file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (File f : files) {
+				if (f.isFile() && f.getAbsolutePath().contains(".pdf")) {
+					try {
 						String pdfPath = f.getAbsolutePath();
 						System.out.println("path:" + pdfPath);
 						String textFile = null;
@@ -113,16 +113,16 @@ public class PDFReader {
 
 							}
 						}
-					} else if (f.isDirectory()) {
-						read(f.getAbsolutePath());
+					} catch (Exception e) {
+						System.out.print(e.getMessage());
+						e.printStackTrace();
 					}
+				} else if (f.isDirectory()) {
+					read(f.getAbsolutePath());
 				}
-			} else {
-				System.out.println("path:" + path);
 			}
-		} catch (Exception e) {
-			System.out.print(e.getMessage());
-			e.printStackTrace();
+		} else {
+			System.out.println("path:" + path);
 		}
 	}
 
