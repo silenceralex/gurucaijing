@@ -245,4 +245,25 @@
 		select distinct(saname) from recommendstock where stockcode=#value# and status=2
 	</select>
 	
+	<select id="getRecommendCountsByStockcodeAndStatus" resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select count(1) from recommendstock 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="," property="stockcode">
+				stockcode = #stockcode#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="status">
+				status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="extractnum">
+				extractnum >= #extractnum#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getRecommendStockByStatus" parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.createdate,rs.saname,rs.aname.rs.stockname,rs.stockcode,rs.filepath, r.title as title from recommendstock as rs,report
+		as r where  rs.stockcode = #stockcode# and rs.status=#status# and rs.reportid=r.rid order by
+		rs.createdate limit #start#,#length#
+	</select>
+	
 </sqlMap>

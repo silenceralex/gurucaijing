@@ -2,20 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>投资大师_机构共同之选</title>
+<title>投资大师_个股研究</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
-<script language="javascript" type="text/javascript">
-function showAnaly(num,id,name1,name2){
-					var leftCount = (document.body.scrollWidth-1013)/2+360;
-					var topCount = 270;
-					init("star_detail_preview",600,200,id,name1,name2,1);
-					$("#star_detail_preview").show();
-					$("#star_detail_preview").css("top" , topCount+num*43+"px");
-					$("#star_detail_preview").css("left" , (leftCount)+"px");
-			}
-</script>
 </head>
 
 <body>
@@ -102,7 +91,7 @@ function showAnaly(num,id,name1,name2){
                 		<li><a href="/analyzer/starEarn_1.html">金牌分析师之选</a></li>
                     <!--<li><a href="#">草根大师之选</a></li>
                     <li><a href="#">明星机构之选</a></li>-->
-                    <li><a href="/stockagency/1.html">机构共同之选</a></li>
+                    <li><a href="#">机构共同之选</a></li>
                     <li><a href="/analyzer/starDiscount_1.html">折价股票精选</a></li>
                 </ul>
             </div>
@@ -118,36 +107,29 @@ function showAnaly(num,id,name1,name2){
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-            	<h2>
-                    <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
-                    <a href="/">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 机构共同之选
-                </h2>   
-            </div>
-             <ol style="width:770px;" id="star_detail_tab" class="star_detail_tab">
-            	<li class="star_de_tabli_on" id="starTab1"><a href="/stockagency/1.html">机构共同之选</a></li>
-            	
-						</ol>
-						
-            <div id="star_detail_box" class="star_detail_box">
-				<div class="onsaleTable">
-            		<table cellpadding="0" cellspacing="0">
-            			<tr>
-            				<th>公司</th>
-            				<th>当前价</th>
-            				<th>推荐机构数</th>
-            				<th>推荐机构名称</th>
-            				<th>研究报告</th>
-            			</tr>
-            			#foreach ($one in $stockAgencyList)
-            			<tr>
-            				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">${one.stockname}(${one.stockcode})</a></td>
-            				<td>${floatUtil.getTwoDecimalNumber($one.currentprice)</td>
-            				<td>${one.sacounts}</td>
-            				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">研报链接...</a></td>
-            				<td title="${one.sanames}" class="agencys">${htmlUtil.getSubStr($one.sanames,12,'...')}</td>
-            			</tr>
-            			#end
-            		</table>
+                    <h2><a href="/">投资大师首页</a> &gt; 个股研究</h2> 
+                </div>
+
+            <!--<div class="onsaleTitle">分析师折价之选</div>-->
+            	<div>
+					#set ($count = 0)
+					#if ($recommendstocks) #foreach ($one in $recommendstocks)
+					#if ($count%5==0)
+					<ul>
+					#end
+                            <li>
+                                <span class="research-time">[dateTools.transformYYYYMMDDDate(${one.createdate})]</span>
+                                <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.saname}</span><span class="rec">${one.grade}</span></h3>
+                                <p title="$one.title">
+                                    $one.title
+                                </p>
+                                <span class="clear"></span>
+                            </li>
+					#set ($count = $count + 1)
+            		#if ($count%5==0)
+					</ul>
+					#end
+					#end#end
             	</div>
             	<div class="pageSet">
 		            	<table width="100%" border="0">
@@ -160,8 +142,9 @@ function showAnaly(num,id,name1,name2){
 		                	</tbody>
 		              </table>
 	            </div>
-               </div>
+            </div>
         </div>
+        
       <div class="clear"></div>
         <div class="footer">
    	    <div class="goTop"><a href="#"><img src="/img/topBtn.jpg"/></a></div>
@@ -169,17 +152,6 @@ function showAnaly(num,id,name1,name2){
             <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
         </div>
     </div><!--mainBox end-->
-    <script language="javascript" type="text/javascript">
-    	$("#star_detail_preview").hover(
-				function () {
-					$(this).show();
-				},
-				function (){
-					$(this).hide();
-					$(this).empty();
-				}
-			)
-    </script>
 </div>
 </body>
 </html>

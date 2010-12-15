@@ -82,4 +82,21 @@ public interface RecommendStockDao extends CrudDao {
 	 * @return
 	 */
 	public List<String> getSanamesByStockcode(String stockcode);
+
+	/**
+	 * 获取某个股票的在推荐或者卖出的状态上的数目
+	 * @param stockcode
+	 * @param status
+	 * @return
+	 */
+	public int getRecommendCountsByStockcodeAndStatus(String stockcode, int status);
+
+	/**
+	 * 按照推荐或者卖出状态的个股研报详细信息
+	 * @param status
+	 * @param start
+	 * @param length
+	 * @return
+	 */
+	public List<RecommendStock> getRecommendStockByStatus(String stockcode, int status, int start, int length);
 }

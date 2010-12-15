@@ -26,6 +26,7 @@ import com.caijing.domain.GroupStock;
 import com.caijing.domain.Notice;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
+import com.caijing.domain.StockAgencyEntity;
 import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
 import com.caijing.util.ContextFactory;
@@ -420,16 +421,46 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushStockAgency() {
+		FloatUtil floatUtil = new FloatUtil();
+		int size = 20;
+		for (int current = 1; current <= 5; current++) {
+			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
+			for (StockAgencyEntity entity : entitys) {
+				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
+				String tmp = "";
+				for (String saname : sanames) {
+					tmp += saname + " ";
+				}
+				entity.setSanames(tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sanames:" + tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
+				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
+				entity.setCurrentprice(price);
+				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/stockagency.htm");
+				vmf.put("dateTools", new DateTools());
+				vmf.put("floatUtil", floatUtil);
+				vmf.put("stockAgencyList", entitys);
+				vmf.put("htmlUtil", new HtmlUtils());
+				vmf.save("/home/html/stockagency/" + current + ".html");
+				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void flushIndex() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
 		HtmlUtils htmlUtil = new HtmlUtils();
-		//		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-		//		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
-		//		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
-		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		try {
-
 			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10);
 			Date lastdate = groupEarnDao.getLatestDate();
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
@@ -507,8 +538,9 @@ public class HtmlFlusher {
 		flusher.flushIndex();
 		flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true);
-		flusher.flushAnalyzerRank();
-		flusher.flushStockResearch();
+		//		flusher.flushAnalyzerRank();
+		//		flusher.flushStockResearch();
+		flusher.flushStockAgency();
 	}
 
 	public ReportDao getReportDao() {

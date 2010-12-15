@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>投资大师</title>
+<title>投资大师_个股研究</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 </head>
@@ -107,7 +107,7 @@
         </div>
         <div class="sec_list">
         		<div class="sec_nav">
-                    <h2><a href="/">投资大师首页</a> &gt; 研报大本营</h2> 
+                    <h2><a href="/">投资大师首页</a> &gt; 个股研究</h2> 
                 </div>
 
             <!--<div class="onsaleTitle">分析师折价之选</div>-->
@@ -118,8 +118,8 @@
 					<ul>
 					#end
                             <li>
-                                <span class="research-time">[${one.createdate}]</span>
-                                <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
+                                <span class="research-time">[dateTools.transformYYYYMMDDDate(${one.createdate})]</span>
+                                <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.saname}</span><span class="rec">${one.grade}</span></h3>
                                 <p title="$one.title">
                                     $one.title
                                 </p>

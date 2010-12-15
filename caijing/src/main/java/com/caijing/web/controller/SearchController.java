@@ -28,6 +28,7 @@ import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.model.StockPrice;
+import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
 import com.caijing.util.FileUtil;
 import com.caijing.util.Paginator;
@@ -58,8 +59,9 @@ public class SearchController {
 	VelocityEngine velocityEngine = null;
 
 	@RequestMapping("/admin/search.htm")
-	public String searchRecommend(HttpServletResponse response, @RequestParam(value = "stockcode", required = true)
-	String stockcode, HttpServletRequest request, ModelMap model) {
+	public String searchRecommend(HttpServletResponse response,
+			@RequestParam(value = "stockcode", required = true) String stockcode, HttpServletRequest request,
+			ModelMap model) {
 		Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})", Pattern.CASE_INSENSITIVE
 				| Pattern.DOTALL | Pattern.UNIX_LINES);
 		Matcher m = stockcodePattern.matcher(stockcode);
@@ -86,10 +88,9 @@ public class SearchController {
 	}
 
 	@RequestMapping("/admin/searchreport.htm")
-	public String searchReport(HttpServletResponse response, @RequestParam(value = "q", required = true)
-	String query, @RequestParam(value = "type", required = true)
-	int type, @RequestParam(value = "page", required = false)
-	Integer page, HttpServletRequest request, ModelMap model) {
+	public String searchReport(HttpServletResponse response, @RequestParam(value = "q", required = true) String query,
+			@RequestParam(value = "type", required = true) int type,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
@@ -136,11 +137,29 @@ public class SearchController {
 
 	}
 
-	@RequestMapping("/admin/discount.htm")
-	public String discount(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		List<DiscountStock> discounts = discount.process();
-		model.put("discountlist", discounts);
-		return "/admin/discount.htm";
+	@RequestMapping("/searchstock.htm")
+	public String searchStock(HttpServletResponse response, HttpServletRequest request,
+			@RequestParam(value = "stockcode", required = true) String stockcode,
+			@RequestParam(value = "type", required = true) int type,
+			@RequestParam(value = "page", required = false) Integer page, ModelMap model) {
+		Paginator<RecommendStock> paginator = new Paginator<RecommendStock>();
+		paginator.setPageSize(20);
+		int total = 0;
+		// 分页显示时，标识当前第几页
+		if (page == null || page < 1) {
+			page = 1;
+		}
+		total = recommendStockDao.getRecommendCountsByStockcodeAndStatus(stockcode, type);
+		List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStockByStatus(stockcode, type,
+				(page - 1) * 20, 20);
+		logger.debug("recommendstocks size :" + recommendstocks.size());
+		String urlPattern = "/searchstock.htm?type=" + type + "&stockcode=" + stockcode + "&page=$number$";
+		System.out.println("search stockcode:" + stockcode + "  type:" + type + "  page:" + page);
+		paginator.setUrl(urlPattern);
+		model.put("recommendstocks", recommendstocks);
+		model.put("paginatorLink", paginator.getPageNumberList());
+		model.put("dateTools", new DateTools());
+		return "/search/stocksearch.htm";
 	}
 
 	@RequestMapping("/admin/flushdiscount.htm")
