@@ -141,7 +141,7 @@ function showAnaly(num,id,name1,name2){
             			#foreach ($one in $stockAgencyList)
             			<tr>
             				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">${one.stockname}(${one.stockcode})</a></td>
-            				<td>${floatUtil.getTwoDecimalNumber($one.currentprice)</td>
+            				<td>${floatUtil.getTwoDecimalNumber($one.currentprice)}</td>
             				<td>${one.sacounts}</td>
             				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">ÑÐ±¨Á´½Ó...</a></td>
             				<td title="${one.sanames}" class="agencys">${htmlUtil.getSubStr($one.sanames,12,'...')}</td>

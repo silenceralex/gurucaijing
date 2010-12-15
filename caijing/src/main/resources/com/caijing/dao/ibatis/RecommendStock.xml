@@ -248,13 +248,13 @@
 	<select id="getRecommendCountsByStockcodeAndStatus" resultClass="java.lang.Integer" parameterClass="java.util.Map">
 		select count(1) from recommendstock 
 		<dynamic prepend="where">
-			<isNotEmpty prepend="," property="stockcode">
+			<isNotEmpty prepend="and" property="stockcode">
 				stockcode = #stockcode#
 			</isNotEmpty>
-			<isNotEmpty prepend="," property="status">
+			<isNotEmpty prepend="and" property="status">
 				status = #status#
 			</isNotEmpty>
-			<isNotEmpty prepend="," property="extractnum">
+			<isNotEmpty prepend="and" property="extractnum">
 				extractnum >= #extractnum#
 			</isNotEmpty>
 		</dynamic>
