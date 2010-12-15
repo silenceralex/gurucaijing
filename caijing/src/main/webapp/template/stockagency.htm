@@ -143,8 +143,8 @@ function showAnaly(num,id,name1,name2){
             				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">${one.stockname}(${one.stockcode})</a></td>
             				<td>${floatUtil.getTwoDecimalNumber($one.currentprice)}</td>
             				<td>${one.sacounts}</td>
-            				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">研报链接...</a></td>
             				<td title="${one.sanames}" class="agencys">${htmlUtil.getSubStr($one.sanames,12,'...')}</td>
+            				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">研报链接...</a></td>
             			</tr>
             			#end
             		</table>
@@ -153,9 +153,30 @@ function showAnaly(num,id,name1,name2){
 		            	<table width="100%" border="0">
 		                  <tbody>
 				                  <tr>
-									<td align="center">
-										$paginatorLink
-									</td>
+					                    <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./${next}.html">下一页</a>
+											<a href="./${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
 				                  </tr>
 		                	</tbody>
 		              </table>

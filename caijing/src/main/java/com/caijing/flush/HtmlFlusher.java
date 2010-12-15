@@ -424,6 +424,7 @@ public class HtmlFlusher {
 	public void flushStockAgency() {
 		FloatUtil floatUtil = new FloatUtil();
 		int size = 20;
+		Date lastdate = groupEarnDao.getLatestDate();
 		for (int current = 1; current <= 5; current++) {
 			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			for (StockAgencyEntity entity : entitys) {
@@ -443,6 +444,9 @@ public class HtmlFlusher {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/stockagency.htm");
 				vmf.put("dateTools", new DateTools());
+				vmf.put("currdate", lastdate);
+				vmf.put("page", 5);
+				vmf.put("current", current);
 				vmf.put("floatUtil", floatUtil);
 				vmf.put("stockAgencyList", entitys);
 				vmf.put("htmlUtil", new HtmlUtils());
