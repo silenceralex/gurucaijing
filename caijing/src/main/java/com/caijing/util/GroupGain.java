@@ -279,7 +279,7 @@ public class GroupGain {
 			//			if (tmp == null || tmp.trim().length() < 8)
 			//				continue;
 			//			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
-			String tmp = DateTools.transformYYYYMMDDDate(stock.getCreatedate());
+			String tmp = DateTools.transformYYYYMMDDDateFromStr(stock.getCreatedate());
 			if (!groupcode.contains(code) && buyset.contains(grade)) {
 				if (lastdate != null) {
 					float ratio = 0;
@@ -376,7 +376,7 @@ public class GroupGain {
 			//			if (tmp == null || tmp.trim().length() < 8)
 			//				continue;
 			//			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
-			String tmp = DateTools.transformYYYYMMDDDate(stock.getCreatedate());
+			String tmp = DateTools.transformYYYYMMDDDateFromStr(stock.getCreatedate());
 			if (!groupcode.contains(code) && buyset.contains(grade)) {
 				if (lastdate != null) {
 					float ratio = 0;

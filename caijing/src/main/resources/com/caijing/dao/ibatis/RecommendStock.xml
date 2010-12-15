@@ -261,7 +261,7 @@
 	</select>
 	
 	<select id="getRecommendStockByStatus" parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.createdate,rs.saname,rs.aname,rs.stockname,rs.stockcode,r.filepath as filepath, r.title as title from recommendstock as rs,report
+		select rs.createdate,rs.saname,rs.aname,rs.stockname,rs.grade,rs.stockcode,r.filepath as filepath, r.title as title from recommendstock as rs,report
 		as r where rs.stockcode = #stockcode# and rs.status=#status# and rs.reportid=r.rid order by
 		rs.createdate limit #start#,#length#
 	</select>

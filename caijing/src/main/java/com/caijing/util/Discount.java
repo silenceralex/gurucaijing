@@ -43,10 +43,10 @@ public class Discount {
 			if (discount.getGrade() != null && buyset.contains(discount.getGrade())) {
 				String date = null;
 				try {
-					date = DateTools.transformYYYYMMDDDate(discount.getCreatedate());
+					date = DateTools.transformYYYYMMDDDateFromStr(discount.getCreatedate());
 
-					StockGain sg = sp.getStockGainByPeriod(discount.getStockcode(), date, DateTools
-							.transformYYYYMMDDDate(new Date()));
+					StockGain sg = sp.getStockGainByPeriod(discount.getStockcode(), date,
+							DateTools.transformYYYYMMDDDate(new Date()));
 					if (sg.getGain() < 0) {
 						discount.setDiscountratio(0 - sg.getGain());
 						discount.setRecommendprice(sg.getStartprice());

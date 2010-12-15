@@ -66,10 +66,10 @@ public class RecommendController {
 	private Vutil vutil = null;
 
 	@RequestMapping("/admin/showAllRecommend.htm")
-	public String showAllRecommend(HttpServletResponse response, @RequestParam(value = "saname", required = false)
-	String saname, @RequestParam(value = "page", required = false)
-	Integer page, @RequestParam(value = "type", required = false)
-	Integer type, HttpServletRequest request, ModelMap model) {
+	public String showAllRecommend(HttpServletResponse response,
+			@RequestParam(value = "saname", required = false) String saname,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "type", required = false) Integer type, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 		int total = 0;
@@ -122,9 +122,9 @@ public class RecommendController {
 	}
 
 	@RequestMapping("/admin/showRecommend.htm")
-	public String showRecommend(HttpServletResponse response, @RequestParam(value = "saname", required = false)
-	String saname, @RequestParam(value = "page", required = false)
-	Integer page, HttpServletRequest request, ModelMap model) {
+	public String showRecommend(HttpServletResponse response,
+			@RequestParam(value = "saname", required = false) String saname,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 
@@ -167,8 +167,8 @@ public class RecommendController {
 	}
 
 	@RequestMapping("/admin/recommendedit.htm")
-	public String showRecommend(HttpServletResponse response, @RequestParam(value = "rid", required = true)
-	String reportid, HttpServletRequest request, ModelMap model) {
+	public String showRecommend(HttpServletResponse response,
+			@RequestParam(value = "rid", required = true) String reportid, HttpServletRequest request, ModelMap model) {
 		Report report = null;
 		report = (Report) reportDao.select(reportid);
 		RecommendStock rstock = recommendStockDao.getRecommendStockbyReportid(reportid);
@@ -179,13 +179,14 @@ public class RecommendController {
 	}
 
 	@RequestMapping("/admin/stockgain.htm")
-	public String showStockGain(HttpServletResponse response, @RequestParam(value = "rid", required = true)
-	String reportid, HttpServletRequest request, ModelMap model) {
+	public String showStockGain(HttpServletResponse response,
+			@RequestParam(value = "rid", required = true) String reportid, HttpServletRequest request, ModelMap model) {
 		Report report = null;
 		report = (Report) reportDao.select(reportid);
 		RecommendStock rstock = recommendStockDao.getRecommendStockbyReportid(reportid);
-		StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(), DateTools.transformYYYYMMDDDate(rstock
-				.getCreatedate()), DateTools.transformYYYYMMDDDate(new Date()));
+		StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(),
+				DateTools.transformYYYYMMDDDateFromStr(rstock.getCreatedate()),
+				DateTools.transformYYYYMMDDDate(new Date()));
 		sg.setSaname(rstock.getSaname());
 		sg.setReportid(reportid);
 		sg.setStockname(rstock.getStockname());
@@ -210,8 +211,8 @@ public class RecommendController {
 		model.put("stockgain", sg);
 		model.put("startdate", rstock.getCreatedate());
 
-		StockGain zssg = sp.getZSGainByPeriod(DateTools.transformYYYYMMDDDate(rstock.getCreatedate()), DateTools
-				.transformYYYYMMDDDate(new Date()));
+		StockGain zssg = sp.getZSGainByPeriod(DateTools.transformYYYYMMDDDateFromStr(rstock.getCreatedate()),
+				DateTools.transformYYYYMMDDDate(new Date()));
 		zssg.setStockname("»¦Éî300Ö¸Êý");
 		List<Float> zsperoidprice = zssg.getPeriodprice();
 		List<Float> zsperiodratio = zssg.getPeriodratio();

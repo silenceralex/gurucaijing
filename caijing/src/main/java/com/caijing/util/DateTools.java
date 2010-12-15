@@ -51,7 +51,7 @@ public class DateTools {
 	 * @param date
 	 * @return
 	 */
-	public static String transformYYYYMMDDDate(String date) {
+	public static String transformYYYYMMDDDateFromStr(String date) {
 		String tmp = date.substring(0, 4) + "-" + date.substring(4, 6) + "-" + date.substring(6, 8);
 		return tmp;
 	}
@@ -127,7 +127,7 @@ public class DateTools {
 
 	public static void main(String[] args) {
 		DateTools tools = new DateTools();
-		System.out.println(tools.transformYYYYMMDDDate("20100830"));
+		System.out.println(tools.transformYYYYMMDDDateFromStr("20100830"));
 		System.out.println(DateTools.getToday());
 		System.out.println(DateTools.getYear(new Date()));
 		//tools.getAfterDay("20100830");
