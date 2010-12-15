@@ -72,15 +72,14 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						gs.setIntime(DateTools.parseShortDate(rs.getCreatedate()));
 						gs.setInreportid(rs.getReportid());
 						gs.setObjectprice(rs.getObjectprice());
-						StockEarn se = stockEarnDao.getStockEarnByCodeDate(rs.getStockcode(), DateTools
-								.transformYYYYMMDDDate(rs.getCreatedate()));
+						StockEarn se = stockEarnDao.getStockEarnByCodeDate(rs.getStockcode(),
+								DateTools.transformYYYYMMDDDateFromStr(rs.getCreatedate()));
 						float inprice = 0;
 						if (se != null) {
 							inprice = se.getPrice();
 						} else {
-							inprice = sp
-									.fetchhq(rs.getStockcode(), DateTools.transformYYYYMMDDDate(rs.getCreatedate()))
-									.getEndprice();
+							inprice = sp.fetchhq(rs.getStockcode(),
+									DateTools.transformYYYYMMDDDateFromStr(rs.getCreatedate())).getEndprice();
 						}
 
 						gs.setInprice(inprice);

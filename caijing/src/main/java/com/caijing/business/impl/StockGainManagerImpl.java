@@ -53,8 +53,9 @@ public class StockGainManagerImpl implements StockGainManager {
 			//				continue;
 			//			tmp = tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8);
 			try {
-				StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(), DateTools.transformYYYYMMDDDate(rstock
-						.getCreatedate()), DateTools.transformYYYYMMDDDate(new Date()));
+				StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(),
+						DateTools.transformYYYYMMDDDateFromStr(rstock.getCreatedate()),
+						DateTools.transformYYYYMMDDDate(new Date()));
 				sg.setReportid(rstock.getReportid());
 				sg.setGrade(rstock.getGrade());
 				sg.setSaname(rstock.getSaname());
@@ -113,9 +114,9 @@ public class StockGainManagerImpl implements StockGainManager {
 					continue;
 				}
 				try {
-					StockGain sg = sp
-							.getStockGainByPeriod(rstock.getStockcode(), DateTools.transformYYYYMMDDDate(rstock
-									.getCreatedate()), DateTools.transformYYYYMMDDDate(new Date()));
+					StockGain sg = sp.getStockGainByPeriod(rstock.getStockcode(),
+							DateTools.transformYYYYMMDDDateFromStr(rstock.getCreatedate()),
+							DateTools.transformYYYYMMDDDate(new Date()));
 					sg.setReportid(rstock.getReportid());
 					sg.setGrade(rstock.getGrade());
 					sg.setSaname(rstock.getSaname());
