@@ -223,7 +223,7 @@
 	</select>
 	
 	<select id="getGradeRecommendStocks" resultClass="RecommendStock">
-		select recommendid,reportid,grade from recommendstock where grade is not null
+		select recommendid,reportid,grade from recommendstock where grade is not null and status=0
 	</select>
 	
 	<update id="updateStatus"

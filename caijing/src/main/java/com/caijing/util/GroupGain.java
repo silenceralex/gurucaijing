@@ -32,7 +32,7 @@ public class GroupGain {
 
 	static HashSet<String> buyset = new HashSet<String>();
 
-	static HashSet<String> sellset = new HashSet<String>();
+	//	static HashSet<String> sellset = new HashSet<String>();
 	HashSet<String> groupcode = new HashSet<String>();
 	HashMap<String, String> stockmap = new HashMap<String, String>();
 	@Autowired
@@ -72,14 +72,14 @@ public class GroupGain {
 		//		}
 	}
 
-	static {
-		for (String buy : buys) {
-			buyset.add(buy);
+		static {
+			for (String buy : buys) {
+				buyset.add(buy);
+			}
+//			for (String sell : sells) {
+//				sellset.add(sell);
+//			}
 		}
-		for (String sell : sells) {
-			sellset.add(sell);
-		}
-	}
 
 	public void processASCStore(String aname) {
 		List<StockGain> sgs = stockGainManager.getStockGainByAnameASC(aname);

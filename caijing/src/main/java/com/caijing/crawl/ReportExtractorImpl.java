@@ -96,6 +96,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		} else {
 			System.out.println("grade: " + grade);
 			rs.setGrade(grade);
+			rs.setStatus(judgeStaus(grade));
 			num++;
 		}
 		String eps = fetchEPS(report.getSaname(), content);
@@ -108,6 +109,25 @@ public class ReportExtractorImpl implements ReportExtractor {
 		System.out.println("Extractnum: " + num);
 		rs.setExtractnum(num);
 		return rs;
+	}
+
+	/**
+	 * 根据评级信息判断券商研报是买入类(status为2) 还是卖出类(status为1)
+	 * @param grade
+	 * @return
+	 */
+	private int judgeStaus(String grade) {
+		String judgeStr = grade.replaceAll("\\s", "");
+		if (!judgeStr.contains("谨慎") && !judgeStr.contains("审慎")) {
+			if (judgeStr.contains("买入") || judgeStr.contains("增持") || judgeStr.contains("推荐")) {
+				return 2;
+			} else if (judgeStr.contains("中性")) {
+				return 1;
+			}
+		} else {
+			return 1;
+		}
+		return 0;
 	}
 
 	private String fetchGrade(String saname, String content) {
@@ -594,7 +614,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
-		
+
 	}
 
 	public Config getConfig() {
