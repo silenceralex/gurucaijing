@@ -98,3 +98,11 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .notice_list ul li{padding-top: 10px;border:none;}
 .notice_list_date{float:right;}
 .sec_nav_date{float:right;}
+
+/*二级页tab新样式*/
+.sec_tabBar{width:auto;height:34px;overflow:hidden;text-align:center;background:url(../img/sec_tab_bg.gif) repeat-x;}
+.sec_tabBar h2{float:left;width:140px;height:28px;line-height:28px;background: #BEA555;color:#FFF;}
+.sec_tabBar span{float:left;line-height:28px;height:34px;width:124px;display:block;}
+.sec_tabBar .current{background:url(../img/sec_tabBg.jpg) no-repeat;}
+.sec_tabBar .current a:link, .sec_tabBar .current a:visited{color:#FFF;}
+.sec_tab_right{float:right;width:130px;	height:28px;display:block;color:#FFF;line-height:28px;font-weight:bold;background:url(../img/sec_tab_right.gif) no-repeat;}
