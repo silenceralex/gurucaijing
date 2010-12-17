@@ -440,7 +440,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
-			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
 				String tmp = "";
@@ -484,7 +484,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
-			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
 				String tmp = "";
@@ -528,7 +528,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
-			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
 				String tmp = "";
@@ -571,7 +571,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
-			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
 				String tmp = "";
@@ -604,6 +604,11 @@ public class HtmlFlusher {
 				e.printStackTrace();
 			}
 		}
+
+		System.out.println("yearstart : " + yearStart);
+		System.out.println("halfyearstart : " + halfYearStart);
+		System.out.println("quaterstart : " + quarterStart);
+		System.out.println("monthstart : " + monthStart);
 	}
 
 	public void flushIndex() {
