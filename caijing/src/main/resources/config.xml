@@ -43,7 +43,7 @@
 							<value><![CDATA[股价：RMB([0-9\.]+)\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[(?:\n\s*)分析师\s*(.+)\s+SAC]]></value>
+							<value><![CDATA[(?:\n\s*)分析师\s*(.+?)\s+SAC]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
