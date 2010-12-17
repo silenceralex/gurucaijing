@@ -504,7 +504,7 @@ public class HtmlFlusher {
 			}
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/stockagency.htm");
+				vmf.setTemplate("/template/stockagency_h.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("currdate", lastdate);
 				vmf.put("page", totalpage);
@@ -550,7 +550,7 @@ public class HtmlFlusher {
 			}
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/stockagency.htm");
+				vmf.setTemplate("/template/stockagency_q.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("currdate", lastdate);
 				vmf.put("page", totalpage);
@@ -595,7 +595,7 @@ public class HtmlFlusher {
 			}
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/stockagency.htm");
+				vmf.setTemplate("/template/stockagency_m.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("currdate", lastdate);
 				vmf.put("page", totalpage);
