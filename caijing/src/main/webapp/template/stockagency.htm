@@ -123,10 +123,14 @@ function showAnaly(num,id,name1,name2){
                     <a href="/">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 机构共同之选
                 </h2>   
             </div>
-             <ol style="width:770px;" id="star_detail_tab" class="star_detail_tab">
-            	<li class="star_de_tabli_on" id="starTab1"><a href="/stockagency/1.html">机构共同之选 ($period)</a></li>
-            	
-						</ol>
+             <div style="width:100%;" id="star_detail_tab" class="sec_tabBar">
+				<h2 class="star_de_tabli_on">机构共同之选</h2>
+                <span class="current"><a href="/stockagency/1.html">年度共同推荐</a></span>
+				<span><a href="/stockagency/2.html">半年共同推荐</a></span>
+				<span><a href="/stockagency/3.html">季度共同推荐</a></span>
+				<span><a href="/stockagency/4.html">月共同推荐</a></span>
+			    <em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
+             </div>
 						
             <div id="star_detail_box" class="star_detail_box">
 				<div class="onsaleTable">
