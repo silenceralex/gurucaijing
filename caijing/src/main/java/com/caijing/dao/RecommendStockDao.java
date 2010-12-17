@@ -77,6 +77,15 @@ public interface RecommendStockDao extends CrudDao {
 	public List<StockAgencyEntity> getTopStockAgency(int start, int length);
 
 	/**
+	 * 获取结构一致之选的数据，按照推荐家数排序
+	 * @param start  
+	 * @param length
+	 * @param starttime 起始日期 如20101001
+	 * @return
+	 */
+	public List<StockAgencyEntity> getTopStockAgencyAfter(int start, int length, String starttime);
+
+	/**
 	 * 获取推荐某个股票的所有机构名称
 	 * @param stockcode
 	 * @return
@@ -99,4 +108,6 @@ public interface RecommendStockDao extends CrudDao {
 	 * @return
 	 */
 	public List<RecommendStock> getRecommendStockByStatus(String stockcode, int status, int start, int length);
+
+	//	public List<RecommendStock> getRecentMonthRecommendStockByStatus(String stockcode, int status, int start, int length);
 }

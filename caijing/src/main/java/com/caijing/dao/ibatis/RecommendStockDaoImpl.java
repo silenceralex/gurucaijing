@@ -206,6 +206,15 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 	}
 
 	@Override
+	public List<StockAgencyEntity> getTopStockAgencyAfter(int start, int length, String starttime) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("length", length);
+		params.put("starttime", starttime);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getTopStockAgencyAfter", params);
+	}
+
+	@Override
 	public List<String> getSanamesByStockcode(String stockcode) {
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getSanamesByStockcode", stockcode);
 	}

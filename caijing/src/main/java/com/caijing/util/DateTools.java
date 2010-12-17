@@ -11,6 +11,38 @@ public class DateTools {
 		return sdf.format(date);
 	}
 
+	public String getYearStart() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.YEAR, -1);
+		return sdf.format(cal.getTime());
+	}
+
+	public String getHalfYearStart() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.MONTH, -6);
+		return sdf.format(cal.getTime());
+	}
+
+	public String getQuarterStart() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.MONTH, -3);
+		return sdf.format(cal.getTime());
+	}
+
+	public String getMonthStart() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.MONTH, -1);
+		return sdf.format(cal.getTime());
+	}
+
 	public static String transformDateDetail(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(date);

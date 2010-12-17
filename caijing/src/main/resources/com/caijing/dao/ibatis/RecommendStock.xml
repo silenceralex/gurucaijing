@@ -241,6 +241,10 @@
 		select count(distinct(saname)) as sacounts,stockcode,stockname from recommendstock where status=2 group by stockcode order by count(distinct(saname)) desc limit #start#,#length#
 	</select>
 	
+	<select id="getTopStockAgencyAfter" resultClass="StockAgencyEntity" parameterClass="java.util.Map">
+		select count(distinct(saname)) as sacounts,stockcode,stockname from recommendstock where status=2 and createdate > #starttime# group by stockcode having  count(distinct(saname)) >1 order by count(distinct(saname)) desc limit #start#,#length#
+	</select>
+	
 	<select id="getSanamesByStockcode" resultClass="java.lang.String" parameterClass="java.lang.String">
 		select distinct(saname) from recommendstock where stockcode=#value# and status=2
 	</select>

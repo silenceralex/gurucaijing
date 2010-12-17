@@ -425,9 +425,24 @@ public class HtmlFlusher {
 		FloatUtil floatUtil = new FloatUtil();
 		int size = 20;
 		Date lastdate = groupEarnDao.getLatestDate();
-		for (int current = 1; current <= 5; current++) {
-			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
-			for (StockAgencyEntity entity : entitys) {
+		DateTools dateTools = new DateTools();
+		String yearStart = dateTools.getYearStart();
+		String halfYearStart = dateTools.getHalfYearStart();
+		String quarterStart = dateTools.getQuarterStart();
+		String monthStart = dateTools.getMonthStart();
+		List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgencyAfter(0, 100, yearStart);
+		int totalpage = 0;
+		if (entitys.size() > 100) {
+			totalpage = 5;
+		} else {
+			totalpage = entitys.size() / 20 + 1;
+		}
+		for (int current = 1; current <= totalpage; current++) {
+			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
+			//			for (StockAgencyEntity entity : entitys) {
+			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+				StockAgencyEntity entity = entitys.get(i);
+				i++;
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
 				String tmp = "";
 				for (String saname : sanames) {
@@ -443,15 +458,150 @@ public class HtmlFlusher {
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/stockagency.htm");
-				vmf.put("dateTools", new DateTools());
+				vmf.put("dateTools", dateTools);
 				vmf.put("currdate", lastdate);
-				vmf.put("page", 5);
+				vmf.put("page", totalpage);
 				vmf.put("current", current);
 				vmf.put("floatUtil", floatUtil);
 				vmf.put("stockAgencyList", entitys);
 				vmf.put("htmlUtil", new HtmlUtils());
+				vmf.put("period", "年度");
 				vmf.save("/home/html/stockagency/" + current + ".html");
 				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		entitys = recommendStockDao.getTopStockAgencyAfter(0, 100, halfYearStart);
+		totalpage = 0;
+		if (entitys.size() > 100) {
+			totalpage = 5;
+		} else {
+			totalpage = entitys.size() / 20 + 1;
+		}
+		for (int current = 1; current <= totalpage; current++) {
+			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
+			//			for (StockAgencyEntity entity : entitys) {
+			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+				StockAgencyEntity entity = entitys.get(i);
+				i++;
+				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
+				String tmp = "";
+				for (String saname : sanames) {
+					tmp += saname + " ";
+				}
+				entity.setSanames(tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sanames:" + tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
+				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
+				entity.setCurrentprice(price);
+				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/stockagency.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("currdate", lastdate);
+				vmf.put("page", totalpage);
+				vmf.put("current", current);
+				vmf.put("floatUtil", floatUtil);
+				vmf.put("stockAgencyList", entitys);
+				vmf.put("htmlUtil", new HtmlUtils());
+				vmf.put("period", "半年度");
+				vmf.save("/home/html/stockagency/halfyear_" + current + ".html");
+				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		entitys = recommendStockDao.getTopStockAgencyAfter(0, 100, quarterStart);
+		totalpage = 0;
+		if (entitys.size() > 100) {
+			totalpage = 5;
+		} else {
+			totalpage = entitys.size() / 20 + 1;
+		}
+		for (int current = 1; current <= totalpage; current++) {
+			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
+			//			for (StockAgencyEntity entity : entitys) {
+			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+				StockAgencyEntity entity = entitys.get(i);
+				i++;
+				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
+				String tmp = "";
+				for (String saname : sanames) {
+					tmp += saname + " ";
+				}
+				entity.setSanames(tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sanames:" + tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
+				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
+				entity.setCurrentprice(price);
+				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/stockagency.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("currdate", lastdate);
+				vmf.put("page", totalpage);
+				vmf.put("current", current);
+				vmf.put("floatUtil", floatUtil);
+				vmf.put("stockAgencyList", entitys);
+				vmf.put("htmlUtil", new HtmlUtils());
+				vmf.put("period", "季度");
+				vmf.save("/home/html/stockagency/quarter_" + current + ".html");
+				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		entitys = recommendStockDao.getTopStockAgencyAfter(0, 100, monthStart);
+		totalpage = 0;
+		if (entitys.size() > 100) {
+			totalpage = 5;
+		} else {
+			totalpage = entitys.size() / 20 + 1;
+		}
+		for (int current = 1; current <= totalpage; current++) {
+			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
+			//			for (StockAgencyEntity entity : entitys) {
+			for (int i = current * 20; i < (current + 1) * 20 && i < entitys.size(); i++) {
+				StockAgencyEntity entity = entitys.get(i);
+				i++;
+				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
+				String tmp = "";
+				for (String saname : sanames) {
+					tmp += saname + " ";
+				}
+				entity.setSanames(tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sanames:" + tmp.trim());
+				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
+				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
+				entity.setCurrentprice(price);
+				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/stockagency.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("currdate", lastdate);
+				vmf.put("page", totalpage);
+				vmf.put("current", current);
+				vmf.put("floatUtil", floatUtil);
+				vmf.put("stockAgencyList", entitys);
+				vmf.put("htmlUtil", new HtmlUtils());
+				vmf.put("period", "一个月");
+				vmf.save("/home/html/stockagency/quarter_" + current + ".html");
+				System.out.println("write page : " + "/home/html/stockagency/month_" + current + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
