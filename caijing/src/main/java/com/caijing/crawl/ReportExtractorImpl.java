@@ -604,7 +604,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// .matcher("中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速");
 		// if (m != null && m.find()) {
 		// System.out.println("code:" + m.group(1));
-		// }
+		// } 
 	}
 
 	public static void testHuaTai(ReportExtractor extractor) {
