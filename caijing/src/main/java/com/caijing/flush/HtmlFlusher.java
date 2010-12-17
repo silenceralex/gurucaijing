@@ -440,6 +440,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
+			List<StockAgencyEntity> pageentitys = new ArrayList<StockAgencyEntity>();
 			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
@@ -452,6 +453,7 @@ public class HtmlFlusher {
 				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
 				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
 				entity.setCurrentprice(price);
+				pageentitys.add(entity);
 				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
 			}
 			try {
@@ -462,7 +464,7 @@ public class HtmlFlusher {
 				vmf.put("page", totalpage);
 				vmf.put("current", current);
 				vmf.put("floatUtil", floatUtil);
-				vmf.put("stockAgencyList", entitys);
+				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "年度");
 				vmf.save("/home/html/stockagency/" + current + ".html");
@@ -484,6 +486,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
+			List<StockAgencyEntity> pageentitys = new ArrayList<StockAgencyEntity>();
 			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
@@ -496,6 +499,7 @@ public class HtmlFlusher {
 				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
 				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
 				entity.setCurrentprice(price);
+				pageentitys.add(entity);
 				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
 			}
 			try {
@@ -506,7 +510,7 @@ public class HtmlFlusher {
 				vmf.put("page", totalpage);
 				vmf.put("current", current);
 				vmf.put("floatUtil", floatUtil);
-				vmf.put("stockAgencyList", entitys);
+				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "半年度");
 				vmf.save("/home/html/stockagency/halfyear_" + current + ".html");
@@ -528,6 +532,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
+			List<StockAgencyEntity> pageentitys = new ArrayList<StockAgencyEntity>();
 			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
@@ -540,6 +545,7 @@ public class HtmlFlusher {
 				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
 				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
 				entity.setCurrentprice(price);
+				pageentitys.add(entity);
 				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
 			}
 			try {
@@ -550,7 +556,7 @@ public class HtmlFlusher {
 				vmf.put("page", totalpage);
 				vmf.put("current", current);
 				vmf.put("floatUtil", floatUtil);
-				vmf.put("stockAgencyList", entitys);
+				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "季度");
 				vmf.save("/home/html/stockagency/quarter_" + current + ".html");
@@ -571,6 +577,7 @@ public class HtmlFlusher {
 		for (int current = 1; current <= totalpage; current++) {
 			//			List<StockAgencyEntity> entitys = recommendStockDao.getTopStockAgency((current - 1) * size, size);
 			//			for (StockAgencyEntity entity : entitys) {
+			List<StockAgencyEntity> pageentitys = new ArrayList<StockAgencyEntity>();
 			for (int i = (current - 1) * 20; i < current * 20 && i < entitys.size(); i++) {
 				StockAgencyEntity entity = entitys.get(i);
 				List<String> sanames = recommendStockDao.getSanamesByStockcode(entity.getStockcode());
@@ -583,6 +590,7 @@ public class HtmlFlusher {
 				System.out.println("Stockname:" + entity.getStockname() + "  sacounts:" + entity.getSacounts());
 				float price = stockEarnDao.getCurrentPriceByCode(entity.getStockcode());
 				entity.setCurrentprice(price);
+				pageentitys.add(entity);
 				System.out.println("Stockname:" + entity.getStockname() + "  price:" + price);
 			}
 			try {
@@ -593,10 +601,10 @@ public class HtmlFlusher {
 				vmf.put("page", totalpage);
 				vmf.put("current", current);
 				vmf.put("floatUtil", floatUtil);
-				vmf.put("stockAgencyList", entitys);
+				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "一个月");
-				vmf.save("/home/html/stockagency/quarter_" + current + ".html");
+				vmf.save("/home/html/stockagency/month_" + current + ".html");
 				System.out.println("write page : " + "/home/html/stockagency/month_" + current + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
