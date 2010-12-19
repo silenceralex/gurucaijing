@@ -457,8 +457,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.setDao(dao);
 		extractor.init();
 
-		//Test
-		testHuaTai(extractor);
+		/*==== testing extractor ====*/
+		//testHuaTai(extractor);
+		//testGuoXin(extractor);
+		testChangJiang(extractor);
 
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
@@ -612,12 +614,28 @@ public class ReportExtractorImpl implements ReportExtractor {
 		Report report = new Report();
 		report.setSaname("华泰联合");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
-		extractor.extractFromFile(report, "http://51gurus.com/papers/20100916/6FQ6LHOR.txt");
-		extractor.extractFromFile(report, "http://51gurus.com/papers/20101026/6JG010EI.txt");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
+		//extractor.extractFromFile(report, "http://51gurus.com/papers/20100916/6FQ6LHOR.txt");
+		//extractor.extractFromFile(report, "http://51gurus.com/papers/20101026/6JG010EI.txt");
 		
-		
+	}
+	
+	public static void testGuoXin(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("国信证券");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101126/6LOU51MC.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0442VH.txt");
+	}
+	
+	public static void testChangJiang(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("长江证券");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100721/6CLPVB6U.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100709/6CLQ1238.txt");
+	
 	}
 
 	public Config getConfig() {

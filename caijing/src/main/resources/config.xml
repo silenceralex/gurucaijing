@@ -27,7 +27,57 @@
 						</entry>
 					</map>
 				</entry>
+			
+				<entry key="国信证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n\s*(201\d)\s*[\-年\?]\s*(\d{1,2})\s*[\-月\?]\s*(\d{1,2})\s*[\-日\?]\s*\n]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[(?:（|\()\d{6}(?:）|\))\s*([^\s]+)]]></value>
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<!-- TODO 不知道哪个是 -->
+							<value><![CDATA[股价：RMB([0-9\.]+)\s*\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n证券分析师：\s*(.+?)\s+电话：]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[每股收益(?:（|\()元(?:）|\))\s+(?:.?[\-0-9\.]+.?\s+)*([\-0-9\.]+)\s+([\-0-9\.]+)\s+([\-0-9\.]+)\s*]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>	
 				
+				<entry key="长江证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[(201\d)-(\d{1,2})-(\d{1,2})]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[研究报告\s+(.+?)\s+201]]></value>
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<!-- TODO 不知道哪个是 -->
+							<value><![CDATA[股价：RMB([0-9\.]+)\s*\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[(?:\n\s*)分析师：\s*(.+?)\s*[(（]]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[EPS(?:（|\()元/股(?:）|\))\s+(?:.?[\-0-9\.]+.?\s+)*([\-0-9\.]+)\s+([\-0-9\.]+)\s+([\-0-9\.]+)\s*]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>	
+
 				<entry key="华泰联合">
 					<map>
 						<entry key="publishdate">
