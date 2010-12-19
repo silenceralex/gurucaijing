@@ -67,7 +67,7 @@ public class FetchRecommendStock {
 		for (Report report : reports) {
 			if (config.getValue(report.getSaname()) != null) {
 				System.out.println("Now process NO.: " + i);
-				String txtpath = "http://guru.caijing.com"
+				String txtpath = "http://51gurus.com"
 						+ report.getFilepath();
 				System.out.println("Reports txt path: "
 						+ txtpath.replace(".pdf", ".txt"));

@@ -459,8 +459,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 		/*==== testing extractor ====*/
 		//testHuaTai(extractor);
-		//testGuoXin(extractor);
-		testChangJiang(extractor);
+		testGuoXin(extractor);
+		//testChangJiang(extractor);
 
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
@@ -616,7 +616,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
-		//extractor.extractFromFile(report, "http://51gurus.com/papers/20100916/6FQ6LHOR.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/papers/20100916/6FQ6LHOR.txt");
 		//extractor.extractFromFile(report, "http://51gurus.com/papers/20101026/6JG010EI.txt");
 		
 	}
@@ -626,7 +626,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		Report report = new Report();
 		report.setSaname("国信证券");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101126/6LOU51MC.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0442VH.txt");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0442VH.txt");
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101105/6K1PKN33.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101028/6JG6L3FA.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100823/6DSQ8JDK.txt");
 	}
 	
 	public static void testChangJiang(ReportExtractor extractor) {

@@ -43,7 +43,7 @@
 							<value><![CDATA[股价：RMB([0-9\.]+)\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[\n证券分析师：\s*(.+?)\s+电话：]]></value>
+							<value><![CDATA[分析师[：:]\s*(.+?)\s+]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -90,7 +90,7 @@
 						</entry>
 						<entry key="objectprice">
 							<!-- 股价：NA -->
-							<value><![CDATA[股价：RMB([0-9\.]+)\s*\n]]></value>
+							<value><![CDATA[价：RMB([0-9\.]+)\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
 							<value><![CDATA[(?:\n\s*)分析师\s*(.+?)\s+SAC]]></value>
