@@ -625,11 +625,12 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("国信证券");
-		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101126/6LOU51MC.txt");
-		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0442VH.txt");
-		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101105/6K1PKN33.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101126/6LOU51MC.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0442VH.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101105/6K1PKN33.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101028/6JG6L3FA.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100823/6DSQ8JDK.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ686V.txt");
 	}
 	
 	public static void testChangJiang(ReportExtractor extractor) {
