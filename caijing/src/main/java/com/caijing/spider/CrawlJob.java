@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.remote.CmsWebservice;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
@@ -530,8 +531,9 @@ public class CrawlJob implements Runnable {
 		}
 		CrawlJob job = ConfigReader.fromXML(xml);
 
-		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
-		//		job.setColumnArticleDao(columnArticleDao);
+		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
+		job.setColumnArticleDao(columnArticleDao);
+		//		job.getUrlDB().delete("20日看盘必读：两大因素困扰A股" + "傅峙峰");
 		long startTime = System.currentTimeMillis();
 
 		// System.out.println("CrawlJob: \tThreads:" + job.getThreads()

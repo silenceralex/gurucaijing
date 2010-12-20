@@ -58,7 +58,7 @@ public class CmsWebservice {
 		//		CmsWebservice cmsService = new CmsWebservice();
 		//		long id = cmsService.addArticle(9129, "²âÊÔ±êÌâ5", "admin", "²âÊÔÄÚÈİ5", "2010-05-04 01:23:12");
 		//		long id = cmsService.addArticle(9129, "ÕªÒª²âÊÔ", "admin", "summary", "²âÊÔÄÚÈİ5", "2010-05-04 01:23:12");
-		//		long aid = CmsWebservice.getInstance().addArticle(9129, "ÕªÒª²âÊÔ444", "admin", "summary", "ÈÜ½â", "²âÊÔÄÚÈİ5",
+		//		long aid = CmsWebservice.getInstance().addArticle(9129, "ÕªÒª²âÊÔ1234", "admin", "summary", "ÈÜ½â", "²âÊÔÄÚÈİ5",
 		//				"2010-11-04 11:23:12");
 		//		CmsWebservice.getInstance().publishArticle(aid);
 		//		System.out.println(aid);
@@ -90,6 +90,7 @@ public class CmsWebservice {
 						DateTools.transformDateDetail(article.getPtime()));
 				columnArticleDao.update(article);
 				CmsWebservice.getInstance().publishArticle(aid);
+				System.out.println(article.getTitle());
 				System.out.println(aid);
 			} else if (article.getType() == 2) {
 				long aid = CmsWebservice.getInstance().addArticle(9136, article.getTitle(), article.getAuthor(),
@@ -101,7 +102,12 @@ public class CmsWebservice {
 			}
 		}
 		System.out.println(articles.size());
-		//		}
 
+		//		ColumnArticle article = new ColumnArticle();
+		//		article.setAid("fa8a60ddd279512ae1394f3ee20f923c");
+		//		article.setCmsid(253269);
+		//		int i = columnArticleDao.update(article);
+		//		System.out.println("update column num" + i);
 	}
+
 }
