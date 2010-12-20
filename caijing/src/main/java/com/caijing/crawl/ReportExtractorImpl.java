@@ -631,6 +631,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101028/6JG6L3FA.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100823/6DSQ8JDK.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ686V.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100709/6CLQ134A.txt");
 	}
 	
 	public static void testChangJiang(ReportExtractor extractor) {
