@@ -60,7 +60,7 @@
 						</entry>
 						<entry key="grade">
 							<list>
-								<value><![CDATA[研究报告\s+(.+?)\s+201]]></value>
+								<value><![CDATA[研究报告\s+.*“(.+?)”.*?\s+201]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
