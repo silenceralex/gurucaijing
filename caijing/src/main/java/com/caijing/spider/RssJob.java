@@ -81,10 +81,10 @@ public class RssJob {
 					//改用标题+作者进行去重
 					String md5 = MD5Utils.hash(article.getTitle() + article.getAuthor());
 					if (!urlDB.contains(md5)) {
-						urlDB.putUrl(md5);
 						article.setAid(MD5Utils.hash(article.getLink()));
 						article.setType(type);
 						columnArticleDao.insert(article);
+						urlDB.putUrl(md5);
 						long articleid = CmsWebservice.getInstance().addArticle(
 								columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
 								article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),

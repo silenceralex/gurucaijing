@@ -189,7 +189,7 @@
 				lmodify = #lmodify#
 			</isNotEmpty>
 		</dynamic>
-		where recommendid=#recommendid#
+		where reportid=#reportid#
 	</update>
 
 	<delete id="delete" parameterClass="RecommendStock">
