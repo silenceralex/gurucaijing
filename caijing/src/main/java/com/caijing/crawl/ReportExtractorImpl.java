@@ -460,7 +460,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		/*==== testing extractor ====*/
 		//testHuaTai(extractor);
 		//testGuoXin(extractor);
-		testChangJiang(extractor);
+		//testChangJiang(extractor);
+		testGuangDa(extractor);
 
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
@@ -644,6 +645,18 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100727/6CLPL92G.txt");
 		
 	
+	}
+	
+	public static void testGuangDa(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("光大证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNIIPD.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNKBQB.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNIPGQ.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N041NI5.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101216/6NEGLFLL.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ674G.txt");
 	}
 
 	public Config getConfig() {

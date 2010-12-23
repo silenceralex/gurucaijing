@@ -28,6 +28,30 @@
 					</map>
 				</entry>
 			
+				<entry key="光大证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[(?:重要声明。)\s*(201\d)-(\d{1,2})-(\d{1,2})\s*\n]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[\n([^\n]*)\s*\n当前价格]]></value>
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[\n目标价格\s+([0-9\.]+)元\s*\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n(?:分析师[:：][ \t\x0B]*)?([^\n]*)\s*(?:（|\()执业证书编号]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[(?:每股收益|EPS)(?:(?:（|\()元(?:）|\)))?[ \t\x0B]+(?:.?[\-0-9\.]+.?[ \t\x0B]+)*([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]*\n]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>				
+			
 				<entry key="国信证券">
 					<map>
 						<entry key="publishdate">
