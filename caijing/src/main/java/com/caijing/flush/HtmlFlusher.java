@@ -698,12 +698,13 @@ public class HtmlFlusher {
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		flusher.flushIndex();
-		flusher.flushStarOnSale(false);
-		flusher.flushStarOnSale(true);
+		//		flusher.flushIndex();
+		//		flusher.flushStarOnSale(false);
+		//		flusher.flushStarOnSale(true);
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
-		flusher.flushStockAgency();
+		//		flusher.flushStockAgency();
+		flusher.flushNotice();
 	}
 
 	public ReportDao getReportDao() {
