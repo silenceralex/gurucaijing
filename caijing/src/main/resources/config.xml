@@ -133,7 +133,7 @@
 							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/(安信证券)_公司.*?_(.*?)：(.*?)_([0-9]{6})_(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[报告日期：\??\s+(201\d)[-\?](\d{2})[-\?](\d{2})]]></value>
+							<value><![CDATA[报告日期：\??\s+(20\d{2})[-\?](\d{2})[-\?](\d{2})]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
