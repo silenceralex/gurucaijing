@@ -29,6 +29,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 	Pattern characterPattern = Pattern.compile("^([\\u4e00-\\u9fa5\\u9d84\\s\\?]+)[0-9AS\\s]+\\n",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 	HashMap<String, String> stockmap = new HashMap<String, String>();
+
+	HashMap<String, Pattern> sanameMap = new HashMap<String, Pattern>();
 	private Config config = null;
 
 	private StockDao dao = null;
@@ -304,6 +306,38 @@ public class ReportExtractorImpl implements ReportExtractor {
 		return eps;
 	}
 
+	public Report extractFromTitleAndSaname(String path, String rid, String saname) {
+		Pattern titlePattern = Pattern.compile((String) config.getValue(saname).get("titlePattern"),
+				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+		System.out.println("titlePattern:" + config.getValue(saname).get("titlePattern"));
+		System.out.println("path:" + path);
+		Matcher m = titlePattern.matcher(path);
+		Report report = new Report();
+		report.setRid(rid);
+		if (m != null && m.find()) {
+			String sanam = m.group(1);
+			String stockname = m.group(2);
+			String title = m.group(3);
+			String stockcode = m.group(4);
+			String aname = m.group(5);
+			report.setSaname(sanam);
+			report.setStockcode(stockcode);
+			report.setStockname(stockname);
+			report.setType(1);
+			report.setTitle(title);
+			report.setAname(aname);
+			System.out.println("sanam:" + sanam);
+			System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+			System.out.println("type:" + 1);
+			System.out.println("title:" + title);
+			System.out.println("aname:" + aname);
+		} else {
+			System.out.println("No match:");
+		}
+		return report;
+	}
+
 	public Report extractFromTitle(String file, String rid) {
 		String name = new File(file).getName();
 		name = name.substring(0, name.lastIndexOf('.'));
@@ -456,12 +490,15 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.setConfig(config);
 		extractor.setDao(dao);
 		extractor.init();
+		String test = "/data/oldpapers2/200904/安信证券_公司快报_柳钢股份：意料中的业绩大幅下滑_601003_赵志成,任琳娜.pdf";
+
+		extractor.extractFromTitleAndSaname(test, "test", "安信证券");
 
 		/*==== testing extractor ====*/
 		//testHuaTai(extractor);
 		//testGuoXin(extractor);
 		//testChangJiang(extractor);
-		testGuangDa(extractor);
+		//		testGuangDa(extractor);
 
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
@@ -619,9 +656,13 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
 		extractor.extractFromFile(report, "http://51gurus.com/papers/20100916/6FQ6LHOR.txt");
 		//extractor.extractFromFile(report, "http://51gurus.com/papers/20101026/6JG010EI.txt");
-		
+
 	}
-	
+
+	public static void testAnxin(ReportExtractor extractor) {
+
+	}
+
 	public static void testGuoXin(ReportExtractor extractor) {
 		//公司研报
 		Report report = new Report();
@@ -635,7 +676,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100709/6CLQ134A.txt");
 
 	}
-	
+
 	public static void testChangJiang(ReportExtractor extractor) {
 		//公司研报
 		Report report = new Report();
@@ -643,10 +684,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100721/6CLPVB6U.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100709/6CLQ1238.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100727/6CLPL92G.txt");
-		
-	
+
 	}
-	
+
 	public static void testGuangDa(ReportExtractor extractor) {
 		//公司研报
 		Report report = new Report();

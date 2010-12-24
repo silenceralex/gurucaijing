@@ -40,6 +40,7 @@ public class AnalyzerDaoImplTest extends TestCase {
 			analyzer.setLevel(3);
 			if (dao.getAnalyzerByName(analyzer.getName()) == null) {
 				Integer obj = (Integer) dao.insert(analyzer);
+				System.out.println("obj: " + obj);
 			}
 			//			assertNotNull(obj);
 			//			assertEquals(1,obj.intValue());

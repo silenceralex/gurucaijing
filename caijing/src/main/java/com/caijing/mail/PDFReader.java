@@ -197,6 +197,76 @@ public class PDFReader {
 		}
 	}
 
+	public void processHistoryPath(String logfile) {
+		String text = FileUtil.read(logfile, "utf-8");
+		for (String line : text.split("\n")) {
+			if (logfile.contains("axzq")) {
+				processOneFile(line, "°²ÐÅÖ¤È¯");
+			} else if (logfile.contains("gjzq")) {
+
+			}
+		}
+	}
+
+	public void processOneFile(String pdfPath, String saname) {
+		System.out.println("path:" + pdfPath);
+		String textFile = null;
+		String rid = ServerUtil.getid();
+		try {
+			//			textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/') + 1) + rid + ".txt";
+			String mvpath = pdfPath.replace("/data/oldpapers2", FileUtil.html);
+			mvpath = mvpath.substring(0, mvpath.lastIndexOf('/') + 1);
+			String mvfile = mvpath + rid + ".pdf";
+			String commendStr = "cp " + pdfPath + " " + mvfile;
+			File ddir = new File(mvpath);
+			System.out.println("Copy path:" + mvpath);
+			if (!ddir.exists()) {
+				ddir.mkdirs();
+			}
+			StringWriter sw = new StringWriter();
+			Command.run(commendStr, sw);
+			logger.debug(sw.toString());
+
+			textFile = mvfile.replace(".pdf", ".txt");
+			System.out.println("Copy path:" + pdfPath);
+			readFdf(pdfPath, textFile);
+			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
+			if (report != null) {
+				System.out.println("url:" + mvfile.replace("/home/html", ""));
+				report.setFilepath(mvfile.replace("/home/html", ""));
+				//			Date ptime = vutil.stringtodate(file.getName());
+				//			System.out.println("ptime :" + file.getName());
+				Date now = new Date();
+				report.setPtime(now);
+				reportDao.insert(report);
+				if (report.getType() == 1 && config.getConfigMap().containsKey(report.getSaname())) {
+					System.out.println("Be in top10 stockagency start to extrator!");
+
+					RecommendStock rs = extractor.extractFromFile(report, textFile);
+					if (rs.getAname() == null
+							|| (report.getAname() != null && !rs.getAname().equals(report.getAname()))) {
+						rs.setAname(report.getAname());
+					}
+					if (rs != null) {
+						rs.setReportid(report.getRid());
+						if (rs.getExtractnum() > 2) {
+							recommendStockDao.insert(rs);
+							System.out.println("Reports getAname: " + rs.getAname());
+							System.out.println("Reports getObjectprice: " + rs.getObjectprice());
+							System.out.println("Reports getCreatedate: " + rs.getCreatedate());
+							System.out.println("Reports getGrade: " + rs.getGrade());
+							System.out.println("Reports getEps: " + rs.getEps());
+							groupGainManager.extractGroupStock(rs);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * @param args
 	 */
@@ -215,19 +285,17 @@ public class PDFReader {
 		pdfReader.init();
 
 		try {
-			// È¡ï¿½ï¿½Eï¿½ï¿½ï¿½Âµï¿½SpringGuide.pdfï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-			// pdfReader.read("C:\\Users\\chenjun\\Desktop\\touzi\\");
-			// pdfReader.read("F:\\email\\papers\\ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ï¿½7.19");
+			pdfReader.processHistoryPath("/data/oldpapers2/log/axzq.log");
 
-			System.out.println(args.length);
-			System.out.println(args[0]);
-			if (args.length == 1) {
-				// pdfReader.read(args[0]);
-				System.out.println(args[0]);
-				pdfReader.read(args[0]);
-			} else {
-				// pdfReader.processPath("/home/app/email");
-			}
+			//			System.out.println(args.length);
+			//			System.out.println(args[0]);
+			//			if (args.length == 1) {
+			//				// pdfReader.read(args[0]);
+			//				System.out.println(args[0]);
+			//				pdfReader.read(args[0]);
+			//			} else {
+			//				// pdfReader.processPath("/home/app/email");
+			//			}
 			// pdfReader.read("/home/app/email/papers/20100723");
 			// pdfReader.readFdf("/home/email/papers/20100608/zx.pdf");
 		} catch (Exception e) {
