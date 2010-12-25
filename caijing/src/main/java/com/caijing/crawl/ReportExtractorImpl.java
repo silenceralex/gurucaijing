@@ -490,15 +490,17 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.setConfig(config);
 		extractor.setDao(dao);
 		extractor.init();
-		String test = "/data/oldpapers2/200904/安信证券_公司快报_柳钢股份：意料中的业绩大幅下滑_601003_赵志成,任琳娜.pdf";
+		//String test = "/data/oldpapers2/200904/安信证券_公司快报_柳钢股份：意料中的业绩大幅下滑_601003_赵志成,任琳娜.pdf";
 
-		extractor.extractFromTitleAndSaname(test, "test", "安信证券");
+		//extractor.extractFromTitleAndSaname(test, "test", "安信证券");
 
 		/*==== testing extractor ====*/
 		//testHuaTai(extractor);
 		//testGuoXin(extractor);
 		//testChangJiang(extractor);
-		//		testGuangDa(extractor);
+		//testGuangDa(extractor);
+		testYinHe(extractor);
+		testHongYuan(extractor);
 
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
@@ -698,6 +700,27 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101216/6NEGLFLL.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ674G.txt");
 	}
+	
+	public static void testYinHe(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("银河证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101019/6IF8N9AA.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100902/6ER8O3PB.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100914/6FNVFP9U.txt");
+
+	}
+	
+	public static void testHongYuan(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("宏源证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EVCQ.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100902/6ER8OLK5.txt");
+
+	}
+	
 
 	public Config getConfig() {
 		return config;
