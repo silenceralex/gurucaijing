@@ -205,7 +205,13 @@ public class ReportExtractorImpl implements ReportExtractor {
 						if (tmp.trim().length() != 0 && tmp.trim().length() < 4 && tmp.trim().length() > 1) {
 							aname += tmp.trim() + " ";
 						}
-					}
+						if(saname.equals("宏源证券")){
+								// 宏源证券，去除有的人名中间的/
+									aname = m.group(1).trim().replaceAll("/", " ").trim() + " ";
+								} else {
+									aname = m.group(1).trim() + " ";
+								}
+						}
 					// System.out.println("after anaylzer:" + aname.trim());
 				} else {
 					// 中金公司，去除有的人名中间的空格
@@ -214,7 +220,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					} else {
 						aname = m.group(1).trim() + " ";
 					}
-				}
+				} 
 				if (analyzer == null) {
 					analyzer = aname.trim() + " ";
 				} else {
@@ -499,7 +505,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testGuoXin(extractor);
 		//testChangJiang(extractor);
 		//testGuangDa(extractor);
-		testYinHe(extractor);
+		//testYinHe(extractor);
 		testHongYuan(extractor);
 
 		// extractor.extractFromTitle(
@@ -718,7 +724,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EVCQ.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100902/6ER8OLK5.txt");
-
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ5MCD.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ5VHP.txt");
 	}
 	
 

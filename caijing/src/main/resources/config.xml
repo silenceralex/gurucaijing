@@ -65,11 +65,12 @@
 						</entry>
 						<entry key="objectprice">
 							<!-- 无目标价 -->
-							<value><![CDATA[\n目标价格\s+([0-9\.]+)元\s*\n]]></value>
+							<value><![CDATA[\n目标价格[:：]\s+([0-9\.]+)[ \t\x0B]+元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<!-- 暂时无法匹配  -->
-							<value><![CDATA[\n[ \t\x0B]*[table_research]\s*分析师(?:姓名)?[:：]?\s+([^\n]*)]]></value>
+							<!-- [table_research] 分析师：黄立军 邢波  -->
+							 
+							<value><![CDATA[(?:\[table_research\])\s*分析师(?:姓名)?[:：]?\s*([^\n]*)]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
