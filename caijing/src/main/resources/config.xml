@@ -82,7 +82,7 @@
 				<entry key="光大证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[(?:重要声明。)\s*(201\d)-(\d{1,2})-(\d{1,2})\s*\n]]></value>
+							<value><![CDATA[(?:重要声明。)?\n\s*(201\d)-(\d{1,2})-(\d{1,2})\s*\n]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
