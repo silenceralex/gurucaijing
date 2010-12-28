@@ -506,8 +506,13 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testChangJiang(extractor);
 		//testGuangDa(extractor);
 		//testYinHe(extractor);
-		testHongYuan(extractor);
-
+		//testHongYuan(extractor);
+		//TODO 
+		//testDongFang(extractor);
+		//testZhongXin(extractor);
+		//testZhongTou(extractor);
+		//testHuaTai2(extractor);
+		
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
 
@@ -728,6 +733,37 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ5VHP.txt");
 	}
 	
+	//TODO
+	public static void testDongFang(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("东方证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
+	}
+	
+	//TODO
+	public static void testZhongXin(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("中信建投");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
+	}
+	
+	//TODO
+	public static void testZhongTou(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("中投证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
+	}
+	
+	//TODO
+	public static void testHuaTai2(ReportExtractor extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("华泰证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
+	}
 
 	public Config getConfig() {
 		return config;

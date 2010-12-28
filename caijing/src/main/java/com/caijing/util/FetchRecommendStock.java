@@ -112,12 +112,17 @@ public class FetchRecommendStock {
 		//		 reportDao.getCompanyReportsBySanameAfter("安信证券", "2010-09-16 00:00:00");
 		//		 reportDao.getCompanyReportsBySanameAfter("广发证券", "2010-09-16 00:00:00");
 		//		 reportDao.getCompanyReportsBySanameAfter("招商证券", "2010-09-16 00:00:00");
-		//reportDao.getCompanyReportsBySaname("华泰联合");
-		//reportDao.getCompanyReportsBySaname("长江证券");
-		//reportDao.getCompanyReportsBySaname("国信证券");
-		//reportDao.getCompanyReportsBySaname("光大证券");
-		reportDao.getCompanyReportsBySaname("银河证券");
-		reportDao.getCompanyReportsBySaname("宏源证券");
+			//reportDao.getCompanyReportsBySaname("华泰联合");
+			//reportDao.getCompanyReportsBySaname("长江证券");
+			//reportDao.getCompanyReportsBySaname("国信证券");
+			//reportDao.getCompanyReportsBySaname("光大证券");
+			//reportDao.getCompanyReportsBySaname("银河证券");
+			reportDao.getCompanyReportsBySaname("宏源证券");
+			//TODO
+			//reportDao.getCompanyReportsBySaname("东方证券");
+			//reportDao.getCompanyReportsBySaname("中信建投");
+			//reportDao.getCompanyReportsBySaname("中投证券");
+			//reportDao.getCompanyReportsBySaname("华泰证券");
 		//		System.out.println("Reports size: " + reports.size());
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");
