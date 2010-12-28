@@ -55,12 +55,15 @@
 				
 				<entry key="宏源证券">
 					<map>
-						<entry key="publishdate">
-							<value><![CDATA[\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*\n]]></value>
+						<entry key="publishdate"> 
+							<value><![CDATA[\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*(?:\n|个股)]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
 								<value><![CDATA[\n[ \t\x0B]*\[table_subject\][ \t\x0B]*.*?\s+(?:[^\n]+?[ \t\x0B]+)*([^\n]+?)[ \t\x0B]+(?:[^\n]+?)\s*\n]]></value>
+								<value><![CDATA[([买增中减卖入持性出]{2})（[上下调首维高低持次]{2}）]]></value>
+								<value><![CDATA[给予“([买增中减卖入持性出]{2})”评级]]></value>
+								<value><![CDATA[\n\s*([买增中减卖入持性出]{2})(?:（|\()[上下调首维高低持次]{2}(?:）|\))\s]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
@@ -68,9 +71,11 @@
 							<value><![CDATA[\n目标价格[:：]\s+([0-9\.]+)[ \t\x0B]+元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<!-- [table_research] 分析师：黄立军 邢波  -->
-							 
-							<value><![CDATA[(?:\[table_research\])\s*分析师(?:姓名)?[:：]?\s*([^\n]*)]]></value>
+							<!-- [table_research] 分析师：黄立军 邢波 分析师：黄立军    邢波  -->
+							<value><![CDATA[(?:\[table_research\])\s*分析师(?:姓名)?[:：]?\s*([\u4e00-\u9fa5\s/]+)\n]]></value>
+						</entry>
+						<entry key="analyzerEps">
+							<value><![CDATA[分析师：\s*([\u4e00-\u9fa5/]+)[、\s]]]></value>
 						</entry>
 						<entry key="eps">
 							<list>
