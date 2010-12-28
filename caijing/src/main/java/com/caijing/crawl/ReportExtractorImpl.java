@@ -507,7 +507,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testGuangDa(extractor);
 		//testYinHe(extractor);
 		//testHongYuan(extractor);
-		//TODO 
+		//TODO 未处理的证券
 		//testDongFang(extractor);
 		//testZhongXin(extractor);
 		//testZhongTou(extractor);
