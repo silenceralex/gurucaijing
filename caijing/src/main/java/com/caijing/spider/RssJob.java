@@ -127,9 +127,9 @@ public class RssJob {
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-			xml = sr.read(new File("jobs\\163_huigensi.xml"));
-			//			System.out.println("Input xml : " + args[0]);
-			//			xml = sr.read(new File(args[0]));
+			//			xml = sr.read(new File("jobs\\163_huigensi.xml"));
+			System.out.println("Input xml : " + args[0]);
+			xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
