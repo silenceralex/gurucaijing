@@ -108,6 +108,12 @@
 		rs.aname like #aname# order by rs.createdate desc limit
 		#start#,#offset#
 	</select>
+	
+	<select id="getObjectStocksByAnalyzer" parameterClass="java.util.Map" 
+		resultClass="RecommendStock">
+		select * from recommendstock where saname=#saname# and objectprice!=0 and grade is not null
+		and createdate is not null and aname like #aname#  order by createdate limit #start#,#offset#
+	</select>
 
 	<select id="getRecommendStocksByAnalyzerASC"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
@@ -270,4 +276,7 @@
 		rs.createdate desc limit #start#,#length#
 	</select>
 	
+	<select id="getDistinctAnalyzersBySaname" resultClass="java.lang.String" parameterClass="java.lang.String">
+		select distinct(aname) from recommendstock where saname=#value#
+	</select>
 </sqlMap>

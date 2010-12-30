@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="RecommendSuccess">
+
+	<typeAlias alias="RecommendSuccess" type="com.caijing.domain.RecommendSuccess" />
+
+	<select id="select" resultClass="RecommendSuccess">
+		select * from recommendsuccess where aid=#aid# and reportid=#reportid#
+	</select>
+	
+	<insert id="insert">
+		insert into recommendsuccess
+		(aid,aname,reportid,recommenddate,stockname,stockcode,validate,isAchieved,objectprice)
+		values
+		(#aid#,#aname#,#reportid#,#recommenddate#,#stockname#,#stockcode#,#validate#,#isAchieved#,#objectprice#)
+	</insert>
+
+	<update id="updateIsAchieved" parameterClass="RecommendSuccess">
+		update recommendsuccess
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="isAchieved">
+				isAchieved = #isAchieved#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="validate">
+				validate = #validate#
+			</isNotEmpty>
+		</dynamic>
+		where aid=#aid# and reportid=#reportid#
+	</update>
+	
+	
+	<update id="update" parameterClass="RecommendSuccess">
+		update recommendsuccess
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="isAchieved">
+				isAchieved = #isAchieved#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="validate">
+				validate = #validate#
+			</isNotEmpty>
+		</dynamic>
+		where aid=#aid# and reportid=#reportid#
+	</update>
+
+	<delete id="delete" parameterClass="RecommendSuccess">
+		delete from recommendsuccess where aid=#aid# and reportid=#reportid#
+	</delete>
+
+	<select id="getRecommendSuccessCountByAid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(1) from recommendsuccess where aid=#aid# and isAchieved=1
+	</select>
+	<select id="getTotalRecommendCountByAid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		<![CDATA[select count(1) from recommendsuccess where aid=#aid# and isAchieved<=1]]>
+	</select>
+	
+	<select id="getRecommendsBefore" parameterClass="java.util.Date" resultClass="RecommendSuccess">
+		<![CDATA[select * from recommendsuccess where recommenddate <= #value#]]>
+	</select>
+	
+	<select id="getRecommendsByAid" parameterClass="java.lang.String" resultClass="RecommendSuccess">
+		select * from recommendsuccess where aid = #value#
+	</select>
+</sqlMap>

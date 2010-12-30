@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.business.StockGainManager;
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupPeriod;
 import com.caijing.domain.GroupStock;
+import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockGain;
 import com.caijing.util.DateTools;
@@ -47,14 +49,18 @@ public class AnalyzerController {
 	private RecommendStockDao recommendStockDao = null;
 
 	@Autowired
+	@Qualifier("recommendSuccessDao")
+	private RecommendSuccessDao recommendSuccessDao = null;
+
+	@Autowired
 	@Qualifier("groupGain")
 	private GroupGain gg = null;
 
 	@RequestMapping("/admin/groupgainlist.htm")
-	public String showGroupGainList(HttpServletResponse response, @RequestParam(value = "aname", required = true)
-	String aname, @RequestParam(value = "debug", required = false)
-	String debug, @RequestParam(value = "page", required = false)
-	Integer page, HttpServletRequest request, ModelMap model) {
+	public String showGroupGainList(HttpServletResponse response,
+			@RequestParam(value = "aname", required = true) String aname,
+			@RequestParam(value = "debug", required = false) String debug,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 		//		GroupGain gg = new GroupGain();
 		try {
 			aname = URLDecoder.decode(aname, "UTF-8");
@@ -104,8 +110,8 @@ public class AnalyzerController {
 		model.put("totalratio", totalratio);
 		model.put("groupearn", groupearn);
 
-		StockGain zssg = stockGainManager.getZSGainByPeriod(gs.getFirstdate(), DateTools
-				.transformYYYYMMDDDate(new Date()));
+		StockGain zssg = stockGainManager.getZSGainByPeriod(gs.getFirstdate(),
+				DateTools.transformYYYYMMDDDate(new Date()));
 		zssg.setStockname("上证指数");
 		List<String> zsdate = zssg.getPerioddate();
 		//加入第一只股票的时间
@@ -125,9 +131,9 @@ public class AnalyzerController {
 	}
 
 	@RequestMapping("/admin/analyzergainlist.htm")
-	public String showAnalyzerGainList(HttpServletResponse response, @RequestParam(value = "aname", required = true)
-	String aname, @RequestParam(value = "page", required = false)
-	Integer page, HttpServletRequest request, ModelMap model) {
+	public String showAnalyzerGainList(HttpServletResponse response,
+			@RequestParam(value = "aname", required = true) String aname,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 		int total = 0;
@@ -183,5 +189,22 @@ public class AnalyzerController {
 		model.put("analyzers", analyzers);
 		model.put("gains", gains);
 		return "/admin/analyzerrank.htm";
+	}
+
+	@RequestMapping("/admin/analyzersuccess.htm")
+	public String showAnalyzerSuccessRatio(HttpServletResponse response,
+			@RequestParam(value = "aid", required = true) String aid, HttpServletRequest request, ModelMap model) {
+		List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(aid);
+		model.put("recommends", recommends);
+		int success = recommendSuccessDao.getRecommendSuccessCountByAid(aid);
+		int total = recommendSuccessDao.getTotalRecommendCountByAid(aid);
+		float ratio = ((float) success / total) * 100;
+		model.put("ratio", "" + FloatUtil.getTwoDecimal(ratio) + "%");
+		if (recommends != null && recommends.size() > 0) {
+			model.put("aname", recommends.get(0).getAname());
+		}
+		model.put("dateTools", new DateTools());
+
+		return "/admin/anayzersuccess.htm";
 	}
 }

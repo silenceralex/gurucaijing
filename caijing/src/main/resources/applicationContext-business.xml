@@ -35,6 +35,19 @@
 			<ref bean="stockPrice" />
 		</property>
 	</bean>
+	
+	<bean id="analyzerManager"
+		class="com.caijing.business.impl.AnalyzerManagerImpl">
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
+		<property name="recommendSuccessDao">
+			<ref bean="recommendSuccessDao" />
+		</property>
+	</bean>
 
 
 	<bean id="groupGainManager"

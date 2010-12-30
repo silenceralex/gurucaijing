@@ -15,6 +15,7 @@ import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.StockEarn;
 import com.caijing.domain.StockGain;
 import com.caijing.domain.StockHQ;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.UrlDownload;
@@ -104,20 +105,20 @@ public class StockPrice {
 							Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 			Matcher startm = startPattern.matcher(content);
 			if (startm != null && startm.find()) {
-				System.out.println("Content:" + startm.groupCount());
-				System.out.println(stockcode + "在日期：" + date + "  开盘价：" + startm.group(1));
+				//				System.out.println("Content:" + startm.groupCount());
+				//				System.out.println(stockcode + "在日期：" + date + "  开盘价：" + startm.group(1));
 				hq.setOpenprice(Float.parseFloat(startm.group(1).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  收盘价：" + startm.group(2));
+				//				System.out.println(stockcode + "在日期：" + date + "  收盘价：" + startm.group(2));
 				hq.setEndprice(Float.parseFloat(startm.group(2).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  最低价：" + startm.group(4));
+				//				System.out.println(stockcode + "在日期：" + date + "  最低价：" + startm.group(4));
 				hq.setLowest(Float.parseFloat(startm.group(4).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  最高价：" + startm.group(5));
+				//				System.out.println(stockcode + "在日期：" + date + "  最高价：" + startm.group(5));
 				hq.setHighest(Float.parseFloat(startm.group(5).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  成交额：" + startm.group(6));
+				//				System.out.println(stockcode + "在日期：" + date + "  成交额：" + startm.group(6));
 				hq.setVolum(Float.parseFloat(startm.group(6).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  换手率：" + startm.group(7));
+				//				System.out.println(stockcode + "在日期：" + date + "  换手率：" + startm.group(7));
 				hq.setChangerate(Float.parseFloat(startm.group(7).trim()));
-				System.out.println(stockcode + "在日期：" + date + "  涨跌率：" + startm.group(3));
+				//				System.out.println(stockcode + "在日期：" + date + "  涨跌率：" + startm.group(3));
 				hq.setGainrate(Float.parseFloat(startm.group(3).trim()));
 			}
 			return hq;
@@ -368,9 +369,12 @@ public class StockPrice {
 		//		sp.setStockEarnDao(stockEarnDao);
 		//		sp.getStockGainByPeriod("002477", "2010-08-27", "2010-10-21");
 		//		StockHQ hq = sp.fetchhq("000001", "2010-10-21");
-		StockHQ hq = sp.currentPrice("000001");
-		System.out.println("收盘价：" + hq.getEndprice());
-		System.out.println("收益率：" + hq.getGainrate());
+		//		StockHQ hq = sp.currentPrice("000001");
+		//		System.out.println("收盘价：" + hq.getEndprice());
+		//		System.out.println("收益率：" + hq.getGainrate());
+		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
+		sp.setStockEarnDao(stockEarnDao);
+		sp.storeStockPrice("000300", 1, "2008-01-01", "2008-03-30");
 	}
 
 	public StockEarnDao getStockEarnDao() {

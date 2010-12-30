@@ -1,5 +1,6 @@
 package com.caijing.dao.ibatis;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,4 +43,11 @@ public class StockEarnDaoImpl extends CrudDaoDefault implements StockEarnDao {
 				stockcode);
 	}
 
+	public float getNearPriceByCodeDate(String stockcode, Date date) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("stockcode", stockcode);
+		params.put("date", date);
+		return (Float) this.getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getNearPriceByCodeDate",
+				params);
+	}
 }

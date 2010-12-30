@@ -46,4 +46,10 @@
 	<select id="getCurrentPriceByCode" resultClass="java.lang.Float" parameterClass="java.lang.String">
 		select price from stockearn where stockcode=#value# order by date desc limit 1
 	</select>
+	
+	<select id="getNearPriceByCodeDate" resultClass="java.lang.Float" parameterClass="java.util.Map">
+		select price from stockearn where stockcode=#stockcode# and date>=#date# order by date limit 1
+	</select>
+	
+	
 </sqlMap>

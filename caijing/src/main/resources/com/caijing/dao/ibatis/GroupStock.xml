@@ -21,6 +21,12 @@
 		select * from groupstock where groupid=#groupid# and
 		stockcode=#stockcode# and status=1
 	</select>
+	
+	<select id="getStockByGroupidAndStockcode"
+		resultClass="GroupStock" parameterClass="java.util.Map">
+		select * from groupstock where groupid=#groupid# and
+		stockcode=#stockcode#
+	</select>
 
 	<insert id="insert">
 		insert into groupstock
@@ -95,4 +101,21 @@
 	<select id="getRecommendReportCount" resultClass="java.lang.Integer">
 		select count(1) from groupstock
 	</select>
+	
+	
+	<update id="updateObjectAchieved" parameterClass="GroupStock">
+		update groupstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="currentprice">
+				currentprice = #currentprice#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="gain">
+				gain = #gain#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ltime">
+				ltime = #ltime#
+			</isNotEmpty>
+		</dynamic>
+		where groupid=#groupid# and stockcode=#stockcode# and status =1
+	</update>
 </sqlMap>

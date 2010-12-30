@@ -18,6 +18,7 @@ import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
 import com.caijing.util.DateTools;
+import com.caijing.util.GradeUtil;
 
 public class GroupGainManagerImpl implements GroupGainManager, InitializingBean {
 
@@ -56,8 +57,9 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 	}
 
 	public void extractGroupStock(RecommendStock rs) {
-		String[] names = rs.getAname().split(" ");
+		String[] names = rs.getAname().split("\\s|,");
 		for (String name : names) {
+			name = name.replaceAll("[^\u4e00-\u9fa5]", "");
 			if (analyzerMap.containsKey(name)) {
 				GroupStock gs = new GroupStock();
 				String aid = analyzerMap.get(name).getAid();
@@ -68,7 +70,8 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 				GroupStock oldstock = groupStockDao.getCurrentStockByGroupidAndStockcode(aid, rs.getStockcode());
 
 				try {
-					if (buyset.contains(rs.getGrade()) && (oldstock == null)) {
+					//					if (buyset.contains(rs.getGrade()) && (oldstock == null)) {
+					if (GradeUtil.judgeStaus(rs.getGrade()) == 2 && (oldstock == null)) {
 						gs.setIntime(DateTools.parseShortDate(rs.getCreatedate()));
 						gs.setInreportid(rs.getReportid());
 						gs.setObjectprice(rs.getObjectprice());
@@ -85,10 +88,13 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						gs.setInprice(inprice);
 						groupStockDao.insert(gs);
 					}
-					if (sellset.contains(rs.getGrade()) && (oldstock != null)) {
-						oldstock.setOuttime(DateTools.parseShortDate(rs.getCreatedate()));
-						oldstock.setOutreportid(rs.getReportid());
-						groupStockDao.update(oldstock);
+					//					if (sellset.contains(rs.getGrade()) && (oldstock != null)) {
+					if (GradeUtil.judgeStaus(rs.getGrade()) == 1 && (oldstock != null)) {
+						if (oldstock.getIntime().before(DateTools.parseShortDate(rs.getCreatedate()))) {
+							oldstock.setOuttime(DateTools.parseShortDate(rs.getCreatedate()));
+							oldstock.setOutreportid(rs.getReportid());
+							groupStockDao.update(oldstock);
+						}
 					}
 				} catch (ParseException e) {
 					e.printStackTrace();

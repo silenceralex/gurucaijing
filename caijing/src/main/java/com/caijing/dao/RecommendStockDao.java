@@ -2,6 +2,7 @@ package com.caijing.dao;
 
 import java.util.List;
 
+import com.caijing.domain.Analyzer;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockAgencyEntity;
@@ -109,5 +110,13 @@ public interface RecommendStockDao extends CrudDao {
 	 */
 	public List<RecommendStock> getRecommendStockByStatus(String stockcode, int status, int start, int length);
 
+	/**
+	 * 获取某个券商的去重的分析师名字
+	 * @param saname
+	 * @return
+	 */
+	public List<String> getDistinctAnalyzersBySaname(String saname);
+
+	public List<RecommendStock> getObjectStocksByAnalyzer(Analyzer analyzer, int start, int offset);
 	//	public List<RecommendStock> getRecentMonthRecommendStockByStatus(String stockcode, int status, int start, int length);
 }

@@ -10,6 +10,8 @@ public interface AnalyzerDao extends CrudDao {
 
 	public List<Analyzer> getAllAnalyzers();
 
+	public List<Analyzer> getStarAnalyzers();
+
 	public Analyzer getAnalyzerByName(String name);
 
 	public List<Analyzer> getAnalyzerRankList(String date, int start, int length);

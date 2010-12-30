@@ -22,7 +22,6 @@ import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.EconomistDao;
 import com.caijing.dao.UserDao;
 import com.caijing.domain.Analyzer;
-import com.caijing.domain.Economist;
 import com.caijing.domain.User;
 import com.caijing.util.TopicNameConfig;
 
@@ -46,10 +45,10 @@ public class LoginController {
 	private EconomistDao economistDao = null;
 
 	@RequestMapping("/admin/login.do")
-	public String showColomn(HttpServletResponse response, @RequestParam(value = "username", required = false)
-	String username, @RequestParam(value = "password", required = false)
-	String password, @RequestParam(value = "random", required = false)
-	String random, HttpServletRequest request, ModelMap model) {
+	public String showColomn(HttpServletResponse response,
+			@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "random", required = false) String random, HttpServletRequest request, ModelMap model) {
 		User user = new User();
 		String srandom = (String) request.getSession().getAttribute("random");
 		System.out.println("srandom : " + srandom);
@@ -74,8 +73,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/admin/top.htm")
-	public String topPage(@ModelAttribute("currUser")
-	User user, ModelMap model) {
+	public String topPage(@ModelAttribute("currUser") User user, ModelMap model) {
 		model.put("currUser", user);
 		return ("/admin/top.htm");
 	}
@@ -97,9 +95,9 @@ public class LoginController {
 		Set<String> topicList = topicNameMap.getTopicNameMap().keySet();
 		model.put("topicList", topicList);
 		model.put("topicNameMap", topicNameMap);
-		List<Economist> economistList = economistDao.getAllEconomist();
-		model.put("economistList", economistList);
-		List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
+		//		List<Economist> economistList = economistDao.getAllEconomist();
+		//		model.put("economistList", economistList);
+		List<Analyzer> analyzerlist = analyzerDao.getStarAnalyzers();
 		model.put("analyzerList", analyzerlist);
 		return "/admin/menu2.htm";
 	}

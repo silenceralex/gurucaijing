@@ -3,7 +3,6 @@ package com.caijing.util;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -67,11 +66,11 @@ public class PdfReader {
 			System.out.println("Creation Date=" + info.getCreationDate());
 			System.out.println("Modification Date=" + info.getModificationDate());
 			System.out.println("Trapped=" + info.getTrapped());
-			
-			StringBuffer sb=new StringBuffer();
-			
+
+			StringBuffer sb = new StringBuffer();
+
 			output = new OutputStreamWriter(new FileOutputStream(outPath), encoding);
-			BufferedWriter bw=new BufferedWriter(output);
+			BufferedWriter bw = new BufferedWriter(output);
 			PDFTextStripper stripper = null;
 			stripper = new PDFTextStripper();
 			stripper.setSortByPosition(false);
@@ -94,8 +93,8 @@ public class PdfReader {
 
 	public static void main(String[] args) {
 		PdfReader reader = new PdfReader();
-		reader.readFdf("E:\\test\\6GMNS40C.pdf", "E:\\test\\6GMNS40C_1.txt");
-		reader.readFirstFdf("E:\\test\\6GMNS40C.pdf", "E:\\test\\6GMNS40C_2.txt");
+		reader.readFdf("D:\\test\\2.pdf", "D:\\test\\2.txt");
+		//		reader.readFirstFdf("D:\\test\\1.pdf", "D:\\test\\1.txt");
 	}
 
 }

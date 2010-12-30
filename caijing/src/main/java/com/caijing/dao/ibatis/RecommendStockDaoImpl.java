@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.domain.Analyzer;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockAgencyEntity;
@@ -236,5 +237,20 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		params.put("length", length);
 		params.put("status", status);
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getRecommendStockByStatus", params);
+	}
+
+	@Override
+	public List<String> getDistinctAnalyzersBySaname(String saname) {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getDistinctAnalyzersBySaname", saname);
+	}
+
+	@Override
+	public List<RecommendStock> getObjectStocksByAnalyzer(Analyzer analyzer, int start, int offset) {
+		Map<String, Object> params = new HashMap<String, Object>(4);
+		params.put("start", start);
+		params.put("offset", offset);
+		params.put("saname", analyzer.getAgency());
+		params.put("aname", "%" + analyzer.getName() + "%");
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getObjectStocksByAnalyzer", params);
 	}
 }

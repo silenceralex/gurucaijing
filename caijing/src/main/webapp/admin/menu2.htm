@@ -117,6 +117,21 @@ body {
 
 						<script type="text/javascript">
 		<!--
+			tree_recommendanalyzer = new dTree('tree_recommendanalyzer');
+		tree_recommendanalyzer.add('tree_recommendanalyzer','-1','分析师推荐成功率','about:blank','分析师推荐成功率','main');
+		#foreach($analyzer in $recommendanalyzerList)
+
+		tree_recommendanalyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzersuccess.htm?aname=$analyzer.aid','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
+	
+		#end
+
+		tree_analyzer.config.target = 'main';
+		document.write(tree_analyzer);
+			//-->
+	</script>
+	
+							<script type="text/javascript">
+		<!--
 			tree_analyzer = new dTree('tree_analyzer');
 		tree_analyzer.add('tree_analyzer','-1','知名分析师','about:blank','知名分析师','main');
 		tree_analyzer.add('column_10001','tree_analyzer','分析预测','','分析预测','main','img/folder.gif','img/folderopen.gif');

@@ -42,7 +42,8 @@ public class AnalyzerFetcher {
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 		GroupGainManager groupGainManager = (GroupGainManager) ContextFactory.getBean("groupGainManager");
 
-		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("∞≤–≈÷§»Ø");
 		int i = 0;
 		for (Analyzer analyzer : analyzers) {
 			//			recommendStockDao.updateAnalyzer(analyzer.getName(), analyzer.getAid());
