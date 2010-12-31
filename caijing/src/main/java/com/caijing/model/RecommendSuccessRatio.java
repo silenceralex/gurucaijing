@@ -11,6 +11,7 @@ import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendSuccess;
+import com.caijing.domain.StockEarn;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
@@ -68,7 +69,7 @@ public class RecommendSuccessRatio {
 					continue;
 				}
 				total++;
-				float endprice = stockEarnDao.getNearPriceByCodeDate(stock.getStockcode(), cal.getTime());
+				StockEarn se = stockEarnDao.getNearPriceByCodeDate(stock.getStockcode(), cal.getTime());
 				String judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
 				//				stockEarnDao
 				//				System.out.println("judge date before:" + judgedate);
@@ -81,8 +82,8 @@ public class RecommendSuccessRatio {
 				//				}
 				//				judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
 				//				float endprice = sp.fetchhq(stock.getStockcode(), judgedate).getEndprice();
-				System.out.println("judge date after:" + judgedate + "  endprice:" + endprice);
-				if (endprice > stock.getObjectprice()) {
+				System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
+				if (se.getPrice() > stock.getObjectprice()) {
 					success++;
 				}
 			}
@@ -102,18 +103,20 @@ public class RecommendSuccessRatio {
 			System.out.println("recommend date" + DateTools.transformYYYYMMDDDate(recommendsuccess.getRecommenddate()));
 			cal.setTime(recommendsuccess.getRecommenddate());
 			cal.add(Calendar.MONTH, 6);
-			float endprice = stockEarnDao.getNearPriceByCodeDate(recommendsuccess.getStockcode(), cal.getTime());
+			StockEarn se = stockEarnDao.getNearPriceByCodeDate(recommendsuccess.getStockcode(), cal.getTime());
 			String judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
-			System.out.println("judge date after:" + judgedate + "  endprice:" + endprice);
-			if (endprice >= recommendsuccess.getObjectprice()) {
+			System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
+			if (se.getPrice() >= recommendsuccess.getObjectprice()) {
 				recommendsuccess.setIsAchieved(1);
-				recommendsuccess.setValidate(cal.getTime());
+				recommendsuccess.setValidate(se.getDate());
+				recommendsuccess.setValidateprice(se.getPrice());
 				recommendSuccessDao.updateIsAchieved(recommendsuccess);
 				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
 						+ recommendsuccess.getStockname() + "  success!");
 			} else {
 				recommendsuccess.setIsAchieved(0);
-				recommendsuccess.setValidate(cal.getTime());
+				recommendsuccess.setValidate(se.getDate());
+				recommendsuccess.setValidateprice(se.getPrice());
 				recommendSuccessDao.updateIsAchieved(recommendsuccess);
 				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
 						+ recommendsuccess.getStockname() + "  Failed!");

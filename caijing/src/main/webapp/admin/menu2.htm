@@ -108,28 +108,30 @@ body {
 		document.write(tree_extractor);
 			//-->
 	</script>
-						<p>
+
+						<br />
+						<script type="text/javascript">
+		<!--
+			tree_recommendanalyzer = new dTree('tree_recommendanalyzer');
+		tree_recommendanalyzer.add('tree_recommendanalyzer','-1','分析师推荐成功率','about:blank','分析师推荐成功率','main');
+		tree_recommendanalyzer.add('column_10001','tree_recommendanalyzer','推荐成功率','','推荐成功率','main','img/folder.gif','img/folderopen.gif');
+		#foreach($analyzer in $recommendanalyzerList)
+
+		tree_recommendanalyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzersuccess.htm?aid=$analyzer.aid','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
+	
+		#end
+
+		tree_recommendanalyzer.target = 'main';
+		document.write(tree_recommendanalyzer);
+			//-->
+	</script>
+	
+							<p>
 							&nbsp;
 						</p>
 						<a href="javascript: tree_analyzer.openAll();">全部展开</a> |
 						<a href="javascript: tree_analyzer.closeAll();">全部关闭</a>
 						<br />
-
-						<script type="text/javascript">
-		<!--
-			tree_recommendanalyzer = new dTree('tree_recommendanalyzer');
-		tree_recommendanalyzer.add('tree_recommendanalyzer','-1','分析师推荐成功率','about:blank','分析师推荐成功率','main');
-		#foreach($analyzer in $recommendanalyzerList)
-
-		tree_recommendanalyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzersuccess.htm?aname=$analyzer.aid','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
-	
-		#end
-
-		tree_analyzer.config.target = 'main';
-		document.write(tree_analyzer);
-			//-->
-	</script>
-	
 							<script type="text/javascript">
 		<!--
 			tree_analyzer = new dTree('tree_analyzer');

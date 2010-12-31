@@ -98,7 +98,12 @@ public class LoginController {
 		//		List<Economist> economistList = economistDao.getAllEconomist();
 		//		model.put("economistList", economistList);
 		List<Analyzer> analyzerlist = analyzerDao.getStarAnalyzers();
+		List<Analyzer> recommendanalyzerList = analyzerDao.getAnalyzersByAgency("∞≤–≈÷§»Ø");
 		model.put("analyzerList", analyzerlist);
+		System.out.println("recommendanalyzerList size:" + recommendanalyzerList.size());
+
+		model.put("recommendanalyzerList", recommendanalyzerList);
+
 		return "/admin/menu2.htm";
 	}
 

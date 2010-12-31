@@ -21,6 +21,11 @@ public interface RecommendSuccessDao extends CrudDao {
 
 	List<RecommendSuccess> getRecommendsBefore(Date date);
 
+	/**
+	 * 
+	 * @param aid
+	 * @return
+	 */
 	List<RecommendSuccess> getRecommendsByAid(String aid);
 
 }

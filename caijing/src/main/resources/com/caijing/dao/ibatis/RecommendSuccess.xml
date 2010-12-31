@@ -10,9 +10,9 @@
 	
 	<insert id="insert">
 		insert into recommendsuccess
-		(aid,aname,reportid,recommenddate,stockname,stockcode,validate,isAchieved,objectprice)
+		(aid,aname,reportid,recommenddate,stockname,stockcode,validate,isAchieved,objectprice,validateprice)
 		values
-		(#aid#,#aname#,#reportid#,#recommenddate#,#stockname#,#stockcode#,#validate#,#isAchieved#,#objectprice#)
+		(#aid#,#aname#,#reportid#,#recommenddate#,#stockname#,#stockcode#,#validate#,#isAchieved#,#objectprice#,#validateprice#)
 	</insert>
 
 	<update id="updateIsAchieved" parameterClass="RecommendSuccess">
@@ -23,6 +23,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="validate">
 				validate = #validate#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="validateprice">
+				validateprice = #validateprice#
 			</isNotEmpty>
 		</dynamic>
 		where aid=#aid# and reportid=#reportid#
@@ -58,6 +61,6 @@
 	</select>
 	
 	<select id="getRecommendsByAid" parameterClass="java.lang.String" resultClass="RecommendSuccess">
-		select * from recommendsuccess where aid = #value#
+		<![CDATA[select * from recommendsuccess where aid = #value# and isAchieved<2]]>
 	</select>
 </sqlMap>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.business.StockGainManager;
+import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.domain.Analyzer;
@@ -47,6 +48,10 @@ public class AnalyzerController {
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
+
+	@Autowired
+	@Qualifier("analyzerDao")
+	private AnalyzerDao analyzerDao = null;
 
 	@Autowired
 	@Qualifier("recommendSuccessDao")
@@ -194,14 +199,22 @@ public class AnalyzerController {
 	@RequestMapping("/admin/analyzersuccess.htm")
 	public String showAnalyzerSuccessRatio(HttpServletResponse response,
 			@RequestParam(value = "aid", required = true) String aid, HttpServletRequest request, ModelMap model) {
+
 		List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(aid);
 		model.put("recommends", recommends);
 		int success = recommendSuccessDao.getRecommendSuccessCountByAid(aid);
 		int total = recommendSuccessDao.getTotalRecommendCountByAid(aid);
-		float ratio = ((float) success / total) * 100;
-		model.put("ratio", "" + FloatUtil.getTwoDecimal(ratio) + "%");
+		if (total == 0) {
+			model.put("ratio", "0.0%");
+		} else {
+			float ratio = ((float) success / total) * 100;
+			model.put("ratio", "" + FloatUtil.getTwoDecimal(ratio) + "%");
+		}
 		if (recommends != null && recommends.size() > 0) {
 			model.put("aname", recommends.get(0).getAname());
+		} else {
+			Analyzer analyzer = (Analyzer) analyzerDao.select(aid);
+			model.put("aname", analyzer.getName());
 		}
 		model.put("dateTools", new DateTools());
 

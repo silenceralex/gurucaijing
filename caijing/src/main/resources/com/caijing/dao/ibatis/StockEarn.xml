@@ -47,8 +47,8 @@
 		select price from stockearn where stockcode=#value# order by date desc limit 1
 	</select>
 	
-	<select id="getNearPriceByCodeDate" resultClass="java.lang.Float" parameterClass="java.util.Map">
-		select price from stockearn where stockcode=#stockcode# and date>=#date# order by date limit 1
+	<select id="getNearPriceByCodeDate" resultClass="StockEarn" parameterClass="java.util.Map">
+		select * from stockearn where stockcode=#stockcode# and price!=0 and date>=#date# order by date limit 1
 	</select>
 	
 	

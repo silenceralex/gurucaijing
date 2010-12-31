@@ -12,6 +12,7 @@ public class RecommendSuccess {
 	private String stockname = null;
 	private String reportid = null;
 	private float objectprice = 0;
+	private float validateprice = 0;
 	//0未达到，1为达到,2为尚未到验证时间,3为无目标价
 	private int isAchieved = 2;
 
@@ -85,6 +86,14 @@ public class RecommendSuccess {
 
 	public Date getValidate() {
 		return validate;
+	}
+
+	public void setValidateprice(float validateprice) {
+		this.validateprice = validateprice;
+	}
+
+	public float getValidateprice() {
+		return validateprice;
 	}
 
 }

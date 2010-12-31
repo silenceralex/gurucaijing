@@ -57,6 +57,12 @@
 						目标价  &nbsp;
 					</th>
 					<th scope="col" width="160"> 
+						验证日期
+					</th>
+                    <th scope="col" width="160"> 
+						验证日收盘价
+					</th>
+					<th scope="col" width="160"> 
 						是否达成
 					</th>
 				</tr>
@@ -77,6 +83,12 @@
 					</td>
 					<td bgcolor="#E0E7FF" align="center">
 						$recommend.objectprice
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+							<font color="red">${dateTools.transformDate($recommend.validate)}</font>
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						$recommend.validateprice
 					</td>
 
 					<td bgcolor="#E0E7FF">
