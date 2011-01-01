@@ -27,7 +27,31 @@
 						</entry>
 					</map>
 				</entry>
-
+				
+				<entry key="东方证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n\s*报告日期\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<!-- 无法提取，pdf正文是大号粗体字来标识，txt正文无法区分  -->
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[\n目标价格\s+([0-9\.]+)[ \t\x0B]*元\s*\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n\s*([^\n]+?)[ \t\x0B]+(?:[^\n]+?分析师\s+|执业证书编号)]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[(?:每股收益|每股收益[\(（]EPS[\)）]|EPS)(?:(?:（|\()元(?:）|\)))?[ \t\x0B]+(?:.?[\-0-9\.]+.?[ \t\x0B]+)*([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]*\n]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>
+				
 				<entry key="银河证券">
 					<map>
 						<entry key="publishdate">

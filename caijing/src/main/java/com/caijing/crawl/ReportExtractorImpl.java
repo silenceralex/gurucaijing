@@ -512,7 +512,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testYinHe(extractor);
 		//testHongYuan(extractor);
 		//TODO 未处理的证券
-		//testDongFang(extractor);
+		testDongFang(extractor);
 		//testZhongXin(extractor);
 		//testZhongTou(extractor);
 		//testHuaTai2(extractor);
@@ -739,12 +739,15 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//		extractor.extractFromFile(report, "http://51gurus.com/papers/20100817/6DFEUH9Q.txt");
 		extractor.extractFromFile(report, "http://51gurus.com/papers/20100729/6CLQ7EL6.txt");
 	}
-	//TODO
+	
 	public static void testDongFang(ReportExtractor extractor) {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("东方证券");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101021/6IV1EJJL.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101222/6NM7BKKI.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RDJOD.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNJIMT.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101026/6JG01F0V.txt");
 	}
 	
 	//TODO
