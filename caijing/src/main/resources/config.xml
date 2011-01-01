@@ -86,7 +86,7 @@
 						</entry>
 						<entry key="grade">
 							<list>
-								<value><![CDATA[\n\s*维持[ \t\x0B]+(.+?)\s*\n]]></value>
+								<value><![CDATA[\n\s*(?:维持|调升|首次评级|下调|调低)[ \t\x0B]+(.+?)\s*\n]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
@@ -117,7 +117,7 @@
 							<value><![CDATA[\n目标价格\s+([0-9\.]+)[ \t\x0B]*元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
-							<value><![CDATA[\n\s*([^\n]+?)[ \t\x0B]+(?:[^\n]+?分析师\s+|执业证书编号)]]></value>
+							<value><![CDATA[\n\s*([^\n]+)[ \t\x0B]+(?:[^\n]+?分析师\s+|执业证书编号)]]></value>
 						</entry>
 						<entry key="eps">
 							<list>

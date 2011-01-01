@@ -511,10 +511,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testGuangDa(extractor);
 		//testYinHe(extractor);
 		//testHongYuan(extractor);
-		//testDongFang(extractor);
+		testDongFang(extractor);
 		//testZhongXin(extractor);
 		//testZhongTou(extractor);
-		testHuaTai2(extractor);
+		//testHuaTai2(extractor);
 		
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
@@ -747,6 +747,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RDJOD.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNJIMT.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101026/6JG01F0V.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101111/6KAC7HKS.txt");
+		
 	}
 	
 	public static void testZhongXin(ReportExtractor extractor) {
