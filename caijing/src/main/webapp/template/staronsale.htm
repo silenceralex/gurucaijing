@@ -22,102 +22,9 @@ function showAnaly(num,id,name1,name2){
 
 <body>
 <div class="wrapper">
-	<div class="header">
-    	<div class="logo"><a href="/"><h1>投资大师</h1></a></div>
-        <div class="controlPanel">
-        	<div class="icons">
-            	<ul>
-                	<li><a href="#">加入收藏</a></li>
-                    <li><a href="#">设为首页</a></li>
-                </ul>
-            </div>
-            <div class="search">
-            	<div class="searchForm">
-                    <input type="text" class="searchBox" value="请输入关键词" />
-                    <input type="button" class="searchBtn" value="搜索" />
-                </div>
-                <div class="clear"></div>
-            </div>
-                               <ul class="nav">
-                        <li>
-                            <a href="/" target="_blank"><span>首页</span></a>
-                        </li>
-                        <li>
-                            <a href="/analyzer/starGuruList.html" target="_blank"><span>大师殿堂</span></a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank"><span>股票精选</span></a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank"><span>草根大师之选</span></a>
-                        </li>
-                        <li>
-                            <a href="/analyzer/starEarn_1.html" target="_blank"><span>金牌分析师之选</span></a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank"><span>明星机构之选</span></a>
-                        </li>
-                        <li>
-                            <a href="/stockagency/1.html" target="_blank"><span>机构共同之选</span></a>
-                        </li>
-                        <li>
-                            <a href="/report/reportLab_1.html" target="_blank"><span>研报大本营</span></a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank"><span>财报大本营</span></a>
-                        </li>
-                        <span class="clear"></span>
-                    </ul>
-        </div>
-    </div><!--header end-->
+	#include("inc/header.htm")
     <div class="mainBox">
-    	<div class="colL">
-        	<div id="colL0" class="colL0 colLItem">
-            	<div class="colL_title"><h2>用户登录</h2></div>
-                <form>
-                <div class="userLoginForm">
-                    <label>用户名</label>
-                    <input type="text" />
-                    <span class="clear"></span>
-                    <label>密码</label>
-                    <input type="text" />
-                </div>
-              </form>
-                <input class="loginBtn" type="button" value="登录" />
-                <a href="#">注册新用户</a>
-            </div>
-   	  		<div class="colL1 colLItem">
-            	<div class="colL_title">
-                	<h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
-                </div>
-                <ul>
-                		<li><a href="/analyzer/starGuruList.html">金牌分析师</a></li>
-                    <!--<li><a href="#">草根大师</a></li>
-                    <li><a href="#">明星机构</a></li>-->
-                </ul>
-            </div>
-            <div class="colL2 colLItem">
-            	<div class="colL_title">
-                	<h2>股票精选</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
-                </div>
-                <ul>
-                		<li><a href="/analyzer/starEarn_1.html">金牌分析师之选</a></li>
-                    <!--<li><a href="#">草根大师之选</a></li>
-                    <li><a href="#">明星机构之选</a></li>-->
-                    <li><a href="/stockagency/1.html">机构共同之选</a></li>
-                    <li><a href="/analyzer/starDiscount_1.html">折价股票精选</a></li>
-                </ul>
-            </div>
-            <div class="colL3 colLItem">
-            	<div class="colL_title">
-                	<h2>投资参考</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
-                </div>
-                <ul>
-                	<li><a href="#">财报大本营</a></li>
-                  <li><a href="/report/reportLab_1.html">研报大本营</a></li>
-                </ul>
-            </div>
-        </div>
+    	#include("inc/colL.htm")
         <div class="sec_list">
         		<div class="sec_nav">
             	<h2>
@@ -249,11 +156,7 @@ function showAnaly(num,id,name1,name2){
         </div>
         <div id="star_detail_preview"></div>
       <div class="clear"></div>
-        <div class="footer">
-   	    <div class="goTop"><a href="#"><img src="/img/topBtn.jpg"/></a></div>
-            <img src="/img/footer.jpg" />
-            <div class="footerInfo"><a href="#">Sitemap</a> > <a href="#">Contact Us</a> > </div>
-        </div>
+        #include("inc/footer.htm")
     </div><!--mainBox end-->
     <script language="javascript" type="text/javascript">
     	$("#star_detail_preview").hover(
