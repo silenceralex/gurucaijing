@@ -759,12 +759,13 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("中信建投");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9PK9F.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RCG3J.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9PNQ1.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9Q6T2.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100817/6DFEUH58.txt");
-		
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9PK9F.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RCG3J.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9PNQ1.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9Q6T2.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100817/6DFEUH58.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100816/6DFGMTPQ.txt");
+
 	}
 	
 	public static void testZhongTou(ReportExtractor extractor) {
