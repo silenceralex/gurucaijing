@@ -110,6 +110,7 @@ body {
 			tree_recommendanalyzer = new dTree('tree_recommendanalyzer');
 		tree_recommendanalyzer.add('tree_recommendanalyzer','-1','分析师推荐成功率','about:blank','分析师推荐成功率','main');
 		tree_recommendanalyzer.add('column_10001','tree_recommendanalyzer','推荐成功率','','推荐成功率','main','img/folder.gif','img/folderopen.gif');
+		tree_recommendanalyzer.add('column_10003','tree_recommendanalyzer','成功率排行','/admin/successrank.htm','成功率排行','main','img/new.gif','img/new.gif');
 		#foreach($analyzer in $recommendanalyzerList)
 
 		tree_recommendanalyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzersuccess.htm?aid=$analyzer.aid','$analyzer.name','main','img/folder.gif','img/folderopen.gif');

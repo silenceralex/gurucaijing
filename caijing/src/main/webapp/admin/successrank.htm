@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>分析师推荐成功率排行榜</title>
+		<!--<link rel="stylesheet" href="/admin/img/cp.css" type="text/css" />-->
+		<link rel="stylesheet" href="/admin/img/main.css" type="text/css" />
+		<script type="text/javascript" src="/admin/js/jsonrpc.js"></script>
+		<script type="text/javascript">
+		function search() {
+		var txt = document.getElementById("stockcode").value;
+		self.location = "/admin/search.htm?stockcode="+txt;
+		}
+		</script>
+	</head>
+
+	<body>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td bgcolor="#E0E7FF" height="30">
+						&nbsp;&nbsp;
+						<strong>当前栏目: 分析师推荐成功率排行榜 &gt;&gt; </strong>
+					</td>
+					<td align="right">
+
+						<input id="stockcode" name="stockcode" type="text"
+							style="height: 16px" title="请输入股票代码或名称" size="16" />
+						&nbsp;
+						<input type="submit" onclick="search()" value="确定" />
+					</td>
+				</tr>
+			</table>
+				
+			<table width="100%" border="0" cellspacing="2" cellpadding="0">
+			<tr>
+			<font color="red" size="10">各分析师推荐成功率排行榜
+			</font>
+			</tr>
+				<tr bgcolor="#0066CC" class="cWhite">
+					<th scope="col" width="60" height="30">
+						排名
+					</th>
+					<th scope="col" width="60" height="30">
+						分析师id
+					</th>
+					<th scope="col" width="80">
+						分析师名称
+					</th>
+					<th scope="col" width="80">
+						所属券商
+					</th>
+					<th scope="col" width="160">
+						行业
+					</th>
+					<th scope="col" width="80">
+						推荐数/成功数
+					</th>
+					<th scope="col" width="120">
+						成功率
+					</th>
+				</tr>
+				<!-- 视频列表 -->
+				#foreach($analyzer in $analyzers)
+				#set($temp=$velocityCount - 1)
+				<tr >
+					<td bgcolor="#E0E7FF" align="center">
+						<font color="red">$velocityCount</font>
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						$analyzer.aid
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						<font color="blue">&nbsp;&nbsp;$analyzer.name</font>
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						<font color="#FFCC33">$analyzer.agency</font>
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						$analyzer.industry
+					</td>
+					<td bgcolor="#E0E7FF" align="center">
+						${analyzer.total} / ${analyzer.success}
+					</td>
+					<td height="30" bgcolor="#E0E7FF" align="center">
+						<font color="red">$floatUtil.getTwoDecimalNumber(${analyzer.successratio})%</font>
+					</td>
+				</tr>
+				#end
+			</table>
+			<!---列表--->
+			<br />
+
+		</table>
+	</body>
+</html>

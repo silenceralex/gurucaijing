@@ -16,12 +16,20 @@ public interface StockEarnDao extends CrudDao {
 	public float getCurrentPriceByCode(String stockcode);
 
 	/**
-	 * 获取距离某日期最近的有交易价格的交易日，stockcode股票的价格，用于成功率计算
+	 * 获取从某日期开始往后最近的有交易价格的交易日，stockcode股票的价格，用于成功率计算
 	 * @param stockcode 股票代码
 	 * @param date  
 	 * @return
 	 */
 	public StockEarn getNearPriceByCodeDate(String stockcode, Date date);
+
+	/**
+	 * 获取从某日期开始往前最近的有交易价格的交易日，stockcode股票的价格，用于成功率计算
+	 * @param stockcode 股票代码
+	 * @param date  
+	 * @return
+	 */
+	public StockEarn getFormerNearPriceByCodeDate(String stockcode, Date date);
 
 	public List<StockEarn> getRatiosByCodeAndPeriod(String stockcode, Date start, Date end);
 

@@ -81,5 +81,10 @@
 		</dynamic>
 		where aid=#aid#
 	</update>
+	
+	<select id="getSuccessRankedAnalyzersByAgency" resultClass="Analyzer">
+		select * from analyzer where agency = #value# order by successratio desc
+	</select>
+	
 		
 </sqlMap>

@@ -196,6 +196,20 @@ public class AnalyzerController {
 		return "/admin/analyzerrank.htm";
 	}
 
+	@RequestMapping("/admin/successrank.htm")
+	public String showSuccessRank(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("∞≤–≈÷§»Ø");
+		for (Analyzer analyzer : analyzers) {
+			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
+			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
+			analyzer.setSuccess(success);
+			analyzer.setTotal(total);
+		}
+		model.put("analyzers", analyzers);
+		model.put("floatUtil", new FloatUtil());
+		return "/admin/successrank.htm";
+	}
+
 	@RequestMapping("/admin/analyzersuccess.htm")
 	public String showAnalyzerSuccessRatio(HttpServletResponse response,
 			@RequestParam(value = "aid", required = true) String aid, HttpServletRequest request, ModelMap model) {
@@ -217,7 +231,7 @@ public class AnalyzerController {
 			model.put("aname", analyzer.getName());
 		}
 		model.put("dateTools", new DateTools());
-
+		model.put("floatUtil", new FloatUtil());
 		return "/admin/anayzersuccess.htm";
 	}
 }

@@ -60,4 +60,13 @@ public class StockEarnDaoImpl extends CrudDaoDefault implements StockEarnDao {
 		return (List<StockEarn>) this.getSqlMapClientTemplate().queryForList(
 				this.getNameSpace() + ".getRatiosByCodeAndPeriod", params);
 	}
+
+	@Override
+	public StockEarn getFormerNearPriceByCodeDate(String stockcode, Date date) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("stockcode", stockcode);
+		params.put("date", date);
+		return (StockEarn) this.getSqlMapClientTemplate().queryForObject(
+				this.getNameSpace() + ".getFormerNearPriceByCodeDate", params);
+	}
 }

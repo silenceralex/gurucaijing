@@ -17,4 +17,6 @@ public interface AnalyzerDao extends CrudDao {
 	public List<Analyzer> getAnalyzerRankList(String date, int start, int length);
 
 	public void updateSuccessRatio(Analyzer analyzer);
+
+	public List<Analyzer> getSuccessRankedAnalyzersByAgency(String agency);
 }

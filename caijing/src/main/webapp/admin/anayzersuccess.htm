@@ -42,7 +42,12 @@
 
 			<table width="100%" border="0" cellspacing="2" cellpadding="0">
 			<tr bgcolor="#0066CC" class="cWhite">
-			该分析师 $aname　的总体成功率为<font color="red"><B>$ratio</B></font>
+			该分析师 $aname　的总体成功率为<font color="red"><B>$ratio</B></font><br />
+注明：成功率计算方法为，计算从推荐日开始，至6个月后的验证日，区间段的累积收益率 periodgain，若验证日为休息日或者股票停牌，则往后推至最近有收盘价的交易日，<br />
+作为验证价validateprice ；  若推荐日当天股票停牌或者推荐日为节假日，则往前推至最近有收盘价的交易日作为推荐价 recommendprice。<br />
+       公式： validateprice = recommendprice*periodgain；               <br />
+                       而periodgain = 1*(1 + ratio1)*(1 + ratio2)*** (1 + ratioN);   <br />
+                    其中  ratio1 ,ratio2,....raionN表示上述去区间段的每日的收益率。<br />
 			</tr>
 				<tr bgcolor="#0066CC" class="cWhite">
 					<th scope="col" width="60" height="30">
@@ -61,6 +66,9 @@
 					</th>
 					<th scope="col" width="160"> 
 						验证日期
+					</th>
+					<th scope="col" width="160"> 
+						验证日除权价
 					</th>
 					<th scope="col" width="160"> 
 						是否达成
@@ -87,7 +95,9 @@
 					<td height="30" bgcolor="#E0E7FF" align="center">
 							<font color="red">${dateTools.transformDate($recommend.validate)}</font>
 					</td>
-
+					<td bgcolor="#E0E7FF" align="center">
+						$floatUtil.getTwoDecimalNumber($recommend.validateprice)
+					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;
 						#if($recommend.isAchieved==1)
