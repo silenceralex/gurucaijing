@@ -27,7 +27,58 @@
 						</entry>
 					</map>
 				</entry>
-
+				
+				<!-- error: 部分华泰联合的研报分到华泰证券的栏目下  -->
+				<entry key="华泰证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n\s*\[table_subject\]\s+(?:[^\n]+?)\s+(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[\n\s*投资评级[:：]\s*(.+?)(?:[\(（].+?[\)）])?\s*\n]]></value>
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<value><![CDATA[\n目标价格(?:[\(（]元[\)）])?[:：]\s*([0-9\.]+)(?:\s*元)?\s*\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[研究员[:：]\s*(.+?)\s*\n]]></value>
+						</entry>
+						<entry key="eps">
+							<list>
+								<value><![CDATA[(?:每股收益|每股收益[\(（]EPS[\)）]|EPS)(?:(?:（|\()元(?:）|\)))?[ \t\x0B]+(?:.?[\-0-9\.]+.?[ \t\x0B]+)*([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]*\n]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>
+								
+				<entry key="中投证券">
+					<map>
+						<entry key="publishdate">
+							<value><![CDATA[\n\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+						</entry>
+						<entry key="grade">
+							<list>
+								<value><![CDATA[\n\s*(?:.+?)[ \t\x0B]+(?:\d{6}+)[ \t\x0B]+(.+?)\s*\n]]></value>
+							</list>
+						</entry>
+						<entry key="objectprice">
+							<!-- 6－12个月目标价： 32.00-35.00元  -->
+							<value><![CDATA[目标价[:：]\s*([0-9\.]+)[ \t\x0B]*元\s*\n]]></value>
+						</entry>
+						<entry key="analyzer">
+							<value><![CDATA[\n\s*(?:署名人|参与人)[:：]\s*(.+?)\s*\n]]></value>
+							<!-- <value><![CDATA[\n\s*([^\n]+?)\s+执业证书编号]]></value> -->
+						</entry>					
+						<entry key="eps">
+							<list>
+								<value><![CDATA[(?:每股收益|每股收益[\(（]EPS[\)）]|EPS)(?:(?:（|\()元(?:）|\)))?[ \t\x0B]+(?:.?[\-0-9\.]+.?[ \t\x0B]+)*([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]*\n]]></value>
+							</list>
+						</entry>
+					</map>
+				</entry>
+				
 				<entry key="中信建投">
 					<map>
 						<entry key="publishdate">
