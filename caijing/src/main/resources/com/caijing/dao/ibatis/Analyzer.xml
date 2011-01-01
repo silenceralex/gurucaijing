@@ -68,4 +68,18 @@
 	<select id="getAnalyzerRankList" parameterClass="java.util.Map" resultClass="Analyzer">
 		select a.aid,g.weight as weight,a.industry,a.agency,a.name from groupgain g,analyzer a where g.date=#date# and g.groupid=a.aid order by g.weight desc limit #start#,#length#
 	</select>
+	
+	<update id="updateSuccessRatio" parameterClass="Analyzer">
+		update analyzer
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="successratio">
+				successratio = #successratio#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lmodify">
+				lmodify = #lmodify#
+			</isNotEmpty>
+		</dynamic>
+		where aid=#aid#
+	</update>
+		
 </sqlMap>

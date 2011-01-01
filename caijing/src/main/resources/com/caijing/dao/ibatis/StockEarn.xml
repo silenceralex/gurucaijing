@@ -51,5 +51,8 @@
 		select * from stockearn where stockcode=#stockcode# and price!=0 and date>=#date# order by date limit 1
 	</select>
 	
+	<select id="getRatiosByCodeAndPeriod" resultClass="StockEarn" parameterClass="java.util.Map">
+		<![CDATA[select * from stockearn where stockcode=#stockcode# and price!=0 and date>#start# and date<=#end# order by date]]>
+	</select>
 	
 </sqlMap>

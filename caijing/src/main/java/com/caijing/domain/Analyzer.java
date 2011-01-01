@@ -15,6 +15,15 @@ public class Analyzer {
 	private String image_url = null;
 	private String position = null;
 	private float weight = 0;
+	private float successratio = 0;
+
+	public float getSuccessratio() {
+		return successratio;
+	}
+
+	public void setSuccessratio(float successratio) {
+		this.successratio = successratio;
+	}
 
 	public String getName() {
 		return name;

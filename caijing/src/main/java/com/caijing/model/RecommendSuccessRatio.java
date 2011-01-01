@@ -6,11 +6,12 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
+import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockEarnDao;
+import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupStock;
-import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.StockEarn;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
@@ -19,8 +20,17 @@ import com.caijing.util.FloatUtil;
 public class RecommendSuccessRatio {
 
 	private GroupStockDao groupStockDao = null;
+	private AnalyzerDao analyzerDao = null;
 	private StockEarnDao stockEarnDao = null;
 	private RecommendSuccessDao recommendSuccessDao = null;
+
+	public AnalyzerDao getAnalyzerDao() {
+		return analyzerDao;
+	}
+
+	public void setAnalyzerDao(AnalyzerDao analyzerDao) {
+		this.analyzerDao = analyzerDao;
+	}
 
 	public RecommendSuccessDao getRecommendSuccessDao() {
 		return recommendSuccessDao;
@@ -95,31 +105,67 @@ public class RecommendSuccessRatio {
 	}
 
 	public void handleHistorySuccess() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MONTH, -6);
-		List<RecommendSuccess> list = recommendSuccessDao.getRecommendsBefore(cal.getTime());
-		for (RecommendSuccess recommendsuccess : list) {
-			System.out.println("recommend date" + DateTools.transformYYYYMMDDDate(recommendsuccess.getRecommenddate()));
-			cal.setTime(recommendsuccess.getRecommenddate());
-			cal.add(Calendar.MONTH, 6);
-			StockEarn se = stockEarnDao.getNearPriceByCodeDate(recommendsuccess.getStockcode(), cal.getTime());
-			String judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
-			System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
-			if (se.getPrice() >= recommendsuccess.getObjectprice()) {
-				recommendsuccess.setIsAchieved(1);
-				recommendsuccess.setValidate(se.getDate());
-				recommendsuccess.setValidateprice(se.getPrice());
-				recommendSuccessDao.updateIsAchieved(recommendsuccess);
-				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
-						+ recommendsuccess.getStockname() + "  success!");
-			} else {
-				recommendsuccess.setIsAchieved(0);
-				recommendsuccess.setValidate(se.getDate());
-				recommendsuccess.setValidateprice(se.getPrice());
-				recommendSuccessDao.updateIsAchieved(recommendsuccess);
-				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
-						+ recommendsuccess.getStockname() + "  Failed!");
+		//		Calendar cal = Calendar.getInstance();
+		//		cal.setTime(new Date());
+		//		cal.add(Calendar.MONTH, -6);
+		//		List<RecommendSuccess> list = recommendSuccessDao.getRecommendsBefore(cal.getTime());
+		//		for (RecommendSuccess recommendsuccess : list) {
+		//			System.out.println("recommend date" + DateTools.transformYYYYMMDDDate(recommendsuccess.getRecommenddate()));
+		//			cal.setTime(recommendsuccess.getRecommenddate());
+		//			cal.add(Calendar.MONTH, 6);
+		//			StockEarn se = stockEarnDao.getNearPriceByCodeDate(recommendsuccess.getStockcode(), cal.getTime());
+		//			String judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
+		//			List<StockEarn> ses = stockEarnDao.getRatiosByCodeAndPeriod(recommendsuccess.getStockcode(),
+		//					recommendsuccess.getRecommenddate(), se.getDate());
+		//			float gain = 1;
+		//			for (StockEarn stockEarn : ses) {
+		//				gain = gain * (1 + stockEarn.getRatio() / 100);
+		//			}
+		//			if (gain >= 1) {
+		//				recommendsuccess.setIsAchieved(1);
+		//				recommendsuccess.setValidate(se.getDate());
+		//				recommendsuccess.setValidateprice(gain);
+		//				recommendSuccessDao.updateIsAchieved(recommendsuccess);
+		//				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
+		//						+ recommendsuccess.getStockname() + "  success!");
+		//			} else {
+		//				recommendsuccess.setIsAchieved(0);
+		//				recommendsuccess.setValidate(se.getDate());
+		//				recommendsuccess.setValidateprice(gain);
+		//				recommendSuccessDao.updateIsAchieved(recommendsuccess);
+		//				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
+		//						+ recommendsuccess.getStockname() + "  Failed!");
+		//			}
+		//			System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
+		//			//			if (se.getPrice() >= recommendsuccess.getObjectprice()) {
+		//			//				recommendsuccess.setIsAchieved(1);
+		//			//				recommendsuccess.setValidate(se.getDate());
+		//			//				recommendsuccess.setValidateprice(se.getPrice());
+		//			//				recommendSuccessDao.updateIsAchieved(recommendsuccess);
+		//			//				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
+		//			//						+ recommendsuccess.getStockname() + "  success!");
+		//			//			} else {
+		//			//				recommendsuccess.setIsAchieved(0);
+		//			//				recommendsuccess.setValidate(se.getDate());
+		//			//				recommendsuccess.setValidateprice(se.getPrice());
+		//			//				recommendSuccessDao.updateIsAchieved(recommendsuccess);
+		//			//				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
+		//			//						+ recommendsuccess.getStockname() + "  Failed!");
+		//			//			}
+		//		}
+
+		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
+		for (Analyzer analyzer : analyzers) {
+			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
+			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
+			if (success != 0 && total != 0) {
+				float successratio = ((float) success / total) * 100;
+				System.out
+						.println("analyzer:" + analyzer.getName() + "  Success recommend ratio:" + successratio + "%");
+				analyzer.setLmodify(new Date());
+				analyzer.setSuccessratio(successratio);
+				analyzerDao.updateSuccessRatio(analyzer);
 			}
 		}
 	}
@@ -129,10 +175,12 @@ public class RecommendSuccessRatio {
 		GroupStockDao groupStockDao = (GroupStockDao) context.getBean("groupStockDao");
 		RecommendSuccessDao recommendSuccessDao = (RecommendSuccessDao) context.getBean("recommendSuccessDao");
 		StockEarnDao stockEarnDao = (StockEarnDao) context.getBean("stockEarnDao");
+		AnalyzerDao analyzerDao = (AnalyzerDao) context.getBean("analyzerDao");
 		RecommendSuccessRatio ratio = new RecommendSuccessRatio();
 		ratio.setGroupStockDao(groupStockDao);
 		ratio.setStockEarnDao(stockEarnDao);
 		ratio.setRecommendSuccessDao(recommendSuccessDao);
+		ratio.setAnalyzerDao(analyzerDao);
 		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
 		//		for (Analyzer analyzer : analyzers) {
 		//			float f = ratio.getSuccessRatio(analyzer.getAid());

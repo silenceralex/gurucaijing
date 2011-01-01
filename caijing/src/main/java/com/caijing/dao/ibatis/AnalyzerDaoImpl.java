@@ -38,4 +38,9 @@ public class AnalyzerDaoImpl extends CrudDaoDefault implements AnalyzerDao {
 		return (List<Analyzer>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getAnalyzerRankList", params);
 	}
 
+	@Override
+	public void updateSuccessRatio(Analyzer analyzer) {
+		getSqlMapClientTemplate().update(getNameSpace() + ".updateSuccessRatio", analyzer);
+
+	}
 }
