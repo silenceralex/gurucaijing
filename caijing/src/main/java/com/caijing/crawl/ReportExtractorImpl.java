@@ -89,7 +89,11 @@ public class ReportExtractorImpl implements ReportExtractor {
 			if (strs.length > 1) {
 				oprice = strs[1];
 			}
-			rs.setObjectprice(Float.parseFloat(oprice));
+			try {
+				rs.setObjectprice(Float.parseFloat(oprice));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 			num++;
 		}
 		String grade = fetchGrade(report.getSaname(), content);
@@ -511,8 +515,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testGuangDa(extractor);
 		//testYinHe(extractor);
 		//testHongYuan(extractor);
-		testDongFang(extractor);
-		//testZhongXin(extractor);
+		//testDongFang(extractor);
+		testZhongXin(extractor);
 		//testZhongTou(extractor);
 		//testHuaTai2(extractor);
 		
@@ -759,6 +763,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RCG3J.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9PNQ1.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9Q6T2.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100817/6DFEUH58.txt");
+		
 	}
 	
 	public static void testZhongTou(ReportExtractor extractor) {

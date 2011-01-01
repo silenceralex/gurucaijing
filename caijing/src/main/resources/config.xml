@@ -86,7 +86,7 @@
 						</entry>
 						<entry key="grade">
 							<list>
-								<value><![CDATA[\n\s*(?:维持|调升|首次评级|下调|调低)[ \t\x0B]+(.+?)\s*\n]]></value>
+								<value><![CDATA[[\(（]\d{6}[\)）]\s+(?:维持|调升|首次评级|下调|调低)[ \t\x0B]+(.+?)\s*\n]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
