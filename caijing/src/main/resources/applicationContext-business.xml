@@ -104,6 +104,9 @@
 		<property name="reportDao">
 			<ref bean="reportDao" />
 		</property>
+		<property name="recommendSuccessDao">
+			<ref bean="recommendSuccessDao" />
+		</property>
 		<property name="sp">
 			<ref bean="stockPrice" />
 		</property>

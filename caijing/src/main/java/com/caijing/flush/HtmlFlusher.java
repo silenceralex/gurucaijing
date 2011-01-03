@@ -16,6 +16,7 @@ import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.NoticeDao;
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
@@ -71,6 +72,18 @@ public class HtmlFlusher {
 	@Autowired
 	@Qualifier("noticeDao")
 	private NoticeDao noticeDao = null;
+
+	@Autowired
+	@Qualifier("recommendSuccessDao")
+	private RecommendSuccessDao recommendSuccessDao = null;
+
+	public RecommendSuccessDao getRecommendSuccessDao() {
+		return recommendSuccessDao;
+	}
+
+	public void setRecommendSuccessDao(RecommendSuccessDao recommendSuccessDao) {
+		this.recommendSuccessDao = recommendSuccessDao;
+	}
 
 	@Autowired
 	@Qualifier("stockPrice")
@@ -233,6 +246,42 @@ public class HtmlFlusher {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void flushSuccessRank() {
+		DateTools dateTools = new DateTools();
+		FloatUtil floatUtil = new FloatUtil();
+		Date date = DateTools.getToday();
+		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("∞≤–≈÷§»Ø");
+
+		int size = 20;
+		for (int current = 1; current <= 2; current++) {
+			List<Analyzer> analyzerList = analyzers.subList((current - 1) * 20, current * 20);
+			for (Analyzer analyzer : analyzers) {
+				int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
+				int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
+				analyzer.setSuccess(success);
+				analyzer.setTotal(total);
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/anayzerSucRank.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("floatUtil", floatUtil);
+				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
+				vmf.put("start", (current - 1) * 20);
+				vmf.put("current", current);
+				vmf.put("page", 2);
+				vmf.put("analyzerList", analyzerList);
+				vmf.save(ADMINDIR + "successrank_" + current + ".html");
+				System.out.println("write page : " + ADMINDIR + "successrank_" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public void flushReportLab() {
@@ -704,7 +753,8 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
-		flusher.flushNotice();
+		//		flusher.flushNotice();
+		flusher.flushSuccessRank();
 	}
 
 	public ReportDao getReportDao() {

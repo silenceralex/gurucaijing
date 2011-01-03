@@ -181,4 +181,14 @@ public class SearchController {
 		}
 	}
 
+	@RequestMapping("/admin/discount.htm")
+	public String discount(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		Discount discount = new Discount();
+		discount.setRecommendStockDao(recommendStockDao);
+		discount.setSp(sp);
+		List<DiscountStock> discounts = discount.process();
+		model.put("discountlist", discounts);
+		return "/admin/discount.htm";
+	}
+
 }

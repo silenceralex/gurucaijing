@@ -11,8 +11,8 @@
 		select * from stock
 	</select>
 	<insert id="insert">
-		insert into stock (stockcode,stockname,industryid) values
-		(#stockcode#,#stockname#,#industryid#)
+		insert into stock (stockcode,stockname,industryid,industry) values
+		(#stockcode#,#stockname#,#industryid#,#industry#)
 	</insert>
 
 	<update id="update" parameterClass="Stock">
@@ -23,6 +23,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="industryid">
 				industryid = #industryid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="industry">
+				industry = #industry#
 			</isNotEmpty>
 		</dynamic>
 		where stockcode=#stockcode#

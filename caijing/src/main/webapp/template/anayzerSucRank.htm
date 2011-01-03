@@ -25,28 +25,40 @@
             		<table cellpadding="0" cellspacing="0">
             			<tr>
             				<th class="rank_score">排名</th>
+            				<th>分析师名</th>
             				<th>所属券商名</th>
-            				<th>推荐公司数</th>
-            				<th>成功数</th>
+            				<th>所属行业</th>
+            				<th>推荐/成功数</th>
             				<th>推荐成功率</th>
             			</tr>
-            			<tr>
-							<td>
-								<div class="rank_top3">1</div>
+            			#set ($count = $start + 1)
+						#if ($analyzerList)#foreach ($one in $analyzerList)
+						<tr>
+            			<td class="rank_score">
+            				#if ($count <= 3)
+							<div class="rank_top3">${count}</div>
+							#else
+							${count}
+							#end
 							</td>
 							<td>
-								中信证券
+								$one.name
 							</td>
 							<td>
-								30
+								$one.agency
 							</td>
 							<td>
-								21
+								$one.industry
 							</td>
 							<td>
-								83%
+								${one.total} / ${one.success}
+							</td>
+							<td>
+								<font color="red">$floatUtil.getTwoDecimalNumber(${one.successratio})%</font>
 							</td>
 						</tr>
+						#set ($count = $count + 1)
+						#end#end
             		</table>
             	</div>
             	<div class="pageSet">
@@ -59,17 +71,17 @@
 					                    	<a href="#">第一页</a>
 											<a href="#">上一页</a>
 											#else
-											<a href="./halfyear_1.html">第一页</a>
+											<a href="./successrank_1.html">第一页</a>
 											#set ($prev = $current - 1)
-											<a href="./halfyear_${prev}.html">上一页</a>
+											<a href="./successrank_${prev}.html">上一页</a>
 											#end
 											#if ($current == $page)
 											<a href="#">下一页</a>
 					                        <a href="#">末一页</a>
 											#else
 											#set ($next = $current + 1)
-											<a href="./halfyear_${next}.html">下一页</a>
-											<a href="./halfyear_${page}.html">末一页</a>
+											<a href="./successrank_${next}.html">下一页</a>
+											<a href="./successrank_${page}.html">末一页</a>
 											#end
 					                    </td>
 					                    <td width="21%">

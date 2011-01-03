@@ -4,6 +4,15 @@ public class Stock {
 	String stockname = null;
 	String stockcode = null;
 	String industryid = null;
+	String industry = null;
+
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
 
 	public String getStockname() {
 		return stockname;
