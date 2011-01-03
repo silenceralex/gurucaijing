@@ -251,10 +251,7 @@ public class HtmlFlusher {
 	public void flushSuccessRank() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
-		Date date = DateTools.getToday();
 		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("∞≤–≈÷§»Ø");
-
-		int size = 20;
 		for (int current = 1; current <= 2; current++) {
 			List<Analyzer> analyzerList = analyzers.subList((current - 1) * 20, current * 20);
 			for (Analyzer analyzer : analyzers) {
@@ -268,7 +265,7 @@ public class HtmlFlusher {
 				vmf.setTemplate("/template/anayzerSucRank.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("floatUtil", floatUtil);
-				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
+				vmf.put("currDate", DateTools.transformYYYYMMDDDate(new Date()));
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("current", current);
 				vmf.put("page", 2);
