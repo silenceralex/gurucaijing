@@ -111,6 +111,18 @@
 			<ref bean="stockPrice" />
 		</property>
 	</bean>
+	
+	<bean id="stockReloader" class="com.caijing.model.StockReloader">
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
+		<property name="stockDao">
+			<ref bean="stockDao" />
+		</property>
+		<property name="recommendSuccessDao">
+			<ref bean="recommendSuccessDao" />
+		</property>
+	</bean>
 
 <context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>

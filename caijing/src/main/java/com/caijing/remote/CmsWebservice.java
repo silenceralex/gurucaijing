@@ -68,6 +68,7 @@ public class CmsWebservice {
 		//		for (int i = 0; i < 10; i++) {
 		//		List<ColumnArticle> articles = columnArticleDao.getAllColumnArticle(0, 2);
 		List<ColumnArticle> articles = columnArticleDao.getUnpublishArticles();
+		System.out.println("Unpublished articles size:" + articles.size());
 		for (ColumnArticle article : articles) {
 			if (article.getType() == 0) {
 				long aid = CmsWebservice.getInstance().addArticle(catelogID, article.getTitle(), article.getAuthor(),
@@ -81,6 +82,7 @@ public class CmsWebservice {
 				long aid = CmsWebservice.getInstance().addArticle(9134, article.getTitle(), article.getAuthor(),
 						article.getSrc(), article.getAbs(), article.getContent(),
 						DateTools.transformDateDetail(article.getPtime()));
+				article.setCmsid(aid);
 				columnArticleDao.update(article);
 				CmsWebservice.getInstance().publishArticle(aid);
 				System.out.println(aid);
@@ -88,6 +90,7 @@ public class CmsWebservice {
 				long aid = CmsWebservice.getInstance().addArticle(9135, article.getTitle(), article.getAuthor(),
 						article.getSrc(), article.getAbs(), article.getContent(),
 						DateTools.transformDateDetail(article.getPtime()));
+				article.setCmsid(aid);
 				columnArticleDao.update(article);
 				CmsWebservice.getInstance().publishArticle(aid);
 				System.out.println(article.getTitle());
@@ -96,6 +99,7 @@ public class CmsWebservice {
 				long aid = CmsWebservice.getInstance().addArticle(9136, article.getTitle(), article.getAuthor(),
 						article.getSrc(), article.getAbs(), article.getContent(),
 						DateTools.transformDateDetail(article.getPtime()));
+				article.setCmsid(aid);
 				columnArticleDao.update(article);
 				CmsWebservice.getInstance().publishArticle(aid);
 				System.out.println(aid);

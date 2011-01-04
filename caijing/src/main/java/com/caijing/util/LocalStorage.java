@@ -11,10 +11,11 @@ import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
-import com.caijing.domain.RecommendStock;
+import com.caijing.domain.Stock;
 import com.caijing.domain.StockEarn;
 import com.caijing.flush.HtmlFlusher;
 import com.caijing.model.StockPrice;
+import com.caijing.model.StockReloader;
 
 public class LocalStorage {
 
@@ -30,6 +31,18 @@ public class LocalStorage {
 	@Qualifier("groupStockDao")
 	private GroupStockDao groupStockDao = null;
 
+	@Autowired
+	@Qualifier("stockReloader")
+	private StockReloader stockReloader = null;
+
+	public StockReloader getStockReloader() {
+		return stockReloader;
+	}
+
+	public void setStockReloader(StockReloader stockReloader) {
+		this.stockReloader = stockReloader;
+	}
+
 	private HtmlFlusher htmlFlush = null;
 
 	public HtmlFlusher getHtmlFlush() {
@@ -41,11 +54,13 @@ public class LocalStorage {
 	}
 
 	public void localStore() {
-		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
+		stockReloader.reload();
+		List<Stock> lists = stockReloader.getStockDao().getAllStock();
+
+		//		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
 		for (int i = 0; i < lists.size(); i++) {
-			RecommendStock rs = lists.get(i);
-			System.out.println("Current process :" + i + " stockcode: " + rs.getStockcode());
-			groupGain.getSp().currentPrice(rs.getStockcode());
+			System.out.println("Current process :" + i + " stockcode: " + lists.get(i).getStockcode());
+			groupGain.getSp().currentPrice(lists.get(i).getStockcode());
 		}
 		groupGain.getSp().currentPrice("000300");
 

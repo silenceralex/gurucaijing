@@ -62,6 +62,9 @@
 		<property name="htmlFlush">
 			<ref bean="htmlFlush" />
 		</property>
+		<property name="stockReloader">
+			<ref bean="stockReloader" />
+		</property>
 	</bean>
 	
 	<import resource="timing.xml" />
