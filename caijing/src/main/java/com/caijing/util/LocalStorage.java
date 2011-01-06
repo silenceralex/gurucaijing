@@ -64,7 +64,7 @@ public class LocalStorage {
 		}
 		groupGain.getSp().currentPrice("000300");
 
-		List<Analyzer> analyzerlist = groupGain.getAnalyzerDao().getAllAnalyzers();
+		List<Analyzer> analyzerlist = groupGain.getAnalyzerDao().getStarAnalyzers();
 		Date date = groupGain.getGroupEarnDao().getLatestDate();
 		for (Analyzer analyzer : analyzerlist) {
 			storeAnaylzerGain(analyzer, date);

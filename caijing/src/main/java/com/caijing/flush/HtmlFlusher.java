@@ -110,7 +110,7 @@ public class HtmlFlusher {
 	}
 
 	public void flushStarGuruDetail() {
-		List<Analyzer> analyzerList = analyzerDao.getAllAnalyzers();
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		if (analyzerList != null && analyzerList.size() > 0) {
 			DateTools dateTools = new DateTools();
 			FloatUtil floatUtil = new FloatUtil();
@@ -751,6 +751,10 @@ public class HtmlFlusher {
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
+		flusher.flushStarGuruDetail();
+		flusher.flushAnalyzerRank();
+		flusher.flushStarOnSale(true);
+		flusher.flushStarOnSale(false);
 		flusher.flushSuccessRank();
 	}
 
