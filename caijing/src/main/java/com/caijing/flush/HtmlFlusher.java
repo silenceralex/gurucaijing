@@ -214,6 +214,7 @@ public class HtmlFlusher {
 			Map<String, Float> startPriceMap = new HashMap<String, Float>();
 			for (Analyzer analyzer : analyzerList) {
 				Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
+				System.out.println("analyzer: " + analyzer.getName() + "  startDate:" + startDate.toString());
 				startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
 				List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
 				groupEarnMap.put(analyzer.getAid(), weightList);
