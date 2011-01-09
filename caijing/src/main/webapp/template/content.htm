@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>${article.title}_æŠ•èµ„å¤§å¸ˆ</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>${article.title}_Í¶×Ê´óÊ¦</title>
 <link href="../css/main.css" rel="stylesheet" type="text/css" />
 <link href="../css/second.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript">
@@ -16,13 +16,13 @@
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
         	<div class="sec_nav">
-            	<h2><a href="/" >é¦–é¡µ</a>&gt;&gt; <a href="/articles/${article.type}/list.html">$category</a>  </h2>
+            	<h2><a href="/" >Ê×Ò³</a>&gt;&gt; <a href="/articles/${article.type}/list.html">$category</a>  </h2>
             </div>
             <h2 class="sec_conTitle">${article.title}</h2>
             <div class="sec_dtlSet">
-            	<span>æœ¬æ–‡æ¥æºäº${article.src}</span>ã€€ ${ptime} <em class="redFont">å…±æœ‰ 0 æ¡ç‚¹è¯„</em>
+            	<span>±¾ÎÄÀ´Ô´ÓÚ${article.src}</span>¡¡ ${ptime} <em class="redFont">¹²ÓĞ 0 ÌõµãÆÀ</em>
                 &nbsp;&nbsp;&nbsp;<a href="http://51gurus.com/search/columnarticlelist.htm?author=${article.author}">${article.author}</a>
-                å­—å·ï¼š<a class="fontSizeBtn" href="#">å¤§</a><a class="fontSizeBtn" href="#">ä¸­</a><a class="fontSizeBtn" href="#">å°</a>
+                ×ÖºÅ£º<a class="fontSizeBtn" href="#">´ó</a><a class="fontSizeBtn" href="#">ÖĞ</a><a class="fontSizeBtn" href="#">Ğ¡</a>
             </div>
             <div class="sec_conDetail">
             		${article.Content}
@@ -31,7 +31,6 @@
             <div class="sec_conRelat">
                 <span class="clear"></span>
             </div>
-			<div class="sec_commments"><cms:comment count="5">{ZCMS:è¯„è®ºåŒºåŸŸ}</cms:comment></div>
         </div>
       <div class="clear"></div>
         #include("/template/inc/footer.htm")
