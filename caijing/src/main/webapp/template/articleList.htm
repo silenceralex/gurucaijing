@@ -27,9 +27,30 @@
                         <table width="100%" border="0">
                             <tbody>
                                 <tr>
-                                    <td align="center">
-                                        $paginatorLink
-                                    </td>
+                                      <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./list_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./notice_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./list_${next}.html">下一页</a>
+											<a href="./list_${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
                                 </tr>
                             </tbody>
                         </table>

@@ -769,7 +769,8 @@ public class HtmlFlusher {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(10);
 		int total = columnArticleDao.getAllArticleCountByType(type);
-		for (int i = 0; i < 10 && i < (total / 10 + 1); i++) {
+		int totalpage = (total / 10 + 1) > 10 ? 10 : (total / 10 + 1);
+		for (int i = 0; i < 10 && i < totalpage; i++) {
 			List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(type, i * 10, 10);
 			for (ColumnArticle article : articles) {
 				String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
@@ -797,10 +798,12 @@ public class HtmlFlusher {
 				vmf.put("category", category);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("articlelist", articles);
+				vmf.put("page", totalpage);
+				vmf.put("current", i + 1);
 				vmf.put("ctype", type);
 				vmf.put("paginatorLink", paginator.getPageNumberList());
-				vmf.save(ARTICLEDIR + type + "/" + "list_" + i + ".html");
-				System.out.println("write page : " + ARTICLEDIR + type + "/" + "list_" + i + ".html");
+				vmf.save(ARTICLEDIR + type + "/" + "list_" + (i + 1) + ".html");
+				System.out.println("write page : " + ARTICLEDIR + type + "/" + "list_" + (i + 1) + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
