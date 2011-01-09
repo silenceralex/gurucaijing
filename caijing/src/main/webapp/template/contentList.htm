@@ -17,7 +17,7 @@
                     </div>
                 <ul>
 				#foreach($article in $articlelist)
-				<li><h3><span class="right">[${article.ptime}]</span><a href="${article.link}" target="_blank">${article.title}</a><a href="http://51gurus.com/search/columnarticlelist.htm?author=${article.author}" target="_blank">${article.author}</a></h3>
+				<li><h3><span class="right">[$dateTools.transformYYYYMMDDDate(${article.ptime})]</span><a href="${article.link}" target="_blank">${article.title}</a><a href="http://51gurus.com/search/columnarticlelist.htm?author=${article.author}" target="_blank">${article.author}</a></h3>
 				<p>${article.abs}</p>
 				</li>
 				#end

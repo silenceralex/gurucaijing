@@ -759,13 +759,15 @@ public class HtmlFlusher {
 		introvmf.put("category", category);
 		introvmf.save(ARTICLEDIR + article.getType() + "/" + DateTools.getYear(article.getPtime()) + "/"
 				+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html");
-		System.out.println("write page : " + ARTICLEDIR + article.getType() + "/" + article.getCmsid() + ".html");
+		System.out.println("write page : " + ARTICLEDIR + article.getType() + "/"
+				+ DateTools.getYear(article.getPtime()) + "/" + DateTools.getMonth(article.getPtime()) + "/"
+				+ article.getCmsid() + ".html");
 	}
 
 	public void flushArticleList(int type) {
 		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 20);
 		for (ColumnArticle article : articles) {
-			String linkprefix = "http://51gurus/articles/" + article.getType() + "/";
+			String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
 			String link = linkprefix + DateTools.getYear(article.getPtime()) + "/"
 					+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html";
 			article.setLink(link);
@@ -786,6 +788,7 @@ public class HtmlFlusher {
 				category = "²Ý¸ù²©¿Í";
 			}
 			vmf.put("category", category);
+			vmf.put("dateTools", new DateTools());
 			vmf.put("articlelist", articles);
 			vmf.put("ctype", type);
 			vmf.save(ARTICLEDIR + type + "/" + "list.html");
