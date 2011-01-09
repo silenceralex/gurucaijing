@@ -770,7 +770,7 @@ public class HtmlFlusher {
 		paginator.setPageSize(10);
 		int total = columnArticleDao.getAllArticleCountByType(type);
 		for (int i = 0; i < 10 && i < (total / 10 + 1); i++) {
-			List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(type, (i - 1) * 10, 10);
+			List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(type, i * 10, 10);
 			for (ColumnArticle article : articles) {
 				String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
 				String link = linkprefix + DateTools.getYear(article.getPtime()) + "/"
