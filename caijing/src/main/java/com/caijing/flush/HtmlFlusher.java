@@ -38,6 +38,7 @@ import com.caijing.util.HtmlUtils;
 
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
+	public static String ARTICLEDIR = "/home/html/articles/";
 	public static String REPORTDIR = "/home/html/report/";
 	public static String NOTICEDIR = "/home/html/notice/";
 
@@ -738,6 +739,64 @@ public class HtmlFlusher {
 		return retlist;
 	}
 
+	public void flushOneArticle(ColumnArticle article) {
+		String ptime = DateTools.transformYYYYMMDDDate(article.getPtime());
+		VMFactory introvmf = new VMFactory();
+		introvmf.setTemplate("/template/content.htm");
+		introvmf.put("article", article);
+		introvmf.put("ptime", ptime);
+		String category = "";
+		switch (article.getType()) {
+		case 0:
+			category = "财经专栏";
+		case 1:
+			category = "大势研判";
+		case 2:
+			category = "宏观动态";
+		case 3:
+			category = "草根博客";
+		}
+		introvmf.put("category", category);
+		introvmf.save(ARTICLEDIR + article.getType() + "/" + DateTools.getYear(article.getPtime()) + "/"
+				+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html");
+		System.out.println("write page : " + ARTICLEDIR + article.getType() + "/" + article.getCmsid() + ".html");
+	}
+
+	public void flushArticleList(int type) {
+		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 20);
+		for (ColumnArticle article : articles) {
+			String linkprefix = "http://51gurus/articles/" + article.getType() + "/";
+			String link = linkprefix + DateTools.getYear(article.getPtime()) + "/"
+					+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html";
+			article.setLink(link);
+			flushOneArticle(article);
+		}
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/contentList.htm");
+			String category = "";
+			switch (type) {
+			case 0:
+				category = "财经专栏";
+			case 1:
+				category = "大势研判";
+			case 2:
+				category = "宏观动态";
+			case 3:
+				category = "草根博客";
+			}
+			vmf.put("category", category);
+			vmf.put("articlelist", articles);
+			vmf.put("ctype", type);
+			vmf.save(ARTICLEDIR + type + "/" + "list.html");
+			System.out.println("write page : " + ARTICLEDIR + type + "/" + "list.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
 		//		flusher.flushStarGuruDetail();
@@ -752,11 +811,16 @@ public class HtmlFlusher {
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
-		flusher.flushStarGuruDetail();
-		flusher.flushAnalyzerRank();
-		flusher.flushStarOnSale(true);
-		flusher.flushStarOnSale(false);
-		flusher.flushSuccessRank();
+		//		flusher.flushStarGuruDetail();
+		//		flusher.flushAnalyzerRank();
+		//		flusher.flushStarOnSale(true);
+		//		flusher.flushStarOnSale(false);
+		//				flusher.flushSuccessRank();
+		ColumnArticle article = (ColumnArticle) flusher.getColumnArticleDao()
+				.select("41e75899a8d00d0ff2ab7c83b12acbc5");
+		flusher.flushOneArticle(article);
+		flusher.flushArticleList(1);
+
 	}
 
 	public ReportDao getReportDao() {

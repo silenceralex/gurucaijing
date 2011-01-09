@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>${Article.Title}_投资大师</title>
+<title>${article.title}_投资大师</title>
 <link href="../css/main.css" rel="stylesheet" type="text/css" />
 <link href="../css/second.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript">
@@ -16,17 +16,17 @@
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
         	<div class="sec_nav">
-            	<h2><cms:link type="CurrentPosition" spliter=">">{ZCMS:当前位置}</cms:link></h2>
+            	<h2><a href="/" >首页</a>&gt;&gt; <a href="/articles/${article.type}/list.html">$category</a>  </h2>
             </div>
-            <h2 class="sec_conTitle">${Article.Title}</h2>
+            <h2 class="sec_conTitle">${article.title}</h2>
             <div class="sec_dtlSet">
-            	<span>本文来源于${Article.ReferName}</span>　 ${Article.PublishDate|Format=yyyy年MM月dd日 hh:mm} <em class="redFont">共有 0 条点评</em>
-                &nbsp;&nbsp;&nbsp;<a href="#"><img src="img/printIcon.jpg"/></a><a href="#"><img src="img/favIcon.jpg"/></a>
+            	<span>本文来源于${article.src}</span>　 ${ptime} <em class="redFont">共有 0 条点评</em>
+                &nbsp;&nbsp;&nbsp;<a href="http://51gurus.com/search/columnarticlelist.htm?author=${article.author}">${article.author}</a>
                 字号：<a class="fontSizeBtn" href="#">大</a><a class="fontSizeBtn" href="#">中</a><a class="fontSizeBtn" href="#">小</a>
             </div>
             <div class="sec_conDetail">
-            		${Article.Content}
-	<span class="sec_conEditor">${Article.Author}</span>
+            		${article.Content}
+	<span class="sec_conEditor">${article.author}</span>
             </div>
             <div class="sec_conRelat">
                 <span class="clear"></span>
