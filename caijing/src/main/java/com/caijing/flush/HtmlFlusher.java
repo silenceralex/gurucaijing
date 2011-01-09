@@ -35,6 +35,7 @@ import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.HtmlUtils;
+import com.caijing.util.Paginator;
 
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
@@ -677,9 +678,9 @@ public class HtmlFlusher {
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 0,
 					10);
-			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 3);
-			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 6);
-			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 6);
+			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
+			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
+			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 0, 6);
 			dsyp = alertUrl(dsyp);
 			hgdt = alertUrl(hgdt);
 			cjzl = alertUrl(cjzl);
@@ -765,39 +766,48 @@ public class HtmlFlusher {
 	}
 
 	public void flushArticleList(int type) {
-		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 20);
-		for (ColumnArticle article : articles) {
-			String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
-			String link = linkprefix + DateTools.getYear(article.getPtime()) + "/"
-					+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html";
-			article.setLink(link);
-			flushOneArticle(article);
-		}
-		try {
-			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/articleList.htm");
-			String category = "";
-			switch (type) {
-			case 0:
-				category = "财经专栏";
-			case 1:
-				category = "大势研判";
-			case 2:
-				category = "宏观动态";
-			case 3:
-				category = "草根博客";
+		Paginator<Report> paginator = new Paginator<Report>();
+		paginator.setPageSize(10);
+		int total = columnArticleDao.getAllArticleCountByType(type);
+		for (int i = 0; i < 10 && i < (total / 10 + 1); i++) {
+			List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(type, (i - 1) * 10, 10);
+			for (ColumnArticle article : articles) {
+				String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
+				String link = linkprefix + DateTools.getYear(article.getPtime()) + "/"
+						+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html";
+				article.setLink(link);
+				flushOneArticle(article);
 			}
-			vmf.put("category", category);
-			vmf.put("dateTools", new DateTools());
-			vmf.put("articlelist", articles);
-			vmf.put("ctype", type);
-			vmf.save(ARTICLEDIR + type + "/" + "list.html");
-			System.out.println("write page : " + ARTICLEDIR + type + "/" + "list.html");
-		} catch (Exception e) {
-			System.out.println("===> exception !!");
-			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-			e.printStackTrace();
+			paginator.setCurrentPageNumber(i);
+			paginator.setUrl("http://51gurus.com/articles/" + type + "/list_$number$.html");
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/articleList.htm");
+				String category = "";
+				switch (type) {
+				case 0:
+					category = "财经专栏";
+				case 1:
+					category = "大势研判";
+				case 2:
+					category = "宏观动态";
+				case 3:
+					category = "草根博客";
+				}
+				vmf.put("category", category);
+				vmf.put("dateTools", new DateTools());
+				vmf.put("articlelist", articles);
+				vmf.put("ctype", type);
+				vmf.put("paginator", paginator);
+				vmf.save(ARTICLEDIR + type + "/" + "list_" + i + ".html");
+				System.out.println("write page : " + ARTICLEDIR + type + "/" + "list_" + i + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 	public static void main(String[] args) {

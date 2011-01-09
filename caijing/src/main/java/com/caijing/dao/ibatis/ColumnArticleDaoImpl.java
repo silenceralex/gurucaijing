@@ -72,10 +72,16 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 	}
 
 	@Override
-	public List<ColumnArticle> getColumnArticleByType(int type, int length) {
-		Map<String, Object> params = new HashMap<String, Object>(3);
+	public List<ColumnArticle> getUnpublishArticles() {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getUnpublishArticles");
+	}
+
+	@Override
+	public List<ColumnArticle> getColumnArticleByType(int type, int start, int length) {
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		params.put("type", type);
 		params.put("length", length);
+		params.put("start", start);
 		//宏观动态栏目没有作者
 		if (type != 2) {
 			params.put("author", "111");
@@ -84,8 +90,8 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 	}
 
 	@Override
-	public List<ColumnArticle> getUnpublishArticles() {
-		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getUnpublishArticles");
+	public int getAllArticleCountByType(int type) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getAllArticleCountByType",
+				type);
 	}
-
 }
