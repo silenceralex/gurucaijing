@@ -775,7 +775,7 @@ public class HtmlFlusher {
 		}
 		try {
 			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/contentList.htm");
+			vmf.setTemplate("/template/articleList.htm");
 			String category = "";
 			switch (type) {
 			case 0:
