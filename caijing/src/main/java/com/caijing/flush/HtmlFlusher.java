@@ -798,7 +798,7 @@ public class HtmlFlusher {
 				vmf.put("dateTools", new DateTools());
 				vmf.put("articlelist", articles);
 				vmf.put("ctype", type);
-				vmf.put("paginator", paginator);
+				vmf.put("paginatorLink", paginator.getPageNumberList());
 				vmf.save(ARTICLEDIR + type + "/" + "list_" + i + ".html");
 				System.out.println("write page : " + ARTICLEDIR + type + "/" + "list_" + i + ".html");
 			} catch (Exception e) {
