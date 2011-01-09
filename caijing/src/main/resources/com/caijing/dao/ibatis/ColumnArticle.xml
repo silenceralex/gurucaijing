@@ -4,6 +4,10 @@
 
 	<typeAlias alias="ColumnArticle"
 		type="com.caijing.domain.ColumnArticle" />
+		
+	<select id="select"  parameterClass="java.lang.String" resultClass="ColumnArticle" >
+		select * from columnarticle where aid=#value#
+	</select>
 
 	<select id="getColumnArticleByAuthor" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
@@ -11,7 +15,7 @@
 		ptime desc limit #start#,#length#
 	</select>
 	
-		<select id="getColumnArticleCountByAuthor"
+	<select id="getColumnArticleCountByAuthor"
 		resultClass="java.lang.Integer" parameterClass="java.lang.String">
 		select count(1) from columnarticle where author=#value#
 	</select>
