@@ -816,12 +816,16 @@ public class HtmlFlusher {
 				switch (type) {
 				case 0:
 					category = "财经专栏";
+					break;
 				case 1:
 					category = "大势研判";
+					break;
 				case 2:
 					category = "宏观动态";
+					break;
 				case 3:
 					category = "草根博客";
+					break;
 				}
 				vmf.put("category", category);
 				vmf.put("dateTools", new DateTools());
