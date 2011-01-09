@@ -111,6 +111,10 @@
 						<entry key="grade">
 							<list>
 								<!-- 无法提取，pdf正文是大号粗体字来标识，txt正文无法区分  -->
+								<value><![CDATA[维持对?(?:公司)?(?:该股)?的?\s*“?([\u4e00-\u9fa5\s]{2,4}?)”?\s*的?(?:投资)?评级]]></value>
+								<value><![CDATA[首次(?:给予)?(?:评级)?的?\s*“?([\u4e00-\u9fa5\s]{2,4}?)”?\s*的?(?:投资)?评级。?]]></value>
+								<value><![CDATA[重申\s*“?([\u4e00-\u9fa5\s]{2,4}?)”?\s*评级]]></value>
+								<value><![CDATA[投资评级\s*“?([\u4e00-\u9fa5\s]{2,4}?)”?\s*。]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">

@@ -515,8 +515,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testGuangDa(extractor);
 		//testYinHe(extractor);
 		//testHongYuan(extractor);
-		//testDongFang(extractor);
-		testZhongXin(extractor);
+		testDongFang(extractor);
+		//testZhongXin(extractor);
 		//testZhongTou(extractor);
 		//testHuaTai2(extractor);
 		
@@ -747,12 +747,12 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("东方证券");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101222/6NM7BKKI.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RDJOD.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNJIMT.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101026/6JG01F0V.txt");
+//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101111/6KAC7HKS.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101222/6NM7BKKI.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101224/6O0RDJOD.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNJIMT.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101026/6JG01F0V.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101111/6KAC7HKS.txt");
-		
 	}
 	
 	public static void testZhongXin(ReportExtractor extractor) {
@@ -775,7 +775,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101215/6NE31N5T.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0433B0.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME39EST.txt");
-		
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101109/6K57IKS5.txt");
 	}
 	
 	public static void testHuaTai2(ReportExtractor extractor) {
