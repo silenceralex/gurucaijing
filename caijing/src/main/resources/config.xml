@@ -69,9 +69,7 @@
 						</entry>
 						<entry key="analyzer">
 							<value><![CDATA[\n\s*(?:署名人|参与人)[:：]\s*(.+?)\s*\n]]></value>
-						</entry>
-						<entry key="analyzerEps">
-							<value><![CDATA[\n\s*([^\n]+?)\s+执业证书编号]]></value>
+							<!-- <value><![CDATA[\n\s*([^\n]+?)\s+执业证书编号]]></value> -->
 						</entry>					
 						<entry key="eps">
 							<list>
