@@ -15,6 +15,15 @@ public class RecommendSuccess {
 	private float validateprice = 0;
 	//0未达到，1为达到,2为尚未到验证时间,3为无目标价
 	private int isAchieved = 2;
+	private String reporturl = null;
+
+	public String getReporturl() {
+		return reporturl;
+	}
+
+	public void setReporturl(String reporturl) {
+		this.reporturl = reporturl;
+	}
 
 	public String getAid() {
 		return aid;

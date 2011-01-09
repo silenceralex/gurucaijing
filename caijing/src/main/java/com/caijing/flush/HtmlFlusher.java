@@ -26,6 +26,7 @@ import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.Notice;
 import com.caijing.domain.RecommendStock;
+import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockAgencyEntity;
 import com.caijing.domain.StockEarn;
@@ -42,6 +43,7 @@ public class HtmlFlusher {
 	public static String ARTICLEDIR = "/home/html/articles/";
 	public static String REPORTDIR = "/home/html/report/";
 	public static String NOTICEDIR = "/home/html/notice/";
+	public static String PREFIX = "http://51gurus.com";
 
 	@Autowired
 	@Qualifier("reportDao")
@@ -262,6 +264,7 @@ public class HtmlFlusher {
 				int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
 				analyzer.setSuccess(success);
 				analyzer.setTotal(total);
+				flushOneSuccess(analyzer);
 			}
 			try {
 				VMFactory vmf = new VMFactory();
@@ -281,7 +284,32 @@ public class HtmlFlusher {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public void flushOneSuccess(Analyzer analyzer) {
+		FloatUtil floatUtil = new FloatUtil();
+		String ratio = "" + floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
+		List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+		for (RecommendSuccess recommend : recommends) {
+			Report report = (Report) reportDao.select(recommend.getReportid());
+			String url = PREFIX + report.getFilepath();
+			recommend.setReporturl(url);
+		}
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/anayzerSuc.htm");
+			vmf.put("dateTools", new DateTools());
+			vmf.put("floatUtil", floatUtil);
+			vmf.put("aname", analyzer.getName());
+			vmf.put("ratio", ratio);
+			vmf.put("recommends", recommends);
+			vmf.save(ADMINDIR + "success_" + analyzer.getAid() + ".html");
+			System.out.println("write page : " + ADMINDIR + "success_" + analyzer.getAid() + ".html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void flushReportLab() {
@@ -831,11 +859,11 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
-		//				flusher.flushSuccessRank();
-		ColumnArticle article = (ColumnArticle) flusher.getColumnArticleDao()
-				.select("41e75899a8d00d0ff2ab7c83b12acbc5");
-		flusher.flushOneArticle(article);
+		flusher.flushSuccessRank();
+		flusher.flushArticleList(0);
 		flusher.flushArticleList(1);
+		flusher.flushArticleList(2);
+		flusher.flushArticleList(3);
 
 	}
 

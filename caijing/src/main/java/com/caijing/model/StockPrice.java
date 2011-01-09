@@ -374,7 +374,7 @@ public class StockPrice {
 		//		System.out.println(" ’“Ê¬ £∫" + hq.getGainrate());
 		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 		sp.setStockEarnDao(stockEarnDao);
-		sp.storeStockPrice("000300", 1, "2010-08-09", "2010-10-26");
+		sp.storeStockPrice("000300", 1, "2010-10-27", "2010-10-27");
 	}
 
 	public StockEarnDao getStockEarnDao() {
