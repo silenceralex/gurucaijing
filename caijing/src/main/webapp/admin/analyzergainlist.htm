@@ -25,9 +25,6 @@
 					<th scope="col" width="80" height="30">
 						推荐股票
 					</th>
-					<th scope="col" width="160"> 
-						评级 
-					</th>
 					<th scope="col" width="80">
 						目标价
 					</th>
@@ -46,28 +43,25 @@
 					</th>
 				</tr>
 				<!-- 视频列表 -->
-				#foreach($stockgain in $stockgainlist)
-				<tr id="${stockgain.reportid}">
+				#foreach($stockgain in $stocks)
+				<tr id="${stockgain.inreportid}">
 					<td bgcolor="#E0E7FF" align="center">
-						<a href="/admin/recommendedit.htm?rid=$stockgain.reportid" title="查看抽取结果">$stockgain.stockname</a>
-					</td>
-					<td bgcolor="#E0E7FF">
-						<font color="blue">&nbsp;&nbsp;$!stockgain.grade</font> 
+						<a href="/admin/recommendedit.htm?rid=$stockgain.inreportid" title="查看抽取结果">${stockgain.stockname}</a>
 					</td>
 					<td bgcolor="#E0E7FF">
 						&nbsp;&nbsp;$stockgain.objectprice
 					</td>
 					<td bgcolor="#E0E7FF">
-						$stockgain.startdate
+						$dateTools.transformYYYYMMDDDate($stockgain.intime)
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							${stockgain.startprice}
+							${stockgain.inprice}
 					</td>
 					<td bgcolor="#E0E7FF">
-						$stockgain.enddate
+						$currdate
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-							${stockgain.endprice}
+							${stockgain.currentprice}
 					</td>
                     <td height="30" bgcolor="#E0E7FF" align="center">
 							<font color="red">$stockgain.gain %</font>

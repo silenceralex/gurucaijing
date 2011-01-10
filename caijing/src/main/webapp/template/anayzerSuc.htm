@@ -42,13 +42,13 @@
 								${recommend.stockname}(${recommend.stockcode})
 							</td>
 							<td>
-								${dateTools.transformDate($recommend.recommenddate)}
+								${dateTools.transformYYYYMMDDDate($recommend.recommenddate)}
 							</td>
 							<td>
 								$recommend.objectprice
 							</td>
 							<td>
-								${dateTools.transformDate($recommend.validate)}
+								${dateTools.transformYYYYMMDDDate($recommend.validate)}
 							</td>
 							<td>
 								$floatUtil.getTwoDecimalNumber($recommend.validateprice)

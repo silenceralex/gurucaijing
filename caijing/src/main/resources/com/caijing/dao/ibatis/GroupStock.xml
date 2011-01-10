@@ -13,7 +13,8 @@
 
 	<select id="getCurrentStockByGroupid" resultClass="GroupStock"
 		parameterClass="java.lang.String">
-		select * from groupstock where groupid=#value# and status=1
+		select gs.* ,s.stockname as stockname from groupstock as gs,stock s where gs.groupid=#value# and gs.status=1 and gs.stockcode = s.stockcode
+		order by gs.intime desc
 	</select>
 
 	<select id="getCurrentStockByGroupidAndStockcode"

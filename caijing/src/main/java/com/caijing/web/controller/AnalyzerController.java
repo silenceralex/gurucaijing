@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.business.StockGainManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.domain.Analyzer;
@@ -54,6 +55,10 @@ public class AnalyzerController {
 	private AnalyzerDao analyzerDao = null;
 
 	@Autowired
+	@Qualifier("groupStockDao")
+	private GroupStockDao groupStockDao = null;
+
+	@Autowired
 	@Qualifier("recommendSuccessDao")
 	private RecommendSuccessDao recommendSuccessDao = null;
 
@@ -66,7 +71,7 @@ public class AnalyzerController {
 			@RequestParam(value = "aname", required = true) String aname,
 			@RequestParam(value = "debug", required = false) String debug,
 			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
-		//		GroupGain gg = new GroupGain();
+		//				GroupGain gg = new GroupGain();
 		try {
 			aname = URLDecoder.decode(aname, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -137,7 +142,7 @@ public class AnalyzerController {
 
 	@RequestMapping("/admin/analyzergainlist.htm")
 	public String showAnalyzerGainList(HttpServletResponse response,
-			@RequestParam(value = "aname", required = true) String aname,
+			@RequestParam(value = "aid", required = true) String aid,
 			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
@@ -147,32 +152,36 @@ public class AnalyzerController {
 			page = 1;
 		}
 		paginator.setCurrentPageNumber(page);
-		String urlPattern = "";
-		try {
-			aname = URLDecoder.decode(aname, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			logger.error("¹Ø¼ü´Êutf-8½âÂëÊ§°Ü£º" + e.getMessage());
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		System.out.println("aname:" + aname);
-		List<StockGain> stockgainlist = null;
-		try {
-			Analyzer analyzer = gg.getAnalyzerDao().getAnalyzerByName(aname);
-			model.put("analyzer", analyzer);
-			total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
-			paginator.setTotalRecordNumber(total);
 
-			stockgainlist = stockGainManager.getStockGainByAname(aname, page);
+		System.out.println("aid:" + aid);
+		//		List<StockGain> stockgainlist = null;
+		Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
+		List<GroupStock> stocks = null;
+		try {
+			Analyzer analyzer = (Analyzer) gg.getAnalyzerDao().select(aid);
+			model.put("analyzer", analyzer);
+
+			//			total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
+			paginator.setTotalRecordNumber(total);
+			stocks = groupStockDao.getCurrentStockByGroupid(aid);
+			total = stocks.size();
+			//			stocks = groupStockDao.getGroupStockListDesc((page - 1) * 20, 20);
+			//			stockgainlist = stockGainManager.getStockGainByAname(aname, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		urlPattern = "/admin/analyzergainlist.htm?aname=" + aname + "&page=$number$";
-		model.put("aname", aname);
-		paginator.setUrl(urlPattern);
-		model.put("stockgainlist", stockgainlist);
-		model.put("paginatorLink", paginator.getPageNumberList());
 
+		String urlPattern = "/admin/analyzergainlist.htm?aid=" + aid + "&page=$number$";
+		model.put("aid", aid);
+		if (stocks != null && stocks.size() > 0) {
+			model.put("currdate", DateTools.transformYYYYMMDDDate(stocks.get(0).getLtime()));
+		} else {
+			model.put("currdate", DateTools.transformYYYYMMDDDate(new Date()));
+		}
+		paginator.setUrl(urlPattern);
+		model.put("stocks", stocks);
+		model.put("dateTools", new DateTools());
+		model.put("paginatorLink", paginator.getPageNumberList());
 		return "/admin/analyzergainlist.htm";
 	}
 
