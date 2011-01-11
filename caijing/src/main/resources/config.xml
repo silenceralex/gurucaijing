@@ -320,7 +320,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- 申银万国_调研报告_601005(重庆钢铁)_赵湘鄂，王世杰_＊＊_司近期将发可转债20亿元补充现金流.pdf -->
-							<value><![CDATA[\./data/oldpapers2/20[0-9]{4}/(申银万国)_调研报告_([0-9]{6})\((.*?)\)_(.*?)_＊*?_(.*?)\.pdf]]></value>
+							<value><![CDATA[\./data/oldpapers2/20[0-9]{4}/(申银万国)_调研报告_([0-9]{6})[\(（](.*?)[\)）]_(.*?)_＊*?_(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[(?:\n|日\s*期：\s*)(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s]]></value>
@@ -351,6 +351,10 @@
 				</entry>
 				<entry key="国泰君安">
 					<map>
+						<entry key="titlePattern">
+							<!-- ./200904/国泰君安_公司调研报告_新湖中宝(600208)地产为主，金融为翼，高杠杆，高成长_孙建平_20090408.pdf -->
+							<value><![CDATA[\./data/oldpapers2/20[0-9]{4}/(国泰君安)_公司调研报告_(.*?)\s*[\(（]([0-9]{6})[\)）]\s*(.*?)_(.*?)_(20[0-9]{6})\.pdf]]></value>
+						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n(201\d)\.(\d{2})\.(\d{2})\s+]]></value>
 						</entry>
