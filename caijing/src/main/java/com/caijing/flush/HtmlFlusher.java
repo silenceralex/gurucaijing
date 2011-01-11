@@ -778,12 +778,16 @@ public class HtmlFlusher {
 		switch (article.getType()) {
 		case 0:
 			category = "财经专栏";
+			break;
 		case 1:
 			category = "大势研判";
+			break;
 		case 2:
 			category = "宏观动态";
+			break;
 		case 3:
 			category = "草根博客";
+			break;
 		}
 		introvmf.put("category", category);
 		introvmf.save(ARTICLEDIR + article.getType() + "/" + DateTools.getYear(article.getPtime()) + "/"
