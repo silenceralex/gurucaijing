@@ -329,26 +329,40 @@ public class ReportExtractorImpl implements ReportExtractor {
 		Matcher m = titlePattern.matcher(path);
 		Report report = new Report();
 		report.setRid(rid);
-		if (m != null && m.find()) {
-			String sanam = m.group(1);
-			String stockname = m.group(2);
-			String title = m.group(3);
-			String stockcode = m.group(4);
-			String aname = m.group(5);
-			report.setSaname(sanam);
-			report.setStockcode(stockcode);
-			report.setStockname(stockname);
-			report.setType(1);
-			report.setTitle(title);
-			report.setAname(aname);
-			System.out.println("sanam:" + sanam);
-			System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
-			System.out.println("type:" + 1);
-			System.out.println("title:" + title);
-			System.out.println("aname:" + aname);
-		} else {
-			System.out.println("No match:");
-		}
+		if(saname.equalsIgnoreCase("安信证券")){
+			if (m != null && m.find()) {
+				String sanam = m.group(1);
+				String stockname = m.group(2);
+				String title = m.group(3);
+				String stockcode = m.group(4);
+				String aname = m.group(5);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1);
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
+		} else if(saname.equalsIgnoreCase("申银万国")){
+			
+		} else if(saname.equalsIgnoreCase("招商证券")){
+			
+		} else if(saname.equalsIgnoreCase("国泰君安")){
+			
+		} else if(saname.equalsIgnoreCase("广发证券")){
+			
+		} else if(saname.equalsIgnoreCase("国金证券")){
+			
+		} else if(saname.equalsIgnoreCase("国信证券")){
+			
+		} 
 		return report;
 	}
 

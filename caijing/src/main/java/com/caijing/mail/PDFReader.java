@@ -202,9 +202,19 @@ public class PDFReader {
 		for (String line : text.split("\n")) {
 			if (logfile.contains("axzq")) {
 				processOneFile(line, "安信证券");
+			} else if (logfile.contains("sywg")) {
+				processOneFile(line, "申银万国");
+			} else if (logfile.contains("zszq")) {
+				processOneFile(line, "招商证券");
+			} else if (logfile.contains("gtja")) {
+				processOneFile(line, "国泰君安");
+			} else if (logfile.contains("gfzq")) {
+				processOneFile(line, "广发证券");
 			} else if (logfile.contains("gjzq")) {
-
-			}
+				processOneFile(line, "国金证券");
+			} else if (logfile.contains("gxzq")) {
+				processOneFile(line, "国信证券");
+			} 
 		}
 	}
 
@@ -285,7 +295,20 @@ public class PDFReader {
 		pdfReader.init();
 
 		try {
+			//安信证券
 			pdfReader.processHistoryPath("/data/oldpapers2/log/axzq.log");
+			//申银万国
+			pdfReader.processHistoryPath("/data/oldpapers2/log/sywg.log");
+			//招商证券
+			pdfReader.processHistoryPath("/data/oldpapers2/log/zszq.log");
+			//国泰君安
+			pdfReader.processHistoryPath("/data/oldpapers2/log/gtja.log");
+			//广发证券
+			pdfReader.processHistoryPath("/data/oldpapers2/log/gfzq.log");
+			//国金证券
+			pdfReader.processHistoryPath("/data/oldpapers2/log/gjzq.log");
+			//国信证券
+			pdfReader.processHistoryPath("/data/oldpapers2/log/gxzq.log");
 
 			//			System.out.println(args.length);
 			//			System.out.println(args[0]);
