@@ -351,17 +351,134 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("No match:");
 			}
 		} else if(saname.equalsIgnoreCase("申银万国")){
-			
+			if (m != null && m.find()) {
+				String sanam = m.group(1); //saname
+				String stockname = m.group(4);
+				String title = m.group(6);
+				String stockcode = m.group(3);
+				String aname = m.group(5);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
 		} else if(saname.equalsIgnoreCase("招商证券")){
-			
+			if (m != null && m.find()) {
+				String sanam = m.group(1);//saname
+				String stockname = m.group(3);
+				String title = m.group(5);
+				String stockcode = m.group(4);
+				String aname = m.group(7);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
 		} else if(saname.equalsIgnoreCase("国泰君安")){
-			
+			if (m != null && m.find()) {
+				String sanam = m.group(1); //saname
+				String stockname = m.group(3);
+				String title = m.group(5);
+				String stockcode = m.group(4);
+				String aname = m.group(6);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
 		} else if(saname.equalsIgnoreCase("广发证券")){
-			
+			//TODO 需要处理两种规则
+			///data/oldpapers2/201005-06/广发：杉杉股份(600884)锂电池产业链完备,优势突出.pdf
+			///data/oldpapers2/201005-06/★★★★广发证券-公司调研-煤炭采选业-兖州煤业(600188.sh)-买入-林红垒.pdf
+			if (m != null && m.find()) {
+				String sanam = m.group(1); //saname
+				String stockname = m.group(3);
+				String title = m.group(5);
+				String stockcode = m.group(4);
+				String aname = m.group(6);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
 		} else if(saname.equalsIgnoreCase("国金证券")){
-			
+			if (m != null && m.find()) {
+				String sanam = m.group(1); //saname
+				String stockname = m.group(3);
+				String title = m.group(5);
+				String stockcode = m.group(4);
+				String aname = m.group(6);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
 		} else if(saname.equalsIgnoreCase("国信证券")){
-			
+			if (m != null && m.find()) {
+				String sanam = m.group(1); //saname
+				String stockname = m.group(3);
+				String title = m.group(5);
+				String stockcode = m.group(4);
+				String aname = m.group(6);
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+			}
 		} 
 		return report;
 	}
