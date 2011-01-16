@@ -138,7 +138,7 @@ body {
 		#foreach($analyzer in $analyzerList)
 
 		tree_analyzer.add('$analyzer.aid','column_10001','$analyzer.name','/admin/analyzergainlist.htm?aid=$analyzer.aid','$analyzer.name','main','img/folder.gif','img/folderopen.gif');
-		tree_analyzer.add('2_$analyzer.aid','$analyzer.aid','${analyzer.name}的组合','/admin/groupgainlist.htm?aname=$analyzer.name','${analyzer.name}的组合','main','img/folder.gif','img/folderopen.gif');
+		tree_analyzer.add('2_$analyzer.aid','$analyzer.aid','${analyzer.name}的组合','/admin/groupgainlist.htm?aid=$analyzer.aid','${analyzer.name}的组合','main','img/folder.gif','img/folderopen.gif');
 
 		#end
 

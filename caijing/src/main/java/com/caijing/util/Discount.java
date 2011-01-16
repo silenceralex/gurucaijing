@@ -1,68 +1,62 @@
 package com.caijing.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.cache.MethodCache;
+import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.DiscountStock;
-import com.caijing.domain.StockGain;
+import com.caijing.domain.GroupStock;
+import com.caijing.domain.RecommendStock;
 import com.caijing.model.StockPrice;
 
 public class Discount {
-	static String[] buys = { "买入", "推荐", "强烈推荐", "长期推荐", "增持" };
-
-	static HashSet<String> buyset = new HashSet<String>();
 
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
 
 	@Autowired
+	@Qualifier("groupStockDao")
+	private GroupStockDao groupStockDao = null;
+
+	public GroupStockDao getGroupStockDao() {
+		return groupStockDao;
+	}
+
+	public void setGroupStockDao(GroupStockDao groupStockDao) {
+		this.groupStockDao = groupStockDao;
+	}
+
+	@Autowired
 	@Qualifier("stockPrice")
 	private StockPrice sp = null;
 
-	static {
-		for (String buy : buys) {
-			buyset.add(buy);
-		}
-	}
-
 	@MethodCache(expire = 3600 * 2)
-	public List<DiscountStock> process() {
-		List<DiscountStock> discounts = recommendStockDao.getDiscountStocks();
-		List<DiscountStock> retlist = new ArrayList<DiscountStock>();
-		int i = 0;
-		for (DiscountStock discount : discounts) {
-			if (discount.getGrade() != null && buyset.contains(discount.getGrade())) {
-				String date = null;
-				try {
-					date = DateTools.transformYYYYMMDDDateFromStr(discount.getCreatedate());
+	public List<DiscountStock> getDiscountStocks() {
+		List<GroupStock> groupStockList = groupStockDao.getGroupStockListAsc(0, 20);
+		List<DiscountStock> discounts = new ArrayList<DiscountStock>(groupStockList.size());
 
-					StockGain sg = sp.getStockGainByPeriod(discount.getStockcode(), date,
-							DateTools.transformYYYYMMDDDate(new Date()));
-					if (sg.getGain() < 0) {
-						discount.setDiscountratio(0 - sg.getGain());
-						discount.setRecommendprice(sg.getStartprice());
-						discount.setCurrentprice(sg.getEndprice());
-						retlist.add(discount);
-						i++;
-					}
-				} catch (Exception e) {
-					System.out.println("Exception : " + e.getMessage() + " date:" + date);
-					e.printStackTrace();
-				}
-			}
+		for (GroupStock groupstock : groupStockList) {
+			DiscountStock stock = new DiscountStock();
+			RecommendStock rs = recommendStockDao.getRecommendStockbyReportid(groupstock.getInreportid());
+			stock.setSaname(rs.getSaname());
+			stock.setGrade(rs.getGrade());
+			stock.setCurrentprice(groupstock.getCurrentprice());
+			stock.setAname(groupstock.getGroupname());
+			stock.setCreatedate(DateTools.transformYYYYMMDDDate(groupstock.getIntime()));
+			stock.setDiscountratio(groupstock.getGain());
+			stock.setRecommendprice(groupstock.getInprice());
+			stock.setStockcode(groupstock.getStockcode());
+			stock.setStockname(groupstock.getStockname());
+			stock.setReportid(groupstock.getInreportid());
+			discounts.add(stock);
 		}
-		System.out.println("discount <0  records :" + i);
-		Collections.sort(retlist);
-		return retlist;
+		return discounts;
 	}
 
 	/**
@@ -74,7 +68,7 @@ public class Discount {
 		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
 		gg.setRecommendStockDao(recommendStockDao);
 		gg.setSp(sp);
-		List<DiscountStock> discounts = gg.process();
+		List<DiscountStock> discounts = gg.getDiscountStocks();
 		System.out.println("discount <0  records :" + discounts.size());
 		for (DiscountStock discount : discounts) {
 			System.out.println("discount getRid:" + discount.getReportid());

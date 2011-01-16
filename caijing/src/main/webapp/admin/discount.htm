@@ -43,7 +43,7 @@
 					<th scope="col" width="160">
 						上市公司
 					</th>
-					<th scope="col" width="160">
+					<th scope="col" width="80">
 						分析师
 					</th>
 					<th scope="col" width="120">
@@ -69,10 +69,10 @@
 						<a href="/admin/recommendedit.htm?rid=$recommend.reportid"
 							title="编辑该抽取结果">$recommend.reportid</a>
 					</td>
-					<td bgcolor="#E0E7FF">
+					<td bgcolor="#E0E7FF"  align="center">
 						<font color="blue">&nbsp;&nbsp;$recommend.saname</font>
 					</td>
-					<td bgcolor="#E0E7FF">
+					<td bgcolor="#E0E7FF"  align="center">
 						${recommend.stockname}(${recommend.stockcode})
 						<a href="/admin/stockgain.htm?rid=${recommend.reportid}"
 							title="查看推荐收益"><img src="/admin/img/a1.gif" width="16"
@@ -84,17 +84,17 @@
 					<td height="30" bgcolor="#E0E7FF" align="center">
 						<font color="red">$recommend.grade</font>
 					</td>
-					<td bgcolor="#E0E7FF">
+					<td bgcolor="#E0E7FF"  align="center">
 						&nbsp;&nbsp;$recommend.createdate
 					</td>
 					<td bgcolor="#E0E7FF" align="center">
 						$recommend.recommendprice
 					</td>
-					<td bgcolor="#E0E7FF">
+					<td bgcolor="#E0E7FF"  align="center">
 						$recommend.currentprice
 					</td>
 					<td height="30" bgcolor="#E0E7FF" align="center">
-						<font color="red">-${recommend.discountratio}%</font>
+						<font color="red">${recommend.discountratio}%</font>
 					</td>
 				</tr>
 				#end

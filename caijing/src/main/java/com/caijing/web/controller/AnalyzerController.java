@@ -1,11 +1,8 @@
 package com.caijing.web.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.business.StockGainManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
-import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.RecommendSuccessDao;
+import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupEarn;
-import com.caijing.domain.GroupPeriod;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Report;
-import com.caijing.domain.StockGain;
+import com.caijing.domain.StockEarn;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.GroupGain;
@@ -47,8 +44,8 @@ public class AnalyzerController {
 	private StockGainManager stockGainManager = null;
 
 	@Autowired
-	@Qualifier("recommendStockDao")
-	private RecommendStockDao recommendStockDao = null;
+	@Qualifier("groupEarnDao")
+	private GroupEarnDao groupEarnDao = null;
 
 	@Autowired
 	@Qualifier("analyzerDao")
@@ -57,6 +54,10 @@ public class AnalyzerController {
 	@Autowired
 	@Qualifier("groupStockDao")
 	private GroupStockDao groupStockDao = null;
+
+	@Autowired
+	@Qualifier("stockEarnDao")
+	private StockEarnDao stockEarnDao = null;
 
 	@Autowired
 	@Qualifier("recommendSuccessDao")
@@ -68,74 +69,105 @@ public class AnalyzerController {
 
 	@RequestMapping("/admin/groupgainlist.htm")
 	public String showGroupGainList(HttpServletResponse response,
-			@RequestParam(value = "aname", required = true) String aname,
+			@RequestParam(value = "aid", required = true) String aid,
 			@RequestParam(value = "debug", required = false) String debug,
 			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
-		//				GroupGain gg = new GroupGain();
-		try {
-			aname = URLDecoder.decode(aname, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			logger.error("关键词utf-8解码失败：" + e.getMessage());
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		gg.init();
-		GroupPeriod gs = gg.processASC(aname);
-		model.put("aname", aname);
-		Analyzer analyzer = gg.getAnalyzerDao().getAnalyzerByName(aname);
+		//		GroupGain gg = new GroupGain();
+		//		try {
+		//			aname = URLDecoder.decode(aname, "UTF-8");
+		//		} catch (UnsupportedEncodingException e) {
+		//			logger.error("关键词utf-8解码失败：" + e.getMessage());
+		//		} catch (Exception e) {
+		//			logger.error(e.getMessage());
+		//		}
+		//		gg.init();
+		//		GroupPeriod gs = gg.processASC(aname);
+		//		model.put("aname", aname);
+		//		Analyzer analyzer = gg.getAnalyzerDao().getAnalyzerByName(aname);
+
+		//		List<GroupStock> currentstocks = gg.getGroupStockDao().getCurrentStockByGroupid(analyzer.getAid());
+		//		model.put("currentstocks", currentstocks);
+		//		System.out.println("gs.getFirstdate():" + gs.getFirstdate());
+		//		System.out.println("Stockname:" + gs.getFirststock());
+		//		HashMap<String, String> codeMap = new HashMap<String, String>();
+		//		for (StockGain sg : gs.getStockGains()) {
+		//			codeMap.put(sg.getStockcode(), sg.getStockname());
+		//		}
+		//		//		float weight = gs.getWeights().get(gs.getWeights().size() - 1);
+		//		List<Float> groupearn = new ArrayList<Float>();
+		//		for (float weight : gs.getWeights()) {
+		//			groupearn.add(FloatUtil.getTwoDecimal(weight - 100));
+		//		}
+
+		Analyzer analyzer = (Analyzer) analyzerDao.select(aid);
+		System.out.println("aname:" + analyzer.getName());
 		model.put("analyzer", analyzer);
+		model.put("aname", analyzer.getName());
+		Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
+
+		System.out.println("startDate:" + startDate);
+		List<GroupStock> groupstocks = groupStockDao.getCurrentStockByGroupid(analyzer.getAid());
+		System.out.println("analyzer: " + analyzer.getName() + "  startDate:" + startDate.toString());
+		//		startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
+		List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
+		LinkedList<GroupEarn> reverseWeightList = new LinkedList<GroupEarn>();
+		for (GroupEarn ge : weightList) {
+			ge.setRatio(FloatUtil.getTwoDecimal((ge.getWeight() - 100)));
+			reverseWeightList.addFirst(ge);
+		}
+		model.put("weightList", weightList);
+		model.put("reverseWeightList", reverseWeightList);
+		float startprice = stockEarnDao.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate))
+				.getPrice();
+		List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+				DateTools.transformYYYYMMDDDate(startDate));
+		for (StockEarn se : priceList) {
+			se.setCurrratio(FloatUtil.getTwoDecimal((se.getPrice() - startprice) * 100 / startprice));
+		}
+		model.put("priceList", priceList);
+		model.put("groupstocks", groupstocks);
+		model.put("dateTools", new DateTools());
 		List<GroupStock> currentstocks = gg.getGroupStockDao().getCurrentStockByGroupid(analyzer.getAid());
-		model.put("currentstocks", currentstocks);
-		System.out.println("gs.getFirstdate():" + gs.getFirstdate());
-		System.out.println("Stockname:" + gs.getFirststock());
-		HashMap<String, String> codeMap = new HashMap<String, String>();
-		for (StockGain sg : gs.getStockGains()) {
-			codeMap.put(sg.getStockcode(), sg.getStockname());
-		}
-		//		float weight = gs.getWeights().get(gs.getWeights().size() - 1);
-		List<Float> groupearn = new ArrayList<Float>();
-		for (float weight : gs.getWeights()) {
-			groupearn.add(FloatUtil.getTwoDecimal(weight - 100));
-		}
-		String totalratio = groupearn.get(groupearn.size() - 1) + "%";
+		String totalratio = weightList.get(weightList.size() - 1).getRatio() + "%";
+		model.put("totalratio", totalratio);
 		if ("true".equals(debug)) {
 			model.put("debug", 1);
 		} else {
 			model.put("debug", 0);
 		}
-		List reversedates = new ArrayList<String>();
-		reversedates.addAll(gs.getDates());
-		Collections.reverse(reversedates);
-		model.put("reversedates", reversedates);
-		model.put("joinmap", gs.getJoinMap());
-		model.put("codeMap", codeMap);
-		model.put("joinmap", gs.getJoinMap());
-		model.put("firststock", gs.getFirststock());
-		model.put("firstdate", gs.getFirstdate());
-		model.put("dates", gs.getDates());
-		model.put("stockdatemap", gs.getStockdateMap());
-		model.put("stockcodes", gs.getStockdateMap().keySet());
-		model.put("ratios", gs.getRatios());
-		model.put("weights", gs.getWeights());
-		model.put("totalratio", totalratio);
-		model.put("groupearn", groupearn);
+		//		List reversedates = new ArrayList<String>();
+		//		reversedates.addAll(gs.getDates());
+		//		Collections.reverse(reversedates);
+		//		model.put("reversedates", reversedates);
+		//		model.put("joinmap", gs.getJoinMap());
+		//		model.put("codeMap", codeMap);
+		//		model.put("joinmap", gs.getJoinMap());
+		//		model.put("firststock", gs.getFirststock());
+		//		model.put("firstdate", gs.getFirstdate());
+		//		model.put("dates", gs.getDates());
+		//		model.put("stockdatemap", gs.getStockdateMap());
+		//		model.put("stockcodes", gs.getStockdateMap().keySet());
+		//		model.put("ratios", gs.getRatios());
+		//		model.put("weights", gs.getWeights());
+		//		model.put("totalratio", totalratio);
+		//		model.put("groupearn", groupearn);
 
-		StockGain zssg = stockGainManager.getZSGainByPeriod(gs.getFirstdate(),
-				DateTools.transformYYYYMMDDDate(new Date()));
-		zssg.setStockname("上证指数");
-		List<String> zsdate = zssg.getPerioddate();
-		//加入第一只股票的时间
-		zsdate.add(gs.getFirstdate());
-		//		Collections.reverse(zsdate);
-		List<Float> zsperoidprice = zssg.getPeriodprice();
-		List<Float> zsperiodratio = zssg.getPeriodratio();
-		System.out.println("dates size:" + gs.getDates().size());
-		System.out.println("weights size:" + gs.getWeights().size());
-		System.out.println("getPeriodearn size:" + zssg.getPeriodearn().size());
-		Collections.reverse(zsperoidprice);
-		model.put("zsdate", zsdate);
-		model.put("zsperoidprice", zsperoidprice);
-		model.put("zsperiodratio", zssg.getPeriodearn());
+		//		StockGain zssg = stockGainManager.getZSGainByPeriod(gs.getFirstdate(),
+		//				DateTools.transformYYYYMMDDDate(new Date()));
+		//		zssg.setStockname("上证指数");
+		//		List<String> zsdate = zssg.getPerioddate();
+		//		//加入第一只股票的时间
+		//		zsdate.add(gs.getFirstdate());
+		//		//		Collections.reverse(zsdate);
+		//		List<Float> zsperoidprice = zssg.getPeriodprice();
+		//		List<Float> zsperiodratio = zssg.getPeriodratio();
+		//		System.out.println("dates size:" + gs.getDates().size());
+		//		System.out.println("weights size:" + gs.getWeights().size());
+		//		System.out.println("getPeriodearn size:" + zssg.getPeriodearn().size());
+		//		Collections.reverse(zsperoidprice);
+		//		model.put("zsdate", zsdate);
+		//		model.put("zsperoidprice", zsperoidprice);
+		//		model.put("zsperiodratio", zssg.getPeriodearn());
 		//		model.put("groupearnlist", groupearnlist);
 		return "/admin/groupgainlist.htm";
 	}

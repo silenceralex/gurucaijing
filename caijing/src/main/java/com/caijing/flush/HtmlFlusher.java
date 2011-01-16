@@ -21,7 +21,6 @@ import com.caijing.dao.ReportDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.ColumnArticle;
-import com.caijing.domain.DiscountStock;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.Notice;
@@ -33,7 +32,6 @@ import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
-import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.HtmlUtils;
 import com.caijing.util.Paginator;
@@ -92,26 +90,6 @@ public class HtmlFlusher {
 	@Autowired
 	@Qualifier("stockPrice")
 	private StockPrice sp = null;
-
-	public boolean flushDiscount() {
-		try {
-			Discount gg = new Discount();
-			gg.setRecommendStockDao(recommendStockDao);
-			gg.setSp(sp);
-			List<DiscountStock> discounts = gg.process();
-			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/admin/discount.htm");
-			vmf.put("discountlist", discounts);
-			vmf.save(ADMINDIR + "discount.html");
-			System.out.println("write page : " + ADMINDIR + "discount.html");
-			return true;
-		} catch (Exception e) {
-			System.out.println("===> exception !!");
-			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
-			e.printStackTrace();
-			return false;
-		}
-	}
 
 	public void flushStarGuruDetail() {
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();

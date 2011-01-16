@@ -64,23 +64,23 @@ body {
 			<div id="holder1" class="holder"></div>
 			<table id="data" style="display: none">
 				<tr>
-					#foreach($date in $dates)
+					#foreach($groupEarn in $weightList) 
 					<th>
-						$date
+						$dateTools.transformYYYYMMDDDate($groupEarn.date)
 					</th>
 					#end
 				</tr>
 				<tr>
-					#foreach($weight in $weights) #set($temp=$velocityCount - 1)
+					#foreach($groupEarn in $weightList) 
 					<td>
-						$weight,$groupearn.get($temp)%
+						$groupEarn.weight,$groupEarn.ratio %
 					</td>
 					#end
 				</tr>
 				<tr>
-					#foreach($price in $zsperoidprice) #set($temp=$velocityCount - 1)
+					#foreach($stockEarn in $priceList)
 					<td>
-						$price,$zsperiodratio.get($temp)%
+						$stockEarn.price,${stockEarn.currratio}%
 					</td>
 					#end
 				</tr>
@@ -95,8 +95,8 @@ body {
 			<br />
 			<font color="red" size="10"> 组合 总体的 收益率为：$totalratio </font>
 			<font color="red" size="10"> 当前组合内股票有：
-			#foreach($currentstock in $currentstocks)
-				$codeMap.get($currentstock.stockcode)(${currentstock.stockcode}) &nbsp; 
+			#foreach($groupstock in $groupstocks)
+				${groupstock.stockname} (${groupstock.stockcode}) &nbsp; 
 			 #end
 			 </font>
 			<br />
@@ -114,20 +114,19 @@ body {
 						新加入股票
 					</th>
 				</tr>
-				#foreach($date in $zsdate) #if($joinmap.containsKey($date))
-				#foreach($stockname in $joinmap.get($date))
+				#foreach($groupstock in $groupstocks)
 				<tr>
 					<td>
 						$!aname 的组合
 					</td>
 					<td>
-						$date
+						$dateTools.transformYYYYMMDDDate($groupstock.intime)
 					</td>
 					<td>
-						$stockname
+						$groupstock.stockname
 					</td>
 				</tr>
-				#end #end #end
+				#end 
 			</table>
 
 			<table class="stockTb" cellpadding="0" cellspacing="0">
@@ -146,36 +145,19 @@ body {
 					</th>
 				</tr>
 
-				#foreach($date in $reversedates) #set($temp=$reversedates.size() -
-				$velocityCount) #if($debug==1) #foreach($code in $stockcodes)
-				#if($stockdatemap.get(${code}).containsKey($date))
-				<tr>
-					<td>
-						$codeMap.get($code) ($code)
-					</td>
-					<td>
-						$date
-					</td>
-					<td>
-						$stockdatemap.get(${code}).get(${date}) %
-					</td>
-					<td>
-						$weights.get(${temp})
-					</td>
-				</tr>
-				#end #end #end
+				#foreach($weight in $reverseWeightList)
 				<tr>
 					<td>
 						$!aname 的组合
 					</td>
 					<td>
-						$date
+						$dateTools.transformYYYYMMDDDate($weight.date)
 					</td>
 					<td>
-						$weights.get(${temp})
+						$weight.weight
 					</td>
 					<td>
-						$ratios.get(${temp})%
+						$weight.ratio %
 					</td>
 				</tr>
 				#end

@@ -1,6 +1,5 @@
 package com.caijing.web.controller;
 
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
@@ -30,7 +28,6 @@ import com.caijing.domain.Report;
 import com.caijing.model.StockPrice;
 import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
-import com.caijing.util.FileUtil;
 import com.caijing.util.Paginator;
 import com.caijing.util.Vutil;
 
@@ -41,6 +38,10 @@ public class SearchController {
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
+
+	@Autowired
+	@Qualifier("groupStockDao")
+	private GroupStockDao groupStockDao = null;
 
 	@Autowired
 	@Qualifier("vutil")
@@ -162,31 +163,31 @@ public class SearchController {
 		return "/search/stocksearch.htm";
 	}
 
-	@RequestMapping("/admin/flushdiscount.htm")
-	public void flushdiscount(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		try {
-			List<DiscountStock> discounts = discount.process();
-			velocityEngine.init();
-			Template tpl = velocityEngine.getTemplate("/admin/discount.htm", "GBK");
-			VelocityContext context = new VelocityContext();
-			context.put("discountlist", discounts);
-			StringWriter out = new StringWriter();
-			tpl.merge(context, out);
-			FileUtil.write("D:\\discount.html", out.toString(), "GB2312");
-
-		} catch (Exception e) {
-			System.out.println("===> exception !!");
-			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
-			e.printStackTrace();
-		}
-	}
+	//	@RequestMapping("/admin/flushdiscount.htm")
+	//	public void flushdiscount(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+	//		try {
+	//			List<DiscountStock> discounts = discount.process();
+	//			velocityEngine.init();
+	//			Template tpl = velocityEngine.getTemplate("/admin/discount.htm", "GBK");
+	//			VelocityContext context = new VelocityContext();
+	//			context.put("discountlist", discounts);
+	//			StringWriter out = new StringWriter();
+	//			tpl.merge(context, out);
+	//			FileUtil.write("D:\\discount.html", out.toString(), "GB2312");
+	//
+	//		} catch (Exception e) {
+	//			System.out.println("===> exception !!");
+	//			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 	@RequestMapping("/admin/discount.htm")
 	public String discount(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		Discount discount = new Discount();
 		discount.setRecommendStockDao(recommendStockDao);
-		discount.setSp(sp);
-		List<DiscountStock> discounts = discount.process();
+		discount.setGroupStockDao(groupStockDao);
+		List<DiscountStock> discounts = discount.getDiscountStocks();
 		model.put("discountlist", discounts);
 		return "/admin/discount.htm";
 	}
