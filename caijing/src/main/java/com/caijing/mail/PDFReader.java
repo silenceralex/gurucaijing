@@ -296,19 +296,19 @@ public class PDFReader {
 
 		try {
 			//安信证券
-			pdfReader.processHistoryPath("/data/oldpapers2/log/axzq.log");
+			//pdfReader.processHistoryPath("/data/oldpapers2/log/axzq.log");
 			//申银万国
 			pdfReader.processHistoryPath("/data/oldpapers2/log/sywg.log");
 			//招商证券
-			pdfReader.processHistoryPath("/data/oldpapers2/log/zszq.log");
+			//pdfReader.processHistoryPath("/data/oldpapers2/log/zszq.log");
 			//国泰君安
-			pdfReader.processHistoryPath("/data/oldpapers2/log/gtja.log");
+			//pdfReader.processHistoryPath("/data/oldpapers2/log/gtja.log");
 			//广发证券
-			pdfReader.processHistoryPath("/data/oldpapers2/log/gfzq.log");
+			//pdfReader.processHistoryPath("/data/oldpapers2/log/gfzq.log");
 			//国金证券
-			pdfReader.processHistoryPath("/data/oldpapers2/log/gjzq.log");
+			//pdfReader.processHistoryPath("/data/oldpapers2/log/gjzq.log");
 			//国信证券
-			pdfReader.processHistoryPath("/data/oldpapers2/log/gxzq.log");
+			//pdfReader.processHistoryPath("/data/oldpapers2/log/gxzq.log");
 
 			//			System.out.println(args.length);
 			//			System.out.println(args[0]);
