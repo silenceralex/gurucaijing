@@ -95,7 +95,7 @@
 				author is not null
 			</isNotEmpty>
 		</dynamic>
-		and cmsid!=0 order by ptime desc limit #start#,#length#
+		and cmsid>0 order by ptime desc limit #start#,#length#
 	</select>
 
 

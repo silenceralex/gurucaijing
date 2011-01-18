@@ -834,11 +834,11 @@ public class HtmlFlusher {
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//		flusher.flushIndex();
+		flusher.flushIndex();
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushAnalyzerRank();
-		//		flusher.flushStockResearch();
+		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
 		//		flusher.flushStarGuruDetail();
@@ -846,10 +846,10 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
 		flusher.flushSuccessRank();
-		flusher.flushArticleList(0);
-		flusher.flushArticleList(1);
-		flusher.flushArticleList(2);
-		flusher.flushArticleList(3);
+		//		flusher.flushArticleList(0);
+		//		flusher.flushArticleList(1);
+		//		flusher.flushArticleList(2);
+		//		flusher.flushArticleList(3);
 
 	}
 
