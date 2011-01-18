@@ -25,7 +25,6 @@
             		<table cellpadding="0" cellspacing="0">
             		<tr>分析师： $aname   的推荐成功率为：<font color="red">$ratio</font>
             			<tr>
-            				<th>推荐研报</th>
             				<th>上市公司</th>
             				<th>推荐日期</th>
             				<th>目标价</th>
@@ -35,11 +34,8 @@
             			</tr>
 						#if ($recommends)#foreach ($recommend in $recommends)
 						<tr>
-            				<td>
-								<a href="${recommend.reporturl}" >$recommend.reportid</a>
-							</td>
 							<td>
-								${recommend.stockname}(${recommend.stockcode})
+								<a href="${recommend.reporturl}" >${recommend.stockname}(${recommend.stockcode})
 							</td>
 							<td>
 								${dateTools.transformYYYYMMDDDate($recommend.recommenddate)}
