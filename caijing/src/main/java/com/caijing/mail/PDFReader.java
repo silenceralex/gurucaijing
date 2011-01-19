@@ -264,18 +264,20 @@ public class PDFReader {
 			String mvfile = mvpath + rid + ".pdf";
 			String commendStr = "cp " + pdfPath + " " + mvfile;
 			File ddir = new File(mvpath);
-			System.out.println("Copy path:" + mvpath);
+			System.out.println("Copy path:" + mvfile);
 			if (!ddir.exists()) {
 				ddir.mkdirs();
 			}
 			StringWriter sw = new StringWriter();
-			Command.run(commendStr, sw);
-			logger.debug(sw.toString());
+			//Command.run(commendStr, sw); //FIXME
+			//logger.debug(sw.toString());
 
 			textFile = mvfile.replace(".pdf", ".txt");
-			System.out.println("Copy path:" + pdfPath);
-			readFdf(pdfPath, textFile);
+			System.out.println("Copy path:" + textFile);
+			//readFdf(pdfPath, textFile); //FIXME
 			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
+			//FIXME to remove comment
+			/*
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
@@ -305,7 +307,7 @@ public class PDFReader {
 						}
 					}
 				}
-			}
+			}*/
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			e.printStackTrace();
