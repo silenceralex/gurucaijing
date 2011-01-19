@@ -1,5 +1,6 @@
 package com.caijing.web.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -71,7 +72,8 @@ public class AnalyzerController {
 	public String showGroupGainList(HttpServletResponse response,
 			@RequestParam(value = "aid", required = true) String aid,
 			@RequestParam(value = "debug", required = false) String debug,
-			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model)
+			throws ParseException {
 		//		GroupGain gg = new GroupGain();
 		//		try {
 		//			aname = URLDecoder.decode(aname, "UTF-8");
@@ -103,7 +105,7 @@ public class AnalyzerController {
 		System.out.println("aname:" + analyzer.getName());
 		model.put("analyzer", analyzer);
 		model.put("aname", analyzer.getName());
-		Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
+		Date startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate("2010-01-01"));
 
 		System.out.println("startDate:" + startDate);
 		List<GroupStock> groupstocks = groupStockDao.getCurrentStockByGroupid(analyzer.getAid());
@@ -175,7 +177,8 @@ public class AnalyzerController {
 	@RequestMapping("/admin/analyzergainlist.htm")
 	public String showAnalyzerGainList(HttpServletResponse response,
 			@RequestParam(value = "aid", required = true) String aid,
-			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model)
+			throws ParseException {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 		int total = 0;
@@ -187,7 +190,7 @@ public class AnalyzerController {
 
 		System.out.println("aid:" + aid);
 		//		List<StockGain> stockgainlist = null;
-		Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
+		Date startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate("2010-01-01"));
 		List<GroupStock> stocks = null;
 		try {
 			Analyzer analyzer = (Analyzer) gg.getAnalyzerDao().select(aid);

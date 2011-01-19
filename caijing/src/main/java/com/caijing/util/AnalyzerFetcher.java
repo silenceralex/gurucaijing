@@ -43,101 +43,32 @@ public class AnalyzerFetcher {
 		GroupGainManager groupGainManager = (GroupGainManager) ContextFactory.getBean("groupGainManager");
 
 		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
-		int i = 0;
+		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
+		//		int i = 0;
+		//		for (Analyzer analyzer : analyzers) {
+		//			//			recommendStockDao.updateAnalyzer(analyzer.getName(), analyzer.getAid());
+		//			List<RecommendStock> rstocks = recommendStockDao
+		//					.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 100);
+		//			System.out.println("rstocks size : " + rstocks.size());
+		//			for (RecommendStock rs : rstocks) {
+		//				groupGainManager.extractGroupStock(rs);
+		//			}
+		//			i++;
+		//		}
+		//韩振国 陈运红 贺国文 石磊 尹沿技 王薇 赵宇杰  李宏鹏
+		//		String aname = "杨建海";
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersAfter("2011-01-19 22:04:56");
 		for (Analyzer analyzer : analyzers) {
-			//			recommendStockDao.updateAnalyzer(analyzer.getName(), analyzer.getAid());
 			List<RecommendStock> rstocks = recommendStockDao
-					.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 100);
+					.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
+			System.out.println("analyzer getName : " + analyzer.getName());
 			System.out.println("rstocks size : " + rstocks.size());
 			for (RecommendStock rs : rstocks) {
 				groupGainManager.extractGroupStock(rs);
 			}
-			i++;
+			String aid = analyzer.getAid();
+			LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+			storage.processHistoryGroupEarn(aid);
 		}
-
-		//		ApplicationContext context = ContextFactory.getApplicationContext();
-		//		ReportDao reportDao = (ReportDao) context.getBean("reportDao");
-		//		AbsConfig absConfig = (AbsConfig) context.getBean("absConfig");
-		//		String saname = "国泰君安";
-		//		Map map = absConfig.getValue(saname);
-		//		Pattern yaobao_absPattern = Pattern.compile((String) map.get("1_abs"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		Pattern yaobao_desPattern = Pattern.compile((String) map.get("1_des"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		System.out.println("yaobao: " + map.get("1"));
-		//		Pattern cenhui_absPattern = Pattern.compile((String) map.get("0_abs"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		Pattern cenhui_desPattern= Pattern.compile((String) map.get("0_des"), Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-		//				| Pattern.UNIX_LINES);
-		//		Pattern hangye_absPattern = Pattern.compile((String) map.get("2_abs"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		Pattern hangye_desPattern = Pattern.compile((String) map.get("2_des"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		Pattern hongguan_absPattern = Pattern.compile((String) map.get("3_abs"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		Pattern hongguan_desPattern = Pattern.compile((String) map.get("3_des"), Pattern.CASE_INSENSITIVE
-		//				| Pattern.DOTALL | Pattern.UNIX_LINES);
-		//		int count = reportDao.getAllReportsCountBySaname(saname);
-		//
-		//		System.out.println("count: " + count);
-		//		List<Report> reports = reportDao.getReportsBySaname(saname, 0, 20);
-		//		for (Report report : reports) {
-		//			String txtpath = "/home/html" + report.getFilepath();
-		//			System.out.println("txtpath: " + txtpath.replace("pdf", "txt"));
-		//			String content = FileUtil.read(txtpath.replace("pdf", "txt"), "gb2312");
-		//			//			report.getFilepath()
-		//
-		//			
-		//			if ("1".equals("" + report.getType())) {
-		//				System.out.println("公司: ");
-		//				Matcher m = yaobao_absPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("ABS: " + abs);
-		//				}
-		//				m = yaobao_desPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("des: " + abs);
-		//				}
-		//			} else if ("2".equals("" + report.getType())) {
-		//				System.out.println("行业: ");
-		//				Matcher m = hangye_absPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("ABS: " + abs);
-		//				}
-		//				m = hangye_desPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("des: " + abs);
-		//				}
-		//			} else if ("3".equals("" + report.getType())) {
-		//				System.out.println("宏观: ");
-		//				Matcher m = hongguan_absPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("ABS: " + abs);
-		//				}
-		//				m = hongguan_desPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("des: " + abs);
-		//				}
-		//			} else if ("0".equals("" + report.getType())) {
-		//				System.out.println("晨报: ");
-		//				Matcher m = cenhui_absPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("ABS: " + abs);
-		//				}
-		//				m = cenhui_desPattern.matcher(content);
-		//				if (m != null && m.find()) {
-		//					String abs = m.group(1).trim();
-		//					System.out.println("des: " + abs);
-		//				}
-		//			}
-		//		}
 	}
 }

@@ -59,4 +59,8 @@
 		<![CDATA[select * from stockearn where stockcode=#stockcode# and price!=0 and date<=#date# order by date desc limit 1]]>
 	</select>
 	
+	<select id="getDatesByZSFrom" resultClass="java.util.Date" parameterClass="java.util.Date">
+		<![CDATA[select date from stockearn where stockcode='000300' and date> #value# order by date]]>
+	</select>
+	
 </sqlMap>

@@ -16,7 +16,13 @@
 		select gs.* ,s.stockname as stockname from groupstock as gs,stock s where gs.groupid=#value# and gs.status=1 and gs.stockcode = s.stockcode
 		order by gs.intime desc
 	</select>
-
+	
+	<select id="getCurrentStockByGroupidAndPeriod" resultClass="GroupStock"
+		parameterClass="java.util.Map">
+		<![CDATA[select gs.* ,s.stockname as stockname from groupstock as gs,stock s where gs.groupid=#value# and gs.intime>#startdate# and gs.intime<#enddate# 
+		and gs.status=1 and gs.stockcode = s.stockcode order by gs.intime desc]]>
+	</select>
+	
 	<select id="getCurrentStockByGroupidAndStockcode"
 		resultClass="GroupStock" parameterClass="java.util.Map">
 		select * from groupstock where groupid=#groupid# and
@@ -72,9 +78,9 @@
 	</delete>
 
 
-	<select id="getEarliestIntimeByAid" resultClass="java.util.Date"
-		parameterClass="java.lang.String">
-		select intime from groupstock where groupid=#aid# and intime > "2010-01-01" order by
+	<select id="getEarliestIntimeByAidFrom" resultClass="java.util.Date"
+		parameterClass="java.util.Map">
+		select intime from groupstock where groupid=#aid# and intime > #date# order by
 		intime limit 1
 	</select>
 

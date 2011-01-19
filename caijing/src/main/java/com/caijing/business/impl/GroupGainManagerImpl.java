@@ -18,6 +18,7 @@ import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
 import com.caijing.util.DateTools;
+import com.caijing.util.FloatUtil;
 import com.caijing.util.GradeUtil;
 
 public class GroupGainManagerImpl implements GroupGainManager, InitializingBean {
@@ -56,6 +57,17 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 		}
 	}
 
+	//	@Override
+	//	public void fillGroupEarn(String aid) {
+	//		Date startdate = groupStockDao.getEarliestIntimeByAid(aid);
+	//		List<GroupStock> stocks=groupStockDao.getGroupStockListAsc(0, 1);
+	//		if(stocks!=null&&stocks.size()>0){
+	//			stocks.get(0).getStockcode();
+	//		}
+	//		groupStockDao.
+	//
+	//	}
+
 	public void extractGroupStock(RecommendStock rs) {
 		String[] names = rs.getAname().split("\\s|,");
 		for (String name : names) {
@@ -77,16 +89,29 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						gs.setObjectprice(rs.getObjectprice());
 						StockEarn se = stockEarnDao.getStockEarnByCodeDate(rs.getStockcode(),
 								DateTools.transformYYYYMMDDDateFromStr(rs.getCreatedate()));
+
 						float inprice = 0;
 						if (se != null) {
 							inprice = se.getPrice();
 						} else {
-							inprice = sp.fetchhq(rs.getStockcode(),
-									DateTools.transformYYYYMMDDDateFromStr(rs.getCreatedate())).getEndprice();
+							inprice = stockEarnDao.getNearPriceByCodeDate(rs.getStockcode(),
+									DateTools.parseYYYYMMDDDate(rs.getCreatedate())).getPrice();
+							//							inprice = sp.fetchhq(rs.getStockcode(),
+							//									DateTools.transformYYYYMMDDDateFromStr(rs.getCreatedate())).getEndprice();
 						}
 
 						gs.setInprice(inprice);
 						groupStockDao.insert(gs);
+						List<StockEarn> stockEarns = stockEarnDao.getRatiosByCodeFromDate(rs.getStockcode(),
+								rs.getCreatedate());
+						float gain = 1;
+						for (int i = 0; i < stockEarns.size(); i++) {
+							gain = (1 + stockEarns.get(i).getRatio() / 100) * gain;
+						}
+						gs.setCurrentprice(stockEarns.get(stockEarns.size() - 1).getPrice());
+						gs.setGain(FloatUtil.getTwoDecimal((gain - 1) * 100));
+						gs.setLtime(stockEarns.get(stockEarns.size() - 1).getDate());
+						groupStockDao.updateStockGain(gs);
 					}
 					//					if (sellset.contains(rs.getGrade()) && (oldstock != null)) {
 					if (GradeUtil.judgeStaus(rs.getGrade()) == 1 && (oldstock != null)) {
@@ -141,6 +166,12 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 
 	public void setSp(StockPrice sp) {
 		this.sp = sp;
+	}
+
+	@Override
+	public void fillGroupEarn(String aid) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

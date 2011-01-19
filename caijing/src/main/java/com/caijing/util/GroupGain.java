@@ -18,6 +18,7 @@ import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.StockDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupPeriod;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendStock;
@@ -64,22 +65,21 @@ public class GroupGain {
 	private RecommendStockDao recommendStockDao = null;
 
 	public void init() {
-		//		List<Stock> list = dao.getAllStock();
-		//		for (Stock stock : list) {
-		//			if (!stockmap.containsKey(stock.getStockcode())) {
-		//				stockmap.put(stock.getStockcode(), stock.getStockname());
-		//			}
-		//		}
+
 	}
 
-		static {
-			for (String buy : buys) {
-				buyset.add(buy);
-			}
-//			for (String sell : sells) {
-//				sellset.add(sell);
-//			}
+	static {
+		for (String buy : buys) {
+			buyset.add(buy);
 		}
+		//			for (String sell : sells) {
+		//				sellset.add(sell);
+		//			}
+	}
+
+	public void processStore(String aname) {
+
+	}
 
 	public void processASCStore(String aname) {
 		List<StockGain> sgs = stockGainManager.getStockGainByAnameASC(aname);
@@ -137,39 +137,39 @@ public class GroupGain {
 			//			}
 		}
 		//
-		//		List<Float> groupratio = new ArrayList<Float>(zsdates.size());
-		//		List<Float> weights = new ArrayList<Float>(zsdates.size());
-		//		List<String> perioddates = new ArrayList<String>(zsdates.size());
-		//		float weight = 100;
-		//		for (int i = zsdates.size() - 1; i >= 0; i--) {
-		//			float ratio = 0;
-		//			int count = 0;
-		//			for (String code : stockdateMap.keySet()) {
-		//				if (stockdateMap.get(code).containsKey(zsdates.get(i))) {
-		//					ratio += stockdateMap.get(code).get(zsdates.get(i));
-		//					count++;
-		//				}
-		//			}
-		//			ratio = ratio / (count * 100);
-		//			System.out.println("ratio at date :" + zsdates.get(i) + "  is :" + ratio);
-		//			weight = weight * (1 + ratio);
-		//			ratio = ratio * 100;
-		//			groupratio.add(FloatUtil.getTwoDecimal(ratio));
-		//			perioddates.add(zsdates.get(i));
-		//			weights.add(FloatUtil.getTwoDecimal(weight));
-		//
-		//			GroupEarn ge = new GroupEarn();
-		//			try {
-		//				ge.setDate(DateTools.parseYYYYMMDDDate(zsdates.get(i)));
-		//				ge.setGroupid(analyzer.getAid());
-		//				ge.setRatio(FloatUtil.getTwoDecimal(ratio));
-		//				ge.setWeight(FloatUtil.getTwoDecimal(weight));
-		//				groupEarnDao.insert(ge);
-		//			} catch (ParseException e) {
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-		//		}
+		List<Float> groupratio = new ArrayList<Float>(zsdates.size());
+		List<Float> weights = new ArrayList<Float>(zsdates.size());
+		List<String> perioddates = new ArrayList<String>(zsdates.size());
+		float weight = 100;
+		for (int i = zsdates.size() - 1; i >= 0; i--) {
+			float ratio = 0;
+			int count = 0;
+			for (String code : stockdateMap.keySet()) {
+				if (stockdateMap.get(code).containsKey(zsdates.get(i))) {
+					ratio += stockdateMap.get(code).get(zsdates.get(i));
+					count++;
+				}
+			}
+			ratio = ratio / (count * 100);
+			System.out.println("ratio at date :" + zsdates.get(i) + "  is :" + ratio);
+			weight = weight * (1 + ratio);
+			ratio = ratio * 100;
+			groupratio.add(FloatUtil.getTwoDecimal(ratio));
+			perioddates.add(zsdates.get(i));
+			weights.add(FloatUtil.getTwoDecimal(weight));
+
+			GroupEarn ge = new GroupEarn();
+			try {
+				ge.setDate(DateTools.parseYYYYMMDDDate(zsdates.get(i)));
+				ge.setGroupid(analyzer.getAid());
+				ge.setRatio(FloatUtil.getTwoDecimal(ratio));
+				ge.setWeight(FloatUtil.getTwoDecimal(weight));
+				groupEarnDao.insert(ge);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@MethodCache(expire = 3600 * 4)

@@ -1,6 +1,7 @@
 package com.caijing.flush;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -100,7 +101,14 @@ public class HtmlFlusher {
 				try {
 					//生成分析师intro页面
 					String aid = analyzer.getAid();
-					Date startDate = groupStockDao.getEarliestIntimeByAid(aid);
+					Date startDate = null;
+					try {
+						startDate = groupStockDao.getEarliestIntimeByAidFrom(aid,
+								DateTools.parseYYYYMMDDDate("2010-01-01"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
 					float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
 							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
@@ -195,7 +203,14 @@ public class HtmlFlusher {
 			Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
 			Map<String, Float> startPriceMap = new HashMap<String, Float>();
 			for (Analyzer analyzer : analyzerList) {
-				Date startDate = groupStockDao.getEarliestIntimeByAid(analyzer.getAid());
+				Date startDate = null;
+				try {
+					startDate = groupStockDao.getEarliestIntimeByAidFrom(analyzer.getAid(),
+							DateTools.parseYYYYMMDDDate("2010-01-01"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println("analyzer: " + analyzer.getName() + "  startDate:" + startDate.toString());
 				startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
 				List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
@@ -422,7 +437,14 @@ public class HtmlFlusher {
 				RecommendStock recommendStock = recommendStockDao.getRecommendStockbyReportid(stock.getInreportid());
 				filePathMap.put(stock.getInreportid(), recommendStock.getFilepath());
 
-				Date startDate = groupStockDao.getEarliestIntimeByAid(stock.getGroupid());
+				Date startDate = null;
+				try {
+					startDate = groupStockDao.getEarliestIntimeByAidFrom(stock.getGroupid(),
+							DateTools.parseYYYYMMDDDate("2010-01-01"));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				List<GroupEarn> weightList = groupEarnDao.getWeightList(stock.getGroupid(), startDate);
 				groupEarnMap.put(stock.getGroupid(), weightList);
 				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
@@ -837,11 +859,11 @@ public class HtmlFlusher {
 		flusher.flushIndex();
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
-		//		flusher.flushAnalyzerRank();
-		flusher.flushStockResearch();
+		flusher.flushAnalyzerRank();
+		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
-		//		flusher.flushStarGuruDetail();
+		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);

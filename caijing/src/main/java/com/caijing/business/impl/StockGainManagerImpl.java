@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.business.StockGainManager;
 import com.caijing.cache.MethodCache;
+import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.StockGain;
@@ -21,6 +22,10 @@ public class StockGainManagerImpl implements StockGainManager {
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
+
+	@Autowired
+	@Qualifier("groupStockDao")
+	private GroupStockDao groupStockDao = null;
 
 	@Autowired
 	@Qualifier("stockPrice")
@@ -93,6 +98,17 @@ public class StockGainManagerImpl implements StockGainManager {
 		StockGain sg = sp.getZSGainByPeriod(start, end);
 		return sg;
 	}
+
+	//	public List<StockGain> getStockGainByAname(String aname) {
+	//		int count = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
+	//		List<RecommendStock> recommendlist = recommendStockDao.getRecommendStocksByAnalyzerASC(aname, 0, count);
+	//		if (recommendlist == null)
+	//			return null;
+	//		List<StockGain> gainlist = new ArrayList<StockGain>(recommendlist.size());
+	//		for (RecommendStock rstock : recommendlist) {
+	//
+	//		}
+	//	}
 
 	public List<StockGain> getStockGainByAnameASC(String aname) {
 		HashSet<String> stockdateMap = new HashSet<String>();

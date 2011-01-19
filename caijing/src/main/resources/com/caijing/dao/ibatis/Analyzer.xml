@@ -86,5 +86,8 @@
 		select * from analyzer where agency = #value# order by successratio desc
 	</select>
 	
+	<select id="getAnalyzersAfter" resultClass="Analyzer">
+		select * from analyzer where ptime>#value#
+	</select>
 		
 </sqlMap>

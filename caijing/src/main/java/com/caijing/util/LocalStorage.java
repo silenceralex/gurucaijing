@@ -1,6 +1,8 @@
 package com.caijing.util;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import com.caijing.domain.GroupStock;
 import com.caijing.domain.Stock;
 import com.caijing.domain.StockEarn;
 import com.caijing.flush.HtmlFlusher;
-import com.caijing.model.StockPrice;
 import com.caijing.model.StockReloader;
 
 public class LocalStorage {
@@ -129,11 +130,57 @@ public class LocalStorage {
 		}
 	}
 
+	public void processHistoryGroupEarn(String aid) {
+		Date startDate = null;
+		try {
+			startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate("2010-01-01"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<GroupStock> stocks = groupStockDao.getCurrentStockByGroupid(aid);
+		HashMap<String, HashMap<Date, Float>> stockdateMap = new HashMap<String, HashMap<Date, Float>>();
+		for (GroupStock stock : stocks) {
+			List<StockEarn> ses = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+					DateTools.transformYYYYMMDDDate(stock.getIntime()));
+			HashMap<Date, Float> map = new HashMap<Date, Float>();
+			for (StockEarn se : ses) {
+				map.put(se.getDate(), se.getRatio());
+			}
+			stockdateMap.put(stock.getStockcode(), map);
+		}
+		List<Date> dates = stockEarnDao.getDatesByZSFrom(startDate);
+		float weight = 100;
+		for (Date date : dates) {
+			GroupEarn ge = new GroupEarn();
+			float ratio = 0;
+			int count = 0;
+			for (String key : stockdateMap.keySet()) {
+				if (stockdateMap.get(key).get(date) != null) {
+					ratio += stockdateMap.get(key).get(date);
+					count++;
+				}
+			}
+			if (count != 0) {
+				ratio = ratio / (count * 100);
+			}
+			System.out.println("ratio at date :" + DateTools.transformYYYYMMDDDate(date) + "  is :" + ratio);
+			weight = weight * (1 + ratio);
+			ratio = ratio * 100;
+			ge.setDate(date);
+			ge.setGroupid(aid);
+			ge.setRatio(FloatUtil.getTwoDecimal(ratio));
+			ge.setWeight(weight);
+			groupGain.getGroupEarnDao().insert(ge);
+		}
+
+	}
+
 	public static void main(String[] args) {
 		//		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 
 		//		List<RecommendStock> lists = recommendStockDao.getRecommendStocksGroupByCode();
-		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
+		//		StockPrice sp = (StockPrice) ContextFactory.getBean("stockPrice");
 		//		for (int i = 0; i < lists.size(); i++) {
 		//			System.out.println("Current process :" + i);
 		//			RecommendStock rs = lists.get(i);
@@ -143,7 +190,7 @@ public class LocalStorage {
 		//		System.out.println("lists.size() :" + lists.size());
 		//		sp.storeStockPrice("000300", 1, "2010-03-22", DateTools.transformYYYYMMDDDate(new Date()));
 
-		sp.storeStockPrice("600298", 0, "2010-07-23", "2010-07-24");
+		//		sp.storeStockPrice("600298", 0, "2010-07-23", "2010-07-24");
 		//		sp.currentPrice("000300");
 		//		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		//		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
@@ -208,8 +255,8 @@ public class LocalStorage {
 		//			}
 		//		}
 
-		//		System.out.print(DateTools.getYesterday(new Date()));
-		//		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		storage.processHistoryGroupEarn("");
 		//		storage.localStore();
 		//		storage.storeGroupStockGain();
 	}

@@ -18,8 +18,11 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	}
 
 	@Override
-	public Date getEarliestIntimeByAid(String aid) {
-		return (Date) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getEarliestIntimeByAid", aid);
+	public Date getEarliestIntimeByAidFrom(String aid, Date date) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("aid", aid);
+		params.put("date", date);
+		return (Date) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getEarliestIntimeByAidFrom", params);
 	}
 
 	@Override
@@ -89,5 +92,15 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	@Override
 	public int updateObjectAchieved(GroupStock groupStock) {
 		return getSqlMapClientTemplate().update(getNameSpace() + ".updateObjectAchieved", groupStock);
+	}
+
+	@Override
+	public List<GroupStock> getCurrentStockByGroupidAndPeriod(String groupid, Date startdate, Date enddate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("groupid", groupid);
+		params.put("startdate", startdate);
+		params.put("enddate", enddate);
+		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(
+				getNameSpace() + ".getCurrentStockByGroupidAndPeriod", params);
 	}
 }

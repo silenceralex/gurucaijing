@@ -9,7 +9,16 @@ import com.caijing.util.CrudDao;
 public interface GroupStockDao extends CrudDao {
 	List<GroupStock> getCurrentStockByGroupid(String groupid);
 
-	Date getEarliestIntimeByAid(String aid);
+	/**
+	 * 获取某个时间段的组合股票数据，用于计算年度组合收益率
+	 * @param groupid
+	 * @param startdate
+	 * @param enddate
+	 * @return
+	 */
+	List<GroupStock> getCurrentStockByGroupidAndPeriod(String groupid, Date startdate, Date enddate);
+
+	Date getEarliestIntimeByAidFrom(String aid, Date date);
 
 	/**
 	 * 改方法不包括推荐后又卖出的状况

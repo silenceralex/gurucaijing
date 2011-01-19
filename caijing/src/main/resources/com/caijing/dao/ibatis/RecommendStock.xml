@@ -118,7 +118,7 @@
 	<select id="getRecommendStocksByAnalyzerASC"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
-		as r where rs.reportid=r.rid and rs.aname like #aname# order by
+		as r where rs.aname like #aname# and rs.createdate is not null and rs.reportid=r.rid order by
 		rs.createdate asc limit #start#,#offset#
 	</select>
 
