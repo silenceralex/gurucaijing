@@ -23,6 +23,7 @@ public class FileUtil {
 
 	public static final String path = "/home/app/papers";
 	public static final String html = "/home/html/papers";
+	public static final String oldhtml = "/home/oldhtml/papers";
 	public static UrlDownload down = new UrlDownload();
 
 	public static String getDatefromSubject(String subject) {

@@ -199,7 +199,36 @@ public class PDFReader {
 
 	public void processHistoryPath(String logfile) {
 		String text = FileUtil.read(logfile, "utf-8");
+		int limit = 1; //处理记录个数限制
+		int i = 0;
 		for (String line : text.split("\n")) {
+			if (line.contains("安信证券")) {
+				processOneFile(line, "安信证券");
+				i++;
+			} else if (line.contains("申银万国")) {
+				processOneFile(line, "申银万国");
+				i++;
+			} else if (line.contains("招商证券")) {
+				processOneFile(line, "招商证券");
+				i++;
+			} else if (line.contains("国泰君安")) {
+				processOneFile(line, "国泰君安");
+				i++;
+			} else if (line.contains("广发证券")) {
+				processOneFile(line, "广发证券");
+				i++;
+			} else if (line.contains("国金证券")) {
+				processOneFile(line, "国金证券");
+				i++;
+			} else if (line.contains("国信证券")) {
+				processOneFile(line, "国信证券");
+				i++;
+			} 
+			
+			if(i==limit){
+				break;
+			}
+			/*
 			if (logfile.contains("axzq")) {
 				processOneFile(line, "安信证券");
 			} else if (logfile.contains("sywg")) {
@@ -214,7 +243,7 @@ public class PDFReader {
 				processOneFile(line, "国金证券");
 			} else if (logfile.contains("gxzq")) {
 				processOneFile(line, "国信证券");
-			} 
+			} */
 		}
 	}
 
@@ -224,7 +253,7 @@ public class PDFReader {
 		String rid = ServerUtil.getid();
 		try {
 			//			textFile = pdfPath.substring(0, pdfPath.lastIndexOf('/') + 1) + rid + ".txt";
-			String mvpath = pdfPath.replace("/data/oldpapers2", FileUtil.html);
+			String mvpath = pdfPath.replace("/data/oldpapers", FileUtil.oldhtml); //新建一个文件夹存放oldpapers
 			mvpath = mvpath.substring(0, mvpath.lastIndexOf('/') + 1);
 			String mvfile = mvpath + rid + ".pdf";
 			String commendStr = "cp " + pdfPath + " " + mvfile;
@@ -295,6 +324,8 @@ public class PDFReader {
 		pdfReader.init();
 
 		try {
+			pdfReader.processHistoryPath("/data/shells/log/result.log");
+			/*
 			//安信证券
 			//pdfReader.processHistoryPath("/data/oldpapers2/log/axzq.log");
 			//申银万国
@@ -309,7 +340,7 @@ public class PDFReader {
 			//pdfReader.processHistoryPath("/data/oldpapers2/log/gjzq.log");
 			//国信证券
 			//pdfReader.processHistoryPath("/data/oldpapers2/log/gxzq.log");
-
+			*/
 			//			System.out.println(args.length);
 			//			System.out.println(args[0]);
 			//			if (args.length == 1) {
