@@ -202,14 +202,14 @@ public class PDFReader {
 		int limit = 1; //处理记录个数限制
 		int i = 0;
 		for (String line : text.split("\n")) {
-			if (line.contains("安信证券")) {
-				processOneFile(line, "安信证券");
-				i++;
-			} 
-//			if (line.contains("申银万国")) {
-//				processOneFile(line, "申银万国");
+//			if (line.contains("安信证券")) {
+//				processOneFile(line, "安信证券");
 //				i++;
 //			} 
+			if (line.contains("申银万国")) {
+				processOneFile(line, "申银万国");
+				i++;
+			} 
 //			if (line.contains("招商证券")) {
 //				processOneFile(line, "招商证券");
 //				i++;
