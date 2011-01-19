@@ -216,8 +216,8 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- TODO 信息少，格式乱 -->
-							<!-- /data/oldpapers2/200904/I2009-4-29949232160国信证券-好当家08年财报点评-090429.pdf -->
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/[^\u4e00-\u9fa5]*?(国信证券)[\-－](.*?)[\-－:：](.*?)[\-－]?([0-9]{6})\.pdf]]></value>
+							<!-- /data/oldpapers/200904/I2009-4-29949232160国信证券-好当家08年财报点评-090429.pdf -->
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/[^\u4e00-\u9fa5]*?(国信证券)[\-－](.*?)[\-－:：](.*?)[\-－]?([0-9]{6})\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
 							<value><![CDATA[\n\s*(201\d)\s*[\-年\?]\s*(\d{1,2})\s*[\-月\?]\s*(\d{1,2})\s*[\-日\?]\s*\n]]></value>
@@ -295,7 +295,7 @@
 				<entry key="安信证券">
 					<map>
 						<entry key="titlePattern">
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/(安信证券)_公司.*?_(.*?)：(.*?)_([0-9]{6})_(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/(安信证券)_公司.*?_(.*?)：(.*?)_([0-9]{6})_(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[报告日期：\??\s+(20\d{2})[-\?](\d{2})[-\?](\d{2})]]></value>
@@ -325,7 +325,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- 申银万国_调研报告_601005(重庆钢铁)_赵湘鄂，王世杰_＊＊_司近期将发可转债20亿元补充现金流.pdf -->
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/(申银万国)_(.*?)_([0-9]{6})[\(（](.*?)[\)）]_(.*?)_＊*?_(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/(申银万国)_(.*?)_([0-9]{6})[\(（](.*?)[\)）]_(.*?)_＊*?_(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[(?:\n|日\s*期：\s*)(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s]]></value>
@@ -358,7 +358,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- ./200904/国泰君安_公司调研报告_新湖中宝(600208)地产为主，金融为翼，高杠杆，高成长_孙建平_20090408.pdf -->
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/(国泰君安)_(.*?)_(.*?)\s*[\(（]([0-9]{6})[\)）]\s*(.*?)_(.*?)_(20[0-9]{6})\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/(国泰君安)_(.*?)_(.*?)\s*[\(（]([0-9]{6})[\)）]\s*(.*?)_(.*?)_(20[0-9]{6})\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n(201\d)\.(\d{2})\.(\d{2})\s+]]></value>
@@ -447,7 +447,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- TODO 格式很乱 -->
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/(.*?)_(国金证券)_(.*?)_(.*?)[\(（]([0-9]{6})[\)）][\—－](.*?)[\(（](.*?)\s*[\—－]\s*.*?[\)）]_?(.*?)_?(20[0-9]{6})?\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/(.*?)_(国金证券)_(.*?)_(.*?)[\(（]([0-9]{6})[\)）][\—－](.*?)[\(（](.*?)\s*[\—－]\s*.*?[\)）]_?(.*?)_?(20[0-9]{6})?\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
 							<value><![CDATA[\n\s*(201\d)年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
@@ -479,7 +479,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- ./200904/招商证券_公司研究_北新建材（000786）－朝阳产业龙头蓄势蓬勃（强烈推荐－A）_杨东森.pdf -->
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/(招商证券)_?(.*?)_?(.*?)[\(（]([0-9]{6})[\)）][\—－](.*?)[\(（](.*?)\s*[\—－]\s*.*?[\)）]_?(.*?)_?(20[0-9]{6})?\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/(招商证券)_?(.*?)_?(.*?)[\(（]([0-9]{6})[\)）][\—－](.*?)[\(（](.*?)\s*[\—－]\s*.*?[\)）]_?(.*?)_?(20[0-9]{6})?\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n(201\d)年(\d{1,2})月(\d{1,2})日\s+]]></value>
@@ -510,7 +510,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- ./200904/★★★广发证券-公司年报-旅游业-中青旅(600138[1].sh)-持有-王鼎.pdf -->
-							<value><![CDATA[/data/oldpapers2/20[0-9]{4}/★*?(广发证券)\-(.*?)\-.*?\-(.*?)[\(（]([0-9]{6})(.*?)?[\)）]\-(.*?)\-(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9]{4}/★*?(广发证券)\-(.*?)\-.*?\-(.*?)[\(（]([0-9]{6})(.*?)?[\)）]\-(.*?)\-(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n\s*(201\d)\s*年\s*(\d{2})\s*月\s*(\d{2})\s*日\s+]]></value>
