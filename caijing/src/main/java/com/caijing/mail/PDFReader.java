@@ -199,7 +199,7 @@ public class PDFReader {
 
 	public void processHistoryPath(String logfile) {
 		String text = FileUtil.read(logfile, "utf-8");
-		int limit = 1; //处理记录个数限制
+		int limit = 100; //处理记录个数限制
 		int i = 0;
 		for (String line : text.split("\n")) {
 			//			if (line.contains("安信证券")) {
@@ -290,6 +290,7 @@ public class PDFReader {
 					System.out.println("Be in top10 stockagency start to extrator!");
 
 					RecommendStock rs = extractor.extractFromFile(report, textFile);
+					//TODO 将从File抽取出来的字段写入一个日志文件，每个券商一个日志 与标题同一日志，以便对比
 					if (rs.getAname() == null
 							|| (report.getAname() != null && !rs.getAname().equals(report.getAname()))) {
 						rs.setAname(report.getAname());
