@@ -202,36 +202,36 @@ public class PDFReader {
 		int limit = 1; //处理记录个数限制
 		int i = 0;
 		for (String line : text.split("\n")) {
-//			if (line.contains("安信证券")) {
-//				processOneFile(line, "安信证券");
-//				i++;
-//			} 
+			//			if (line.contains("安信证券")) {
+			//				processOneFile(line, "安信证券");
+			//				i++;
+			//			} 
 			if (line.contains("申银万国")) {
 				processOneFile(line, "申银万国");
 				i++;
-			} 
-//			if (line.contains("招商证券")) {
-//				processOneFile(line, "招商证券");
-//				i++;
-//			} 
-//			if (line.contains("国泰君安")) {
-//				processOneFile(line, "国泰君安");
-//				i++;
-//			} 
-//			if (line.contains("广发证券")) {
-//				processOneFile(line, "广发证券");
-//				i++;
-//			} 
-//			if (line.contains("国金证券")) {
-//				processOneFile(line, "国金证券");
-//				i++;
-//			} 
-//			if (line.contains("国信证券")) {
-//				processOneFile(line, "国信证券");
-//				i++;
-//			} 
-			
-			if(i==limit){
+			}
+			//			if (line.contains("招商证券")) {
+			//				processOneFile(line, "招商证券");
+			//				i++;
+			//			} 
+			//			if (line.contains("国泰君安")) {
+			//				processOneFile(line, "国泰君安");
+			//				i++;
+			//			} 
+			//			if (line.contains("广发证券")) {
+			//				processOneFile(line, "广发证券");
+			//				i++;
+			//			} 
+			//			if (line.contains("国金证券")) {
+			//				processOneFile(line, "国金证券");
+			//				i++;
+			//			} 
+			//			if (line.contains("国信证券")) {
+			//				processOneFile(line, "国信证券");
+			//				i++;
+			//			} 
+
+			if (i == limit) {
 				break;
 			}
 			/*
@@ -269,15 +269,15 @@ public class PDFReader {
 				ddir.mkdirs();
 			}
 			StringWriter sw = new StringWriter();
-			//Command.run(commendStr, sw); //FIXME to remove comment
-			//logger.debug(sw.toString());
+			Command.run(commendStr, sw); //FIXME to remove comment
+			logger.debug(sw.toString());
 
 			textFile = mvfile.replace(".pdf", ".txt");
 			System.out.println("Copy path:" + textFile);
-			//readFdf(pdfPath, textFile); //FIXME to remove comment
+			readFdf(pdfPath, textFile); //FIXME to remove comment
 			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
 			//FIXME to remove comment
-			/*
+
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
@@ -303,11 +303,11 @@ public class PDFReader {
 							System.out.println("Reports getCreatedate: " + rs.getCreatedate());
 							System.out.println("Reports getGrade: " + rs.getGrade());
 							System.out.println("Reports getEps: " + rs.getEps());
-							groupGainManager.extractGroupStock(rs);
+							//							groupGainManager.extractGroupStock(rs);
 						}
 					}
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			e.printStackTrace();
