@@ -42,5 +42,6 @@ public class DeleteOldPaperTask {
 	public static void main(String[] args) {
 		DeleteOldPaperTask task = new DeleteOldPaperTask();
 		task.run();
+		System.exit(0);
 	}
 }
