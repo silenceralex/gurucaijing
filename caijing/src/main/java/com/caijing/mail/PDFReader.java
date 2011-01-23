@@ -202,7 +202,7 @@ public class PDFReader {
 //		int start = 1; //开始的行号
 //		int end = 3693; //最后的行号
 //		int i = 0; //当前的行号
-		int limit = 100;
+		int limit = 10000;
 		int count = 0;
 		for (String line : text.split("\n")) {
 //			++i;
@@ -265,6 +265,7 @@ public class PDFReader {
 				processOneFile(line, "国信证券");
 			} */
 		}
+		System.out.println("num: "+count);
 	}
 
 	public void processOneFile(String pdfPath, String saname) {
