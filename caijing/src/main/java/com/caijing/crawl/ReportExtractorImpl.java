@@ -381,6 +381,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"axzq"+".log", path+"\n", "UTF-8");
 			}
 		} else if (saname.equalsIgnoreCase("ÉêÒøÍò¹ú")) {
 			if (m != null && m.find()) {
