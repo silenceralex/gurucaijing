@@ -373,7 +373,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
-				FileUtil.appendWrite(invalidoldpapers+"sywg"+".log", path, "UTF-8");
+				FileUtil.appendWrite(invalidoldpapers+"sywg"+".log", path+"\n", "UTF-8");
 			}
 		} else if (saname.equalsIgnoreCase("招商证券")) {
 			if (m != null && m.find()) {
@@ -395,6 +395,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"zszq"+".log", path+"\n", "UTF-8");
 			}
 		} else if (saname.equalsIgnoreCase("国泰君安")) {
 			if (m != null && m.find()) {
