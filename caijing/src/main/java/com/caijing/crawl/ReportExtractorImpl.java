@@ -500,21 +500,21 @@ public class ReportExtractorImpl implements ReportExtractor {
 		} else if (saname.equalsIgnoreCase("¹úÐÅÖ¤È¯")) {
 			if (m != null && m.find()) {
 				String sanam = m.group(1); //saname
-				String stockname = m.group(4); //no data
+				//String stockname = m.group(4); //no data
 				String title = m.group(2);
 				String stockcode = m.group(3);
-				String aname = m.group(5); //no data
+				//String aname = m.group(5); //no data
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
-				report.setStockname(stockname);
+				//report.setStockname(stockname);
 				report.setType(1); //m.group(2)
 				report.setTitle(title);
-				report.setAname(aname);
+				//report.setAname(aname);
 				System.out.println("sanam:" + sanam);
-				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				//System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
 				System.out.println("type:" + 1);
 				System.out.println("title:" + title);
-				System.out.println("aname:" + aname);
+				//System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
 				FileUtil.appendWrite(invalidoldpapers+"gxzq"+".log", path+"\n", "UTF-8");
