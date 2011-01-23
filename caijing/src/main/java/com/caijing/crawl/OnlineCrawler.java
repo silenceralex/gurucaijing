@@ -59,7 +59,7 @@ public class OnlineCrawler {
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	// TODO 获取直播时的解析内容
-	private static Pattern contentPattern = Pattern.compile("<brarsf>([0-9]{2}:[0-9]{2})\\s(.*?)\\s</brarsf>)",
+	private static Pattern contentPattern = Pattern.compile("<brarsf>([0-9]{2}:[0-9]{2})\\s(.*?)\\s</brarsf>",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static String LOGPATH = "/home/app/crawlog/";
