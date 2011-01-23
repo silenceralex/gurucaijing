@@ -117,7 +117,28 @@ public class FileUtil {
 			}
 		}
 	}
-
+	
+	/**
+	 * 将内容加进文件中
+	 * 
+	 * @param filename
+	 * @param data
+	 */
+	public static void appendWrite(String filename, String data, String encoding) {
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new FileWriter(filename, true));
+			out.write(new String(data.getBytes(encoding)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+			} catch (Exception e) {
+			}
+		}
+	}	
+	
 	/**
 	 * 读取文件
 	 * 
