@@ -333,6 +333,7 @@ public class PDFReader {
 
 		try {
 			pdfReader.processHistoryPath("/data/shells/log/result.log");
+			System.exit(0);
 			/*
 			//∞≤–≈÷§»Ø
 			//pdfReader.processHistoryPath("/data/oldpapers2/log/axzq.log");
