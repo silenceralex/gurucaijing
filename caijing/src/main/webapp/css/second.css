@@ -106,3 +106,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .sec_tabBar .current{background:url(../img/sec_tabBg.jpg) no-repeat;}
 .sec_tabBar .current a:link, .sec_tabBar .current a:visited{color:#FFF;}
 .sec_tab_right{float:right;width:130px;	height:28px;display:block;color:#FFF;line-height:28px;font-weight:bold;background:url(../img/sec_tab_right.gif) no-repeat;}
+
+.live-box{margin:10px;height:500px;overflow:scroll;overflow-x:hidden;}
+.live-box li{padding-top:7px;}
+.live-title{font-size:14px;font-weight:bold;padding:10px;color:#666;}
