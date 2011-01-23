@@ -457,7 +457,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 			if (m != null && m.find()) {
 				String sanam = m.group(1); //saname
 				String stockname = m.group(3);
-				String title = m.group(5);
+				String title = m.group(2);
 				String stockcode = m.group(4);
 				String aname = m.group(6);
 				report.setSaname(sanam);
