@@ -233,7 +233,7 @@ public class PDFReader {
 //				processOneFile(line, "安信证券");
 //				count++;
 //			}
-			if (line.contains("广发")) {//8317-8483
+			if (line.contains("广发：")||line.contains("广发证券")) {//8317-8483
 				processOneFile(line, "广发证券");
 				count++;
 			}
