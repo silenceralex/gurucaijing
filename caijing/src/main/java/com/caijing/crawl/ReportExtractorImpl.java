@@ -381,7 +381,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				String stockname = m.group(3);
 				String title = m.group(5);
 				String stockcode = m.group(4);
-				String aname = m.group(7);
+				String aname = m.group(6);
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
 				report.setStockname(stockname);
