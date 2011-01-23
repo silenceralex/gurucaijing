@@ -201,7 +201,7 @@ public class PDFReader {
 		String text = FileUtil.read(logfile, "utf-8");
 		int start = 1; //开始的行号
 		int end = 100; //最后的行号
-		int i = 1; //当前的行号
+		int i = 0; //当前的行号
 		for (String line : text.split("\n")) {
 			++i;
 			if (i < start) {
