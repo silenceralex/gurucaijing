@@ -30,10 +30,10 @@ public class DeleteOldPaperTask {
 				String rid = (String) row.get("rid");
 				System.out.print(rid);
 				System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
-				System.out.println(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
+				System.out.print(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
 				StringWriter sw = new StringWriter();
 				Command.run(deleteoldhtml, sw);
-				System.out.println(sw.toString());
+				System.out.println(" "+sw.toString());
 			}
 		}
 		System.out.println("==task exit==");
