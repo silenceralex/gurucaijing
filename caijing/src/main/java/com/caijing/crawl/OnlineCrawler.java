@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,35 +26,58 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import com.caijing.dao.MasterMessageDao;
+import com.caijing.domain.MasterMessage;
+import com.caijing.mail.ExtractSchedule;
+import com.caijing.util.ContextFactory;
+import com.caijing.util.DateTools;
 import com.caijing.util.FileUtil;
+import com.caijing.util.ServerUtil;
 
-public class TestSoquan {
+public class OnlineCrawler {
+
+	private MasterMessageDao masterMessageDao = null;
+
+	public MasterMessageDao getMasterMessageDao() {
+		return masterMessageDao;
+	}
+
+	public void setMasterMessageDao(MasterMessageDao masterMessageDao) {
+		this.masterMessageDao = masterMessageDao;
+	}
 
 	HttpParams params = new BasicHttpParams();
 	ClientConnectionManager cm = null;
 	HttpClient httpClient = null;
-	private static Pattern viewStatePattern = Pattern.compile("gentity", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-			| Pattern.UNIX_LINES);
 	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
+	// TODO 获取直播时的解析内容
+	private static Pattern contentPattern = Pattern.compile("<brarsf>([0-9]{2}:[0-9]{2})\\s(.*?)\\s</brarsf>)",
+			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	private static String LOGPATH = "/home/app/crawlog/";
 	private static final String COOKIE = "	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s";
 
 	public void init() {
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, "GB2312");
-		HttpProtocolParams.setUserAgent(params, "HttpComponents/1.1");
 		HttpProtocolParams.setUseExpectContinue(params, true);
 		// 设置不自动跳转
-		params.setBooleanParameter("http.protocol.handle-redirects", false);
+		//		params.setBooleanParameter("http.protocol.handle-redirects", false);
 
 		ConnManagerParams.setMaxTotalConnections(params, 100);
-
+		ConnManagerParams.setTimeout(params, 30000);
+		HttpConnectionParams.setConnectionTimeout(params, 30000);
+		HttpConnectionParams.setSoTimeout(params, 30000);
+		HttpConnectionParams.setSocketBufferSize(params, 8192);
+		// Create and initialize scheme registry
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
 		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
@@ -101,12 +125,24 @@ public class TestSoquan {
 
 			String content = EntityUtils.toString(gentity, "GB2312");
 			System.out.println("HTML: " + content);
+			String log = DateTools.transformDateDetail(new Date()) + "  Html: " + content + "\r\n";
+			FileUtil.appendWrite(LOGPATH + masterid + ".html", log, "GB2312");
 
+			Matcher m = contentPattern.matcher(content);
+			while (m != null && m.find()) {
+				String ptime = m.group(1).trim();
+				String mcontent = m.group(2).trim();
+				MasterMessage mm = new MasterMessage();
+				mm.setContent(mcontent);
+				mm.setCurrdate(new Date());
+				mm.setMessageid(ServerUtil.getid());
+				mm.setPtime(ptime);
+				mm.setMasterid(masterid);
+				masterMessageDao.insert(mm);
+			}
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -121,25 +157,6 @@ public class TestSoquan {
 			GzipEntity gentity = new GzipEntity(response.getEntity());
 			// String content = EntityUtils.toString(response.getEntity(),
 			// "utf-8");
-			String content = EntityUtils.toString(gentity, "GB2312");
-			System.out.println("HTML: " + content);
-
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void getCircle(String url) {
-		HttpGet get = new HttpGet(url);
-		get.setHeader("Host", "vip.g.cnfol.com");
-		assemble(get);
-		try {
-			HttpResponse response = httpClient.execute(get);
-			GzipEntity gentity = new GzipEntity(response.getEntity());
 			String content = EntityUtils.toString(gentity, "GB2312");
 			System.out.println("HTML: " + content);
 
@@ -220,19 +237,8 @@ public class TestSoquan {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String postURL = "http://www.sinofin.net/sr/registe.aspx";
-		TestSoquan crawler = new TestSoquan();
-		crawler.init();
-		//		crawler.getCircle("http://vip.g.cnfol.com/tyj");
-		try {
-			crawler.getZhibo(2074, 0);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//		crawler.process("f:/caijing/960");
-		//		 crawler.login("zhoukan001", "20091228");
-
+		ExtractSchedule scheduledExtract = (ExtractSchedule) ContextFactory.getBean("scheduledExtract");
+		scheduledExtract.crawlOnline();
 	}
 
 }

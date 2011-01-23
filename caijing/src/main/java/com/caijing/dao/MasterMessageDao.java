@@ -21,4 +21,6 @@ public interface MasterMessageDao extends CrudDao {
 	 * @return
 	 */
 	List<Map> getMessagesByMasteridDate(int masterid, String date);
+
+	Integer getCurrentNumByMasterid(int masterid, String date);
 }

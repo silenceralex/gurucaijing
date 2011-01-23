@@ -25,4 +25,13 @@ public class MasterMessageDaoImpl extends CrudDaoDefault implements MasterMessag
 		params.put("masterid", masterid);
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getMessagesByMasteridDate", params);
 	}
+
+	@Override
+	public Integer getCurrentNumByMasterid(int masterid, String date) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("currdate", date);
+		params.put("masterid", masterid);
+		return (Integer) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getCurrentNumByMasterid",
+				params);
+	}
 }

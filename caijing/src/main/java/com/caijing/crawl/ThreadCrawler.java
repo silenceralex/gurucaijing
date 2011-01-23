@@ -46,6 +46,7 @@ public class ThreadCrawler {
 	}
 
 	private void assemble(HttpGet get) {
+
 		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");

@@ -48,7 +48,7 @@
 	</bean>
 
 
-	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
+	<!-- 定时抓取圈子直播室数据 -->
 	<bean id="extractScheduler"
 		class="com.caijing.mail.ExtractSchedule">
 		<property name="extractor">
@@ -60,6 +60,9 @@
 		<property name="recommendStockDao">
 			<ref bean="recommendStockDao" />
 		</property>
+		<property name="masterMessageDao">
+			<ref bean="masterMessageDao" />
+		</property>
 		<property name="config">
 			<ref bean="config" />
 		</property>
@@ -70,7 +73,7 @@
 			<ref bean="extractScheduler" />
 		</property>
 		<property name="targetMethod">
-			<value>extractAll</value>
+			<value>crawlOnline</value>
 		</property>
 		<property name="concurrent" value="false" />
 	</bean>
@@ -80,7 +83,7 @@
 			<ref bean="scheduledExtract" />
 		</property>
 		<property name="cronExpression">
-			<value>0 30 */4 * * ?</value><!-- 每小时执行一次 -->
+			<value>0 1/2 9-16 ? * MON-FRI</value><!-- 每小时执行一次 -->
 		</property>
 	</bean>
 

@@ -1,21 +1,29 @@
 package com.caijing.mail;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.crawl.OnlineCrawler;
 import com.caijing.crawl.ReportExtractorImpl;
+import com.caijing.dao.MasterMessageDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.util.Config;
+import com.caijing.util.DateTools;
 import com.caijing.util.FileUtil;
 
 public class ExtractSchedule {
+	private static final Log logger = LogFactory.getLog(ExtractSchedule.class);
 
 	@Autowired
 	@Qualifier("reportExtractor")
@@ -32,12 +40,33 @@ public class ExtractSchedule {
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
-	
+
+	@Autowired
+	@Qualifier("masterMessageDao")
+	private MasterMessageDao masterMessageDao = null;
+
 	private static final String timeStamp = "/home/app/extract_timeStamp";
+
+	public void crawlOnline() {
+		OnlineCrawler crawler = new OnlineCrawler();
+		crawler.init();
+		crawler.setMasterMessageDao(masterMessageDao);
+		Map map = (Map) config.getObject("groupid");
+		for (Object key : map.keySet()) {
+			logger.debug("masterid:" + key + "  mastername:" + map.get(key));
+			int masterid = Integer.parseInt((String) key);
+			int num = masterMessageDao.getCurrentNumByMasterid(masterid, DateTools.transformYYYYMMDDDate(new Date()));
+			try {
+				crawler.getZhibo(masterid, num);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void extractAll() {
 		String judgetime = FileUtil.read(timeStamp, "GBK");
-		Date date =new Date();
+		Date date = new Date();
 		extract("申银万国", judgetime);
 		extract("国泰君安", judgetime);
 		extract("中金公司", judgetime);
@@ -46,7 +75,7 @@ public class ExtractSchedule {
 		extract("安信证券", judgetime);
 		extract("招商证券", judgetime);
 		extract("广发证券", judgetime);
-		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		FileUtil.write(timeStamp, sdf.format(date));
 	}
 
