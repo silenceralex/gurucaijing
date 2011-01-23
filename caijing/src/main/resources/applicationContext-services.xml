@@ -16,6 +16,27 @@
 	<!--========================================================================
 		CronTriggerBean
 		=========================================================================-->
+	<bean id="bdb"	class="com.caijing.cache.BerkeleyDB">
+		<property name="cacheHome">
+			<value>d:\\bdb</value>
+		</property>
+	</bean>
+	
+	<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
+		<property name="bdb">
+			<ref bean="bdb" />
+		</property>
+		<property name="config">
+			<ref bean="config" />
+		</property>
+	</bean>
+		
+	<bean id="threadCrawler" class="com.caijing.crawl.ThreadCrawler">
+		<property name="listExtractor">
+			<ref bean="listExtractor" />
+		</property>
+	</bean>
+		
 	<bean id="reportExtractor"
 		class="com.caijing.crawl.ReportExtractorImpl">
 		<property name="dao">

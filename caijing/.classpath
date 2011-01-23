@@ -67,5 +67,7 @@
 	<classpathentry kind="lib" path="lib/ws/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="lib/ws/xfire-all-1.2.6.jar"/>
 	<classpathentry kind="lib" path="lib/ws/zcms.jar"/>
+	<classpathentry kind="lib" path="lib/json/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/json/json-lib-2.2.3-jdk15.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -17,35 +17,28 @@ import com.caijing.util.FileUtil;
 
 @Component("listExtractor")
 public class ListExtractor implements Extractor {
-	private static Pattern stockPattern = Pattern.compile(
-			"(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	private static Pattern rangePattern = Pattern
-			.compile(
-					"<table width=\"96%\".*?bgcolor=\"#D7E4EA\" style=\"margin:7px;\">(.*?)<div class=\"lt5\">",
-					Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-							| Pattern.UNIX_LINES);
+	private static Pattern rangePattern = Pattern.compile(
+			"<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">(.*?)<div class=\"lt5\">",
+			//			"<table width=\"96%\".*?bgcolor=\"#D7E4EA\" style=\"margin:7px;\">(.*?)<div class=\"lt5\">",
+			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static Pattern titlePattern = Pattern.compile(
-			"<div class=\"lt2\">(.*?)</div>", Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern titlePattern = Pattern.compile("<div class=\"lt2\">(.*?)</div>", Pattern.CASE_INSENSITIVE
+			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static final String Path = "F:/caijing/";
+	private static final String Path = "E:/caijing/";
 
-	private static Pattern datePattern = Pattern.compile(
-			"<div class=\"lt3\".*?>(.*?)</div>", Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern datePattern = Pattern.compile("<div class=\"lt3\".*?>(.*?)</div>", Pattern.CASE_INSENSITIVE
+			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static Pattern contentPattern = Pattern.compile(
-			"<div class=\"lt4\".*?>(.*?)</font>", Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern contentPattern = Pattern.compile("<div class=\"lt4\".*?>(.*?)</font>",
+			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static Pattern nickPattern = Pattern.compile(
-			"id=\"[0-9]+_nick\">(.*?)</div>", Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern nickPattern = Pattern.compile("id=\"[0-9]+_nick\">(.*?)</div>", Pattern.CASE_INSENSITIVE
+			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private Pattern totolnumberPattern = Pattern.compile(
-			"总:<strong><font color='red'>(.*?)</font></strong>条",
+	private Pattern totolnumberPattern = Pattern.compile("总:<strong><font color='red'>(.*?)</font></strong>条",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private Log logger = LogFactory.getLog(ListExtractor.class);
@@ -61,12 +54,11 @@ public class ListExtractor implements Extractor {
 			while (m.find()) {
 				String inner = m.group(1);
 				Post post = new Post();
-				// System.out.println("inner: " + inner);
+				//				System.out.println("inner: " + inner);
 
 				Matcher m4 = nickPattern.matcher(inner);
 				if (m4 != null && m4.find()) {
-					String nick = m4.group(1).replaceAll("\\s", "").replaceAll(
-							"<.*?>", "").trim();
+					String nick = m4.group(1).replaceAll("\\s", "").replaceAll("<.*?>", "").trim();
 					post.setNick(nick);
 					if (!nick.equals(config.getValue("groupid").get(groupID))) {
 						continue;
@@ -101,8 +93,7 @@ public class ListExtractor implements Extractor {
 				} else
 					System.out.println("##########");
 
-				String filePath = Path + groupID + "//" + date.substring(0, 10)
-						+ ".txt";
+				String filePath = Path + groupID + "//" + date.substring(0, 10) + ".txt";
 				System.out.println("filePath:" + filePath);
 				String key = groupID + "_" + date.substring(0, 10);
 				if (bdb.get(key) == null) {
@@ -126,8 +117,7 @@ public class ListExtractor implements Extractor {
 					bdb.put(key, stock.toString());
 				}
 				FileUtil.write(filePath, cont);
-				String stockPath = filePath.substring(0, filePath.indexOf('.'))
-						+ "_stock" + ".txt";
+				String stockPath = filePath.substring(0, filePath.indexOf('.')) + "_stock" + ".txt";
 				FileUtil.write(stockPath, stock.toString());
 			}
 		}

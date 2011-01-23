@@ -2,7 +2,10 @@ package com.caijing.crawl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +13,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -18,9 +23,11 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import com.caijing.util.FileUtil;
@@ -35,7 +42,7 @@ public class TestSoquan {
 	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static final String COOKIE = "  cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][password]=b41003f9cc166e8237916aac24a4e614; cookie[passport][keys]=88C14D50FCF09959DADCB6F387D06BB6; cookie[passport][logtime]=1277057407; skillId=4193; operatorId=undefined; cookie[upload][url]=http%3A%2F%2Fpassport.cnfol.com%2Fblogmodule%2FPostUpload%2Curls%3DaHR0cDovL3Bvc3QuY25mb2wuY29tL2luc2VydGZja2ltZy8%3D";
+	private static final String COOKIE = "	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s";
 
 	public void init() {
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
@@ -68,6 +75,42 @@ public class TestSoquan {
 
 	}
 
+	public void getZhibo(int masterid, int startnum) throws UnsupportedEncodingException {
+		HttpPost post = new HttpPost("http://online.g.cnfol.com/getinfo.html");
+		List<BasicNameValuePair> data = new ArrayList<BasicNameValuePair>();
+		data.add(new BasicNameValuePair("clubid", "" + masterid));
+		data.add(new BasicNameValuePair("displayNum", "" + startnum));
+		data.add(new BasicNameValuePair("uid", "3929853"));
+		data.add(new BasicNameValuePair("key", "51bb6aae58674340ac301fa6caa"));
+		data.add(new BasicNameValuePair("d_str", "db81f4d1a52dc37fda905156680bc960"));
+
+		post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
+		post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+		post.setHeader("Keep-Alive", "115");
+		post.setHeader("Connection", "keep-alive");
+		post.setHeader("User-Agent",
+				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+		post.setHeader("Accept-Encoding", "gzip,deflate");
+		post.setHeader("Content-type", "application/x-www-form-urlencoded");
+		post.setHeader("Cookie", COOKIE);
+		try {
+			HttpResponse response = httpClient.execute(post);
+			GzipEntity gentity = new GzipEntity(response.getEntity());
+
+			String content = EntityUtils.toString(gentity, "GB2312");
+			System.out.println("HTML: " + content);
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void getOnline(String clubid) {
 		HttpGet get = new HttpGet("http://online.g.cnfol.com//getinfo.html?displayNum=0&sortid=0&clubid=" + clubid);
 		get.setHeader("Host", "online.g.cnfol.com");
@@ -90,8 +133,8 @@ public class TestSoquan {
 		}
 	}
 
-	public void getCircle() {
-		HttpGet get = new HttpGet("http://vip.g.cnfol.com/shengweitouji");
+	public void getCircle(String url) {
+		HttpGet get = new HttpGet(url);
 		get.setHeader("Host", "vip.g.cnfol.com");
 		assemble(get);
 		try {
@@ -122,10 +165,9 @@ public class TestSoquan {
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Content-type", "application/x-www-form-urlencoded");
-		get
-				.setHeader(
-						"Cookie",
-						"  cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][password]=b41003f9cc166e8237916aac24a4e614; cookie[passport][keys]=88C14D50FCF09959DADCB6F387D06BB6; cookie[passport][logtime]=1277057407; skillId=4193; operatorId=undefined; cookie[upload][url]=http%3A%2F%2Fpassport.cnfol.com%2Fblogmodule%2FPostUpload%2Curls%3DaHR0cDovL3Bvc3QuY25mb2wuY29tL2luc2VydGZja2ltZy8%3D");
+		get.setHeader(
+				"Cookie",
+				"	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s");
 
 		try {
 			HttpResponse response = httpClient.execute(get);
@@ -153,7 +195,7 @@ public class TestSoquan {
 			for (String f : files) {
 				String filePath = folder + "/" + f;
 				System.out.println("File: " + filePath);
-				String content = FileUtil.read(filePath,"GBK");
+				String content = FileUtil.read(filePath, "GBK");
 				Matcher m = stockPattern.matcher(content);
 				// String stock="";
 				StringBuffer stock = new StringBuffer();
@@ -180,10 +222,16 @@ public class TestSoquan {
 	public static void main(String[] args) {
 		String postURL = "http://www.sinofin.net/sr/registe.aspx";
 		TestSoquan crawler = new TestSoquan();
-		// crawler.init();
-		// crawler.getCircle();
-		crawler.process("f:/caijing/960");
-		// crawler.login("zhoukan001", "20091228");
+		crawler.init();
+		//		crawler.getCircle("http://vip.g.cnfol.com/tyj");
+		try {
+			crawler.getZhibo(2074, 0);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//		crawler.process("f:/caijing/960");
+		//		 crawler.login("zhoukan001", "20091228");
 
 	}
 

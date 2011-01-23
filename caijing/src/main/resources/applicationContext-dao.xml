@@ -138,5 +138,15 @@
 			<value>RecommendSuccess</value>
 		</property>
 	</bean>
+	
+	<bean id="masterMessageDao"
+		class="com.caijing.dao.ibatis.MasterMessageDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>MasterMessageDao</value>
+		</property>
+	</bean>
 	<context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>

@@ -11,7 +11,6 @@ import com.caijing.business.GroupGainManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ibatis.AnalyzerDaoImpl;
-import com.caijing.domain.Analyzer;
 import com.caijing.domain.RecommendStock;
 
 public class AnalyzerFetcher {
@@ -55,20 +54,21 @@ public class AnalyzerFetcher {
 		//			}
 		//			i++;
 		//		}
-		//韩振国 陈运红 贺国文 石磊 尹沿技 王薇 赵宇杰  李宏鹏
-		//		String aname = "杨建海";
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersAfter("2011-01-19 22:04:56");
-		for (Analyzer analyzer : analyzers) {
-			List<RecommendStock> rstocks = recommendStockDao
-					.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
-			System.out.println("analyzer getName : " + analyzer.getName());
-			System.out.println("rstocks size : " + rstocks.size());
-			for (RecommendStock rs : rstocks) {
-				groupGainManager.extractGroupStock(rs);
-			}
-			String aid = analyzer.getAid();
-			LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-			storage.processHistoryGroupEarn(aid);
+		//韩振国 陈运红 贺国文 石磊 尹沿技 王薇 赵宇杰  李宏鹏 徐颖真
+		String aname = "贺平鸽";
+		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersAfter("2011-01-19 22:04:56");
+
+		//		for (Analyzer analyzer : analyzers) {
+		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(aname, 0, 500);
+		System.out.println("analyzer getName : " + aname);
+		System.out.println("rstocks size : " + rstocks.size());
+		for (RecommendStock rs : rstocks) {
+			groupGainManager.extractGroupStock(rs);
 		}
+		//			String aid = analyzer.getAid();
+		String aid = analyzerDao.getAnalyzerByName(aname).getAid();
+		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		storage.processHistoryGroupEarn(aid);
+		//		}
 	}
 }

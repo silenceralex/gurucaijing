@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="MasterMessageDao">
+
+	<typeAlias alias="MasterMessage"
+		type="com.caijing.domain.MasterMessage" />
+
+	<select id="getMessagesFrom"  parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select ptime,content from mastermessage where masterid=#masterid# and currdate=#currdate# order by ptime limit #num#,1000
+	</select>
+	
+	<select id="getMessagesByMasteridDate"  parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select ptime,content from mastermessage where masterid=#masterid# and currdate=#currdate# order by ptime limit 1000
+	</select>
+
+	<select id="select" parameterClass="MasterMessage"
+		resultClass="MasterMessage">
+		select * from mastermessage where messageid=#messageid#
+	</select>
+
+	<insert id="insert">
+		insert into mastermessage
+		(messageid,masterid,content,currdate,ptime) values
+		(#messageid#,#masterid#,#content#,now(),#ptime#)
+	</insert>
+
+	<update id="update" parameterClass="MasterMessage">
+		update mastermessage
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="masterid">
+				masterid = #masterid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="content">
+				content = #content#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="currdate">
+				currdate = #currdate#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ptime">
+				ptime = #ptime#
+			</isNotEmpty>
+		</dynamic>
+		where messageid=#messageid#
+	</update>
+
+	<delete id="delete" parameterClass="MasterMessage">
+		delete from mastermessage where messageid=#messageid#
+	</delete>
+
+</sqlMap>
