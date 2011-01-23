@@ -237,14 +237,14 @@ public class PDFReader {
 //				processOneFile(line, "广发证券");
 //				count++;
 //			}
-			if (line.contains("国金证券")) {//8484-8879
-				processOneFile(line, "国金证券");
-				count++;
-			}
-//			if (line.contains("国信证券")) {//8880-9383
-//				processOneFile(line, "国信证券");
+//			if (line.contains("国金证券")) {//8484-8879
+//				processOneFile(line, "国金证券");
 //				count++;
 //			}
+			if (line.contains("国信证券")) {//8880-9383
+				processOneFile(line, "国信证券");
+				count++;
+			}
 
 			
 			
