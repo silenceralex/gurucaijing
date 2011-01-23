@@ -200,7 +200,7 @@ public class PDFReader {
 	public void processHistoryPath(String logfile) {
 		String text = FileUtil.read(logfile, "utf-8");
 		int start = 1; //开始的行号
-		int end = 100; //最后的行号
+		int end = 3693; //最后的行号
 		int i = 0; //当前的行号
 		for (String line : text.split("\n")) {
 			++i;
@@ -213,7 +213,7 @@ public class PDFReader {
 //			if (line.contains("安信证券")) {
 //				processOneFile(line, "安信证券");
 //			}
-			if (line.contains("申银万国")) {
+			if (line.contains("申银万国")) {//1-3693
 				processOneFile(line, "申银万国");
 			}
 //			if (line.contains("招商证券")) {
