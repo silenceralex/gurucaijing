@@ -478,10 +478,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		} else if (saname.equalsIgnoreCase("国金证券")) {
 			if (m != null && m.find()) {
 				String sanam = m.group(1); //saname
-				String stockname = m.group(3);
-				String title = m.group(5);
-				String stockcode = m.group(4);
-				String aname = m.group(6);
+				String stockname = m.group(4);
+				String title = m.group(3);
+				String stockcode = m.group(2);
+				String aname = m.group(5);
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
 				report.setStockname(stockname);
@@ -500,10 +500,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 		} else if (saname.equalsIgnoreCase("国信证券")) {
 			if (m != null && m.find()) {
 				String sanam = m.group(1); //saname
-				String stockname = m.group(3);
-				String title = m.group(5);
+				String stockname = m.group(2);
+				String title = m.group(3);
 				String stockcode = m.group(4);
-				String aname = m.group(6);
+				String aname = m.group(5); //no data
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
 				report.setStockname(stockname);
@@ -517,6 +517,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"gxzq"+".log", path+"\n", "UTF-8");
 			}
 		}
 		return report;
