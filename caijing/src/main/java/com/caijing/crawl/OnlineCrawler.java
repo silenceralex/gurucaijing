@@ -237,7 +237,7 @@ public class OnlineCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ExtractSchedule scheduledExtract = (ExtractSchedule) ContextFactory.getBean("scheduledExtract");
+		ExtractSchedule scheduledExtract = (ExtractSchedule) ContextFactory.getBean("extractScheduler");
 		scheduledExtract.crawlOnline();
 	}
 
