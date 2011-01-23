@@ -13,6 +13,10 @@
 		select ptime,content from mastermessage where masterid=#masterid# and currdate=#currdate# order by ptime limit 1000
 	</select>
 
+	<select id="getCurrentNumByMasterid"  parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(1) from mastermessage where masterid=#masterid# and currdate=#currdate#
+	</select>
+	
 	<select id="select" parameterClass="MasterMessage"
 		resultClass="MasterMessage">
 		select * from mastermessage where messageid=#messageid#
