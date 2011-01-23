@@ -224,6 +224,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- /data/oldpapers/200907/国信证券-韶钢松山：业绩改善明显，估值明显偏低-090803.pdf -->
+<!--							/data/oldpapers/200904/I2009-4-79813134885国信证券-福耀玻璃调研简报-090407.pdf-->
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,7}/(国信证券)[\-－](.*?)(?:中报点评)?[:：](.*?)[\-－]?([0-9]{6}).*?\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
