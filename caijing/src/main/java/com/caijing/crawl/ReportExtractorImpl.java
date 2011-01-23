@@ -34,6 +34,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 	private Config config = null;
 
 	private StockDao dao = null;
+	
+	private String invalidoldpapers = "/data/shells/log3/";
 
 	public void init() {
 		List<Stock> list = dao.getAllStock();
@@ -370,6 +372,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"sywg"+".log", path);
 			}
 		} else if(saname.equalsIgnoreCase("упилж╓х╞")){
 			if (m != null && m.find()) {

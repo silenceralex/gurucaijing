@@ -199,41 +199,40 @@ public class PDFReader {
 
 	public void processHistoryPath(String logfile) {
 		String text = FileUtil.read(logfile, "utf-8");
-		int limit = 100; //处理记录个数限制
-		int i = 0;
+		int start = 1; //开始的行号
+		int end = 100; //最后的行号
+		int i = 1; //当前的行号
 		for (String line : text.split("\n")) {
-			//			if (line.contains("安信证券")) {
-			//				processOneFile(line, "安信证券");
-			//				i++;
-			//			} 
-			if (line.contains("申银万国")) {
-				processOneFile(line, "申银万国");
-				i++;
+			++i;
+			if (i < start) {
+				continue;
 			}
-			//			if (line.contains("招商证券")) {
-			//				processOneFile(line, "招商证券");
-			//				i++;
-			//			} 
-			//			if (line.contains("国泰君安")) {
-			//				processOneFile(line, "国泰君安");
-			//				i++;
-			//			} 
-			//			if (line.contains("广发证券")) {
-			//				processOneFile(line, "广发证券");
-			//				i++;
-			//			} 
-			//			if (line.contains("国金证券")) {
-			//				processOneFile(line, "国金证券");
-			//				i++;
-			//			} 
-			//			if (line.contains("国信证券")) {
-			//				processOneFile(line, "国信证券");
-			//				i++;
-			//			} 
-
-			if (i == limit) {
+			if (i > end) {
 				break;
 			}
+//			if (line.contains("安信证券")) {
+//				processOneFile(line, "安信证券");
+//			}
+			if (line.contains("申银万国")) {
+				processOneFile(line, "申银万国");
+			}
+//			if (line.contains("招商证券")) {
+//				processOneFile(line, "招商证券");
+//			}
+//			if (line.contains("国泰君安")) {
+//				processOneFile(line, "国泰君安");
+//			}
+//			if (line.contains("广发证券")) {
+//				processOneFile(line, "广发证券");
+//			}
+//			if (line.contains("国金证券")) {
+//				processOneFile(line, "国金证券");
+//			}
+//			if (line.contains("国信证券")) {
+//				processOneFile(line, "国信证券");
+//			}
+
+
 			/*
 			if (logfile.contains("axzq")) {
 				processOneFile(line, "安信证券");
