@@ -45,6 +45,14 @@ public class ExtractSchedule {
 	@Qualifier("masterMessageDao")
 	private MasterMessageDao masterMessageDao = null;
 
+	public MasterMessageDao getMasterMessageDao() {
+		return masterMessageDao;
+	}
+
+	public void setMasterMessageDao(MasterMessageDao masterMessageDao) {
+		this.masterMessageDao = masterMessageDao;
+	}
+
 	private static final String timeStamp = "/home/app/extract_timeStamp";
 
 	public void crawlOnline() {
