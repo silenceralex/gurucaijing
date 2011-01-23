@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>${notice.title}_投资大师</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript">
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+	#include("/template/inc/header.htm")<!--header end-->
+    <div class="mainBox">
+    	#include("/template/inc/colL.htm")
+        <div class="sec_list">
+            <div class="sec_nav">
+                <h2><a href="#">投资大师首页</a> &gt; <a href="#">直播室</a> &gt; 直播室001</h2> 
+            </div>
+            <h3 class="live-title">直播室001：xxx的直播室</h3>
+            <div class="live-box" id="liveBox">
+                <ul id="liveList" class="chat-content-box">
+                </ul>
+            </div>
+        </div>
+      <div class="clear"></div>
+        #include("/template/inc/footer.htm")
+    </div><!--mainBox end-->
+</div>
+    <script type="text/javascript">
+	(function(){
+		var $ = window.jQuery;
+		var live = {
+			requestUrl : "/online.do?masterid=",//http://51gurus.com/online.do?masterid=2074&start=0
+			listNode : null,
+			uid : "2074",
+			rqTimeStep : 6000,
+			rollTimeStep : 1000,
+			requestTimer : null,
+			rollTimer : null,
+			textNum : 0,
+			/// 初始化
+			init : function () {
+				var t = this;
+				t.listNode = document.getElementById("liveList");
+				t.requestData( 0 );
+				t.requestTimer = setInterval( t.requestData, t.rqTimeStep );
+				t.rollTimer = setInterval( t.rollContent, t.rollTimeStep );
+			},
+			/// 获取数据
+			requestData : function () {
+				var t = live;
+				$.getJSON( t.requestUrl + t.uid + "&start=" + ( t.textNum + 1 ), function( data ){
+					if ( data.length > 0 ) {
+						t.textNum += data.length;
+						$.each( data, function ( i, n ) {
+							t.listNode.innerHTML += "<li><b>时间</b>：" + data[i].ptime + " <b>内容</b>：" + data[i].content + "</li>";
+						})
+					}
+				});
+			},
+			rollContent : function () {
+				document.getElementById("liveBox").scrollTop += 20;
+			}
+		}
+		live.init();
+	})();
+	</script>
+</body>
+</html>
