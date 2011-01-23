@@ -500,9 +500,9 @@ public class ReportExtractorImpl implements ReportExtractor {
 		} else if (saname.equalsIgnoreCase("¹úÐÅÖ¤È¯")) {
 			if (m != null && m.find()) {
 				String sanam = m.group(1); //saname
-				String stockname = m.group(2);
-				String title = m.group(3);
-				String stockcode = m.group(4);
+				String stockname = m.group(4); //no data
+				String title = m.group(2);
+				String stockcode = m.group(3);
 				String aname = m.group(5); //no data
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
