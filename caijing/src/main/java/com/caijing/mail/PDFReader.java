@@ -202,7 +202,7 @@ public class PDFReader {
 //		int start = 1; //开始的行号
 //		int end = 3693; //最后的行号
 //		int i = 0; //当前的行号
-		int limit = 10000;
+		int limit = 100;
 		int count = 0;
 		for (String line : text.split("\n")) {
 //			++i;
