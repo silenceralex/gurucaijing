@@ -16,7 +16,7 @@ import com.caijing.util.ContextFactory;
  */
 public class DeleteOldPaperTask {
 
-	String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\" limit 1";
+	String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\"";
 	String deletereportsql = "delete from report where rid=?";
 	String deleterecommendstocksql = "delete from recommendstock where reportid=?";
 	String deleteoldhtml = "sh /data/shells/rm.sh";
