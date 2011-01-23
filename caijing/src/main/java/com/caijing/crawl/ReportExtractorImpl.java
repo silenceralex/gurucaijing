@@ -322,7 +322,37 @@ public class ReportExtractorImpl implements ReportExtractor {
 		return eps;
 	}
 
+	private String fetchTitle(String saname, String content) {
+		List<String> titles = (List<String>) config.getValue(saname).get("titlePattern");
+		Matcher m = null;
+		for (String str : titles) {
+			Pattern title = Pattern.compile(str, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+			m = title.matcher(content);
+			if (m != null && m.find()) {
+				String grad = m.group(1).trim();
+				System.out.println("grade:" + grad);
+				if (grad.length() > 6) {
+					if (saname.equals("海通证券") || saname.equals("国金证券")) {
+						return grad.replaceAll("\\s", "");
+					}
+					String[] strs = grad.split("\\n|至");
+					if (strs.length == 2 && strs[1].trim().length() < 5) {
+						return strs[1].trim();
+					} else {
+						return null;
+					}
+				} else {
+					return grad;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public Report extractFromTitleAndSaname(String path, String rid, String saname) {
+		//List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
+		
+		
 		Pattern titlePattern = Pattern.compile((String) config.getValue(saname).get("titlePattern"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
@@ -417,6 +447,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"gtja"+".log", path+"\n", "UTF-8");
 			}
 		} else if (saname.equalsIgnoreCase("广发证券")) {
 			//TODO 需要处理两种规则
