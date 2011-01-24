@@ -15,7 +15,6 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnManagerParams;
@@ -60,7 +59,7 @@ public class OnlineCrawler {
 
 	// TODO 获取直播时的解析内容   <div class="qzL2"> 09:38:19  今日的压力带依旧是在2740--2760之间</div>
 	private static Pattern contentPattern = Pattern.compile(
-			"<div class=\"qzL2\">([0-9]{2}:[0-9]{2}:[0-9]{2})\\s+(.*?)</div>", Pattern.CASE_INSENSITIVE
+			"<div class=\"qzL2\">\\s+([0-9]{2}:[0-9]{2}:[0-9]{2})\\s+(.*?)</div>", Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static String LOGPATH = "/home/app/crawlog/";
@@ -86,19 +85,18 @@ public class OnlineCrawler {
 		httpClient = new DefaultHttpClient(cm, params);
 	}
 
-	private void assemble(HttpGet get) {
-		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		get.setHeader("Keep-Alive", "115");
-		get.setHeader("Connection", "keep-alive");
-		get.setHeader("User-Agent",
-				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-		get.setHeader("Accept-Encoding", "gzip,deflate");
-		get.setHeader("Content-type", "application/x-www-form-urlencoded");
-		get.setHeader("Cookie", COOKIE);
-
-	}
+	//	private void assemble(HttpGet get) {
+	//		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+	//		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+	//		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+	//		get.setHeader("Keep-Alive", "115");
+	//		get.setHeader("Connection", "keep-alive");
+	//		get.setHeader("User-Agent",
+	//				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+	//		get.setHeader("Accept-Encoding", "gzip,deflate");
+	//		get.setHeader("Content-type", "application/x-www-form-urlencoded");
+	//		get.setHeader("Cookie", COOKIE);
+	//	}
 
 	public void getZhibo(int masterid, int startnum) throws UnsupportedEncodingException {
 		HttpPost post = new HttpPost("http://online.g.cnfol.com/getinfo.html");
@@ -149,63 +147,40 @@ public class OnlineCrawler {
 		}
 	}
 
-	public void getOnline(String clubid) {
-		HttpGet get = new HttpGet("http://online.g.cnfol.com//getinfo.html?displayNum=0&sortid=0&clubid=" + clubid);
-		get.setHeader("Host", "online.g.cnfol.com");
-		assemble(get);
-		try {
-			HttpResponse response = httpClient.execute(get);
-			// String cookie = response.getFirstHeader("Set-Cookie").getValue();
-			GzipEntity gentity = new GzipEntity(response.getEntity());
-			// String content = EntityUtils.toString(response.getEntity(),
-			// "utf-8");
-			String content = EntityUtils.toString(gentity, "GB2312");
-			System.out.println("HTML: " + content);
-
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void login(String name, String password) {
-		HttpGet get = new HttpGet("http://online.g.cnfol.com//getinfo.html?clubid=103&displayNum=0&sortid=0");
-		// HttpGet get = new HttpGet(str3);
-		get.setHeader("Host", "online.g.cnfol.com");
-		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		get.setHeader("Keep-Alive", "115");
-		get.setHeader("Connection", "keep-alive");
-		get.setHeader("User-Agent",
-				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-		get.setHeader("Accept-Encoding", "gzip,deflate");
-		get.setHeader("Content-type", "application/x-www-form-urlencoded");
-		get.setHeader(
-				"Cookie",
-				"	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s");
-
-		try {
-			HttpResponse response = httpClient.execute(get);
-			// String cookie = response.getFirstHeader("Set-Cookie").getValue();
-			GzipEntity gentity = new GzipEntity(response.getEntity());
-			// String content = EntityUtils.toString(response.getEntity(),
-			// "utf-8");
-			String content = EntityUtils.toString(gentity, "GB2312");
-			System.out.println("HTML: " + content);
-
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
+	//	public void login(String name, String password) {
+	//		HttpGet get = new HttpGet("http://online.g.cnfol.com//getinfo.html?clubid=103&displayNum=0&sortid=0");
+	//		// HttpGet get = new HttpGet(str3);
+	//		get.setHeader("Host", "online.g.cnfol.com");
+	//		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+	//		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+	//		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+	//		get.setHeader("Keep-Alive", "115");
+	//		get.setHeader("Connection", "keep-alive");
+	//		get.setHeader("User-Agent",
+	//				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+	//		get.setHeader("Accept-Encoding", "gzip,deflate");
+	//		get.setHeader("Content-type", "application/x-www-form-urlencoded");
+	//		get.setHeader(
+	//				"Cookie",
+	//				"	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s");
+	//
+	//		try {
+	//			HttpResponse response = httpClient.execute(get);
+	//			// String cookie = response.getFirstHeader("Set-Cookie").getValue();
+	//			GzipEntity gentity = new GzipEntity(response.getEntity());
+	//			// String content = EntityUtils.toString(response.getEntity(),
+	//			// "utf-8");
+	//			String content = EntityUtils.toString(gentity, "GB2312");
+	//			System.out.println("HTML: " + content);
+	//
+	//		} catch (ClientProtocolException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		} catch (IOException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 	public void process(String folder) {
 		File file = new File(folder);
