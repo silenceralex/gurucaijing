@@ -274,6 +274,9 @@
 				
 				<entry key="长江证券">
 					<map>
+						<entry key="titlePattern">
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,7}/长江：(.*?)[\(（]([0-9]{6})[\)）](.*?)\.pdf]]></value>
+						</entry>						
 						<entry key="publishdate">
 							<value><![CDATA[(201\d)-(\d{1,2})-(\d{1,2})]]></value>
 						</entry>
