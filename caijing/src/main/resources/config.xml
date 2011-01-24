@@ -62,7 +62,7 @@
 					<map>
 <!--					/data/oldpapers/200904/华泰：紫金矿业（601899）：继续推进资源扩张战略，静待下一轮高速增长.pdf-->
 						<entry key="titlePattern">
-							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,7}/华泰：(.*?)[\(（]([0-9]{6})[\)）][:：](.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,7}/华泰：(.*?)[\(（]([0-9]{6})[\)）][:：]?(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n\s*\[table_subject\]\s+(?:[^\n]+?)\s+(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
