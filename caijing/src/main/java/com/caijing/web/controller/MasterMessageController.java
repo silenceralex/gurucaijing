@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.dao.MasterMessageDao;
+import com.caijing.util.Config;
 import com.caijing.util.DateTools;
 
 @Controller
@@ -29,6 +30,10 @@ public class MasterMessageController {
 	@Autowired
 	@Qualifier("masterMessageDao")
 	private MasterMessageDao masterMessageDao = null;
+
+	@Autowired
+	@Qualifier("config")
+	private Config config = null;
 
 	@RequestMapping("/online.do")
 	public void showMessages(HttpServletResponse response,
@@ -49,5 +54,12 @@ public class MasterMessageController {
 			e.printStackTrace();
 			logger.error("GetshowMessages Error!!! " + e.getMessage());
 		}
+	}
+
+	@RequestMapping("/liveDetail.htm")
+	public String showMessages(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		model.put("mastername", "»Û¸ûË¼");
+		return "/template/liveDetail.htm";
+		//		model.put("vutil", vutil);
 	}
 }
