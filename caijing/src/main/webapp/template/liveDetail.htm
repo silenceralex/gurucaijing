@@ -45,7 +45,7 @@
 				t.listNode = document.getElementById("liveList");
 				t.requestData( 0 );
 				t.requestTimer = setInterval( t.requestData, t.rqTimeStep );
-				t.rollTimer = setInterval( t.rollContent, t.rollTimeStep );
+				//t.rollTimer = setInterval( t.rollContent, t.rollTimeStep );
 			},
 			/// 获取数据
 			requestData : function () {
@@ -54,7 +54,7 @@
 					if ( data.length > 0 ) {
 						t.textNum += data.length;
 						jQuery.each( data, function ( i, n ) {
-							t.listNode.innerHTML += "<li><b>时间</b>：" + data[i].ptime + " <b>内容</b>：" + data[i].content + "</li>";
+							t.listNode.innerHTML = "<li><b>时间</b>：" + data[i].ptime + " <b>内容</b>：" + data[i].content + "</li>" + t.listNode.innerHTML;
 						})
 					}
 				});
