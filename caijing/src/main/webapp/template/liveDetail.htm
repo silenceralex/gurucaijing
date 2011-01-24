@@ -30,7 +30,7 @@
 </div>
     <script type="text/javascript">
 	(function(){
-		var $ = window.jQuery;
+		var jQuery = window.jQuery;
 		var live = {
 			requestUrl : "/online.do?masterid=",//http://51gurus.com/online.do?masterid=2074&start=0
 			listNode : null,
@@ -51,10 +51,10 @@
 			/// 获取数据
 			requestData : function () {
 				var t = live;
-				$.getJSON( t.requestUrl + t.uid + "&start=" + ( t.textNum + 1 ), function( data ){
+				jQuery.getJSON( t.requestUrl + t.uid + "&start=" + ( t.textNum + 1 ), function( data ){
 					if ( data.length > 0 ) {
 						t.textNum += data.length;
-						$.each( data, function ( i, n ) {
+						jQuery.each( data, function ( i, n ) {
 							t.listNode.innerHTML += "<li><b>时间</b>：" + data[i].ptime + " <b>内容</b>：" + data[i].content + "</li>";
 						})
 					}
