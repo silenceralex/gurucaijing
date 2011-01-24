@@ -120,7 +120,7 @@
 					<map>
 <!--					/data/oldpapers/200904/中信建投：安信信托(600816)：受益于刺激方案和金融新九条.pdf-->
 						<entry key="titlePattern">
-							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中信建投：(.*?)[\(（]?([0-9]{6})[\)）]?[:：]?(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中信建投：(?:公司简评)?\-?(.*?)[\(（]?([0-9]{6})[\)）]?[:：\-－—]?(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n\s*发布日期[:：]\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
