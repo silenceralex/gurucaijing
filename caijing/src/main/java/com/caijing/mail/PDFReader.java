@@ -221,10 +221,10 @@ public class PDFReader {
 //				processOneFile(line, "申银万国");
 //				count++;
 //			}
-//			if (line.contains("招商证券")) {//3694-5077
-//				processOneFile(line, "招商证券");
-//				count++;
-//			}
+			if (line.contains("招商证券")) {//3694-5077
+				processOneFile(line, "招商证券");
+				count++;
+			}
 //			if (line.contains("国泰君安")) {//5078-8316
 //				processOneFile(line, "国泰君安");
 //				count++;
@@ -261,6 +261,10 @@ public class PDFReader {
 //				processOneFile(line, "华泰证券");
 //				count++;
 //			}
+//			if (line.contains("联合：")) {//编码问题，导致有的研报不能读取
+//				processOneFile(line, "华泰联合");
+//				count++;
+//			}			
 //			if (line.contains("中金：")) {
 //				processOneFile(line, "中金公司");
 //				count++;
@@ -269,10 +273,10 @@ public class PDFReader {
 //				processOneFile(line, "中投证券");
 //				count++;
 //			}
-			if (line.contains("中信建投")) {
-				processOneFile(line, "中信建投");
-				count++;
-			}
+//			if (line.contains("中信建投")) {
+//				processOneFile(line, "中信建投");
+//				count++;
+//			}
 			
 			/*
 			if (logfile.contains("axzq")) {
