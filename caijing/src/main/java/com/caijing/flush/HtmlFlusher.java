@@ -886,7 +886,7 @@ public class HtmlFlusher {
 			List<Map> maps = masterMessageDao.getMessagesFrom(Integer.parseInt((String) masterid), date, 0);
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/articleList.htm");
+				vmf.setTemplate("/template/liveStatic.htm");
 				vmf.put("maps", maps);
 				vmf.put("mastername", propertys.get("name"));
 				vmf.put("masterid", masterid);
