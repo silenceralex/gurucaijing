@@ -257,10 +257,15 @@ public class PDFReader {
 //				processOneFile(line, "东海证券");
 //				count++;
 //			}
-			if (line.contains("华泰：")) {//目前没有这个券商，暂不处理
-				processOneFile(line, "华泰证券");
+//			if (line.contains("华泰：")) {//编码问题，导致有的研报不能读取
+//				processOneFile(line, "华泰证券");
+//				count++;
+//			}
+			if (line.contains("中金：")) {//目前没有这个券商，暂不处理
+				processOneFile(line, "中金公司");
 				count++;
 			}
+			
 			
 			/*
 			if (logfile.contains("axzq")) {
