@@ -216,7 +216,7 @@ public class PDFReader {
 			if(count==limit){
 				break;
 			}
-			
+			//http://51gurus.com/oldhtml/papers/200801-200903/6Q8N412F.pdf
 			if (line.contains("申银万国")) {//1-3693
 				processOneFile(line, "申银万国");
 				count++;
@@ -249,10 +249,10 @@ public class PDFReader {
 //				processOneFile(line, "长江证券");
 //				count++;
 //			}
-//			if (line.contains("光大：")) {//没有研报，暂不处理
-//				processOneFile(line, "光大证券");
-//				count++;
-//			}
+			if (line.contains("光大：")) {//没有研报，暂不处理
+				processOneFile(line, "光大证券");
+				count++;
+			}
 //			if (line.contains("东海：")) {//目前没有这个券商，暂不处理
 //				processOneFile(line, "东海证券");
 //				count++;
