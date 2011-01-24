@@ -616,11 +616,11 @@ public class ReportExtractorImpl implements ReportExtractor {
 				//String aname = m.group(5); //no data
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
-				report.setStockname(stockname);
 				if(stockname.length()>8){
 					FileUtil.appendWrite(invalidoldpapers+"zxjt"+".log", path+"\n", "UTF-8");
 					return report;
 				}
+				report.setStockname(stockname);
 				report.setType(1); //m.group(2)
 				report.setTitle(title);
 				//report.setAname(aname);
