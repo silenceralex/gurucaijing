@@ -61,11 +61,15 @@ public class ExtractSchedule {
 		crawler.setMasterMessageDao(masterMessageDao);
 		Map map = (Map) config.getObject("groupid");
 		for (Object key : map.keySet()) {
-			logger.debug("masterid:" + key + "  mastername:" + map.get(key));
+			Map propertys = (Map) map.get(key);
+			String k = (String) propertys.get("key");
+			String d_str = (String) propertys.get("dstr");
+			logger.debug("masterid:" + key + "  mastername:" + propertys.get("name") + "  key:" + k + "  d_str:"
+					+ d_str);
 			int masterid = Integer.parseInt((String) key);
 			int num = masterMessageDao.getCurrentNumByMasterid(masterid, DateTools.transformYYYYMMDDDate(new Date()));
 			try {
-				crawler.getZhibo(masterid, num);
+				crawler.getZhibo(masterid, num, k, d_str);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

@@ -57,8 +57,14 @@ public class MasterMessageController {
 	}
 
 	@RequestMapping("/liveDetail.htm")
-	public String showMessages(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		model.put("mastername", "»Û¸ûË¼");
+	public String showMessages(HttpServletResponse response,
+			@RequestParam(value = "masterid", required = true) Integer masterid, HttpServletRequest request,
+			ModelMap model) {
+		Map map = (Map) config.getObject("groupid");
+		Map propertys = (Map) map.get("" + masterid);
+		logger.info("masterid: " + masterid + "  name:" + propertys.get("name"));
+		model.put("mastername", propertys.get("name"));
+		model.put("masterid", masterid);
 		return "/template/liveDetail.htm";
 		//		model.put("vutil", vutil);
 	}

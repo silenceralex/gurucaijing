@@ -98,14 +98,14 @@ public class OnlineCrawler {
 	//		get.setHeader("Cookie", COOKIE);
 	//	}
 
-	public void getZhibo(int masterid, int startnum) throws UnsupportedEncodingException {
+	public void getZhibo(int masterid, int startnum, String key, String d_str) throws UnsupportedEncodingException {
 		HttpPost post = new HttpPost("http://online.g.cnfol.com/getinfo.html");
 		List<BasicNameValuePair> data = new ArrayList<BasicNameValuePair>();
 		data.add(new BasicNameValuePair("clubid", "" + masterid));
 		data.add(new BasicNameValuePair("displayNum", "" + startnum));
 		data.add(new BasicNameValuePair("uid", "3929853"));
-		data.add(new BasicNameValuePair("key", "b3fce35ecadda1b7cbf7765c0e1"));
-		data.add(new BasicNameValuePair("d_str", "d8f121ec1e9f989b88d64de198b432e1"));
+		data.add(new BasicNameValuePair("key", key));
+		data.add(new BasicNameValuePair("d_str", d_str));
 
 		post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 		post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
