@@ -617,6 +617,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 				report.setSaname(sanam);
 				report.setStockcode(stockcode);
 				report.setStockname(stockname);
+				if(stockname.length()>8){
+					FileUtil.appendWrite(invalidoldpapers+"zxjt"+".log", path+"\n", "UTF-8");
+					return report;
+				}
 				report.setType(1); //m.group(2)
 				report.setTitle(title);
 				//report.setAname(aname);
