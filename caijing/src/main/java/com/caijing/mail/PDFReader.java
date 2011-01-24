@@ -233,7 +233,7 @@ public class PDFReader {
 //				processOneFile(line, "安信证券");
 //				count++;
 //			}
-//			if (line.contains("广发：")||line.contains("广发证券")) {//8317-8483
+//			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
 //				processOneFile(line, "广发证券");
 //				count++;
 //			}
@@ -245,11 +245,22 @@ public class PDFReader {
 //				processOneFile(line, "国信证券");
 //				count++;
 //			}
-			if (line.contains("长江：")) {//数量很少，基本只有title
-				processOneFile(line, "长江证券");
+//			if (line.contains("长江：")) {//数量很少，基本只有title
+//				processOneFile(line, "长江证券");
+//				count++;
+//			}
+//			if (line.contains("光大：")) {//没有研报，暂不处理
+//				processOneFile(line, "光大证券");
+//				count++;
+//			}
+//			if (line.contains("东海：")) {//目前没有这个券商，暂不处理
+//				processOneFile(line, "东海证券");
+//				count++;
+//			}
+			if (line.contains("华泰：")) {//目前没有这个券商，暂不处理
+				processOneFile(line, "华泰证券");
 				count++;
 			}
-			
 			
 			/*
 			if (logfile.contains("axzq")) {
@@ -351,7 +362,7 @@ public class PDFReader {
 		pdfReader.init();
 
 		try {
-			pdfReader.processHistoryPath("/data/shells/log/result.log");
+			pdfReader.processHistoryPath("/data/shells/log/result1.log");
 			System.exit(0);
 			/*
 			//安信证券
