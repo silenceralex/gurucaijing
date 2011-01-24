@@ -15,6 +15,7 @@ import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
+import com.caijing.dao.MasterMessageDao;
 import com.caijing.dao.NoticeDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.RecommendSuccessDao;
@@ -31,6 +32,7 @@ import com.caijing.domain.Report;
 import com.caijing.domain.StockAgencyEntity;
 import com.caijing.domain.StockEarn;
 import com.caijing.model.StockPrice;
+import com.caijing.util.Config;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
@@ -42,6 +44,7 @@ public class HtmlFlusher {
 	public static String ARTICLEDIR = "/home/html/articles/";
 	public static String REPORTDIR = "/home/html/report/";
 	public static String NOTICEDIR = "/home/html/notice/";
+	public static String LIVEDIR = "/home/html/live/";
 	public static String PREFIX = "http://51gurus.com";
 
 	@Autowired
@@ -73,6 +76,18 @@ public class HtmlFlusher {
 	private ColumnArticleDao columnArticleDao = null;
 
 	@Autowired
+	@Qualifier("masterMessageDao")
+	private MasterMessageDao masterMessageDao = null;
+
+	public MasterMessageDao getMasterMessageDao() {
+		return masterMessageDao;
+	}
+
+	public void setMasterMessageDao(MasterMessageDao masterMessageDao) {
+		this.masterMessageDao = masterMessageDao;
+	}
+
+	@Autowired
 	@Qualifier("noticeDao")
 	private NoticeDao noticeDao = null;
 
@@ -91,6 +106,18 @@ public class HtmlFlusher {
 	@Autowired
 	@Qualifier("stockPrice")
 	private StockPrice sp = null;
+
+	@Autowired
+	@Qualifier("config")
+	private Config config = null;
+
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
 
 	public void flushStarGuruDetail() {
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
@@ -846,7 +873,31 @@ public class HtmlFlusher {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public void flushLiveStatic() {
+		Map map = (Map) config.getObject("groupid");
+		for (Object masterid : map.keySet()) {
+			Map propertys = (Map) map.get(masterid);
+
+			System.out.println("masterid: " + masterid + "  name:" + propertys.get("name"));
+			//			String date = DateTools.transformYYYYMMDDDate(new Date());
+			String date = DateTools.getYesterday(new Date());
+			List<Map> maps = masterMessageDao.getMessagesFrom(Integer.parseInt((String) masterid), date, 0);
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/articleList.htm");
+				vmf.put("maps", maps);
+				vmf.put("mastername", propertys.get("name"));
+				vmf.put("masterid", masterid);
+				vmf.save(LIVEDIR + masterid + "/" + date + ".html");
+				System.out.println("write page : " + LIVEDIR + masterid + "/" + date + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) {
@@ -856,18 +907,19 @@ public class HtmlFlusher {
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		flusher.flushIndex();
+		//		flusher.flushIndex();
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
-		flusher.flushAnalyzerRank();
+		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
-		flusher.flushStarGuruDetail();
+		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
-		flusher.flushSuccessRank();
+		//		flusher.flushSuccessRank();
+		flusher.flushLiveStatic();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);

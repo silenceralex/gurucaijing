@@ -107,6 +107,12 @@
 		<property name="recommendSuccessDao">
 			<ref bean="recommendSuccessDao" />
 		</property>
+		<property name="masterMessageDao">
+			<ref bean="masterMessageDao" />
+		</property>
+		<property name="config">
+			<ref bean="config" />
+		</property>
 		<property name="sp">
 			<ref bean="stockPrice" />
 		</property>

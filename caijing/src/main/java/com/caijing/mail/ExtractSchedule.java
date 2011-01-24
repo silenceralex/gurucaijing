@@ -1,6 +1,5 @@
 package com.caijing.mail;
 
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -68,11 +67,10 @@ public class ExtractSchedule {
 					+ d_str);
 			int masterid = Integer.parseInt((String) key);
 			int num = masterMessageDao.getCurrentNumByMasterid(masterid, DateTools.transformYYYYMMDDDate(new Date()));
-			try {
-				crawler.getZhibo(masterid, num, k, d_str);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+
+			crawler.crawler(masterid, num);
+			//				crawler.getZhibo(masterid, num, k, d_str);
+
 		}
 	}
 
