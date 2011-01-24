@@ -58,12 +58,13 @@ public class OnlineCrawler {
 	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	// TODO 获取直播时的解析内容
-	private static Pattern contentPattern = Pattern.compile("<brarsf>([0-9]{2}:[0-9]{2})\\s(.*?)\\s</brarsf>",
-			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+	// TODO 获取直播时的解析内容   <div class="qzL2"> 09:38:19  今日的压力带依旧是在2740--2760之间</div>
+	private static Pattern contentPattern = Pattern.compile(
+			"<div class=\"qzL2\">([0-9]{2}:[0-9]{2}:[0-9]{2})\\s+(.*?)</div>", Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static String LOGPATH = "/home/app/crawlog/";
-	private static final String COOKIE = "	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s";
+	private static final String COOKIE = "__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1100; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; __utma=105107665.1699322037.1295749815.1295749815.1295749815.1; __utmz=105107665.1295749816.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1295749815844; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=1967D734C104ABF31D2D3D884862D06A; cookie[passport][logtime]=1298341899; cookie[passport][keystr]=EC249A80CDE48A2224CA9CD150AB1A74; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=1; cookie[passport][mailnum]=2; JSESSIONID=VgtiiOXFUK6XLER12s";
 
 	public void init() {
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
@@ -105,8 +106,8 @@ public class OnlineCrawler {
 		data.add(new BasicNameValuePair("clubid", "" + masterid));
 		data.add(new BasicNameValuePair("displayNum", "" + startnum));
 		data.add(new BasicNameValuePair("uid", "3929853"));
-		data.add(new BasicNameValuePair("key", "51bb6aae58674340ac301fa6caa"));
-		data.add(new BasicNameValuePair("d_str", "db81f4d1a52dc37fda905156680bc960"));
+		data.add(new BasicNameValuePair("key", "b3fce35ecadda1b7cbf7765c0e1"));
+		data.add(new BasicNameValuePair("d_str", "d8f121ec1e9f989b88d64de198b432e1"));
 
 		post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 		post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -127,7 +128,8 @@ public class OnlineCrawler {
 			System.out.println("HTML: " + content);
 			String log = DateTools.transformDateDetail(new Date()) + "  Html: " + content + "\r\n";
 			FileUtil.appendWrite(LOGPATH + masterid + ".html", log, "GB2312");
-
+			String curnum = content.substring(0, content.indexOf(","));
+			System.out.println("curnum: " + curnum);
 			Matcher m = contentPattern.matcher(content);
 			while (m != null && m.find()) {
 				String ptime = m.group(1).trim();
