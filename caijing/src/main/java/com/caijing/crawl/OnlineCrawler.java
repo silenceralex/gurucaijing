@@ -132,12 +132,16 @@ public class OnlineCrawler {
 			while (m != null && m.find()) {
 				String ptime = m.group(1).trim();
 				String mcontent = m.group(2).trim();
+				System.out.println("ptime: " + ptime + "  mcontent:" + mcontent);
 				MasterMessage mm = new MasterMessage();
 				mm.setContent(mcontent);
 				mm.setCurrdate(new Date());
 				mm.setMessageid(ServerUtil.getid());
 				mm.setPtime(ptime);
 				mm.setMasterid(masterid);
+				if (masterMessageDao == null) {
+					System.out.println("masterMessageDao is null! ");
+				}
 				masterMessageDao.insert(mm);
 			}
 		} catch (ClientProtocolException e) {
