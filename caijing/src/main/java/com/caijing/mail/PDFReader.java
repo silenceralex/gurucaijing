@@ -265,14 +265,14 @@ public class PDFReader {
 //				processOneFile(line, "中金公司");
 //				count++;
 //			}
-			if (line.contains("中投：")) {
-				processOneFile(line, "中投证券");
-				count++;
-			}
-//			if (line.contains("中信建投")) {
-//				processOneFile(line, "中信建投");
+//			if (line.contains("中投：")) {
+//				processOneFile(line, "中投证券");
 //				count++;
 //			}
+			if (line.contains("中信建投")) {
+				processOneFile(line, "中信建投");
+				count++;
+			}
 			
 			/*
 			if (logfile.contains("axzq")) {

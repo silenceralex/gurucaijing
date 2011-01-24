@@ -627,7 +627,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				//System.out.println("aname:" + aname);
 			} else {
 				System.out.println("No match:");
-				FileUtil.appendWrite(invalidoldpapers+"zjgs"+".log", path+"\n", "UTF-8");
+				FileUtil.appendWrite(invalidoldpapers+"zxjt"+".log", path+"\n", "UTF-8");
 			}				
 		}
 		return report;
