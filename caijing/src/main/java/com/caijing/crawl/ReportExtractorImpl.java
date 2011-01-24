@@ -585,6 +585,50 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("No match:");
 				FileUtil.appendWrite(invalidoldpapers+"zjgs"+".log", path+"\n", "UTF-8");
 			}	
+		} else if (saname.equalsIgnoreCase("中投证券")) {
+			if (m != null && m.find()) {
+				String sanam = saname;
+				String stockname = m.group(1); 
+				String title = m.group(3);
+				String stockcode = m.group(2);
+				//String aname = m.group(5); //no data
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				//report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				//System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"ztzq"+".log", path+"\n", "UTF-8");
+			}	
+		} else if (saname.equalsIgnoreCase("中信建投")) {
+			if (m != null && m.find()) {
+				String sanam = saname;
+				String stockname = m.group(1); 
+				String title = m.group(3);
+				String stockcode = m.group(2);
+				//String aname = m.group(5); //no data
+				report.setSaname(sanam);
+				report.setStockcode(stockcode);
+				report.setStockname(stockname);
+				report.setType(1); //m.group(2)
+				report.setTitle(title);
+				//report.setAname(aname);
+				System.out.println("sanam:" + sanam);
+				System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+				System.out.println("type:" + 1);
+				System.out.println("title:" + title);
+				//System.out.println("aname:" + aname);
+			} else {
+				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers+"zjgs"+".log", path+"\n", "UTF-8");
+			}				
 		}
 		return report;
 	}

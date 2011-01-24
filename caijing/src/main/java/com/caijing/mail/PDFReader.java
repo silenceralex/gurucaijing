@@ -261,11 +261,18 @@ public class PDFReader {
 //				processOneFile(line, "华泰证券");
 //				count++;
 //			}
-			if (line.contains("中金：")) {//目前没有这个券商，暂不处理
-				processOneFile(line, "中金公司");
+//			if (line.contains("中金：")) {
+//				processOneFile(line, "中金公司");
+//				count++;
+//			}
+			if (line.contains("中投：")) {
+				processOneFile(line, "中投证券");
 				count++;
 			}
-			
+//			if (line.contains("中信建投")) {
+//				processOneFile(line, "中信建投");
+//				count++;
+//			}
 			
 			/*
 			if (logfile.contains("axzq")) {
