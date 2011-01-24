@@ -217,14 +217,14 @@ public class PDFReader {
 				break;
 			}
 			
-//			if (line.contains("申银万国")) {//1-3693
-//				processOneFile(line, "申银万国");
-//				count++;
-//			}
-			if (line.contains("招商证券")) {//3694-5077
-				processOneFile(line, "招商证券");
+			if (line.contains("申银万国")) {//1-3693
+				processOneFile(line, "申银万国");
 				count++;
 			}
+//			if (line.contains("招商证券")) {//3694-5077
+//				processOneFile(line, "招商证券");
+//				count++;
+//			}
 //			if (line.contains("国泰君安")) {//5078-8316
 //				processOneFile(line, "国泰君安");
 //				count++;
