@@ -231,6 +231,10 @@
 			 
 				<entry key="光大证券">
 					<map>
+						<entry key="titlePattern">
+							<!-- /data/oldpapers/200801-200903/光大：中集集团(000039)：主业稳.pdf -->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/光大：(.*?)[\(（]([0-9]{6})[\)）][:：](.*?)\.pdf]]></value>
+						</entry>						
 						<entry key="publishdate">
 							<value><![CDATA[(?:重要声明。)?\n\s*(201\d)-(\d{1,2})-(\d{1,2})\s*\n]]></value>
 						</entry>
