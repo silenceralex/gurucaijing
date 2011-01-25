@@ -249,10 +249,10 @@ public class PDFReader {
 //				processOneFile(line, "长江证券");
 //				count++;
 //			}
-			if (line.contains("光大：")) {//没有研报，暂不处理
-				processOneFile(line, "光大证券");
-				count++;
-			}
+//			if (line.contains("光大：")) {//没有研报，暂不处理
+//				processOneFile(line, "光大证券");
+//				count++;
+//			}
 //			if (line.contains("东海：")) {//目前没有这个券商，暂不处理
 //				processOneFile(line, "东海证券");
 //				count++;
@@ -261,10 +261,10 @@ public class PDFReader {
 //				processOneFile(line, "华泰证券");
 //				count++;
 //			}
-//			if (line.contains("联合：")) {//编码问题，导致有的研报不能读取
-//				processOneFile(line, "华泰联合");
-//				count++;
-//			}			
+			if (line.contains("联合：")) {//编码问题，导致有的研报不能读取
+				processOneFile(line, "华泰联合");
+				count++;
+			}			
 //			if (line.contains("中金：")) {
 //				processOneFile(line, "中金公司");
 //				count++;
