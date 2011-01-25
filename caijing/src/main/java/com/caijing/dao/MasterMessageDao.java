@@ -1,5 +1,6 @@
 package com.caijing.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public interface MasterMessageDao extends CrudDao {
 	 * @return
 	 */
 	List<Map> getMessagesByMasteridDate(int masterid, String date);
+
+	List<Date> getDatesByMasterid(int masterid);
 
 	Integer getCurrentNumByMasterid(int masterid, String date);
 }

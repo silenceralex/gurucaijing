@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Master">
+
+	<typeAlias alias="Master" type="com.caijing.domain.Master" />
+
+	<select id="select" resultClass="Master">
+		select * from master where masterid = #value#
+	</select>
+
+
+	<insert id="insert">
+		insert into master
+		(masterid,mastername,intro,lastnum,status)
+		values
+		(#masterid#,#mastername#,#intro#,#lastnum#,#status#)
+	</insert>
+
+	<update id="update" parameterClass="Master">
+		update analyzer
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="mastername">
+				mastername = #mastername#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="intro">
+				intro = #intro#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="status">
+				status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lastnum">
+				lastnum = #lastnum#
+			</isNotEmpty>
+		</dynamic>
+		where masterid=#masterid#
+	</update>
+
+	<delete id="delete" parameterClass="Master">
+		delete from master where masterid=#masterid#
+	</delete>
+
+	<select id="getAllMasters" parameterClass="java.util.Map" resultClass="Master">
+		select * from master limit #start#,#length#
+	</select>
+	
+</sqlMap>

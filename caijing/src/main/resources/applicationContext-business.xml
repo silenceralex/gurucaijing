@@ -110,6 +110,9 @@
 		<property name="masterMessageDao">
 			<ref bean="masterMessageDao" />
 		</property>
+		<property name="masterDao">
+			<ref bean="masterDao" />
+		</property>
 		<property name="config">
 			<ref bean="config" />
 		</property>

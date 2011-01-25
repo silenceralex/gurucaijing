@@ -21,4 +21,5 @@
 	<sqlMap resource="com/caijing/dao/ibatis/Notice.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/RecommendSuccess.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/MasterMessage.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/Master.xml" />
 </sqlMapConfig>

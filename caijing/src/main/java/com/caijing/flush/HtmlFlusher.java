@@ -15,6 +15,7 @@ import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
+import com.caijing.dao.MasterDao;
 import com.caijing.dao.MasterMessageDao;
 import com.caijing.dao.NoticeDao;
 import com.caijing.dao.RecommendStockDao;
@@ -25,6 +26,7 @@ import com.caijing.domain.Analyzer;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
+import com.caijing.domain.Master;
 import com.caijing.domain.Notice;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.RecommendSuccess;
@@ -45,11 +47,24 @@ public class HtmlFlusher {
 	public static String REPORTDIR = "/home/html/report/";
 	public static String NOTICEDIR = "/home/html/notice/";
 	public static String LIVEDIR = "/home/html/live/";
+	public static String MasterDIR = "/home/html/master/";
 	public static String PREFIX = "http://51gurus.com";
 
 	@Autowired
 	@Qualifier("reportDao")
 	private ReportDao reportDao = null;
+
+	@Autowired
+	@Qualifier("masterDao")
+	private MasterDao masterDao = null;
+
+	public MasterDao getMasterDao() {
+		return masterDao;
+	}
+
+	public void setMasterDao(MasterDao masterDao) {
+		this.masterDao = masterDao;
+	}
 
 	@Autowired
 	@Qualifier("stockEarnDao")
@@ -904,6 +919,33 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushMasterInfo() {
+		List<Master> masters = masterDao.getAllMasters(0, 10);
+		for (Master master : masters) {
+			List<Date> dates = masterMessageDao.getDatesByMasterid(master.getMasterid());
+			List<String> urls = new ArrayList<String>();
+			List<String> curdates = new ArrayList<String>();
+			for (Date date : dates) {
+				curdates.add(DateTools.transformYYYYMMDDDate(date));
+				urls.add("/live/" + master.getMasterid() + "/" + DateTools.transformYYYYMMDDDate(date) + ".html");
+			}
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/masterintro.htm");
+				vmf.put("master", master);
+				vmf.put("dateTools", new DateTools());
+				vmf.put("urls", urls);
+				vmf.put("curdates", curdates);
+				vmf.save(MasterDIR + master.getMasterid() + ".html");
+				System.out.println("write page : " + MasterDIR + master.getMasterid() + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
 		//		flusher.flushStarGuruDetail();
@@ -924,7 +966,8 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushSuccessRank();
 		flusher.flushLiveStatic();
-		flusher.flushArticleList(0);
+		flusher.flushMasterInfo();
+		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
 		//		flusher.flushArticleList(3);

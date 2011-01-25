@@ -1,5 +1,6 @@
 package com.caijing.dao.ibatis;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,5 +34,10 @@ public class MasterMessageDaoImpl extends CrudDaoDefault implements MasterMessag
 		params.put("masterid", masterid);
 		return (Integer) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getCurrentNumByMasterid",
 				params);
+	}
+
+	@Override
+	public List<Date> getDatesByMasterid(int masterid) {
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getDatesByMasterid", masterid);
 	}
 }

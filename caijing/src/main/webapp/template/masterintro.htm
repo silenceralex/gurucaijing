@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_分析师简介——${master.mastername}</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+</head>
+
+<body>
+<div class="wrapper">
+	#include("/template/inc/header.htm")
+    <div class="mainBox">
+    	#include("/template/inc/colL.htm")
+        <div class="sec_list">
+        		<div class="sec_nav">
+            	<h2><a href="#">投资大师首页</a> &gt; 草根大师</h2> 
+            </div>
+            <h2 class="star_detail_star">${master.mastername}</h2>
+            <ol id="star_detail_tab" class="star_detail_tab">
+            	<li class="star_de_tabli_on" id="starTab1"><a href="#">简介</a></li>
+			</ol>
+						
+            <div id="star_detail_box" class="star_detail_box">
+	            		<div id="starTb1" class="star_detail_intro">
+			            		<div class="star_detail_intro_img"><img src="/img/starGuru_default.jpg" /></div>
+			            		<div class="star_detail_intro_text">
+				            			<em>简介：</em>
+				            			<p>${master.intro}</p>
+				            			<em><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></em>
+			            		</div>
+			            		<h2 class="analyticsTitle">直播室归档列表</h2>
+			            		<div class="notice_list">
+			            		<ul>
+			            		
+			            		#set ($count = 0)
+			            		#foreach ($url in $urls)
+			            		<li><a href='${url}'>${curdates.get($count)}</a></li>
+			            		#set ($count = $count + 1)
+			            		#end
+			            		</ul>
+			            		</div>
+						
+			            </div><!-- starTb1 -->
+            </div>
+
+        </div>
+      <div class="clear"></div>
+        #include("/template/inc/footer.htm")
+    </div><!--mainBox end-->
+</div>
+</body>
+</html>

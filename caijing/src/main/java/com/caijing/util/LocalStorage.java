@@ -79,6 +79,7 @@ public class LocalStorage {
 		htmlFlush.flushStarOnSale(false);
 		htmlFlush.flushStockResearch();
 		htmlFlush.flushStockAgency();
+		htmlFlush.flushLiveStatic();
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {
