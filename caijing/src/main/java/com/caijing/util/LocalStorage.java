@@ -80,6 +80,7 @@ public class LocalStorage {
 		htmlFlush.flushStockResearch();
 		htmlFlush.flushStockAgency();
 		htmlFlush.flushLiveStatic();
+		htmlFlush.flushMasterInfo();
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {

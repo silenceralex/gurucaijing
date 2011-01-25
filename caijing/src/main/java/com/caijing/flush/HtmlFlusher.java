@@ -944,6 +944,18 @@ public class HtmlFlusher {
 				e.printStackTrace();
 			}
 		}
+
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/masterList.htm");
+			vmf.put("masters", masters);
+			vmf.save(MasterDIR + "index.html");
+			System.out.println("write page : " + MasterDIR + "index.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
