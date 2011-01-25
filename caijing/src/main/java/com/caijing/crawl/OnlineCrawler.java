@@ -2,7 +2,6 @@ package com.caijing.crawl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -87,7 +86,7 @@ public class OnlineCrawler {
 		httpClient = new DefaultHttpClient(cm, params);
 	}
 
-	public void getZhibo(int masterid, int startnum, String key, String d_str) throws UnsupportedEncodingException {
+	public boolean getZhibo(int masterid, int startnum, String key, String d_str) {
 		HttpPost post = new HttpPost("http://online.g.cnfol.com/getinfo.html");
 		List<BasicNameValuePair> data = new ArrayList<BasicNameValuePair>();
 		data.add(new BasicNameValuePair("clubid", "" + masterid));
@@ -96,7 +95,6 @@ public class OnlineCrawler {
 		data.add(new BasicNameValuePair("key", key));
 		data.add(new BasicNameValuePair("d_str", d_str));
 
-		post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 		post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
@@ -108,6 +106,7 @@ public class OnlineCrawler {
 		post.setHeader("Content-type", "application/x-www-form-urlencoded");
 		post.setHeader("Cookie", COOKIE);
 		try {
+			post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 			HttpResponse response = httpClient.execute(post);
 			GzipEntity gentity = new GzipEntity(response.getEntity());
 
@@ -118,6 +117,8 @@ public class OnlineCrawler {
 			String curnum = content.substring(0, content.indexOf(","));
 			System.out.println("curnum: " + curnum);
 			Matcher m = contentPattern.matcher(content);
+			if (m == null || !m.find())
+				return false;
 			while (m != null && m.find()) {
 				String ptime = m.group(1).trim();
 				String mcontent = m.group(2).trim();
@@ -132,15 +133,19 @@ public class OnlineCrawler {
 					System.out.println("masterMessageDao is null! ");
 				}
 				masterMessageDao.insert(mm);
+				return true;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return false;
 	}
 
-	public void crawler(int masterid, int startnum) {
+	public void crawler(int masterid, int startnum, String dstr, String key) {
 		HttpGet get = new HttpGet("http://online.g.cnfol.com/575,display");
 		// HttpGet get = new HttpGet(str3);
 		get.setHeader("Host", "online.g.cnfol.com");
@@ -161,12 +166,13 @@ public class OnlineCrawler {
 			String content = EntityUtils.toString(gentity, "GB2312");
 			Matcher m = keyPattern.matcher(content);
 			if (m != null && m.find()) {
-				String dstr = m.group(1);
-				String key = m.group(2);
+				String curdstr = m.group(1);
+				String curkey = m.group(2);
 				System.out.println("dstr:" + dstr + "   key:" + key);
-				getZhibo(masterid, startnum, key, dstr);
+				if (!getZhibo(masterid, startnum, key, dstr)) {
+					getZhibo(masterid, startnum, curkey, curdstr);
+				}
 			}
-
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -212,6 +218,6 @@ public class OnlineCrawler {
 		//		scheduledExtract.crawlOnline();
 		OnlineCrawler crawler = new OnlineCrawler();
 		crawler.init();
-		crawler.crawler(575, 0);
+		crawler.crawler(2074, 0, "345016f4f9d0cb5e5ac2a6a278c66901", "72845c7b96eebda9c5e28d86e15");
 	}
 }
