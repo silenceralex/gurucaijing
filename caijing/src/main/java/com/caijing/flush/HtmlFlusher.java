@@ -825,6 +825,7 @@ public class HtmlFlusher {
 	}
 
 	public void flushArticleList(int type) {
+		long start = System.currentTimeMillis();
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(10);
 		int total = columnArticleDao.getAllArticleCountByType(type);
@@ -873,6 +874,9 @@ public class HtmlFlusher {
 				e.printStackTrace();
 			}
 		}
+		long end = System.currentTimeMillis();
+		System.out.println("Flush type :" + type + " use time:" + (end - start) / 1000 + " seconds!");
+
 	}
 
 	public void flushLiveStatic() {
@@ -920,7 +924,7 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushSuccessRank();
 		flusher.flushLiveStatic();
-		//		flusher.flushArticleList(0);
+		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
 		//		flusher.flushArticleList(3);

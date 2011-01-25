@@ -43,6 +43,10 @@ public class SpiderSchedule {
 			crawlHtml(wsjdashiXml);
 			crawlHtml(wsjhongguanXml);
 			htmlFlush.flushIndex();
+			htmlFlush.flushArticleList(0);
+			htmlFlush.flushArticleList(1);
+			htmlFlush.flushArticleList(2);
+			htmlFlush.flushArticleList(3);
 			//			crawlNotice();
 		} catch (Exception e) {
 			e.printStackTrace();
