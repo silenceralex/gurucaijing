@@ -900,8 +900,8 @@ public class HtmlFlusher {
 			Map propertys = (Map) map.get(masterid);
 
 			System.out.println("masterid: " + masterid + "  name:" + propertys.get("name"));
-			//			String date = DateTools.transformYYYYMMDDDate(new Date());
-			String date = DateTools.getYesterday(new Date());
+			String date = DateTools.transformYYYYMMDDDate(new Date());
+			//			String date = DateTools.getYesterday(new Date());
 			List<Map> maps = masterMessageDao.getMessagesFrom(Integer.parseInt((String) masterid), date, 0);
 			try {
 				VMFactory vmf = new VMFactory();
