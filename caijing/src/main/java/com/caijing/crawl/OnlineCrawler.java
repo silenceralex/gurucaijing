@@ -33,6 +33,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.caijing.dao.MasterMessageDao;
 import com.caijing.domain.MasterMessage;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FileUtil;
 import com.caijing.util.ServerUtil;
@@ -133,8 +134,8 @@ public class OnlineCrawler {
 					System.out.println("masterMessageDao is null! ");
 				}
 				masterMessageDao.insert(mm);
-				return true;
 			}
+			return true;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			return false;
@@ -142,7 +143,6 @@ public class OnlineCrawler {
 			e.printStackTrace();
 			return false;
 		}
-		return false;
 	}
 
 	public void crawler(int masterid, int startnum, String dstr, String key) {
@@ -215,9 +215,11 @@ public class OnlineCrawler {
 	 */
 	public static void main(String[] args) {
 		//		ExtractSchedule scheduledExtract = (ExtractSchedule) ContextFactory.getBean("extractScheduler");
-		//		scheduledExtract.crawlOnline();
+		//		scheduledExtract.crawlOnline();clubid=2074&displayNum=43&sortid=0&uid=3929853&d_str=a405932e67b937eb833b053754759193&key=e00a8a446576385306505e14199
 		OnlineCrawler crawler = new OnlineCrawler();
 		crawler.init();
-		crawler.crawler(2074, 0, "345016f4f9d0cb5e5ac2a6a278c66901", "72845c7b96eebda9c5e28d86e15");
+		MasterMessageDao masterMessageDao = (MasterMessageDao) ContextFactory.getBean("masterMessageDao");
+		crawler.setMasterMessageDao(masterMessageDao);
+		crawler.crawler(2074, 24, "a405932e67b937eb833b053754759193", "e00a8a446576385306505e14199");
 	}
 }
