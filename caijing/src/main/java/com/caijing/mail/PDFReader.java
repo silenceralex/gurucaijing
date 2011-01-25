@@ -378,7 +378,7 @@ public class PDFReader {
 		pdfReader.init();
 
 		try {
-			pdfReader.processHistoryPath("/data/shells/log/result.log");
+			pdfReader.processHistoryPath("/data/shells/log/result1.log");
 			System.exit(0);
 			/*
 			//∞≤–≈÷§»Ø
