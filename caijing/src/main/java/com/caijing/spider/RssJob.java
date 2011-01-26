@@ -49,8 +49,9 @@ public class RssJob {
 	public void run() {
 		SAXReader sr = new SAXReader();
 		Document xml = null;
-		try {
-			for (String startUrl : startUrls) {
+
+		for (String startUrl : startUrls) {
+			try {
 				String rss = urldown.load(startUrl);
 				xml = sr.read(new StringReader(rss));
 				Element root = (Element) xml.selectSingleNode("//" + this.root);
@@ -107,10 +108,11 @@ public class RssJob {
 					//					System.out.println("link: " + article.getLink());
 					//					System.out.println("content: " + article.getContent());
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+
 	}
 
 	private static void printUsage() {
