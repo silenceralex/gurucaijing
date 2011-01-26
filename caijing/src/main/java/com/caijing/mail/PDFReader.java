@@ -241,7 +241,7 @@ public class PDFReader {
 				processOneFile(line, "国金证券");
 				count++;
 			}
-			if (line.contains("国信证券")) {//8880-9383
+			if (line.contains("国信证券")) {//没有stockcode
 				processOneFile(line, "国信证券");
 				count++;
 			}
