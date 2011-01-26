@@ -93,7 +93,7 @@ public class RecommendSuccessRatio {
 				//				}
 				//				judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
 				//				float endprice = sp.fetchhq(stock.getStockcode(), judgedate).getEndprice();
-				System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
+				//				System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
 				if (se.getPrice() > stock.getObjectprice()) {
 					success++;
 				}
