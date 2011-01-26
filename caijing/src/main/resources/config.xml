@@ -65,7 +65,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/华泰：(.*?)[\(（]?([0-9]{6})[\)）]?[:：]?(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*\[table_subject\]\s+(?:[^\n]+?)\s+(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+							<value><![CDATA[\n\s*\[table_subject\]\s+(?:[^\n]+?)\s+(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -93,7 +93,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中投：(?:20[0-9]{6})?[\-－—]?(?:公司研究|行业研究)?[-－—]?(.*?)[\(（]?([0-9]{6})[\)）]?[:：\-－—]?(.*?)\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+							<value><![CDATA[\n\s*(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -123,7 +123,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中信建投：(?:公司简评)?\-?(.*?)[\(（]?([0-9]{6})[\)）]?[:：\-－—]?(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*发布日期[:：]\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+							<value><![CDATA[\n\s*发布日期[:：]\s*(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -147,7 +147,7 @@
 				<entry key="东方证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*报告日期\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+							<value><![CDATA[\n\s*报告日期\s*(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -175,11 +175,11 @@
 				<entry key="银河证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
+							<value><![CDATA[\s*(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
-								<value><![CDATA[\s*(?:201\d)\s*年\s*(?:\d{1,2})\s*月\s*(?:\d{1,2})\s*日\s*\n\s*(?:[^\n]+?[ \t\x0B]+)*([^\n]+?)[ \t\x0B]+(?:[^\n]+?)\s*\n]]></value>
+								<value><![CDATA[\s*(?:20\d{2})\s*年\s*(?:\d{1,2})\s*月\s*(?:\d{1,2})\s*日\s*\n\s*(?:[^\n]+?[ \t\x0B]+)*([^\n]+?)[ \t\x0B]+(?:[^\n]+?)\s*\n]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
@@ -200,7 +200,7 @@
 				<entry key="宏源证券">
 					<map>
 						<entry key="publishdate"> 
-							<value><![CDATA[\s*(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*(?:\n|个股)]]></value>
+							<value><![CDATA[\s*(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*(?:\n|个股)]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -236,7 +236,7 @@
 								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/光大：(.*?)_?[\(（]?([0-9]{6})[\)）]?[:：_\-]?(.*?)\.pdf]]></value>
 						</entry>						
 						<entry key="publishdate">
-							<value><![CDATA[(?:重要声明。)?\n\s*(201\d)-(\d{1,2})-(\d{1,2})\s*\n]]></value>
+							<value><![CDATA[(?:重要声明。)?\n\s*(20\d{2})-(\d{1,2})-(\d{1,2})\s*\n]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -266,7 +266,7 @@
 								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/.*?(国信证券)[\-－](.*?)[\-－]?([0-9]{6}).*?\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*(201\d)\s*[\-年\?]\s*(\d{1,2})\s*[\-月\?]\s*(\d{1,2})\s*[\-日\?]\s*\n]]></value>
+							<value><![CDATA[\n\s*(20\d{2})\s*[\-年\?]\s*(\d{1,2})\s*[\-月\?]\s*(\d{1,2})\s*[\-日\?]\s*\n]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -294,7 +294,7 @@
 								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/长江：(.*?)[\(（]([0-9]{6})[\)）](.*?)\.pdf]]></value>
 						</entry>						
 						<entry key="publishdate">
-							<value><![CDATA[(201\d)-(\d{1,2})-(\d{1,2})]]></value>
+							<value><![CDATA[(20\d{2})-(\d{1,2})-(\d{1,2})]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -324,7 +324,7 @@
 								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/联合：(?:.*?)?[\-－—]?(.*?)[\(（]?([0-9]{6})[\)）]?.*?[:：\-－—]?(.*?)\.pdf]]></value>
 						</entry>						
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*(201\d)[-\?](\d{2})[-\?](\d{2})\s*\n]]></value>
+							<value><![CDATA[\n\s*(20\d{2})[-\?](\d{2})[-\?](\d{2})\s*\n]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -382,7 +382,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/(申银万国)_(.*?)_([0-9]{6})[\(（](.*?)[\)）]_(.*?)_+＊*?_(.*?)\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[(?:\n|日\s*期：\s*)(201\d)\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s]]></value>
+							<value><![CDATA[(?:\n|日\s*期：\s*)(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -415,7 +415,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/(国泰君安)_(.*?)_(.*?)_?\s*[\(（]([0-9]{6})[\)）]\s*_?(.*)_(.*?)_(20[0-9]{6}).*\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[\n(201\d)\.(\d{2})\.(\d{2})\s+]]></value>
+							<value><![CDATA[\n(20\d{2})\.(\d{2})\.(\d{2})\s+]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -440,10 +440,10 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- /data/oldpapers/200904/中金：赛马实业mn090312审慎推荐_08年业绩符合预期.pdf -->
-							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)(?:mn)?[\(（]([0-9]{6})[\)）](.*?)_?(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)(?:mn)?[\(（]?([0-9]{6})[\)）]?(.*?)_?(.*?)\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
-							<value><![CDATA[(?:研究报告|。)?\n\s*(201\d)年\s*(\d{1,2})月\s*(\d{1,2})日\s]]></value>
+							<value><![CDATA[(?:研究报告|。)?\n\s*(20\d{2})年\s*(\d{1,2})月\s*(\d{1,2})日\s]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -474,7 +474,7 @@
 				<entry key="海通证券">
 					<map>
 						<entry key="publishdate">
-							<value><![CDATA[[上下调首维]\s*[上下调高低持次]\s+(201\d)年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
+							<value><![CDATA[[上下调首维]\s*[上下调高低持次]\s+(20\d{2})年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -508,7 +508,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/(.*?)_(国金证券)_([0-9]{6})_(.*?)\-\-(.*?)公司.*?_.*_(.*?)_.星级.*?\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*(201\d)年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
+							<value><![CDATA[\n\s*(20\d{2})年\s(\d{1,2})\月\s(\d{1,2})日]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -540,7 +540,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/(招商证券)_?(公司研究)_?(.*?)[\(（_]([0-9]{6})[\)）_].*?[\-—－]+(.*?)[\(（].*?[\)）]_?(.*?)_?(20[0-9]{6})?\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[\n(201\d)年(\d{1,2})月(\d{1,2})日\s+]]></value>
+							<value><![CDATA[\n(20\d{2})年(\d{1,2})月(\d{1,2})日\s+]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
@@ -572,7 +572,7 @@
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/★*(广发证券)\-(.*?)\-.*?\-(.*?)[\(（]([0-9]{6}).*?[\)）]\-?(.*?)\-(.*?).*\.pdf]]></value>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[\n\s*(201\d)\s*年\s*(\d{2})\s*月\s*(\d{2})\s*日\s+]]></value>
+							<value><![CDATA[\n\s*(20\d{2})\s*年\s*(\d{2})\s*月\s*(\d{2})\s*日\s+]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
