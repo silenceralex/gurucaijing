@@ -440,7 +440,7 @@
 					<map>
 						<entry key="titlePattern">
 							<!-- /data/oldpapers/200904/中金：赛马实业mn090312审慎推荐_08年业绩符合预期.pdf -->
-							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)(?:mn)?[\(（]?([0-9]{6})[\)）]?(.*?)_?(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)(?:mn)?[\(（]([0-9]{6})[\)）](.*?)_?(.*?)\.pdf]]></value>
 						</entry>					
 						<entry key="publishdate">
 							<value><![CDATA[(?:研究报告|。)?\n\s*(201\d)年\s*(\d{1,2})月\s*(\d{1,2})日\s]]></value>
