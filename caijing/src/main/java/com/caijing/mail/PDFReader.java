@@ -217,14 +217,14 @@ public class PDFReader {
 				break;
 			}
 //			http://51gurus.com/oldhtml/papers/200801-200903/6Q8N412F.pdf
-//			if (line.contains("申银万国_")) {//1-3693
-//				processOneFile(line, "申银万国");
-//				count++;
-//			}
-			if (line.contains("招商证券")) {//3694-5077
-				processOneFile(line, "招商证券");
+			if (line.contains("申银万国_")) {//1-3693
+				processOneFile(line, "申银万国");
 				count++;
 			}
+//			if (line.contains("招商证券")) {//3694-5077
+//				processOneFile(line, "招商证券");
+//				count++;
+//			}
 //			if (line.contains("国泰君安")) {//5078-8316
 //				processOneFile(line, "国泰君安");
 //				count++;
