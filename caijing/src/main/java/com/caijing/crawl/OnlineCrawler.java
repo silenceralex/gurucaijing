@@ -147,7 +147,7 @@ public class OnlineCrawler {
 	}
 
 	public void crawler(int masterid, int startnum, String dstr, String key) {
-		HttpGet get = new HttpGet("http://online.g.cnfol.com/575,display");
+		HttpGet get = new HttpGet("http://online.g.cnfol.com/" + masterid + ",display");
 		// HttpGet get = new HttpGet(str3);
 		get.setHeader("Host", "online.g.cnfol.com");
 		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
