@@ -96,6 +96,7 @@ public class OnlineCrawler {
 		data.add(new BasicNameValuePair("key", key));
 		data.add(new BasicNameValuePair("d_str", d_str));
 
+		post.setHeader("Host", "online.g.cnfol.com");
 		post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
