@@ -353,16 +353,16 @@ public class ReportExtractorImpl implements ReportExtractor {
 		Report report = new Report();
 		report.setRid(rid);
 		System.out.println("path:" + path);
+		int i = 0;
 		
 		List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
 		if(titlePatterns!=null && saname.equalsIgnoreCase("ÉêÒøÍò¹ú")){
 			for (String pattern : titlePatterns) {
-				int i = 1;
+				i++;
 				Pattern titlePattern = Pattern.compile(pattern,	Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 				System.out.println("titlePattern:" + config.getValue(saname).get("titlePattern"));
 				Matcher m = titlePattern.matcher(path);
-				
-				if (i++==1 && m != null && m.find()) {
+				if (i==1 && m != null && m.find()) {
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
 					String title = m.group(6);
@@ -380,7 +380,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					System.out.println("type:" + 1);
 					System.out.println("title:" + title);
 					System.out.println("aname:" + aname);
-				} if (i++==2 && m != null && m.find()) {
+				} if (i==2 && m != null && m.find()) {
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
 					String title = m.group(5);
