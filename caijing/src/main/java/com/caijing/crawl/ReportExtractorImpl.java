@@ -403,7 +403,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				}
 			}
 			System.out.println("No match:");
-			FileUtil.appendWrite(invalidoldpapers+"axzq"+".log", path+"\n", "UTF-8");
+			FileUtil.appendWrite(invalidoldpapers+"sywg"+".log", path+"\n", "UTF-8");
 		}
 		
 		/*
