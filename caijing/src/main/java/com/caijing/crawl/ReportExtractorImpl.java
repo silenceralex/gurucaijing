@@ -350,9 +350,60 @@ public class ReportExtractorImpl implements ReportExtractor {
 	}
 	
 	public Report extractFromTitleAndSaname(String path, String rid, String saname) {
-		//List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
+		Report report = new Report();
+		report.setRid(rid);
+		System.out.println("path:" + path);
 		
+		List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
+		if(titlePatterns!=null && saname.equalsIgnoreCase("∞≤–≈÷§»Ø")){
+			for (String pattern : titlePatterns) {
+				int i = 1;
+				Pattern titlePattern = Pattern.compile(pattern,	Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+				System.out.println("titlePattern:" + config.getValue(saname).get("titlePattern"));
+				Matcher m = titlePattern.matcher(path);
+				
+				if (i++==1 && m != null && m.find()) {
+					String sanam = m.group(1);
+					String stockname = m.group(2);
+					String title = m.group(3);
+					String stockcode = m.group(4);
+					String aname = m.group(5);
+					report.setSaname(sanam);
+					report.setStockcode(stockcode);
+					report.setStockname(stockname);
+					report.setType(1);
+					report.setTitle(title);
+					report.setAname(aname);
+					System.out.println("sanam:" + sanam);
+					System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+					System.out.println("type:" + 1);
+					System.out.println("title:" + title);
+					System.out.println("aname:" + aname);
+				} if (i++==2 && m != null && m.find()) {
+					String sanam = m.group(1);
+					String stockname = m.group(2);
+					String title = m.group(3);
+					String stockcode = m.group(4);
+					String aname = m.group(5);
+					report.setSaname(sanam);
+					report.setStockcode(stockcode);
+					report.setStockname(stockname);
+					report.setType(1);
+					report.setTitle(title);
+					report.setAname(aname);
+					System.out.println("sanam:" + sanam);
+					System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
+					System.out.println("type:" + 1);
+					System.out.println("title:" + title);
+					System.out.println("aname:" + aname);
+				} else {
+					System.out.println("No match:");
+					FileUtil.appendWrite(invalidoldpapers+"axzq"+".log", path+"\n", "UTF-8");
+				}
+			}
+		}
 		
+		/*
 		Pattern titlePattern = Pattern.compile((String) config.getValue(saname).get("titlePattern"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
@@ -677,7 +728,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("No match:");
 				FileUtil.appendWrite(invalidoldpapers+"zxjt"+".log", path+"\n", "UTF-8");
 			}				
-		}
+		}*/
 		return report;
 	}
 
