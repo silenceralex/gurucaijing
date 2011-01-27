@@ -354,15 +354,15 @@ public class ReportExtractorImpl implements ReportExtractor {
 		report.setRid(rid);
 		System.out.println("path:" + path);
 		int i = 0;
-		
+
 		List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
-		if(titlePatterns!=null && saname.equalsIgnoreCase("申银万国")){
+		if (titlePatterns != null && saname.equalsIgnoreCase("申银万国")) {
 			for (String pattern : titlePatterns) {
 				i++;
-				Pattern titlePattern = Pattern.compile(pattern,	Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+				Pattern titlePattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 				System.out.println("titlePattern:" + titlePattern);
 				Matcher m = titlePattern.matcher(path);
-				if (i==1 && m != null && m.find()) {
+				if (i == 1 && m != null && m.find()) {
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
 					String title = m.group(6);
@@ -381,7 +381,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					System.out.println("title:" + title);
 					System.out.println("aname:" + aname);
 					break;
-				} else if (i==2 && m != null && m.find()) {
+				} else if (i == 2 && m != null && m.find()) {
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
 					String title = m.group(5);
@@ -402,8 +402,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 					break;
 				}
 			}
-			System.out.println("No match:");
-			FileUtil.appendWrite(invalidoldpapers+"sywg"+".log", path+"\n", "UTF-8");
+			if (i == titlePatterns.size()) {
+				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers + "sywg" + ".log", path + "\n", "UTF-8");
+			}
 		}
 		
 		/*
