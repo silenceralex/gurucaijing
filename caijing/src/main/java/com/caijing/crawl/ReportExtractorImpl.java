@@ -380,6 +380,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					System.out.println("type:" + 1);
 					System.out.println("title:" + title);
 					System.out.println("aname:" + aname);
+					break;
 				} else if (i==2 && m != null && m.find()) {
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
@@ -398,6 +399,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					System.out.println("type:" + 1);
 					System.out.println("title:" + title);
 					System.out.println("aname:" + aname);
+					break;
 				}
 			}
 			System.out.println("No match:");
