@@ -548,8 +548,10 @@
 				<entry key="招商证券">
 					<map>
 						<entry key="titlePattern">
-							<!-- TODO 正文没抽出来，需观察-->
+							<list>
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/(招商证券)_?(公司研究)_?(.*?)[\(（_]([0-9]{6})[\)）_].*?[\-—－]+(.*?)[\(（].*?[\)）]_?(.*?)_?(20[0-9]{6})?\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/(招商证券)_?(公司研究)_?(.*?)[\(（_]([0-9]{6})[\)）_].*?[\-—－]+(.*?)_?(.*?)\.pdf]]></value>														
+							</list>						
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n(20\d{2})年(\d{1,2})月(\d{1,2})日\s+]]></value>
