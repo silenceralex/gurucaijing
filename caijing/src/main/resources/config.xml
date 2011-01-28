@@ -32,6 +32,9 @@
 							<entry key="name">
 								<value>tyj天赢居</value>
 							</entry>
+							<entry key="refer">
+								<value>tyj</value>
+							</entry>
 							<entry key="key">
 								<value>cb11cde12bf24f6290f6ecb4deb</value>
 							</entry>
@@ -44,6 +47,9 @@
 						<map>
 							<entry key="name">
 								<value>慧耕思</value>
+							</entry>
+							<entry key="refer">
+								<value>hgs</value>
 							</entry>
 							<entry key="key">
 								<value>72845c7b96eebda9c5e28d86e15</value>

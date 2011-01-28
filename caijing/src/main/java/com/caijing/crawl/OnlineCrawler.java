@@ -56,7 +56,7 @@ public class OnlineCrawler {
 	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static Pattern keyPattern = Pattern.compile("callGetInfoService\\('575','3929853','(.*?)','(.*?)'\\)",
+	private static Pattern keyPattern = Pattern.compile("callGetInfoService\\('\\d+','3929853','(.*?)','(.*?)'\\)",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	// TODO 获取直播时的解析内容   <div class="qzL2"> 09:38:19  今日的压力带依旧是在2740--2760之间</div>
@@ -106,6 +106,7 @@ public class OnlineCrawler {
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		post.setHeader("Accept-Encoding", "gzip,deflate");
 		post.setHeader("Content-type", "application/x-www-form-urlencoded");
+		post.setHeader("Referer", "http://online.g.cnfol.com/" + masterid + ",display");
 		post.setHeader("Cookie", COOKIE);
 		try {
 			post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
@@ -146,10 +147,10 @@ public class OnlineCrawler {
 		}
 	}
 
-	public void crawler(int masterid, int startnum, String dstr, String key) {
-		HttpGet get = new HttpGet("http://online.g.cnfol.com/" + masterid + ",display");
+	public void crawler(int masterid, int startnum, String dstr, String key, String refer) {
+		HttpGet get = new HttpGet("http://vip.g.cnfol.com/" + masterid + ",display");
 		// HttpGet get = new HttpGet(str3);
-		get.setHeader("Host", "online.g.cnfol.com");
+		//		get.setHeader("Host", "online.g.cnfol.com");
 		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
@@ -158,6 +159,7 @@ public class OnlineCrawler {
 		get.setHeader("User-Agent",
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
+		get.setHeader("Referer", "http://vip.g.cnfol.com/" + refer);
 		get.setHeader("Cookie", COOKIE);
 		try {
 			HttpResponse response = httpClient.execute(get);
@@ -165,7 +167,7 @@ public class OnlineCrawler {
 			// String content = EntityUtils.toString(response.getEntity(),
 			// "utf-8");
 			String content = EntityUtils.toString(gentity, "GB2312");
-			System.out.println("content:" + content);
+			//			System.out.println("content:" + content);
 			Matcher m = keyPattern.matcher(content);
 			if (m != null && m.find()) {
 				String curdstr = m.group(1);
@@ -174,6 +176,8 @@ public class OnlineCrawler {
 				if (!getZhibo(masterid, startnum, key, dstr)) {
 					getZhibo(masterid, startnum, curkey, curdstr);
 				}
+			} else {
+				System.out.println("No match:");
 			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -222,6 +226,6 @@ public class OnlineCrawler {
 		crawler.init();
 		MasterMessageDao masterMessageDao = (MasterMessageDao) ContextFactory.getBean("masterMessageDao");
 		crawler.setMasterMessageDao(masterMessageDao);
-		crawler.crawler(2074, 24, "a405932e67b937eb833b053754759193", "e00a8a446576385306505e14199");
+		crawler.crawler(2074, 0, "b8e60900bb925cb2b5eee0f928956ffa", "2eab9394eae2ef204c492a932ae", "hgs");
 	}
 }
