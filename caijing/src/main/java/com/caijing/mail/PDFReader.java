@@ -217,14 +217,14 @@ public class PDFReader {
 				break;
 			}
 //			http://51gurus.com/oldhtml/papers/200801-200903/6Q8N412F.pdf
-			if (line.contains("申银万国_")) {//1-3693
-				processOneFile(line, "申银万国");
-				count++;
-			}
-//			if (line.contains("招商证券")) {//3694-5077
-//				processOneFile(line, "招商证券");
+//			if (line.contains("申银万国_")) {//1-3693
+//				processOneFile(line, "申银万国");
 //				count++;
 //			}
+			if (line.contains("招商证券")) {//3694-5077
+				processOneFile(line, "招商证券");
+				count++;
+			}
 //			if (line.contains("国泰君安")) {//5078-8316
 //				processOneFile(line, "国泰君安");
 //				count++;
@@ -314,15 +314,15 @@ public class PDFReader {
 				ddir.mkdirs();
 			}
 			StringWriter sw = new StringWriter();
-			Command.run(commendStr, sw); //FIXME to remove comment
+			//Command.run(commendStr, sw); //FIXME to remove comment
 			logger.debug(sw.toString());
 
 			textFile = mvfile.replace(".pdf", ".txt");
 			System.out.println("Copy path:" + textFile);
-			readFdf(pdfPath, textFile); //FIXME to remove comment
+			//readFdf(pdfPath, textFile); //FIXME to remove comment
 			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
 			//FIXME to remove comment
-
+			/*
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
@@ -353,7 +353,7 @@ public class PDFReader {
 						}
 					}
 				}
-			}
+			}*/
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			e.printStackTrace();
