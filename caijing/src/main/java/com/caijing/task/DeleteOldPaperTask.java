@@ -17,6 +17,7 @@ import com.caijing.util.ContextFactory;
 public class DeleteOldPaperTask {
 
 	String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\"";
+	//String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\" and ptime>\"2011-01-28 9:30:00\"";
 	String deletereportsql = "delete from report where rid=?";
 	String deleterecommendstocksql = "delete from recommendstock where reportid=?";
 	String deleteoldhtml = "sh /data/shells/rm.sh";
@@ -29,8 +30,8 @@ public class DeleteOldPaperTask {
 			for (Map<String, String> row : rows) {
 				String rid = (String) row.get("rid");
 				System.out.print(rid);
-				System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
 				System.out.print(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
+				System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
 				StringWriter sw = new StringWriter();
 				Command.run(deleteoldhtml, sw);
 				System.out.println(" "+sw.toString());
