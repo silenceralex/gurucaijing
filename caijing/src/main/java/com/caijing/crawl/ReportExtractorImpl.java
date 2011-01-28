@@ -354,15 +354,16 @@ public class ReportExtractorImpl implements ReportExtractor {
 		report.setRid(rid);
 		System.out.println("path:" + path);
 		int i = 0;
-
 		List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
+		
 		if (titlePatterns != null && saname.equalsIgnoreCase("申银万国")) {
 			for (String pattern : titlePatterns) {
 				i++;
 				Pattern titlePattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-				System.out.println("titlePattern:" + titlePattern);
 				Matcher m = titlePattern.matcher(path);
 				if (i == 1 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
 					String title = m.group(6);
@@ -374,14 +375,10 @@ public class ReportExtractorImpl implements ReportExtractor {
 					report.setType(1); //m.group(2)
 					report.setTitle(title);
 					report.setAname(aname);
-					//TODO 将title抽取出来的字段写入一个日志文件，每个券商一个日志
-					System.out.println("sanam:" + sanam);
-					System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
-					System.out.println("type:" + 1);
-					System.out.println("title:" + title);
-					System.out.println("aname:" + aname);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
 					String sanam = m.group(1); //saname
 					String stockname = m.group(4);
 					String title = m.group(5);
@@ -393,16 +390,70 @@ public class ReportExtractorImpl implements ReportExtractor {
 					report.setType(1); //m.group(2)
 					report.setTitle(title);
 					report.setAname(aname);
-					//TODO 将title抽取出来的字段写入一个日志文件，每个券商一个日志
-					System.out.println("sanam:" + sanam);
-					System.out.println("stockname(code):" + stockname + "(" + stockcode + ")");
-					System.out.println("type:" + 1);
-					System.out.println("title:" + title);
-					System.out.println("aname:" + aname);
+					break;
+				} else if (i == 3 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = m.group(1); //saname
+					String stockname = null;
+					String title = null;
+					String stockcode = m.group(3);
+					String aname = null;
+					report.setSaname(sanam);
+					report.setStockcode(stockcode);
+					report.setStockname(stockname);
+					report.setType(1); //m.group(2)
+					report.setTitle(title);
+					report.setAname(aname);
 					break;
 				}
 			}
-			if (i == titlePatterns.size()) {
+			printReport(report);
+			if (i != -1) {
+				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers + "sywg" + ".log", path + "\n", "UTF-8");
+			}
+		}
+		
+		if (titlePatterns != null && saname.equalsIgnoreCase("安信证券")) {
+			for (String pattern : titlePatterns) {
+				i++;
+				Pattern titlePattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+				Matcher m = titlePattern.matcher(path);
+				if (i == 1 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = m.group(1);
+					String stockname = m.group(2);
+					String title = m.group(3);
+					String stockcode = m.group(4);
+					String aname = m.group(5);
+					report.setSaname(sanam);
+					report.setStockcode(stockcode);
+					report.setStockname(stockname);
+					report.setType(1);
+					report.setTitle(title);
+					report.setAname(aname);
+					break;
+				} else if (i == 2 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = m.group(1); //saname
+					String stockname = m.group(4);
+					String title = m.group(5);
+					String stockcode = m.group(3);
+					String aname = null;
+					report.setSaname(sanam);
+					report.setStockcode(stockcode);
+					report.setStockname(stockname);
+					report.setType(1); //m.group(2)
+					report.setTitle(title);
+					report.setAname(aname);
+					break;
+				}
+			}
+			printReport(report);
+			if (i != -1) {
 				System.out.println("No match:");
 				FileUtil.appendWrite(invalidoldpapers + "sywg" + ".log", path + "\n", "UTF-8");
 			}
@@ -737,6 +788,14 @@ public class ReportExtractorImpl implements ReportExtractor {
 		return report;
 	}
 
+	public void printReport(Report report){
+		System.out.println("sanam:" + report.getSaname());
+		System.out.println("stockname(code):" + report.getStockname() + "(" + report.getStockcode() + ")");
+		System.out.println("type:" + 1);
+		System.out.println("title:" + report.getTitle());
+		System.out.println("aname:" + report.getAname());
+	}
+	
 	public Report extractFromTitle(String file, String rid) {
 		String name = new File(file).getName();
 		name = name.substring(0, name.lastIndexOf('.'));
