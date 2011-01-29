@@ -233,14 +233,14 @@ public class PDFReader {
 //				processOneFile(line, "安信证券");
 //				count++;
 //			}
-			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
-				processOneFile(line, "广发证券");
-				count++;
-			}
-//			if (line.contains("国金证券")) {//8484-8879
-//				processOneFile(line, "国金证券");
+//			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
+//				processOneFile(line, "广发证券");
 //				count++;
 //			}
+			if (line.contains("国金证券")) {//8484-8879
+				processOneFile(line, "国金证券");
+				count++;
+			}
 //			if (line.contains("国信证券")) {//没有stockcode
 //				processOneFile(line, "国信证券");
 //				count++;
@@ -314,15 +314,15 @@ public class PDFReader {
 				ddir.mkdirs();
 			}
 			StringWriter sw = new StringWriter();
-			//Command.run(commendStr, sw); //FIXME to remove comment
+			Command.run(commendStr, sw); //FIXME to remove comment
 			logger.debug(sw.toString());
 
 			textFile = mvfile.replace(".pdf", ".txt");
 			System.out.println("Copy path:" + textFile);
-			//readFdf(pdfPath, textFile); //FIXME to remove comment
+			readFdf(pdfPath, textFile); //FIXME to remove comment
 			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
 			//FIXME to remove comment
-			/*
+			
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
@@ -353,7 +353,7 @@ public class PDFReader {
 						}
 					}
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			e.printStackTrace();
