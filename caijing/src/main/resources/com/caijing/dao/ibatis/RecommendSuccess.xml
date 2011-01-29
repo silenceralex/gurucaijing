@@ -61,7 +61,7 @@
 	</select>
 	
 	<select id="getRecommendsByAid" parameterClass="java.lang.String" resultClass="RecommendSuccess">
-		<![CDATA[select * from recommendsuccess where aid = #value# and isAchieved<2]]>
+		<![CDATA[select * from recommendsuccess where aid = #value# and isAchieved<2 order by recommenddate desc]]>
 	</select>
 	
 	<select id="getRecommendSuccessCountByAidDuring" parameterClass="java.util.Map" resultClass="java.lang.Integer">
