@@ -45,6 +45,7 @@ public class AnalyzerSuccessFlusher {
 		//		recommendSuccessDao.getRecommendSuccessCountByAidDuring(aid, startDate, endDate)
 		List<AnalyzerSuccess> anlyzers = analyzerSuccessDao.getAnalyzerRankByYear(year, 0, 40);
 		for (int current = 1; current <= 2; current++) {
+			List<AnalyzerSuccess> analyzerList = anlyzers.subList((current - 1) * 20, current * 20);
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/anayzerHistorySucRank.htm");
@@ -54,9 +55,9 @@ public class AnalyzerSuccessFlusher {
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("current", current);
 				vmf.put("page", 2);
-				vmf.put("analyzerList", anlyzers);
-				vmf.save(ADMINDIR + year + "/successrank_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + year + "/successrank_" + current + ".html");
+				vmf.put("analyzerList", analyzerList);
+				vmf.save(ADMINDIR + year + "/successhisrank_" + current + ".html");
+				System.out.println("write page : " + ADMINDIR + year + "/successhisrank_" + current + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
