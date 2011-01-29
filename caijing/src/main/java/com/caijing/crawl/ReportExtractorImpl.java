@@ -355,7 +355,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		System.out.println("path:" + path);
 		int i = 0;
 		List<String> titlePatterns = (List<String>) config.getValue(saname).get("titlePattern");
-		
+		//TODO 重复抽取的问题
 		if (titlePatterns != null && saname.equalsIgnoreCase("申银万国")) {
 			for (String pattern : titlePatterns) {
 				i++;
@@ -369,7 +369,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(6);
 					String stockcode = m.group(3);
 					String aname = m.group(5);
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i=-1;
@@ -379,7 +379,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(5);
 					String stockcode = m.group(3);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 3 && m != null && m.find()) {
 					i=-1;
@@ -389,7 +389,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = null;
 					String stockcode = m.group(3);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				}
 			}
@@ -412,7 +412,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(5);
 					String stockcode = m.group(4);
 					String aname = m.group(6);
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i=-1;
@@ -422,7 +422,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(5);
 					String stockcode = m.group(4);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				}
 			}
@@ -445,7 +445,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(5);
 					String stockcode = m.group(4);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i=-1;
@@ -455,7 +455,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = null;
 					String stockcode = null;
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				}
 			}
@@ -478,7 +478,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(3);
 					String stockcode = m.group(4);
 					String aname = m.group(5);
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i=-1;
@@ -488,7 +488,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(3);
 					String stockcode = null;
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				}
 			}
@@ -511,7 +511,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(2);
 					String stockcode = m.group(4);
 					String aname = m.group(6);
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i=-1;
@@ -521,7 +521,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(3);
 					String stockcode = m.group(2);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 3 && m != null && m.find()) {
 					i=-1;
@@ -531,7 +531,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = null;
 					String stockcode = null;
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				}
 			}
@@ -554,7 +554,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(3);
 					String stockcode = m.group(2);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i=-1;
@@ -564,7 +564,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(3);
 					String stockcode = m.group(4);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 3 && m != null && m.find()) {
 					i=-1;
@@ -574,7 +574,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(4);
 					String stockcode = m.group(3);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 4 && m != null && m.find()) {
 					i=-1;
@@ -584,7 +584,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 					String title = m.group(3);
 					String stockcode = m.group(2);
 					String aname = null;
-					setReport(sanam, stockname, stockcode, aname, title, 1);
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} 
 			}
@@ -592,7 +592,40 @@ public class ReportExtractorImpl implements ReportExtractor {
 				System.out.println("No match:");
 				FileUtil.appendWrite(invalidoldpapers + "gjzq" + ".log", path + "\n", "UTF-8");
 			}
-		}			
+		}
+		
+		if (titlePatterns != null && saname.equalsIgnoreCase("国信证券")) {
+			for (String pattern : titlePatterns) {
+				i++;
+				Pattern titlePattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+				Matcher m = titlePattern.matcher(path);
+				if (i == 1 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = m.group(1); //saname
+					String stockname = null; //no data
+					String title = m.group(2);
+					String stockcode = m.group(3);
+					String aname = null; //no data
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
+					break;
+				} else if (i == 2 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = saname; 
+					String stockname = null;
+					String title = m.group(3);
+					String stockcode = m.group(4);
+					String aname = null;
+					report = setReport(sanam, stockname, stockcode, aname, title, 1);
+					break;
+				}
+			}
+			if (i != -1) {
+				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers + "gxzq" + ".log", path + "\n", "UTF-8");
+			}
+		}
 		/*
 		Pattern titlePattern = Pattern.compile((String) config.getValue(saname).get("titlePattern"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
