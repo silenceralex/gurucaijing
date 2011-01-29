@@ -1,7 +1,9 @@
 package com.caijing.dao.ibatis;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.domain.RecommendSuccess;
@@ -35,6 +37,26 @@ public class RecommendSuccessDaoImpl extends CrudDaoDefault implements Recommend
 	public List<RecommendSuccess> getRecommendsByAid(String aid) {
 		return (List<RecommendSuccess>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getRecommendsByAid",
 				aid);
+	}
+
+	@Override
+	public int getRecommendSuccessCountByAidDuring(String aid, String startDate, String endDate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		params.put("aid", aid);
+		return (Integer) getSqlMapClientTemplate().queryForObject(
+				getNameSpace() + ".getRecommendSuccessCountByAidDuring", params);
+	}
+
+	@Override
+	public int getTotalRecommendCountByAidDuring(String aid, String startDate, String endDate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		params.put("aid", aid);
+		return (Integer) getSqlMapClientTemplate().queryForObject(
+				getNameSpace() + ".getTotalRecommendCountByAidDuring", params);
 	}
 
 }

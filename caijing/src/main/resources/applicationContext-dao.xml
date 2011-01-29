@@ -158,5 +158,15 @@
 			<value>Master</value>
 		</property>
 	</bean>
+	
+	<bean id="analyzerSuccessDao"
+		class="com.caijing.dao.ibatis.AnalyzerSuccessDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>AnalyzerSuccess</value>
+		</property>
+	</bean>
 	<context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>

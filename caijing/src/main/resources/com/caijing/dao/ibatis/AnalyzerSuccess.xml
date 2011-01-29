@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="AnalyzerSuccess">
+
+	<typeAlias alias="AnalyzerSuccess" type="com.caijing.domain.AnalyzerSuccess" />
+	
+	<select id="select" resultClass="AnalyzerSuccess">
+		select * from analyzersuccessyear where aid=#aid# and year=#year#
+	</select>
+
+	<insert id="insert"  parameterClass="AnalyzerSuccess">
+		insert into analyzersuccessyear
+		(aid,aname,saname,year,total,success,successratio)
+		values
+		(#aid#,#aname#,#saname#,#year#,#total#,#success#,#successratio#)
+	</insert>
+
+	<update id="update" parameterClass="AnalyzerSuccess">
+		update analyzersuccessyear
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="aname">
+				aname = #aname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="saname">
+				saname = #saname#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="total">
+				total = #total#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="success">
+				success = #success#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="successratio">
+				successratio = #successratio#
+			</isNotEmpty>
+		</dynamic>
+		where aid=#aid# and year=#year#
+	</update>
+
+	<delete id="delete" parameterClass="AnalyzerSuccess">
+		delete from analyzersuccessyear where aid=#aid# and year=#year#
+	</delete>
+
+	<select id="getAnalyzerRankByYear" resultClass="AnalyzerSuccess"  parameterClass="java.util.Map">
+		select * from analyzersuccessyear where year=#year# order by successratio desc limit #start#,#length#
+	</select>
+	
+	<select id="getAnalyzerRankBySanameYear" resultClass="AnalyzerSuccess"  parameterClass="java.util.Map">
+		select * from analyzersuccessyear where year=#year# and saname=#saname# order by successratio desc limit #start#,#length#
+	</select>
+		
+</sqlMap>

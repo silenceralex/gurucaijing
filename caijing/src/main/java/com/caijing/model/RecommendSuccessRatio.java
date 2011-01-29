@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
+import com.caijing.business.AnalyzerManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.AnalyzerSuccessDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.AnalyzerSuccess;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.StockEarn;
@@ -24,6 +27,16 @@ public class RecommendSuccessRatio {
 	private AnalyzerDao analyzerDao = null;
 	private StockEarnDao stockEarnDao = null;
 	private RecommendSuccessDao recommendSuccessDao = null;
+
+	private AnalyzerSuccessDao analyzerSuccessDao = null;
+
+	public AnalyzerSuccessDao getAnalyzerSuccessDao() {
+		return analyzerSuccessDao;
+	}
+
+	public void setAnalyzerSuccessDao(AnalyzerSuccessDao analyzerSuccessDao) {
+		this.analyzerSuccessDao = analyzerSuccessDao;
+	}
 
 	public AnalyzerDao getAnalyzerDao() {
 		return analyzerDao;
@@ -172,8 +185,8 @@ public class RecommendSuccessRatio {
 			}
 		}
 
-		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("申银万国");
+		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("申银万国");
 		for (Analyzer analyzer : analyzers) {
 			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
 			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
@@ -190,7 +203,29 @@ public class RecommendSuccessRatio {
 				analyzerDao.updateSuccessRatio(analyzer);
 			}
 		}
+	}
 
+	public void handleYearSuccess(String saname, String year) {
+		String startDate = year + "-01-01";
+		String endDate = year + "-12-31";
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(saname);
+		for (Analyzer analyzer : analyzers) {
+			int success = recommendSuccessDao
+					.getRecommendSuccessCountByAidDuring(analyzer.getAid(), startDate, endDate);
+			int total = recommendSuccessDao.getTotalRecommendCountByAidDuring(analyzer.getAid(), startDate, endDate);
+			AnalyzerSuccess asuccess = new AnalyzerSuccess();
+			asuccess.setAid(analyzer.getAid());
+			asuccess.setAname(analyzer.getName());
+			asuccess.setTotal(total);
+			asuccess.setSuccess(success);
+			asuccess.setYear(year);
+			float successratio = 0;
+			if (success != 0 && total != 0) {
+				successratio = ((float) success / total) * 100;
+			}
+			asuccess.setSuccessratio(successratio);
+			analyzerSuccessDao.insert(asuccess);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -213,8 +248,11 @@ public class RecommendSuccessRatio {
 		//		float f = ratio.getSuccessRatio("6NMO0U38");
 		//		System.out.println("analyzer:" + "杨建海" + "  Success recommend ratio:" + f + "%");
 
-		//		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
-		//		analyzerManager.handleHistoryRecommendBySA("申银万国");
+		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
+		analyzerManager.handleHistoryRecommendBySA("申银万国");
+		analyzerManager.handleHistoryRecommendBySA("招商证券");
+		analyzerManager.handleHistoryRecommendBySA("国泰君安");
+		analyzerManager.handleHistoryRecommendBySA("广发证券");
 		ratio.handleHistorySuccess();
 	}
 }

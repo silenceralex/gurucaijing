@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_分析师推荐成功率排行榜</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="wrapper">
+		#include("/template/inc/header.htm")<!--header end-->
+    <div class="mainBox">
+    		#include("/template/inc/colL.htm")
+        <div class="sec_list">
+        	<div class="sec_nav">
+            	<h2>
+                    <span class="sec_nav_date">$year </span>
+                    <a href="/">投资大师首页</a> &gt; 年度分析师推荐成功率
+                </h2>   
+            </div>
+						
+            <div id="star_detail_box" class="star_detail_box">
+				<div class="onsaleTable">
+            		<table cellpadding="0" cellspacing="0">
+            			<tr>
+            				<th class="rank_score">排名</th>
+            				<th>分析师名</th>
+            				<th>所属券商名</th>
+            				<th>所属行业</th>
+            				<th>推荐/成功数</th>
+            				<th>推荐成功率</th>
+            			</tr>
+            			#set ($count = $start + 1)
+						#if ($analyzerList)#foreach ($one in $analyzerList)
+						<tr>
+            			<td class="rank_score">
+            				#if ($count <= 3)
+							<div class="rank_top3">${count}</div>
+							#else
+							${count}
+							#end
+							</td>
+							<td>
+								<a href="http://51gurus.com/analyzer/success_${one.aid}.html" >$one.aname</a>
+							</td>
+							<td>
+								$one.saname
+							</td>
+							<td>
+								$one.industry
+							</td>
+							<td>
+								${one.total} / ${one.success}
+							</td>
+							<td>
+								<font color="red">$floatUtil.getTwoDecimalNumber(${one.successratio})%</font>
+							</td>
+						</tr>
+						#set ($count = $count + 1)
+						#end#end
+            		</table>
+            	</div>
+            	<div class="pageSet">
+		            	<table width="100%" border="0">
+		                  <tbody>
+				                  <tr>
+					                    <td width="28%">&nbsp;</td>
+					                    <td width="51%">
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./successhisrank_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./successhisrank_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./successhisrank_${next}.html">下一页</a>
+											<a href="./successhisrank_${page}.html">末一页</a>
+											#end
+					                    </td>
+					                    <td width="21%">
+					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+					                        到第<input class="toPage" type="text">页
+					                        <input class="toPageBtn" type="button" value="跳转">
+					                    </td>
+				                  </tr>
+		                	</tbody>
+		              </table>
+	            </div>
+               </div>
+        </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+    </div><!--mainBox end-->
+</div>
+</body>
+</html>

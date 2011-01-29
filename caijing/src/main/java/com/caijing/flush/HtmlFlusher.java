@@ -288,6 +288,16 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushHistorySuccessRank() {
+		DateTools dateTools = new DateTools();
+		FloatUtil floatUtil = new FloatUtil();
+//		recommendSuccessDao.getRecommendSuccessCountByAidDuring(aid, startDate, endDate)
+		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("∞≤–≈÷§»Ø");
+		for (int current = 1; current <= 2; current++) {
+
+		}
+	}
+
 	public void flushSuccessRank() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
@@ -976,7 +986,7 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
-		//		flusher.flushSuccessRank();
+		flusher.flushSuccessRank();
 		flusher.flushLiveStatic();
 		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
