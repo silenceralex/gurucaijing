@@ -238,8 +238,14 @@
 				<entry key="光大证券">
 					<map>
 						<entry key="titlePattern">
+							<list>
 							<!-- /data/oldpapers/200801-200903/光大：中集集团(000039)：主业稳.pdf -->
 								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/光大：(.*?)_?[\(（]?([0-9]{6})[\)）]?[:：_\-]?(.*?)\.pdf]]></value>
+<!--								光大：美的电器_高价收购小天鹅.pdf-->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/光大：(.*?)[:：_\-](.*?)\.pdf]]></value>
+<!--								光大：长航油运3季报点评.pdf-->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/光大：(.*?)((?:20|07|08|09|10|3|研究快报|三季报|上市|年报|调研|深度|新股|中报|配股|三月).*?)\.pdf]]></value>
+							</list>
 						</entry>						
 						<entry key="publishdate">
 							<value><![CDATA[(?:重要声明。)?\n\s*(20\d{2})-(\d{1,2})-(\d{1,2})\s*\n]]></value>
