@@ -61,7 +61,7 @@
 	<bean id="ibatisConfigClasspathResource"
 		class="org.springframework.core.io.ClassPathResource">
 		<constructor-arg>
-			<value>sql-map-config.xml</value>
+			<value>classpath:sql-map-config.xml</value>
 		</constructor-arg>
 	</bean>
 	<bean id="sqlMapClient"
