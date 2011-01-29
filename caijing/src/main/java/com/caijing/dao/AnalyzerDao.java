@@ -20,5 +20,7 @@ public interface AnalyzerDao extends CrudDao {
 
 	public List<Analyzer> getSuccessRankedAnalyzersByAgency(String agency);
 
+	public List<Analyzer> getSuccessRankedAnalyzers();
+
 	public List<Analyzer> getAnalyzersAfter(String date);
 }

@@ -86,6 +86,10 @@
 		select * from analyzer where agency = #value# order by successratio desc
 	</select>
 	
+	<select id="getSuccessRankedAnalyzers" resultClass="Analyzer">
+		select * from analyzer where successratio>0 order by successratio desc
+	</select>
+	
 	<select id="getAnalyzersAfter" resultClass="Analyzer">
 		select * from analyzer where ptime>#value#
 	</select>

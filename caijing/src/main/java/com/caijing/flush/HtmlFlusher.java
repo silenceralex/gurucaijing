@@ -291,16 +291,18 @@ public class HtmlFlusher {
 	public void flushSuccessRank() {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
-		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("安信证券");
-		for (int current = 1; current <= 2; current++) {
+		//		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("安信证券");
+		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzers();
+		System.out.println("rank size : " + analyzers.size());
+		for (Analyzer analyzer : analyzers) {
+			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
+			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
+			analyzer.setSuccess(success);
+			analyzer.setTotal(total);
+			flushOneSuccess(analyzer);
+		}
+		for (int current = 1; current <= 3; current++) {
 			List<Analyzer> analyzerList = analyzers.subList((current - 1) * 20, current * 20);
-			for (Analyzer analyzer : analyzers) {
-				int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
-				int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
-				analyzer.setSuccess(success);
-				analyzer.setTotal(total);
-				flushOneSuccess(analyzer);
-			}
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/anayzerSucRank.htm");
@@ -309,7 +311,7 @@ public class HtmlFlusher {
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(new Date()));
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("current", current);
-				vmf.put("page", 2);
+				vmf.put("page", 3);
 				vmf.put("analyzerList", analyzerList);
 				vmf.save(ADMINDIR + "successrank_" + current + ".html");
 				System.out.println("write page : " + ADMINDIR + "successrank_" + current + ".html");
@@ -977,8 +979,8 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
 		flusher.flushSuccessRank();
-		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//		flusher.flushLiveStatic();
+		//		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
