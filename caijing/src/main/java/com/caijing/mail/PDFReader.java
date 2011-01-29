@@ -314,15 +314,15 @@ public class PDFReader {
 				ddir.mkdirs();
 			}
 			StringWriter sw = new StringWriter();
-//			Command.run(commendStr, sw); //FIXME to remove comment
+			Command.run(commendStr, sw); //FIXME to remove comment
 			logger.debug(sw.toString());
 
 			textFile = mvfile.replace(".pdf", ".txt");
 			System.out.println("Copy path:" + textFile);
-//			readFdf(pdfPath, textFile); //FIXME to remove comment
+			readFdf(pdfPath, textFile); //FIXME to remove comment
 			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
 			//FIXME to remove comment
-			/*
+			
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
@@ -353,7 +353,7 @@ public class PDFReader {
 						}
 					}
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			e.printStackTrace();
