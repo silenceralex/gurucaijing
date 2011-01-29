@@ -600,24 +600,40 @@ public class ReportExtractorImpl implements ReportExtractor {
 				Pattern titlePattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 				Matcher m = titlePattern.matcher(path);
 				if (i == 1 && m != null && m.find()) {
-					i=-1;
 					System.out.println("titlePattern:" + titlePattern);
-					String sanam = m.group(1); //saname
+					String sanam = saname; //saname
 					String stockname = null; //no data
-					String title = m.group(2);
-					String stockcode = m.group(3);
+					String title = m.group(3);
+					String stockcode = m.group(2);
 					String aname = null; //no data
 					setReport(report, sanam, stockname, stockcode, aname, title, 1);
+					i=-1;
 					break;
 				} else if (i == 2 && m != null && m.find()) {
-					i=-1;
 					System.out.println("titlePattern:" + titlePattern);
-					String sanam = saname; 
-					String stockname = null;
+					String sanam = saname; //saname
+					String stockname = m.group(2); //no data
+					if(stockname.length()>4){
+						continue;
+					}
 					String title = m.group(3);
-					String stockcode = m.group(4);
-					String aname = null;
+					String stockcode = null;
+					String aname = null; //no data
 					setReport(report, sanam, stockname, stockcode, aname, title, 1);
+					i=-1;
+					break;
+				} else if (i == 3 && m != null && m.find()) {
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = saname; //saname
+					String stockname = m.group(2); //no data
+					if(stockname.length()>4){
+						continue;
+					}
+					String title = m.group(3);
+					String stockcode = null;
+					String aname = null; //no data
+					setReport(report, sanam, stockname, stockcode, aname, title, 1);
+					i=-1;
 					break;
 				}
 			}
