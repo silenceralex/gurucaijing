@@ -301,7 +301,13 @@
 				<entry key="长江证券">
 					<map>
 						<entry key="titlePattern">
-								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/长江：(.*?)[\(（]([0-9]{6})[\)）](.*?)\.pdf]]></value>
+						<list>
+<!--						长江：江中药业：2009年一季度经营情况分析.pdf-->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/长江：(.*?)[\(（]?([0-9]{6})[\)）]?(.*?)(?:\(1\))?\.pdf]]></value>
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/长江：(.*?)[:：_](.*?)\.pdf]]></value>
+<!--								长江：中国平安2008年3季报点评.pdf-->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/长江：(.*?)((?:20|07|08|09|10|三季报|上市|年报|调研|深度|新股|中报|配股|三月).*?)\.pdf]]></value>								
+						</list>
 						</entry>						
 						<entry key="publishdate">
 							<value><![CDATA[(20\d{2})-(\d{1,2})-(\d{1,2})]]></value>
