@@ -229,14 +229,14 @@ public class PDFReader {
 //				processOneFile(line, "国泰君安");
 //				count++;
 //			}
-			if (line.contains("安信证券")) {//5078-8316
-				processOneFile(line, "安信证券");
-				count++;
-			}
-//			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
-//				processOneFile(line, "广发证券");
+//			if (line.contains("安信证券")) {//5078-8316
+//				processOneFile(line, "安信证券");
 //				count++;
 //			}
+			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
+				processOneFile(line, "广发证券");
+				count++;
+			}
 //			if (line.contains("国金证券")) {//8484-8879
 //				processOneFile(line, "国金证券");
 //				count++;

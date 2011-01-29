@@ -498,6 +498,49 @@ public class ReportExtractorImpl implements ReportExtractor {
 			}
 		}		
 		
+		if (titlePatterns != null && saname.equalsIgnoreCase("�㷢֤ȯ")) {
+			for (String pattern : titlePatterns) {
+				i++;
+				Pattern titlePattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+				Matcher m = titlePattern.matcher(path);
+				if (i == 1 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = saname; 
+					String stockname = m.group(3);
+					String title = m.group(2);
+					String stockcode = m.group(4);
+					String aname = m.group(6);
+					setReport(sanam, stockname, stockcode, aname, title, 1);
+					break;
+				} else if (i == 2 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = saname; 
+					String stockname = m.group(1);
+					String title = m.group(3);
+					String stockcode = m.group(2);
+					String aname = null;
+					setReport(sanam, stockname, stockcode, aname, title, 1);
+					break;
+				} else if (i == 3 && m != null && m.find()) {
+					i=-1;
+					System.out.println("titlePattern:" + titlePattern);
+					String sanam = saname; 
+					String stockname = m.group(1);
+					String title = null;
+					String stockcode = null;
+					String aname = null;
+					setReport(sanam, stockname, stockcode, aname, title, 1);
+					break;
+				}
+			}
+			if (i != -1) {
+				System.out.println("No match:");
+				FileUtil.appendWrite(invalidoldpapers + "gfzq" + ".log", path + "\n", "UTF-8");
+			}
+		}		
+		
 		/*
 		Pattern titlePattern = Pattern.compile((String) config.getValue(saname).get("titlePattern"),
 				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);

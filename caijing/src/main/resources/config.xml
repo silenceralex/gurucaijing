@@ -589,9 +589,14 @@
 				<entry key="广发证券">
 					<map>
 						<entry key="titlePattern">
-						<!-- TODO -->
+							<list>
 							<!-- ./200904/★★★广发证券-公司年报-旅游业-中青旅(600138[1].sh)-持有-王鼎.pdf -->
 							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/★*(广发证券)\-(.*?)\-.*?\-(.*?)[\(（]([0-9]{6}).*?[\)）]\-?(.*?)\-(.*?).*\.pdf]]></value>
+<!--							广发：海马股份(000572)：产品更新乏力，成本压力更甚.pdf-->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/广发：(.*?)[\(（]?([0-9]{6})[\)）]?[:：_\-]?(.*?)\.pdf]]></value>
+								<!--广发：美的电器.pdf-->
+								<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/广发：(.{4})(?:[:：\(（].*?)?\.pdf]]></value>
+							</list>
 						</entry>
 						<entry key="publishdate">
 							<value><![CDATA[\n\s*(20\d{2})\s*年\s*(\d{2})\s*月\s*(\d{2})\s*日\s+]]></value>
