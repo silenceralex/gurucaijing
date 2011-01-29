@@ -485,8 +485,13 @@
 				<entry key="中金公司">
 					<map>
 						<entry key="titlePattern">
+							<list>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)[\(（]([0-9]{6})[\)）](.*?)\.pdf]]></value>
+							<!--							中金：090312简评—中国平安_09年2月保费收入.pdf-->
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：[0-9]{6}.*?[\-－—](.*?)_(.*?)\.pdf]]></value>							
 							<!-- /data/oldpapers/200904/中金：赛马实业mn090312审慎推荐_08年业绩符合预期.pdf -->
-							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)(?:mn)?[\(（]?([0-9]{6})[\)）]?(.*?)_?(.*?)\.pdf]]></value>
+							<value><![CDATA[/data/oldpapers/20[0-9\-]{4,11}/中金：(.*?)(?:mn)?[\(（]?[0-9]{4,6}[\)）]?(.*?)\.pdf]]></value>
+							</list>
 						</entry>					
 						<entry key="publishdate">
 							<value><![CDATA[(?:研究报告|。)?\n\s*(20\d{2})年\s*(\d{1,2})月\s*(\d{1,2})日\s]]></value>
