@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
-import com.caijing.business.AnalyzerManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.AnalyzerSuccessDao;
 import com.caijing.dao.GroupStockDao;
@@ -143,8 +142,14 @@ public class RecommendSuccessRatio {
 				for (StockEarn stockEarn : ses) {
 					gain = gain * (1 + stockEarn.getRatio() / 100);
 				}
-				float recommendprice = stockEarnDao.getFormerNearPriceByCodeDate(recommendsuccess.getStockcode(),
-						recommendsuccess.getRecommenddate()).getPrice();
+				StockEarn seNear = stockEarnDao.getFormerNearPriceByCodeDate(recommendsuccess.getStockcode(),
+						recommendsuccess.getRecommenddate());
+				if (seNear == null) {
+					System.out.println("###################### code:" + recommendsuccess.getStockcode() + " date:"
+							+ recommendsuccess.getRecommenddate());
+					continue;
+				}
+				float recommendprice = seNear.getPrice();
 				float judgeprice = recommendprice * gain;
 				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock:"
 						+ recommendsuccess.getStockname() + recommendsuccess.getRecommenddate() + "  recommendprice:"
@@ -234,11 +239,13 @@ public class RecommendSuccessRatio {
 		RecommendSuccessDao recommendSuccessDao = (RecommendSuccessDao) context.getBean("recommendSuccessDao");
 		StockEarnDao stockEarnDao = (StockEarnDao) context.getBean("stockEarnDao");
 		AnalyzerDao analyzerDao = (AnalyzerDao) context.getBean("analyzerDao");
+		AnalyzerSuccessDao analyzerSuccessDao = (AnalyzerSuccessDao) context.getBean("analyzerSuccessDao");
 		RecommendSuccessRatio ratio = new RecommendSuccessRatio();
 		ratio.setGroupStockDao(groupStockDao);
 		ratio.setStockEarnDao(stockEarnDao);
 		ratio.setRecommendSuccessDao(recommendSuccessDao);
 		ratio.setAnalyzerDao(analyzerDao);
+		ratio.setAnalyzerSuccessDao(analyzerSuccessDao);
 		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
 		//		for (Analyzer analyzer : analyzers) {
 		//			float f = ratio.getSuccessRatio(analyzer.getAid());
@@ -248,11 +255,13 @@ public class RecommendSuccessRatio {
 		//		float f = ratio.getSuccessRatio("6NMO0U38");
 		//		System.out.println("analyzer:" + "杨建海" + "  Success recommend ratio:" + f + "%");
 
-		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
-		analyzerManager.handleHistoryRecommendBySA("申银万国");
-		analyzerManager.handleHistoryRecommendBySA("招商证券");
-		analyzerManager.handleHistoryRecommendBySA("国泰君安");
-		analyzerManager.handleHistoryRecommendBySA("广发证券");
-		ratio.handleHistorySuccess();
+		//		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
+		//		analyzerManager.handleHistoryRecommendBySA("申银万国");
+		//		analyzerManager.handleHistoryRecommendBySA("招商证券");
+		//		analyzerManager.handleHistoryRecommendBySA("国泰君安");
+		//		analyzerManager.handleHistoryRecommendBySA("广发证券");
+
+		//		ratio.handleHistorySuccess();
+		ratio.handleYearSuccess("广发证券", "2009");
 	}
 }

@@ -8,6 +8,15 @@ public class AnalyzerSuccess {
 	private int total = 0;
 	private int success = 0;
 	private float successratio = 0;
+	private String industry = null;
+
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
 
 	public String getAid() {
 		return aid;

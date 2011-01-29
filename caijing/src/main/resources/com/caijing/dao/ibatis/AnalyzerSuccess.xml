@@ -42,11 +42,11 @@
 	</delete>
 
 	<select id="getAnalyzerRankByYear" resultClass="AnalyzerSuccess"  parameterClass="java.util.Map">
-		select * from analyzersuccessyear where year=#year# order by successratio desc limit #start#,#length#
+		select as.*,a.industry as industry from analyzersuccessyear as,and analyzer a where as.year=#year# and as.aid=a.aid order by as.successratio desc limit #start#,#length#
 	</select>
 	
 	<select id="getAnalyzerRankBySanameYear" resultClass="AnalyzerSuccess"  parameterClass="java.util.Map">
-		select * from analyzersuccessyear where year=#year# and saname=#saname# order by successratio desc limit #start#,#length#
+		select  as.*,a.industry as industry from analyzersuccessyear as,and analyzer a where as.year=#year# and as.saname=#saname# and as.aid=a.aid order by as.successratio desc limit #start#,#length#
 	</select>
 		
 </sqlMap>
