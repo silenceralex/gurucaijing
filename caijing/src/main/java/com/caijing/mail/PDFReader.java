@@ -221,26 +221,26 @@ public class PDFReader {
 				processOneFile(line, "申银万国");
 				count++;
 			}
-//			if (line.contains("招商证券")) {//3694-5077
-//				processOneFile(line, "招商证券");
-//				count++;
-//			}
-//			if (line.contains("国泰君安")) {//5078-8316
-//				processOneFile(line, "国泰君安");
-//				count++;
-//			}
-//			if (line.contains("安信证券")) {//5078-8316
-//				processOneFile(line, "安信证券");
-//				count++;
-//			}
-//			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
-//				processOneFile(line, "广发证券");
-//				count++;
-//			}
-//			if (line.contains("国金证券")) {//8484-8879
-//				processOneFile(line, "国金证券");
-//				count++;
-//			}
+			if (line.contains("招商证券")) {//3694-5077
+				processOneFile(line, "招商证券");
+				count++;
+			}
+			if (line.contains("国泰君安")) {//5078-8316
+				processOneFile(line, "国泰君安");
+				count++;
+			}
+			if (line.contains("安信证券")) {//5078-8316
+				processOneFile(line, "安信证券");
+				count++;
+			}
+			if (line.contains("广发：")||line.contains("广发证券")) {//TODO 需要两套规则 8317-8483
+				processOneFile(line, "广发证券");
+				count++;
+			}
+			if (line.contains("国金证券")) {//8484-8879
+				processOneFile(line, "国金证券");
+				count++;
+			}
 //			if (line.contains("国信证券")) {//没有stockcode
 //				processOneFile(line, "国信证券");
 //				count++;
