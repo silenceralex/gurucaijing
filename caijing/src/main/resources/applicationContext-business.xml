@@ -13,10 +13,16 @@
        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-	<bean id="userManager"
-		class="com.caijing.business.impl.UserManagerImpl">
-		<property name="userDao">
-			<ref bean="userDao" />
+	<bean id="reportManager"
+		class="com.caijing.business.impl.ReportManagerImpl">
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+		<property name="reportExtractor">
+			<ref bean="reportExtractor" />
+		</property>
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
 		</property>
 	</bean>
 

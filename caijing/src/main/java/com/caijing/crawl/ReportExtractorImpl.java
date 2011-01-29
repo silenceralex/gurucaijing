@@ -1295,4 +1295,22 @@ public class ReportExtractorImpl implements ReportExtractor {
 	public void setDao(StockDao dao) {
 		this.dao = dao;
 	}
+	
+	public float extractObjectpriceFromURL(String saname, String url) {
+		Pattern objectprice = Pattern.compile((String) config.getValue(saname).get("objectprice"),
+				Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+		String content = FileUtil.read(url, "GBK");
+		Matcher m = objectprice.matcher(content);
+		if (m != null && m.find()) {
+			System.out.println("objectprice:" + m.group(1));
+			String oprice = m.group(1).trim();
+			String[] strs = oprice.split("-");
+			if (strs.length > 1) {
+				oprice = strs[0];
+			}
+			return Float.parseFloat(oprice);
+		} else {
+			return 0;
+		}
+	}
 }

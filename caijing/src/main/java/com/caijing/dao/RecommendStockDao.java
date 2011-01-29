@@ -118,5 +118,11 @@ public interface RecommendStockDao extends CrudDao {
 	public List<String> getDistinctAnalyzersBySaname(String saname);
 
 	public List<RecommendStock> getObjectStocksByAnalyzer(Analyzer analyzer, int start, int offset);
+
 	//	public List<RecommendStock> getRecentMonthRecommendStockByStatus(String stockcode, int status, int start, int length);
+
+	/**
+	 * 更新目标价
+	 */
+	public void updateObjectPriceByReportid(String id, float objectprice);
 }

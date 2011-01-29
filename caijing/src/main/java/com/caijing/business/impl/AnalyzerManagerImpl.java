@@ -109,7 +109,10 @@ public class AnalyzerManagerImpl implements AnalyzerManager {
 		for (Analyzer analyzer : analyzers) {
 			List<RecommendStock> list = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 1000);
 			for (RecommendStock recommendstock : list) {
-				if (GradeUtil.judgeStaus(recommendstock.getGrade()) == 2) {
+				if (GradeUtil.judgeStaus(recommendstock.getGrade()) == 2 && recommendstock.getObjectprice() > 0) {
+					if (recommendstock.getCreatedate() == null) {
+						continue;
+					}
 					RecommendSuccess recommend = new RecommendSuccess();
 					recommend.setAid(analyzer.getAid());
 					recommend.setAname(analyzer.getName());

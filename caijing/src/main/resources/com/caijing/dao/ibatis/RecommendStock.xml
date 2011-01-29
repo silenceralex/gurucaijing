@@ -49,7 +49,7 @@
 
 	<select id="getRecommendStocksBySaname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.*, r.title as title from recommendstock as rs,report
+		select rs.*, r.title as title,r.filepath as filepath from recommendstock as rs,report
 		as r where rs.reportid=r.rid and rs.saname=#saname# order by
 		rs.createdate desc limit #start#,#offset#
 	</select>
@@ -279,4 +279,15 @@
 	<select id="getDistinctAnalyzersBySaname" resultClass="java.lang.String" parameterClass="java.lang.String">
 		select distinct(aname) from recommendstock where saname=#value#
 	</select>
+	
+	<update id="updateObjectPriceByReportid"
+		parameterClass="java.util.Map">
+		update recommendstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="objectprice">
+				objectprice = #objectprice#
+			</isNotEmpty>
+		</dynamic>
+		where recommendid= #recommendid#
+	</update>
 </sqlMap>
