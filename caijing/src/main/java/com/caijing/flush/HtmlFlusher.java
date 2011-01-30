@@ -973,8 +973,8 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
-		//		flusher.flushStarGuruDetail();
-		//		flusher.flushAnalyzerRank();
+		flusher.flushStarGuruDetail();
+		//				flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
