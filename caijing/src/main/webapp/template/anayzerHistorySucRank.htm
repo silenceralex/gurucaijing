@@ -21,9 +21,17 @@
             </div>
 					<div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
 						<h2 class="star_de_tabli_on">分析师推荐成功率</h2>
-						<span class="current"><a href="/analyzer/successrank_1.html">总排行榜</a></span>
-                        <span><a href="/analyzer/2010/successrank_1.html">2010年度排行榜</a></span>
+						<span><a href="/analyzer/successrank_1.html">总排行榜</a></span>
+						#if($year==2010)
+                        	<span class="current"><a href="/analyzer/2010/successrank_1.html">2010年度排行榜</a></span>
+                        #else
+                         <span><a href="/analyzer/2010/successrank_1.html">2010年度排行榜</a></span>
+                        #end
+                        #if($year==2009)
+						<span class="current"><a href="/analyzer/2009/successrank_1.html">2009年度排行榜</a></span>
+						#else
 						<span><a href="/analyzer/2009/successrank_1.html">2009年度排行榜</a></span>
+						#end
 						<em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
                     </div>			
             <div id="star_detail_box" class="star_detail_box">
