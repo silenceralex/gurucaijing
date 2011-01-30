@@ -334,14 +334,15 @@ public class HtmlFlusher {
 		}
 		try {
 			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/anayzerSuc.htm");
+			vmf.setTemplate("/template/starsuc.htm");
 			vmf.put("dateTools", new DateTools());
 			vmf.put("floatUtil", floatUtil);
+			vmf.put("analyzer", analyzer);
 			vmf.put("aname", analyzer.getName());
 			vmf.put("ratio", ratio);
 			vmf.put("recommends", recommends);
-			vmf.save(ADMINDIR + "success_" + analyzer.getAid() + ".html");
-			System.out.println("write page : " + ADMINDIR + "success_" + analyzer.getAid() + ".html");
+			vmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
+			System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
 			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
