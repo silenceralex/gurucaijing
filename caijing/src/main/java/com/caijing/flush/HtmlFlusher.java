@@ -295,6 +295,10 @@ public class HtmlFlusher {
 		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzers();
 		System.out.println("rank size : " + analyzers.size());
 		for (Analyzer analyzer : analyzers) {
+			if (analyzer.getAid() == null) {
+				System.out.println("analyzer.getAid() is null! ");
+				continue;
+			}
 			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
 			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
 			analyzer.setSuccess(success);
@@ -325,14 +329,16 @@ public class HtmlFlusher {
 
 	public void flushOneSuccess(Analyzer analyzer) {
 		FloatUtil floatUtil = new FloatUtil();
+
 		String ratio = "" + floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
-		List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
-		for (RecommendSuccess recommend : recommends) {
-			Report report = (Report) reportDao.select(recommend.getReportid());
-			String url = PREFIX + report.getFilepath();
-			recommend.setReporturl(url);
-		}
 		try {
+			List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+			for (RecommendSuccess recommend : recommends) {
+				Report report = (Report) reportDao.select(recommend.getReportid());
+				String url = PREFIX + report.getFilepath();
+				recommend.setReporturl(url);
+			}
+
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/starsuc.htm");
 			vmf.put("dateTools", new DateTools());
