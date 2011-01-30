@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
+import com.caijing.business.AnalyzerManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.AnalyzerSuccessDao;
 import com.caijing.dao.GroupStockDao;
@@ -190,8 +191,8 @@ public class RecommendSuccessRatio {
 			}
 		}
 
-		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
-		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("申银万国");
+		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("申银万国");
 		for (Analyzer analyzer : analyzers) {
 			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
 			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
@@ -255,13 +256,13 @@ public class RecommendSuccessRatio {
 		//		float f = ratio.getSuccessRatio("6NMO0U38");
 		//		System.out.println("analyzer:" + "杨建海" + "  Success recommend ratio:" + f + "%");
 
-		//		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
-		//		analyzerManager.handleHistoryRecommendBySA("申银万国");
+		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
+		analyzerManager.handleHistoryRecommendBySA("申银万国");
 		//		analyzerManager.handleHistoryRecommendBySA("招商证券");
 		//		analyzerManager.handleHistoryRecommendBySA("国泰君安");
 		//		analyzerManager.handleHistoryRecommendBySA("广发证券");
 
-		//		ratio.handleHistorySuccess();
-		ratio.handleYearSuccess("广发证券", "2009");
+		ratio.handleHistorySuccess();
+		//		ratio.handleYearSuccess("招商证券", "2009");
 	}
 }
