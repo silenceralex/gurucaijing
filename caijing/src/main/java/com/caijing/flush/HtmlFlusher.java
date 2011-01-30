@@ -332,8 +332,10 @@ public class HtmlFlusher {
 
 		String ratio = "" + floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
 		try {
+			System.out.println("write page : " + analyzer.getAid());
 			List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
 			for (RecommendSuccess recommend : recommends) {
+				System.out.println("write page : " + recommend.getReportid());
 				Report report = (Report) reportDao.select(recommend.getReportid());
 				String url = PREFIX + report.getFilepath();
 				recommend.setReporturl(url);
@@ -344,6 +346,7 @@ public class HtmlFlusher {
 			vmf.put("dateTools", new DateTools());
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("analyzer", analyzer);
+			vmf.put("currdate", new Date());
 			vmf.put("aname", analyzer.getName());
 			vmf.put("ratio", ratio);
 			vmf.put("recommends", recommends);
