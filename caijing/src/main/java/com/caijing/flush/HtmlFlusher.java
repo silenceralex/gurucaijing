@@ -313,6 +313,7 @@ public class HtmlFlusher {
 				vmf.put("dateTools", dateTools);
 				vmf.put("floatUtil", floatUtil);
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(new Date()));
+				vmf.put("currdate", new Date());
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("current", current);
 				vmf.put("page", 3);

@@ -1,5 +1,6 @@
 package com.caijing.flush;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class AnalyzerSuccessFlusher {
 				vmf.put("year", year);
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("current", current);
+				vmf.put("currdate", new Date());
 				vmf.put("page", 2);
 				vmf.put("analyzerList", analyzerList);
 				vmf.save(ADMINDIR + year + "/successhisrank_" + current + ".html");
