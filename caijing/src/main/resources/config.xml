@@ -478,7 +478,7 @@
 							</list>
 						</entry>
 						<entry key="objectprice">
-							<value><![CDATA[目标价格：\s+([0-9.]+)\n]]></value>
+							<value><![CDATA[目标价格：\s*￥?\s*([0-9.]+)\n]]></value>
 						</entry>
 						<entry key="analyzer">
 							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n\s*0(?:21|755|10|20)]]></value>
