@@ -101,7 +101,12 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						}
 
 						gs.setInprice(inprice);
-						groupStockDao.insert(gs);
+						try {
+							groupStockDao.insert(gs);
+						} catch (Exception e) {
+							e.printStackTrace();
+							continue;
+						}
 						List<StockEarn> stockEarns = stockEarnDao.getRatiosByCodeFromDate(rs.getStockcode(),
 								rs.getCreatedate());
 						float gain = 1;

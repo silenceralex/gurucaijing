@@ -24,6 +24,7 @@
             	<li id="starTab1"><a href="${analyzer.getAid()}_intro.html">简介</a></li>
             	<li class="star_de_tabli_on" id="starTab2"><a href="#">股票组合</a></li>
             	<li id="starTab3"><a href="${analyzer.getAid()}_report.html">研究报告</a></li>
+            	<li id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
 						</ol>
 						<div class="star_jump">
 							<label>跳转到另一个大师</label>
@@ -39,6 +40,7 @@
 			            		<table cellpadding="0" cellspacing="0">
 			            			<tr>
 			            				<th>公司</th>
+			            				<th>推荐日期</th>
 			            				<th>推荐价</th>
 			            				<th>目标价</th>
 			            				<th>当前价</th>
@@ -54,6 +56,7 @@
 									<tr class="star_detail_tb_even" onmouseover="showAnaly($count,'rec$count','${one.getStockname()}(${one.getStockcode()})','大盘涨跌幅度')">
 									#end
 									<td>${one.getStockname()}(${one.getStockcode()})</td>
+									<td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})</td>
 			            			<td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
 			            			#if ($one.getObjectprice() != 0)
 			            			<td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
