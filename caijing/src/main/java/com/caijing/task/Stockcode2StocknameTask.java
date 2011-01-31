@@ -42,31 +42,25 @@ public class Stockcode2StocknameTask {
 						String title = report.get("title");
 						System.out.println(rid+" "+code + " " + name);
 						
-						if(stockcode.equalsIgnoreCase(code)){
-							if(stockname.equalsIgnoreCase(name)){
-								//都相同
-								continue;
-							}else{
-								//stockcode相同，stockname不同
-								System.out.println("update " + rid);
-								//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
-							}
-						} else{
-							if(!stockname.equalsIgnoreCase(name)){
-								//stockcode和stockname都不相同或都为null或都为空
-								
-								if((title==null||title.trim().length()==0)&&(name==null||name.trim().length()==0)&&(code==null||code.trim().length()==0)){
-									System.out.print("delete " + rid);
-									//System.out.print(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
-									//System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
-									System.out.println();
-								}
-								continue;
-							}else{
-								//stockcode不同，stockname相同
-								System.out.println("update " + rid);
-								//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
-							}
+//						boolean iscode = (code==null||code.trim().length()==0);
+//						boolean isname = (name==null||name.trim().length()==0);
+//						
+//						if(iscode||isname){
+//							
+//						}
+						
+						if((code==null||code.trim().length()==0)&&(name!=null&&name.trim().length()!=0)){
+							//stockcode为null，stockname不为null
+							System.out.println("update " + rid);
+							//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
+						} else if((code!=null&&code.trim().length()!=0)&&(name==null||name.trim().length()==0)){
+							//stockcode不为null，stockname为null
+							System.out.println("update " + rid);
+							//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
+						} else if(title==null||title.trim().length()==0){
+							System.out.print("delete " + rid);
+							//System.out.print(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
+							//System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
 						}
 					}
 				}
