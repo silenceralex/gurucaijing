@@ -15,7 +15,7 @@ import com.caijing.util.ContextFactory;
 public class Stockcode2StocknameTask {
 
 	String querystocksql = "select stockcode,stockname from stock";
-	String queryreportsql = "select rid,stockcode,stockname,title from report where filepath like \"/home/oldhtml/papers/%\" limit 1";
+	String queryreportsql = "select rid,stockcode,stockname,title from report where filepath like \"/home/oldhtml/papers/%\" limit 10";
 	String updatereportsql = "update report set stockcode=?,stockname=? where rid=?";
 	
 	String deletereportsql = "delete from report where rid=?";
@@ -48,22 +48,24 @@ public class Stockcode2StocknameTask {
 								continue;
 							}else{
 								//stockcode相同，stockname不同
-								System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
+								System.out.println("update " + rid);
+								//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
 							}
 						} else{
 							if(!stockname.equalsIgnoreCase(name)){
 								//stockcode和stockname都不相同或都为null或都为空
 								
-								if(title==null||title.trim().length()==0){
+								if((title==null||title.trim().length()==0)&&(name==null||name.trim().length()==0)&&(code==null||code.trim().length()==0)){
 									System.out.print("delete " + rid);
-									System.out.print(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
-									System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
+									//System.out.print(" " + jdbcTemplate.update(deleterecommendstocksql, new Object[] { rid }));
+									//System.out.print(" " + jdbcTemplate.update(deletereportsql, new Object[] { rid }));
 									System.out.println();
 								}
 								continue;
 							}else{
 								//stockcode不同，stockname相同
-								System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
+								System.out.println("update " + rid);
+								//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
 							}
 						}
 					}
