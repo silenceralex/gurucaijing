@@ -106,6 +106,8 @@ public class CrawlNotice {
 
 		trie.add("增持", 2);
 		trie.add("减持", 3);
+		trie.add("预增", 4);
+		trie.add("预减", 5);
 		trie.add("资产注入", 1);
 		trie.add("资产重组", 1);
 		trie.add("并购", 1);

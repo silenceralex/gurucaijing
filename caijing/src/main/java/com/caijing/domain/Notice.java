@@ -9,7 +9,7 @@ public class Notice {
 	String stockname = null;
 	String content = null;
 	Date date = null;
-	//0为激励，1为资产重组类（收购，注入，并购），2增持，3减持
+	//0为激励，1为资产重组类（收购，注入，并购），2增持，3减持,4 业绩预增,5业绩预减
 	int type = 0;
 	String url = null;
 
