@@ -93,8 +93,7 @@ a{text-decoration:none}
 .colMR_date{float:left; color:#CCC}
 .moreBtn2{float:right; width:49px; height:10px; background:url(/img/sprite1.png) no-repeat left -98px}
 .links{clear:both; border:#CCC solid 1px}
-.links_title{float:left; width:41px; height:72px; background:url(/img/links_tit.jpg) no-repeat}
-.links_title{text-indent:-200px}
+.links_title{float:left; width:41px; height:72px; background:url(/img/links_tit.jpg) no-repeat;text-indent:-200px;overflow:hidden;}
 .links ul li{float:left; margin-left:7px; padding-top:14px}
 .links ul li a img{width:109px; height:43px; border:#CCC solid 1px}
 .footer{clear:both; width:993px; margin:0 auto}
