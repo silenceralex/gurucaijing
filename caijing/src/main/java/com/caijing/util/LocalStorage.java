@@ -75,12 +75,12 @@ public class LocalStorage {
 		htmlFlush.flushStarGuruDetail();
 		htmlFlush.flushAnalyzerRank();
 		htmlFlush.flushReportLab();
-		htmlFlush.flushStarOnSale(true);
-		htmlFlush.flushStarOnSale(false);
 		htmlFlush.flushStockResearch();
 		htmlFlush.flushStockAgency();
 		htmlFlush.flushLiveStatic();
 		htmlFlush.flushMasterInfo();
+		htmlFlush.flushStarOnSale(true);
+		htmlFlush.flushStarOnSale(false);
 	}
 
 	private void storeAnaylzerGain(Analyzer analyzer, Date date) {

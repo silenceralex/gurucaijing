@@ -494,6 +494,7 @@ public class HtmlFlusher {
 
 				Date startDate = null;
 				try {
+					//防止历史研报的影响
 					startDate = groupStockDao.getEarliestIntimeByAidFrom(stock.getGroupid(),
 							DateTools.parseYYYYMMDDDate("2010-01-01"));
 				} catch (ParseException e) {
@@ -990,8 +991,8 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
 		flusher.flushSuccessRank();
-		//		flusher.flushLiveStatic();
-		//		flusher.flushMasterInfo();
+		flusher.flushLiveStatic();
+		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
