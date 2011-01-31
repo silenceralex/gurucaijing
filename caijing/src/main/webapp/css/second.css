@@ -95,7 +95,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .rank_name{width:140px;text-align:left;}
 .research-time {float:right;height:38px;line-height:38px;color:#999;}
 .notice_list ul{width: 100%;margin: 10px 0px;border-bottom: 1px dotted #CCC;}
-.notice_list ul li{padding-top: 5px;border:none;background:url(../img/sprite1.png) no-repeat left -260px;}
+.notice_list ul li{padding-top: 5px;padding-left:20px;border:none;background:url(../img/sprite1.png) no-repeat left -260px;}
 .notice_list_date{float:right;}
 .sec_nav_date{float:right;}
 
