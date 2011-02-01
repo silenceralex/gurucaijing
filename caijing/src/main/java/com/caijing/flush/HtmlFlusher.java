@@ -134,96 +134,99 @@ public class HtmlFlusher {
 		this.config = config;
 	}
 
+	public void flushOneGuruDetail(Analyzer analyzer, List<Analyzer> analyzerList) {
+		DateTools dateTools = new DateTools();
+		FloatUtil floatUtil = new FloatUtil();
+		try {
+			//生成分析师intro页面
+			String aid = analyzer.getAid();
+			Date startDate = null;
+			try {
+				startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate("2010-01-01"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
+			float startprice = stockEarnDao
+					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+					DateTools.transformYYYYMMDDDate(startDate));
+
+			VMFactory introvmf = new VMFactory();
+			introvmf.setTemplate("/template/starintro.htm");
+			introvmf.put("floatUtil", floatUtil);
+			introvmf.put("dateTools", dateTools);
+			introvmf.put("analyzer", analyzer);
+			introvmf.put("analyzerList", analyzerList);
+			introvmf.put("weightList", weightList);
+			introvmf.put("startprice", startprice);
+			introvmf.put("priceList", priceList);
+			introvmf.save(ADMINDIR + "static/" + aid + "_intro.html");
+			System.out.println("write page : " + ADMINDIR + aid + "_intro.html");
+
+			//生成分析师stock页面
+			//					RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory
+			//							.getBean("recommendStockDao");
+			List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
+			Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+			for (GroupStock stock : stockDetailList) {
+				List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+						DateTools.transformYYYYMMDDDate(stock.getIntime()));
+				List<String> filePathList = recommendStockDao.getFilePathByAid(aid, stock.getStockcode(), 3);
+				stock.setFilePathList(filePathList);
+				for (int i = 0; i < stockEarnList.size(); i++) {
+					StockEarn stockEarn = stockEarnList.get(i);
+					float currratio = 0;
+					if (i == 0) {
+						currratio = stockEarn.getRatio() / 100;
+					} else {
+						currratio = (1 + stockEarnList.get(i - 1).getCurrratio()) * (1 + stockEarn.getRatio() / 100)
+								- 1;
+					}
+					stockEarn.setCurrratio(currratio);
+				}
+				stockDetailMap.put(stock.getStockcode(), stockEarnList);
+			}
+
+			VMFactory stockvmf = new VMFactory();
+			stockvmf.setTemplate("/template/starstock.htm");
+			stockvmf.put("floatUtil", floatUtil);
+			stockvmf.put("dateTools", dateTools);
+			stockvmf.put("analyzer", analyzer);
+			stockvmf.put("analyzerList", analyzerList);
+			stockvmf.put("stockDetailList", stockDetailList);
+			stockvmf.put("startprice", startprice);
+			stockvmf.put("priceList", priceList);
+			stockvmf.put("stockDetailMap", stockDetailMap);
+			stockvmf.save(ADMINDIR + "static/" + aid + "_stock.html");
+			System.out.println("write page : " + ADMINDIR + aid + "_stock.html");
+
+			//生成分析师report页面
+			List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 15);
+
+			VMFactory reportvmf = new VMFactory();
+			reportvmf.setTemplate("/template/starreport.htm");
+			reportvmf.put("floatUtil", floatUtil);
+			reportvmf.put("dateTools", dateTools);
+			reportvmf.put("analyzer", analyzer);
+			reportvmf.put("analyzerList", analyzerList);
+			reportvmf.put("stockList", stockList);
+			reportvmf.save(ADMINDIR + "static/" + aid + "_report.html");
+			System.out.println("write page : " + ADMINDIR + aid + "_report.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !! ：" + analyzer.getAid() + "  name : " + analyzer.getName());
+			System.out.println("While generating stars stock html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
 	public void flushStarGuruDetail() {
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		if (analyzerList != null && analyzerList.size() > 0) {
-			DateTools dateTools = new DateTools();
-			FloatUtil floatUtil = new FloatUtil();
 			for (Analyzer analyzer : analyzerList) {
-				try {
-					//生成分析师intro页面
-					String aid = analyzer.getAid();
-					Date startDate = null;
-					try {
-						startDate = groupStockDao.getEarliestIntimeByAidFrom(aid,
-								DateTools.parseYYYYMMDDDate("2010-01-01"));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
-					float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
-							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-					List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
-							DateTools.transformYYYYMMDDDate(startDate));
-
-					VMFactory introvmf = new VMFactory();
-					introvmf.setTemplate("/template/starintro.htm");
-					introvmf.put("floatUtil", floatUtil);
-					introvmf.put("dateTools", dateTools);
-					introvmf.put("analyzer", analyzer);
-					introvmf.put("analyzerList", analyzerList);
-					introvmf.put("weightList", weightList);
-					introvmf.put("startprice", startprice);
-					introvmf.put("priceList", priceList);
-					introvmf.save(ADMINDIR + "static/" + aid + "_intro.html");
-					System.out.println("write page : " + ADMINDIR + aid + "_intro.html");
-
-					//生成分析师stock页面
-					//					RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory
-					//							.getBean("recommendStockDao");
-					List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(aid);
-					Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
-					for (GroupStock stock : stockDetailList) {
-						List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
-								DateTools.transformYYYYMMDDDate(stock.getIntime()));
-						List<String> filePathList = recommendStockDao.getFilePathByAid(aid, stock.getStockcode(), 3);
-						stock.setFilePathList(filePathList);
-						for (int i = 0; i < stockEarnList.size(); i++) {
-							StockEarn stockEarn = stockEarnList.get(i);
-							float currratio = 0;
-							if (i == 0) {
-								currratio = stockEarn.getRatio() / 100;
-							} else {
-								currratio = (1 + stockEarnList.get(i - 1).getCurrratio())
-										* (1 + stockEarn.getRatio() / 100) - 1;
-							}
-							stockEarn.setCurrratio(currratio);
-						}
-						stockDetailMap.put(stock.getStockcode(), stockEarnList);
-					}
-
-					VMFactory stockvmf = new VMFactory();
-					stockvmf.setTemplate("/template/starstock.htm");
-					stockvmf.put("floatUtil", floatUtil);
-					stockvmf.put("dateTools", dateTools);
-					stockvmf.put("analyzer", analyzer);
-					stockvmf.put("analyzerList", analyzerList);
-					stockvmf.put("stockDetailList", stockDetailList);
-					stockvmf.put("startprice", startprice);
-					stockvmf.put("priceList", priceList);
-					stockvmf.put("stockDetailMap", stockDetailMap);
-					stockvmf.save(ADMINDIR + "static/" + aid + "_stock.html");
-					System.out.println("write page : " + ADMINDIR + aid + "_stock.html");
-
-					//生成分析师report页面
-					List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(),
-							0, 15);
-
-					VMFactory reportvmf = new VMFactory();
-					reportvmf.setTemplate("/template/starreport.htm");
-					reportvmf.put("floatUtil", floatUtil);
-					reportvmf.put("dateTools", dateTools);
-					reportvmf.put("analyzer", analyzer);
-					reportvmf.put("analyzerList", analyzerList);
-					reportvmf.put("stockList", stockList);
-					reportvmf.save(ADMINDIR + "static/" + aid + "_report.html");
-					System.out.println("write page : " + ADMINDIR + aid + "_report.html");
-				} catch (Exception e) {
-					System.out.println("===> exception !! ：" + analyzer.getAid() + "  name : " + analyzer.getName());
-					System.out.println("While generating stars stock html --> GET ERROR MESSAGE: " + e.getMessage());
-					e.printStackTrace();
-				}
+				flushOneGuruDetail(analyzer, analyzerList);
 			}
 		}
 	}
@@ -974,7 +977,13 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
-		flusher.flushStarGuruDetail();
+		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		List<Analyzer> unstarAnalyzers = analyzerDao.getUnStarAnalyzers();
+		for (Analyzer analyzer : unstarAnalyzers) {
+			flusher.flushOneGuruDetail(analyzer, analyzerList);
+		}
+		//		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
@@ -990,9 +999,9 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
-		flusher.flushSuccessRank();
-		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//		flusher.flushSuccessRank();
+		//		flusher.flushLiveStatic();
+		//		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);

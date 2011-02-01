@@ -15,6 +15,11 @@
 	<select id="getStarAnalyzers" resultClass="Analyzer">
 		select * from analyzer where status=0 and level>1
 	</select>
+	
+	<select id="getUnStarAnalyzers" resultClass="Analyzer">
+		select * from analyzer where status=0 and level=1
+	</select>
+	
 	<select id="select" resultClass="Analyzer">
 		select * from analyzer where aid=#value#
 	</select>

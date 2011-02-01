@@ -23,4 +23,7 @@ public interface AnalyzerDao extends CrudDao {
 	public List<Analyzer> getSuccessRankedAnalyzers();
 
 	public List<Analyzer> getAnalyzersAfter(String date);
+
+	//获取非明星分析师，level=0
+	public List<Analyzer> getUnStarAnalyzers();
 }
