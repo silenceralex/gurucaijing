@@ -17,7 +17,7 @@
 	</select>
 	
 	<select id="getUnStarAnalyzers" resultClass="Analyzer">
-		select * from analyzer where status=0 and level=1
+		select * from analyzer where status=0 and level=0
 	</select>
 	
 	<select id="select" resultClass="Analyzer">

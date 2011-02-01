@@ -979,8 +979,11 @@ public class HtmlFlusher {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
 		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		System.out.println("star analyzerList size:" + analyzerList.size());
 		List<Analyzer> unstarAnalyzers = analyzerDao.getUnStarAnalyzers();
+		System.out.println("unstarAnalyzers size:" + unstarAnalyzers);
 		for (Analyzer analyzer : unstarAnalyzers) {
+			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		}
 		//		flusher.flushStarGuruDetail();
