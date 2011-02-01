@@ -147,6 +147,10 @@ public class HtmlFlusher {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			if (startDate == null) {
+				System.out.println("analyzer  : " + analyzer.getName() + "  " + aid + " is null");
+				return;
+			}
 			List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
 			float startprice = stockEarnDao
 					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
