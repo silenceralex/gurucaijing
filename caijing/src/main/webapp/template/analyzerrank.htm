@@ -3,11 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <title>投资大师——分析师组合排行榜</title>
-<link href="/css/main.css" rel="stylesheet" type="text/css" />
-<link href="/css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="/js/raphael.js"></script>
-<script language="javascript" type="text/javascript" src="/js/analytics.js"></script>
+#include("/template/inc/cssjs.htm")<!--cssjs end-->
 <script language="javascript" type="text/javascript">
 function switchTab(id){
 	for(i=1;i<=3;i++){
@@ -16,13 +12,6 @@ function switchTab(id){
 		}
 	$("#starTb"+id).show();
 	$("#starTab"+id).attr("class","star_de_tabli_on");
-	}
-function showAnaly(num,id,name1,name2){
-	var leftCount = ($(document).width()-$(".wrapper:eq(0)").width())/2 + 200;
-	init("star_detail_preview",550,200,id,name1,name2,1);
-	$("#star_detail_preview").show();
-	$("#star_detail_preview").css("top" , num+"px");
-	$("#star_detail_preview").css("left" , (leftCount+210)+"px");
 	}
 </script>
 </head>
