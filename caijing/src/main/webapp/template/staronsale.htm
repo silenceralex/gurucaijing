@@ -3,21 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <title>投资大师_折价股票精选</title>
-<link href="/css/main.css" rel="stylesheet" type="text/css" />
-<link href="/css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="/js/raphael.js"></script>
-<script language="javascript" type="text/javascript" src="/js/analytics.js"></script>
-<script language="javascript" type="text/javascript">
-function showAnaly(num,id,name1,name2){
-					var leftCount = (document.body.scrollWidth-1013)/2+360;
-					var topCount = 270;
-					init("star_detail_preview",600,200,id,name1,name2,1);
-					$("#star_detail_preview").show();
-					$("#star_detail_preview").css("top" , topCount+num*43+"px");
-					$("#star_detail_preview").css("left" , (leftCount)+"px");
-			}
-</script>
+#include("/template/inc/cssjs.htm")<!--cssjs end-->
 </head>
 
 <body>
@@ -50,9 +36,9 @@ function showAnaly(num,id,name1,name2){
             			#set ($count = $start + 1)
             			#if ($groupStockList)#foreach ($one in $groupStockList)
 						#if ($count%2 == 1)
-            			<tr onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">
+            			<tr>
             			#else
-            			<tr class="star_detail_tb_even" onmouseover="showAnaly($count,'rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">
+            			<tr class="star_detail_tb_even">
             			#end
             			    <td class="rank_score">
 							#if ($count <= 3)
@@ -61,7 +47,7 @@ function showAnaly(num,id,name1,name2){
 							<div class="rank_other">${count}</div>
 							#end
 							</td>
-            				<td>${one.getStockname()}($one.getStockcode())</td>
+            				<td>${one.getStockname()}($one.getStockcode())&nbsp;<span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span></td>
             				<td>$one.groupname</td>
             				<td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
             				#if($one.getObjectprice()!= 0)
@@ -154,21 +140,9 @@ function showAnaly(num,id,name1,name2){
             </div>
 
         </div>
-        <div id="star_detail_preview"></div>
       <div class="clear"></div>
         #include("/template/inc/footer.htm")
     </div><!--mainBox end-->
-    <script language="javascript" type="text/javascript">
-    	$("#star_detail_preview").hover(
-				function () {
-					$(this).show();
-				},
-				function (){
-					$(this).hide();
-					$(this).empty();
-				}
-			)
-    </script>
 </div>
 </body>
 </html>
