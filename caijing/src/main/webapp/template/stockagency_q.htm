@@ -5,17 +5,6 @@
 <title>投资大师_机构共同之选</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
-<script language="javascript" type="text/javascript">
-function showAnaly(num,id,name1,name2){
-					var leftCount = (document.body.scrollWidth-1013)/2+360;
-					var topCount = 270;
-					init("star_detail_preview",600,200,id,name1,name2,1);
-					$("#star_detail_preview").show();
-					$("#star_detail_preview").css("top" , topCount+num*43+"px");
-					$("#star_detail_preview").css("left" , (leftCount)+"px");
-			}
-</script>
 </head>
 
 <body>
@@ -97,17 +86,6 @@ function showAnaly(num,id,name1,name2){
       <div class="clear"></div>
         #include("/template/inc/footer.htm")
     </div><!--mainBox end-->
-    <script language="javascript" type="text/javascript">
-    	$("#star_detail_preview").hover(
-				function () {
-					$(this).show();
-				},
-				function (){
-					$(this).hide();
-					$(this).empty();
-				}
-			)
-    </script>
 </div>
 </body>
 </html>
