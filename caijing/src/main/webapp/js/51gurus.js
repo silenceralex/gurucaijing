@@ -82,13 +82,20 @@
          });
       }
    };
-   showAnaly = function( num, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
+   showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
+      if( !document.getElementById("analyLayer") ) {
+         var elem = document.createElement("div");
+         elem.setAttribute("id", "analyLayer");
+         elem.innerHTML = "<div id='analyHolder'></div><div class='close'><a href='javascript:;' onclick='hide(\"analyLayer\")'>¹Ø±Õ</a></div>";
+         document.body.appendChild( elem );
+      }
       var data = [],
           tmp = [],
           tmpArr = [],
           tmpArr2 = [];
       var tmpobj = {},
           tmpobj2 = {};
+      var pos = {};
       for (var i = 0; i < $("#" + dataId + " th").length; i++) {
          tmp = [];
          tmp[0] = Number($("#" + dataId + " th:eq(" + i + ")").html().replace(/\s/mg,""));
@@ -104,10 +111,29 @@
       tmpobj2.name = name2;
       tmpobj2.data = tmpArr2;
       data.push(tmpobj,tmpobj2);
-      cart.init( data, "star_detail_preview" );
-      $("#test").show();
+      cart.init( data, "analyHolder" );
+      pos = getPosition( document.getElementById(senderId) );
+      $("#analyLayer").css("left", pos.x + 30 + "px");
+      $("#analyLayer").css("top", pos.y + "px");
+      $("#analyLayer").show();
    };
    hide = function( id ) {
       $( "#" + id ).hide();
+   };
+   getPosition = function ( sender ) {
+      var e = sender,E = e;
+      var x = e.offsetLeft;
+      var y = e.offsetTop;
+      while ( e = e.offsetParent ) {
+         var P = e.parentNode;
+         while (P != ( E = E.parentNode ) ) {
+            x -= E.scrollLeft;
+            y -= E.scrollTop;
+      }
+      x += e.offsetLeft;
+      y += e.offsetTop;
+      E = e;
+      }
+      return { "x" : x, "y" : y };
    };
 })(window);
