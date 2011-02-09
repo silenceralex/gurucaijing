@@ -32,17 +32,17 @@
                }
             },
             xAxis: {
-               type:"datetime",//时间轴要加上这个type，默认是linear
+               type:"datetime",//ʱ����Ҫ�������type��Ĭ����linear
                maxPadding : 0.05,
                minPadding : 0.05,
-               //tickInterval : 24 * 3600 * 1000 * 2,//两天画一个x刻度
-               //或者150px画一个x刻度，如果跟上面那个一起设置了，则以最大的间隔为准
+               //tickInterval : 24 * 3600 * 1000 * 2,//���컭һ��x�̶�
+               //����150px��һ��x�̶ȣ�����������Ǹ�һ�������ˣ��������ļ��Ϊ׼
                tickPixelInterval : 150,
-               tickWidth:5,//刻度的宽度
-               lineColor : '#990000',//自定义刻度颜色
-               lineWidth :3,//自定义x轴宽度
-               gridLineWidth :0,//默认是0，即在图上没有纵轴间隔线
-               //自定义x刻度上显示的时间格式，根据间隔大小，以下面预设的小时/分钟/日的格式来显示
+               tickWidth:5,//�̶ȵĿ���
+               lineColor : '#990000',//�Զ���̶���ɫ
+               lineWidth :3,//�Զ���x�����
+               gridLineWidth :0,//Ĭ����0������ͼ��û����������
+               //�Զ���x�̶�����ʾ��ʱ���ʽ�����ݼ����С��������Ԥ���Сʱ/����/�յĸ�ʽ����ʾ
                dateTimeLabelFormats:
                {
                   second: '%H:%M:%S',
@@ -64,9 +64,9 @@
                   }
                }
             },
-            //经测试，不能把时间值放到categories里，必须放到series的data里面去
-            //这样是不行的：categories:[1274457600000,1274544000000,1274630400000]
-            //时间单位是毫秒，Unix时间戳乘上1000
+            //�����ԣ����ܰ�ʱ��ֵ�ŵ�categories�����ŵ�series��data����ȥ
+            //�����ǲ��еģ�categories:[1274457600000,1274544000000,1274630400000]
+            //ʱ�䵥λ�Ǻ��룬Unixʱ�������1000
             series : [{
                name : t.dataArr[0].name,
                data : t.dataArr[0].data
