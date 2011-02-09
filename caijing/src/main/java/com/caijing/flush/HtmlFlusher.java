@@ -772,9 +772,12 @@ public class HtmlFlusher {
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 0, 6);
-			dsyp = alertUrl(dsyp);
-			hgdt = alertUrl(hgdt);
-			cjzl = alertUrl(cjzl);
+			//			dsyp = alertUrl(dsyp);
+			//			hgdt = alertUrl(hgdt);
+			//			cjzl = alertUrl(cjzl);
+			alertUrl(dsyp);
+			alertUrl(hgdt);
+			alertUrl(cjzl);
 			//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(1, 3);
 			//			List<String> reportids = groupStockDao.getRecommendReportids(0, 3);
 			//			List<RecommendStock> recommendstocks = recommendStockDao.getRecommendStocksByReportids(reportids);
@@ -811,24 +814,26 @@ public class HtmlFlusher {
 		}
 	}
 
-	private List<ColumnArticle> alertUrl(List<ColumnArticle> articles) {
-		List<ColumnArticle> retlist = new ArrayList<ColumnArticle>(articles.size());
+	private void alertUrl(List<ColumnArticle> articles) {
+		//		List<ColumnArticle> retlist = new ArrayList<ColumnArticle>(articles.size());
 		for (int i = 0; i < articles.size(); i++) {
-			String url = "http://51gurus.com/cms/";
-			String date = DateTools.transformDateDetail(articles.get(i).getPtime());
-			System.out.println("date:" + date);
-			String[] strs = date.split("-");
-			System.out.println("strs length:" + strs);
-			if (strs.length == 3) {
-				url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
-				articles.get(i).setLink(url);
-				System.out.println("url:" + articles.get(i).getLink());
-				retlist.add(articles.get(i));
-			} else {
-				System.out.println("Date Format Parse ERROR!");
-			}
+			//			String url = "http://51gurus.com/cms/";
+			//			String date = DateTools.transformDateDetail(articles.get(i).getPtime());
+			//			System.out.println("date:" + date);
+			//			String[] strs = date.split("-");
+			//			System.out.println("strs length:" + strs);
+			//			if (strs.length == 3) {
+			//				url += strs[0] + "/" + strs[1] + "/" + articles.get(i).getCmsid() + ".shtml";
+			//				articles.get(i).setLink(url);
+			//				System.out.println("url:" + articles.get(i).getLink());
+			//				retlist.add(articles.get(i));
+			//			} else {
+			//				System.out.println("Date Format Parse ERROR!");
+			//			}
+			String link = getLink(articles.get(i));
+			articles.get(i).setLink(link);
 		}
-		return retlist;
+		//		return retlist;
 	}
 
 	public void flushOneArticle(ColumnArticle article) {
@@ -840,7 +845,7 @@ public class HtmlFlusher {
 		String category = "";
 		switch (article.getType()) {
 		case 0:
-			category = "财经专栏";
+			category = "大师专栏";
 			break;
 		case 1:
 			category = "大势研判";
@@ -869,10 +874,7 @@ public class HtmlFlusher {
 		for (int i = 0; i < 10 && i < totalpage; i++) {
 			List<ColumnArticle> articles = columnArticleDao.getColumnArticleByType(type, i * 10, 10);
 			for (ColumnArticle article : articles) {
-				String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
-				String link = linkprefix + DateTools.getYear(article.getPtime()) + "/"
-						+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html";
-				article.setLink(link);
+				article.setLink(getLink(article));
 				flushOneArticle(article);
 			}
 			paginator.setCurrentPageNumber(i);
@@ -883,7 +885,7 @@ public class HtmlFlusher {
 				String category = "";
 				switch (type) {
 				case 0:
-					category = "财经专栏";
+					category = "大师专栏";
 					break;
 				case 1:
 					category = "大势研判";
@@ -913,6 +915,13 @@ public class HtmlFlusher {
 		long end = System.currentTimeMillis();
 		System.out.println("Flush type :" + type + " use time:" + (end - start) / 1000 + " seconds!");
 
+	}
+
+	private String getLink(ColumnArticle article) {
+		String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
+		String link = linkprefix + DateTools.getYear(article.getPtime()) + "/" + DateTools.getMonth(article.getPtime())
+				+ "/" + article.getCmsid() + ".html";
+		return link;
 	}
 
 	public void flushLiveStatic() {
@@ -981,21 +990,21 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
-		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
-		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
-		System.out.println("star analyzerList size:" + analyzerList.size());
-		List<Analyzer> unstarAnalyzers = analyzerDao.getUnStarAnalyzers();
-		System.out.println("unstarAnalyzers size:" + unstarAnalyzers);
-		for (Analyzer analyzer : unstarAnalyzers) {
-			System.out.println("unstarAnalyzers name:" + analyzer.getName());
-			flusher.flushOneGuruDetail(analyzer, analyzerList);
-		}
-		flusher.flushStarGuruDetail();
+		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+		//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		//		System.out.println("star analyzerList size:" + analyzerList.size());
+		//		List<Analyzer> unstarAnalyzers = analyzerDao.getUnStarAnalyzers();
+		//		System.out.println("unstarAnalyzers size:" + unstarAnalyzers);
+		//		for (Analyzer analyzer : unstarAnalyzers) {
+		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
+		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
+		//		}
+		//		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//		flusher.flushIndex();
+		flusher.flushIndex();
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushAnalyzerRank();
@@ -1009,11 +1018,10 @@ public class HtmlFlusher {
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-		//		flusher.flushArticleList(0);
-		//		flusher.flushArticleList(1);
-		//		flusher.flushArticleList(2);
-		//		flusher.flushArticleList(3);
-
+		flusher.flushArticleList(0);
+		flusher.flushArticleList(1);
+		flusher.flushArticleList(2);
+		flusher.flushArticleList(3);
 	}
 
 	public ReportDao getReportDao() {
