@@ -83,7 +83,7 @@
             			#set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
 			               	<tr>
 			               		#if ($stockEarnList)#foreach ($one in $stockEarnList)
-								<th>${dateTools.transformMMDDDate(${one.getDate()})}</th>
+								<th>${one.getDate().getTime()}</th>
 								#end#end
 			                </tr>
 			                <tr>
