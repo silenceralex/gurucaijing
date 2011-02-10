@@ -999,7 +999,7 @@ public class HtmlFlusher {
 		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
-		//		flusher.flushStarGuruDetail();
+		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
