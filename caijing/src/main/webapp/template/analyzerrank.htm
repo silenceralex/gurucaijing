@@ -72,7 +72,7 @@ function switchTab(id){
 		               	<tr>
 							#set ($weightList = $groupEarnMap.get(${one.getAid()}))
 							#if ($weightList)#foreach ($one in $weightList)
-							<th>${dateTools.transformMMDDDate(${one.getDate()})}</th>
+							<th>${one.getDate().getTime()}</th>
 							#end#end
 		                </tr>
 		                <tr>

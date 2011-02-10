@@ -1012,16 +1012,16 @@ public class HtmlFlusher {
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
 		//		flusher.flushStarGuruDetail();
-		//		flusher.flushAnalyzerRank();
+		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-		flusher.flushArticleList(0);
-		flusher.flushArticleList(1);
-		flusher.flushArticleList(2);
-		flusher.flushArticleList(3);
+		//		flusher.flushArticleList(0);
+		//		flusher.flushArticleList(1);
+		//		flusher.flushArticleList(2);
+		//		flusher.flushArticleList(3);
 	}
 
 	public ReportDao getReportDao() {
