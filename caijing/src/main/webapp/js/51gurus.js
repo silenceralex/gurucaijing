@@ -28,7 +28,7 @@
                crosshairs: true,
                formatter: function() {
                   return '<b>'+ this.series.name +'</b><br/>'+
-                  Highcharts.dateFormat('%m-%d', this.x) +': '+ this.y +'%';
+                  Highcharts.dateFormat('%m月%d日', this.x) +': '+ this.y +'%';
                }
             },
             plotOptions: {
@@ -51,7 +51,7 @@
                minPadding : 0.05,
                //tickInterval : 24 * 3600 * 1000 * 2,//两天画一个x刻度
                //或者150px画一个x刻度，如果跟上面那个一起设置了，则以最大的间隔为准
-               tickPixelInterval : 35,
+               tickPixelInterval : 50,
                tickWidth:1,//刻度的宽度
                lineColor : '#990000',//自定义刻度颜色
                lineWidth :3,//自定义x轴宽度
