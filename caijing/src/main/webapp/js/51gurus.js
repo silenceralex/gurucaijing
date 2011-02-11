@@ -28,7 +28,21 @@
                crosshairs: true,
                formatter: function() {
                   return '<b>'+ this.series.name +'</b><br/>'+
-                  this.x +': '+ this.y +'%';
+                  Highcharts.dateFormat('%m-%d', this.x) +': '+ this.y +'%';
+               }
+            },
+            plotOptions: {
+               line: {
+                  marker: {
+                     enabled: false,
+                     symbol: 'circle',
+                     radius: 2,
+                     states: {
+                        hover: {
+                           enabled: true
+                        }
+                     }
+                  }
                }
             },
             xAxis: {
