@@ -64,8 +64,11 @@
 										#end#end
 					                </tr>
 					        		</table>
-											<script language="javascript" type="text/javascript">
-					            		init("holder1",740,200,"data1","${analyzer.getName()}的股票组合","沪深300指数",1);
+									<script language="javascript" type="text/javascript">
+                                 //data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
+                                 var chartData = getData("data1", "${analyzer.getName()}的股票组合", "沪深300指数");
+                                 chart.init( chartData, "holder1" );
+					            		//init("holder1",740,200,"data1","${analyzer.getName()}的股票组合","沪深300指数",1);
 				              </script>
 			            </div><!-- starTb1 -->
             </div>
