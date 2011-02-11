@@ -145,9 +145,9 @@
             y -= E.scrollTop;
       }
       x += e.offsetLeft;
-      y += e.offsetTop + document.body.scrollTop;
+      y += e.offsetTop;
       E = e;
       }
-      return { "x" : x, "y" : y };
+      return { "x" : x, "y" : y + document.body.scrollTop };
    };
 })(window);
