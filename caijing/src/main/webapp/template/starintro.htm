@@ -3,11 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <title>投资大师_分析师简介——${analyzer.getName()}</title>
-<link href="/css/main.css" rel="stylesheet" type="text/css" />
-<link href="/css/second.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="/js/raphael.js"></script>
-<script language="javascript" type="text/javascript" src="/js/analytics.js"></script>
+#include("/template/inc/cssjs.htm")<!--cssjs end-->
 </head>
 
 <body>
@@ -48,7 +44,7 @@
 			            		<table id="data1" class="hidden">  
 					               	<tr>
 									    #if ($weightList)#foreach ($one in $weightList)
-                                        <th>${dateTools.transformMMDDDate(${one.getDate()})}</th>
+											<th>${one.getDate().getTime()}</th>
 										#end#end
 					                </tr>
 					                <tr>
