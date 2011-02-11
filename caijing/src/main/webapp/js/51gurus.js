@@ -128,7 +128,7 @@
          elem.innerHTML = "<div id='analyHolder'></div><div class='close'><a href='javascript:;' onclick='hide(\"analyLayer\")'>¹Ø±Õ</a></div>";
          document.body.appendChild( elem );
       }
-      var data = getData(dataId);
+      var data = getData(dataId, name1, name2);
       chart.init( data, "analyHolder" );
       pos = getPosition( document.getElementById(senderId) );
       $("#analyLayer").css("left", pos.x + 50 + "px");
