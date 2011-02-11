@@ -64,6 +64,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .star_jump{float:left;margin-left:18px;margin-top:-8px;width:214px;border:#DCDCDC solid 1px;color:#333;background:#F3F3F3;padding:10px;overflow:hidden;}
 .star_jump select{width:207px;font-size:12px}
 .star_detail_box{clear:both;/*width:770px;margin-left:20px;*/}
+.star_intro_box{clear:both;width:760px;margin:0 auto;}
 .star_detail_intro{padding-top:20px;}
 .star_detail_intro_img img{float:left;width:110px;height:140px;padding:3px;display:block;border:#CCC solid 1px;}
 .star_detail_intro_text{float:left;width:560px;padding-left:20px;padding-bottom:20px;}
