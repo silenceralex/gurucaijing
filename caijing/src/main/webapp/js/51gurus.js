@@ -28,7 +28,7 @@
                crosshairs: true,
                formatter: function() {
                   return '<b>'+ this.series.name +'</b><br/>'+
-                  Highcharts.dateFormat('%m月%d日', this.x) +': '+ this.y +'%';
+                  Highcharts.dateFormat('%Y年%m月%d日', this.x) +': '+ this.y +'%';
                }
             },
             plotOptions: {
@@ -51,7 +51,7 @@
                minPadding : 0.05,
                //tickInterval : 24 * 3600 * 1000 * 2,//两天画一个x刻度
                //或者150px画一个x刻度，如果跟上面那个一起设置了，则以最大的间隔为准
-               tickPixelInterval : 50,
+               tickPixelInterval : 60,
                tickWidth:1,//刻度的宽度
                lineColor : '#990000',//自定义刻度颜色
                lineWidth :3,//自定义x轴宽度
@@ -64,7 +64,7 @@
                   hour: '%m-%d %H:%M',
                   day: '%m-%d',
                   week: '%m-%d',
-                  month: '%y %m',
+                  month: '%m-%d',
                   year: '%Y'
                }
             },
@@ -127,7 +127,7 @@
       data.push(tmpobj,tmpobj2);
       cart.init( data, "analyHolder" );
       pos = getPosition( document.getElementById(senderId) );
-      $("#analyLayer").css("left", pos.x + 30 + "px");
+      $("#analyLayer").css("left", pos.x + 50 + "px");
       $("#analyLayer").css("top", pos.y + "px");
       $("#analyLayer").show();
    };
@@ -145,7 +145,7 @@
             y -= E.scrollTop;
       }
       x += e.offsetLeft;
-      y += e.offsetTop;
+      y += e.offsetTop + document.body.scrollTop;
       E = e;
       }
       return { "x" : x, "y" : y };
