@@ -50,7 +50,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .starOn a:link,.starOn a:visited,.starOn a:hover{color:#FFF;}
 .starList{width:750px;margin:0 auto;}
 .starList tr td{line-height:22px;}
-.starList a:link,starList a:visited{color:blue;}
+.starList a:link,.starList a:visited{color:blue;}
 
 
 .star_detail_star{padding-left:20px;line-height:40px;font-size:16px;}
