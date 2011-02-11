@@ -56,7 +56,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 
 .star_detail_follow{padding-left:20px;}
 .star_detail_tab{float:left;margin-left:20px;_margin-left:10px;width:504px;height:28px;line-height:28px;border:#CCC;margin-top:20px;background:#F5F5F5;}
-.star_detail_tab li{float:left;width:168px;text-align:center;}
+.star_detail_tab li{float:left;width:25%;text-align:center;}
 .star_detail_tab li a{display:block}
 .star_de_tabli_on{background:#BEA555;}
 .star_de_tabli_on a:hover{text-decoration:none;}
@@ -118,4 +118,4 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 #analyLayer .close a {display:block;padding:3px;}
 #analyLayer .close a:link, #analyLayer .close a:visited {color:#333;}
 #analyLayer .close a:hover {color:#FFF;background:#333;}
-.analyicon {color:#C20000;font-size:12px;}
+.analyicon {color:#C20000;font-size:12px;cursor:pointer;}
