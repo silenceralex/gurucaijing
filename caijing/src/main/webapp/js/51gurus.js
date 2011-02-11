@@ -1,6 +1,6 @@
 (function(window, undefined){
    var $ = window.jQuery, Config = window.Config || {}, WB = window.WB || {};
-   cart = {
+   chart = {
       init : function ( data, container ) {
          var t = this;
          t.dataArr = data;
@@ -96,13 +96,7 @@
          });
       }
    };
-   showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
-      if( !document.getElementById("analyLayer") ) {
-         var elem = document.createElement("div");
-         elem.setAttribute("id", "analyLayer");
-         elem.innerHTML = "<div id='analyHolder'></div><div class='close'><a href='javascript:;' onclick='hide(\"analyLayer\")'>¹Ø±Õ</a></div>";
-         document.body.appendChild( elem );
-      }
+   getData = function ( dataId, name1, name2 ) {
       var data = [],
           tmp = [],
           tmpArr = [],
@@ -125,7 +119,17 @@
       tmpobj2.name = name2;
       tmpobj2.data = tmpArr2;
       data.push(tmpobj,tmpobj2);
-      cart.init( data, "analyHolder" );
+      return data;
+   }
+   showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
+      if( !document.getElementById("analyLayer") ) {
+         var elem = document.createElement("div");
+         elem.setAttribute("id", "analyLayer");
+         elem.innerHTML = "<div id='analyHolder'></div><div class='close'><a href='javascript:;' onclick='hide(\"analyLayer\")'>¹Ø±Õ</a></div>";
+         document.body.appendChild( elem );
+      }
+      var data = getData(dataId);
+      chart.init( data, "analyHolder" );
       pos = getPosition( document.getElementById(senderId) );
       $("#analyLayer").css("left", pos.x + 50 + "px");
       $("#analyLayer").css("top", pos.y + "px");
