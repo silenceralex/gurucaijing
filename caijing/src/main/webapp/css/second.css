@@ -112,7 +112,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .live-title{font-size:14px;font-weight:bold;padding:10px;color:#666;}
 
 /*Ç÷ÊÆÍ¼¸¡²ãÑùÊ½*/
-#analyLayer {width:620px;height:240px;padding:15px 10px 0 5px;border:#CCC solid 1px;position:absolute;-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);-moz-box-shadow:5px 5px 10px rgba(0,0,0,0.3);box-shadow:5px 5px 10px rgba(0,0,0,0.3);}
+#analyLayer {width:620px;height:240px;padding:15px 10px 0 5px;background:#FFF;border:#CCC solid 1px;position:absolute;-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);-moz-box-shadow:5px 5px 10px rgba(0,0,0,0.3);box-shadow:5px 5px 10px rgba(0,0,0,0.3);}
 #analyHolder {width:620px;height:240px;}
 #analyLayer .close {position:absolute;top:5px;right:10px;font-size:12px;}
 #analyLayer .close a {display:block;padding:3px;}
