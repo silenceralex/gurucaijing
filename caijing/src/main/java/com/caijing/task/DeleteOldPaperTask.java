@@ -11,8 +11,6 @@ import com.caijing.util.ContextFactory;
 
 /**
  * 删除历史研报的数据
- * @author liliren
- *
  */
 public class DeleteOldPaperTask {
 
