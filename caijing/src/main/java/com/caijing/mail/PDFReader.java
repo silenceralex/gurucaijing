@@ -199,24 +199,24 @@ public class PDFReader {
 
 	public void processHistoryPath(String logfile) {
 		String text = FileUtil.read(logfile, "utf-8");
-//		int start = 1; //开始的行号
-//		int end = 3693; //最后的行号
-//		int i = 0; //当前的行号
+		//		int start = 1; //开始的行号
+		//		int end = 3693; //最后的行号
+		//		int i = 0; //当前的行号
 		int limit = 30000;
 		int count = 0;
 		for (String line : text.split("\n")) {
-//			++i;
-//			if (i < start) {
-//				continue;
-//			}
-//			if (i > end) {
-//				break;
-//			}
-			
-			if(count==limit){
+			//			++i;
+			//			if (i < start) {
+			//				continue;
+			//			}
+			//			if (i > end) {
+			//				break;
+			//			}
+
+			if (count == limit) {
 				break;
 			}
-//			http://51gurus.com/oldhtml/papers/200801-200903/6Q8N412F.pdf
+			//			http://51gurus.com/oldhtml/papers/200801-200903/6Q8N412F.pdf
 			if (line.contains("申银万国_")) {//1-3693
 				processOneFile(line, "申银万国");
 				count++;
@@ -233,7 +233,7 @@ public class PDFReader {
 				processOneFile(line, "安信证券");
 				count++;
 			}
-			if (line.contains("广发：")||line.contains("广发证券")) {
+			if (line.contains("广发：") || line.contains("广发证券")) {
 				processOneFile(line, "广发证券");
 				count++;
 			}
@@ -253,10 +253,10 @@ public class PDFReader {
 				processOneFile(line, "光大证券");
 				count++;
 			}
-//			if (line.contains("东海：")) {//目前没有这个券商，暂不处理
-//				processOneFile(line, "东海证券");
-//				count++;
-//			}
+			//			if (line.contains("东海：")) {//目前没有这个券商，暂不处理
+			//				processOneFile(line, "东海证券");
+			//				count++;
+			//			}
 			if (line.contains("华泰：")) {//编码问题，导致有的研报不能读取
 				processOneFile(line, "华泰证券");
 				count++;
@@ -264,7 +264,7 @@ public class PDFReader {
 			if (line.contains("联合：")) {//编码问题，导致有的研报不能读取
 				processOneFile(line, "华泰联合");
 				count++;
-			}			
+			}
 			if (line.contains("中金：")) {
 				processOneFile(line, "中金公司");
 				count++;
@@ -277,7 +277,7 @@ public class PDFReader {
 				processOneFile(line, "中信建投");
 				count++;
 			}
-			
+
 			/*
 			if (logfile.contains("axzq")) {
 				processOneFile(line, "安信证券");
@@ -295,7 +295,7 @@ public class PDFReader {
 				processOneFile(line, "国信证券");
 			} */
 		}
-		System.out.println("num: "+count);
+		System.out.println("num: " + count);
 	}
 
 	public void processOneFile(String pdfPath, String saname) {
@@ -322,7 +322,7 @@ public class PDFReader {
 			readFdf(pdfPath, textFile); //FIXME to remove comment
 			Report report = extractor.extractFromTitleAndSaname(pdfPath, rid, saname);
 			//FIXME to remove comment
-			
+
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
@@ -378,7 +378,13 @@ public class PDFReader {
 		pdfReader.init();
 
 		try {
-			pdfReader.processHistoryPath("/data/shells/log/result1.log");
+			System.out.println(args.length);
+			System.out.println(args[0]);
+			if (args.length == 1) {
+				System.out.println(args[0]);
+				pdfReader.read(args[0]);
+			}
+			//			pdfReader.processHistoryPath("/data/shells/log/result1.log");
 			System.exit(0);
 			/*
 			//安信证券

@@ -82,7 +82,7 @@ public class MailReceiver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		System.exit(0);
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class MailReceiver {
 					StringWriter sw = new StringWriter();
 					Command.run(commendStr, sw);
 					logger.debug(sw.toString());
-					//					reader.read(toPath);
+					reader.read(toPath);
 				}
 			}
 		}
@@ -365,7 +365,6 @@ public class MailReceiver {
 		String commendStr = "unrar e " + fileName + " " + path + "/" + dstr;
 		StringWriter sw = new StringWriter();
 		Command.run(commendStr, sw);
-
 		logger.debug(sw.toString());
 
 	}
