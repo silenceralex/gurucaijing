@@ -236,16 +236,22 @@ public class MailReceiver {
 					HttpGet get = new HttpGet(link.replace(";extra={preview:false}", "").replace("&amp;", "&"));
 					get.setHeader("Cookie", cookie);
 					String content = down.load(get);
-					// System.out.println("content: " + content);
+					System.out.println("content: " + content);
+					Matcher linkmatcher = linkPattern.matcher(content);
+					String url = "";
+					if (linkmatcher != null && linkmatcher.find()) {
+						url = linkmatcher.group(1);
+					}
+
 					// http://download.fs.163.com/dl/?file=
 					// rIMMxh7KmcLUDbyuFCHa_lJGm7INBaOElDAPDwuKbo7fAhMXVvKBb8X2hA0felFjH_k1spAQLITnujZJNZQiuA
 					// &callback=coremail
 					// ).replaceAll("&amp;", "&")
-					String url = link.replace("http://fs.163.com/fs/display/", "http://download.fs.163.com/dl/")
-							.replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "").replace("&amp;extra={preview:false}", "");
-					// + "&callback=coremail";
-					System.out.println("link:" + link);
-					System.out.println("url:" + url);
+					//					String url = link.replace("http://fs.163.com/fs/display/", "http://download.fs.163.com/dl/")
+					//							.replace("p=X-NETEASE-HUGE-ATTACHMENT&amp;", "").replace("&amp;extra={preview:false}", "");
+					//					// + "&callback=coremail";
+					//					System.out.println("link:" + link);
+					//					System.out.println("url:" + url);
 					get = new HttpGet(url);
 					get.setHeader("Cookie", cookie);
 					get.setHeader("Referer", link.replaceAll("&amp", "&"));
