@@ -400,8 +400,10 @@ public class HtmlFlusher {
 		//		int type = 1;
 		int size = 20;
 		//		int total = groupStockDao.getRecommendReportCount();
-		int total = recommendStockDao.getResearchRecommendStockCounts();
-		int page = total % size == 0 ? total / size : total / size + 1;
+		//		int total = recommendStockDao.getResearchRecommendStockCounts();
+		//		int page = total % size == 0 ? total / size : total / size + 1;
+		//最多刷新20页数据出来
+		int page = 20;
 		int current = 1;
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
