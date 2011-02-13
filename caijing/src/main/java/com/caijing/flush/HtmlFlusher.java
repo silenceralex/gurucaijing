@@ -1013,8 +1013,8 @@ public class HtmlFlusher {
 		//		flusher.flushNotice();
 		//		flusher.flushStarGuruDetail();
 		flusher.flushAnalyzerRank();
-		//		flusher.flushStarOnSale(true);
-		//		flusher.flushStarOnSale(false);
+		flusher.flushStarOnSale(true);
+		flusher.flushStarOnSale(false);
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
