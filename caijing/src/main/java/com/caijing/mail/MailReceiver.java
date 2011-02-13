@@ -237,7 +237,7 @@ public class MailReceiver {
 					HttpGet get = new HttpGet(link.replace(";extra={preview:false}", "").replace("&amp;", "&"));
 					get.setHeader("Cookie", cookie);
 					String content = down.load(get);
-					System.out.println("content: " + content);
+					//					System.out.println("content: " + content);
 					Matcher linkmatcher = linkPattern.matcher(content);
 					String url = "";
 					if (linkmatcher != null && linkmatcher.find()) {
@@ -306,7 +306,7 @@ public class MailReceiver {
 					StringWriter sw = new StringWriter();
 					Command.run(commendStr, sw);
 					logger.debug(sw.toString());
-					reader.read(toPath);
+					//					reader.read(toPath);
 				}
 			}
 		}
