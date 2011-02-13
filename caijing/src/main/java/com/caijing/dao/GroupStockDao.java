@@ -34,9 +34,9 @@ public interface GroupStockDao extends CrudDao {
 
 	int updateStockGain(GroupStock groupStock);
 
-	List<GroupStock> getGroupStockListAsc(int start, int length);
+	List<GroupStock> getGroupStockListAsc(int start, int length, String startDate);
 
-	List<GroupStock> getGroupStockListDesc(int start, int length);
+	List<GroupStock> getGroupStockListDesc(int start, int length, String startDate);
 
 	List<String> getRecommendReportids(int start, int length);
 
@@ -56,4 +56,6 @@ public interface GroupStockDao extends CrudDao {
 	 * @return 
 	 */
 	int updateObjectAchieved(GroupStock groupStock);
+
+	int updateOutOfDate(GroupStock groupstock);
 }

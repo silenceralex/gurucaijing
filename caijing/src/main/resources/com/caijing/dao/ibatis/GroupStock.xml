@@ -94,11 +94,11 @@
 	</select>
 	
 	<select id="getGroupStockListAsc" resultClass="GroupStock" parameterClass="java.util.Map">
-		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain limit #start#,#length#
+		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.intime>#startDate# and gs.stockcode = s.stockcode order by gain limit #start#,#length#
 	</select>
 	
 	<select id="getGroupStockListDesc" resultClass="GroupStock" parameterClass="java.util.Map">
-		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.stockcode = s.stockcode order by gain desc limit #start#,#length#
+		select gs.*,s.stockname as stockname from groupstock gs,stock s where gs.intime>#startDate# and gs.stockcode = s.stockcode order by gain desc limit #start#,#length#
 	</select>
 	
 	<select id="getRecommendReportids" resultClass="java.lang.String"  parameterClass="java.util.Map">
@@ -125,4 +125,15 @@
 		</dynamic>
 		where groupid=#groupid# and stockcode=#stockcode# and status =1
 	</update>
+	
+	<update id="updateOutOfDate" parameterClass="GroupStock">
+		update groupstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="outtime">
+				outtime = #outtime#
+			</isNotEmpty>
+		</dynamic>
+		,status = -1 where groupid=#groupid# and stockcode=#stockcode# and status =1
+	</update>
+	
 </sqlMap>

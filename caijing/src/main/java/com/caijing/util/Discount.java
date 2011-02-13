@@ -36,9 +36,11 @@ public class Discount {
 	@Qualifier("stockPrice")
 	private StockPrice sp = null;
 
+	private static String STARTDATE = "2010-01-01";
+
 	@MethodCache(expire = 3600 * 2)
 	public List<DiscountStock> getDiscountStocks() {
-		List<GroupStock> groupStockList = groupStockDao.getGroupStockListAsc(0, 20);
+		List<GroupStock> groupStockList = groupStockDao.getGroupStockListAsc(0, 20, STARTDATE);
 		List<DiscountStock> discounts = new ArrayList<DiscountStock>(groupStockList.size());
 
 		for (GroupStock groupstock : groupStockList) {

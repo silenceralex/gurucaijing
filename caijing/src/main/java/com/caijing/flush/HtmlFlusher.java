@@ -49,6 +49,7 @@ public class HtmlFlusher {
 	public static String LIVEDIR = "/home/html/live/";
 	public static String MasterDIR = "/home/html/master/";
 	public static String PREFIX = "http://51gurus.com";
+	public static String STARTDATE = "2010-01-01";
 
 	@Autowired
 	@Qualifier("reportDao")
@@ -142,7 +143,7 @@ public class HtmlFlusher {
 			String aid = analyzer.getAid();
 			Date startDate = null;
 			try {
-				startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate("2010-01-01"));
+				startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate(STARTDATE));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -255,7 +256,7 @@ public class HtmlFlusher {
 				Date startDate = null;
 				try {
 					startDate = groupStockDao.getEarliestIntimeByAidFrom(analyzer.getAid(),
-							DateTools.parseYYYYMMDDDate("2010-01-01"));
+							DateTools.parseYYYYMMDDDate(STARTDATE));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -484,9 +485,9 @@ public class HtmlFlusher {
 		int size = 20;
 		for (int current = 1; current <= 3; current++) {
 			if (isAsc) {
-				groupStockList = groupStockDao.getGroupStockListAsc((current - 1) * size, size);
+				groupStockList = groupStockDao.getGroupStockListAsc((current - 1) * size, size, STARTDATE);
 			} else {
-				groupStockList = groupStockDao.getGroupStockListDesc((current - 1) * size, size);
+				groupStockList = groupStockDao.getGroupStockListDesc((current - 1) * size, size, STARTDATE);
 			}
 			Date lastdate = groupEarnDao.getLatestDate();
 			System.out.println("groupStockList.size() : " + groupStockList.size());
@@ -496,6 +497,7 @@ public class HtmlFlusher {
 			Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
 			Map<String, Float> startPriceMap = new HashMap<String, Float>();
 			for (GroupStock stock : groupStockList) {
+				System.out.println("groupid : " + stock.getGroupid() + "  groupname:" + stock.getGroupname());
 				RecommendStock recommendStock = recommendStockDao.getRecommendStockbyReportid(stock.getInreportid());
 				filePathMap.put(stock.getInreportid(), recommendStock.getFilepath());
 
@@ -503,7 +505,7 @@ public class HtmlFlusher {
 				try {
 					//防止历史研报的影响
 					startDate = groupStockDao.getEarliestIntimeByAidFrom(stock.getGroupid(),
-							DateTools.parseYYYYMMDDDate("2010-01-01"));
+							DateTools.parseYYYYMMDDDate(STARTDATE));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -764,7 +766,7 @@ public class HtmlFlusher {
 		FloatUtil floatUtil = new FloatUtil();
 		HtmlUtils htmlUtil = new HtmlUtils();
 		try {
-			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10);
+			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10, STARTDATE);
 			Date lastdate = groupEarnDao.getLatestDate();
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 0,
@@ -999,19 +1001,19 @@ public class HtmlFlusher {
 		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
-		flusher.flushStarGuruDetail();
+		//		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		flusher.flushIndex();
+		//		flusher.flushIndex();
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
-		//		flusher.flushAnalyzerRank();
-		//		flusher.flushStockResearch();
+		//				flusher.flushAnalyzerRank();
+		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
-		//		flusher.flushStarGuruDetail();
+		flusher.flushStarGuruDetail();
 		flusher.flushAnalyzerRank();
 		flusher.flushStarOnSale(true);
 		flusher.flushStarOnSale(false);
@@ -1022,6 +1024,7 @@ public class HtmlFlusher {
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
 		//		flusher.flushArticleList(3);
+		System.exit(0);
 	}
 
 	public ReportDao getReportDao() {

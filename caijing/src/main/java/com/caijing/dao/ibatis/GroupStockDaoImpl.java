@@ -50,19 +50,21 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	}
 
 	@Override
-	public List<GroupStock> getGroupStockListAsc(int start, int length) {
+	public List<GroupStock> getGroupStockListAsc(int start, int length, String startDate) {
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("start", start);
 		params.put("length", length);
+		params.put("startDate", startDate);
 		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getGroupStockListAsc",
 				params);
 	}
 
 	@Override
-	public List<GroupStock> getGroupStockListDesc(int start, int length) {
+	public List<GroupStock> getGroupStockListDesc(int start, int length, String startDate) {
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("start", start);
 		params.put("length", length);
+		params.put("startDate", startDate);
 		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getGroupStockListDesc",
 				params);
 	}
@@ -102,5 +104,10 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 		params.put("enddate", enddate);
 		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(
 				getNameSpace() + ".getCurrentStockByGroupidAndPeriod", params);
+	}
+
+	@Override
+	public int updateOutOfDate(GroupStock groupstock) {
+		return getSqlMapClientTemplate().update(getNameSpace() + ".updateOutOfDate", groupstock);
 	}
 }
