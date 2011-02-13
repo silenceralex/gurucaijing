@@ -19,7 +19,7 @@ public class FileUtil {
 	static HashMap cache = null;
 	static int MAXCACHE = 100;
 	public static String encoding = "GBK";
-	public static final String THISYEAR = "2010";
+	public static final String THISYEAR = "2011";
 
 	public static final String path = "/home/app/papers";
 	public static final String html = "/home/html/papers";
@@ -117,7 +117,7 @@ public class FileUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * 将内容加进文件中
 	 * 
@@ -137,8 +137,8 @@ public class FileUtil {
 			} catch (Exception e) {
 			}
 		}
-	}	
-	
+	}
+
 	/**
 	 * 读取文件
 	 * 
