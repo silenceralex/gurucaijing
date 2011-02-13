@@ -43,6 +43,7 @@ public class MailReceiver {
 	private static Pattern titlePattern = Pattern.compile(
 			"<A.*?expiretime=\"(.*?)\" filesize=\"(.*?)\".*?download=\"(.*?)\">(.*?)</A>", Pattern.CASE_INSENSITIVE
 					| Pattern.DOTALL | Pattern.UNIX_LINES);
+
 	private static Pattern linkPattern = Pattern.compile("downloadlink = '(.*?)'", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
@@ -241,6 +242,7 @@ public class MailReceiver {
 					String url = "";
 					if (linkmatcher != null && linkmatcher.find()) {
 						url = linkmatcher.group(1);
+						System.out.println("url: " + url);
 					}
 
 					// http://download.fs.163.com/dl/?file=
