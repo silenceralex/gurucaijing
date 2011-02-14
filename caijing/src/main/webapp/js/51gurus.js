@@ -119,7 +119,6 @@
       tmpobj2.name = name2;
       tmpobj2.data = tmpArr2;
       data.push(tmpobj,tmpobj2);
-      alert("done");
       return data;
    }
    showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
