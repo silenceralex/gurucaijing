@@ -128,15 +128,16 @@
          elem.innerHTML = "<div id='analyHolder'></div><div class='close'><a href='javascript:;' onclick='hide(\"analyLayer\")'>¹Ø±Õ</a></div>";
          document.body.appendChild( elem );
       }
-      var data = getData(dataId, name1, name2);
-      chart.init( data, "analyHolder" );
-      pos = getPosition( document.getElementById(senderId) );
+      var pos = getPosition( document.getElementById(senderId) );
       $("#analyLayer").css("left", pos.x + 50 + "px");
       $("#analyLayer").css("top", pos.y + "px");
-      $("#analyLayer").show();
+      $("#analyLayer").fadeIn("slow");
+      var data = getData(dataId, name1, name2);
+      chart.init( data, "analyHolder" );
+      
    };
    hide = function( id ) {
-      $( "#" + id ).hide();
+      $( "#" + id ).fadeOut("fast");
    };
    getPosition = function ( sender ) {
       var e = sender,E = e;
