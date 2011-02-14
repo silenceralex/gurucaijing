@@ -98,27 +98,28 @@
    };
    getData = function ( dataId, name1, name2 ) {
       var data = [],
-          tmp = [],
+          dateArr = [],
           tmpArr = [],
           tmpArr2 = [];
       var tmpobj = {},
           tmpobj2 = {};
+      var date = "";
       var pos = {};
-      for (var i = 0; i < $("#" + dataId + " th").length; i++) {
-         tmp = [];
-         tmp[0] = Number($("#" + dataId + " th:eq(" + i + ")").html().replace(/\s/mg,""));
-         tmp[1] = Number($("#" + dataId + " tr:eq(1) td:eq(" + i + ")").html().replace(/\s/mg,"").split(",")[1].split("%")[0]);
-         tmpArr.push( tmp );
-         tmp = [];
-         tmp[0] = Number($("#" + dataId + " th:eq(" + i + ")").html().replace(/\s/mg,""));
-         tmp[1] = Number($("#" + dataId + " tr:eq(2) td:eq(" + i + ")").html().replace(/\s/mg,"").split(",")[1].split("%")[0]);
-         tmpArr2.push( tmp );
-      }
+      $("#" + dataId + " th").each(function(i){
+         dateArr.push( Number(this.innerHTML.replace(/\s/mg,"")) );
+      });
+      $("#" + dataId + " tr:eq(1) td").each(function(i){
+         tmpArr.push( Number(this.innerHTML.replace(/\s/mg,"").split(",")[1].replace("%", "")) );
+      });
+      $("#" + dataId + " tr:eq(2) td").each(function(i){
+         tmpArr2.push( Number(this.innerHTML.replace(/\s/mg,"").split(",")[1].replace("%", "")) );
+      });
       tmpobj.name = name1;
       tmpobj.data = tmpArr;
       tmpobj2.name = name2;
       tmpobj2.data = tmpArr2;
       data.push(tmpobj,tmpobj2);
+      alert("done");
       return data;
    }
    showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
