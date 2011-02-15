@@ -336,6 +336,8 @@ public class PDFReader {
 			if (report != null) {
 				System.out.println("url:" + mvfile.replace("/home/html", ""));
 				report.setFilepath(mvfile.replace("/home/html", ""));
+				//历史研报
+				report.setFilepath(mvfile.replace("/home/oldhtml", "/oldhtml"));
 				//			Date ptime = vutil.stringtodate(file.getName());
 				//			System.out.println("ptime :" + file.getName());
 				Date now = new Date();
