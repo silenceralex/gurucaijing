@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -202,8 +204,10 @@ public class PDFReader {
 		//		int start = 1; //开始的行号
 		//		int end = 3693; //最后的行号
 		//		int i = 0; //当前的行号
-		int limit = 30000;
+		int limit = 300000;
 		int count = 0;
+		
+		List<String> processList = new ArrayList<String>();
 		for (String line : text.split("\n")) {
 			//			++i;
 			//			if (i < start) {
@@ -212,7 +216,13 @@ public class PDFReader {
 			//			if (i > end) {
 			//				break;
 			//			}
-
+			//历史研报去重
+			if(processList.contains(line)){
+				continue;
+			}
+			processList.add(line);
+			
+			
 			if (count == limit) {
 				break;
 			}
