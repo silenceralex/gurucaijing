@@ -21,7 +21,7 @@ public class DeleteOldPaperTask {
 		String deleterecommendstocksql = "delete from recommendstock where reportid=?";
 		String deleteoldhtml = "sh /data/shells/rm.sh";
 		
-		System.out.println("==task start==");
+		System.out.println("==delAllOldReports task start==");
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
 		List<Map<String, String>> rows = jdbcTemplate.queryForList(queryreportsql);
 		if (rows != null && rows.size() > 0) {
@@ -35,7 +35,7 @@ public class DeleteOldPaperTask {
 				System.out.println(" "+sw.toString());
 			}
 		}
-		System.out.println("==task exit==");
+		System.out.println("==delAllOldReports task exit==");
 	}
 
 	public void delSpecialSanameOldReports(String saname){
