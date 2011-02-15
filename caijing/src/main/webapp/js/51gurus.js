@@ -100,13 +100,15 @@
       var data = [],
           dateArr = [],
           tmpArr = [],
-          tmpArr2 = [];
+          tmpArr2 = [],
+          tmp = [];
       var tmpobj = {},
           tmpobj2 = {};
       var date = "";
       var pos = {};
       $("#" + dataId + " th").each(function(i){
          dateArr.push( Number(this.innerHTML.replace(/\s/mg,"")) );
+         return dateArr;
       });
       $("#" + dataId + " tr:eq(1) td").each(function(i){
          tmpArr.push( Number(this.innerHTML.replace(/\s/mg,"").split(",")[1].replace("%", "")) );
@@ -115,10 +117,18 @@
          tmpArr2.push( Number(this.innerHTML.replace(/\s/mg,"").split(",")[1].replace("%", "")) );
       });
       tmpobj.name = name1;
-      tmpobj.data = tmpArr;
+      tmpobj.data = [];
       tmpobj2.name = name2;
-      tmpobj2.data = tmpArr2;
-      data.push(tmpobj,tmpobj2);
+      tmpobj2.data = [];
+      for( var i = 0; i < dateArr.length; i ++ ) {
+         tmp.push( dateArr[i], tmpArr[i] );
+         tmpobj.data.push( tmp );
+         tmp = [];
+         tmp.push( dateArr[i], tmpArr2[i] );
+         tmpobj2.data.push( tmp );
+         tmp = [];
+      }
+      data.push( tmpobj,tmpobj2 );
       return data;
    }
    showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
