@@ -64,7 +64,13 @@ public class DeleteOldPaperTask {
 	
 	public static void main(String[] args) {
 		DeleteOldPaperTask task = new DeleteOldPaperTask();
-		//task.delAllOldReports();
+		if(args[0].equals("-all")){
+			task.delAllOldReports();
+		}
+		if(args[0].equals("-saname")){
+			String saname = args[1];
+			task.delSpecialSanameOldReports(saname);
+		}
 		System.exit(0);
 	}
 }
