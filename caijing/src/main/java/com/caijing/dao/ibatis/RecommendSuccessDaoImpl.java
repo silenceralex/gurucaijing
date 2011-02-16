@@ -64,4 +64,10 @@ public class RecommendSuccessDaoImpl extends CrudDaoDefault implements Recommend
 		return (Integer) getSqlMapClientTemplate().delete(getNameSpace() + ".deleteByAid", aid);
 	}
 
+	@Override
+	public List<RecommendSuccess> getUnvalidateRecommendsByAid(String aid) {
+		return (List<RecommendSuccess>) getSqlMapClientTemplate().queryForList(
+				getNameSpace() + ".getUnvalidateRecommendsByAid", aid);
+	}
+
 }

@@ -22,11 +22,18 @@ public interface RecommendSuccessDao extends CrudDao {
 	List<RecommendSuccess> getRecommendsBefore(Date date);
 
 	/**
-	 * 
+	 * 按照aid获取已经验证过的数据
 	 * @param aid
 	 * @return
 	 */
 	List<RecommendSuccess> getRecommendsByAid(String aid);
+
+	/**
+	 * 所有待验证的数据
+	 * @param aid
+	 * @return
+	 */
+	List<RecommendSuccess> getUnvalidateRecommendsByAid(String aid);
 
 	int getRecommendSuccessCountByAidDuring(String aid, String startDate, String endDate);
 

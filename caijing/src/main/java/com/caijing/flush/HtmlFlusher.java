@@ -1019,10 +1019,10 @@ public class HtmlFlusher {
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
-		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
-		System.out.println("analyzer : " + analyzer.getSuccessratio());
-		flusher.flushOneSuccess(analyzer);
-		//		flusher.flushSuccessRank();
+		//		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
+		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
+		//		flusher.flushOneSuccess(analyzer);
+		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);

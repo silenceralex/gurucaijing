@@ -14,5 +14,194 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+	<!--========================================================================
+		CronTriggerBean
+		=========================================================================-->
 
+	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
+	<bean id="timingScheduler" class="com.caijing.mail.MailSchedule">
+		<property name="extractor">
+			<ref bean="reportExtractor" />
+		</property>
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+	</bean>
+	<bean id="scheduledInfo"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="timingScheduler" />
+		</property>
+		<property name="targetMethod">
+			<value>processMail</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="cronInfoTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledInfo" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 4,9,14,18,21 * * ?</value><!-- 每小时执行一次 -->
+		</property>
+	</bean>
+
+
+	<!-- 定时抓取圈子直播室数据 -->
+	<bean id="extractScheduler"
+		class="com.caijing.mail.ExtractSchedule">
+		<property name="extractor">
+			<ref bean="reportExtractor" />
+		</property>
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+		<property name="masterMessageDao">
+			<ref bean="masterMessageDao" />
+		</property>
+		<property name="config">
+			<ref bean="config" />
+		</property>
+	</bean>
+	<bean id="scheduledExtract"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="extractScheduler" />
+		</property>
+		<property name="targetMethod">
+			<value>crawlOnline</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="extractTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledExtract" />
+		</property>
+		<property name="cronExpression">
+			<value>0 1/2 9-16 ? * MON-FRI</value><!-- 每小时执行一次 -->
+		</property>
+	</bean>
+
+
+	<!--========================================================================
+		CronTriggerSpide
+		=========================================================================-->
+
+	<bean id="timeSpiderSchedule"
+		class="com.caijing.spider.SpiderSchedule">
+		<property name="columnArticleDao">
+			<ref bean="columnArticleDao" />
+		</property>
+		<property name="noticeDao">
+			<ref bean="noticeDao" />
+		</property>
+		<property name="htmlFlush">
+			<ref bean="htmlFlush" />
+		</property>
+		<property name="paramXml">
+			<value>/home/app/caijing/jobs/caijing.xml</value>
+		</property>
+		<property name="caogenXml">
+			<value>/home/app/caijing/jobs/163_huigensi.xml</value>
+		</property>
+		<property name="astockXml">
+			<value>/home/app/caijing/jobs/aastocks.xml</value>
+		</property>
+		<property name="wsjdashiXml">
+			<value>/home/app/caijing/jobs/wsj_fuchifeng.xml</value>
+		</property>
+		<property name="wsjhongguanXml">
+			<value>/home/app/caijing/jobs/wsj.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="flushSchedule" class="com.caijing.flush.FlushSchedule">
+		<property name="noticeDao">
+			<ref bean="noticeDao" />
+		</property>
+		<property name="htmlFlush">
+			<ref bean="htmlFlush" />
+		</property>
+	</bean>
+
+	<bean id="scheduledSpide"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="timeSpiderSchedule" />
+		</property>
+		<property name="targetMethod">
+			<value>run</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="cronSpide"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledSpide" />
+		</property>
+		<property name="cronExpression">
+			<value>0 12/20 8-22 * * ?</value><!-- 每天晚上3点30分执行一次 -->
+		</property>
+	</bean>
+
+	<bean id="scheduledlocalStorage"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="localStorage" />
+		</property>
+		<property name="targetMethod">
+			<value>localStore</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="cronStore"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledlocalStorage" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 15 ? * MON-FRI</value><!-- 每天下午3点半执行一次本地计算 -->
+		</property>
+	</bean>
+
+	<bean id="scheduledFlush"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="flushSchedule" />
+		</property>
+		<property name="targetMethod">
+			<value>run</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="cronFlush"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledFlush" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 8,9,15,16 ? * MON-FRI</value><!-- 每天进行4次公告抓取并发布公告页 -->
+		</property>
+	</bean>
+
+	<bean autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronInfoTrigger" />
+				<ref bean="cronSpide" />
+				<ref bean="extractTrigger" />
+				<ref bean="cronStore" />
+				<ref bean="cronFlush" />
+			</list>
+		</property>
+	</bean>
 </beans>

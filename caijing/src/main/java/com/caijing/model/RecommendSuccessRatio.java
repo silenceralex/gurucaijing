@@ -119,7 +119,7 @@ public class RecommendSuccessRatio {
 	}
 
 	public void handleHistorySuccessByAnalyzer(Analyzer analyzer) {
-		List<RecommendSuccess> list = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+		List<RecommendSuccess> list = recommendSuccessDao.getUnvalidateRecommendsByAid(analyzer.getAid());
 		System.out.println("list size:" + list.size());
 		handleHistorySuccessByList(list);
 		int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
