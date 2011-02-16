@@ -118,11 +118,27 @@ public class RecommendSuccessRatio {
 		return f;
 	}
 
-	public void handleHistorySuccess() {
+	public void handleHistorySuccessByAnalyzer(Analyzer analyzer) {
+		List<RecommendSuccess> list = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+		System.out.println("list size:" + list.size());
+		handleHistorySuccessByList(list);
+		int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
+		int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
+		if (success != 0 && total != 0) {
+			float successratio = ((float) success / total) * 100;
+			System.out.println("analyzer:" + analyzer.getName() + "  Success recommend ratio:" + successratio + "%");
+			analyzer.setLmodify(new Date());
+			analyzer.setSuccessratio(successratio);
+			analyzerDao.updateSuccessRatio(analyzer);
+		} else {
+			analyzer.setLmodify(new Date());
+			analyzer.setSuccessratio(0);
+			analyzerDao.updateSuccessRatio(analyzer);
+		}
+	}
+
+	public void handleHistorySuccessByList(List<RecommendSuccess> list) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MONTH, -6);
-		List<RecommendSuccess> list = recommendSuccessDao.getRecommendsBefore(cal.getTime());
 		for (RecommendSuccess recommendsuccess : list) {
 			if (recommendsuccess.getIsAchieved() == 2) {
 				System.out.println("recommend date"
@@ -173,41 +189,16 @@ public class RecommendSuccessRatio {
 							+ recommendsuccess.getStockname() + "  Failed!");
 				}
 				System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
-				//			if (se.getPrice() >= recommendsuccess.getObjectprice()) {
-				//				recommendsuccess.setIsAchieved(1);
-				//				recommendsuccess.setValidate(se.getDate());
-				//				recommendsuccess.setValidateprice(se.getPrice());
-				//				recommendSuccessDao.updateIsAchieved(recommendsuccess);
-				//				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
-				//						+ recommendsuccess.getStockname() + "  success!");
-				//			} else {
-				//				recommendsuccess.setIsAchieved(0);
-				//				recommendsuccess.setValidate(se.getDate());
-				//				recommendsuccess.setValidateprice(se.getPrice());
-				//				recommendSuccessDao.updateIsAchieved(recommendsuccess);
-				//				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock"
-				//						+ recommendsuccess.getStockname() + "  Failed!");
-				//			}
 			}
 		}
 
-		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("申银万国");
+	}
+
+	public void handleHistorySuccessBySA(String saname) {
+
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(saname);
 		for (Analyzer analyzer : analyzers) {
-			int success = recommendSuccessDao.getRecommendSuccessCountByAid(analyzer.getAid());
-			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
-			if (success != 0 && total != 0) {
-				float successratio = ((float) success / total) * 100;
-				System.out
-						.println("analyzer:" + analyzer.getName() + "  Success recommend ratio:" + successratio + "%");
-				analyzer.setLmodify(new Date());
-				analyzer.setSuccessratio(successratio);
-				analyzerDao.updateSuccessRatio(analyzer);
-			} else {
-				analyzer.setLmodify(new Date());
-				analyzer.setSuccessratio(0);
-				analyzerDao.updateSuccessRatio(analyzer);
-			}
+			handleHistorySuccessByAnalyzer(analyzer);
 		}
 	}
 
@@ -258,11 +249,25 @@ public class RecommendSuccessRatio {
 
 		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
 		analyzerManager.handleHistoryRecommendBySA("申银万国");
-		//		analyzerManager.handleHistoryRecommendBySA("招商证券");
-		//		analyzerManager.handleHistoryRecommendBySA("国泰君安");
-		//		analyzerManager.handleHistoryRecommendBySA("广发证券");
+		analyzerManager.handleHistoryRecommendBySA("招商证券");
+		analyzerManager.handleHistoryRecommendBySA("国泰君安");
+		analyzerManager.handleHistoryRecommendBySA("广发证券");
+		ratio.handleHistorySuccessBySA("申银万国");
+		ratio.handleHistorySuccessBySA("招商证券");
+		ratio.handleHistorySuccessBySA("国泰君安");
+		ratio.handleHistorySuccessBySA("广发证券");
+		//		ratio.handleHistorySuccess();
+		//		String anames = "童驯 罗鶄 任琳娜 詹凌燕 张仲杰 高源 谭志勇 陶学明 徐胜利 柳世庆 李孔逸 石磊 郑治国 周小波 励雅敏 张龙 黄文戈 陈亮";
+		//		String[] names = anames.split(" ");
+		//		for (String name : names) {
+		//			Analyzer analyzer = analyzerDao.getAnalyzerByName(name);
+		//			//		Analyzer analyzer = analyzerDao.getAnalyzerByName("赵金厚");
+		//			//			ratio.getRecommendSuccessDao().deleteByAid(analyzer.getAid());
+		//			//		analyzerManager.handleHistoryRecommendByAnalyzer(analyzer);
+		//			ratio.handleHistorySuccessByAnalyzer(analyzer);
+		//		}
 
-		ratio.handleHistorySuccess();
 		//		ratio.handleYearSuccess("招商证券", "2009");
+		System.exit(0);
 	}
 }

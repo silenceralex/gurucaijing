@@ -59,4 +59,9 @@ public class RecommendSuccessDaoImpl extends CrudDaoDefault implements Recommend
 				getNameSpace() + ".getTotalRecommendCountByAidDuring", params);
 	}
 
+	@Override
+	public int deleteByAid(String aid) {
+		return (Integer) getSqlMapClientTemplate().delete(getNameSpace() + ".deleteByAid", aid);
+	}
+
 }

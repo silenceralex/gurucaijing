@@ -151,7 +151,7 @@ public class LocalStorage {
 			}
 			stockdateMap.put(stock.getStockcode(), map);
 		}
-		List<Date> dates = stockEarnDao.getDatesByZSFrom(startDate);
+		List<Date> dates = stockEarnDao.getDatesByZSFrom(startDate, new Date());
 		float weight = 100;
 		for (Date date : dates) {
 			GroupEarn ge = new GroupEarn();

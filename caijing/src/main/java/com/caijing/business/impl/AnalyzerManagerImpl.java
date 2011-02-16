@@ -107,26 +107,35 @@ public class AnalyzerManagerImpl implements AnalyzerManager {
 	public void handleHistoryRecommendBySA(String saname) {
 		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(saname);
 		for (Analyzer analyzer : analyzers) {
-			List<RecommendStock> list = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 1000);
-			for (RecommendStock recommendstock : list) {
-				if (GradeUtil.judgeStaus(recommendstock.getGrade()) == 2 && recommendstock.getObjectprice() > 0) {
-					if (recommendstock.getCreatedate() == null) {
-						continue;
-					}
-					RecommendSuccess recommend = new RecommendSuccess();
-					recommend.setAid(analyzer.getAid());
-					recommend.setAname(analyzer.getName());
-					recommend.setStockcode(recommendstock.getStockcode());
-					recommend.setStockname(recommendstock.getStockname());
-					recommend.setObjectprice(recommendstock.getObjectprice());
-					try {
-						recommend.setRecommenddate(DateTools.parseShortDate(recommendstock.getCreatedate()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					recommend.setReportid(recommendstock.getReportid());
+			handleHistoryRecommendByAnalyzer(analyzer);
+		}
+	}
+
+	public void handleHistoryRecommendByAnalyzer(Analyzer analyzer) {
+		//ШЅжи
+		HashSet<String> uniqSet = new HashSet<String>();
+		List<RecommendStock> list = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 1000);
+		for (RecommendStock recommendstock : list) {
+			if (GradeUtil.judgeStaus(recommendstock.getGrade()) == 2 && recommendstock.getObjectprice() > 0) {
+				if (recommendstock.getCreatedate() == null) {
+					continue;
+				}
+				RecommendSuccess recommend = new RecommendSuccess();
+				recommend.setAid(analyzer.getAid());
+				recommend.setAname(analyzer.getName());
+				recommend.setStockcode(recommendstock.getStockcode());
+				recommend.setStockname(recommendstock.getStockname());
+				recommend.setObjectprice(recommendstock.getObjectprice());
+				try {
+					recommend.setRecommenddate(DateTools.parseShortDate(recommendstock.getCreatedate()));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				recommend.setReportid(recommendstock.getReportid());
+				String key = analyzer.getAid() + recommendstock.getStockcode() + recommendstock.getCreatedate();
+				if (!uniqSet.contains(key)) {
 					recommendSuccessDao.insert(recommend);
+					uniqSet.add(key);
 				}
 			}
 		}

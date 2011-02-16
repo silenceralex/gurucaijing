@@ -344,7 +344,7 @@ public class HtmlFlusher {
 			System.out.println("write page : " + analyzer.getAid());
 			List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
 			for (RecommendSuccess recommend : recommends) {
-				System.out.println("write page : " + recommend.getReportid());
+				System.out.println("write page Reportid: " + recommend.getReportid());
 				Report report = (Report) reportDao.select(recommend.getReportid());
 				String url = PREFIX + report.getFilepath();
 				recommend.setReporturl(url);
@@ -1015,11 +1015,14 @@ public class HtmlFlusher {
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
-		flusher.flushStarGuruDetail();
+		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
 		//		flusher.flushStarOnSale(true);
 		//		flusher.flushStarOnSale(false);
-		flusher.flushSuccessRank();
+		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
+		System.out.println("analyzer : " + analyzer.getSuccessratio());
+		flusher.flushOneSuccess(analyzer);
+		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);

@@ -32,4 +32,5 @@ public interface RecommendSuccessDao extends CrudDao {
 
 	int getTotalRecommendCountByAidDuring(String aid, String startDate, String endDate);
 
+	int deleteByAid(String aid);
 }
