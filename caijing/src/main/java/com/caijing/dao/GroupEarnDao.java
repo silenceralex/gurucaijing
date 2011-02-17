@@ -16,4 +16,12 @@ public interface GroupEarnDao extends CrudDao {
 	public List<GroupEarn> getWeightList(String aid, Date date);
 
 	public List<GroupEarn> getWeightListBetween(String aid, Date startDate, Date endDate);
+
+	/**
+	 * 获取某个分析师自date之前最近的一个交易日的组合收益
+	 * @param aid 分析师id
+	 * @param date 日期
+	 * @return
+	 */
+	public GroupEarn getFormerNearPriceByCodeDate(String aid, Date date);
 }

@@ -131,11 +131,18 @@ public class AnalyzerSuccessFlusher {
 			//生成分析师intro页面
 			String aid = analyzer.getAid();
 			Date startDate = null;
+			float startprice = 0;
+			float startweight = 100;
 			try {
 				if (isStart) {
 					startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate(startDay));
+					startprice = stockEarnDao.getStockEarnByCodeDate("000300",
+							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+					startweight = 100;
 				} else {
 					startDate = DateTools.parseYYYYMMDDDate(startDay);
+					startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", startDate).getPrice();
+					startweight = groupEarnDao.getFormerNearPriceByCodeDate(aid, startDate).getWeight();
 				}
 
 			} catch (ParseException e) {
@@ -148,17 +155,16 @@ public class AnalyzerSuccessFlusher {
 			//			List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
 			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(aid, startDate,
 					DateTools.parseYYYYMMDDDate(endDate));
-			float startprice = stockEarnDao
-					.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+
 			//			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
 			//					DateTools.transformYYYYMMDDDate(startDate));
 
 			List<StockEarn> priceList = stockEarnDao.getPriceByCodePeriod("000300", startDate,
 					DateTools.parseYYYYMMDDDate(endDate));
 
-			float start = weightList.get(0).getWeight();
+			//			float start = weightList.get(0).getWeight();
 			float end = weightList.get(weightList.size() - 1).getWeight();
-			float ratio = FloatUtil.getTwoDecimal((end - start) * 100 / start);
+			float ratio = FloatUtil.getTwoDecimal((end - startweight) * 100 / startweight);
 
 			VMFactory introvmf = new VMFactory();
 			introvmf.setTemplate("/template/starintro_y.htm");
@@ -167,11 +173,7 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("analyzer", analyzer);
 			introvmf.put("year", year);
 			introvmf.put("ratio", ratio);
-			if (isStart) {
-				introvmf.put("startweight", 100);
-			} else {
-				introvmf.put("startweight", start);
-			}
+			introvmf.put("startweight", startweight);
 			introvmf.put("analyzerList", analyzerList);
 			introvmf.put("weightList", weightList);
 			introvmf.put("startprice", startprice);

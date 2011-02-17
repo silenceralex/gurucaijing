@@ -53,5 +53,8 @@
 	<select id="getWeightListBetween" resultClass="GroupEarn" parameterClass="java.util.Map">
 		<![CDATA[select * from groupgain where groupid=#aid# and date > #startdate# and date <= #enddate#]]>
 	</select>
-
+	
+	<select id="getFormerNearPriceByCodeDate" resultClass="GroupEarn" parameterClass="java.util.Map">
+		<![CDATA[select * from groupgain where groupid=#aid# and weight!=0 and date<=#date# order by date desc limit 1]]>
+	</select>
 </sqlMap>

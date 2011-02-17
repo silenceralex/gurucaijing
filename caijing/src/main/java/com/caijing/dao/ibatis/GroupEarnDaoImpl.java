@@ -47,4 +47,13 @@ public class GroupEarnDaoImpl extends CrudDaoDefault implements GroupEarnDao {
 				params);
 	}
 
+	@Override
+	public GroupEarn getFormerNearPriceByCodeDate(String aid, Date date) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("aid", aid);
+		params.put("date", date);
+		return (GroupEarn) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getFormerNearPriceByCodeDate",
+				params);
+	}
+
 }
