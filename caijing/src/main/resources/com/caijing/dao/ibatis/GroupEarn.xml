@@ -51,7 +51,7 @@
 	</select>
 	
 	<select id="getWeightListBetween" resultClass="GroupEarn" parameterClass="java.util.Map">
-		<![CDATA[select * from groupgain where groupid=#aid# and date > #startdate# and date < #enddate#]]>
+		<![CDATA[select * from groupgain where groupid=#aid# and date > #startdate# and date <= #enddate#]]>
 	</select>
 
 </sqlMap>

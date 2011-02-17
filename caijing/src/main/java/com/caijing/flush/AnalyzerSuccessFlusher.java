@@ -122,7 +122,7 @@ public class AnalyzerSuccessFlusher {
 		}
 	}
 
-	public void flushAnalyzerYear(Analyzer analyzer, String year) {
+	public void flushAnalyzerYear(Analyzer analyzer, String year, boolean isStart) {
 		FloatUtil floatUtil = new FloatUtil();
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		String endDate = year + "-12-31";
@@ -132,7 +132,12 @@ public class AnalyzerSuccessFlusher {
 			String aid = analyzer.getAid();
 			Date startDate = null;
 			try {
-				startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate(startDay));
+				if (isStart) {
+					startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate(startDay));
+				} else {
+					startDate = DateTools.parseYYYYMMDDDate(startDay);
+				}
+
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -162,6 +167,11 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("analyzer", analyzer);
 			introvmf.put("year", year);
 			introvmf.put("ratio", ratio);
+			if (isStart) {
+				introvmf.put("startweight", 100);
+			} else {
+				introvmf.put("startweight", start);
+			}
 			introvmf.put("analyzerList", analyzerList);
 			introvmf.put("weightList", weightList);
 			introvmf.put("startprice", startprice);
@@ -191,8 +201,8 @@ public class AnalyzerSuccessFlusher {
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
-		flusher.flushAnalyzerYear(analyzer, "2009");
-		flusher.flushAnalyzerYear(analyzer, "2010");
-		flusher.flushAnalyzerYear(analyzer, "2011");
+		flusher.flushAnalyzerYear(analyzer, "2009", true);
+		flusher.flushAnalyzerYear(analyzer, "2010", false);
+		flusher.flushAnalyzerYear(analyzer, "2011", false);
 	}
 }

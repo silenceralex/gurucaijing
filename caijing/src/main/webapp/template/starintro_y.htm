@@ -15,8 +15,7 @@
         		<div class="sec_nav">
             	<h2><a href="#">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
             </div>
-            <h2 class="star_detail_star">${analyzer.getName()}</h2>
-            <h2 class="star_detail_star">${analyzer.getName()} &nbsp;&nbsp;&nbsp; ${year} 年度组合收益率为：<font color="red">$ratio</font></h2>
+            <h2 class="star_detail_star">${analyzer.getName()} &nbsp;&nbsp;&nbsp; ${year} 年度组合收益率为：<font color="red">${ratio}%</font></h2>
             <ol id="star_detail_tab" class="star_detail_tab">
             	<li class="star_de_tabli_on" id="starTab1"><a href="#">简介</a></li>
             	<li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
@@ -50,7 +49,7 @@
 					                </tr>
 					                <tr>
 										#if ($weightList)#foreach ($one in $weightList)
-										#set ($weight = $one.getWeight() - 100)
+										#set ($weight = $one.getWeight() - $startweight)
                                         <td>${one.getWeight()},${floatUtil.getTwoDecimalNumber($weight)}%</td>
 										#end#end
 					                </tr>
