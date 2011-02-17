@@ -60,22 +60,24 @@ public class AnalyzerFetcher {
 		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersAfter("2011-01-19 22:04:56");
 
 		//批量处理某个券商的分析师的收益率的计算结果
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
-		for (Analyzer analyzer : analyzers) {
-			//仅仅计算非明星的分析师
-			if (analyzer.getLevel() == 0) {
-				List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0,
-						500);
-				System.out.println("analyzer getName : " + analyzer.getName());
-				System.out.println("rstocks size : " + rstocks.size());
-				for (RecommendStock rs : rstocks) {
-					groupGainManager.extractGroupStock(rs);
-				}
-				String aid = analyzer.getAid();
-				//				String aid = analyzerDao.getAnalyzerByName(aname).getAid();
-				LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-				storage.processHistoryGroupEarn(aid);
-			}
+		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
+		//		for (Analyzer analyzer : analyzers) {
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("赵金厚");
+		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 200);
+		//仅仅计算非明星的分析师
+		//			if (analyzer.getLevel() == 0) {
+		//				List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0,
+		//						500);
+		System.out.println("analyzer getName : " + analyzer.getName());
+		System.out.println("rstocks size : " + rstocks.size());
+		for (RecommendStock rs : rstocks) {
+			groupGainManager.extractGroupStock(rs);
 		}
+		String aid = analyzer.getAid();
+		//				String aid = analyzerDao.getAnalyzerByName(aname).getAid();
+		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		storage.processHistoryGroupEarn(aid);
+		//			}
+		//		}
 	}
 }

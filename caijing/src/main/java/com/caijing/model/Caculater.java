@@ -104,7 +104,9 @@ public class Caculater {
 				cal.add(Calendar.YEAR, 1);
 				Date outtime = cal.getTime();
 				//outtime 若在当前时间内则已经过期
-				if (outtime.before(DateTools.parseYYYYMMDDDate(endDate))) {
+				now = now.before(DateTools.parseYYYYMMDDDate(endDate)) ? now : DateTools.parseYYYYMMDDDate(endDate);
+				System.out.println(now.toString());
+				if (outtime.before(now)) {
 					stock.setOuttime(outtime);
 					stock.setStatus(-1);
 					groupStockDao.updateOutOfDate(stock);
@@ -143,9 +145,7 @@ public class Caculater {
 				ge.setWeight(weight);
 				groupEarnDao.insert(ge);
 			}
-
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -156,9 +156,22 @@ public class Caculater {
 	 */
 	public static void main(String[] args) {
 		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
+		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
+		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
+		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		Caculater caculater = new Caculater();
 		caculater.setRecommendStockDao(recommendStockDao);
-		caculater.caculateSaname("申银万国");
+		caculater.setGroupEarnDao(groupEarnDao);
+		caculater.setRecommendStockDao(recommendStockDao);
+		caculater.setAnalyzerDao(analyzerDao);
+		caculater.setGroupStockDao(groupStockDao);
+		caculater.setStockEarnDao(stockEarnDao);
+		//		caculater.caculateSaname("申银万国");
+		//		caculater.processHistoryGain("6O3M6JBM", "2009");
+
+		caculater.processHistoryGain("6IHTNVCA", "2011");
+		System.exit(0);
 
 	}
 

@@ -37,4 +37,14 @@ public class GroupEarnDaoImpl extends CrudDaoDefault implements GroupEarnDao {
 		return (List<GroupEarn>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getWeightList", params);
 	}
 
+	@Override
+	public List<GroupEarn> getWeightListBetween(String aid, Date startDate, Date endDate) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("aid", aid);
+		params.put("startdate", startDate);
+		params.put("enddate", endDate);
+		return (List<GroupEarn>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getWeightListBetween",
+				params);
+	}
+
 }

@@ -47,7 +47,11 @@
 	</delete>
 	
 	<select id="getWeightList" resultClass="GroupEarn" parameterClass="java.util.Map">
-		select * from groupgain where groupid=#aid# and date > #startdate#
+		<![CDATA[select * from groupgain where groupid=#aid# and date > #startdate# and date<]]>
+	</select>
+	
+	<select id="getWeightList" resultClass="GroupEarn" parameterClass="java.util.Map">
+		<![CDATA[select * from groupgain where groupid=#aid# and date > #startdate# and date < #enddate#]]>
 	</select>
 
 </sqlMap>
