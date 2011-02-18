@@ -18,6 +18,7 @@ public class Stockcode2StocknameTask {
 
 	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);	
+	private static String Prifix = "/oldhtml/papers/";
 	
 	String querystocksql = "select stockcode,stockname from stock";
 	//String queryreportsql = "select rid,stockcode,stockname,title from report where filepath like \"/home/oldhtml/papers/%\" limit 10";
@@ -26,9 +27,8 @@ public class Stockcode2StocknameTask {
 	String deletereportsql = "delete from report where rid=?";
 	String deleterecommendstocksql = "delete from recommendstock where reportid=?";
 	
-	String queryreportsql = "select rid,stockcode,stockname,title,filepath from report where filepath like \"/oldhtml/papers/%\" and (stockcode=? or stockname=?) limit 10";
+	String queryreportsql = "select rid,stockcode,stockname,title,filepath from report where filepath like \""+Prifix+"%\" and (stockcode=? or stockname=?)";
 
-	
 	@SuppressWarnings("unchecked")
 	public void run() {
 		System.out.println("==task start==");
