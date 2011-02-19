@@ -49,8 +49,8 @@
 					                </tr>
 					                <tr>
 										#if ($weightList)#foreach ($one in $weightList)
-										#set ($weight = $one.getWeight() - $startweight)
-                                        <td>${one.getWeight()},${floatUtil.getTwoDecimalNumber($weight)}%</td>
+										#set ($ratio = ($one.getWeight() - $startweight)/$startweight * 100)
+                                        <td>${one.getWeight()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
 										#end#end
 					                </tr>
 			                        <tr>

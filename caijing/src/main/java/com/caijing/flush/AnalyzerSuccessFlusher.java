@@ -178,6 +178,9 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("weightList", weightList);
 			introvmf.put("startprice", startprice);
 			introvmf.put("priceList", priceList);
+			System.out.println("analyzerList size :" + analyzerList.size());
+			System.out.println("priceList size :" + priceList.size());
+			System.out.println("analyzerList size :" + analyzerList.size());
 			introvmf.save(ADMINDIR + "static/" + aid + "_" + year + "_intro.html");
 			System.out.println("write page : " + ADMINDIR + aid + "_" + year + "_intro.html");
 		} catch (Exception e) {
@@ -206,5 +209,6 @@ public class AnalyzerSuccessFlusher {
 		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		flusher.flushAnalyzerYear(analyzer, "2011", false);
+		System.exit(0);
 	}
 }
