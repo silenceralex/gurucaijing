@@ -471,7 +471,7 @@
 						</list>
 						</entry>
 						<entry key="publishdate">
-							<value><![CDATA[\n(20\d{2})\.(\d{2})\.(\d{2})\s+]]></value>
+							<value><![CDATA[\n\s*(20\d{2})\.(\d{2})\.(\d{2})\s+]]></value>
 						</entry>
 						<entry key="grade">
 							<list>
