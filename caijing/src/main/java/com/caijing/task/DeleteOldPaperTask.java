@@ -15,8 +15,8 @@ import com.caijing.util.ContextFactory;
 public class DeleteOldPaperTask {
 
 	public void delAllOldReports() {
-		String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\"";
-		//String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\" and ptime>\"2011-01-28 9:30:00\"";
+		String queryreportsql = "select rid from report where filepath like \"/oldhtml/papers/%\"";
+		//String queryreportsql = "select rid from report where filepath like \"/oldhtml/papers/%\" and ptime>\"2011-01-28 9:30:00\"";
 		String deletereportsql = "delete from report where rid=?";
 		String deleterecommendstocksql = "delete from recommendstock where reportid=?";
 		String deleteoldhtml = "sh /data/shells/rm.sh";
@@ -39,7 +39,7 @@ public class DeleteOldPaperTask {
 	}
 
 	public void delSpecialSanameOldReports(String saname){
-		String queryreportsql = "select rid from report where filepath like \"/home/oldhtml/papers/%\" and saname=?";
+		String queryreportsql = "select rid from report where filepath like \"/oldhtml/papers/%\" and saname=?";
 		String deletereportsql = "delete from report where rid=?";
 		String deleterecommendstocksql = "delete from recommendstock where reportid=?";
 		String deleteoldhtml = "rm /home/oldhtml/";
