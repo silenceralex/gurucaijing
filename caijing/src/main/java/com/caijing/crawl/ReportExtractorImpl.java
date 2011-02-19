@@ -1473,18 +1473,26 @@ public class ReportExtractorImpl implements ReportExtractor {
 
 		//extractor.extractFromTitleAndSaname(test, "test", "安信证券");
 
-		/*==== testing extractor ====*/
+		/*==== TODO testing extractor ====*/
 		//testHuaTai(extractor);
 		//testGuoXin(extractor);
 		//testChangJiang(extractor);
 		//testGuangDa(extractor);
 		//testYinHe(extractor);
 		//testHongYuan(extractor);
-		testDongFang(extractor);
+		//testDongFang(extractor);
 		//testZhongXin(extractor);
 		//testZhongTou(extractor);
 		//testHuaTai2(extractor);
-
+		
+		//新增
+		//testZhaoShang(extractor);
+		//testGuoTai(extractor);
+		//testAnxin(extractor);
+		testGuangFa(extractor);
+		//testGuoJin(extractor);
+		//testZhongJin(extractor);
+		
 		// extractor.extractFromTitle(
 		// "中信证券-100825-002311海大集团10中报点评-饲料“量增价稳”提升业绩增速.pdf", "");
 
@@ -1501,13 +1509,6 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//		report.setSaname("广发证券");
 		//		RecommendStock rs = extractor.extractFromFile(report, "http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
 		//		"http://guru.caijing.com/papers/20100721/6CLPTKQK.txt");
-
-		//		report.setSaname("招商证券");
-		//		RecommendStock rs = extractor.extractFromFile(report,
-		////		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
-		////		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
-		////		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
-		//		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
 
 		//		report.setSaname("国金证券");
 		//		RecommendStock rs = extractor.extractFromFile(report,
@@ -1630,28 +1631,81 @@ public class ReportExtractorImpl implements ReportExtractor {
 		// if (m != null && m.find()) {
 		// System.out.println("code:" + m.group(1));
 		// } 
+		System.exit(0);
+	}
+
+	private static void testZhongJin(ReportExtractorImpl extractor) {
+		// TODO 没有抽取的历史研报
+		
+	}
+
+	private static void testGuoJin(ReportExtractorImpl extractor) {
+		Report report = new Report();
+		report.setSaname("国金证券");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1VKIJI.txt"); 
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1VLG3P.txt"); //TODO 历史研报的评级无法区分
+	}
+
+	private static void testGuangFa(ReportExtractorImpl extractor) {
+		Report report = new Report();
+		report.setSaname("广发证券");
+		extractor.extractFromFile(report, "http://51gurus.com/papers/20100709/6CLQ12HJ.txt"); //TODO analyzer 有问题
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200911/6S21G6QV.txt"); //TODO analyzer可抽出，数据没有更新
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1VPHP6.txt"); //TODO analyzer 有问题
+		extractor.extractFromFile(report, "http://www.51gurus.com/oldhtml/papers/200904/6S1VPIO8.txt"); //TODO analyzer 有问题
+	}
+
+	private static void testGuoTai(ReportExtractorImpl extractor) {
+		Report report = new Report();
+		report.setSaname("国泰君安");
+		extractor.extractFromFile(report, "http://51gurus.com/papers/20100709/6CLQ12AJ.txt"); //TODO eps可抽出，数据没有更新
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1US6M7.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1US61F.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1USLDJ.txt");
+	}
+
+	private static void testZhaoShang(ReportExtractorImpl extractor) {
+		//公司研报
+		Report report = new Report();
+		report.setSaname("招商证券");
+		extractor.extractFromFile(report, "http://51gurus.com/papers/20100830/6EHD7IRF.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1UG51A.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1UHISA.txt");
+		
+		//		report.setSaname("招商证券");
+		//		RecommendStock rs = extractor.extractFromFile(report,
+		////		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
+		////		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
+		////		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
+		//		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
 	}
 
 	public static void testHuaTai(ReportExtractor extractor) {
 		//公司研报
+		//TODO 没有抽取的历史研报
 		Report report = new Report();
 		report.setSaname("华泰联合");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101102/6JJABJV9.txt");
-		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
-		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
-		extractor.extractFromFile(report, "http://51gurus.com/papers/20100916/6FQ6LHOR.txt");
-		//extractor.extractFromFile(report, "http://51gurus.com/papers/20101026/6JG010EI.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38N57.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME38PU2.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100916/6FQ6LHOR.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101026/6JG010EI.txt");
 
 	}
 
 	public static void testAnxin(ReportExtractor extractor) {
-
+		//公司研报
+		Report report = new Report();
+		report.setSaname("安信证券");
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100804/6CLQ8LVT.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/oldhtml/papers/200904/6S1UVDED.txt");
 	}
 
 	public static void testGuoXin(ReportExtractor extractor) {
 		//公司研报
 		Report report = new Report();
 		report.setSaname("国信证券");
+		//TODO 目标股价无法提取
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101126/6LOU51MC.txt");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0442VH.txt");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101105/6K1PKN33.txt");
@@ -1659,21 +1713,23 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100823/6DSQ8JDK.txt");
 		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ686V.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100709/6CLQ134A.txt");
-
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100917/6GKMJLRB.txt");
 	}
 
 	public static void testChangJiang(ReportExtractor extractor) {
 		//公司研报
+		//TODO 研报中没有目标价, 抽取的研报数量很少？
 		Report report = new Report();
 		report.setSaname("长江证券");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100721/6CLPVB6U.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100709/6CLQ1238.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100727/6CLPL92G.txt");
-
+		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101109/6K57IGFR.txt");
 	}
 
 	public static void testGuangDa(ReportExtractor extractor) {
 		//公司研报
+		//TODO 没有历史研报的抽取数据
 		Report report = new Report();
 		report.setSaname("光大证券");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101220/6NKNIIPD.txt");
@@ -1682,7 +1738,6 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N041NI5.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101216/6NEGLFLL.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100720/6CLQ674G.txt");
-		extractor.extractFromFile(report, "http://51gurus.com/papers/20100804/6CLQAHU0.txt");
 	}
 
 	public static void testYinHe(ReportExtractor extractor) {
@@ -1729,8 +1784,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9PNQ1.txt");
 		//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101223/6NN9Q6T2.txt");
 		//		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100817/6DFEUH58.txt");
-		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100816/6DFGMTPQ.txt");
-
+		//extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100816/6DFGMTPQ.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200907/6S21D3A2.txt");
 	}
 
 	public static void testZhongTou(ReportExtractor extractor) {
@@ -1741,6 +1796,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101214/6N0433B0.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101207/6ME39EST.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101109/6K57IKS5.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/oldhtml/papers/200907/6S21AUUM.txt");
 	}
 
 	public static void testHuaTai2(ReportExtractor extractor) {
@@ -1752,6 +1808,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100830/6EHD8FOG.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20101015/6ICPKERT.txt");
 		extractor.extractFromFile(report, "http://www.51gurus.com/papers/20100902/6ER8NGHE.txt");
+		extractor.extractFromFile(report, "http://www.51gurus.com/oldhtml/papers/200911/6S21HA0H.txt");
 	}
 
 	public Config getConfig() {
