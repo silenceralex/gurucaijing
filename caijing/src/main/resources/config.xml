@@ -86,7 +86,9 @@
 							<value><![CDATA[\n?目标价格?(?:[\(（]元[\)）])?[:：]\s*([0-9\.]+)(?:\s*元)?\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[研究员[:：]\s*(.+?)\s*\n]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -119,12 +121,14 @@
 							<value><![CDATA[目标价[:：]\s*([0-9-\.]+)[ \t\x0B]*元?\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n\s*(?:署名人|参与人)[:：]\s*(.+?)\s*\n]]></value>
 <!--							另一种格式-->
-<!--							<value><![CDATA[\n\s*([^\n]+?)\s+执业证书编号]]></value> -->
+							<value><![CDATA[\n\s*([^\n]+?)\s+执业证书编号]]></value> 
 								<!-- TODO 历史研报格式 -->
-<!--							<value><![CDATA[\n([\u4e00-\u9fa5]+)[ \t\x0B]*\n[ \t\x0B]*[0-9\-]+\s*\n]]></value>-->
-						</entry>					
+							<value><![CDATA[\n([\u4e00-\u9fa5]+)[ \t\x0B]*\n[ \t\x0B]*[0-9\-]+\s*\n]]></value>
+						</list>
+						</entry>
 						<entry key="eps">
 							<list>
 								<value><![CDATA[(?:每股收益|每股收益[\(（]EPS[\)）]|EPS)(?:(?:（|\()元(?:）|\)))?[ \t\x0B]+(?:.?[\-0-9\.]+.?[ \t\x0B]+)*([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]+([\-0-9\.]+)[ \t\x0B]*\n]]></value>
@@ -156,9 +160,11 @@
 							<value><![CDATA[\n目标价格(?:[ \t\x0B]*6个月)?[:：]\s*([0-9\.]+)[ \t\x0B]*元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
-<!--							<value><![CDATA[\n\s*([^\n]+?)\s+(?:[^\n]+?)\s+(?:[^\n]+?)\s+执业证书编号]]></value>-->
+						<list>
+							<value><![CDATA[\n\s*([^\n]+?)\s+(?:[^\n]+?)\s+(?:[^\n]+?)\s+执业证书编号]]></value>
 <!--							历史研报格式-->
 							<value><![CDATA[\n\s*([^\n]+?)\s+(?:[\w[\-.]]+@[\w\-.]+\.\w+)\s+[0-9\-]+]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -186,7 +192,9 @@
 							<value><![CDATA[\n目标价格\s+([0-9\.]+)[ \t\x0B]*元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n\s*([^\n]+)[ \t\x0B]+(?:[^\n]+?分析师\s+|执业证书编号)]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -211,7 +219,9 @@
 							<value><![CDATA[\n目标价格\s+([0-9\.]+)元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n[ \t\x0B]*分析师[:：][ \t\x0B]*([^\n]+?)(?:,：).*?执业证书编号]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -239,8 +249,10 @@
 							<value><![CDATA[\n目标价格[:：]\s+([0-9\.]+)[ \t\x0B]+元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<!-- [table_research] 分析师：黄立军 邢波 分析师：黄立军    邢波  -->
 							<value><![CDATA[(?:\[table_research\])\s*分析师(?:姓名)?[:：]?\s*([\u4e00-\u9fa5\s/]+)\n]]></value>
+						</list>
 						</entry>
 						<entry key="analyzerEps">
 							<value><![CDATA[分析师：\s*([\u4e00-\u9fa5/]+)[、\s]]]></value>
@@ -277,7 +289,9 @@
 							<value><![CDATA[\n目标价格\s+([0-9\.]+)元\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n(?:分析师[:：][ \t\x0B]*)?([^\n]*)\s*(?:（|\()执业证书编号]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -312,7 +326,9 @@
 							<value><![CDATA[合理价值(?:区间)?[:：]\s*([0-9-\.]+)\s*元?\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[分析师[：:]\s*(.+?)\s+]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -347,7 +363,9 @@
 							<value><![CDATA[股价：RMB([0-9\.]+)\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[(?:\n\s*)分析师：\s*(.+?)\s*[(（]]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -383,7 +401,9 @@
 							<value><![CDATA[价：RMB([0-9\.]+)\s*\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[(?:\n\s*)分析师\s*(.+?)\s+SAC]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -414,7 +434,9 @@
 							<value><![CDATA[目标价格：[\s\?]+([0-9\.]+)\??元]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[研究员\s+([\u4e00-\u9fa5]+)\s+[助理首席高级]{0,4}行业分析师]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -450,7 +472,9 @@
 							<value><![CDATA[目标股?价[格：\s]+([0-9-\.]+)\s*元]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[分析师(?:：|\s+\n\s*)([\u4e00-\u9fa5\u9d84\?\s]+)[AS\(86]]]></value>
+						</list>
 						</entry>
 						<entry key="analyzerEps">
 							<value><![CDATA[分析师(.*?)联系人]]></value>
@@ -487,7 +511,9 @@
 							<value><![CDATA[目标价格：\s*￥?\s*([0-9\.]+)\n]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n\s([\u4e00-\u9fa5\s]+)\n\s*0(?:21|755|10|20)]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -523,7 +549,9 @@
 							<value><![CDATA[目标股?价格?(?:\(RMB\))*：*\s*([0-9\.]+)(?:元|\s+)]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n([\u4e00-\u9fa5\s]+)(?:(?:[，\s]+CFA)|(?:\n分析员))]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -552,7 +580,9 @@
 							<value><![CDATA[目标价格?：?\s*([0-9\.]+)\s*元]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[[分析师|行业]：([\u4e00-\u9fa5\s]+)+\n]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -594,9 +624,11 @@
 							<value><![CDATA[目标价格?：?为?\s*([0-9\.]+)\s*元]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n([\u4e00-\u9fa5]+)\s+分析师\s+SAC执业编号]]></value>
 							<!-- TODO 历史研报格式 -->
-<!--							<value><![CDATA[\n([\u4e00-\u9fa5]+)\s+[（\(][0-9]+[\)）][0-9]+\s*\n]]></value>-->
+							<value><![CDATA[\n([\u4e00-\u9fa5]+)\s+[（\(][0-9]+[\)）][0-9]+\s*\n]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -630,7 +662,9 @@
 							<value><![CDATA[目标(?:估值|价位?)[:：]\s*([0-9\.-]+)元?]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\n([\u4e00-\u9fa5]+)[,，]?(?:CFA)?\s*\n\s*[08][2716][015]?5?-]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>
@@ -667,7 +701,9 @@
 							<value><![CDATA[目标价格\(元\)\s*([0-9\.-]+)]]></value>
 						</entry>
 						<entry key="analyzer">
+						<list>
 							<value><![CDATA[\s+(?:Table_Summary)?([\u4e00-\u9fa5]+)\s+(?:研究员|分析师|[^\s]+?行业)\s+]]></value>
+						</list>
 						</entry>
 						<entry key="eps">
 							<list>

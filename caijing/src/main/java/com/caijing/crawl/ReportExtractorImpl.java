@@ -199,6 +199,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 			}
 			System.out.println("analyzer: " + analyzer);
 		}
+		/*
 		if (analyzer == null) {
 			String str = (String) config.getValue(saname).get("analyzer");
 			// System.out.println("anaylzer:" + str);
@@ -247,6 +248,60 @@ public class ReportExtractorImpl implements ReportExtractor {
 			if (analyzer == null) {
 				System.out.println("after anaylzer no match:");
 				return null;
+			}
+		}*/
+		
+		if (analyzer == null) {
+			List<String> patterns = (List<String>) config.getValue(saname).get("analyzer");
+			//Matcher m = null;
+			for (String p : patterns) {
+				analyzerPattern = Pattern.compile(p, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+				m = analyzerPattern.matcher(content);
+				System.out.println("analyzer pattern: "+p);
+				while (m != null && m.find()) {
+					System.out.println("anaylzer:" + m.group(1));
+					String aname = "";
+					// 处理非正常的前缀
+					if (m.group(1).trim().length() > 10) {
+						String[] tests = m.group(1).trim().split("\n");
+						for (String tmp : tests) {
+							// 中金公司，去除有的人名中间的空格
+							if (saname.equals("中金公司")) {
+								tmp = tmp.replaceAll("\\s", "").trim();
+							} else {
+								tmp = tmp.trim();
+							}
+							if (tmp.trim().length() != 0 && tmp.trim().length() < 4 && tmp.trim().length() > 1) {
+								aname += tmp.trim() + " ";
+							}
+							if (saname.equals("宏源证券")) {
+								// 宏源证券，去除有的人名中间的/
+								aname = m.group(1).trim().replaceAll("/", " ").trim() + " ";
+							} else {
+								aname = m.group(1).trim() + " ";
+							}
+						}
+						// System.out.println("after anaylzer:" + aname.trim());
+					} else {
+						// 中金公司，去除有的人名中间的空格
+						if (saname.equals("中金公司")) {
+							aname = m.group(1).trim().replaceAll("\\s", "").trim() + " ";
+						} else {
+							aname = m.group(1).trim() + " ";
+						}
+					}
+					if (analyzer == null) {
+						analyzer = aname.trim() + " ";
+					} else {
+						analyzer += aname.trim() + " ";
+					}	
+				}
+				System.out.println("after anaylzer:" + analyzer);
+				if (analyzer == null) {
+					System.out.println("after anaylzer no match:");
+					continue;
+				}
+				return analyzer.trim();
 			}
 		}
 		return analyzer.trim();
@@ -1489,7 +1544,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testZhaoShang(extractor);
 		//testGuoTai(extractor);
 		//testAnxin(extractor);
-		testGuangFa(extractor);
+		//testGuangFa(extractor);
 		//testGuoJin(extractor);
 		//testZhongJin(extractor);
 		
