@@ -241,7 +241,7 @@ public class MailReceiver {
 					Matcher linkmatcher = linkPattern.matcher(content);
 					String url = "";
 					if (linkmatcher != null && linkmatcher.find()) {
-						url = linkmatcher.group(1);
+						url = linkmatcher.group(1).trim().replaceAll("\\s", "");
 						System.out.println("url: " + url);
 					}
 
