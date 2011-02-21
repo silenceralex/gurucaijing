@@ -1003,7 +1003,7 @@ public class HtmlFlusher {
 		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
-		//		flusher.flushStarGuruDetail();
+		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
@@ -1022,9 +1022,9 @@ public class HtmlFlusher {
 		//		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//		flusher.flushOneSuccess(analyzer);
-		flusher.flushSuccessRank();
-		//		flusher.flushLiveStatic();
-		//		flusher.flushMasterInfo();
+		//		flusher.flushSuccessRank();
+		flusher.flushLiveStatic();
+		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
