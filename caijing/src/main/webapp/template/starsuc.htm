@@ -9,17 +9,28 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")
+   #include("/template/inc/header.htm")
     <div class="mainBox">
-    	#include("/template/inc/colL.htm")
+      #include("/template/inc/colL.htm")
         <div class="sec_list">
-        		<div class="sec_nav">
-            	<h2>
+            <div class="sec_nav">
+               <h2>
                     <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
                      <a href="/">投资大师首页</a> &gt; 分析师推荐成功率
                 </h2>   
             </div>
-                     <h2 class="star_detail_star">${analyzer.getName()} &nbsp;&nbsp;&nbsp;推荐成功率为：<font color="red">$ratio</font></h2>
+            <h2 class="star_detail_star">
+               ${analyzer.getName()} &nbsp;&nbsp;&nbsp;
+               <!--修改2011-2-21,循环输出年份，如果等于当前选择年份则option默认选择该年-->
+                  <select onchange="window.location = this.value;">
+                  #for($one in $年份集合)
+                     <option value="${one.getAid()}_$one.年份_intro.html" #if($one.年份 == ${year})selected#end>${$one.年份}</option>
+                  #end
+                  </select>
+               <!--修改2011-2-21-->
+               年推荐成功率为：
+               <font color="red">$ratio</font>
+            </h2>
             <ol style="width:680px" id="star_detail_tab" class="star_detail_tab">
             	<li id="starTab1"><a href="${analyzer.getAid()}_intro.html">简介</a></li>
             	<li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
