@@ -96,8 +96,8 @@ public class HistoryHandler {
 	}
 
 	//, "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合",
-	//	"光大证券", "中投证券", "中信建投" 
-	private static String[] agencys = { "申银万国" };
+	//	"光大证券", "中投证券", "中信建投" ,"申银万国"
+	private static String[] agencys = { "中投证券" };
 
 	private void dealOneAnalyzer(Analyzer analyzer) {
 		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
