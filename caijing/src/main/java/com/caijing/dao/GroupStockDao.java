@@ -7,7 +7,19 @@ import com.caijing.domain.GroupStock;
 import com.caijing.util.CrudDao;
 
 public interface GroupStockDao extends CrudDao {
+	/**
+	 * 获取所有当前分析师的组合股票
+	 * @param groupid
+	 * @return
+	 */
 	List<GroupStock> getCurrentStockByGroupid(String groupid);
+
+	/**
+	 * 获取某分析师所有组合股票数据，包括调出和过期的。
+	 * @param groupid
+	 * @return
+	 */
+	List<GroupStock> getAllStockByGroupid(String groupid);
 
 	/**
 	 * 获取某个时间段的组合股票数据，用于计算年度组合收益率
@@ -57,5 +69,24 @@ public interface GroupStockDao extends CrudDao {
 	 */
 	int updateObjectAchieved(GroupStock groupStock);
 
+	/**
+	 * 更新过期的groupstock
+	 * @param groupstock
+	 * @return
+	 */
 	int updateOutOfDate(GroupStock groupstock);
+
+	/**
+	 * 更新调出的gourpstock
+	 * @param groupstock
+	 * @return
+	 */
+	int updateOutGain(GroupStock groupstock);
+
+	/**
+	 * 获取某个时间点之前，仍旧还在组合中的股票
+	 * @param endDate  时间点
+	 * @return
+	 */
+	List<GroupStock> getCurrentStocksBefore(Date endDate);
 }

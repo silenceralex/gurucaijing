@@ -86,6 +86,13 @@
 		<property name="stockReloader">
 			<ref bean="stockReloader" />
 		</property>
+		<property name="recommendSuccessManager">
+			<ref bean="recommendSuccessManager" />
+		</property>
+		<property name="groupGainManager">
+			<ref bean="groupGainManager" />
+		</property>
+		
 	</bean>
 	
 	<import resource="timing.xml" />

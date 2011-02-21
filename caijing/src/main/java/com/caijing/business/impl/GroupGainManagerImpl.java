@@ -1,6 +1,8 @@
 package com.caijing.business.impl;
 
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -57,16 +59,31 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 		}
 	}
 
-	//	@Override
-	//	public void fillGroupEarn(String aid) {
-	//		Date startdate = groupStockDao.getEarliestIntimeByAid(aid);
-	//		List<GroupStock> stocks=groupStockDao.getGroupStockListAsc(0, 1);
-	//		if(stocks!=null&&stocks.size()>0){
-	//			stocks.get(0).getStockcode();
-	//		}
-	//		groupStockDao.
-	//
-	//	}
+	public void processGroupStockOutDate(Date endDate) {
+		List<GroupStock> stocks = groupStockDao.getCurrentStocksBefore(endDate);
+		Calendar cal = Calendar.getInstance();
+		for (GroupStock stock : stocks) {
+			cal.setTime(stock.getIntime());
+			cal.add(Calendar.YEAR, 1);
+			Date outtime = cal.getTime();
+			StockEarn se = stockEarnDao.getNearPriceByCodeDate(stock.getStockcode(), cal.getTime());
+			//验证期在当前日期之后或者当前尚未打开
+			if (cal.getTime().after(new Date()) || se == null) {
+				continue;
+			}
+			List<StockEarn> ses = stockEarnDao.getRatiosByCodeAndPeriod(stock.getStockcode(), stock.getIntime(),
+					se.getDate());
+			float gain = 1;
+			for (StockEarn stockEarn : ses) {
+				gain = gain * (1 + stockEarn.getRatio() / 100);
+			}
+			stock.setOuttime(outtime);
+			stock.setStatus(-1);
+			stock.setGain(FloatUtil.getTwoDecimal(gain));
+			stock.setLtime(new Date());
+			groupStockDao.updateOutOfDate(stock);
+		}
+	}
 
 	public void extractGroupStock(RecommendStock rs) {
 		String[] names = rs.getAname().split("\\s|,");
@@ -78,12 +95,25 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 				gs.setGroupid(aid);
 				gs.setGroupname(name);
 				gs.setStockcode(rs.getStockcode());
-				recommendStockDao.updateAnalyzerByReportid(rs.getReportid(), aid);
+				//				recommendStockDao.updateAnalyzerByReportid(rs.getReportid(), aid);
 				GroupStock oldstock = groupStockDao.getCurrentStockByGroupidAndStockcode(aid, rs.getStockcode());
-
+				boolean isOutDate = false;
+				if (oldstock != null) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(oldstock.getIntime());
+					cal.add(Calendar.YEAR, 1);
+					//oldstock 若已经过期,则仍旧可以插入
+					try {
+						if (cal.getTime().before(DateTools.parseYYYYMMDDDate(rs.getCreatedate()))) {
+							isOutDate = true;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
 				try {
 					//					if (buyset.contains(rs.getGrade()) && (oldstock == null)) {
-					if (GradeUtil.judgeStaus(rs.getGrade()) == 2 && (oldstock == null)) {
+					if (GradeUtil.judgeStaus(rs.getGrade()) == 2 && (oldstock == null || isOutDate)) {
 						gs.setIntime(DateTools.parseShortDate(rs.getCreatedate()));
 						gs.setInreportid(rs.getReportid());
 						gs.setObjectprice(rs.getObjectprice());
@@ -96,10 +126,7 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						} else {
 							inprice = stockEarnDao.getNearPriceByCodeDate(rs.getStockcode(),
 									DateTools.parseYYYYMMDDDate(rs.getCreatedate())).getPrice();
-							//							inprice = sp.fetchhq(rs.getStockcode(),
-							//									DateTools.transformYYYYMMDDDateFromStr(rs.getCreatedate())).getEndprice();
 						}
-
 						gs.setInprice(inprice);
 						try {
 							groupStockDao.insert(gs);
@@ -109,6 +136,7 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						}
 						List<StockEarn> stockEarns = stockEarnDao.getRatiosByCodeFromDate(rs.getStockcode(),
 								rs.getCreatedate());
+
 						float gain = 1;
 						for (int i = 0; i < stockEarns.size(); i++) {
 							gain = (1 + stockEarns.get(i).getRatio() / 100) * gain;
@@ -118,7 +146,6 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 						gs.setLtime(stockEarns.get(stockEarns.size() - 1).getDate());
 						groupStockDao.updateStockGain(gs);
 					}
-					//					if (sellset.contains(rs.getGrade()) && (oldstock != null)) {
 					if (GradeUtil.judgeStaus(rs.getGrade()) == 1 && (oldstock != null)) {
 						if (oldstock.getIntime().before(DateTools.parseShortDate(rs.getCreatedate()))) {
 							oldstock.setOuttime(DateTools.parseShortDate(rs.getCreatedate()));

@@ -29,7 +29,7 @@ public interface RecommendSuccessDao extends CrudDao {
 	List<RecommendSuccess> getRecommendsByAid(String aid);
 
 	/**
-	 * 所有待验证的数据
+	 * 某分析师所有待验证的数据
 	 * @param aid
 	 * @return
 	 */
@@ -39,5 +39,17 @@ public interface RecommendSuccessDao extends CrudDao {
 
 	int getTotalRecommendCountByAidDuring(String aid, String startDate, String endDate);
 
+	/**
+	 * 删除某个分析师的所有success数据
+	 * @param aid
+	 * @return
+	 */
 	int deleteByAid(String aid);
+
+	/**
+	 * 所有待验证的数据
+	 * @param aid
+	 * @return
+	 */
+	List<RecommendSuccess> getUnvalidateRecommendsBefore(Date endDate);
 }

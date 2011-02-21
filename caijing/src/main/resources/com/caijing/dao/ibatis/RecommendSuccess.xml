@@ -79,4 +79,8 @@
 	<delete id="deleteByAid" parameterClass="java.lang.String">
 		delete from recommendsuccess where aid=#value#
 	</delete>
+	
+	<select id="getUnvalidateRecommendsBefore" parameterClass="java.util.Date" resultClass="RecommendSuccess">
+		<![CDATA[select * from recommendsuccess where recommenddate <= #value# and isAchieved=2]]>
+	</select>
 </sqlMap>

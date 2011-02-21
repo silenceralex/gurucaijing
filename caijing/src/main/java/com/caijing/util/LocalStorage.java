@@ -1,6 +1,7 @@
 package com.caijing.util;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.business.GroupGainManager;
+import com.caijing.business.RecommendSuccessManager;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
@@ -36,6 +39,26 @@ public class LocalStorage {
 	@Qualifier("stockReloader")
 	private StockReloader stockReloader = null;
 
+	private RecommendSuccessManager recommendSuccessManager = null;
+
+	private GroupGainManager groupGainManager = null;
+
+	public GroupGainManager getGroupGainManager() {
+		return groupGainManager;
+	}
+
+	public void setGroupGainManager(GroupGainManager groupGainManager) {
+		this.groupGainManager = groupGainManager;
+	}
+
+	public RecommendSuccessManager getRecommendSuccessManager() {
+		return recommendSuccessManager;
+	}
+
+	public void setRecommendSuccessManager(RecommendSuccessManager recommendSuccessManager) {
+		this.recommendSuccessManager = recommendSuccessManager;
+	}
+
 	public StockReloader getStockReloader() {
 		return stockReloader;
 	}
@@ -58,12 +81,27 @@ public class LocalStorage {
 		stockReloader.reload();
 		List<Stock> lists = stockReloader.getStockDao().getAllStock();
 
+		if (!groupGain.getSp().isWorkDay()) {
+			return;
+		}
 		//		List<RecommendStock> lists = groupGain.getRecommendStockDao().getRecommendStocksGroupByCode();
 		for (int i = 0; i < lists.size(); i++) {
 			System.out.println("Current process :" + i + " stockcode: " + lists.get(i).getStockcode());
 			groupGain.getSp().currentPrice(lists.get(i).getStockcode());
 		}
 		groupGain.getSp().currentPrice("000300");
+
+		//TODO groupstock表到期的处理，recommmendsuccess验证处理
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.YEAR, -1);
+		Date recommenddate = cal.getTime();
+		groupGainManager.processGroupStockOutDate(recommenddate);
+		//
+		cal.add(Calendar.MONTH, 6);
+		Date successvalidate = cal.getTime();
+		//TODO recommmendsuccess验证处理，分析师成功率的更新
+		recommendSuccessManager.processValidatedRecommendSuccess(successvalidate);
 
 		List<Analyzer> analyzerlist = groupGain.getAnalyzerDao().getStarAnalyzers();
 		Date date = groupGain.getGroupEarnDao().getLatestDate();
@@ -242,11 +280,11 @@ public class LocalStorage {
 		//		GroupEarn ge = groupEarnDao.getGroupEarnByIDAndDate("A6EJV66CI", yesterday);
 		//		System.out.println("group earn at : " + yesterday + "   ratio:" + ge.getRatio());
 		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
-		//		GroupGain gg = (GroupGain) ContextFactory.getBean("groupGain");
-		//		List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
-		//		for (Analyzer analyzer : analyzerlist) {
-		//			gg.processASCStore(analyzer.getName());
-		//		}
+		//				GroupGain gg = (GroupGain) ContextFactory.getBean("groupGain");
+		//				List<Analyzer> analyzerlist = analyzerDao.getAllAnalyzers();
+		//				for (Analyzer analyzer : analyzerlist) {
+		//					gg.processASCStore(analyzer.getName());
+		//				}
 		//		List<Analyzer> analyzerlist = gg.getAnalyzerDao().getAllAnalyzers();
 		//		for (Analyzer analyzer : analyzerlist) {
 		//			System.out.println("analyzer.getAid() :"  + analyzer.getAid());
@@ -258,9 +296,18 @@ public class LocalStorage {
 		//		}
 
 		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		storage.processHistoryGroupEarn("");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.YEAR, -1);
+		Date recommenddate = cal.getTime();
+		storage.getGroupGainManager().processGroupStockOutDate(recommenddate);
+		//		cal.add(Calendar.MONTH, -6);
+		//		Date successvalidate = cal.getTime();
+		//		storage.getRecommendSuccessManager().processValidatedRecommendSuccess(successvalidate);
+		//		storage.processHistoryGroupEarn("");
 		//		storage.localStore();
 		//		storage.storeGroupStockGain();
+		System.exit(0);
 	}
 
 	public GroupGain getGroupGain() {

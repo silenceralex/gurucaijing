@@ -55,7 +55,6 @@
 		</property>
 	</bean>
 
-
 	<bean id="groupGainManager"
 		class="com.caijing.business.impl.GroupGainManagerImpl">
 		<property name="groupStockDao">
@@ -75,7 +74,22 @@
 		</property>
 	</bean>
 
-
+	<bean id="recommendSuccessManager"
+		class="com.caijing.business.impl.RecommendSuccessManagerImpl">
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
+		<property name="stockEarnDao">
+			<ref bean="stockEarnDao" />
+		</property>
+		<property name="recommendSuccessDao">
+			<ref bean="recommendSuccessDao" />
+		</property>
+		<property name="analyzerSuccessDao">
+			<ref bean="analyzerSuccessDao" />
+		</property>
+	</bean>
+	
 	<bean id="discount" class="com.caijing.util.Discount">
 		<property name="recommendStockDao">
 			<ref bean="recommendStockDao" />
@@ -136,6 +150,18 @@
 		</property>
 		<property name="recommendSuccessDao">
 			<ref bean="recommendSuccessDao" />
+		</property>
+	</bean>
+	
+	<bean id="caculater" class="com.caijing.model.Caculater">
+		<property name="groupEarnDao">
+			<ref bean="groupEarnDao" />
+		</property>
+		<property name="groupStockDao">
+			<ref bean="groupStockDao" />
+		</property>
+		<property name="stockEarnDao">
+			<ref bean="stockEarnDao" />
 		</property>
 	</bean>
 

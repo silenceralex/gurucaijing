@@ -14,7 +14,22 @@ import com.caijing.dao.ibatis.AnalyzerDaoImpl;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.RecommendStock;
 
+/**
+ * 按照分析师为计算单元进行的本地化处理的计算
+ * @author chenjun
+ *
+ */
 public class AnalyzerFetcher {
+
+	private AnalyzerDao analyzerDao = null;
+
+	private RecommendStockDao recommendStockDao = null;
+	private GroupGainManager groupGainManager = null;
+
+	private static String[] agencys = { "申银万国", "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合",
+			"光大证券", "中投证券", "中信建投" };
+
+	private LocalStorage storage = null;
 
 	public String getfirstPage(String txtpath) {
 		try {
@@ -31,10 +46,6 @@ public class AnalyzerFetcher {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	public void process(String saname) {
-
 	}
 
 	public static void main(String[] args) {

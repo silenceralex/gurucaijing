@@ -31,4 +31,13 @@ public class AnalyzerSuccessDaoImpl extends CrudDaoDefault implements AnalyzerSu
 				getNameSpace() + ".getAnalyzerRankBySanameYear", params);
 	}
 
+	@Override
+	public AnalyzerSuccess getOneAnalyzerSuccess(String aid, String year) {
+		Map<String, Object> params = new HashMap<String, Object>(4);
+		params.put("year", year);
+		params.put("aid", aid);
+		return (AnalyzerSuccess) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getOneAnalyzerSuccess",
+				params);
+	}
+
 }

@@ -17,6 +17,12 @@
 		order by gs.intime desc
 	</select>
 	
+	<select id="getAllStockByGroupid" resultClass="GroupStock"
+		parameterClass="java.lang.String">
+		select gs.* ,s.stockname as stockname from groupstock as gs,stock s where gs.groupid=#value# and gs.stockcode = s.stockcode
+		order by gs.intime desc
+	</select>
+	
 	<select id="getCurrentStockByGroupidAndPeriod" resultClass="GroupStock"
 		parameterClass="java.util.Map">
 		<![CDATA[select gs.* ,s.stockname as stockname from groupstock as gs,stock s where gs.groupid=#value# and gs.intime>#startdate# and gs.intime<#enddate# 
@@ -132,8 +138,33 @@
 			<isNotEmpty prepend="," property="outtime">
 				outtime = #outtime#
 			</isNotEmpty>
+			<isNotEmpty prepend="," property="gain">
+				gain = #gain#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ltime">
+				ltime = #ltime#
+			</isNotEmpty>
 		</dynamic>
 		,status = -1 where groupid=#groupid# and stockcode=#stockcode# and status =1
 	</update>
+	
+	<update id="updateOutGain" parameterClass="GroupStock">
+		update groupstock
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="gain">
+				gain = #gain#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ltime">
+				ltime = #ltime#
+			</isNotEmpty>
+		</dynamic>
+		 where groupid=#groupid# and stockcode=#stockcode# and intime = #intime#
+	</update>
+	
+	
+	<select id="getCurrentStocksBefore"
+		resultClass="GroupStock" parameterClass="java.util.Date">
+		<![CDATA[select * from groupstock where intime<=#value# and status=1]]>
+	</select>
 	
 </sqlMap>

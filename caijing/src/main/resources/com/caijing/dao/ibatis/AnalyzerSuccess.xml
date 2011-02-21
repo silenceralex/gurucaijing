@@ -7,6 +7,11 @@
 	<select id="select" resultClass="AnalyzerSuccess">
 		select * from analyzersuccessyear where aid=#aid# and year=#year#
 	</select>
+	
+	<select id="getOneAnalyzerSuccess" resultClass="AnalyzerSuccess" parameterClass="java.util.HashMap">
+		select * from analyzersuccessyear where aid=#aid# and year=#year#
+	</select>
+	
 
 	<insert id="insert"  parameterClass="AnalyzerSuccess">
 		insert into analyzersuccessyear

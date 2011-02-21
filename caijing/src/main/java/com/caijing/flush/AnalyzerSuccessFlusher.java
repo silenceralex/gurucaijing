@@ -178,9 +178,8 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("weightList", weightList);
 			introvmf.put("startprice", startprice);
 			introvmf.put("priceList", priceList);
-			System.out.println("analyzerList size :" + analyzerList.size());
+			System.out.println("weightList size :" + weightList.size());
 			System.out.println("priceList size :" + priceList.size());
-			System.out.println("analyzerList size :" + analyzerList.size());
 			introvmf.save(ADMINDIR + "static/" + aid + "_" + year + "_intro.html");
 			System.out.println("write page : " + ADMINDIR + aid + "_" + year + "_intro.html");
 		} catch (Exception e) {

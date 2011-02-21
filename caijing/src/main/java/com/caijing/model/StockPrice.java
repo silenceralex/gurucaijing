@@ -15,7 +15,6 @@ import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.StockEarn;
 import com.caijing.domain.StockGain;
 import com.caijing.domain.StockHQ;
-import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.UrlDownload;
@@ -27,6 +26,8 @@ public class StockPrice {
 	private static String zshqurl = "http://q.stock.sohu.com/app2/history.up?method=history&code=zs_000300&t=d&res=js";
 
 	private static String hexunurl = "http://quote.stock.hexun.com/stockdata/stock_quote.aspx?stocklist=";
+
+	private static String sinaurl = "http://hq.sinajs.cn/?_=";
 	private UrlDownload down = new UrlDownload();
 
 	@Autowired
@@ -41,6 +42,49 @@ public class StockPrice {
 			.compile(
 					"dataArr = \\[\\['[0-9]{6}','.*?',([0-9\\.]+),(-?[0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),([0-9\\.]+),[0-9\\.]+,([0-9\\.]+),[0-9\\.]+,[0-9\\.]+\\]\\]",
 					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	//	public StockHQ getPriceBySina(String stockcode, String today) {
+	//		String stockurl = "";
+	//		if (stockcode.startsWith("6") || stockcode.startsWith("9")) {
+	//			stockurl = sinaurl + System.currentTimeMillis() + "&list=sh" + stockcode;
+	//		} else {
+	//			stockurl = sinaurl + System.currentTimeMillis() + "&list=sz" + stockcode;
+	//		}
+	//		System.out.println("stockurl: " + stockurl);
+	//		return null;
+	//	}
+
+	/**
+	 * 判断是否是工作日，是否需要进行本地存储的更新
+	 * @return
+	 */
+	public boolean isWorkDay() {
+		Date date = new Date();
+		String today = DateTools.transformYYYYMMDDDate(date);
+		String stockurl = sinaurl + System.currentTimeMillis() + "&list=sh000300";
+		try {
+			String content = down.load(stockurl);
+			System.out.println("content: " + content);
+			content = content.substring(content.indexOf('"'), content.lastIndexOf('"'));
+			System.out.println("content: " + content);
+			String[] strs = content.split(",");
+			System.out.println("strs length: " + strs.length);
+			System.out.println("strs length: " + strs.length);
+			System.out.println("strs[" + (strs.length - 2) + "]: " + strs[strs.length - 2].trim());
+			System.out.println("today： " + today);
+			if (today.endsWith(strs[strs.length - 2].trim())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
 
 	public StockHQ currentPrice(String stockcode) {
 		String stockurl = hexunurl + stockcode;
@@ -372,9 +416,14 @@ public class StockPrice {
 		//		StockHQ hq = sp.currentPrice("000001");
 		//		System.out.println("收盘价：" + hq.getEndprice());
 		//		System.out.println("收益率：" + hq.getGainrate());
-		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
-		sp.setStockEarnDao(stockEarnDao);
-		sp.storeStockPrice("000300", 1, "2010-10-27", "2010-10-27");
+		//		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
+		//		sp.setStockEarnDao(stockEarnDao);
+		//		sp.storeStockPrice("000300", 1, "2010-10-27", "2010-10-27");
+		if (sp.isWorkDay()) {
+			System.out.println("Is working Day!");
+		} else {
+			System.out.println("Tody Is NOT working Day!");
+		}
 	}
 
 	public StockEarnDao getStockEarnDao() {

@@ -103,7 +103,7 @@ public class FetchRecommendStock {
 		long start = System.currentTimeMillis();
 		//		FetchRecommendStock fetch = new FetchRecommendStock();
 		//		fetch.process();
-		List<Report> reports =
+		//		List<Report> reports =
 		//		 reportDao.getCompanyReportsBySanameAfter("申银万国", "2010-09-16 00:00:00");
 		//		 reportDao.getCompanyReportsBySanameAfter("国泰君安", "2010-09-16 00:00:00");
 		//		 reportDao.getCompanyReportsBySanameAfter("中金公司", "2010-09-16 00:00:00");
@@ -112,66 +112,64 @@ public class FetchRecommendStock {
 		//		 reportDao.getCompanyReportsBySanameAfter("安信证券", "2010-09-16 00:00:00");
 		//		 reportDao.getCompanyReportsBySanameAfter("广发证券", "2010-09-16 00:00:00");
 		//		 reportDao.getCompanyReportsBySanameAfter("招商证券", "2010-09-16 00:00:00");
-			//reportDao.getCompanyReportsBySaname("华泰联合");
-			//reportDao.getCompanyReportsBySaname("长江证券");
-			//reportDao.getCompanyReportsBySaname("国信证券");
-			//reportDao.getCompanyReportsBySaname("光大证券");
-			//reportDao.getCompanyReportsBySaname("银河证券");
-			//reportDao.getCompanyReportsBySaname("宏源证券");
-			reportDao.getCompanyReportsBySaname("东方证券");
-			//reportDao.getCompanyReportsBySaname("中信建投");
-			//reportDao.getCompanyReportsBySaname("中投证券");
-			//reportDao.getCompanyReportsBySaname("华泰证券");
+		//reportDao.getCompanyReportsBySaname("华泰联合");
+		//reportDao.getCompanyReportsBySaname("长江证券");
+		//reportDao.getCompanyReportsBySaname("国信证券");
+		//reportDao.getCompanyReportsBySaname("光大证券");
+		//reportDao.getCompanyReportsBySaname("银河证券");
+		//reportDao.getCompanyReportsBySaname("宏源证券");
+		//			reportDao.getCompanyReportsBySaname("东方证券");
+		//reportDao.getCompanyReportsBySaname("中信建投");
+		//reportDao.getCompanyReportsBySaname("中投证券");
+		//reportDao.getCompanyReportsBySaname("华泰证券");
 		//		System.out.println("Reports size: " + reports.size());
+		Report report = (Report) reportDao.select("6S21G6QV");
 		long end = System.currentTimeMillis();
 		System.out.println("Use time: " + (end - start) / 1000 + " seconds");
 		int i = 0;
-		for (Report report : reports) {
-			if (config.getValue(report.getSaname()) != null) {
-				System.out.println("Now process NO.: " + i);
-				// System.out.println("Reports filepath: " +
-				// report.getFilepath());
-				// System.out.println("Reports type: " + report.getType());
-				// System.out.println("Reports title: " + report.getTitle());
-				// System.out.println("Reports Saname: " + report.getSaname());
-				// System.out.println("Reports Stockcode: "
-				// + report.getStockcode());
-				// System.out.println("Reports Stockname: "
-				// + report.getStockname());
-				String txtpath = "http://51gurus.com" + report.getFilepath();
-				System.out.println("Reports txt path: " + txtpath.replace(".pdf", ".txt"));
-				RecommendStock stock = recommendStockDao.getRecommendStockbyReportid(report.getRid());
-				RecommendStock rs = extractor.extractFromFile(report, txtpath.replace(".pdf", ".txt"));
-				if (stock == null) {
-					if (rs != null) {
-						rs.setReportid(report.getRid());
-						if (rs.getExtractnum() > 2) {
-							recommendStockDao.insert(rs);
-							System.out.println("Reports getAname: " + rs.getAname());
-							System.out.println("Reports getObjectprice: " + rs.getObjectprice());
-							System.out.println("Reports getCreatedate: " + rs.getCreatedate());
-							System.out.println("Reports getGrade: " + rs.getGrade());
-							System.out.println("Reports getEps: " + rs.getEps());
-						}
+		//		for (Report report : reports) {
+		if (config.getValue(report.getSaname()) != null) {
+			System.out.println("Now process NO.: " + i);
+			System.out.println("Reports filepath: " + report.getFilepath());
+			System.out.println("Reports type: " + report.getType());
+			System.out.println("Reports title: " + report.getTitle());
+			System.out.println("Reports Saname: " + report.getSaname());
+			System.out.println("Reports Stockcode: " + report.getStockcode());
+			System.out.println("Reports Stockname: " + report.getStockname());
+			String txtpath = "http://51gurus.com" + report.getFilepath();
+			System.out.println("Reports txt path: " + txtpath.replace(".pdf", ".txt"));
+			RecommendStock stock = recommendStockDao.getRecommendStockbyReportid(report.getRid());
+			RecommendStock rs = extractor.extractFromFile(report, txtpath.replace(".pdf", ".txt"));
+			if (stock == null) {
+				if (rs != null) {
+					rs.setReportid(report.getRid());
+					if (rs.getExtractnum() > 2) {
+						recommendStockDao.insert(rs);
+						System.out.println("Reports getAname: " + rs.getAname());
+						System.out.println("Reports getObjectprice: " + rs.getObjectprice());
+						System.out.println("Reports getCreatedate: " + rs.getCreatedate());
+						System.out.println("Reports getGrade: " + rs.getGrade());
+						System.out.println("Reports getEps: " + rs.getEps());
 					}
-				} else {
-					if (rs != null) {
-						rs.setReportid(report.getRid());
-						if (rs.getExtractnum() > 2) {
-							recommendStockDao.update(rs);
-							System.out.println("Reports getAname: " + rs.getAname());
-							System.out.println("Reports getObjectprice: " + rs.getObjectprice());
-							System.out.println("Reports getCreatedate: " + rs.getCreatedate());
-							System.out.println("Reports getGrade: " + rs.getGrade());
-							System.out.println("Reports getEps: " + rs.getEps());
-						}
-					}
-					System.out.println("Already processed!");
 				}
-				i++;
+			} else {
+				if (rs != null) {
+					rs.setReportid(report.getRid());
+					if (rs.getExtractnum() > 2) {
+						recommendStockDao.update(rs);
+						System.out.println("Reports getAname: " + rs.getAname());
+						System.out.println("Reports getObjectprice: " + rs.getObjectprice());
+						System.out.println("Reports getCreatedate: " + rs.getCreatedate());
+						System.out.println("Reports getGrade: " + rs.getGrade());
+						System.out.println("Reports getEps: " + rs.getEps());
+					}
+				}
+				System.out.println("Already processed!");
 			}
+			i++;
 		}
-		System.out.println("process size: " + i);
+		//		}
+		//		System.out.println("process size: " + i);
 	}
 
 	public StockDao getDao() {
