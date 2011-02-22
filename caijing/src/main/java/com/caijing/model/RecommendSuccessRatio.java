@@ -30,6 +30,8 @@ public class RecommendSuccessRatio {
 
 	private AnalyzerSuccessDao analyzerSuccessDao = null;
 
+	public static String[] years = { "2009", "2010", "2011" };
+
 	public AnalyzerSuccessDao getAnalyzerSuccessDao() {
 		return analyzerSuccessDao;
 	}
@@ -195,22 +197,23 @@ public class RecommendSuccessRatio {
 	}
 
 	public void handleHistorySuccessBySA(String saname) {
-
 		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(saname);
 		for (Analyzer analyzer : analyzers) {
 			handleHistorySuccessByAnalyzer(analyzer);
+			for (String year : years) {
+				handlerOneAnalyzerYearSuccess(analyzer, year);
+			}
 		}
 	}
 
-	public void handleYearSuccess(String saname, String year) {
+	private void handlerOneAnalyzerYearSuccess(Analyzer analyzer, String year) {
 		String startDate = year + "-01-01";
 		String endDate = year + "-12-31";
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(saname);
-		for (Analyzer analyzer : analyzers) {
-			int success = recommendSuccessDao
-					.getRecommendSuccessCountByAidDuring(analyzer.getAid(), startDate, endDate);
-			int total = recommendSuccessDao.getTotalRecommendCountByAidDuring(analyzer.getAid(), startDate, endDate);
-			AnalyzerSuccess asuccess = new AnalyzerSuccess();
+		int success = recommendSuccessDao.getRecommendSuccessCountByAidDuring(analyzer.getAid(), startDate, endDate);
+		int total = recommendSuccessDao.getTotalRecommendCountByAidDuring(analyzer.getAid(), startDate, endDate);
+		AnalyzerSuccess asuccess = analyzerSuccessDao.getOneAnalyzerSuccess(analyzer.getAid(), year);
+		if (asuccess == null) {
+			asuccess = new AnalyzerSuccess();
 			asuccess.setAid(analyzer.getAid());
 			asuccess.setAname(analyzer.getName());
 			asuccess.setTotal(total);
@@ -222,6 +225,22 @@ public class RecommendSuccessRatio {
 			}
 			asuccess.setSuccessratio(successratio);
 			analyzerSuccessDao.insert(asuccess);
+		} else {
+			asuccess.setTotal(total);
+			asuccess.setSuccess(success);
+			float successratio = 0;
+			if (success != 0 && total != 0) {
+				successratio = ((float) success / total) * 100;
+			}
+			asuccess.setSuccessratio(successratio);
+			analyzerSuccessDao.update(asuccess);
+		}
+	}
+
+	public void handleYearSuccess(String saname, String year) {
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(saname);
+		for (Analyzer analyzer : analyzers) {
+			handlerOneAnalyzerYearSuccess(analyzer, year);
 		}
 	}
 

@@ -18,8 +18,8 @@
                         ${analyzer.getName()} &nbsp;&nbsp;&nbsp; 
                         <!--修改2011-2-21,循环输出年份，如果等于当前选择年份则option默认选择该年-->
                         <select onchange="window.location = this.value;">
-                        #for($one in $年份集合)
-                           <option value="${one.getAid()}_$one.年份_intro.html" #if($one.年份 == ${year})selected#end>${$one.年份}</option>
+                        #for($one in $yearList)
+                           <option value="${one.getAid()}_$one_intro.html" #if(${one} == ${year})selected#end>${one}</option>
                         #end
                         </select>
                         ${year} 
@@ -69,7 +69,7 @@
                             </div>
                             <h2 class="analyticsTitle">股票组合回报率趋势图</h2>
                             <!--2010-2-21相对沪深300-->
-                            <h2 class="analyticsSubTitle">相对沪深300的收益率为：24%</h2>
+                            <h2 class="analyticsSubTitle">相对沪深300的收益率为：$relativeratio %</h2>
                             <!--2010-2-21相对沪深300-->
                             <div id="holder1" class="holder">
                             </div>

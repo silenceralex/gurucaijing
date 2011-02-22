@@ -97,8 +97,10 @@ public class HistoryHandler {
 
 	//, "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合",
 	//	"光大证券", "中投证券", "中信建投" ,"申银万国"
-	private static String[] agencys = { "中投证券" };
+	private static String[] agencys = { "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合", "光大证券",
+			"中投证券", "中信建投", "申银万国" };
 
+	//TODO 异常的处理
 	private void dealOneAnalyzer(Analyzer analyzer) {
 		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
 		System.out.println("analyzer getName : " + analyzer.getName());
@@ -106,7 +108,7 @@ public class HistoryHandler {
 		for (RecommendStock rs : rstocks) {
 			groupGainManager.extractGroupStock(rs);
 		}
-		//TODO 处理所有历史研报收益率
+		//TODO 处理所有历史研报收益率  
 		caculater.processAllHistoryGain(analyzer.getAid());
 		//		storage.processHistoryGroupEarn(analyzer.getAid());
 		System.out.println("finish deal analyer : " + analyzer.getName());
@@ -116,10 +118,10 @@ public class HistoryHandler {
 		System.out.println("agencys size: " + agencys.length);
 		for (String agency : agencys) {
 			System.out.println("processing agency groupgain: " + agency);
-			List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(agency);
-			for (Analyzer analyzer : analyzers) {
-				dealOneAnalyzer(analyzer);
-			}
+			//			List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(agency);
+			//			for (Analyzer analyzer : analyzers) {
+			//				dealOneAnalyzer(analyzer);
+			//			}
 			System.out.println("Finished processing agency groupgain: " + agency);
 			System.out.println("Start processing agency successratio: " + agency);
 			analyzerManager.handleHistoryRecommendBySA(agency);

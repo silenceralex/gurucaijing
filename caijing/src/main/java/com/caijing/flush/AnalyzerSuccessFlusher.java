@@ -12,10 +12,14 @@ import com.caijing.dao.AnalyzerSuccessDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.dao.RecommendSuccessDao;
+import com.caijing.dao.ReportDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.AnalyzerSuccess;
 import com.caijing.domain.GroupEarn;
+import com.caijing.domain.RecommendSuccess;
+import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
@@ -31,6 +35,28 @@ public class AnalyzerSuccessFlusher {
 	@Autowired
 	@Qualifier("analyzerSuccessDao")
 	private AnalyzerSuccessDao analyzerSuccessDao = null;
+
+	private RecommendSuccessDao recommendSuccessDao = null;
+
+	private ReportDao reportDao = null;
+
+	public ReportDao getReportDao() {
+		return reportDao;
+	}
+
+	public void setReportDao(ReportDao reportDao) {
+		this.reportDao = reportDao;
+	}
+
+	public static String PREFIX = "http://51gurus.com";
+
+	public RecommendSuccessDao getRecommendSuccessDao() {
+		return recommendSuccessDao;
+	}
+
+	public void setRecommendSuccessDao(RecommendSuccessDao recommendSuccessDao) {
+		this.recommendSuccessDao = recommendSuccessDao;
+	}
 
 	@Autowired
 	@Qualifier("stockEarnDao")
@@ -122,11 +148,26 @@ public class AnalyzerSuccessFlusher {
 		}
 	}
 
-	public void flushAnalyzerYear(Analyzer analyzer, String year, boolean isStart) {
+	public void flushAnalyzer(Analyzer analyzer) {
+		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
+		for (int i = 0; i < years.size(); i++) {
+			if (i == 0) {
+				flushAnalyzerYear(analyzer, years.get(i), years, true);
+			} else {
+				flushAnalyzerYear(analyzer, years.get(i), years, false);
+			}
+		}
+	}
+
+	public void flushAnalyzerYear(Analyzer analyzer, String year, List<String> years, boolean isStart) {
 		FloatUtil floatUtil = new FloatUtil();
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		String endDate = year + "-12-31";
 		String startDay = year + "-01-01";
+		boolean isCurrentYear = false;
+		if (year.equals(DateTools.getYear(new Date()))) {
+			isCurrentYear = true;
+		}
 		try {
 			//生成分析师intro页面
 			String aid = analyzer.getAid();
@@ -166,13 +207,18 @@ public class AnalyzerSuccessFlusher {
 			float end = weightList.get(weightList.size() - 1).getWeight();
 			float ratio = FloatUtil.getTwoDecimal((end - startweight) * 100 / startweight);
 
+			float ratio300 = FloatUtil.getTwoDecimal((priceList.get(priceList.size() - 1).getPrice() - startprice)
+					* 100 / startprice);
+			float relativeratio = ratio - ratio300;
 			VMFactory introvmf = new VMFactory();
 			introvmf.setTemplate("/template/starintro_y.htm");
 			introvmf.put("floatUtil", floatUtil);
 			introvmf.put("dateTools", new DateTools());
 			introvmf.put("analyzer", analyzer);
 			introvmf.put("year", year);
+			introvmf.put("yearList", years);
 			introvmf.put("ratio", ratio);
+			introvmf.put("relativeratio", relativeratio);
 			introvmf.put("startweight", startweight);
 			introvmf.put("analyzerList", analyzerList);
 			introvmf.put("weightList", weightList);
@@ -180,11 +226,49 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("priceList", priceList);
 			System.out.println("weightList size :" + weightList.size());
 			System.out.println("priceList size :" + priceList.size());
-			introvmf.save(ADMINDIR + "static/" + aid + "_" + year + "_intro.html");
-			System.out.println("write page : " + ADMINDIR + aid + "_" + year + "_intro.html");
+			//当前年度则直接刷出url，非当前年度刷出带year的intro
+			if (isCurrentYear) {
+				introvmf.save(ADMINDIR + "static/" + aid + "_intro.html");
+				System.out.println("write current year page : " + ADMINDIR + aid + "_intro.html");
+			} else {
+				introvmf.save(ADMINDIR + "static/" + aid + "_" + year + "_intro.html");
+				System.out.println("write page : " + ADMINDIR + aid + "_" + year + "_intro.html");
+			}
 		} catch (Exception e) {
 			System.out.println("===> exception !! ：" + analyzer.getAid() + "  name : " + analyzer.getName());
 			System.out.println("While generating stars stock html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void flushOneSuccess(Analyzer analyzer) {
+		FloatUtil floatUtil = new FloatUtil();
+
+		String ratio = "" + floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
+		try {
+			System.out.println("write page : " + analyzer.getAid());
+			List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+			for (RecommendSuccess recommend : recommends) {
+				System.out.println("write page Reportid: " + recommend.getReportid());
+				Report report = (Report) reportDao.select(recommend.getReportid());
+				String url = PREFIX + report.getFilepath();
+				recommend.setReporturl(url);
+			}
+
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/starsuc.htm");
+			vmf.put("dateTools", new DateTools());
+			vmf.put("floatUtil", floatUtil);
+			vmf.put("analyzer", analyzer);
+			vmf.put("currdate", new Date());
+			vmf.put("aname", analyzer.getName());
+			vmf.put("ratio", ratio);
+			vmf.put("recommends", recommends);
+			vmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
+			System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -205,9 +289,10 @@ public class AnalyzerSuccessFlusher {
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		Analyzer analyzer = analyzerDao.getAnalyzerByName("赵金厚");
-		flusher.flushAnalyzerYear(analyzer, "2009", true);
-		flusher.flushAnalyzerYear(analyzer, "2010", false);
-		flusher.flushAnalyzerYear(analyzer, "2011", false);
+		flusher.flushAnalyzer(analyzer);
+		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
+		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
+		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
 		System.exit(0);
 	}
 }

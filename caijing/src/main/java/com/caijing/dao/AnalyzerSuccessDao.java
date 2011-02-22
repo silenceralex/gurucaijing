@@ -11,4 +11,6 @@ public interface AnalyzerSuccessDao extends CrudDao {
 	public List<AnalyzerSuccess> getAnalyzerRankBySanameYear(String saname, String year, int start, int length);
 
 	public AnalyzerSuccess getOneAnalyzerSuccess(String aid, String year);
+
+	public List<String> getYearList(String aid);
 }

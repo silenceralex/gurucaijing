@@ -40,4 +40,9 @@ public class AnalyzerSuccessDaoImpl extends CrudDaoDefault implements AnalyzerSu
 				params);
 	}
 
+	@Override
+	public List<String> getYearList(String aid) {
+		return (List<String>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getYearList", aid);
+	}
+
 }
