@@ -258,10 +258,12 @@ public class AnalyzerSuccessFlusher {
 			AnalyzerSuccess analyzerSuccess = analyzerSuccessDao.getOneAnalyzerSuccess(analyzer.getAid(), year);
 			ratio = floatUtil.getTwoDecimalNumber(analyzerSuccess.getSuccessratio()) + "%";
 			recommends = recommendSuccessDao.getRecommendsByAidBetween(analyzer.getAid(), startDate, endDate);
+			System.out.println(" year : " + year + " recommends: " + recommends.size());
 			vmf.put("year", year);
 		} else {
 			ratio = floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
 			recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+			System.out.println(" recommends: " + recommends.size());
 		}
 		try {
 			System.out.println("write page : " + analyzer.getAid());
