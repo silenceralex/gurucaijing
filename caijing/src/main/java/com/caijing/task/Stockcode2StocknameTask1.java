@@ -104,7 +104,6 @@ public class Stockcode2StocknameTask1 {
 	public static void main(String[] args) {
 		Stockcode2StocknameTask1 task = new Stockcode2StocknameTask1();
 		task.run();
-		//System.out.println("aa".equals(null));
 		System.exit(0);
 	}
 
