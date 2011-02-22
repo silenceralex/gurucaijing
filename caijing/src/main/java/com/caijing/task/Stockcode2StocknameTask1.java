@@ -78,12 +78,12 @@ public class Stockcode2StocknameTask1 {
 						if (!isvalidcode && isvalidname) {
 							//stockcode为空，stockname不为空
 							System.out.println("update " + rid + "(" + "!" + stockcode + "," + name + ")" + title);
-							//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
+							System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
 							++count;
 						} else if (isvalidcode && !isvalidname) {
 							//stockcode不为空，stockname为空
 							System.out.println("update " + rid + "(" + code + "," + "!" + stockname + ")" + title);
-							//System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
+							System.out.println("update " + rid +jdbcTemplate.update(updatereportsql, new Object[] { stockcode, stockname, rid }));
 							++count;
 						} else if (!isvalidcode && !isvalidname && !isvalidtitle) {
 							System.out.println("delete " + rid + "(" + code + "," + name + ")" + title);
