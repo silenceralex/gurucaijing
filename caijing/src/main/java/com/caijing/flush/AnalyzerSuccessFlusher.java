@@ -150,7 +150,9 @@ public class AnalyzerSuccessFlusher {
 
 	public void flushAnalyzer(Analyzer analyzer) {
 		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
+		System.out.println("years.size()  : " + years.size());
 		for (int i = 0; i < years.size(); i++) {
+			System.out.println("analyzer  : " + years.get(i));
 			if (i == 0) {
 				flushAnalyzerYear(analyzer, years.get(i), years, true);
 			} else {
@@ -290,10 +292,6 @@ public class AnalyzerSuccessFlusher {
 			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	public void flushOneSuccess(Analyzer analyzer, String year) {
-
 	}
 
 	public static void main(String[] args) {
