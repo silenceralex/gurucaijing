@@ -15,7 +15,7 @@
         <div class="sec_list">
             <div class="sec_nav">
                <h2>
-                    <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
+                    <span class="sec_nav_date">当前日期：$dateTools.transformYYYYMMDDDate($currdate)</span>
                      <a href="/">投资大师首页</a> &gt; 分析师推荐成功率
                 </h2>   
             </div>
@@ -23,19 +23,24 @@
                ${analyzer.getName()} &nbsp;&nbsp;&nbsp;
                <!--修改2011-2-21,循环输出年份，如果等于当前选择年份则option默认选择该年-->
                   <select onchange="window.location = this.value;">
-                  #for($one in $年份集合)
-                     <option value="${one.getAid()}_$one.年份_intro.html" #if($one.年份 == ${year})selected#end>${$one.年份}</option>
+                  #for($one in $yearList)
+                     <option value="${one.getAid()}_${one}_success.html" #if($one == ${year})selected="selected"#end>${one}</option>
                   #end
+                  	 <option value="${one.getAid()}_success.html">总体</option>
                   </select>
                <!--修改2011-2-21-->
-               年推荐成功率为：
+             #if($year)
+             ${year}年度推荐成功率为：
+             #else
+                                 分析师总体推荐成功率为：
+             #end
                <font color="red">$ratio</font>
             </h2>
             <ol style="width:680px" id="star_detail_tab" class="star_detail_tab">
             	<li id="starTab1"><a href="${analyzer.getAid()}_intro.html">简介</a></li>
             	<li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
             	<li id="starTab3"><a href="${analyzer.getAid()}_report.html">研究报告</a></li>
-				<li class="star_de_tabli_on" id="starTab4"><a href="#">成功率</a></li>
+				<li class="star_de_tabli_on" id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
 			</ol>
 
             <div class="star_intro_box">

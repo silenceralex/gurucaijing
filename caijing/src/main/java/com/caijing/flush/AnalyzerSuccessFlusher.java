@@ -156,7 +156,9 @@ public class AnalyzerSuccessFlusher {
 			} else {
 				flushAnalyzerYear(analyzer, years.get(i), years, false);
 			}
+			flushAnalyzerSuccessYear(analyzer, years.get(i));
 		}
+		flushAnalyzerSuccessYear(analyzer, null);
 	}
 
 	public void flushAnalyzerYear(Analyzer analyzer, String year, List<String> years, boolean isStart) {
@@ -241,36 +243,57 @@ public class AnalyzerSuccessFlusher {
 		}
 	}
 
-	public void flushOneSuccess(Analyzer analyzer) {
+	public void flushAnalyzerSuccessYear(Analyzer analyzer, String year) {
+		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
 		FloatUtil floatUtil = new FloatUtil();
-
-		String ratio = "" + floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
+		VMFactory vmf = new VMFactory();
+		vmf.setTemplate("/template/starsuc.htm");
+		List<RecommendSuccess> recommends = null;
+		String ratio = "";
+		if (year != null) {
+			String endDate = year + "-12-31";
+			String startDate = year + "-01-01";
+			AnalyzerSuccess analyzerSuccess = analyzerSuccessDao.getOneAnalyzerSuccess(analyzer.getAid(), year);
+			ratio = floatUtil.getTwoDecimalNumber(analyzerSuccess.getSuccessratio()) + "%";
+			recommends = recommendSuccessDao.getRecommendsByAidBetween(analyzer.getAid(), startDate, endDate);
+			vmf.put("year", year);
+		} else {
+			ratio = floatUtil.getTwoDecimalNumber(analyzer.getSuccessratio()) + "%";
+			recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+		}
 		try {
 			System.out.println("write page : " + analyzer.getAid());
-			List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+			//			List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
 			for (RecommendSuccess recommend : recommends) {
 				System.out.println("write page Reportid: " + recommend.getReportid());
 				Report report = (Report) reportDao.select(recommend.getReportid());
 				String url = PREFIX + report.getFilepath();
 				recommend.setReporturl(url);
 			}
-
-			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/starsuc.htm");
 			vmf.put("dateTools", new DateTools());
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("analyzer", analyzer);
 			vmf.put("currdate", new Date());
+			vmf.put("yearList", years);
 			vmf.put("aname", analyzer.getName());
 			vmf.put("ratio", ratio);
 			vmf.put("recommends", recommends);
-			vmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
-			System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
+			if (year != null) {
+				vmf.save(ADMINDIR + "static/" + analyzer.getAid() + year + "_success.html");
+				System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + year + "_success.html");
+			} else {
+				vmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
+				System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
+			}
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
 			System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	public void flushOneSuccess(Analyzer analyzer, String year) {
+
 	}
 
 	public static void main(String[] args) {

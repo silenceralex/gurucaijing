@@ -76,4 +76,14 @@ public class RecommendSuccessDaoImpl extends CrudDaoDefault implements Recommend
 				getNameSpace() + ".getUnvalidateRecommendsBefore", endDate);
 	}
 
+	@Override
+	public List<RecommendSuccess> getRecommendsByAidBetween(String aid, String startDate, String endDate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		params.put("aid", aid);
+		return (List<RecommendSuccess>) getSqlMapClientTemplate().queryForList(
+				getNameSpace() + ".getRecommendsByAidBetween", params);
+	}
+
 }
