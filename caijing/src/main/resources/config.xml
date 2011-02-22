@@ -654,8 +654,8 @@
 						</entry>
 						<entry key="grade">
 							<list>
-								<value><![CDATA[\n([强烈审慎推荐中性回避]{2,4})-?\s*[ABC]?（[上下调维持首次]{2}）\s+]]></value>
-								<value><![CDATA[\n([强烈审慎推荐中性回避]{2,4})-?\s*[ABC]?\s+]]></value>
+								<value><![CDATA[([强烈审慎推荐中性回避]{2,4})-?\s*[ABC]?[\(（][上下调维持首次]{2}[\)）]\s+]]></value>
+								<value><![CDATA[([强烈审慎推荐中性回避]{2,4})-?\s*[ABC]?\s+]]></value>
 							</list>
 						</entry>
 						<entry key="objectprice">
@@ -663,7 +663,7 @@
 						</entry>
 						<entry key="analyzer">
 						<list>
-							<value><![CDATA[\n([\u4e00-\u9fa5]+)[,，]?(?:CFA)?\s*\n\s*[08][2716][015]?5?-]]></value>
+							<value><![CDATA[\n([\u4e00-\u9fa5]+)[,，]?(?:CFA)?\s*[08][2716][015]?5?-]]></value>
 						</list>
 						</entry>
 						<entry key="eps">

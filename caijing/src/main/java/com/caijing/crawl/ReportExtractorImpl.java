@@ -304,7 +304,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 				return analyzer.trim();
 			}
 		}
-		return analyzer.trim();
+		return analyzer;
 	}
 
 	private String fetchEPS(String saname, String content) {
@@ -425,20 +425,20 @@ public class ReportExtractorImpl implements ReportExtractor {
 				if (i == 1 && m != null && m.find()) {
 					i = -1;
 					System.out.println("titlePattern:" + titlePattern);
-					String sanam = m.group(1); //saname
-					String stockname = m.group(4);
-					String title = m.group(6);
-					String stockcode = m.group(3);
-					String aname = m.group(5);
+					String sanam = m.group(1).trim(); //saname
+					String stockname = m.group(4).trim();
+					String title = m.group(6).trim();
+					String stockcode = m.group(3).trim();
+					String aname = m.group(5).trim();
 					setReport(report, sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i = -1;
 					System.out.println("titlePattern:" + titlePattern);
-					String sanam = m.group(1); //saname
-					String stockname = m.group(4);
-					String title = m.group(5);
-					String stockcode = m.group(3);
+					String sanam = m.group(1).trim(); //saname
+					String stockname = m.group(4).trim();
+					String title = m.group(5).trim();
+					String stockcode = m.group(3).trim();
 					String aname = null;
 					setReport(report, sanam, stockname, stockcode, aname, title, 1);
 					break;
@@ -470,19 +470,19 @@ public class ReportExtractorImpl implements ReportExtractor {
 					i = -1;
 					System.out.println("titlePattern:" + titlePattern);
 					String sanam = saname;
-					String stockname = m.group(3);
-					String title = m.group(5);
-					String stockcode = m.group(4);
-					String aname = m.group(6);
+					String stockname = m.group(3).trim();
+					String title = m.group(5).trim();
+					String stockcode = m.group(4).trim();
+					String aname = m.group(6).trim();
 					setReport(report, sanam, stockname, stockcode, aname, title, 1);
 					break;
 				} else if (i == 2 && m != null && m.find()) {
 					i = -1;
 					System.out.println("titlePattern:" + titlePattern);
 					String sanam = saname;
-					String stockname = m.group(3);
-					String title = m.group(5);
-					String stockcode = m.group(4);
+					String stockname = m.group(3).trim();
+					String title = m.group(5).trim();
+					String stockcode = m.group(4).trim();
 					String aname = null;
 					setReport(report, sanam, stockname, stockcode, aname, title, 1);
 					break;
@@ -1541,7 +1541,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		//testHuaTai2(extractor);
 		
 		//新增
-		//testZhaoShang(extractor);
+		testZhaoShang(extractor);
 		//testGuoTai(extractor);
 		//testAnxin(extractor);
 		//testGuangFa(extractor);
@@ -1724,15 +1724,8 @@ public class ReportExtractorImpl implements ReportExtractor {
 		Report report = new Report();
 		report.setSaname("招商证券");
 		extractor.extractFromFile(report, "http://51gurus.com/papers/20100830/6EHD7IRF.txt");
-		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1UG51A.txt");
-		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6S1UHISA.txt");
-		
-		//		report.setSaname("招商证券");
-		//		RecommendStock rs = extractor.extractFromFile(report,
-		////		"http://guru.caijing.com/papers/20100709/6CLQ1CE8.txt");
-		////		"http://guru.caijing.com/papers/20100728/6CLQEN3T.txt");
-		////		"http://guru.caijing.com/papers/20100729/6CLQ8ICT.txt");
-		//		"http://guru.caijing.com/papers/20100901/6ENHL78L.txt");
+		extractor.extractFromFile(report, "http://51gurus.com/oldhtml/papers/200904/6SC68STM.txt");
+
 	}
 
 	public static void testHuaTai(ReportExtractor extractor) {
