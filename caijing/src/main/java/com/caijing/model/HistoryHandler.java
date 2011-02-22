@@ -101,7 +101,7 @@ public class HistoryHandler {
 			"中投证券", "中信建投", "申银万国" };
 
 	//TODO 异常的处理
-	private void dealOneAnalyzer(Analyzer analyzer) {
+	public void dealOneAnalyzer(Analyzer analyzer) {
 		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
 		System.out.println("analyzer getName : " + analyzer.getName());
 		System.out.println("rstocks size : " + rstocks.size());
@@ -157,7 +157,9 @@ public class HistoryHandler {
 		handler.setRatio(ratio);
 		handler.setRecommendStockDao(recommendStockDao);
 		handler.setCaculater(caculater);
-		handler.processAllHistoryReport();
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("刘荣");
+		handler.dealOneAnalyzer(analyzer);
+		//		handler.processAllHistoryReport();
 		System.exit(0);
 	}
 }
