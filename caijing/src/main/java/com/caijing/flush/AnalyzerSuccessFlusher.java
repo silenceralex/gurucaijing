@@ -281,8 +281,9 @@ public class AnalyzerSuccessFlusher {
 			vmf.put("ratio", ratio);
 			vmf.put("recommends", recommends);
 			if (year != null) {
-				vmf.save(ADMINDIR + "static/" + analyzer.getAid() + year + "_success.html");
-				System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + year + "_success.html");
+				vmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_" + year + "_success.html");
+				System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + "_" + year
+						+ "_success.html");
 			} else {
 				vmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
 				System.out.println("write page : " + ADMINDIR + "static/" + analyzer.getAid() + "_success.html");
@@ -301,12 +302,15 @@ public class AnalyzerSuccessFlusher {
 		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
 		StockEarnDao stockEarnDao = (StockEarnDao) ContextFactory.getBean("stockEarnDao");
 		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+		RecommendSuccessDao recommendSuccessDao = (RecommendSuccessDao) ContextFactory.getBean("recommendSuccessDao");
+		ReportDao reportDao = (ReportDao) ContextFactory.getBean("reportDao");
 		flusher.setAnalyzerSuccessDao(analyzerSuccessDao);
 		flusher.setAnalyzerDao(analyzerDao);
 		flusher.setGroupEarnDao(groupEarnDao);
 		flusher.setStockEarnDao(stockEarnDao);
 		flusher.setGroupStockDao(groupStockDao);
-
+		flusher.setRecommendSuccessDao(recommendSuccessDao);
+		flusher.setReportDao(reportDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
