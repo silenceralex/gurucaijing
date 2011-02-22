@@ -65,7 +65,7 @@
 	</select>
 	
 	<select id="getRecommendsByAidBetween" parameterClass="java.util.Map" resultClass="RecommendSuccess">
-		<![CDATA[select * from recommendsuccess where aid = #value# and recommenddate>#startDate# and recommenddate>=#endDate# and isAchieved<2 order by recommenddate desc]]>
+		<![CDATA[select * from recommendsuccess where aid = #value# and validate>=#startDate# and validate<=#endDate# and isAchieved<2 order by recommenddate desc]]>
 	</select>
 	
 	<select id="getUnvalidateRecommendsByAid" parameterClass="java.lang.String" resultClass="RecommendSuccess">
