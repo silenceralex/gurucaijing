@@ -89,12 +89,12 @@ public class ReportExtractorImpl implements ReportExtractor {
 			rs.setAname("N/A");
 		}
 		m = objectprice.matcher(content);
-		if (m != null && m.find()) {
+		if (m != null && m.find()) {//目标价区间取小
 			System.out.println("objectprice:" + m.group(1));
 			String oprice = m.group(1);
 			String[] strs = oprice.split("-");
 			if (strs.length > 1) {
-				oprice = strs[1];
+				oprice = strs[0];
 			}
 			try {
 				rs.setObjectprice(Float.parseFloat(oprice));
