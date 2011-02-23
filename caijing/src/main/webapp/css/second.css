@@ -126,4 +126,4 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .outdate-icon {display:inline-block;width:16px;height:16px;overflow:hidden;background:url(../img/out-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
 .down-icon {display:inline-block;width:16px;height:16px;overflow:hidden;background:url(../img/down-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
 .current-icon {display:inline-block;width:16px;height:16px;overflow:hidden;background:url(../img/current-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
-.history-btn{width:109px;height:23px;line-height:23px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;}
+.history-btn{width:109px;height:23px;line-height:23px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;display:inline-block;}
