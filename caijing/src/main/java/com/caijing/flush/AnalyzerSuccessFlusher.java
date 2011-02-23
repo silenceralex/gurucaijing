@@ -228,6 +228,8 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("startprice", startprice);
 			introvmf.put("priceList", priceList);
 			introvmf.put("isCurrentYear", isCurrentYear);
+			String maxYear = years.get(years.size() - 1);
+			introvmf.put("maxYear", maxYear);
 			System.out.println("isCurrentYear :" + isCurrentYear);
 			System.out.println("weightList size :" + weightList.size());
 			System.out.println("priceList size :" + priceList.size());
