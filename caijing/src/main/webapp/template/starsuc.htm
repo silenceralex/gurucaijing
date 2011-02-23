@@ -26,7 +26,11 @@
                   #foreach($one in $yearList)
                      <option value="${analyzer.getAid()}_${one}_success.html" #if($one == ${year})selected="selected"#end>${one}</option>
                   #end
-                  	 <option value="${analyzer.getAid()}_success.html" selected="selected">总体</option>
+                  #if($year)
+                  	 <option value="${analyzer.getAid()}_success.html">总体</option>
+                  #else
+                  	<option value="${analyzer.getAid()}_success.html" selected="selected">总体</option>
+                  #end
                   </select>
                <!--修改2011-2-21-->
              #if($year)
