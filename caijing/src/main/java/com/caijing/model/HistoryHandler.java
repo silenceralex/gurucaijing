@@ -157,9 +157,9 @@ public class HistoryHandler {
 		handler.setRatio(ratio);
 		handler.setRecommendStockDao(recommendStockDao);
 		handler.setCaculater(caculater);
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("¡ı»Ÿ");
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("’‘Ω∫Ò");
 		handler.dealOneAnalyzer(analyzer);
-		//		handler.processAllHistoryReport();
+		handler.processAllHistoryReport();
 		System.exit(0);
 	}
 }
