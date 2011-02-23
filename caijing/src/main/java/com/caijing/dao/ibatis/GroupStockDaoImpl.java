@@ -127,4 +127,14 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	public int updateOutGain(GroupStock groupstock) {
 		return getSqlMapClientTemplate().update(getNameSpace() + ".updateOutGain", groupstock);
 	}
+
+	@Override
+	public Date getCurrentEarliestIntimeByAid(String aid) {
+		return (Date) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getCurrentEarliestIntimeByAid", aid);
+	}
+
+	@Override
+	public List<GroupStock> getOutStocksByAid(String aid) {
+		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getOutStocksByAid", aid);
+	}
 }

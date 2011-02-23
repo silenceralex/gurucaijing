@@ -95,7 +95,7 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 				gs.setGroupid(aid);
 				gs.setGroupname(name);
 				gs.setStockcode(rs.getStockcode());
-				//				recommendStockDao.updateAnalyzerByReportid(rs.getReportid(), aid);
+				recommendStockDao.updateAnalyzerByReportid(rs.getReportid(), aid);
 				GroupStock oldstock = groupStockDao.getCurrentStockByGroupidAndStockcode(aid, rs.getStockcode());
 				boolean isOutDate = false;
 				if (oldstock != null) {

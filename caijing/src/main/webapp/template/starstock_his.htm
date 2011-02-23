@@ -18,7 +18,7 @@
             <h2 class="star_detail_star">
                ${analyzer.getName()}
                <!--2010-2-21组合历史按钮-->
-               <a href="${analyzer.getAid()}_hisstock.html"><img width="109" height="23" src="/img/allHistory.png" /></a>
+               <a href="${analyzer.getAid()}_stock.html"><img width="109" height="23" src="/img/allHistory.png" /></a>
                <!--2010-2-21组合历史按钮-->
             </h2>
             <ol id="star_detail_tab" class="star_detail_tab">
@@ -44,9 +44,9 @@
                         <th>推荐日期</th>
                         <th>推荐价</th>
                         <th>目标价</th>
-                        <th>当前价</th>
+                        <th>调出价</th>
                         <th>目标价差距</th>
-                        <th>回报率</th>
+                        <th>区间回报率</th>
                         <th>研究报告</th>
                      </tr>
                      #set ($count = 1)
@@ -58,10 +58,13 @@
                      #end
                      <td>
                         <!--2010-2-21三类图标-->
-                        <span class="current-icon" title="当前">当前</span>
+                        #if($one.status=-1)
+                        <span class="outdate-icon" title="过期">过期</span>
+                        #else
+                        <span class="down-icon" title="下调">下调</span>
+                        #end
                         <!--2010-2-21三类图标-->
                         ${one.getStockname()}(${one.getStockcode()})&nbsp;
-                        <span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span>
                      </td>
                      <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
                      <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
@@ -79,35 +82,11 @@
                      #end
                      <td>${one.getGain()}%</td>
                      <td>
-					 <a href="/search/report.htm?aid=${analyzer.getAid()}&stockcode=${one.stockcode}">查看</a>
+                     <a href="/search/report.htm?aid=${analyzer.getAid()}&stockcode=${one.stockcode}">查看</a>
                      </td>
                      #set ($count = $count + 1)
                      #end#end
                   </table>
-                  #set ($count = 1)
-                  #if ($stockDetailList)#foreach ($one in $stockDetailList)
-                  <table id="rec${count}" class="hidden">
-                     #set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
-                     <tr>
-                     #if ($stockEarnList)#foreach ($one in $stockEarnList)
-                        <th>${one.getDate().getTime()}</th>
-                     #end#end
-                     </tr>
-                     <tr>
-                     #if ($stockEarnList)#foreach ($one in $stockEarnList)
-                     #set ($ratio = $one.getCurrratio() * 100)
-                        <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
-                     #end#end
-                     </tr>
-                     <tr>
-                        #if ($priceList)#foreach ($one in $priceList)
-                        #set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
-                           <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
-                        #end#end
-                     </tr>
-                  </table>
-                  #set ($count = $count + 1)
-                  #end#end
                   </div><!-- starTb2 -->
             </div>
         </div>

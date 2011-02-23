@@ -30,7 +30,20 @@ public interface GroupStockDao extends CrudDao {
 	 */
 	List<GroupStock> getCurrentStockByGroupidAndPeriod(String groupid, Date startdate, Date enddate);
 
+	/**
+	 * 获取某个时间点之后某分析师推荐的最初的时间
+	 * @param aid 分析师id
+	 * @param date  
+	 * @return
+	 */
 	Date getEarliestIntimeByAidFrom(String aid, Date date);
+
+	/**
+	 * 获取当前组合中研报最早推荐的时间
+	 * @param aid 分析师id
+	 * @return
+	 */
+	Date getCurrentEarliestIntimeByAid(String aid);
 
 	/**
 	 * 改方法不包括推荐后又卖出的状况
@@ -89,4 +102,11 @@ public interface GroupStockDao extends CrudDao {
 	 * @return
 	 */
 	List<GroupStock> getCurrentStocksBefore(Date endDate);
+
+	/**
+	 * 获取某个分析师已经调出的股票信息
+	 * @param aid
+	 * @return
+	 */
+	List<GroupStock> getOutStocksByAid(String aid);
 }

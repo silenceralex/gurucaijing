@@ -2,7 +2,9 @@ package com.caijing.flush;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +20,7 @@ import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.AnalyzerSuccess;
 import com.caijing.domain.GroupEarn;
+import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
@@ -159,6 +162,7 @@ public class AnalyzerSuccessFlusher {
 				flushAnalyzerYear(analyzer, years.get(i), years, false);
 			}
 			flushAnalyzerSuccessYear(analyzer, years.get(i));
+			flushAnalyzerStock(analyzer);
 		}
 		flushAnalyzerSuccessYear(analyzer, null);
 	}
@@ -248,6 +252,60 @@ public class AnalyzerSuccessFlusher {
 		}
 	}
 
+	public void flushAnalyzerStock(Analyzer analyzer) {
+		List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(analyzer.getAid());
+		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+		for (GroupStock stock : stockDetailList) {
+			List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+					DateTools.transformYYYYMMDDDate(stock.getIntime()));
+			//			List<String> filePathList = recommendStockDao.getFilePathByAid(analyzer.getAid(), stock.getStockcode(), 3);
+			//			stock.setFilePathList(filePathList);
+			for (int i = 0; i < stockEarnList.size(); i++) {
+				StockEarn stockEarn = stockEarnList.get(i);
+				float currratio = 0;
+				if (i == 0) {
+					currratio = stockEarn.getRatio() / 100;
+				} else {
+					currratio = (1 + stockEarnList.get(i - 1).getCurrratio()) * (1 + stockEarn.getRatio() / 100) - 1;
+				}
+				stockEarn.setCurrratio(currratio);
+			}
+			stockDetailMap.put(stock.getStockcode(), stockEarnList);
+		}
+
+		Date startDate = groupStockDao.getCurrentEarliestIntimeByAid(analyzer.getAid());
+
+		float startprice = stockEarnDao.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate))
+				.getPrice();
+		List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+				DateTools.transformYYYYMMDDDate(startDate));
+		VMFactory stockvmf = new VMFactory();
+		stockvmf.setTemplate("/template/starstock.htm");
+		stockvmf.put("floatUtil", new FloatUtil());
+		stockvmf.put("dateTools", new DateTools());
+		stockvmf.put("analyzer", analyzer);
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		stockvmf.put("analyzerList", analyzerList);
+		stockvmf.put("stockDetailList", stockDetailList);
+		stockvmf.put("startprice", startprice);
+		stockvmf.put("priceList", priceList);
+		stockvmf.put("stockDetailMap", stockDetailMap);
+		stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_stock.html");
+		System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_stock.html");
+
+		stockvmf.setTemplate("/template/starstock_his.htm");
+		stockvmf.put("floatUtil", new FloatUtil());
+		stockvmf.put("dateTools", new DateTools());
+		stockvmf.put("analyzer", analyzer);
+		stockvmf.put("analyzerList", analyzerList);
+		stockvmf.put("stockDetailList", stockDetailList);
+		stockvmf.put("startprice", startprice);
+		stockvmf.put("priceList", priceList);
+		stockvmf.put("stockDetailMap", stockDetailMap);
+		stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_hisstock.html");
+		System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_hisstock.html");
+	}
+
 	public void flushAnalyzerSuccessYear(Analyzer analyzer, String year) {
 		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
 		FloatUtil floatUtil = new FloatUtil();
@@ -320,6 +378,7 @@ public class AnalyzerSuccessFlusher {
 		//		flusher.flushHistorySuccessRank("2010");
 		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
 		flusher.flushAnalyzer(analyzer);
+		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//		flusher.flushAnalyzerYear(analyzer, "2011", false);

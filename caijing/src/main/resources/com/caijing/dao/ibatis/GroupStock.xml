@@ -89,6 +89,11 @@
 		select intime from groupstock where groupid=#aid# and intime > #date# order by
 		intime limit 1
 	</select>
+	
+	<select id="getCurrentEarliestIntimeByAid" resultClass="java.util.Date"
+		parameterClass="java.lang.String">
+		select intime from groupstock where groupid=#aid# and status=1 order by intime limit 1
+	</select>
 
 	<select id="getAllGroupStock" resultClass="GroupStock">
 		select * from groupstock where status=1
@@ -165,6 +170,11 @@
 	<select id="getCurrentStocksBefore"
 		resultClass="GroupStock" parameterClass="java.util.Date">
 		<![CDATA[select * from groupstock where intime<=#value# and status=1]]>
+	</select>
+	
+	<select id="getOutStocksByAid"
+		resultClass="GroupStock" parameterClass="java.lang.String">
+		<![CDATA[select * from groupstock where groupid=#value# and status<1]]>
 	</select>
 	
 </sqlMap>
