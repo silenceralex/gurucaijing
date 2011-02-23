@@ -174,7 +174,7 @@
 	
 	<select id="getOutStocksByAid"
 		resultClass="GroupStock" parameterClass="java.lang.String">
-		<![CDATA[select * from groupstock where groupid=#value# and status<1]]>
+		<![CDATA[select s.stockname as stockname,gs.* from groupstock gs,stock s where gs.groupid=#value# and gs.stockcode = s.stockcode and gs.status<1 order by gs.intime desc]]>
 	</select>
 	
 </sqlMap>
