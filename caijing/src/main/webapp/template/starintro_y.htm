@@ -18,7 +18,13 @@
                         ${analyzer.getName()} &nbsp;&nbsp;&nbsp; 
                         <!--修改2011-2-21,循环输出年份，如果等于当前选择年份则option默认选择该年-->
                         <select onchange="window.location = this.value;">
-                        #foreach($one in $yearList)<option value="${analyzer.getAid()}_${one}_intro.html" #if($one == ${year})selected="selected"#end>${one}</option>#end
+                        #foreach($one in $yearList)<option 
+                        #if(isCurrentYear)
+                        value="${analyzer.getAid()}_intro.html"
+                        #else
+                         value="${analyzer.getAid()}_${one}_intro.html"
+                         #end
+                         #if($one == ${year})selected="selected"#end>${one}</option>#end
                         </select>
                         ${year} 
                         <!--修改2011-2-21-->
