@@ -228,6 +228,7 @@ public class AnalyzerSuccessFlusher {
 			introvmf.put("startprice", startprice);
 			introvmf.put("priceList", priceList);
 			introvmf.put("isCurrentYear", isCurrentYear);
+			System.out.println("isCurrentYear :" + isCurrentYear);
 			System.out.println("weightList size :" + weightList.size());
 			System.out.println("priceList size :" + priceList.size());
 			//当前年度则直接刷出url，非当前年度刷出带year的intro
