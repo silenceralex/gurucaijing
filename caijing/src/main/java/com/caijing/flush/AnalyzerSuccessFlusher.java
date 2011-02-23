@@ -293,6 +293,7 @@ public class AnalyzerSuccessFlusher {
 		stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_stock.html");
 		System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_stock.html");
 
+		stockDetailList = groupStockDao.getOutStocksByAid(analyzer.getAid());
 		stockvmf.setTemplate("/template/starstock_his.htm");
 		stockvmf.put("floatUtil", new FloatUtil());
 		stockvmf.put("dateTools", new DateTools());
