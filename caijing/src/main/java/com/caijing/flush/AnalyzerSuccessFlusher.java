@@ -211,9 +211,8 @@ public class AnalyzerSuccessFlusher {
 			float end = weightList.get(weightList.size() - 1).getWeight();
 			float ratio = FloatUtil.getTwoDecimal((end - startweight) * 100 / startweight);
 
-			float ratio300 = FloatUtil.getTwoDecimal((priceList.get(priceList.size() - 1).getPrice() - startprice)
-					* 100 / startprice);
-			float relativeratio = ratio - ratio300;
+			float ratio300 = (priceList.get(priceList.size() - 1).getPrice() - startprice) * 100 / startprice;
+			float relativeratio = FloatUtil.getTwoDecimal(ratio - ratio300);
 			VMFactory introvmf = new VMFactory();
 			introvmf.setTemplate("/template/starintro_y.htm");
 			introvmf.put("floatUtil", floatUtil);
