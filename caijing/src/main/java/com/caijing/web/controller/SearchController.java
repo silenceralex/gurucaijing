@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,14 +19,17 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendStockDao;
+import com.caijing.domain.Analyzer;
 import com.caijing.domain.DiscountStock;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.model.StockPrice;
 import com.caijing.util.DateTools;
 import com.caijing.util.Discount;
+import com.caijing.util.FloatUtil;
 import com.caijing.util.Paginator;
 import com.caijing.util.Vutil;
 
@@ -56,8 +58,8 @@ public class SearchController {
 	private Discount discount = null;
 
 	@Autowired
-	@Qualifier("velocityEngine")
-	VelocityEngine velocityEngine = null;
+	@Qualifier("analyzerDao")
+	private AnalyzerDao analyzerDao = null;
 
 	@RequestMapping("/admin/search.htm")
 	public String searchRecommend(HttpServletResponse response,
@@ -192,4 +194,19 @@ public class SearchController {
 		return "/admin/discount.htm";
 	}
 
+	@RequestMapping("/search/report.htm")
+	public String searchReport(@RequestParam(value = "stockcode", required = true) String stockcode,
+			@RequestParam(value = "aid", required = true) String aid, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		Analyzer analyzer = (Analyzer) analyzerDao.select(aid);
+		List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 15);
+		model.put("floatUtil", new FloatUtil());
+		model.put("dateTools", new DateTools());
+		model.put("analyzer", analyzer);
+		model.put("analyzerList", analyzerList);
+		model.put("stockList", stockList);
+		return "/template/starreport.htm";
+
+	}
 }

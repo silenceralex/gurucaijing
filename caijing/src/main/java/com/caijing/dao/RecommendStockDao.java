@@ -125,4 +125,6 @@ public interface RecommendStockDao extends CrudDao {
 	 * 更新目标价
 	 */
 	public void updateObjectPriceByReportid(String id, float objectprice);
+
+	public List<RecommendStock> getStocksByAidAndStock(String aid, String stockcode, int length);
 }

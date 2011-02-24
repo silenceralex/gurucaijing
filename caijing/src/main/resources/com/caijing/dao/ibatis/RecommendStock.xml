@@ -290,4 +290,12 @@
 		</dynamic>
 		where recommendid= #recommendid#
 	</update>
+	
+	<select id="getStocksByAidAndStock"
+		parameterClass="java.util.Map" resultClass="RecommendStock">
+		select rs.*, r.title as title, r.filepath as filepath from
+		recommendstock as rs,report as r where rs.stockcode=#stockcode# and
+		rs.user=#aid# and rs.reportid=r.rid order by rs.createdate desc limit
+		#length#
+	</select>
 </sqlMap>
