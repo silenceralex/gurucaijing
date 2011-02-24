@@ -198,9 +198,10 @@ public class SearchController {
 	public String searchReport(@RequestParam(value = "stockcode", required = true) String stockcode,
 			@RequestParam(value = "aid", required = true) String aid, HttpServletResponse response,
 			HttpServletRequest request, ModelMap model) {
+		System.out.println("search stockcode:" + stockcode + "  aid:" + aid);
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		Analyzer analyzer = (Analyzer) analyzerDao.select(aid);
-		List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 15);
+		List<RecommendStock> stockList = recommendStockDao.getStocksByAidAndStock(aid, stockcode, 10);
 		model.put("floatUtil", new FloatUtil());
 		model.put("dateTools", new DateTools());
 		model.put("analyzer", analyzer);
