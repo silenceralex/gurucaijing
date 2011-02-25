@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="financialreport">
+
+  	<typeAlias alias="financialreport" type="com.caijing.domain.FinancialReport" />
+
+  	<select id="select" parameterClass="java.lang.String" resultClass="financialreport">
+	    select reportid, title, type, year, stockcode, stockname, filepath, lmodify
+	    from financialreport
+	    where reportid = #reportid:VARCHAR#
+  	</select>
+  	<delete id="delete" parameterClass="java.lang.String">
+	    delete from financialreport
+	    where reportid = #reportid:VARCHAR#
+  	</delete>
+
+  	<insert id="insert" parameterClass="financialreport">
+	    insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath,
+	      lmodify)
+	    values (#reportid:VARCHAR#, #title:VARCHAR#, #type:TINYINT#, #year:VARCHAR#,
+	      #stockcode:VARCHAR#, #stockname:VARCHAR#, #filepath:VARCHAR#, #lmodify:TIMESTAMP#)
+  	</insert>
+  	
+  	<update id="update" parameterClass="financialreport">
+	    update financialreport
+	    <dynamic prepend="set">
+	      <isNotNull prepend="," property="title">
+	        title = #title:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="type">
+	        type = #type:TINYINT#
+	      </isNotNull>
+	      <isNotNull prepend="," property="year">
+	        year = #year:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="stockcode">
+	        stockcode = #stockcode:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="stockname">
+	        stockname = #stockname:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="filepath">
+	        filepath = #filepath:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="lmodify">
+	        lmodify = #lmodify:TIMESTAMP#
+	      </isNotNull>
+	    </dynamic>
+	    where reportid = #reportid:VARCHAR#
+  	</update>
+</sqlMap>
