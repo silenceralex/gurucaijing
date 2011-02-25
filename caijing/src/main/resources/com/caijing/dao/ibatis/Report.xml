@@ -114,7 +114,7 @@
 	</select>
 	
 	<select id="getReportsListByType" parameterClass="java.util.Map" resultClass="reportClass">
-		select * from report where type = #type# order by ptime desc  limit #offset#,#length#
+		select * from report where type = #type# and filepath like "/papers%" order by ptime desc limit #offset#,#length#
 	</select>
 
 </sqlMap>

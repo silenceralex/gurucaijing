@@ -3,28 +3,56 @@ package com.caijing.mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.business.GroupGainManager;
 import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.util.Config;
-import com.caijing.util.Vutil;
 
 public class MailSchedule {
 	@Autowired
 	@Qualifier("reportExtractor")
 	private ReportExtractorImpl extractor = null;
-	
+
 	@Autowired
 	@Qualifier("reportDao")
 	private ReportDao reportDao = null;
-	
+
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
-	
+
+	@Autowired
+	@Qualifier("groupGainManager")
+	private GroupGainManager groupGainManager = null;
+
+	public GroupGainManager getGroupGainManager() {
+		return groupGainManager;
+	}
+
+	public void setGroupGainManager(GroupGainManager groupGainManager) {
+		this.groupGainManager = groupGainManager;
+	}
+
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
+
+	public RecommendStockDao getRecommendStockDao() {
+		return recommendStockDao;
+	}
+
+	public void setRecommendStockDao(RecommendStockDao recommendStockDao) {
+		this.recommendStockDao = recommendStockDao;
+	}
+
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
 
 	public void processMail() {
 		MailReceiver receiver = new MailReceiver();
@@ -32,6 +60,7 @@ public class MailSchedule {
 		reader.setExtractor(extractor);
 		reader.setReportDao(reportDao);
 		reader.setRecommendStockDao(recommendStockDao);
+		reader.setGroupGainManager(groupGainManager);
 		reader.setConfig(config);
 		reader.init();
 		receiver.setReader(reader);

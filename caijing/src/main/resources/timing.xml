@@ -26,6 +26,15 @@
 		<property name="reportDao">
 			<ref bean="reportDao" />
 		</property>
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
+		<property name="groupGainManager">
+			<ref bean="groupGainManager" />
+		</property>
+		<property name="config">
+			<ref bean="config" />
+		</property>
 	</bean>
 	<bean id="scheduledInfo"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">

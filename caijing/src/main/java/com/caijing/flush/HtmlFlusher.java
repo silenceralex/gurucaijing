@@ -372,8 +372,9 @@ public class HtmlFlusher {
 		DateTools dateTools = new DateTools();
 		int type = 1;
 		int size = 20;
-		int total = reportDao.getReportsCountByType(type);
-		int page = total % size == 0 ? total / size : total / size + 1;
+		//		int total = reportDao.getReportsCountByType(type);
+		//		int page = total % size == 0 ? total / size : total / size + 1;
+		int page = 100;
 		int current = 1;
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
@@ -1005,14 +1006,14 @@ public class HtmlFlusher {
 		//		}
 		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
-		//		flusher.flushReportLab();
+		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
 		//		flusher.flushIndex();
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
 		//				flusher.flushAnalyzerRank();
-		//		flusher.flushStockResearch();
+		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
 		//		flusher.flushStarGuruDetail();
@@ -1021,7 +1022,7 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(false);
 		//		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
-		//		flusher.flushOneSuccess(analyzer);
+		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
 		flusher.flushLiveStatic();
 		flusher.flushMasterInfo();

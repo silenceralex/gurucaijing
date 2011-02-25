@@ -296,16 +296,16 @@ public class LocalStorage {
 		//		}
 
 		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.YEAR, -1);
-		Date recommenddate = cal.getTime();
-		storage.getGroupGainManager().processGroupStockOutDate(recommenddate);
+		//		Calendar cal = Calendar.getInstance();
+		//		cal.setTime(new Date());
+		//		cal.add(Calendar.YEAR, -1);
+		//		Date recommenddate = cal.getTime();
+		//		storage.getGroupGainManager().processGroupStockOutDate(recommenddate);
 		//		cal.add(Calendar.MONTH, -6);
 		//		Date successvalidate = cal.getTime();
 		//		storage.getRecommendSuccessManager().processValidatedRecommendSuccess(successvalidate);
 		//		storage.processHistoryGroupEarn("");
-		//		storage.localStore();
+		storage.localStore();
 		//		storage.storeGroupStockGain();
 		System.exit(0);
 	}
