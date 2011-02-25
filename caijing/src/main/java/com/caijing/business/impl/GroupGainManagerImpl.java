@@ -86,6 +86,9 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 	}
 
 	public void extractGroupStock(RecommendStock rs) {
+		if (rs.getCreatedate() == null || rs.getCreatedate().length() < 8) {
+			return;
+		}
 		String[] names = rs.getAname().split("\\s|,");
 		for (String name : names) {
 			name = name.replaceAll("[^\u4e00-\u9fa5]", "");

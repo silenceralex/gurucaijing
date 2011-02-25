@@ -113,7 +113,11 @@ public class HistoryHandler {
 			String key = analyzer.getAid() + rs.getStockcode() + rs.getCreatedate();
 			if (!uniqSet.contains(key)) {
 				uniqSet.add(key);
-				groupGainManager.extractGroupStock(rs);
+				try {
+					groupGainManager.extractGroupStock(rs);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		//TODO 处理所有历史研报收益率  
