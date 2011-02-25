@@ -102,9 +102,9 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(oldstock.getIntime());
 					cal.add(Calendar.YEAR, 1);
-					//oldstock 若已经过期,则仍旧可以插入
+					//oldstock 若相对于已经过期,则仍旧可以插入
 					try {
-						if (cal.getTime().before(DateTools.parseYYYYMMDDDate(rs.getCreatedate()))) {
+						if (cal.getTime().before(DateTools.parseShortDate(rs.getCreatedate()))) {
 							isOutDate = true;
 						}
 					} catch (ParseException e) {
@@ -125,7 +125,7 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 							inprice = se.getPrice();
 						} else {
 							inprice = stockEarnDao.getNearPriceByCodeDate(rs.getStockcode(),
-									DateTools.parseYYYYMMDDDate(rs.getCreatedate())).getPrice();
+									DateTools.parseShortDate(rs.getCreatedate())).getPrice();
 						}
 						gs.setInprice(inprice);
 						try {

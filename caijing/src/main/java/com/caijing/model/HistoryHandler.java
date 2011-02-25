@@ -118,10 +118,10 @@ public class HistoryHandler {
 		System.out.println("agencys size: " + agencys.length);
 		for (String agency : agencys) {
 			System.out.println("processing agency groupgain: " + agency);
-			//			List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(agency);
-			//			for (Analyzer analyzer : analyzers) {
-			//				dealOneAnalyzer(analyzer);
-			//			}
+			List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency(agency);
+			for (Analyzer analyzer : analyzers) {
+				dealOneAnalyzer(analyzer);
+			}
 			System.out.println("Finished processing agency groupgain: " + agency);
 			System.out.println("Start processing agency successratio: " + agency);
 			analyzerManager.handleHistoryRecommendBySA(agency);
@@ -157,8 +157,8 @@ public class HistoryHandler {
 		handler.setRatio(ratio);
 		handler.setRecommendStockDao(recommendStockDao);
 		handler.setCaculater(caculater);
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
-		handler.dealOneAnalyzer(analyzer);
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
+		//		handler.dealOneAnalyzer(analyzer);
 		handler.processAllHistoryReport();
 		System.exit(0);
 	}

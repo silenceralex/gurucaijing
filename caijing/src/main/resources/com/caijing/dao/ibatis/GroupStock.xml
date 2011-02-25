@@ -140,6 +140,9 @@
 	<update id="updateOutOfDate" parameterClass="GroupStock">
 		update groupstock
 		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="currentprice">
+				currentprice = #currentprice#
+			</isNotEmpty>
 			<isNotEmpty prepend="," property="outtime">
 				outtime = #outtime#
 			</isNotEmpty>
@@ -156,6 +159,9 @@
 	<update id="updateOutGain" parameterClass="GroupStock">
 		update groupstock
 		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="currentprice">
+				currentprice = #currentprice#
+			</isNotEmpty>
 			<isNotEmpty prepend="," property="gain">
 				gain = #gain#
 			</isNotEmpty>
