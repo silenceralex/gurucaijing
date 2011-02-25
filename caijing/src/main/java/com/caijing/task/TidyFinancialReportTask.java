@@ -87,7 +87,7 @@ public class TidyFinancialReportTask {
 						String stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
 						Date lmodify = new Date();
-						System.out.println("[" + filepath + ", " + stockname + timeFORMAT.format(lmodify) + "]");
+						System.out.println("[" + filepath + ", " + stockname +", "+ timeFORMAT.format(lmodify) + "]");
 						
 						//cp report
 						try {
