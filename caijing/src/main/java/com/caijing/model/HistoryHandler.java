@@ -1,5 +1,6 @@
 package com.caijing.model;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -95,8 +96,9 @@ public class HistoryHandler {
 		this.caculater = caculater;
 	}
 
-	//, "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合",
-	//	"光大证券", "中投证券", "中信建投" ,"申银万国"
+	//"国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合", "光大证券",
+	//	"中投证券", "中信建投", "申银万国" 
+
 	private static String[] agencys = { "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合", "光大证券",
 			"中投证券", "中信建投", "申银万国" };
 
@@ -105,8 +107,14 @@ public class HistoryHandler {
 		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
 		System.out.println("analyzer getName : " + analyzer.getName());
 		System.out.println("rstocks size : " + rstocks.size());
+		//去重,防止同一天的推荐数据入库
+		HashSet<String> uniqSet = new HashSet<String>();
 		for (RecommendStock rs : rstocks) {
-			groupGainManager.extractGroupStock(rs);
+			String key = analyzer.getAid() + rs.getStockcode() + rs.getCreatedate();
+			if (!uniqSet.contains(key)) {
+				uniqSet.add(key);
+				groupGainManager.extractGroupStock(rs);
+			}
 		}
 		//TODO 处理所有历史研报收益率  
 		caculater.processAllHistoryGain(analyzer.getAid());
