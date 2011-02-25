@@ -20,12 +20,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.caijing.dao.FinancialReportDao;
+import com.caijing.domain.FinancialReport;
 import com.caijing.util.ContextFactory;
+import com.caijing.util.ServerUtil;
 
 /**
  * 整理财报，功能如下：
  * 
- * 1. 归类，放于各自年份类型的目录下
+ * 1. 归类，放于各自年份类型的目录下 
+ * $from: /data/report/`report_original_name`.pdf $to: /data/reports/`year`/`type`/`stockcode`.pdf
  * 2. 数据库记录
  */
 public class TidyFinancialReportTask {
@@ -35,6 +38,7 @@ public class TidyFinancialReportTask {
 	private FinancialReportDao financialReportDao = null;
 	
 	String fromRootDir = "/data/report/";
+	String toDir = "/data/reports/";
 	Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 	Pattern titlePattern = Pattern.compile("(\\d{4})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
@@ -43,10 +47,6 @@ public class TidyFinancialReportTask {
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
-
-	//$from: `/report_original_name`.pdf $to: report /year/`type`/`stockcode`.pdf
-	//String from = "/data/report/";
-	String toDir = "/data/reports/";
 
 	public void run() {
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
@@ -59,7 +59,7 @@ public class TidyFinancialReportTask {
 
 				String year = null;
 				String type = null;
-				int quarter_type = 0;
+				byte quarter_type = 0;
 
 				Matcher m = titlePattern.matcher(dirname);
 				if (m != null && m.find()) {
@@ -74,15 +74,15 @@ public class TidyFinancialReportTask {
 					} else if (type.equalsIgnoreCase("zq")) {//全年
 						quarter_type = 4;
 					} else if (type.equalsIgnoreCase("jb")) {//季度
-						quarter_type = Integer.parseInt(m.group(3).trim()); //1,3
+						quarter_type = Byte.parseByte(m.group(3).trim()); //1,3
 					}
 				}
 				File reportDir = new File(dir, "reports");
 				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, ".pdf");
 				if (reportFiles != null) {
-					for (File report : reportFiles) {
-						System.out.println("==> report: " + report.getPath());
-						String report_title = report.getName();
+					for (File reportfile : reportFiles) {
+						System.out.println("==> report: " + reportfile.getPath());
+						String report_title = reportfile.getName();
 						String stockcode = report_title.split("_")[0];
 						String stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
@@ -91,16 +91,24 @@ public class TidyFinancialReportTask {
 						
 						//cp report
 						try {
-							FileUtils.copyFile(report, new File(toDir, filepath));
+							FileUtils.copyFile(reportfile, new File(toDir, filepath));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 						
 						//to database
-						
+						FinancialReport report = new FinancialReport();
+						report.setReportid(ServerUtil.getid());
+						report.setStockcode(stockcode);
+						report.setStockname(stockname);
+						report.setTitle(report_title);
+						report.setType(quarter_type);
+						report.setYear(year);
+						report.setLmodify(lmodify);
+						report.setFilepath(filepath);
+						financialReportDao.insert(report);
 					}
 				}
-
 			}
 		}
 	}
