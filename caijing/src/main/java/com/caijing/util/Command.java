@@ -32,7 +32,7 @@ public class Command
 		}
 	}
 
-	public boolean process(String command, Writer out)
+	public static boolean process(String command, Writer out)
 	{
 		try
 		{
@@ -64,12 +64,12 @@ public class Command
 		}
 	}
 
-	public boolean copy(String input, String output)
+	public static boolean copy(String input, String output)
 	{
 		return process("/bin/cp -f " + input + " " + output, null);
 	}
 
-	public boolean mv(String input, String output)
+	public static boolean mv(String input, String output)
 	{
 		return process("/bin/mv -f " + input + " " + output, null);
 	}
