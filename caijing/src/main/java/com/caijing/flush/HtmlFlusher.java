@@ -1004,7 +1004,7 @@ public class HtmlFlusher {
 		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
-		flusher.flushStarGuruDetail();
+		//		flusher.flushStarGuruDetail();
 		//				flusher.flushAnalyzerRank();
 		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
@@ -1013,7 +1013,7 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true);
 		//				flusher.flushAnalyzerRank();
-		flusher.flushStockResearch();
+		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
 		//		flusher.flushNotice();
 		//		flusher.flushStarGuruDetail();
@@ -1024,8 +1024,8 @@ public class HtmlFlusher {
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
-		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//		flusher.flushLiveStatic();
+		//		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
