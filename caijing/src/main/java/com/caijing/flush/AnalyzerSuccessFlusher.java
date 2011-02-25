@@ -359,6 +359,15 @@ public class AnalyzerSuccessFlusher {
 		}
 	}
 
+	public void flushAllStarGuruDetail() {
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		if (analyzerList != null && analyzerList.size() > 0) {
+			for (Analyzer analyzer : analyzerList) {
+				flushAnalyzer(analyzer);
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		AnalyzerSuccessFlusher flusher = new AnalyzerSuccessFlusher();
 		AnalyzerSuccessDao analyzerSuccessDao = (AnalyzerSuccessDao) ContextFactory.getBean("analyzerSuccessDao");
@@ -377,12 +386,13 @@ public class AnalyzerSuccessFlusher {
 		flusher.setReportDao(reportDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
-		flusher.flushAnalyzer(analyzer);
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ут╫П╨Я");
+		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
+		flusher.flushAllStarGuruDetail();
 		System.exit(0);
 	}
 }
