@@ -185,8 +185,8 @@ public class AnalyzerSuccessFlusher {
 			try {
 				if (isStart) {
 					startDate = groupStockDao.getEarliestIntimeByAidFrom(aid, DateTools.parseYYYYMMDDDate(startDay));
-					startprice = stockEarnDao.getStockEarnByCodeDate("000300",
-							DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+					//如果intime在周末则后移300的起始price
+					startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
 					startweight = 100;
 				} else {
 					startDate = DateTools.parseYYYYMMDDDate(startDay);
@@ -275,8 +275,7 @@ public class AnalyzerSuccessFlusher {
 
 		Date startDate = groupStockDao.getCurrentEarliestIntimeByAid(analyzer.getAid());
 
-		float startprice = stockEarnDao.getStockEarnByCodeDate("000300", DateTools.transformYYYYMMDDDate(startDate))
-				.getPrice();
+		float startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
 		List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
 				DateTools.transformYYYYMMDDDate(startDate));
 		VMFactory stockvmf = new VMFactory();
@@ -361,10 +360,10 @@ public class AnalyzerSuccessFlusher {
 
 	public void flushAllStarGuruDetail() {
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
-		if (analyzerList != null && analyzerList.size() > 0) {
-			for (Analyzer analyzer : analyzerList) {
-				flushAnalyzer(analyzer);
-			}
+		System.out.println("analyzerList size:" + analyzerList.size());
+		for (Analyzer analyzer : analyzerList) {
+			flushAnalyzer(analyzer);
+
 		}
 	}
 
@@ -386,13 +385,13 @@ public class AnalyzerSuccessFlusher {
 		flusher.setReportDao(reportDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
-		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("赵金厚");
-		//		flusher.flushAnalyzer(analyzer);
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("衡昆");
+		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
-		flusher.flushAllStarGuruDetail();
+		//		flusher.flushAllStarGuruDetail();
 		System.exit(0);
 	}
 }
