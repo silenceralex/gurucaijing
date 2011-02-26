@@ -1,6 +1,7 @@
 package com.caijing.flush;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -223,6 +224,7 @@ public class AnalyzerFlusher {
 			introvmf.put("dateTools", new DateTools());
 			introvmf.put("analyzer", analyzer);
 			introvmf.put("year", year);
+			Collections.reverse(years);
 			introvmf.put("yearList", years);
 			introvmf.put("ratio", ratio);
 			introvmf.put("relativeratio", relativeratio);
@@ -339,6 +341,7 @@ public class AnalyzerFlusher {
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("analyzer", analyzer);
 			vmf.put("currdate", new Date());
+			Collections.reverse(years);
 			vmf.put("yearList", years);
 			vmf.put("aname", analyzer.getName());
 			vmf.put("ratio", ratio);
