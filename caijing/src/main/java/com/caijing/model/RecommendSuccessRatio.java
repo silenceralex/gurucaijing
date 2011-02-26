@@ -211,6 +211,9 @@ public class RecommendSuccessRatio {
 		String endDate = year + "-12-31";
 		int success = recommendSuccessDao.getRecommendSuccessCountByAidDuring(analyzer.getAid(), startDate, endDate);
 		int total = recommendSuccessDao.getTotalRecommendCountByAidDuring(analyzer.getAid(), startDate, endDate);
+		if (total == 0) {
+			return;
+		}
 		AnalyzerSuccess asuccess = analyzerSuccessDao.getOneAnalyzerSuccess(analyzer.getAid(), year);
 		if (asuccess == null) {
 			asuccess = new AnalyzerSuccess();
