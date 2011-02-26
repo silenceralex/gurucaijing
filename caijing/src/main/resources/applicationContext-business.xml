@@ -141,6 +141,30 @@
 		</property>
 	</bean>
 	
+	<bean id="analyzerFlusher" class="com.caijing.flush.AnalyzerFlusher">
+		<property name="analyzerSuccessDao">
+			<ref bean="analyzerSuccessDao" />
+		</property>
+		<property name="groupStockDao">
+			<ref bean="groupStockDao" />
+		</property>
+		<property name="analyzerDao">
+			<ref bean="analyzerDao" />
+		</property>
+		<property name="stockEarnDao">
+			<ref bean="stockEarnDao" />
+		</property>
+		<property name="groupEarnDao">
+			<ref bean="groupEarnDao" />
+		</property>
+		<property name="reportDao">
+			<ref bean="reportDao" />
+		</property>
+		<property name="recommendSuccessDao">
+			<ref bean="recommendSuccessDao" />
+		</property>
+	</bean>
+	
 	<bean id="stockReloader" class="com.caijing.model.StockReloader">
 		<property name="analyzerDao">
 			<ref bean="analyzerDao" />

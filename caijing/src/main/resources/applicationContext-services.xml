@@ -83,6 +83,9 @@
 		<property name="htmlFlush">
 			<ref bean="htmlFlush" />
 		</property>
+		<property name="analyzerFlusher">
+			<ref bean="analyzerFlusher" />
+		</property>
 		<property name="stockReloader">
 			<ref bean="stockReloader" />
 		</property>

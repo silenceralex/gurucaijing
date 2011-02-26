@@ -28,7 +28,7 @@ import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 
-public class AnalyzerSuccessFlusher {
+public class AnalyzerFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
 
 	@Autowired
@@ -368,7 +368,7 @@ public class AnalyzerSuccessFlusher {
 	}
 
 	public static void main(String[] args) {
-		AnalyzerSuccessFlusher flusher = new AnalyzerSuccessFlusher();
+		AnalyzerFlusher flusher = new AnalyzerFlusher();
 		AnalyzerSuccessDao analyzerSuccessDao = (AnalyzerSuccessDao) ContextFactory.getBean("analyzerSuccessDao");
 		GroupStockDao groupStockDao = (GroupStockDao) ContextFactory.getBean("groupStockDao");
 		GroupEarnDao groupEarnDao = (GroupEarnDao) ContextFactory.getBean("groupEarnDao");
@@ -385,13 +385,13 @@ public class AnalyzerSuccessFlusher {
 		flusher.setReportDao(reportDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("∫‚¿•");
-		flusher.flushAnalyzer(analyzer);
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("∫‚¿•");
+		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
-		//		flusher.flushAllStarGuruDetail();
+		flusher.flushAllStarGuruDetail();
 		System.exit(0);
 	}
 }

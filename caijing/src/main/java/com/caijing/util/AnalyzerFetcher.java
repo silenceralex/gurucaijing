@@ -2,7 +2,6 @@ package com.caijing.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
@@ -11,7 +10,6 @@ import com.caijing.business.GroupGainManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ibatis.AnalyzerDaoImpl;
-import com.caijing.domain.Analyzer;
 import com.caijing.domain.RecommendStock;
 
 /**
@@ -73,22 +71,24 @@ public class AnalyzerFetcher {
 		//批量处理某个券商的分析师的收益率的计算结果
 		//		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
 		//		for (Analyzer analyzer : analyzers) {
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("赵金厚");
-		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 200);
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("赵金厚");
+		//		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 200);
 		//仅仅计算非明星的分析师
 		//			if (analyzer.getLevel() == 0) {
 		//				List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0,
 		//						500);
-		System.out.println("analyzer getName : " + analyzer.getName());
-		System.out.println("rstocks size : " + rstocks.size());
-		for (RecommendStock rs : rstocks) {
-			groupGainManager.extractGroupStock(rs);
-		}
-		String aid = analyzer.getAid();
+		//		System.out.println("analyzer getName : " + analyzer.getName());
+		//		System.out.println("rstocks size : " + rstocks.size());
+		//		for (RecommendStock rs : rstocks) {
+		//			groupGainManager.extractGroupStock(rs);
+		//		}
+		//		String aid = analyzer.getAid();
 		//				String aid = analyzerDao.getAnalyzerByName(aname).getAid();
-		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
-		storage.processHistoryGroupEarn(aid);
+		//		LocalStorage storage = (LocalStorage) ContextFactory.getBean("localStorage");
+		//		storage.processHistoryGroupEarn(aid);
 		//			}
 		//		}
+		RecommendStock rs = recommendStockDao.getRecommendStockbyReportid("6SR0VFJN");
+		groupGainManager.extractGroupStock(rs);
 	}
 }

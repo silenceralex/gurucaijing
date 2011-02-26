@@ -18,6 +18,7 @@ import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.Stock;
 import com.caijing.domain.StockEarn;
+import com.caijing.flush.AnalyzerFlusher;
 import com.caijing.flush.HtmlFlusher;
 import com.caijing.model.StockReloader;
 
@@ -69,6 +70,16 @@ public class LocalStorage {
 
 	private HtmlFlusher htmlFlush = null;
 
+	private AnalyzerFlusher analyzerFlusher = null;
+
+	public AnalyzerFlusher getAnalyzerFlusher() {
+		return analyzerFlusher;
+	}
+
+	public void setAnalyzerFlusher(AnalyzerFlusher analyzerFlusher) {
+		this.analyzerFlusher = analyzerFlusher;
+	}
+
 	public HtmlFlusher getHtmlFlush() {
 		return htmlFlush;
 	}
@@ -110,7 +121,8 @@ public class LocalStorage {
 		}
 
 		//抓取完毕直接进行刷新动作
-		htmlFlush.flushStarGuruDetail();
+		//		htmlFlush.flushStarGuruDetail();
+		analyzerFlusher.flushAllStarGuruDetail();
 		htmlFlush.flushAnalyzerRank();
 		htmlFlush.flushReportLab();
 		htmlFlush.flushStockResearch();
