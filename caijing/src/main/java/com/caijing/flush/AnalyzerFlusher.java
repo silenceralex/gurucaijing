@@ -160,7 +160,14 @@ public class AnalyzerFlusher {
 			System.out.println("analyzer  success: " + years.get(i));
 			flushAnalyzerSuccessYear(analyzer, years.get(i));
 		}
-		Date startDate = groupStockDao.getCurrentEarliestIntimeByAid(analyzer.getAid());
+		Date startDate = null;
+		try {
+			startDate = groupStockDao.getEarliestIntimeByAidFrom(analyzer.getAid(),
+					DateTools.parseYYYYMMDDDate("2008-01-01"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int startYear = Integer.parseInt(DateTools.getYear(startDate));
 		int currYear = Integer.parseInt(DateTools.getYear(new Date()));
 		List<String> groupYears = new ArrayList<String>();
@@ -240,8 +247,11 @@ public class AnalyzerFlusher {
 			introvmf.put("year", year);
 			String maxYear = years.get(years.size() - 1);
 			introvmf.put("maxYear", maxYear);
-			Collections.reverse(years);
-			introvmf.put("yearList", years);
+			System.out.println("maxYear  : " + maxYear);
+			ArrayList<String> yearList = new ArrayList<String>();
+			yearList.addAll(years);
+			Collections.reverse(yearList);
+			introvmf.put("yearList", yearList);
 			introvmf.put("ratio", ratio);
 			introvmf.put("relativeratio", relativeratio);
 			introvmf.put("startweight", startweight);
@@ -356,8 +366,10 @@ public class AnalyzerFlusher {
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("analyzer", analyzer);
 			vmf.put("currdate", new Date());
-			Collections.reverse(years);
-			vmf.put("yearList", years);
+			ArrayList<String> yearList = new ArrayList<String>();
+			yearList.addAll(years);
+			Collections.reverse(yearList);
+			vmf.put("yearList", yearList);
 			vmf.put("aname", analyzer.getName());
 			vmf.put("ratio", ratio);
 			vmf.put("recommends", recommends);
@@ -402,8 +414,8 @@ public class AnalyzerFlusher {
 		flusher.setReportDao(reportDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
-		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²
-		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ÕÔÏæ¶õ");
+		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ºâÀ¥");
 		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
