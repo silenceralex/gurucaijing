@@ -238,6 +238,8 @@ public class AnalyzerFlusher {
 			introvmf.put("dateTools", new DateTools());
 			introvmf.put("analyzer", analyzer);
 			introvmf.put("year", year);
+			String maxYear = years.get(years.size() - 1);
+			introvmf.put("maxYear", maxYear);
 			Collections.reverse(years);
 			introvmf.put("yearList", years);
 			introvmf.put("ratio", ratio);
@@ -248,8 +250,7 @@ public class AnalyzerFlusher {
 			introvmf.put("startprice", startprice);
 			introvmf.put("priceList", priceList);
 			introvmf.put("isCurrentYear", isCurrentYear);
-			String maxYear = years.get(years.size() - 1);
-			introvmf.put("maxYear", maxYear);
+
 			System.out.println("isCurrentYear :" + isCurrentYear);
 			System.out.println("weightList size :" + weightList.size());
 			System.out.println("priceList size :" + priceList.size());

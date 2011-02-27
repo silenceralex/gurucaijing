@@ -20,10 +20,9 @@
                         <select onchange="window.location = this.value;">
                         #foreach($one in $yearList)<option 
                         #if( $one == ${maxYear})
-                       value="${analyzer.getAid()}_intro.html"
+                       	value="${analyzer.getAid()}_intro.html"
                         #else
-                         
-                          value="${analyzer.getAid()}_${one}_intro.html"
+                         value="${analyzer.getAid()}_${one}_intro.html"
                          #end
                          #if($one == ${year})selected="selected"#end>${one}</option>#end
                         </select>
