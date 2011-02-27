@@ -169,7 +169,7 @@ public class AnalyzerFlusher {
 		}
 		System.out.println("startYear  : " + startYear + " groupYears size: " + groupYears.size());
 		for (int i = 0; i < groupYears.size(); i++) {
-			System.out.println("analyzer  group: " + years.get(i));
+			System.out.println("analyzer  group: " + groupYears.get(i));
 			if (i == 0) {
 				flushAnalyzerYear(analyzer, groupYears.get(0), groupYears, true);
 			} else {
