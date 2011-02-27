@@ -160,7 +160,8 @@ public class AnalyzerFlusher {
 			System.out.println("analyzer  success: " + years.get(i));
 			flushAnalyzerSuccessYear(analyzer, years.get(i));
 		}
-		int startYear = Integer.parseInt(years.get(0));
+		Date startDate = groupStockDao.getCurrentEarliestIntimeByAid(analyzer.getAid());
+		int startYear = Integer.parseInt(DateTools.getYear(startDate));
 		int currYear = Integer.parseInt(DateTools.getYear(new Date()));
 		List<String> groupYears = new ArrayList<String>();
 		for (int i = startYear; i <= currYear; i++) {
