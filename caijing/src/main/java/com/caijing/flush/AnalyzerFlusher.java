@@ -155,7 +155,7 @@ public class AnalyzerFlusher {
 
 	public void flushAnalyzer(Analyzer analyzer) {
 		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
-		System.out.println("years.size()  : " + years.size());
+		System.out.println("years.size()  : " + years.size() + " aid:" + analyzer.getAid());
 		for (int i = 0; i < years.size(); i++) {
 			System.out.println("analyzer  success: " + years.get(i));
 			flushAnalyzerSuccessYear(analyzer, years.get(i));
