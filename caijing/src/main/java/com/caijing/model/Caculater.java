@@ -109,6 +109,8 @@ public class Caculater {
 						stock.setStatus(-1);
 						stock.setGain(FloatUtil.getTwoDecimal((gain - 1) * 100));
 						stock.setLtime(new Date());
+						System.out.println("updateOutOfDate stock intime : " + stock.getIntime() + " stockcode:"
+								+ stock.getStockcode());
 						groupStockDao.updateOutOfDate(stock);
 						//						System.out.println("stock :" + stock.getInreportid() + " code:" + stock.getStockcode()
 						//								+ "  outdate:" + se.getDate() + "  gain:" + gain);

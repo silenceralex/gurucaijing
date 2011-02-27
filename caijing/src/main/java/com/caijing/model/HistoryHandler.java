@@ -111,6 +111,7 @@ public class HistoryHandler {
 		HashSet<String> uniqSet = new HashSet<String>();
 		for (RecommendStock rs : rstocks) {
 			String key = analyzer.getAid() + rs.getStockcode() + rs.getCreatedate();
+			System.out.println("key : " + key);
 			if (!uniqSet.contains(key)) {
 				uniqSet.add(key);
 				try {
@@ -169,7 +170,7 @@ public class HistoryHandler {
 		handler.setRatio(ratio);
 		handler.setRecommendStockDao(recommendStockDao);
 		handler.setCaculater(caculater);
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("’‘œÊ∂ı");
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("’≈ ø±¶");
 		handler.dealOneAnalyzer(analyzer);
 		//		handler.processAllHistoryReport();
 		System.exit(0);

@@ -119,6 +119,8 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 				float inprice = stockEarnDao.getNearPriceByCodeDate(rs.getStockcode(),
 						DateTools.parseShortDate(rs.getCreatedate())).getPrice();
 				gs.setInprice(inprice);
+				System.out.println("insert gs intime : " + gs.getIntime() + " stockcode:" + gs.getStockcode()
+						+ " isOutDate:" + isOutDate);
 				try {
 					groupStockDao.insert(gs);
 				} catch (Exception e) {
@@ -140,6 +142,8 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 				if (oldstock.getIntime().before(DateTools.parseShortDate(rs.getCreatedate()))) {
 					oldstock.setOuttime(DateTools.parseShortDate(rs.getCreatedate()));
 					oldstock.setOutreportid(rs.getReportid());
+					System.out.println("update oldstock intime : " + oldstock.getIntime() + " stockcode:"
+							+ oldstock.getStockcode());
 					groupStockDao.update(oldstock);
 				}
 			}
