@@ -169,9 +169,9 @@ public class HistoryHandler {
 		handler.setRatio(ratio);
 		handler.setRecommendStockDao(recommendStockDao);
 		handler.setCaculater(caculater);
-		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("∫‚¿•");
-		//		handler.dealOneAnalyzer(analyzer);
-		handler.processAllHistoryReport();
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("∫‚¿•");
+		handler.dealOneAnalyzer(analyzer);
+		//		handler.processAllHistoryReport();
 		System.exit(0);
 	}
 }
