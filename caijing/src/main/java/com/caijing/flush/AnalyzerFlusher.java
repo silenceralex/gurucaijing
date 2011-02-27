@@ -388,7 +388,8 @@ public class AnalyzerFlusher {
 		flusher.setReportDao(reportDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("ºâÀ¥");
+		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("ÕÔÏæ¶õ");
 		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
