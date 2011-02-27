@@ -32,7 +32,7 @@
 	<select id="getCurrentStockByGroupidAndStockcode"
 		resultClass="GroupStock" parameterClass="java.util.Map">
 		select * from groupstock where groupid=#groupid# and
-		stockcode=#stockcode# and status=1 order by intime limit 1
+		stockcode=#stockcode# and status=1 order by intime desc limit 1
 	</select>
 	
 	<select id="getStockByGroupidAndStockcode"
