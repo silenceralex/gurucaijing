@@ -1,9 +1,13 @@
 package com.caijing.business.impl;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
+import org.springframework.beans.factory.InitializingBean;
 
 import com.caijing.business.RecommendSuccessManager;
 import com.caijing.dao.AnalyzerDao;
@@ -12,11 +16,13 @@ import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.AnalyzerSuccess;
+import com.caijing.domain.RecommendStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.StockEarn;
 import com.caijing.util.DateTools;
+import com.caijing.util.GradeUtil;
 
-public class RecommendSuccessManagerImpl implements RecommendSuccessManager {
+public class RecommendSuccessManagerImpl implements RecommendSuccessManager, InitializingBean {
 	public AnalyzerDao getAnalyzerDao() {
 		return analyzerDao;
 	}
@@ -53,6 +59,16 @@ public class RecommendSuccessManagerImpl implements RecommendSuccessManager {
 	private StockEarnDao stockEarnDao = null;
 	private RecommendSuccessDao recommendSuccessDao = null;
 	private AnalyzerSuccessDao analyzerSuccessDao = null;
+
+	private HashMap<String, Analyzer> analyzerMap = new HashMap<String, Analyzer>();
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		for (Analyzer analyzer : analyzers) {
+			analyzerMap.put(analyzer.getName(), analyzer);
+		}
+	}
 
 	@Override
 	public void processValidatedRecommendSuccess(Date endDate) {
@@ -162,6 +178,40 @@ public class RecommendSuccessManagerImpl implements RecommendSuccessManager {
 				}
 				asuccess.setSuccessratio(successratio);
 				analyzerSuccessDao.update(asuccess);
+			}
+		}
+	}
+
+	@Override
+	public void extractRecommendSuccess(RecommendStock rs) {
+		if (rs.getCreatedate() == null || rs.getGrade() == null) {
+			return;
+		}
+		if (rs.getCreatedate().length() < 8 || GradeUtil.judgeStaus(rs.getGrade()) != 2 || rs.getObjectprice() <= 0) {
+			return;
+		}
+		String[] names = rs.getAname().split("\\s|,|£¬");
+		for (String name : names) {
+			name = name.replaceAll("[^\u4e00-\u9fa5]", "");
+			if (analyzerMap.containsKey(name)) {
+				String aid = analyzerMap.get(name).getAid();
+				RecommendSuccess recommend = new RecommendSuccess();
+				recommend.setAid(aid);
+				recommend.setAname(name);
+				recommend.setStockcode(rs.getStockcode());
+				recommend.setStockname(rs.getStockname());
+				recommend.setObjectprice(rs.getObjectprice());
+				try {
+					recommend.setRecommenddate(DateTools.parseShortDate(rs.getCreatedate()));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				recommend.setReportid(rs.getReportid());
+				try {
+					recommendSuccessDao.insert(recommend);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

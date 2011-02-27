@@ -85,11 +85,74 @@ public class GroupGainManagerImpl implements GroupGainManager, InitializingBean 
 		}
 	}
 
+	public void extractHistoryGroupStock(RecommendStock rs, Analyzer analyzer) {
+		if (rs.getCreatedate() == null || rs.getCreatedate().length() < 8) {
+			return;
+		}
+		String aid = analyzer.getAid();
+		GroupStock gs = new GroupStock();
+		gs.setGroupid(aid);
+		gs.setGroupname(analyzer.getName());
+		gs.setStockcode(rs.getStockcode());
+		recommendStockDao.updateAnalyzerByReportid(rs.getReportid(), aid);
+		GroupStock oldstock = groupStockDao.getCurrentStockByGroupidAndStockcode(aid, rs.getStockcode());
+		boolean isOutDate = false;
+		if (oldstock != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(oldstock.getIntime());
+			cal.add(Calendar.YEAR, 1);
+			//oldstock 若相对于已经过期,则仍旧可以插入
+			try {
+				if (cal.getTime().before(DateTools.parseShortDate(rs.getCreatedate()))) {
+					isOutDate = true;
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			if (GradeUtil.judgeStaus(rs.getGrade()) == 2 && (oldstock == null || isOutDate)) {
+				gs.setIntime(DateTools.parseShortDate(rs.getCreatedate()));
+				gs.setInreportid(rs.getReportid());
+				gs.setObjectprice(rs.getObjectprice());
+
+				float inprice = stockEarnDao.getNearPriceByCodeDate(rs.getStockcode(),
+						DateTools.parseShortDate(rs.getCreatedate())).getPrice();
+				gs.setInprice(inprice);
+				try {
+					groupStockDao.insert(gs);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				List<StockEarn> stockEarns = stockEarnDao
+						.getRatiosByCodeFromDate(rs.getStockcode(), rs.getCreatedate());
+
+				float gain = 1;
+				for (int i = 0; i < stockEarns.size(); i++) {
+					gain = (1 + stockEarns.get(i).getRatio() / 100) * gain;
+				}
+				gs.setCurrentprice(stockEarns.get(stockEarns.size() - 1).getPrice());
+				gs.setGain(FloatUtil.getTwoDecimal((gain - 1) * 100));
+				gs.setLtime(stockEarns.get(stockEarns.size() - 1).getDate());
+				groupStockDao.updateStockGain(gs);
+			}
+			if (GradeUtil.judgeStaus(rs.getGrade()) == 1 && (oldstock != null)) {
+				if (oldstock.getIntime().before(DateTools.parseShortDate(rs.getCreatedate()))) {
+					oldstock.setOuttime(DateTools.parseShortDate(rs.getCreatedate()));
+					oldstock.setOutreportid(rs.getReportid());
+					groupStockDao.update(oldstock);
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void extractGroupStock(RecommendStock rs) {
 		if (rs.getCreatedate() == null || rs.getCreatedate().length() < 8) {
 			return;
 		}
-		String[] names = rs.getAname().split("\\s|,");
+		String[] names = rs.getAname().split("\\s|,|，");
 		for (String name : names) {
 			name = name.replaceAll("[^\u4e00-\u9fa5]", "");
 			if (analyzerMap.containsKey(name)) {

@@ -114,7 +114,7 @@ public class HistoryHandler {
 			if (!uniqSet.contains(key)) {
 				uniqSet.add(key);
 				try {
-					groupGainManager.extractGroupStock(rs);
+					groupGainManager.extractHistoryGroupStock(rs, analyzer);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

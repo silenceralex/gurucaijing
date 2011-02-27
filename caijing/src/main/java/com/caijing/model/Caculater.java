@@ -65,7 +65,6 @@ public class Caculater {
 			Date now = new Date();
 			//			List<GroupStock> stocks = groupStockDao.getCurrentStockByGroupid(aid);
 			//所有groupstock
-			//			List<GroupStock> stocks = groupStockDao.getAllGroupStock();
 			List<GroupStock> stocks = groupStockDao.getAllStockByGroupid(aid);
 			HashMap<String, HashMap<Date, Float>> stockdateMap = new HashMap<String, HashMap<Date, Float>>();
 			for (GroupStock stock : stocks) {
@@ -95,8 +94,6 @@ public class Caculater {
 					cal.add(Calendar.YEAR, 1);
 					Date outtime = cal.getTime();
 					//outtime 若在当前时间内则已经过期
-					//				now = now.before(DateTools.parseYYYYMMDDDate(endDate)) ? now : DateTools.parseYYYYMMDDDate(endDate);
-
 					StockEarn se = stockEarnDao.getNearPriceByCodeDate(stock.getStockcode(), cal.getTime());
 					//该stock已经过期
 					if (cal.getTime().before(now) && se != null) {

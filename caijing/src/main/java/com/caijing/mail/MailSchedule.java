@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.business.GroupGainManager;
+import com.caijing.business.RecommendSuccessManager;
 import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
@@ -35,6 +36,18 @@ public class MailSchedule {
 	}
 
 	@Autowired
+	@Qualifier("recommendSuccessManager")
+	private RecommendSuccessManager recommendSuccessManager = null;
+
+	public RecommendSuccessManager getRecommendSuccessManager() {
+		return recommendSuccessManager;
+	}
+
+	public void setRecommendSuccessManager(RecommendSuccessManager recommendSuccessManager) {
+		this.recommendSuccessManager = recommendSuccessManager;
+	}
+
+	@Autowired
 	@Qualifier("config")
 	private Config config = null;
 
@@ -61,6 +74,7 @@ public class MailSchedule {
 		reader.setReportDao(reportDao);
 		reader.setRecommendStockDao(recommendStockDao);
 		reader.setGroupGainManager(groupGainManager);
+		reader.setRecommendSuccessManager(recommendSuccessManager);
 		reader.setConfig(config);
 		reader.init();
 		receiver.setReader(reader);
