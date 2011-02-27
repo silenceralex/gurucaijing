@@ -61,7 +61,7 @@
 				ltime = #ltime#
 			</isNotEmpty>
 		</dynamic>
-		where groupid=#groupid# and stockcode=#stockcode# and status =1
+		where groupid=#groupid# and stockcode=#stockcode# and intime = #intime# and status =1
 	</update>
 	
 	
@@ -76,7 +76,7 @@
 				outreportid = #outreportid#
 			</isNotEmpty>
 		</dynamic>
-		,status = 0 where groupid=#groupid# and stockcode=#stockcode# and status =1
+		,status = 0 where groupid=#groupid# and stockcode=#stockcode# and intime = #intime# and status =1
 	</update>
 
 	<delete id="delete" parameterClass="GroupStock">
@@ -153,7 +153,7 @@
 				ltime = #ltime#
 			</isNotEmpty>
 		</dynamic>
-		,status = -1 where groupid=#groupid# and stockcode=#stockcode# and status =1
+		,status = -1 where groupid=#groupid# and stockcode=#stockcode# and intime = #intime# and status =1
 	</update>
 	
 	<update id="updateOutGain" parameterClass="GroupStock">

@@ -1,6 +1,7 @@
 package com.caijing.flush;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -156,15 +157,27 @@ public class AnalyzerFlusher {
 		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
 		System.out.println("years.size()  : " + years.size());
 		for (int i = 0; i < years.size(); i++) {
-			System.out.println("analyzer  : " + years.get(i));
-			if (i == 0) {
-				flushAnalyzerYear(analyzer, years.get(i), years, true);
-			} else {
-				flushAnalyzerYear(analyzer, years.get(i), years, false);
-			}
+			System.out.println("analyzer  success: " + years.get(i));
 			flushAnalyzerSuccessYear(analyzer, years.get(i));
-			flushAnalyzerStock(analyzer);
 		}
+		int startYear = Integer.parseInt(years.get(0));
+		int currYear = Integer.parseInt(DateTools.getYear(new Date()));
+		List<String> groupYears = new ArrayList<String>();
+		for (int i = startYear; i <= currYear; i++) {
+			groupYears.add("" + i);
+		}
+		System.out.println("startYear  : " + startYear + " groupYears size: " + groupYears.size());
+		for (int i = 0; i < groupYears.size(); i++) {
+			System.out.println("analyzer  group: " + years.get(i));
+			if (i == 0) {
+				flushAnalyzerYear(analyzer, groupYears.get(0), groupYears, true);
+			} else {
+				flushAnalyzerYear(analyzer, groupYears.get(i), groupYears, false);
+			}
+		}
+		//×éºÏ¹ÉÆ±³Ø
+		flushAnalyzerStock(analyzer);
+		//×ÜÌå³É¹¦ÂÊ
 		flushAnalyzerSuccessYear(analyzer, null);
 	}
 
@@ -366,7 +379,6 @@ public class AnalyzerFlusher {
 		System.out.println("analyzerList size:" + analyzerList.size());
 		for (Analyzer analyzer : analyzerList) {
 			flushAnalyzer(analyzer);
-
 		}
 	}
 
@@ -389,13 +401,13 @@ public class AnalyzerFlusher {
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("ÕÔÏæ¶õ");
-		flusher.flushAnalyzer(analyzer);
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ÕÔÏæ¶õ");
+		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
-		//		flusher.flushAllStarGuruDetail();
+		flusher.flushAllStarGuruDetail();
 		System.exit(0);
 	}
 }
