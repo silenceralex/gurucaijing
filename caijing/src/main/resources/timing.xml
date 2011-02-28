@@ -18,7 +18,7 @@
 		CronTriggerBean
 		=========================================================================-->
 
-	<!-- ÿСʱ´ӵ㼷¼Ȃ¼±»򈢐Ə¢ι˓Ƶ¸�¢ -->
+	<!-- 每小时从点击记录表中获取信息往视频更新信息 -->
 	<bean id="timingScheduler" class="com.caijing.mail.MailSchedule">
 		<property name="extractor">
 			<ref bean="reportExtractor" />
@@ -52,12 +52,12 @@
 			<ref bean="scheduledInfo" />
 		</property>
 		<property name="cronExpression">
-			<value>0 30 4,9,14,18,21 * * ?</value><!-- ÿСʱִѐһ´̠-->
+			<value>0 30 4,9,14,18,21 * * ?</value><!-- 每小时执行一次 -->
 		</property>
 	</bean>
 
 
-	<!-- ¶¨ʱץȡȦֱؓ²¥˒˽¾۠-->
+	<!-- 定时抓取圈子直播室数据 -->
 	<bean id="extractScheduler"
 		class="com.caijing.mail.ExtractSchedule">
 		<property name="extractor">
@@ -92,7 +92,7 @@
 			<ref bean="scheduledExtract" />
 		</property>
 		<property name="cronExpression">
-			<value>0 1/2 9-16 ? * MON-FRI</value><!-- ÿСʱִѐһ´̠-->
+			<value>0 1/2 9-16 ? * MON-FRI</value><!-- 每小时执行一次 -->
 		</property>
 	</bean>
 
@@ -155,7 +155,7 @@
 			<ref bean="scheduledSpide" />
 		</property>
 		<property name="cronExpression">
-			<value>0 12/20 8-22 * * ?</value><!-- ÿͬέʏ3µᱰ·ז´ѐһ´̠-->
+			<value>0 12/20 8-22 * * ?</value><!-- 每天晚上3点30分执行一次 -->
 		</property>
 	</bean>
 
@@ -176,7 +176,7 @@
 			<ref bean="scheduledlocalStorage" />
 		</property>
 		<property name="cronExpression">
-			<value>0 30 15 ? * MON-FRI</value><!-- ÿͬЂϧ3µ㱫ִѐһ´α¾µؼǋឭ->
+			<value>0 30 15 ? * MON-FRI</value><!-- 每天下午3点半执行一次本地计算 -->
 		</property>
 	</bean>
 
@@ -197,7 +197,7 @@
 			<ref bean="scheduledFlush" />
 		</property>
 		<property name="cronExpression">
-			<value>0 30 8,9,15,16 ? * MON-FRI</value><!-- ÿͬ½�ι«¸痥ȡ²¢·¢²¼¹«¸璳 -->
+			<value>0 30 8,9,15,16 ? * MON-FRI</value><!-- 每天进行4次公告抓取并发布公告页 -->
 		</property>
 	</bean>
 
