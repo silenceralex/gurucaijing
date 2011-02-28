@@ -76,7 +76,6 @@ public class TidyFinancialReportTask {
 				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, ".pdf");
 				if (reportFiles != null) {
 					for (File reportfile : reportFiles) {
-						
 						System.out.println("==> report: " + reportfile.getPath());
 						String report_title = reportfile.getName();
 						String stockcode = report_title.split("_")[0];
@@ -93,6 +92,10 @@ public class TidyFinancialReportTask {
 						
 						//cp report
 						try {
+							//TODO с╒нд
+							if(reportfile.exists()){
+								continue;
+							}
 							FileUtils.copyFile(reportfile, new File(toDir, filepath));
 						} catch (IOException e) {
 							e.printStackTrace();
