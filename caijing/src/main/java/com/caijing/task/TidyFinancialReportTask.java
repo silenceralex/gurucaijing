@@ -113,7 +113,7 @@ public class TidyFinancialReportTask {
 						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
 								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
-				}
+				} 
 			}
 		}
 	}
