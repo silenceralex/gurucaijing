@@ -12,6 +12,15 @@ public class FinancialReport {
 	private String stockname;
 	private String filepath;
 	private Date lmodify;
+	private Byte status;
+
+	public Byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
 
 	public String getReportid() {
 		return reportid;
