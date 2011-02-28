@@ -29,10 +29,6 @@ import com.caijing.util.ServerUtil;
  * 2. Êý¾Ý¿â¼ÇÂ¼
  */
 public class TidyFinancialReportTask {
-
-//	@Autowired
-//	@Qualifier("financialReportDao")
-//	private FinancialReportDao financialReportDao = null;
 	
 	String fromRootDir = "/data/report/";
 	String toDir = "/data/reports/";
