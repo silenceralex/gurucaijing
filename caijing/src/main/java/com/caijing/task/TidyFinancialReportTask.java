@@ -68,9 +68,9 @@ public class TidyFinancialReportTask {
 					}*/
 					year = m.group(1);
 					type = m.group(2);
-					if (type.equalsIgnoreCase("nd")) { //半年
+					if (type.equalsIgnoreCase("zq")) { //半年
 						quarter_type = 2;
-					} else if (type.equalsIgnoreCase("zq")) {//全年
+					} else if (type.equalsIgnoreCase("nd")) {//全年
 						quarter_type = 4;
 					} else if (type.equalsIgnoreCase("jb")) {//季度
 						quarter_type = Byte.parseByte(m.group(3).trim()); //1,3
