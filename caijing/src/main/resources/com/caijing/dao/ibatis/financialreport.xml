@@ -5,7 +5,7 @@
   	<typeAlias alias="financialreport" type="com.caijing.domain.FinancialReport" />
 
   	<select id="select" parameterClass="java.lang.String" resultClass="financialreport">
-	    select reportid, title, type, year, stockcode, stockname, filepath, lmodify
+	    select reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
 	    from financialreport
 	    where reportid = #reportid:VARCHAR#
   	</select>
@@ -16,9 +16,9 @@
 
   	<insert id="insert" parameterClass="financialreport">
 	    insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath,
-	      lmodify)
+	      lmodify, status)
 	    values (#reportid:VARCHAR#, #title:VARCHAR#, #type:TINYINT#, #year:VARCHAR#,
-	      #stockcode:VARCHAR#, #stockname:VARCHAR#, #filepath:VARCHAR#, #lmodify:TIMESTAMP#)
+	      #stockcode:VARCHAR#, #stockname:VARCHAR#, #filepath:VARCHAR#, #lmodify:TIMESTAMP#, #status:TINYINT#)
   	</insert>
   	
   	<update id="update" parameterClass="financialreport">
@@ -45,6 +45,9 @@
 	      <isNotNull prepend="," property="lmodify">
 	        lmodify = #lmodify:TIMESTAMP#
 	      </isNotNull>
+	      <isNotNull prepend="," property="status" >
+	        status = #status:TINYINT#
+	      </isNotNull>	      
 	    </dynamic>
 	    where reportid = #reportid:VARCHAR#
   	</update>
