@@ -15,11 +15,8 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.caijing.dao.FinancialReportDao;
 import com.caijing.domain.FinancialReport;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.ServerUtil;
@@ -33,13 +30,13 @@ import com.caijing.util.ServerUtil;
  */
 public class TidyFinancialReportTask {
 
-	@Autowired
-	@Qualifier("financialReportDao")
-	private FinancialReportDao financialReportDao = null;
+//	@Autowired
+//	@Qualifier("financialReportDao")
+//	private FinancialReportDao financialReportDao = null;
 	
 	String fromRootDir = "/data/report/";
 	String toDir = "/data/reports/";
-	Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})", Pattern.CASE_INSENSITIVE
+	Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 	Pattern titlePattern = Pattern.compile("(\\d{4})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES);
@@ -47,6 +44,8 @@ public class TidyFinancialReportTask {
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
+	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
+			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	public void run() {
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
@@ -81,10 +80,17 @@ public class TidyFinancialReportTask {
 				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, ".pdf");
 				if (reportFiles != null) {
 					for (File reportfile : reportFiles) {
+						
 						System.out.println("==> report: " + reportfile.getPath());
 						String report_title = reportfile.getName();
 						String stockcode = report_title.split("_")[0];
-						String stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
+						String stockname = null; 
+						byte status = 1;
+						m = stockcodePattern.matcher(stockcode);
+						if (m != null && m.find()){//例外 异常数据
+							status = 0;
+							stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
+						}
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
 						Date lmodify = new Date();
 						System.out.println("[" + filepath + ", " + stockname +", "+ timeFORMAT.format(lmodify) + "]");
@@ -106,7 +112,10 @@ public class TidyFinancialReportTask {
 						report.setYear(year);
 						report.setLmodify(lmodify);
 						report.setFilepath(filepath);
-						financialReportDao.insert(report);
+						report.setStatus(status);
+						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
+						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				}
 			}
@@ -123,6 +132,7 @@ public class TidyFinancialReportTask {
 	public static void main(String[] args) {
 		TidyFinancialReportTask task = new TidyFinancialReportTask();
 		task.run();
+		System.exit(0);
 	}
 
 }
