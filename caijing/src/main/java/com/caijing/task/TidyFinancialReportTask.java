@@ -34,7 +34,7 @@ public class TidyFinancialReportTask {
 	String toDir = "/data/reports/";
 	Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
-	Pattern titlePattern = Pattern.compile("(\\d{4})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+	Pattern titlePattern = Pattern.compile("([0-9]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES);
 
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -84,6 +84,7 @@ public class TidyFinancialReportTask {
 						m = stockcodePattern.matcher(stockcode);
 						if (m != null && m.find()){//例外 异常数据
 							status = 0;
+							stockname = null;
 							stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
 						}
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
@@ -92,10 +93,10 @@ public class TidyFinancialReportTask {
 						
 						//cp report
 						try {
-							//TODO 英文
-							if(reportfile.exists()){
-								continue;
-							}
+							//TODO FIXME 英文
+//							if(reportfile.exists()){
+//								continue;
+//							}
 							FileUtils.copyFile(reportfile, new File(toDir, filepath));
 						} catch (IOException e) {
 							e.printStackTrace();
