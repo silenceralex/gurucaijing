@@ -42,6 +42,7 @@
                      <tr>
                         <th>公司</th>
                         <th>推荐日期</th>
+                        <th>过期时间</th>
                         <th>推荐价</th>
                         <th>目标价</th>
                         <th>调出价</th>
@@ -66,6 +67,7 @@
                         <!--2010-2-21三类图标-->
                         ${one.getStockname()}(${one.getStockcode()})&nbsp;
                      </td>
+                     <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
                      <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
                      <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
                      #if ($one.getObjectprice() != 0)
