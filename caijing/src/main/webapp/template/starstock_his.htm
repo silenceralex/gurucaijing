@@ -68,7 +68,7 @@
                         ${one.getStockname()}(${one.getStockcode()})&nbsp;
                      </td>
                      <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
-                     <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
+                     <td>${dateTools.transformYYYYMMDDDate(${one.getOuttime()})}</td>
                      <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
                      #if ($one.getObjectprice() != 0)
                      <td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
