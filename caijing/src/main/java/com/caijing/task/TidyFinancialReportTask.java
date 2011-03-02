@@ -44,6 +44,8 @@ public class TidyFinancialReportTask {
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+	String[] FileSuffix = {".pdf", ".txt"};
+	
 	public void run() {
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
 		
@@ -74,12 +76,12 @@ public class TidyFinancialReportTask {
 					}
 				}
 				File reportDir = new File(dir, "reports");
-				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, ".pdf");
+				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, FileSuffix);
 				if (reportFiles != null) {
 					for (File reportfile : reportFiles) {
 						System.out.println("==> report: " + reportfile.getPath());
 						String report_title = reportfile.getName();
-						String stockcode = report_title.split("_")[0];
+						String stockcode = report_title.split(".")[0].split("_")[0];
 						String stockname = null; 
 						byte status = 1;
 						m = stockcodePattern.matcher(stockcode);
@@ -128,7 +130,7 @@ public class TidyFinancialReportTask {
 		}
 	}
 
-	public static File[] listFileBySuffix(File dir, String suffix) {
+	public static File[] listFileBySuffix(File dir, String[] suffix) {
 		IOFileFilter fileFilter1 = new SuffixFileFilter(suffix, IOCase.INSENSITIVE);
 		IOFileFilter fileFilter2 = new NotFileFilter(DirectoryFileFilter.INSTANCE);
 		FilenameFilter filenameFilter = new AndFileFilter(fileFilter1, fileFilter2);
