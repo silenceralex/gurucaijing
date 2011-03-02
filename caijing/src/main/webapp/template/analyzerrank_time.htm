@@ -81,7 +81,7 @@ function switchTab(id){
 							#end#end
 		                </tr>
 		                <tr>
-		              		#set ($startWeight = $startWeightMap(${one.getAid()}))
+		              		#set ($startWeight = $startWeightMap.get(${one.getAid()}))
 							#if ($weightList)#foreach ($one in $weightList)
 							#set ($ratio = ($one.getWeight() - $startWeight)/$startWeight*100)
                             <td>${one.getWeight()},${floatUtil.getTwoDecimalNumber(${ratio})}%</td>
