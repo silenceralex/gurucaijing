@@ -58,13 +58,11 @@
                      <tr class="star_detail_tb_even">
                      #end
                      <td>
-                        <!--2010-2-21三类图标-->
                         #if($one.status == -1)
-                        <span class="outdate-icon" title="过期">过期</span>
+                        <img title="过期" src="/img/out-icon.png" />
                         #else
-                        <span class="down-icon" title="下调">下调</span>
+                        <img title="下调" src="/img/down-icon.png" />
                         #end
-                        <!--2010-2-21三类图标-->
                         ${one.getStockname()}(${one.getStockcode()})&nbsp;
                      </td>
                      <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
