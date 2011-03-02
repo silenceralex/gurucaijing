@@ -44,7 +44,9 @@ public class TidyFinancialReportTask {
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	String[] FileSuffix = {".pdf", ".txt"};
+	String txt = ".txt";
+	String pdf = ".pdf";
+	String[] FileSuffix = {pdf, txt};
 	
 	public void run() {
 		JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
@@ -95,7 +97,13 @@ public class TidyFinancialReportTask {
 								System.err.println("[EmptyResultDataAccessException] stockcode: "+stockcode+" not exist");
 							}
 						}
-						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
+						String filepath = null;
+						if(reportfile.getName().toLowerCase().endsWith(pdf)){
+							filepath = "/" + year + "/" + quarter_type + "/" + stockcode + pdf;
+						} else if(reportfile.getName().toLowerCase().endsWith(txt)) {
+							filepath = "/" + year + "/" + quarter_type + "/" + stockcode + txt;
+						}
+						
 						Date lmodify = new Date();
 						System.out.println("[" + filepath + ", " + stockname +", "+ timeFORMAT.format(lmodify) + "]");
 						
@@ -135,6 +143,16 @@ public class TidyFinancialReportTask {
 		IOFileFilter fileFilter2 = new NotFileFilter(DirectoryFileFilter.INSTANCE);
 		FilenameFilter filenameFilter = new AndFileFilter(fileFilter1, fileFilter2);
 		return dir.listFiles(filenameFilter);
+	}
+	
+	public static String getExtension(String filename, String defExt) {
+		if ((filename != null) && (filename.length() > 0)) {
+			int i = filename.lastIndexOf('.');
+			if ((i > -1) && (i < (filename.length() - 1))) {
+				return filename.substring(i + 1);
+			}
+		}
+		return defExt;
 	}
 
 	public static void main(String[] args) {
