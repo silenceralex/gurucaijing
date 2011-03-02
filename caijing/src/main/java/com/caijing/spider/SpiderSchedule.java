@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.NoticeDao;
 import com.caijing.flush.HtmlFlusher;
+import com.caijing.util.ContextFactory;
 
 public class SpiderSchedule {
 	private String paramXml = null;
@@ -175,5 +176,10 @@ public class SpiderSchedule {
 
 	public void setNoticeDao(NoticeDao noticeDao) {
 		this.noticeDao = noticeDao;
+	}
+
+	public static void main(String[] args) {
+		SpiderSchedule schedule = (SpiderSchedule) ContextFactory.getBean("timeSpiderSchedule");
+		schedule.run();
 	}
 }
