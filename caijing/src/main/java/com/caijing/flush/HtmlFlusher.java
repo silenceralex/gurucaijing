@@ -924,7 +924,7 @@ public class HtmlFlusher {
 	private String getLink(ColumnArticle article) {
 		String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
 		String link = linkprefix + DateTools.getYear(article.getPtime()) + "/" + DateTools.getMonth(article.getPtime())
-				+ "/" + article.getCmsid() + ".html";
+				+ "/" + article.getAid() + ".html";
 		return link;
 	}
 

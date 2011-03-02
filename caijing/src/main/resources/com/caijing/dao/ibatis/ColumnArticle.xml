@@ -95,7 +95,7 @@
 				author is not null
 			</isNotEmpty>
 		</dynamic>
-		and cmsid > 0 order by ptime desc limit #start#,#length#
+		order by ptime desc limit #start#,#length#
 	</select>
 
 
@@ -110,7 +110,7 @@
 	
 	<select id="getAllArticleCountByType" parameterClass="java.lang.Integer"
 		resultClass="java.lang.Integer">
-		select count(1) from columnarticle where cmsid > 0 and type=#value#
+		select count(1) from columnarticle where type=#value#
 	</select>
 
 </sqlMap>

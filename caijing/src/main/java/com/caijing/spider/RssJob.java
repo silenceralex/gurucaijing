@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.domain.ColumnArticle;
-import com.caijing.remote.CmsWebservice;
 import com.caijing.util.ContextFactory;
-import com.caijing.util.DateTools;
 import com.caijing.util.MD5Utils;
 import com.caijing.util.UrlDownload;
 
@@ -86,19 +84,20 @@ public class RssJob {
 						article.setType(type);
 						columnArticleDao.insert(article);
 						urlDB.putUrl(md5);
-						long articleid = CmsWebservice.getInstance().addArticle(
-								columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
-								article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
-								DateTools.transformDateDetail(article.getPtime()));
-						article.setCmsid(articleid);
-						columnArticleDao.update(article);
-						if (CmsWebservice.getInstance().publishArticle(articleid)) {
-							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
-									+ " success!");
-						} else {
-							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
-									+ " failed!");
-						}
+						//»°œ˚≤Â»Îcms
+						//						long articleid = CmsWebservice.getInstance().addArticle(
+						//								columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),
+						//								article.getAuthor(), article.getSrc(), article.getAbs(), article.getContent(),
+						//								DateTools.transformDateDetail(article.getPtime()));
+						//						article.setCmsid(articleid);
+						//						columnArticleDao.update(article);
+						//						if (CmsWebservice.getInstance().publishArticle(articleid)) {
+						//							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
+						//									+ " success!");
+						//						} else {
+						//							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
+						//									+ " failed!");
+						//						}
 						System.out.println("author: " + article.getAuthor());
 						System.out.println("title: " + article.getTitle());
 						System.out.println("pubDate: " + article.getPtime());
