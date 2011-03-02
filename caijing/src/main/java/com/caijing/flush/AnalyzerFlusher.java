@@ -436,18 +436,21 @@ public class AnalyzerFlusher {
 				vmf.put("current", current);
 				vmf.put("page", 2);
 				vmf.put("analyzerList", analyzerList.subList((current - 1) * 20, current * 20));
-				vmf.put("startDate", date);
+				vmf.put("startDate", DateTools.transformYYYYMMDDDate(cal.getTime()));
 				vmf.put("groupEarnMap", groupEarnMap);
 				vmf.put("priceList", priceList);
 				vmf.put("startPrice", startPrice);
 				vmf.put("startWeightMap", startWeightMap);
 				if (month == -1) {
+					vmf.put("type", 1);
 					vmf.save(ADMINDIR + "monthrank_" + current + ".html");
 					System.out.println("write page : " + ADMINDIR + "monthrank_" + current + ".html");
 				} else if (month == -3) {
+					vmf.put("type", 2);
 					vmf.save(ADMINDIR + "quarterrank_" + current + ".html");
 					System.out.println("write page : " + ADMINDIR + "quarterrank_" + current + ".html");
 				} else if (month == -6) {
+					vmf.put("type", 3);
 					vmf.save(ADMINDIR + "halfyearrank_" + current + ".html");
 					System.out.println("write page : " + ADMINDIR + "halfyearrank__" + current + ".html");
 				}

@@ -143,9 +143,9 @@ public class Analyzer implements Comparable {
 	@Override
 	public int compareTo(Object o) {
 		if (this.weight > ((Analyzer) o).getWeight()) {
-			return 1;
+			return 0;
 		}
-		return 0;
+		return 1;
 	}
 
 }

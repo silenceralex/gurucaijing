@@ -62,7 +62,7 @@ function switchTab(id){
 							<td class="rank_name"><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank">${one.getName()}</a>&nbsp;<span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getName()}','大盘涨跌幅度')">【对比图】</span></td>
 							<td>${one.getAgency()}</td>
             				<td>${one.getIndustry()}</td>
-            				<td>${startDateMap.get(${one.getAid()})}</td>
+            				<td>${startDate}</td>
             				<td>${currDate}</td>
             				<td>${floatUtil.getTwoDecimalNumber($one.getWeight())}%</td>
             			</tr>
@@ -89,7 +89,7 @@ function switchTab(id){
 					    </tr>
                         <tr>
 							#if ($priceList)#foreach ($one in $priceList)
-							#set ($ratio = ($one.getPrice()-$startprice)/$startprice*100)
+							#set ($ratio = ($one.getPrice()-$startPrice)/$startPrice*100)
 							<td>${one.getPrice()},${floatUtil.getTwoDecimalNumber(${ratio})}%</td>
 							#end#end
 		                </tr>
@@ -103,22 +103,58 @@ function switchTab(id){
 				                  <tr>
 					                    <td width="28%">&nbsp;</td>
 					                    <td width="51%">
+					                    #if($type == 1)
 											#if ($current == 1)
 					                    	<a href="#">第一页</a>
 											<a href="#">上一页</a>
 											#else
-											<a href="./rank_1.html">第一页</a>
+											<a href="./monthrank_1.html">第一页</a>
 											#set ($prev = $current - 1)
-											<a href="./rank_${prev}.html">上一页</a>
+											<a href="./monthrank_${prev}.html">上一页</a>
 											#end
 											#if ($current == $page)
 											<a href="#">下一页</a>
 					                        <a href="#">末一页</a>
 											#else
 											#set ($next = $current + 1)
-											<a href="./rank_${next}.html">下一页</a>
-											<a href="./rank_${page}.html">末一页</a>
+											<a href="./monthrank_${next}.html">下一页</a>
+											<a href="./monthrank_${page}.html">末一页</a>
 											#end
+										#elseif ($type == 2)
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./quarterrank_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./quarterrank_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./quarterrank_${next}.html">下一页</a>
+											<a href="./quarterrank_${page}.html">末一页</a>
+											#end
+										  #elseif ($type == 3)
+										  	#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./halfyearrank_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./halfyearrank_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./halfyearrank_${next}.html">下一页</a>
+											<a href="./halfyearrank_${page}.html">末一页</a>
+											#end
+										 #end
 					                    </td>
 					                    <td width="21%">
 					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
