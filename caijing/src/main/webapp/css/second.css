@@ -76,6 +76,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .star_detail_recommand table,.onsaleTable table{width:100%;}
 .star_detail_recommand table tr th,.onsaleTable table tr th{border-bottom:#CCC solid 1px;height:30px;line-height:30px;text-align:center;font-weight:bold}
 .star_detail_recommand table tr td,.onsaleTable table tr td{height:42px;line-height:42px;border-bottom:#CCC dotted 1px;text-align:center}
+.star_detail_recommand img{vertical-align:middle;}
 .star_detail_tb_even{background:#F2F2F2;}
 .star_detail_research{clear:both;padding-top:20px;display:none}
 .star_detail_research ul{margin:10px 0;width:650px;border-bottom:#CCC dotted 1px;}
@@ -123,7 +124,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 #analyLayer .close a:hover {color:#FFF;background:#333;}
 .analyicon {color:#C20000;font-size:12px;cursor:pointer;}
 /*¹ÉÆ±Í¼±ê*/
-.outdate-icon {display:inline-block;width:16px;height:16px;overflow:hidden;background:url(../img/out-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
-.down-icon {display:inline-block;width:16px;height:16px;overflow:hidden;background:url(../img/down-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
-.current-icon {display:inline-block;width:16px;height:16px;overflow:hidden;background:url(../img/current-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
+.outdate-icon {float:left;display:block;width:16px;height:16px;overflow:hidden;background:url(../img/out-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
+.down-icon {float:left;display:block;width:16px;height:16px;overflow:hidden;background:url(../img/down-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
+.current-icon {float:left;display:block;width:16px;height:16px;overflow:hidden;background:url(../img/current-icon.png) no-repeat;vertical-align:middle;text-indent:-1000px;}
 .history-btn{width:109px;height:23px;line-height:23px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;display:inline-block;}
