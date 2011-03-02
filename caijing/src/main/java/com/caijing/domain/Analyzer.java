@@ -2,7 +2,7 @@ package com.caijing.domain;
 
 import java.util.Date;
 
-public class Analyzer {
+public class Analyzer implements Comparable {
 	private String name = null;
 	private String aid = null;
 	private int level = 0;
@@ -138,6 +138,14 @@ public class Analyzer {
 
 	public void setWeight(float weight) {
 		this.weight = weight;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (this.weight > ((Analyzer) o).getWeight()) {
+			return 1;
+		}
+		return 0;
 	}
 
 }

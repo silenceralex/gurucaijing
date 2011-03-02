@@ -35,6 +35,22 @@ public interface StockEarnDao extends CrudDao {
 	 */
 	public StockEarn getFormerNearPriceByCodeDate(String stockcode, Date date);
 
+	/**
+	 *  获取某股票区间收益率，前开后闭
+	 * @param stockcode
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	public List<StockEarn> getRatiosByCodeAndPeriod(String stockcode, Date start, Date end);
+
+	/**
+	 * 获取某股票区间收益率，前闭后闭
+	 * @param stockcode
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<StockEarn> getRatiosByCodeInPeriod(String stockcode, Date start, Date end);
 
 }

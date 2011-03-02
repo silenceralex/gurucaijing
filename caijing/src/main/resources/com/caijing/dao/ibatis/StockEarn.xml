@@ -55,6 +55,10 @@
 		<![CDATA[select * from stockearn where stockcode=#stockcode# and price!=0 and date>#start# and date<=#end# order by date]]>
 	</select>
 	
+	<select id="getRatiosByCodeInPeriod" resultClass="StockEarn" parameterClass="java.util.Map">
+		<![CDATA[select * from stockearn where stockcode=#stockcode# and price!=0 and date>=#start# and date<=#end# order by date]]>
+	</select>
+	
 	<select id="getFormerNearPriceByCodeDate" resultClass="StockEarn" parameterClass="java.util.Map">
 		<![CDATA[select * from stockearn where stockcode=#stockcode# and price!=0 and date<=#date# order by date desc limit 1]]>
 	</select>

@@ -2,6 +2,7 @@ package com.caijing.flush;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -396,6 +397,64 @@ public class AnalyzerFlusher {
 		}
 	}
 
+	public void flushAnalyzerRankCountByMonth(int month) {
+		Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, month);
+		//		HashMap<String, GroupEarn> analyzerStartWeights = new HashMap<String, GroupEarn>();
+		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
+		Map<String, Float> startWeightMap = new HashMap<String, Float>();
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		for (int i = 0; i < analyzerList.size(); i++) {
+			//包括起始当日
+			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(analyzerList.get(i).getAid(), cal.getTime(),
+					date);
+			float startWeight = groupEarnDao.getFormerNearPriceByCodeDate(analyzerList.get(i).getAid(), cal.getTime())
+					.getWeight();
+			startWeightMap.put(analyzerList.get(i).getAid(), startWeight);
+			float endWeight = weightList.get(weightList.size() - 1).getWeight();
+			//利用weight计算区间收益并排序
+			analyzerList.get(i).setWeight((endWeight - startWeight) * 100 / startWeight);
+			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
+		}
+		Collections.sort(analyzerList);
+		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", cal.getTime(), date);
+		float startPrice = stockEarnDao.getFormerNearPriceByCodeDate("000300", cal.getTime()).getPrice();
+		for (int current = 1; current <= 2; current++) {
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/analyzerrank_time.htm");
+				vmf.put("dateTools", new DateTools());
+				vmf.put("floatUtil", new FloatUtil());
+				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
+				vmf.put("start", (current - 1) * 20);
+				vmf.put("current", current);
+				vmf.put("page", 2);
+				vmf.put("analyzerList", analyzerList.subList((current - 1) * 20, current * 20));
+				vmf.put("startDate", date);
+				vmf.put("groupEarnMap", groupEarnMap);
+				vmf.put("priceList", priceList);
+				vmf.put("startPrice", startPrice);
+				vmf.put("startWeightMap", startWeightMap);
+				if (month == -1) {
+					vmf.save(ADMINDIR + "monthrank_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "monthrank_" + current + ".html");
+				} else if (month == -3) {
+					vmf.save(ADMINDIR + "quarterrank_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "quarterrank_" + current + ".html");
+				} else if (month == -6) {
+					vmf.save(ADMINDIR + "halfyearrank_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "halfyearrank__" + current + ".html");
+				}
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		AnalyzerFlusher flusher = new AnalyzerFlusher();
 		AnalyzerSuccessDao analyzerSuccessDao = (AnalyzerSuccessDao) ContextFactory.getBean("analyzerSuccessDao");
@@ -421,7 +480,10 @@ public class AnalyzerFlusher {
 		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
-		flusher.flushAllStarGuruDetail();
+//		flusher.flushAllStarGuruDetail();
+		flusher.flushAnalyzerRankCountByMonth(-1);
+		flusher.flushAnalyzerRankCountByMonth(-3);
+		flusher.flushAnalyzerRankCountByMonth(-6);
 		System.exit(0);
 	}
 }
