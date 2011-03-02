@@ -81,7 +81,7 @@ public class TidyFinancialReportTask {
 					for (File reportfile : reportFiles) {
 						System.out.println("==> report: " + reportfile.getPath());
 						String report_title = reportfile.getName();
-						String stockcode = report_title.split(".")[0].split("_")[0];
+						String stockcode = report_title.split("\\.")[0].split("_")[0];
 						String stockname = null; 
 						byte status = 1;
 						m = stockcodePattern.matcher(stockcode);
