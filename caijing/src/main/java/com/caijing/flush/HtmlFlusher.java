@@ -265,8 +265,7 @@ public class HtmlFlusher {
 				startDateMap.put(analyzer.getAid(), DateTools.transformYYYYMMDDDate(startDate));
 				List<GroupEarn> weightList = groupEarnDao.getWeightList(analyzer.getAid(), startDate);
 				groupEarnMap.put(analyzer.getAid(), weightList);
-				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
-						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
+				float startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
 				startPriceMap.put(analyzer.getAid(), startprice);
 				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
 						DateTools.transformYYYYMMDDDate(startDate));
@@ -1005,8 +1004,8 @@ public class HtmlFlusher {
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
 		//		flusher.flushStarGuruDetail();
-		//				flusher.flushAnalyzerRank();
-		flusher.flushReportLab();
+		flusher.flushAnalyzerRank();
+		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
 		//		flusher.flushIndex();
