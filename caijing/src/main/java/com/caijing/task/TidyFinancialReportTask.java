@@ -97,12 +97,7 @@ public class TidyFinancialReportTask {
 								System.err.println("[EmptyResultDataAccessException] stockcode: "+stockcode+" not exist");
 							}
 						}
-						String filepath = null;
-						if(reportfile.getName().toLowerCase().endsWith(pdf)){
-							filepath = "/" + year + "/" + quarter_type + "/" + stockcode + pdf;
-						} else if(reportfile.getName().toLowerCase().endsWith(txt)) {
-							filepath = "/" + year + "/" + quarter_type + "/" + stockcode + txt;
-						}
+						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + "."+getExtension(reportfile.getName(),"").toLowerCase();
 						
 						Date lmodify = new Date();
 						System.out.println("[" + filepath + ", " + stockname +", "+ timeFORMAT.format(lmodify) + "]");
@@ -130,8 +125,8 @@ public class TidyFinancialReportTask {
 						report.setFilepath(filepath);
 						report.setStatus(status);
 						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
-						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
-								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
+//						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+//								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				} 
 			}
@@ -149,7 +144,7 @@ public class TidyFinancialReportTask {
 		if ((filename != null) && (filename.length() > 0)) {
 			int i = filename.lastIndexOf('.');
 			if ((i > -1) && (i < (filename.length() - 1))) {
-				return filename.substring(i + 1);
+				return filename.substring(i + 1).trim();
 			}
 		}
 		return defExt;
