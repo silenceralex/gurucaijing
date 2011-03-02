@@ -15,6 +15,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.caijing.domain.FinancialReport;
@@ -84,8 +85,12 @@ public class TidyFinancialReportTask {
 						m = stockcodePattern.matcher(stockcode);
 						if (m != null && m.find()){//例外 异常数据
 							status = 0;
-							stockname = null;
-							stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
+							try {
+								stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
+							} catch (DataAccessException e) {
+								stockname = null;
+								System.err.println("===> stockcode: "+stockcode+" not exist");
+							}
 						}
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
 						Date lmodify = new Date();
@@ -114,8 +119,8 @@ public class TidyFinancialReportTask {
 						report.setFilepath(filepath);
 						report.setStatus(status);
 						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
-						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
-								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
+//						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+//								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				} 
 			}
