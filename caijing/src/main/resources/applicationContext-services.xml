@@ -15,10 +15,11 @@
        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	<!--========================================================================
 		CronTriggerBean
+
 		=========================================================================-->
 	<bean id="bdb"	class="com.caijing.cache.BerkeleyDB">
 		<property name="cacheHome">
-			<value>d:\\bdb</value>
+			<value>/home/app/urldb/list</value>
 		</property>
 	</bean>
 	
