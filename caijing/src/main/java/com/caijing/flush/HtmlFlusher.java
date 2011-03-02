@@ -863,7 +863,7 @@ public class HtmlFlusher {
 		}
 		introvmf.put("category", category);
 		introvmf.save(ARTICLEDIR + article.getType() + "/" + DateTools.getYear(article.getPtime()) + "/"
-				+ DateTools.getMonth(article.getPtime()) + "/" + article.getCmsid() + ".html");
+				+ DateTools.getMonth(article.getPtime()) + "/" + article.getAid() + ".html");
 		System.out.println("write page : " + ARTICLEDIR + article.getType() + "/"
 				+ DateTools.getYear(article.getPtime()) + "/" + DateTools.getMonth(article.getPtime()) + "/"
 				+ article.getCmsid() + ".html");
