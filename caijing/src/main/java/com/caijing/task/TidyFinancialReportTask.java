@@ -89,7 +89,8 @@ public class TidyFinancialReportTask {
 								stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
 							} catch (DataAccessException e) {
 								stockname = null;
-								System.err.println("===> stockcode: "+stockcode+" not exist");
+								status = 1;
+								System.err.println("[EmptyResultDataAccessException] stockcode: "+stockcode+" not exist");
 							}
 						}
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + ".pdf";
@@ -119,8 +120,8 @@ public class TidyFinancialReportTask {
 						report.setFilepath(filepath);
 						report.setStatus(status);
 						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
-//						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
-//								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
+						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				} 
 			}
