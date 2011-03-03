@@ -397,6 +397,79 @@ public class AnalyzerFlusher {
 		}
 	}
 
+	public void flushAnalyzerPeriodRank(String year) throws ParseException {
+		Date endDate = DateTools.parseYYYYMMDDDate(year + "-12-31");
+		Date startDate = DateTools.parseYYYYMMDDDate(year + "-01-01");
+		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
+		Map<String, Float> startWeightMap = new HashMap<String, Float>();
+		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
+		Map<String, Float> startPriceMap = new HashMap<String, Float>();
+		Map<String, String> startDateMap = new HashMap<String, String>();
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		for (int i = 0; i < analyzerList.size(); i++) {
+			//包括起始当日
+			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(analyzerList.get(i).getAid(), startDate,
+					endDate);
+			GroupEarn ge = groupEarnDao.getFormerNearPriceByCodeDate(analyzerList.get(i).getAid(), startDate);
+			if (weightList == null || weightList.size() == 0) {
+				continue;
+			}
+
+			//初始年份
+			float startWeight = 100;
+			if (ge != null) {
+				startWeight = ge.getWeight();
+				float startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
+				startPriceMap.put(analyzerList.get(i).getAid(), startprice);
+				List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
+				stockEarnMap.put(analyzerList.get(i).getAid(), priceList);
+			} else {
+				float startprice = stockEarnDao.getNearPriceByCodeDate("000300", weightList.get(0).getDate())
+						.getPrice();
+				startPriceMap.put(analyzerList.get(i).getAid(), startprice);
+				List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", weightList.get(0).getDate(),
+						endDate);
+				stockEarnMap.put(analyzerList.get(i).getAid(), priceList);
+			}
+			startDateMap
+					.put(analyzerList.get(i).getAid(), DateTools.transformYYYYMMDDDate(weightList.get(0).getDate()));
+			startWeightMap.put(analyzerList.get(i).getAid(), startWeight);
+			float endWeight = weightList.get(weightList.size() - 1).getWeight();
+			//利用weight计算区间收益并排序
+			analyzerList.get(i).setWeight((endWeight - startWeight) * 100 / startWeight);
+			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
+		}
+		Collections.sort(analyzerList);
+		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
+		for (int current = 1; current <= 2; current++) {
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/analyzerrank.htm");
+				vmf.put("year", year);
+				vmf.put("dateTools", new DateTools());
+				vmf.put("floatUtil", new FloatUtil());
+				vmf.put("currDate", DateTools.transformYYYYMMDDDate(endDate));
+				vmf.put("start", (current - 1) * 20);
+				vmf.put("current", current);
+				vmf.put("page", 2);
+				vmf.put("analyzerList", analyzerList.subList((current - 1) * 20, current * 20));
+				vmf.put("startDateMap", startDateMap);
+				vmf.put("groupEarnMap", groupEarnMap);
+				vmf.put("priceList", priceList);
+				vmf.put("startPriceMap", startPriceMap);
+				vmf.put("startWeightMap", startWeightMap);
+
+				vmf.save(ADMINDIR + year + "/rank_" + current + ".html");
+				System.out.println("write page : " + ADMINDIR + year + "/rank_" + current + ".html");
+
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void flushAnalyzerRankCountByMonth(int month) {
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
@@ -484,13 +557,23 @@ public class AnalyzerFlusher {
 		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("衡昆");
 		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
-		//		flusher.flushAnalyzerYear(analyzer, "2009", true);
-		//		flusher.flushAnalyzerYear(analyzer, "2010", false);
-		//		flusher.flushAnalyzerYear(analyzer, "2011", false);
+		//				flusher.flushAnalyzerYear(analyzer, "2009", true);
+		//				flusher.flushAnalyzerYear(analyzer, "2010", false);
+		//				flusher.flushAnalyzerYear(analyzer, "2011", false);
 		//		flusher.flushAllStarGuruDetail();
-		flusher.flushAnalyzerRankCountByMonth(-1);
-		flusher.flushAnalyzerRankCountByMonth(-3);
-		flusher.flushAnalyzerRankCountByMonth(-6);
+		//		flusher.flushAnalyzerRankCountByMonth(-1);
+		//		flusher.flushAnalyzerRankCountByMonth(-3);
+		//		flusher.flushAnalyzerRankCountByMonth(-6);
+
+		try {
+			flusher.flushAnalyzerPeriodRank("2009");
+			flusher.flushAnalyzerPeriodRank("2010");
+			flusher.flushAnalyzerPeriodRank("2011");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		System.exit(0);
 	}
 }
