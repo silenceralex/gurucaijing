@@ -41,6 +41,7 @@ public class TidyFinancialReportTask {
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
+	String isreportexist = "select status from financialreport where filepath=?";
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -104,10 +105,10 @@ public class TidyFinancialReportTask {
 						
 						//cp report
 						try {
-							//TODO FIXME с╒нд
-//							if(reportfile.exists()){
-//								continue;
-//							}
+							//TODO с╒нд
+							if(reportfile.exists()){
+								continue;
+							}
 							FileUtils.copyFile(reportfile, new File(toDir, filepath));
 						} catch (IOException e) {
 							e.printStackTrace();
