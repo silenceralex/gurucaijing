@@ -15,6 +15,8 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFTextStripper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -33,11 +35,12 @@ public class TidyFinancialReportTask {
 	
 	String fromRootDir = "/data/report/";
 	String toDir = "/data/reports/";
-	Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$", Pattern.CASE_INSENSITIVE
+	static Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
-	Pattern titlePattern = Pattern.compile("([0-9]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+	static Pattern titlePattern = Pattern.compile("([0-9]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES);
-
+	static Pattern chinesePattern=Pattern.compile("[\u4e00-\u9fa5]+", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+	
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
@@ -45,8 +48,8 @@ public class TidyFinancialReportTask {
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	String txt = ".txt";
-	String pdf = ".pdf";
+	static String txt = ".txt";
+	static String pdf = ".pdf";
 	String[] FileSuffix = {pdf, txt};
 	
 	public void run() {
@@ -105,11 +108,18 @@ public class TidyFinancialReportTask {
 						
 						//cp report
 						try {
-							//TODO 英文
-							if(reportfile.exists()){
+							//英文,txt文件大小比较
+							File targetfile = new File(toDir, filepath);
+							if(targetfile.exists()){
+								if(isChinese(reportfile, "gbk")){
+									if(reportfile.getName().toLowerCase().endsWith(txt)&&!islarger(reportfile, targetfile)){
+										continue;
+									}
+									FileUtils.copyFile(reportfile, targetfile);
+								}
 								continue;
 							}
-							FileUtils.copyFile(reportfile, new File(toDir, filepath));
+							FileUtils.copyFile(reportfile, targetfile);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -150,7 +160,55 @@ public class TidyFinancialReportTask {
 		}
 		return defExt;
 	}
-
+	
+	public static boolean islarger(File file1, File file2){
+		return (file1.length()>file2.length());
+	}
+	
+	/**
+	 * 是否包含中文
+	 * @param file
+	 * @param encoding e.g.gbk
+	 * @return 
+	 */
+	public static boolean isChinese(File file, String encoding) {
+		if(file.getName().toLowerCase().endsWith(txt)){
+			try {
+				String txtfile = FileUtils.readFileToString(file, encoding);
+				Matcher result = chinesePattern.matcher(txtfile);
+				return result.find();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if(file.getName().toLowerCase().endsWith(pdf)){
+			boolean sort = false;
+			int startPage = 1;
+			int endPage = Integer.MAX_VALUE;
+			PDDocument document = null;
+			try {
+				document = PDDocument.load(file);
+				PDFTextStripper stripper = new PDFTextStripper();
+				stripper.setSortByPosition(sort);
+				stripper.setStartPage(startPage);
+				stripper.setEndPage(endPage);
+				String txtFile = stripper.getText(document);
+				Matcher result = chinesePattern.matcher(txtFile);
+				return result.find();
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				e.printStackTrace();
+			} finally {
+				try {
+					document.close();
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) {
 		TidyFinancialReportTask task = new TidyFinancialReportTask();
 		task.run();
