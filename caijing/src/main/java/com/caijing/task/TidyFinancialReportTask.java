@@ -113,10 +113,15 @@ public class TidyFinancialReportTask {
 							if(targetfile.exists()){
 								if(isChinese(reportfile, "gbk")){
 									if(reportfile.getName().toLowerCase().endsWith(txt)&&!islarger(reportfile, targetfile)){
+										System.out.println("pass txt "+ reportfile.getPath());
+										continue;
+									} else {
+										FileUtils.copyFile(reportfile, targetfile);
+										System.out.println("rewrite "+ reportfile.getPath());
 										continue;
 									}
-									FileUtils.copyFile(reportfile, targetfile);
 								}
+								System.out.println("pass "+ reportfile.getPath());
 								continue;
 							}
 							FileUtils.copyFile(reportfile, targetfile);
