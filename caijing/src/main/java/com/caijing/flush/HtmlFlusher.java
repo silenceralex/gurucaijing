@@ -581,7 +581,7 @@ public class HtmlFlusher {
 			vmf.put("startPriceMap", startPriceMap);
 			vmf.put("stockEarnMap", stockEarnMap);
 			if (isAsc) {
-				vmf.setTemplate("/template/staronsale.htm");
+				vmf.setTemplate("/template/earnRank.htm");
 				if (type == 1) {
 					vmf.save(ADMINDIR + "stardiscount_1_" + current + ".html");
 					System.out.println("write page : " + ADMINDIR + "stardiscount_1_" + current + ".html");
@@ -1061,6 +1061,8 @@ public class HtmlFlusher {
 		//				flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true, 4);
 		flusher.flushStarOnSale(true, 3);
+		flusher.flushStarOnSale(false, 3);
+		flusher.flushStarOnSale(false, 3);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
