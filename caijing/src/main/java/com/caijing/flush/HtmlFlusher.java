@@ -569,7 +569,7 @@ public class HtmlFlusher {
 				stockDetailMap.put(stock.getInreportid(), stockEarnList);
 			}
 			VMFactory vmf = new VMFactory();
-
+			vmf.put("type", type);
 			vmf.put("dateTools", dateTools);
 			vmf.put("currdate", now);
 			vmf.put("floatUtil", floatUtil);
