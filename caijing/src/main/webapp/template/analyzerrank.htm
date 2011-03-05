@@ -71,7 +71,7 @@ function switchTab(id){
             		</table>
             	</div>
             	<div>
-						#set ($count = 1)
+						#set ($count = $start + 1)
 						#if ($analyzerList)#foreach ($one in $analyzerList)
 						<table id="rec${count}" class="hidden">  
 		               	<tr>
