@@ -116,8 +116,8 @@
 		select inreportid from groupstock order by intime desc limit #start#,#length#
 	</select>
 	
-	<select id="getRecommendReportCount" resultClass="java.lang.Integer">
-		select count(1) from groupstock
+	<select id="getGroupStockCountBetween" resultClass="java.lang.Integer">
+		<![CDATA[select count(1) from groupstock where intime>#start# and intime<#end#]]>
 	</select>
 	
 	

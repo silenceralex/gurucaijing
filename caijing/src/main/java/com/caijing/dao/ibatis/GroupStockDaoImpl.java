@@ -78,8 +78,12 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	}
 
 	@Override
-	public int getRecommendReportCount() {
-		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getRecommendReportCount");
+	public int getGroupStockCountBetween(Date start, Date end) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("start", start);
+		params.put("end", end);
+		return (Integer) getSqlMapClientTemplate()
+				.queryForObject(getNameSpace() + ".getGroupStockCountBetween", params);
 	}
 
 	@Override

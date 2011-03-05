@@ -3,6 +3,7 @@ package com.caijing.flush;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -480,52 +481,79 @@ public class HtmlFlusher {
 		}
 	}
 
-	public void flushStarOnSale(boolean isAsc) {
+	/**
+	 * 刷新挣钱排行榜，折价股票榜
+	 * @param isAsc  true为折价榜
+	 * @param type  1为月度，2为季度，3为半年，4为年度
+	 */
+	public void flushStarOnSale(boolean isAsc, int type) {
 		DateTools dateTools = new DateTools();
 		FloatUtil floatUtil = new FloatUtil();
 		List<GroupStock> groupStockList = null;
+		Date now = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		Date start = null;
+		switch (type) {
+		case 1:
+			cal.add(Calendar.MONTH, -1);
+			start = cal.getTime();
+			System.out.println("start time : " + dateTools.transformMMDDDate(start));
+			break;
+		case 2:
+			cal.add(Calendar.MONTH, -3);
+			start = cal.getTime();
+			System.out.println("start time : " + dateTools.transformMMDDDate(start));
+			break;
+		case 3:
+			cal.add(Calendar.MONTH, -6);
+			start = cal.getTime();
+			System.out.println("start time : " + dateTools.transformMMDDDate(start));
+			break;
+		case 4:
+			cal.add(Calendar.YEAR, -1);
+			start = cal.getTime();
+			System.out.println("start time : " + dateTools.transformMMDDDate(start));
+			break;
+		}
+		int total = groupStockDao.getGroupStockCountBetween(start, now);
+		System.out.println("total : " + total);
+		int page = 0;
+		if (total <= 0)
+			return;
+		if (0 < total && total <= 20) {
+			page = 1;
+		} else if (20 < total && total <= 40) {
+			page = 2;
+		} else {
+			page = 3;
+		}
 		int size = 20;
-		for (int current = 1; current <= 3; current++) {
+		for (int current = 1; current <= page; current++) {
 			if (isAsc) {
-				groupStockList = groupStockDao.getGroupStockListAsc((current - 1) * size, size, STARTDATE);
+				groupStockList = groupStockDao.getGroupStockListAsc((current - 1) * size, size,
+						dateTools.transformYYYYMMDDDate(start));
 			} else {
-				groupStockList = groupStockDao.getGroupStockListDesc((current - 1) * size, size, STARTDATE);
+				groupStockList = groupStockDao.getGroupStockListDesc((current - 1) * size, size,
+						dateTools.transformYYYYMMDDDate(start));
 			}
-			Date lastdate = groupEarnDao.getLatestDate();
 			System.out.println("groupStockList.size() : " + groupStockList.size());
-			Map<String, String> filePathMap = new HashMap<String, String>();
+			//按照inreportid是唯一key
 			Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
-			Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
 			Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
 			Map<String, Float> startPriceMap = new HashMap<String, Float>();
 			for (GroupStock stock : groupStockList) {
 				System.out.println("groupid : " + stock.getGroupid() + "  groupname:" + stock.getGroupname());
-				RecommendStock recommendStock = recommendStockDao.getRecommendStockbyReportid(stock.getInreportid());
-				filePathMap.put(stock.getInreportid(), recommendStock.getFilepath());
 
-				Date startDate = null;
-				try {
-					//防止历史研报的影响
-					startDate = groupStockDao.getEarliestIntimeByAidFrom(stock.getGroupid(),
-							DateTools.parseYYYYMMDDDate(STARTDATE));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				List<GroupEarn> weightList = groupEarnDao.getWeightList(stock.getGroupid(), startDate);
-				groupEarnMap.put(stock.getGroupid(), weightList);
-				float startprice = stockEarnDao.getStockEarnByCodeDate("000300",
-						DateTools.transformYYYYMMDDDate(startDate)).getPrice();
-				startPriceMap.put(stock.getGroupid(), startprice);
+				float startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", stock.getIntime()).getPrice();
+				startPriceMap.put(stock.getInreportid(), startprice);
 				List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
-						DateTools.transformYYYYMMDDDate(startDate));
-				stockEarnMap.put(stock.getGroupid(), priceList);
+						DateTools.transformYYYYMMDDDate(stock.getIntime()));
+				stockEarnMap.put(stock.getInreportid(), priceList);
 
 				List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
 						DateTools.transformYYYYMMDDDate(stock.getIntime()));
-				List<String> filePathList = recommendStockDao.getFilePathByAid(stock.getGroupid(),
-						stock.getStockcode(), 3);
-				stock.setFilePathList(filePathList);
+
 				for (int i = 0; i < stockEarnList.size(); i++) {
 					StockEarn stockEarn = stockEarnList.get(i);
 					float currratio = 0;
@@ -537,30 +565,50 @@ public class HtmlFlusher {
 					}
 					stockEarn.setCurrratio(currratio);
 				}
-				stockDetailMap.put(stock.getStockcode(), stockEarnList);
+				stockDetailMap.put(stock.getInreportid(), stockEarnList);
 			}
 			VMFactory vmf = new VMFactory();
 
 			vmf.put("dateTools", dateTools);
-			vmf.put("currdate", lastdate);
+			vmf.put("currdate", now);
 			vmf.put("floatUtil", floatUtil);
 			vmf.put("start", (current - 1) * 20);
-			vmf.put("page", 3);
+			vmf.put("page", page);
 			vmf.put("current", current);
-			vmf.put("filePathMap", filePathMap);
 			vmf.put("groupStockList", groupStockList);
 			vmf.put("stockDetailMap", stockDetailMap);
-			vmf.put("groupEarnMap", groupEarnMap);
 			vmf.put("startPriceMap", startPriceMap);
 			vmf.put("stockEarnMap", stockEarnMap);
 			if (isAsc) {
 				vmf.setTemplate("/template/staronsale.htm");
-				vmf.save(ADMINDIR + "starDiscount_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + "starDiscount_" + current + ".html");
+				if (type == 1) {
+					vmf.save(ADMINDIR + "stardiscount_1_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "stardiscount_1_" + current + ".html");
+				} else if (type == 2) {
+					vmf.save(ADMINDIR + "stardiscount_2_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "stardiscount_2_" + current + ".html");
+				} else if (type == 3) {
+					vmf.save(ADMINDIR + "stardiscount_3_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "stardiscount_3_" + current + ".html");
+				} else if (type == 4) {
+					vmf.save(ADMINDIR + "stardiscount_4_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "stardiscount_4_" + current + ".html");
+				}
 			} else {
 				vmf.setTemplate("/template/earnRank.htm");
-				vmf.save(ADMINDIR + "starEarn_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + "starEarn_" + current + ".html");
+				if (type == 1) {
+					vmf.save(ADMINDIR + "earnrank_1_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "earnrank_1_" + current + ".html");
+				} else if (type == 2) {
+					vmf.save(ADMINDIR + "earnrank_2_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "earnrank_2_" + current + ".html");
+				} else if (type == 3) {
+					vmf.save(ADMINDIR + "earnrank_3_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "earnrank_3_" + current + ".html");
+				} else if (type == 4) {
+					vmf.save(ADMINDIR + "earnrank_4_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "earnrank_4_" + current + ".html");
+				}
 			}
 		}
 	}
@@ -1004,13 +1052,14 @@ public class HtmlFlusher {
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
 		//		flusher.flushStarGuruDetail();
-		flusher.flushAnalyzerRank();
+		//		flusher.flushAnalyzerRank();
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
 		//		flusher.flushIndex();
-		//		flusher.flushStarOnSale(false);
-		//		flusher.flushStarOnSale(true);
+		//				flusher.flushStarOnSale(false);
+		flusher.flushStarOnSale(true, 4);
+		flusher.flushStarOnSale(true, 3);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();

@@ -65,7 +65,13 @@ public interface GroupStockDao extends CrudDao {
 
 	List<String> getRecommendReportids(int start, int length);
 
-	int getRecommendReportCount();
+	/**
+	 * 获取某段时间区间的推荐研报数
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	int getGroupStockCountBetween(Date start, Date end);
 
 	/**
 	 * 改方法包括所有groupstock的数据

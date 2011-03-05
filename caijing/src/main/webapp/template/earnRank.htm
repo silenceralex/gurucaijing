@@ -14,11 +14,38 @@
         <div class="sec_list">
         		<div class="sec_nav">
             	<h2>
-                    <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
+                    <span class="sec_nav_date"></span>
                     <a href="#">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 挣钱排行榜
                 </h2>
             </div>
-            <!--<div class="onsaleTitle">分析师折价之选</div>-->
+           <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+						<h2 class="star_de_tabli_on">挣钱排行榜</h2>
+						#if($type=3)
+						<span class="current">
+						#else 
+						<span>
+						#end
+						<a href="/analyzer/earnrank_1.html">年排行榜</a></span>
+						#if($type=2)
+						<span class="current">
+						#else 
+						<span>
+						#end
+                        <a href="/analyzer/halfyearearnrank_1.html">半年排行榜</a></span>
+                        #if($type=1)
+						<span class="current">
+						#else 
+						<span>
+						#end
+                        <a href="/analyzer/quarterearnrank_1.html">季度排行榜</a></span>
+                        #if($type=0)
+						<span class="current">
+						#else 
+						<span>
+						#end
+						<a href="/analyzer/monthearnrank_1.html">月排行榜</a></span>
+						<em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
+             </div>
             <div class="star_detail_box">
             	<div class="onsaleTable">
             		<table cellpadding="0" cellspacing="0">
@@ -64,12 +91,7 @@
 							#end
             				<td>${one.getGain()}%</td>
             				<td>
-            				#set ($pathcount = 1)
-							#set ($filePathList = $one.getFilePathList())
-							#if ($filePathList)#foreach ($one in $filePathList)
-							<a href="http://51gurus.com${one}">$pathcount</a>
-							#set ($pathcount = $pathcount + 1)
-							#end#end
+            				<a href="/search/report.htm?aid=${one.groupid}&stockcode=${one.stockcode}">查看</a>
             				</td>
             			</tr>
             			#set ($count = $count + 1)
@@ -77,10 +99,10 @@
             		</table>
             	</div>
             	<div>
-            			#set ($count = 1)
+            			#set ($count = $start + 1)
 						#if ($groupStockList)#foreach ($one in $groupStockList)
             			<table id="rec$count" class="hidden">  
-            			#set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
+            			#set ($stockEarnList = $stockDetailMap.get(${one.getInreportid()}))
 			               	<tr>
 			               		#if ($stockEarnList)#foreach ($one in $stockEarnList)
 								<th>${one.getDate().getTime()}</th>
@@ -93,8 +115,8 @@
 								#end#end
 							</tr>
 							<tr>
-								#set ($priceList = $stockEarnMap.get($one.getGroupid()))
-								#set ($startprice = $startPriceMap.get($one.getGroupid()))
+								#set ($priceList = $stockEarnMap.get($one.getInreportid()))
+								#set ($startprice = $startPriceMap.get($one.getInreportid()))
 								#if ($priceList)#foreach ($one in $priceList)
 								#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
 	                            <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
