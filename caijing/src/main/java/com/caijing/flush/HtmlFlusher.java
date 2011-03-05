@@ -1061,8 +1061,12 @@ public class HtmlFlusher {
 		//				flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true, 4);
 		flusher.flushStarOnSale(true, 3);
+		flusher.flushStarOnSale(true, 2);
+		flusher.flushStarOnSale(true, 1);
+		flusher.flushStarOnSale(false, 4);
 		flusher.flushStarOnSale(false, 3);
-		flusher.flushStarOnSale(false, 3);
+		flusher.flushStarOnSale(false, 2);
+		flusher.flushStarOnSale(false, 1);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
