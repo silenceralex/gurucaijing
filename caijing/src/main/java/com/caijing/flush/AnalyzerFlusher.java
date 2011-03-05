@@ -410,11 +410,11 @@ public class AnalyzerFlusher {
 			//包括起始当日
 			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(analyzerList.get(i).getAid(), startDate,
 					endDate);
+
 			GroupEarn ge = groupEarnDao.getFormerNearPriceByCodeDate(analyzerList.get(i).getAid(), startDate);
 			if (weightList == null || weightList.size() == 0) {
 				continue;
 			}
-
 			//初始年份
 			float startWeight = 100;
 			if (ge != null) {
@@ -423,6 +423,8 @@ public class AnalyzerFlusher {
 				startPriceMap.put(analyzerList.get(i).getAid(), startprice);
 				List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
 				stockEarnMap.put(analyzerList.get(i).getAid(), priceList);
+				//				System.out.println("aid: " + analyzerList.get(i).getAid() + "  startprice size:" + startprice
+				//						+ "  priceList :" + priceList.get(0).getPrice());
 			} else {
 				float startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", weightList.get(0).getDate())
 						.getPrice();
@@ -430,6 +432,8 @@ public class AnalyzerFlusher {
 				List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", weightList.get(0).getDate(),
 						endDate);
 				stockEarnMap.put(analyzerList.get(i).getAid(), priceList);
+				//				System.out.println("aid: " + analyzerList.get(i).getAid() + "  startprice size:" + startprice
+				//						+ "  priceList :" + priceList.get(0).getPrice());
 			}
 			startDateMap
 					.put(analyzerList.get(i).getAid(), DateTools.transformYYYYMMDDDate(weightList.get(0).getDate()));
@@ -440,7 +444,7 @@ public class AnalyzerFlusher {
 			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
 		}
 		Collections.sort(analyzerList);
-		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
+		//		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
 		for (int current = 1; current <= 2; current++) {
 			try {
 				VMFactory vmf = new VMFactory();
@@ -455,7 +459,7 @@ public class AnalyzerFlusher {
 				vmf.put("analyzerList", analyzerList.subList((current - 1) * 20, current * 20));
 				vmf.put("startDateMap", startDateMap);
 				vmf.put("groupEarnMap", groupEarnMap);
-				vmf.put("priceList", priceList);
+				vmf.put("stockEarnMap", stockEarnMap);
 				vmf.put("startPriceMap", startPriceMap);
 				vmf.put("startWeightMap", startWeightMap);
 
