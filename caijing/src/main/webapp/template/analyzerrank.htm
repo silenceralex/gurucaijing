@@ -31,7 +31,7 @@ function switchTab(id){
                          <span><a href="/analyzer/halfyearrank_1.html">半年排行榜</a></span>
                         <span><a href="/analyzer/quarterrank_1.html">季度排行榜</a></span>
 						<span><a href="/analyzer/monthrank_1.html">月排行榜</a></span>
-						<em class="sec_tab_right">${currDate}</em>
+						<em class="sec_tab_right">${year}年度</em>
              </div>
             <div class="star_detail_box">
             	<div class="onsaleTable">
@@ -64,8 +64,7 @@ function switchTab(id){
             				<td>${one.getIndustry()}</td>
             				<td>${startDateMap.get(${one.getAid()})}</td>
             				<td>${currDate}</td>
-            				#set ($ratio = $one.getWeight() - 100)
-            				<td>${floatUtil.getTwoDecimalNumber(${ratio})}%</td>
+            				<td>${floatUtil.getTwoDecimalNumber($one.getWeight())}%</td>
             			</tr>
 						#set ($count = $count + 1)
 						#end#end

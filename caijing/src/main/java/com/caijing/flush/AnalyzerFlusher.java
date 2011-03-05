@@ -419,12 +419,12 @@ public class AnalyzerFlusher {
 			float startWeight = 100;
 			if (ge != null) {
 				startWeight = ge.getWeight();
-				float startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
+				float startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", startDate).getPrice();
 				startPriceMap.put(analyzerList.get(i).getAid(), startprice);
 				List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
 				stockEarnMap.put(analyzerList.get(i).getAid(), priceList);
 			} else {
-				float startprice = stockEarnDao.getNearPriceByCodeDate("000300", weightList.get(0).getDate())
+				float startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", weightList.get(0).getDate())
 						.getPrice();
 				startPriceMap.put(analyzerList.get(i).getAid(), startprice);
 				List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", weightList.get(0).getDate(),
