@@ -543,7 +543,8 @@ public class HtmlFlusher {
 			Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
 			Map<String, Float> startPriceMap = new HashMap<String, Float>();
 			for (GroupStock stock : groupStockList) {
-				System.out.println("groupid : " + stock.getGroupid() + "  groupname:" + stock.getGroupname());
+				System.out.println("groupid : " + stock.getGroupid() + "  groupname:" + stock.getGroupname()
+						+ "  getInreportid:" + stock.getInreportid());
 
 				float startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", stock.getIntime()).getPrice();
 				startPriceMap.put(stock.getInreportid(), startprice);

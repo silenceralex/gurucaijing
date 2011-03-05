@@ -91,7 +91,7 @@
 							#end
             				<td>${one.getGain()}%</td>
             				<td>
-            				<a href="/search/report.htm?aid=${one.groupid}&stockcode=${one.stockcode}">查看</a>
+            				<a href="/search/report.htm?aid=${one.getGroupid()}&stockcode=${one.getStockcode()}">查看</a>
             				</td>
             			</tr>
             			#set ($count = $count + 1)
@@ -101,7 +101,7 @@
             	<div>
             			#set ($count = $start + 1)
 						#if ($groupStockList)#foreach ($one in $groupStockList)
-            			<table id="rec$count" class="hidden">  
+            			<table id="rec$count" class="hidden">
             			#set ($stockEarnList = $stockDetailMap.get(${one.getInreportid()}))
 			               	<tr>
 			               		#if ($stockEarnList)#foreach ($one in $stockEarnList)
@@ -115,8 +115,8 @@
 								#end#end
 							</tr>
 							<tr>
-								#set ($priceList = $stockEarnMap.get($one.getInreportid()))
-								#set ($startprice = $startPriceMap.get($one.getInreportid()))
+								#set ($priceList = $stockEarnMap.get(${one.getInreportid()}))
+								#set ($startprice = $startPriceMap.get(${one.getInreportid()}))
 								#if ($priceList)#foreach ($one in $priceList)
 								#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
 	                            <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
