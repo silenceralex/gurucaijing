@@ -581,7 +581,7 @@ public class HtmlFlusher {
 			vmf.put("startPriceMap", startPriceMap);
 			vmf.put("stockEarnMap", stockEarnMap);
 			if (isAsc) {
-				vmf.setTemplate("/template/earnRank.htm");
+				vmf.setTemplate("/template/staronsale.htm");
 				if (type == 1) {
 					vmf.save(ADMINDIR + "stardiscount_1_" + current + ".html");
 					System.out.println("write page : " + ADMINDIR + "stardiscount_1_" + current + ".html");
@@ -817,7 +817,12 @@ public class HtmlFlusher {
 		FloatUtil floatUtil = new FloatUtil();
 		HtmlUtils htmlUtil = new HtmlUtils();
 		try {
-			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10, STARTDATE);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.YEAR, -1);
+			//默认挣钱排行榜采用近一年来的榜单
+			List<GroupStock> groupStockList = groupStockDao.getGroupStockListDesc(0, 10,
+					dateTools.transformYYYYMMDDDate(cal.getTime()));
 			Date lastdate = groupEarnDao.getLatestDate();
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 0,
@@ -1057,7 +1062,7 @@ public class HtmlFlusher {
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//		flusher.flushIndex();
+		flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
 		flusher.flushStarOnSale(true, 4);
 		flusher.flushStarOnSale(true, 3);
@@ -1067,7 +1072,7 @@ public class HtmlFlusher {
 		flusher.flushStarOnSale(false, 3);
 		flusher.flushStarOnSale(false, 2);
 		flusher.flushStarOnSale(false, 1);
-		
+
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();

@@ -8,17 +8,44 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")
+	#include("/template/inc/header.htm")<!--header end-->
     <div class="mainBox">
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
         		<div class="sec_nav">
             	<h2>
-                    <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
-                    <a href="/">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 分析师折价之选
-                </h2>   
+                    <span class="sec_nav_date"></span>
+                    <a href="/">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 折价股票精选
+                </h2>
             </div>
-            <!--<div class="onsaleTitle">分析师折价之选</div>-->
+           <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+						<h2 class="star_de_tabli_on">折价股票精选</h2>
+						#if($type == 4)
+						<span class="current">
+						#else 
+						<span>
+						#end
+						<a href="/analyzer/stardiscount_4_1.html">年折价排行榜</a></span>
+						#if($type == 3)
+						<span class="current">
+						#else 
+						<span>
+						#end
+                        <a href="/analyzer/stardiscount_3_1.html">半年折价排行榜</a></span>
+                        #if($type == 2)
+						<span class="current">
+						#else 
+						<span>
+						#end
+                        <a href="/analyzer/stardiscount_2_1.html">季度折价排行榜</a></span>
+                        #if($type == 1)
+						<span class="current">
+						#else 
+						<span>
+						#end
+						<a href="/analyzer/stardiscount_1_1.html">月折价排行榜</a></span>
+						<em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
+             </div>
             <div class="star_detail_box">
             	<div class="onsaleTable">
             		<table cellpadding="0" cellspacing="0">
@@ -64,12 +91,7 @@
 							#end
             				<td>${one.getGain()}%</td>
             				<td>
-            				#set ($pathcount = 1)
-							#set ($filePathList = $one.getFilePathList())
-							#if ($filePathList)#foreach ($one in $filePathList)
-							<a href="http://51gurus.com${one}">$pathcount</a>
-							#set ($pathcount = $pathcount + 1)
-							#end#end
+            				<a href="/search/report.htm?aid=${one.groupid}&stockcode=${one.stockcode}">查看</a>
             				</td>
             			</tr>
             			#set ($count = $count + 1)
@@ -77,10 +99,10 @@
             		</table>
             	</div>
             	<div>
-            			#set ($count = 1)
+            			#set ($count = $start + 1)
 						#if ($groupStockList)#foreach ($one in $groupStockList)
-            			<table id="rec$count" class="hidden">  
-            			#set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
+            			<table id="rec$count" class="hidden">
+            			#set ($stockEarnList = $stockDetailMap.get($one.getInreportid()))
 			               	<tr>
 			               		#if ($stockEarnList)#foreach ($one in $stockEarnList)
 								<th>${one.getDate().getTime()}</th>
@@ -93,8 +115,8 @@
 								#end#end
 							</tr>
 							<tr>
-								#set ($priceList = $stockEarnMap.get($one.getGroupid()))
-								#set ($startprice = $startPriceMap.get($one.getGroupid()))
+								#set ($priceList = $stockEarnMap.get($one.getInreportid()))
+								#set ($startprice = $startPriceMap.get($one.getInreportid()))
 								#if ($priceList)#foreach ($one in $priceList)
 								#set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
 	                            <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
@@ -104,29 +126,83 @@
 		        		#set ($count = $count + 1)
 		        		#end#end
             	</div>
-            	           	<div class="pageSet">
+            	            	           	<div class="pageSet">
 		            	<table width="100%" border="0">
 		                  <tbody>
 				                  <tr>
 					                    <td width="28%">&nbsp;</td>
 					                    <td width="51%">
+					                    #if($type == 1)
 											#if ($current == 1)
 					                    	<a href="#">第一页</a>
 											<a href="#">上一页</a>
 											#else
-											<a href="./starDiscount_1.html">第一页</a>
+											<a href="./stardiscount_1_1.html">第一页</a>
 											#set ($prev = $current - 1)
-											<a href="./starDiscount_${prev}.html">上一页</a>
+											<a href="./stardiscount_1_${prev}.html">上一页</a>
 											#end
 											#if ($current == $page)
 											<a href="#">下一页</a>
 					                        <a href="#">末一页</a>
 											#else
 											#set ($next = $current + 1)
-											<a href="./starDiscount_${next}.html">下一页</a>
-											<a href="./starDiscount_${page}.html">末一页</a>
+											<a href="./stardiscount_1_${next}.html">下一页</a>
+											<a href="./stardiscount_1_${page}.html">末一页</a>
 											#end
+										#elseif ($type == 2)
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./stardiscount_2_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./stardiscount_2_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./stardiscount_2_${next}.html">下一页</a>
+											<a href="./stardiscount_2_${page}.html">末一页</a>
+											#end
+										#elseif ($type == 3)
+											#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./stardiscount_3_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./stardiscount_3_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./stardiscount_3_${next}.html">下一页</a>
+											<a href="./stardiscount_3_${page}.html">末一页</a>
+											#end
+										#elseif ($type == 4)	
+										#if ($current == 1)
+					                    	<a href="#">第一页</a>
+											<a href="#">上一页</a>
+											#else
+											<a href="./stardiscount_4_1.html">第一页</a>
+											#set ($prev = $current - 1)
+											<a href="./stardiscount_4_${prev}.html">上一页</a>
+											#end
+											#if ($current == $page)
+											<a href="#">下一页</a>
+					                        <a href="#">末一页</a>
+											#else
+											#set ($next = $current + 1)
+											<a href="./stardiscount_4_${next}.html">下一页</a>
+											<a href="./stardiscount_4_${page}.html">末一页</a>
+											#end	
+										#end								
 					                    </td>
+					                    	
 					                    <td width="21%">
 					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
 					                        到第<input class="toPage" type="text">页
@@ -136,13 +212,24 @@
 		                	</tbody>
 		              </table>
 	            </div>
-            	
             </div>
 
         </div>
-      <div class="clear"></div>
+        <div id="star_detail_preview"></div>
+		<div class="clear"></div>
         #include("/template/inc/footer.htm")
     </div><!--mainBox end-->
+    <script language="javascript" type="text/javascript">
+    	$("#star_detail_preview").hover(
+				function () {
+					$(this).show();
+				},
+				function (){
+					$(this).hide();
+					$(this).empty();
+				}
+			)
+    </script>
 </div>
 </body>
 </html>
