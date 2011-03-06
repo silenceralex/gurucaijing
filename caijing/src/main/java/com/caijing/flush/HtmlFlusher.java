@@ -4,8 +4,10 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -1089,6 +1091,98 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushNoticeRank(int type) {
+		Date now = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		cal.add(Calendar.MONTH, -6);
+		Date startDate = cal.getTime();
+		List<Notice> notices = noticeDao.getNoticeStocksByType(type, startDate, new Date());
+		System.out.println("raw notices size:" + notices.size());
+		List<Notice> noticeStocks = new ArrayList<Notice>();
+		HashSet<String> duplicatSet = new HashSet<String>();
+		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
+		Map<String, Float> startPriceMap = new HashMap<String, Float>();
+		for (Notice notice : notices) {
+			//ШЅжи
+			String key = notice.getStockcode() + notice.getDate();
+			if (duplicatSet.contains(key)) {
+				continue;
+			} else {
+				duplicatSet.add(key);
+			}
+			List<StockEarn> stockEarnList = stockEarnDao.getRatiosByCodeAndPeriod(notice.getStockcode(),
+					notice.getDate(), new Date());
+			if (stockEarnList == null || stockEarnList.size() == 0) {
+				continue;
+			}
+			for (int i = 0; i < stockEarnList.size(); i++) {
+				StockEarn stockEarn = stockEarnList.get(i);
+				float currratio = 0;
+				if (i == 0) {
+					currratio = stockEarn.getRatio() / 100;
+				} else {
+					currratio = (1 + stockEarnList.get(i - 1).getCurrratio()) * (1 + stockEarn.getRatio() / 100) - 1;
+				}
+				stockEarn.setCurrratio(currratio);
+			}
+			notice.setGain(stockEarnList.get(stockEarnList.size() - 1).getCurrratio());
+			noticeStocks.add(notice);
+
+			stockDetailMap.put(notice.getId(), stockEarnList);
+			float startprice = stockEarnDao.getFormerNearPriceByCodeDate("000300", notice.getDate()).getPrice();
+			startPriceMap.put(notice.getId(), startprice);
+			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+					DateTools.transformYYYYMMDDDate(notice.getDate()));
+			stockEarnMap.put(notice.getId(), priceList);
+		}
+		System.out.println("Discard duplicated notices size:" + noticeStocks.size());
+		Collections.sort(noticeStocks);
+		int total = noticeStocks.size();
+		int page = 0;
+		if (total <= 0)
+			return;
+		if (0 < total && total <= 20) {
+			page = 1;
+		} else {
+			page = 2;
+		}
+		for (int current = 1; current <= page; current++) {
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.put("type", type);
+				vmf.put("dateTools", new DateTools());
+				vmf.put("htmlUtil", new HtmlUtils());
+				vmf.put("currdate", now);
+				vmf.put("floatUtil", new FloatUtil());
+				vmf.put("start", (current - 1) * 20);
+				vmf.put("page", page);
+				vmf.put("current", current);
+				vmf.put("noticeStocks", noticeStocks.subList((current - 1) * 20, current * 20));
+				vmf.put("stockDetailMap", stockDetailMap);
+				vmf.put("startPriceMap", startPriceMap);
+				vmf.put("stockEarnMap", stockEarnMap);
+
+				vmf.setTemplate("/template/noticeRank.htm");
+				if (type == 0) {
+					vmf.save(ADMINDIR + "noticerank_1_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "noticerank_1_" + current + ".html");
+				} else if (type == 1) {
+					vmf.save(ADMINDIR + "noticerank_2_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "noticerank_2_" + current + ".html");
+				} else if (type == 2) {
+					vmf.save(ADMINDIR + "noticerank_3_" + current + ".html");
+					System.out.println("write page : " + ADMINDIR + "noticerank_3_" + current + ".html");
+				}
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
 		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
@@ -1105,17 +1199,17 @@ public class HtmlFlusher {
 		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		flusher.flushIndex();
+		//		flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
-		flusher.flushStarOnSale(true, 4);
-		flusher.flushStarOnSale(true, 3);
-		flusher.flushStarOnSale(true, 2);
-		flusher.flushStarOnSale(true, 1);
-		flusher.flushStarOnSale(false, 4);
-		flusher.flushStarOnSale(false, 3);
-		flusher.flushStarOnSale(false, 2);
-		flusher.flushStarOnSale(false, 1);
-
+		//		flusher.flushStarOnSale(true, 4);
+		//		flusher.flushStarOnSale(true, 3);
+		//		flusher.flushStarOnSale(true, 2);
+		//		flusher.flushStarOnSale(true, 1);
+		//		flusher.flushStarOnSale(false, 4);
+		//		flusher.flushStarOnSale(false, 3);
+		//		flusher.flushStarOnSale(false, 2);
+		//		flusher.flushStarOnSale(false, 1);
+		flusher.flushNoticeRank(0);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();

@@ -9,6 +9,10 @@
 		select * from notice order by date desc limit #start#,#length#
 	</select>
 
+	<select id="getNoticeStocksByType"  parameterClass="java.util.Map" resultClass="Notice">
+		<![CDATA[select id,stockname,stockcode,date,title,url from notice where type=#type# and date>#startDate# and date<#endDate# order by date]]>
+	</select>
+
 	<select id="select" parameterClass="Notice"
 		resultClass="Notice">
 		select * from notice where id=#id#

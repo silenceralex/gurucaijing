@@ -397,7 +397,7 @@ public class AnalyzerFlusher {
 		}
 	}
 
-	public void flushAnalyzerPeriodRank(String year) throws ParseException {
+	public void flushAnalyzerPeriodRank(String year, List<String> groupYears) throws ParseException {
 		Date endDate = DateTools.parseYYYYMMDDDate(year + "-12-31");
 		Date startDate = DateTools.parseYYYYMMDDDate(year + "-01-01");
 		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
@@ -450,6 +450,7 @@ public class AnalyzerFlusher {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/analyzerrank.htm");
 				vmf.put("year", year);
+				vmf.put("groupYears", groupYears);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("floatUtil", new FloatUtil());
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(endDate));
@@ -474,7 +475,7 @@ public class AnalyzerFlusher {
 		}
 	}
 
-	public void flushAnalyzerRankCountByMonth(int month) {
+	public void flushAnalyzerRankCountByMonth(int month, List<String> groupYears) {
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -506,6 +507,8 @@ public class AnalyzerFlusher {
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/analyzerrank_time.htm");
+				vmf.put("year", DateTools.getYear(new Date()));
+				vmf.put("groupYears", groupYears);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("floatUtil", new FloatUtil());
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
@@ -539,6 +542,27 @@ public class AnalyzerFlusher {
 		}
 	}
 
+	public void flushAnalyzerRank() {
+		int startYear = 2009;
+		int currYear = Integer.parseInt(DateTools.getYear(new Date()));
+		List<String> groupYears = new ArrayList<String>();
+		for (int i = startYear; i <= currYear; i++) {
+			groupYears.add("" + i);
+		}
+		System.out.println("startYear  : " + startYear + " groupYears size: " + groupYears.size());
+		for (int i = 0; i < groupYears.size(); i++) {
+			try {
+				flushAnalyzerPeriodRank(groupYears.get(i), groupYears);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		flushAnalyzerRankCountByMonth(-1, groupYears);
+		flushAnalyzerRankCountByMonth(-3, groupYears);
+		flushAnalyzerRankCountByMonth(-6, groupYears);
+	}
+
 	public static void main(String[] args) {
 		AnalyzerFlusher flusher = new AnalyzerFlusher();
 		AnalyzerSuccessDao analyzerSuccessDao = (AnalyzerSuccessDao) ContextFactory.getBean("analyzerSuccessDao");
@@ -569,17 +593,7 @@ public class AnalyzerFlusher {
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
 
-		try {
-			flusher.flushAnalyzerPeriodRank("2009");
-			flusher.flushAnalyzerPeriodRank("2010");
-			flusher.flushAnalyzerPeriodRank("2011");
-			flusher.flushAnalyzerRankCountByMonth(-1);
-			flusher.flushAnalyzerRankCountByMonth(-3);
-			flusher.flushAnalyzerRankCountByMonth(-6);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		flusher.flushAnalyzerRank();
 
 		System.exit(0);
 	}

@@ -2,7 +2,7 @@ package com.caijing.domain;
 
 import java.util.Date;
 
-public class Notice {
+public class Notice implements Comparable {
 	String id = null;
 	String title = null;
 	String stockcode = null;
@@ -12,6 +12,15 @@ public class Notice {
 	//0为激励，1为资产重组类（收购，注入，并购），2增持，3减持,4 业绩预增,5业绩预减
 	int type = 0;
 	String url = null;
+	float gain = 0;
+
+	public float getGain() {
+		return gain;
+	}
+
+	public void setGain(float gain) {
+		this.gain = gain;
+	}
 
 	public String getId() {
 		return id;
@@ -75,6 +84,14 @@ public class Notice {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (this.gain > ((Notice) o).getGain()) {
+			return 0;
+		}
+		return 1;
 	}
 
 }

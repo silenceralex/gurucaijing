@@ -1,5 +1,6 @@
 package com.caijing.dao.ibatis;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,15 @@ public class NoticeDaoImpl extends CrudDaoDefault implements NoticeDao {
 	@Override
 	public int getNoticesCount() {
 		return (Integer) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getNoticesCount");
+	}
+
+	@Override
+	public List<Notice> getNoticeStocksByType(int type, Date startDate, Date endDate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("type", type);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getNoticeStocksByType", params);
 	}
 
 }
