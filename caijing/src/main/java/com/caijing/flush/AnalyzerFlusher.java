@@ -573,6 +573,9 @@ public class AnalyzerFlusher {
 			flusher.flushAnalyzerPeriodRank("2009");
 			flusher.flushAnalyzerPeriodRank("2010");
 			flusher.flushAnalyzerPeriodRank("2011");
+			flusher.flushAnalyzerRankCountByMonth(-1);
+			flusher.flushAnalyzerRankCountByMonth(-3);
+			flusher.flushAnalyzerRankCountByMonth(-6);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
