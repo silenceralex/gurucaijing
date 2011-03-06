@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
+import com.caijing.dao.FinancialReportDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.MasterDao;
@@ -51,6 +52,18 @@ public class HtmlFlusher {
 	public static String MasterDIR = "/home/html/master/";
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
+
+	@Autowired
+	@Qualifier("financialReportDao")
+	private FinancialReportDao financialReportDao = null;
+
+	public FinancialReportDao getFinancialReportDao() {
+		return financialReportDao;
+	}
+
+	public void setFinancialReportDao(FinancialReportDao financialReportDao) {
+		this.financialReportDao = financialReportDao;
+	}
 
 	@Autowired
 	@Qualifier("reportDao")
@@ -398,7 +411,31 @@ public class HtmlFlusher {
 	
 	//TODO 
 	public void flushFinancialReportLab() {
-
+		DateTools dateTools = new DateTools();
+		int type = 1;
+		int size = 20;
+		//		int total = reportDao.getReportsCountByType(type);
+		//		int page = total % size == 0 ? total / size : total / size + 1;
+		int page = 100;
+		int current = 1;
+		for (; current <= page; current++) {
+			int start = (current - 1) * size;
+			try {
+				List<Report> reportList = reportDao.getReportsListByType(type, start, size);
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/reportlab.htm");
+				vmf.put("dateTools", dateTools);
+				vmf.put("current", current);
+				vmf.put("page", page);
+				vmf.put("reportList", reportList);
+				vmf.save(REPORTDIR + "reportLab_" + current + ".html");
+				System.out.println("write page : " + REPORTDIR + "reportLab_" + current + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void flushStockResearch() {
