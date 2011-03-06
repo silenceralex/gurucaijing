@@ -29,7 +29,7 @@ function switchTab(id){
 						<h2 class="star_de_tabli_on">组合排行榜</h2>
 						<!--<span><a href="/analyzer/rank_1.html">总排行榜</a></span>-->
 						<select class="historySelect" onchange="window.location = this.value;">
-						 #foreach($one in $yearList)
+						 #foreach($one in $groupYears)
 						 <option value="/analyzer/${one}/rank_1.html"
                          #if($one == ${year})selected="selected"#end>${one}</option>#end
                         </select>
