@@ -416,11 +416,12 @@ public class HtmlFlusher {
 		int size = 20;
 		//		int total = reportDao.getReportsCountByType(type);
 		//		int page = total % size == 0 ? total / size : total / size + 1;
-		int page = 100;
+		int page = 10;
 		int current = 1;
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
 			try {
+				//financialReportDao
 				List<Report> reportList = reportDao.getReportsListByType(type, start, size);
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/reportlab.htm");
