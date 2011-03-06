@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
-import com.caijing.dao.FinancialReportDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.MasterDao;
@@ -55,17 +54,17 @@ public class HtmlFlusher {
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
 
-	@Autowired
-	@Qualifier("financialReportDao")
-	private FinancialReportDao financialReportDao = null;
+	//	@Autowired
+	//	@Qualifier("financialReportDao")
+	//	private FinancialReportDao financialReportDao = null;
+	//
+	//	public FinancialReportDao getFinancialReportDao() {
+	//		return financialReportDao;
+	//	}
 
-	public FinancialReportDao getFinancialReportDao() {
-		return financialReportDao;
-	}
-
-	public void setFinancialReportDao(FinancialReportDao financialReportDao) {
-		this.financialReportDao = financialReportDao;
-	}
+	//	public void setFinancialReportDao(FinancialReportDao financialReportDao) {
+	//		this.financialReportDao = financialReportDao;
+	//	}
 
 	@Autowired
 	@Qualifier("reportDao")
@@ -410,7 +409,7 @@ public class HtmlFlusher {
 			}
 		}
 	}
-	
+
 	//TODO 原始目录的修正、dao的方法
 	public void flushFinancialReportLab() {
 		DateTools dateTools = new DateTools();
@@ -440,7 +439,7 @@ public class HtmlFlusher {
 			}
 		}
 	}
-	
+
 	public void flushStockResearch() {
 		DateTools dateTools = new DateTools();
 		//		int type = 1;
