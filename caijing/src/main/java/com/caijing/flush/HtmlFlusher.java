@@ -395,7 +395,12 @@ public class HtmlFlusher {
 			}
 		}
 	}
+	
+	//TODO 
+	public void flushFinancialReportLab() {
 
+	}
+	
 	public void flushStockResearch() {
 		DateTools dateTools = new DateTools();
 		//		int type = 1;
