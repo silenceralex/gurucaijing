@@ -444,6 +444,7 @@ public class AnalyzerFlusher {
 			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
 		}
 		Collections.sort(analyzerList);
+		Collections.reverse(groupYears);
 		//		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
 		for (int current = 1; current <= 2; current++) {
 			try {
@@ -501,6 +502,7 @@ public class AnalyzerFlusher {
 			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
 		}
 		Collections.sort(analyzerList);
+		Collections.reverse(groupYears);
 		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", cal.getTime(), date);
 		float startPrice = stockEarnDao.getFormerNearPriceByCodeDate("000300", cal.getTime()).getPrice();
 		for (int current = 1; current <= 2; current++) {
