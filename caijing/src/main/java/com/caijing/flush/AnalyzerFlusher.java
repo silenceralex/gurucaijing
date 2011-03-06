@@ -444,14 +444,16 @@ public class AnalyzerFlusher {
 			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
 		}
 		Collections.sort(analyzerList);
-		Collections.reverse(groupYears);
+		ArrayList<String> yearList = new ArrayList<String>();
+		yearList.addAll(groupYears);
+		Collections.reverse(yearList);
 		//		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", startDate, endDate);
 		for (int current = 1; current <= 2; current++) {
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/analyzerrank.htm");
 				vmf.put("year", year);
-				vmf.put("groupYears", groupYears);
+				vmf.put("groupYears", yearList);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("floatUtil", new FloatUtil());
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(endDate));
@@ -502,7 +504,9 @@ public class AnalyzerFlusher {
 			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
 		}
 		Collections.sort(analyzerList);
-		Collections.reverse(groupYears);
+		ArrayList<String> yearList = new ArrayList<String>();
+		yearList.addAll(groupYears);
+		Collections.reverse(yearList);
 		List<StockEarn> priceList = stockEarnDao.getRatiosByCodeInPeriod("000300", cal.getTime(), date);
 		float startPrice = stockEarnDao.getFormerNearPriceByCodeDate("000300", cal.getTime()).getPrice();
 		for (int current = 1; current <= 2; current++) {
@@ -510,7 +514,7 @@ public class AnalyzerFlusher {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/analyzerrank_time.htm");
 				vmf.put("year", DateTools.getYear(new Date()));
-				vmf.put("groupYears", groupYears);
+				vmf.put("groupYears", yearList);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("floatUtil", new FloatUtil());
 				vmf.put("currDate", DateTools.transformYYYYMMDDDate(date));
