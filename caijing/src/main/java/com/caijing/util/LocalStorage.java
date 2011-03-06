@@ -123,12 +123,21 @@ public class LocalStorage {
 		//抓取完毕直接进行刷新动作
 		//		htmlFlush.flushStarGuruDetail();
 		analyzerFlusher.flushAllStarGuruDetail();
-		htmlFlush.flushAnalyzerRank();
+		analyzerFlusher.flushAnalyzerRank();
+		//		htmlFlush.flushAnalyzerRank();
 		htmlFlush.flushReportLab();
 		htmlFlush.flushStockResearch();
 		htmlFlush.flushStockAgency();
 		htmlFlush.flushLiveStatic();
 		htmlFlush.flushMasterInfo();
+		htmlFlush.flushStarOnSale(true, 4);
+		htmlFlush.flushStarOnSale(true, 3);
+		htmlFlush.flushStarOnSale(true, 2);
+		htmlFlush.flushStarOnSale(true, 1);
+		htmlFlush.flushStarOnSale(false, 4);
+		htmlFlush.flushStarOnSale(false, 3);
+		htmlFlush.flushStarOnSale(false, 2);
+		htmlFlush.flushStarOnSale(false, 1);
 		//		htmlFlush.flushStarOnSale(true);
 		//		htmlFlush.flushStarOnSale(false);
 	}

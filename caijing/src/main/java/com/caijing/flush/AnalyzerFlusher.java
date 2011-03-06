@@ -560,7 +560,6 @@ public class AnalyzerFlusher {
 			try {
 				flushAnalyzerPeriodRank(groupYears.get(i), groupYears);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
