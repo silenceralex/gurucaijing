@@ -7,6 +7,21 @@ import com.caijing.domain.GroupStock;
 import com.caijing.util.CrudDao;
 
 public interface GroupStockDao extends CrudDao {
+
+	/**
+	 * 获取最晚的调出时间
+	 * @param groupid
+	 * @return
+	 */
+	Date getNearestOutTimeByGroupid(String groupid);
+
+	/**
+	 * 获取当前的组合内股票数
+	 * @param groupid
+	 * @return
+	 */
+	int getCurrentStockCountByGroupid(String groupid);
+
 	/**
 	 * 获取所有当前分析师的组合股票
 	 * @param groupid
@@ -53,6 +68,11 @@ public interface GroupStockDao extends CrudDao {
 	 */
 	GroupStock getCurrentStockByGroupidAndStockcode(String groupid, String stockcode);
 
+	/**
+	 * 获取所有的aid相关的股票信息，包含已经过期的
+	 * @param aid
+	 * @return
+	 */
 	List<GroupStock> getNameAndCodeByAid(String aid);
 
 	List<GroupStock> getAllGroupStock();

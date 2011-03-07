@@ -141,4 +141,15 @@ public class GroupStockDaoImpl extends CrudDaoDefault implements GroupStockDao {
 	public List<GroupStock> getOutStocksByAid(String aid) {
 		return (List<GroupStock>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getOutStocksByAid", aid);
 	}
+
+	@Override
+	public int getCurrentStockCountByGroupid(String groupid) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getCurrentStockCountByGroupid",
+				groupid);
+	}
+
+	@Override
+	public Date getNearestOutTimeByGroupid(String groupid) {
+		return (Date) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getNearestOutTimeByGroupid", groupid);
+	}
 }

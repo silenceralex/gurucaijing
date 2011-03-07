@@ -172,6 +172,12 @@ public class AnalyzerFlusher {
 		}
 		int startYear = Integer.parseInt(DateTools.getYear(startDate));
 		int currYear = Integer.parseInt(DateTools.getYear(new Date()));
+		//分析师当前组合为空的状况
+		if (groupStockDao.getCurrentStockCountByGroupid(analyzer.getAid()) < 1) {
+			Date outtime = groupStockDao.getNearestOutTimeByGroupid(analyzer.getAid());
+			currYear = Integer.parseInt(DateTools.getYear(outtime));
+		}
+
 		List<String> groupYears = new ArrayList<String>();
 		for (int i = startYear; i <= currYear; i++) {
 			groupYears.add("" + i);
@@ -186,7 +192,8 @@ public class AnalyzerFlusher {
 			}
 		}
 		//组合股票池
-		flushAnalyzerStock(analyzer);
+		flushCurrentAnalyzerStock(analyzer);
+		flushHisAnalyzerStock(analyzer);
 		//总体成功率
 		flushAnalyzerSuccessYear(analyzer, null);
 	}
@@ -194,10 +201,11 @@ public class AnalyzerFlusher {
 	public void flushAnalyzerYear(Analyzer analyzer, String year, List<String> years, boolean isStart) {
 		FloatUtil floatUtil = new FloatUtil();
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
-		String endDate = year + "-12-31";
+		String endDay = year + "-12-31";
 		String startDay = year + "-01-01";
+		String maxYear = years.get(years.size() - 1);
 		boolean isCurrentYear = false;
-		if (year.equals(DateTools.getYear(new Date()))) {
+		if (year.equals(maxYear)) {
 			isCurrentYear = true;
 		}
 		try {
@@ -227,13 +235,11 @@ public class AnalyzerFlusher {
 			}
 			//			List<GroupEarn> weightList = groupEarnDao.getWeightList(aid, startDate);
 			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(aid, startDate,
-					DateTools.parseYYYYMMDDDate(endDate));
+					DateTools.parseYYYYMMDDDate(endDay));
 
-			//			List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
-			//					DateTools.transformYYYYMMDDDate(startDate));
-
-			List<StockEarn> priceList = stockEarnDao.getPriceByCodePeriod("000300", startDate,
-					DateTools.parseYYYYMMDDDate(endDate));
+			//为
+			Date endDate = weightList.get(weightList.size() - 1).getDate();
+			List<StockEarn> priceList = stockEarnDao.getPriceByCodePeriod("000300", startDate, endDate);
 
 			//			float start = weightList.get(0).getWeight();
 			float end = weightList.get(weightList.size() - 1).getWeight();
@@ -247,7 +253,7 @@ public class AnalyzerFlusher {
 			introvmf.put("dateTools", new DateTools());
 			introvmf.put("analyzer", analyzer);
 			introvmf.put("year", year);
-			String maxYear = years.get(years.size() - 1);
+
 			introvmf.put("maxYear", maxYear);
 			System.out.println("maxYear  : " + maxYear);
 			ArrayList<String> yearList = new ArrayList<String>();
@@ -281,14 +287,96 @@ public class AnalyzerFlusher {
 		}
 	}
 
-	public void flushAnalyzerStock(Analyzer analyzer) {
+	//	public void flushAnalyzerStock(Analyzer analyzer, boolean isHis) {
+	//		List<GroupStock> stockDetailList = null;
+	//
+	//		if (isHis) {
+	//			stockDetailList = groupStockDao.getOutStocksByAid(analyzer.getAid());
+	//			if (stockDetailList == null || stockDetailList.size() == 0) {
+	//				System.out.println("No history stock! aid :" + analyzer.getAid() + "  name : " + analyzer.getName());
+	//				return;
+	//			}
+	//		} else {
+	//			stockDetailList = groupStockDao.getNameAndCodeByAid(analyzer.getAid());
+	//			if (stockDetailList == null || stockDetailList.size() == 0) {
+	//				System.out.println("No current stock! aid :" + analyzer.getAid() + "  name : " + analyzer.getName());
+	//				return;
+	//			}
+	//		}
+	//
+	//		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
+	//		for (GroupStock stock : stockDetailList) {
+	//			List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
+	//					DateTools.transformYYYYMMDDDate(stock.getIntime()));
+	//			for (int i = 0; i < stockEarnList.size(); i++) {
+	//				StockEarn stockEarn = stockEarnList.get(i);
+	//				float currratio = 0;
+	//				if (i == 0) {
+	//					currratio = stockEarn.getRatio() / 100;
+	//				} else {
+	//					currratio = (1 + stockEarnList.get(i - 1).getCurrratio()) * (1 + stockEarn.getRatio() / 100) - 1;
+	//				}
+	//				stockEarn.setCurrratio(currratio);
+	//			}
+	//			stockDetailMap.put(stock.getStockcode(), stockEarnList);
+	//		}
+	//
+	//		Date startDate = groupStockDao.getCurrentEarliestIntimeByAid(analyzer.getAid());
+	//
+	//		float startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
+	//		List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
+	//				DateTools.transformYYYYMMDDDate(startDate));
+	//		VMFactory stockvmf = new VMFactory();
+	//		stockvmf.put("floatUtil", new FloatUtil());
+	//		stockvmf.put("dateTools", new DateTools());
+	//		stockvmf.put("analyzer", analyzer);
+	//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+	//		stockvmf.put("analyzerList", analyzerList);
+	//		stockvmf.put("stockDetailList", stockDetailList);
+	//		stockvmf.put("startprice", startprice);
+	//		stockvmf.put("priceList", priceList);
+	//		stockvmf.put("stockDetailMap", stockDetailMap);
+	//
+	//		if (isHis) {
+	//			stockvmf.setTemplate("/template/starstock.htm");
+	//			stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_stock.html");
+	//			System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_stock.html");
+	//		} else {
+	//			stockvmf.setTemplate("/template/starstock_his.htm");
+	//			stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_hisstock.html");
+	//			System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_hisstock.html");
+	//		}
+	//
+	//	}
+
+	public void flushHisAnalyzerStock(Analyzer analyzer) {
+		List<GroupStock> stockDetailList = groupStockDao.getOutStocksByAid(analyzer.getAid());
+		if (stockDetailList == null || stockDetailList.size() == 0) {
+			System.out.println("No history stock! aid :" + analyzer.getAid() + "  name : " + analyzer.getName());
+			return;
+		}
+		VMFactory stockvmf = new VMFactory();
+		stockvmf.put("floatUtil", new FloatUtil());
+		stockvmf.put("dateTools", new DateTools());
+		stockvmf.put("analyzer", analyzer);
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		stockvmf.put("analyzerList", analyzerList);
+		stockvmf.put("stockDetailList", stockDetailList);
+		stockvmf.setTemplate("/template/starstock_his.htm");
+		stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_hisstock.html");
+		System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_hisstock.html");
+	}
+
+	public void flushCurrentAnalyzerStock(Analyzer analyzer) {
+		if (groupStockDao.getCurrentStockCountByGroupid(analyzer.getAid()) < 1) {
+			System.out.println("No current stock! aid :" + analyzer.getAid() + "  name : " + analyzer.getName());
+			return;
+		}
 		List<GroupStock> stockDetailList = groupStockDao.getNameAndCodeByAid(analyzer.getAid());
 		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
 		for (GroupStock stock : stockDetailList) {
 			List<StockEarn> stockEarnList = stockEarnDao.getPriceByCodeDate(stock.getStockcode(),
 					DateTools.transformYYYYMMDDDate(stock.getIntime()));
-			//			List<String> filePathList = recommendStockDao.getFilePathByAid(analyzer.getAid(), stock.getStockcode(), 3);
-			//			stock.setFilePathList(filePathList);
 			for (int i = 0; i < stockEarnList.size(); i++) {
 				StockEarn stockEarn = stockEarnList.get(i);
 				float currratio = 0;
@@ -303,7 +391,6 @@ public class AnalyzerFlusher {
 		}
 
 		Date startDate = groupStockDao.getCurrentEarliestIntimeByAid(analyzer.getAid());
-
 		float startprice = stockEarnDao.getNearPriceByCodeDate("000300", startDate).getPrice();
 		List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
 				DateTools.transformYYYYMMDDDate(startDate));
@@ -320,19 +407,6 @@ public class AnalyzerFlusher {
 		stockvmf.put("stockDetailMap", stockDetailMap);
 		stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_stock.html");
 		System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_stock.html");
-
-		stockDetailList = groupStockDao.getOutStocksByAid(analyzer.getAid());
-		stockvmf.setTemplate("/template/starstock_his.htm");
-		stockvmf.put("floatUtil", new FloatUtil());
-		stockvmf.put("dateTools", new DateTools());
-		stockvmf.put("analyzer", analyzer);
-		stockvmf.put("analyzerList", analyzerList);
-		stockvmf.put("stockDetailList", stockDetailList);
-		stockvmf.put("startprice", startprice);
-		stockvmf.put("priceList", priceList);
-		stockvmf.put("stockDetailMap", stockDetailMap);
-		stockvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_hisstock.html");
-		System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_hisstock.html");
 	}
 
 	public void flushAnalyzerSuccessYear(Analyzer analyzer, String year) {
@@ -600,18 +674,18 @@ public class AnalyzerFlusher {
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		//		"周小波" " 付娟"  " 董亚光" "卢平" "黄挺" ,罗鶄 赵湘鄂  叶洮 李凡衡昆 
-		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("衡昆");
-		//		flusher.flushAnalyzer(analyzer);
+		Analyzer analyzer = analyzerDao.getAnalyzerByName("苏惠");
+		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//				flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//				flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//				flusher.flushAnalyzerYear(analyzer, "2011", false);
-		flusher.flushAllStarGuruDetail();
+		//				flusher.flushAllStarGuruDetail();
 		//		flusher.flushAnalyzerRankCountByMonth(-1);
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
 
-		flusher.flushAnalyzerRank();
+		//		flusher.flushAnalyzerRank();
 
 		System.exit(0);
 	}

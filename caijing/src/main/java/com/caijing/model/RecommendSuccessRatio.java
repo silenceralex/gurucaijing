@@ -14,12 +14,10 @@ import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.AnalyzerSuccess;
-import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.StockEarn;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
-import com.caijing.util.FloatUtil;
 
 public class RecommendSuccessRatio {
 
@@ -72,53 +70,40 @@ public class RecommendSuccessRatio {
 		this.groupStockDao = groupStockDao;
 	}
 
-	public float getSuccessRatio(String aid) {
-		List<GroupStock> stocks = groupStockDao.getNameAndCodeByAid(aid);
-		float total = 0;
-		float success = 0;
-		StockPrice sp = new StockPrice();
-		for (GroupStock stock : stocks) {
-			Calendar cal = Calendar.getInstance();
-			if (stock.getObjectprice() != 0) {
-
-				cal.setTime(stock.getIntime());
-				System.out.println("recommend date" + DateTools.transformYYYYMMDDDate(stock.getIntime()));
-				System.out.println("stock:" + stock.getStockname() + stock.getStockcode() + "  objectprice :"
-						+ stock.getObjectprice());
-				cal.add(Calendar.MONTH, 6);
-				if (cal.getTime() == null) {
-					System.out.println("cal.getTime() is null!");
-					continue;
-				}
-				if (cal.getTime().after(new Date())) {
-					System.out.println("cal.getTime() after now!");
-					continue;
-				}
-				total++;
-				StockEarn se = stockEarnDao.getNearPriceByCodeDate(stock.getStockcode(), cal.getTime());
-				String judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
-				//				stockEarnDao
-				//				System.out.println("judge date before:" + judgedate);
-				//				if (cal.get(cal.DAY_OF_WEEK) == cal.SATURDAY) {
-				//					System.out.println("judgedate is SATURDAY!");
-				//					cal.add(Calendar.DAY_OF_MONTH, 2);
-				//				} else if (cal.get(cal.DAY_OF_WEEK) == cal.SUNDAY) {
-				//					System.out.println("judgedate is SUNDAY!");
-				//					cal.add(Calendar.DAY_OF_MONTH, 1);
-				//				}
-				//				judgedate = DateTools.transformYYYYMMDDDate(cal.getTime());
-				//				float endprice = sp.fetchhq(stock.getStockcode(), judgedate).getEndprice();
-				//				System.out.println("judge date after:" + judgedate + "  endprice:" + se.getPrice());
-				if (se.getPrice() > stock.getObjectprice()) {
-					success++;
-				}
-			}
-		}
-		float f = FloatUtil.getTwoDecimal((success / total) * 100);
-		System.out.println("total:" + total + "   success:" + success);
-		System.out.println("Success recommend ratio:" + f + "%");
-		return f;
-	}
+	//	public float getSuccessRatio(String aid) {
+	//		List<GroupStock> stocks = groupStockDao.getNameAndCodeByAid(aid);
+	//		float total = 0;
+	//		float success = 0;
+	//		for (GroupStock stock : stocks) {
+	//			Calendar cal = Calendar.getInstance();
+	//			if (stock.getObjectprice() != 0) {
+	//
+	//				cal.setTime(stock.getIntime());
+	//				System.out.println("recommend date" + DateTools.transformYYYYMMDDDate(stock.getIntime()));
+	//				System.out.println("stock:" + stock.getStockname() + stock.getStockcode() + "  objectprice :"
+	//						+ stock.getObjectprice());
+	//				cal.add(Calendar.MONTH, 6);
+	//				if (cal.getTime() == null) {
+	//					System.out.println("cal.getTime() is null!");
+	//					continue;
+	//				}
+	//				if (cal.getTime().after(new Date())) {
+	//					System.out.println("cal.getTime() after now!");
+	//					continue;
+	//				}
+	//				total++;
+	//				StockEarn se = stockEarnDao.getNearPriceByCodeDate(stock.getStockcode(), cal.getTime());
+	//
+	//				if (se.getPrice() > stock.getObjectprice()) {
+	//					success++;
+	//				}
+	//			}
+	//		}
+	//		float f = FloatUtil.getTwoDecimal((success / total) * 100);
+	//		System.out.println("total:" + total + "   success:" + success);
+	//		System.out.println("Success recommend ratio:" + f + "%");
+	//		return f;
+	//	}
 
 	public void handleHistorySuccessByAnalyzer(Analyzer analyzer) {
 		List<RecommendSuccess> list = recommendSuccessDao.getUnvalidateRecommendsByAid(analyzer.getAid());

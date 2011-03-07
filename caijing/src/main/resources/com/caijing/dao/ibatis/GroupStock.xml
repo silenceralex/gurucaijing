@@ -35,6 +35,10 @@
 		stockcode=#stockcode# and status=1 order by intime desc limit 1
 	</select>
 	
+	<select id="getCurrentStockCountByGroupid" resultClass="java.lang.Integer" parameterClass="java.lang.String">
+		select count(1) from groupstock where groupid=#value# and status=1
+	</select>
+	
 	<select id="getStockByGroupidAndStockcode"
 		resultClass="GroupStock" parameterClass="java.util.Map">
 		select * from groupstock where groupid=#groupid# and
@@ -181,6 +185,11 @@
 	<select id="getOutStocksByAid"
 		resultClass="GroupStock" parameterClass="java.lang.String">
 		<![CDATA[select s.stockname as stockname,gs.* from groupstock gs,stock s where gs.groupid=#value# and gs.stockcode = s.stockcode and gs.status<1 order by gs.intime desc]]>
+	</select>
+	
+	<select id="getNearestOutTimeByGroupid"
+		resultClass="java.util.Date" parameterClass="java.lang.String">
+		<![CDATA[select outtime from groupstock order by outtime desc limit 1]]>
 	</select>
 	
 </sqlMap>
