@@ -48,6 +48,7 @@ public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
 	public static String ARTICLEDIR = "/home/html/articles/";
 	public static String REPORTDIR = "/home/html/report/";
+	public static String FINANCIALREPORTDIR = "/home/html/financialreport/";
 	public static String NOTICEDIR = "/home/html/notice/";
 	public static String LIVEDIR = "/home/html/live/";
 	public static String MasterDIR = "/home/html/master/";
@@ -410,7 +411,7 @@ public class HtmlFlusher {
 		}
 	}
 
-	//TODO 原始目录的修正、dao的方法
+	//TODO dao的方法
 	public void flushFinancialReportLab() {
 		DateTools dateTools = new DateTools();
 		int type = 1;
@@ -425,16 +426,16 @@ public class HtmlFlusher {
 				//financialReportDao
 				List<Report> reportList = reportDao.getReportsListByType(type, start, size);
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/reportlab.htm");
+				vmf.setTemplate("/template/financialreportlab.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("current", current);
 				vmf.put("page", page);
 				vmf.put("reportList", reportList);
-				vmf.save(REPORTDIR + "reportLab_" + current + ".html");
-				System.out.println("write page : " + REPORTDIR + "reportLab_" + current + ".html");
+				vmf.save(FINANCIALREPORTDIR + "financialreportLab_" + current + ".html");
+				System.out.println("write page : " + FINANCIALREPORTDIR + "financialreportLab_" + current + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
-				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				System.out.println("While generating financialreportlab html --> GET ERROR MESSAGE: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
