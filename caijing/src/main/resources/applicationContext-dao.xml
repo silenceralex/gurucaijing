@@ -168,5 +168,16 @@
 			<value>AnalyzerSuccess</value>
 		</property>
 	</bean>
+	
+	<bean id="financialReportDao"
+		class="com.caijing.dao.ibatis.FinancialReportDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>FinancialReport</value>
+		</property>
+	</bean>
+	
 	<context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>
