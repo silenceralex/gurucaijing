@@ -189,7 +189,7 @@
 	
 	<select id="getNearestOutTimeByGroupid"
 		resultClass="java.util.Date" parameterClass="java.lang.String">
-		<![CDATA[select outtime from groupstock order by outtime desc limit 1]]>
+		<![CDATA[select outtime from groupstock where groupid=#value# order by outtime desc limit 1]]>
 	</select>
 	
 </sqlMap>
