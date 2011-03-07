@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/build/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/build/easymock.jar"/>
 	<classpathentry kind="lib" path="lib/apache_commons/commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="lib/apache_commons/commons-betwixt-0.8.jar"/>
@@ -68,6 +67,7 @@
 	<classpathentry kind="lib" path="lib/ws/zcms.jar"/>
 	<classpathentry kind="lib" path="lib/json/ezmorph-1.0.6.jar"/>
 	<classpathentry kind="lib" path="lib/json/json-lib-2.2.3-jdk15.jar"/>
-	<classpathentry kind="lib" path="lib/apache_commons/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/apache_commons/commons-io-1.4.jar" sourcepath="lib/src/commons-io-1.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib/build/junit-4.8.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
