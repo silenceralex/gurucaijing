@@ -58,7 +58,9 @@
                      #end
                      <td>
                         <!--2010-2-21三类图标-->
-                        <span class="current-icon" title="当前">当前</span>
+                        <img title="当前" src="/img/current-icon.png" />
+                        ${one.getStockname()}(${one.getStockcode()})&nbsp;
+                     </td>
                         <!--2010-2-21三类图标-->
                         ${one.getStockname()}(${one.getStockcode()})&nbsp;
                         <span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span>

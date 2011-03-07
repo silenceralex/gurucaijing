@@ -593,7 +593,7 @@ public class AnalyzerFlusher {
 		//				flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//				flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//				flusher.flushAnalyzerYear(analyzer, "2011", false);
-		//		flusher.flushAllStarGuruDetail();
+		flusher.flushAllStarGuruDetail();
 		//		flusher.flushAnalyzerRankCountByMonth(-1);
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
