@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.ColumnArticleDao;
+import com.caijing.dao.FinancialReportDao;
 import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.MasterDao;
@@ -27,6 +28,7 @@ import com.caijing.dao.ReportDao;
 import com.caijing.dao.StockEarnDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.ColumnArticle;
+import com.caijing.domain.FinancialReport;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.Master;
@@ -55,17 +57,17 @@ public class HtmlFlusher {
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
 
-	//	@Autowired
-	//	@Qualifier("financialReportDao")
-	//	private FinancialReportDao financialReportDao = null;
-	//
-	//	public FinancialReportDao getFinancialReportDao() {
-	//		return financialReportDao;
-	//	}
+	@Autowired
+	@Qualifier("financialReportDao")
+	private FinancialReportDao financialReportDao = null;
 
-	//	public void setFinancialReportDao(FinancialReportDao financialReportDao) {
-	//		this.financialReportDao = financialReportDao;
-	//	}
+	public FinancialReportDao getFinancialReportDao() {
+		return financialReportDao;
+	}
+
+	public void setFinancialReportDao(FinancialReportDao financialReportDao) {
+		this.financialReportDao = financialReportDao;
+	}
 
 	@Autowired
 	@Qualifier("reportDao")
@@ -414,7 +416,7 @@ public class HtmlFlusher {
 	//TODO daoµÄ·½·¨
 	public void flushFinancialReportLab() {
 		DateTools dateTools = new DateTools();
-		int type = 1;
+		int status = 0;
 		int size = 20;
 		//		int total = reportDao.getReportsCountByType(type);
 		//		int page = total % size == 0 ? total / size : total / size + 1;
@@ -423,8 +425,7 @@ public class HtmlFlusher {
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
 			try {
-				//financialReportDao
-				List<Report> reportList = reportDao.getReportsListByType(type, start, size);
+				List<FinancialReport> reportList = financialReportDao.getReportsListByStatus(status, start, size);
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/financialreportlab.htm");
 				vmf.put("dateTools", dateTools);
