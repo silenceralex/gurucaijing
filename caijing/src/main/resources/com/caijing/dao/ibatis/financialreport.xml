@@ -51,4 +51,8 @@
 	    </dynamic>
 	    where reportid = #reportid:VARCHAR#
   	</update>
+  	
+  	<select id="getReportsListByStatus" parameterClass="java.util.Map" resultClass="financialreport">
+		select * from financialreport where status = #status# order by year desc limit #offset#,#length#
+	</select>
 </sqlMap>
