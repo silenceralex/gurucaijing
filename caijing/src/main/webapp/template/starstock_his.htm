@@ -64,6 +64,7 @@
                         <img title="下调" src="/img/down-icon.png" />
                         #end
                         ${one.getStockname()}(${one.getStockcode()})&nbsp;
+                         <span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span>
                      </td>
                      <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
                      <td>${dateTools.transformYYYYMMDDDate(${one.getOuttime()})}</td>
@@ -88,6 +89,30 @@
                      </tr>
                      #end#end
                   </table>
+                                    #set ($count = 1)
+                  #if ($stockDetailList)#foreach ($one in $stockDetailList)
+                  <table id="rec${count}" class="hidden">
+                     #set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
+                     <tr>
+                     #if ($stockEarnList)#foreach ($one in $stockEarnList)
+                        <th>${one.getDate().getTime()}</th>
+                     #end#end
+                     </tr>
+                     <tr>
+                     #if ($stockEarnList)#foreach ($one in $stockEarnList)
+                     #set ($ratio = $one.getCurrratio() * 100)
+                        <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
+                     #end#end
+                     </tr>
+                     <tr>
+                        #if ($priceList)#foreach ($one in $priceList)
+                        #set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
+                           <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
+                        #end#end
+                     </tr>
+                  </table>
+                  #set ($count = $count + 1)
+                  #end#end
                   </div><!-- starTb2 -->
             </div>
         </div>

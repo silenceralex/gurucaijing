@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -391,9 +392,21 @@ public class AnalyzerFlusher {
 
 	public void flushAllStarGuruDetail() {
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		HashSet<String> idSet = new HashSet<String>();
 		System.out.println("analyzerList size:" + analyzerList.size());
 		for (Analyzer analyzer : analyzerList) {
 			flushAnalyzer(analyzer);
+			if (!idSet.contains(analyzer.getAid())) {
+				idSet.add(analyzer.getAid());
+			}
+		}
+		//刷新哪些有成功率的分析师
+		analyzerList = analyzerDao.getSuccessRankedAnalyzers();
+		for (Analyzer analyzer : analyzerList) {
+			if (!idSet.contains(analyzer.getAid())) {
+				flushAnalyzer(analyzer);
+				idSet.add(analyzer.getAid());
+			}
 		}
 	}
 
