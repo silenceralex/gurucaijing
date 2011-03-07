@@ -25,6 +25,7 @@ import com.caijing.domain.Analyzer;
 import com.caijing.domain.AnalyzerSuccess;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
+import com.caijing.domain.RecommendStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
@@ -167,7 +168,6 @@ public class AnalyzerFlusher {
 			startDate = groupStockDao.getEarliestIntimeByAidFrom(analyzer.getAid(),
 					DateTools.parseYYYYMMDDDate("2008-01-01"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int startYear = Integer.parseInt(DateTools.getYear(startDate));
@@ -196,6 +196,29 @@ public class AnalyzerFlusher {
 		flushHisAnalyzerStock(analyzer);
 		//总体成功率
 		flushAnalyzerSuccessYear(analyzer, null);
+		flushReport(analyzer);
+
+	}
+
+	public void flushReport(Analyzer analyzer) {
+		//生成分析师report页面
+		List<RecommendStock> stockList = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0, 15);
+		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		try {
+			VMFactory reportvmf = new VMFactory();
+			reportvmf.setTemplate("/template/starreport.htm");
+			reportvmf.put("floatUtil", new FloatUtil());
+			reportvmf.put("dateTools", new DateTools());
+			reportvmf.put("analyzer", analyzer);
+			reportvmf.put("analyzerList", analyzerList);
+			reportvmf.put("stockList", stockList);
+			reportvmf.save(ADMINDIR + "static/" + analyzer.getAid() + "_report.html");
+			System.out.println("write page : " + ADMINDIR + analyzer.getAid() + "_report.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !! ：" + analyzer.getAid() + "  name : " + analyzer.getName());
+			System.out.println("While generating stars stock html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void flushAnalyzerYear(Analyzer analyzer, String year, List<String> years, boolean isStart) {
@@ -680,12 +703,15 @@ public class AnalyzerFlusher {
 		//				flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//				flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//				flusher.flushAnalyzerYear(analyzer, "2011", false);
+		//		System.out.println(groupStockDao.getCurrentStockCountByGroupid("6O3M6IMM"));
+		//		Date outtime = groupStockDao.getNearestOutTimeByGroupid("6O3M6IMM");
+		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
 		flusher.flushAllStarGuruDetail();
 		//		flusher.flushAnalyzerRankCountByMonth(-1);
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
 
-		flusher.flushAnalyzerRank();
+		//		flusher.flushAnalyzerRank();
 
 		System.exit(0);
 	}
