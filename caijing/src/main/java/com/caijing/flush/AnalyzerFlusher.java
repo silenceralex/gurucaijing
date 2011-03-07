@@ -674,18 +674,18 @@ public class AnalyzerFlusher {
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
-		Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
-		flusher.flushAnalyzer(analyzer);
+		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
+		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//				flusher.flushAnalyzerYear(analyzer, "2009", true);
 		//				flusher.flushAnalyzerYear(analyzer, "2010", false);
 		//				flusher.flushAnalyzerYear(analyzer, "2011", false);
-		//				flusher.flushAllStarGuruDetail();
+		flusher.flushAllStarGuruDetail();
 		//		flusher.flushAnalyzerRankCountByMonth(-1);
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
 
-		//		flusher.flushAnalyzerRank();
+		flusher.flushAnalyzerRank();
 
 		System.exit(0);
 	}
