@@ -163,6 +163,9 @@
 		<property name="recommendSuccessDao">
 			<ref bean="recommendSuccessDao" />
 		</property>
+		<property name="recommendStockDao">
+			<ref bean="recommendStockDao" />
+		</property>
 	</bean>
 	
 	<bean id="stockReloader" class="com.caijing.model.StockReloader">

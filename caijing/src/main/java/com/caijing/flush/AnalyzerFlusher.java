@@ -687,6 +687,7 @@ public class AnalyzerFlusher {
 		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		RecommendSuccessDao recommendSuccessDao = (RecommendSuccessDao) ContextFactory.getBean("recommendSuccessDao");
 		ReportDao reportDao = (ReportDao) ContextFactory.getBean("reportDao");
+		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 		flusher.setAnalyzerSuccessDao(analyzerSuccessDao);
 		flusher.setAnalyzerDao(analyzerDao);
 		flusher.setGroupEarnDao(groupEarnDao);
@@ -694,10 +695,13 @@ public class AnalyzerFlusher {
 		flusher.setGroupStockDao(groupStockDao);
 		flusher.setRecommendSuccessDao(recommendSuccessDao);
 		flusher.setReportDao(reportDao);
+		flusher.setRecommendStockDao(recommendStockDao);
 		//		flusher.flushHistorySuccessRank("2009");
 		//		flusher.flushHistorySuccessRank("2010");
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
-		//		Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
+		//				Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
+		//		Analyzer analyzer = (Analyzer) analyzerDao.select("6EJV66CI");
+		//		flusher.flushReport(analyzer);
 		//		flusher.flushAnalyzer(analyzer);
 		//		flusher.flushAnalyzerStock(analyzer);
 		//				flusher.flushAnalyzerYear(analyzer, "2009", true);
@@ -707,6 +711,7 @@ public class AnalyzerFlusher {
 		//		Date outtime = groupStockDao.getNearestOutTimeByGroupid("6O3M6IMM");
 		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
 		flusher.flushAllStarGuruDetail();
+
 		//		flusher.flushAnalyzerRankCountByMonth(-1);
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
