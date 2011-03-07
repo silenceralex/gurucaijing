@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.caijing.dao.FinancialReportDao;
@@ -14,7 +15,8 @@ public class FinancialReportDaoImplTest {
 
 	FinancialReportDao dao;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		dao = (FinancialReportDao) ContextFactory.getBean("financialReportDao");
 	}
 	
@@ -36,8 +38,7 @@ public class FinancialReportDaoImplTest {
 		int start = 0;
 		int size = 10;
 		List<FinancialReport> actual = target.getReportsListByStatus(status, start, size);
-		List<FinancialReport> expected = null;
-		assertEquals(expected, actual);
+		assertTrue(actual.size()>0);
 	}
 
 }
