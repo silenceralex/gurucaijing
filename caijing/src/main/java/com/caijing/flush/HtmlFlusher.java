@@ -1076,7 +1076,7 @@ public class HtmlFlusher {
 			}
 
 			try {
-				String encodename = URLEncoder.encode(master.getMastername(), "utf-8");
+				String encodename = URLEncoder.encode(master.getMastername(), "gbk");
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/masterintro.htm");
 				vmf.put("master", master);
@@ -1211,7 +1211,7 @@ public class HtmlFlusher {
 		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
-//		flusher.flushStarGuruDetail();
+		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
 		//				flusher.flushReportLab();
 		//		flusher.flushStarOnSale();

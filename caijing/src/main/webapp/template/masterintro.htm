@@ -34,15 +34,20 @@
 			            		</div>
 			            		<h2 class="analyticsTitle">Ö±²¥ÊÒ¹éµµÁĞ±í</h2>
 			            		<div class="notice_list">
-			            		#foreach ($page in $pages)
-			            		<ul>
-			            		#set ($count = $page * 10)
-			            		#foreach ($url in $urls.subList($count,$count+10))
-			            		<li><a href='${url}'>${curdates.get($count)}</a></li>
-			            		#set ($count = $count + 1)
-			            		#end
-			            		</ul>
-			            		#end
+			            		                #foreach ($page in $pages)
+                                                <ul>
+                                                #set ($count = $page * 10)
+                                                #set ($end = $count + 10)
+                                                #if($end >= $urls.size() - 1)
+                                                #set ($end = $urls.size() - 1 )
+                                                #end
+
+                                                #foreach ($url in ${urls.subList($count,$end)})
+                                                <li><a href='${url}'>${curdates.get($count)}</a></li>
+                                                #set ($count = $count + 1)
+                                                #end
+                                                </ul>
+                                                #end
 			            		</div>
 						
 			            </div><!-- starTb1 -->
