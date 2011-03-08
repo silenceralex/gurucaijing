@@ -127,6 +127,7 @@ public class TidyFinancialReportTask {
 							FileUtils.copyFile(reportfile, targetfile);
 						} catch (Exception e) {
 							e.printStackTrace();
+							continue;
 						}
 						
 						//to database
