@@ -37,7 +37,7 @@ public class TidyFinancialReportTask {
 	String toDir = "/data/reports/";
 	static Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
-	static Pattern titlePattern = Pattern.compile("([0-9]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+	static Pattern titlePattern = Pattern.compile("([0-9-]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES); //nj Äê¼ø
 	static Pattern chinesePattern=Pattern.compile("[\u4e00-\u9fa5]+", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 	
