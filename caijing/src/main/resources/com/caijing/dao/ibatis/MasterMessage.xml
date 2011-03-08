@@ -23,7 +23,7 @@
 	</select>
 	<select id="getDatesByMasterid" parameterClass="java.lang.Integer"
 		resultClass="java.util.Date">
-		select distinct(currdate) from mastermessage where masterid=#value# order by currdate desc limit 10;
+		select distinct(currdate) from mastermessage where masterid=#value# order by currdate desc;
 	</select>
 
 	<insert id="insert">

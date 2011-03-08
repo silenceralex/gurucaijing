@@ -11,7 +11,7 @@
 
 	<select id="getColumnArticleByAuthor" parameterClass="java.util.Map"
 		resultClass="ColumnArticle">
-		select * from columnarticle where author = #author# and cmsid!=0 order by
+		select * from columnarticle where author = #author# order by
 		ptime desc limit #start#,#length#
 	</select>
 	

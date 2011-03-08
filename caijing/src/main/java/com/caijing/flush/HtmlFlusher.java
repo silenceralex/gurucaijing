@@ -1,6 +1,7 @@
 package com.caijing.flush;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1063,12 +1064,26 @@ public class HtmlFlusher {
 				curdates.add(DateTools.transformYYYYMMDDDate(date));
 				urls.add("/live/" + master.getMasterid() + "/" + DateTools.transformYYYYMMDDDate(date) + ".html");
 			}
+			List<Integer> pages = new ArrayList<Integer>();
+			int page = 0;
+			if (dates.size() % 10 == 0) {
+				page = dates.size() / 10;
+			} else {
+				page = dates.size() / 10 + 1;
+			}
+			for (int i = 0; i < page; i++) {
+				pages.add(i);
+			}
+
 			try {
+				String encodename = URLEncoder.encode(master.getMastername(), "utf-8");
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/masterintro.htm");
 				vmf.put("master", master);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("urls", urls);
+				vmf.put("encodename", encodename);
+				vmf.put("pages", pages);
 				vmf.put("curdates", curdates);
 				vmf.save(MasterDIR + master.getMasterid() + ".html");
 				System.out.println("write page : " + MasterDIR + master.getMasterid() + ".html");
@@ -1196,12 +1211,12 @@ public class HtmlFlusher {
 		//			System.out.println("unstarAnalyzers name:" + analyzer.getName());
 		//			flusher.flushOneGuruDetail(analyzer, analyzerList);
 		//		}
-		//		flusher.flushStarGuruDetail();
+//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
-		//		flusher.flushReportLab();
+		//				flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//flusher.flushIndex();
+		//		flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true, 4);
 		//		flusher.flushStarOnSale(true, 3);
@@ -1211,7 +1226,7 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale(false, 3);
 		//		flusher.flushStarOnSale(false, 2);
 		//		flusher.flushStarOnSale(false, 1);
-		//flusher.flushNoticeRank(0);
+		//		flusher.flushNoticeRank(0);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
 		//		flusher.flushStockAgency();
@@ -1225,7 +1240,7 @@ public class HtmlFlusher {
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
-		//		flusher.flushMasterInfo();
+		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
