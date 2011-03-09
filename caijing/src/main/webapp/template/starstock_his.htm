@@ -40,7 +40,7 @@
                <div id="starTb2" class="star_detail_recommand" style="display:block">
                   <table cellpadding="0" cellspacing="0">
                      <tr>
-                        <th class="stockHis-company">公司</th>
+                        <th>公司</th>
                         <th>推荐日期</th>
                         <th>过期时间</th>
                         <th>推荐价</th>
@@ -57,7 +57,7 @@
                      #else
                      <tr class="star_detail_tb_even">
                      #end
-                     <td>
+                     <td class="stockHis-company">
                         #if($one.status == -1)
                         <img title="过期" src="/img/out-icon.png" />
                         #else
