@@ -413,7 +413,6 @@ public class HtmlFlusher {
 		}
 	}
 
-	//TODO daoµÄ·½·¨
 	public void flushFinancialReportLab() {
 		DateTools dateTools = new DateTools();
 		int status = 0;
@@ -1239,7 +1238,7 @@ public class HtmlFlusher {
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
