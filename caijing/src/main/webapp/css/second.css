@@ -98,7 +98,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .rank_score{width:40px;padding-left:20px;}
 .rank_name{width:140px;text-align:left;}
 .research-time {float:right;height:38px;line-height:38px;color:#999;}
-.notice_list ul{width: 30%;margin: 10px 3% 0 0;border-right: 1px dotted #CCC;}
+.notice_list ul{float:left;width: 30%;margin: 10px 3% 0 0;border-right: 1px dotted #CCC;}
 .notice_list ul li{padding-top: 5px;padding-left:20px;border:none;background:url(../img/sprite1.png) no-repeat left -260px;}
 .notice_list_date{float:right;}
 .sec_nav_date{float:right;}
