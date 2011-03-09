@@ -21,21 +21,23 @@
             <ol id="star_detail_tab" class="star_detail_tab">
             	<li id="starTab1"><a href="/master/${master.masterid}.html">简介</a></li>
             	<li class="star_de_tabli_on" id="starTab2"><a href="#"><font color="red">直播室入口</font></a></li>
-            	<li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">草根博客</a></li>
+            	<li id="starTab3"><a href="/master/bloglist.htm?author=${one.mastername}">草根博客</a></li>
 			</ol>
 			<div class="star_jump">
                <label>跳转到另一个大师</label>
                <select onchange="window.location = this.value;">
                   <option>请选择</option>
                   #if ($masterList)#foreach ($one in $masterList)
-                     <option value="${one.masterid}.html">${one.getName()}</option>
+                     <option value="${one.masterid}.html">${one.mastername}</option>
                   #end#end
                </select>
             </div>
-            <h3 class="live-title">直播室001：$!mastername 的直播室</h3>
+            <div id="star_detail_box" class="star_intro_box">
+            <h3 class="live-title">$!mastername 的直播室</h3>
             <div class="live-box" id="liveBox">
                 <ul id="liveList" class="chat-content-box">
                 </ul>
+            </div>
             </div>
         </div>
       <div class="clear"></div>
