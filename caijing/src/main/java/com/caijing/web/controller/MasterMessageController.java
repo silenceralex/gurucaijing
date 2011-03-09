@@ -18,7 +18,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caijing.dao.MasterDao;
 import com.caijing.dao.MasterMessageDao;
+import com.caijing.domain.Master;
 import com.caijing.util.Config;
 import com.caijing.util.DateTools;
 
@@ -30,6 +32,10 @@ public class MasterMessageController {
 	@Autowired
 	@Qualifier("masterMessageDao")
 	private MasterMessageDao masterMessageDao = null;
+
+	@Autowired
+	@Qualifier("masterDao")
+	private MasterDao masterDao = null;
 
 	@Autowired
 	@Qualifier("config")
@@ -65,7 +71,11 @@ public class MasterMessageController {
 		logger.info("masterid: " + masterid + "  name:" + propertys.get("name"));
 		model.put("mastername", propertys.get("name"));
 		model.put("masterid", masterid);
+
+		Master master = (Master) masterDao.select(masterid);
+		List<Master> masters = masterDao.getAllMasters(0, 100);
+		model.put("masterList", masters);
+		model.put("master", master);
 		return "/template/liveDetail.htm";
-		//		model.put("vutil", vutil);
 	}
 }

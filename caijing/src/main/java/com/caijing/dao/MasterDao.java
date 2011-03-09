@@ -7,4 +7,6 @@ import com.caijing.util.CrudDao;
 
 public interface MasterDao extends CrudDao {
 	List<Master> getAllMasters(int start, int length);
+
+	Master getMasterByName(String name);
 }

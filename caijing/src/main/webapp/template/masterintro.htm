@@ -15,15 +15,23 @@
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
         		<div class="sec_nav">
-            	<h2><a href="#">投资大师首页</a> &gt; 草根大师</h2> 
+            	<h2><a href="#">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt; ${master.mastername}的首页
             </div>
             <h2 class="star_detail_star">${master.mastername}</h2>
             <ol id="star_detail_tab" class="star_detail_tab">
-            	<li class="star_de_tabli_on" id="starTab1"><a href="#">简介</a></li>
+            	<li class="star_de_tabli_on" id="starTab1"><a href="#">首页</a></li>
             	<li id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
-            	<li id="starTab3"><a href="/search/columnarticlelist.htm?author=${encodename}">草根博客</a></li>
+            	<li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">草根博客</a></li>
 			</ol>
-						
+			 <div class="star_jump">
+               <label>跳转到另一个大师</label>
+               <select onchange="window.location = this.value;">
+                  <option>请选择</option>
+                  #if ($masterList)#foreach ($one in $masterList)
+                     <option value="${one.masterid}.html">${one.getName()}</option>
+                  #end#end
+               </select>
+            </div>
             <div id="star_detail_box" class="star_intro_box">
 	            		<div id="starTb1" class="star_detail_intro">
 			            		<div class="star_detail_intro_img"><img src="/img/starGuru_default.jpg" /></div>

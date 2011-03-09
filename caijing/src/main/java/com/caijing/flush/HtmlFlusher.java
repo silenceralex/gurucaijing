@@ -1080,6 +1080,7 @@ public class HtmlFlusher {
 				vmf.put("master", master);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("urls", urls);
+				vmf.put("masterList", masters);
 				vmf.put("encodename", encodename);
 				vmf.put("pages", pages);
 				vmf.put("curdates", curdates);
@@ -1199,7 +1200,7 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
-		flusher.flushFinancialReportLab();
+		//		flusher.flushFinancialReportLab();
 		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		//		System.out.println("star analyzerList size:" + analyzerList.size());
@@ -1214,7 +1215,7 @@ public class HtmlFlusher {
 		//				flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		flusher.flushIndex();
+		//		flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true, 4);
 		//		flusher.flushStarOnSale(true, 3);

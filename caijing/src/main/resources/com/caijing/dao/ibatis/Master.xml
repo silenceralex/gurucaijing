@@ -7,7 +7,10 @@
 	<select id="select" resultClass="Master">
 		select * from master where masterid = #value#
 	</select>
-
+	
+	<select id="getMasterByName" resultClass="Master" parameterClass="java.lang.String">
+		select * from master where mastername = #value#
+	</select>
 
 	<insert id="insert">
 		insert into master

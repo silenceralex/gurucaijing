@@ -17,4 +17,9 @@ public class MasterDaoImpl extends CrudDaoDefault implements MasterDao {
 		return (List<Master>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getAllMasters", params);
 	}
 
+	@Override
+	public Master getMasterByName(String name) {
+		return (Master) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getMasterByName", name);
+	}
+
 }

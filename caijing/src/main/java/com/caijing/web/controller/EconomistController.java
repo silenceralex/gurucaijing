@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.EconomistDao;
+import com.caijing.dao.MasterDao;
 import com.caijing.domain.ColumnArticle;
 import com.caijing.domain.Economist;
+import com.caijing.domain.Master;
 import com.caijing.util.DateTools;
 import com.caijing.util.Paginator;
 
@@ -36,6 +38,10 @@ public class EconomistController {
 	@Autowired
 	@Qualifier("economistDao")
 	private EconomistDao economistDao = null;
+
+	@Autowired
+	@Qualifier("masterDao")
+	private MasterDao masterDao = null;
 
 	@RequestMapping("/search/columnarticlelist.htm")
 	public String showEcolumnarlst(HttpServletResponse response,
@@ -86,6 +92,62 @@ public class EconomistController {
 		model.put("dateTools", datetool);
 
 		return "/template/list.htm";
+
+	}
+
+	@RequestMapping("/master/bloglist.htm")
+	public String showMasterBlogList(HttpServletResponse response,
+			@RequestParam(value = "author", required = false) String author,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
+		Paginator<ColumnArticle> paginator = new Paginator<ColumnArticle>();
+		paginator.setPageSize(20);
+
+		int total = 0;
+		// 分页显示时，标识当前第几页
+		if (page == null || page < 1) {
+			page = 1;
+		}
+		paginator.setCurrentPageNumber(page);
+		String urlPattern = "";
+		try {
+			author = URLDecoder.decode(author, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.error("关键词utf-8解码失败：" + e.getMessage());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+
+		List<ColumnArticle> articlelist = new ArrayList();
+		DateTools datetool = new DateTools();
+		if (author != null) {
+			logger.debug("author:" + author);
+			total = columnArticleDao.getColumnArticleCountByAuthor(author);
+			paginator.setTotalRecordNumber(total);
+			articlelist = columnArticleDao.getColumnArticleByAuthor(author, (page - 1) * 20, 20);
+			articlelist = alertUrl(articlelist);
+			logger.debug("articlelist size :" + articlelist.size());
+			urlPattern = "/master/bloglist.htm?author=" + author + "&page=$number$";
+			model.put("author", author);
+		} else {
+			total = columnArticleDao.getAllColumnArticleCount();
+			paginator.setTotalRecordNumber(total);
+			articlelist = columnArticleDao.getAllColumnArticle((page - 1) * 20, 20);
+			articlelist = alertUrl(articlelist);
+			logger.debug("articlelist size :" + articlelist.size());
+			urlPattern = "/master/bloglist.htm?page=$number$";
+		}
+
+		paginator.setUrl(urlPattern);
+		Master master = masterDao.getMasterByName(author);
+		List<Master> masters = masterDao.getAllMasters(0, 100);
+		model.put("articlelist", articlelist);
+		model.put("masterList", masters);
+		model.put("master", master);
+
+		model.put("paginatorLink", paginator.getPageNumberList());
+		model.put("dateTools", datetool);
+
+		return "/template/masterbloglist.htm";
 
 	}
 
