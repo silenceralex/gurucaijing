@@ -1214,7 +1214,7 @@ public class HtmlFlusher {
 		//				flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-				flusher.flushIndex();
+		flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true, 4);
 		//		flusher.flushStarOnSale(true, 3);
@@ -1238,7 +1238,7 @@ public class HtmlFlusher {
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
-		//flusher.flushMasterInfo();
+		flusher.flushMasterInfo();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
