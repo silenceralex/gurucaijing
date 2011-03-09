@@ -16,7 +16,7 @@
                <h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
             </div>
             <h2 class="star_detail_star">
-               ${analyzer.getName()}
+               <span class="stockHis-current">${analyzer.getName()}的历史股票池组合</span>
                <!--2010-2-21组合历史按钮-->
                 <a class="history-btn" href="${analyzer.getAid()}_stock.html">查看当前组合</a>
                <!--2010-2-21组合历史按钮-->
@@ -40,7 +40,7 @@
                <div id="starTb2" class="star_detail_recommand" style="display:block">
                   <table cellpadding="0" cellspacing="0">
                      <tr>
-                        <th>公司</th>
+                        <th class="stockHis-company">公司</th>
                         <th>推荐日期</th>
                         <th>过期时间</th>
                         <th>推荐价</th>

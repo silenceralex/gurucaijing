@@ -98,12 +98,12 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .rank_score{width:40px;padding-left:20px;}
 .rank_name{width:140px;text-align:left;}
 .research-time {float:right;height:38px;line-height:38px;color:#999;}
-.notice_list ul{width: 100%;margin: 10px 0px;border-bottom: 1px dotted #CCC;}
+.notice_list ul{width: 30%;margin: 10px 3% 0 0;border-right: 1px dotted #CCC;}
 .notice_list ul li{padding-top: 5px;padding-left:20px;border:none;background:url(../img/sprite1.png) no-repeat left -260px;}
 .notice_list_date{float:right;}
 .sec_nav_date{float:right;}
 
-/*∂˛º∂“≥tab–¬—˘ Ω*/
+/*‰∫åÁ∫ßÈ°µtabÊñ∞Ê†∑Âºè*/
 .sec_tabBar{width:auto;height:34px;overflow:hidden;text-align:center;background:url(../img/sec_tab_bg.gif) repeat-x;}
 .sec_tabBar h2{float:left;width:140px;height:28px;line-height:28px;background: #BEA555;color:#FFF;}
 .sec_tabBar span{float:left;line-height:28px;height:34px;width:124px;display:block;}
@@ -111,11 +111,11 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .sec_tabBar .current a:link, .sec_tabBar .current a:visited{color:#FFF;}
 .sec_tab_right{float:right;width:130px;	height:28px;display:block;color:#FFF;line-height:28px;font-weight:bold;background:url(../img/sec_tab_right.gif) no-repeat;}
 
-.live-box{margin:10px;height:500px;overflow:scroll;overflow-x:hidden;}
+.live-box{margin:10px;height:740px;overflow:scroll;overflow-x:hidden;}
 .live-box li{padding-top:7px;}
 .live-title{font-size:14px;font-weight:bold;padding:10px;color:#666;}
 
-/*«˜ ∆Õº∏°≤„—˘ Ω*/
+/*Ë∂ãÂäøÂõæÊµÆÂ±ÇÊ†∑Âºè*/
 #analyLayer {width:620px;height:240px;padding:15px 10px 0 5px;background:#FFF;border:#CCC solid 1px;position:absolute;-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);-moz-box-shadow:5px 5px 10px rgba(0,0,0,0.3);box-shadow:5px 5px 10px rgba(0,0,0,0.3);}
 #analyHolder {width:620px;height:240px;}
 #analyLayer .close {position:absolute;top:5px;right:10px;font-size:12px;}
@@ -123,7 +123,8 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 #analyLayer .close a:link, #analyLayer .close a:visited {color:#333;}
 #analyLayer .close a:hover {color:#FFF;background:#333;}
 .analyicon {color:#C20000;font-size:12px;cursor:pointer;}
-/*π…∆±Õº±Í*/
-.history-btn{width:109px;height:23px;line-height:23px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;display:inline-block;}
-
+/*ËÇ°Á•®ÂõæÊ†á*/
+.history-btn{width:109px;height:23px;line-height:23px;margin-left:200px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;display:inline-block;}
+.stockHis-company{text-align:left;padding-left:30px;}
+.stockHis-current{color:#C20000;}
 .historySelect{float:left;height:20px;line-height:22px;overflow:hidden;font-size:12px;margin-top:4px;}

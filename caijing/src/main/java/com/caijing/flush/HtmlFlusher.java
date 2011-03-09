@@ -1,7 +1,6 @@
 package com.caijing.flush;
 
 import java.io.File;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1076,7 +1075,7 @@ public class HtmlFlusher {
 			}
 
 			try {
-				String encodename = URLEncoder.encode(master.getMastername(), "gbk");
+				String encodename = master.getMastername();
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/masterintro.htm");
 				vmf.put("master", master);
