@@ -125,6 +125,6 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .analyicon {color:#C20000;font-size:12px;cursor:pointer;}
 /*股票图标*/
 .history-btn{width:109px;height:23px;line-height:23px;margin-left:200px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;display:inline-block;}
-.stockHis-company{text-align:left;padding-left:30px;}
+.star_detail_recommand table tr td.stockHis-company{text-align:left;padding-left:30px;}
 .stockHis-current{color:#C20000;}
 .historySelect{float:left;height:20px;line-height:22px;overflow:hidden;font-size:12px;margin-top:4px;}
