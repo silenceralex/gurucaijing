@@ -1214,7 +1214,7 @@ public class HtmlFlusher {
 		//				flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//		flusher.flushIndex();
+				flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true, 4);
 		//		flusher.flushStarOnSale(true, 3);
