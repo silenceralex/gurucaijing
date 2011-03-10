@@ -28,7 +28,7 @@
                <select onchange="window.location = this.value;">
                   <option>«Î—°‘Ò</option>
                   #if ($masterList)#foreach ($one in $masterList)
-                     <option value="${one.masterid}.html">${one.mastername}</option>
+                     <option value="/master/${one.masterid}.html">${one.mastername}</option>
                   #end#end
                </select>
             </div>
