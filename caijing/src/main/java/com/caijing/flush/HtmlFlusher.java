@@ -1029,21 +1029,25 @@ public class HtmlFlusher {
 
 	public void flushLiveStatic() {
 		Map map = (Map) config.getObject("groupid");
-		for (Object masterid : map.keySet()) {
-			Map propertys = (Map) map.get(masterid);
+		List<Master> masters = masterDao.getAllMasters(0, 100);
+		for (Master master : masters) {
 
-			System.out.println("masterid: " + masterid + "  name:" + propertys.get("name"));
-			String date = DateTools.transformYYYYMMDDDate(new Date());
-			//			String date = DateTools.getYesterday(new Date());
-			List<Map> maps = masterMessageDao.getMessagesFrom(Integer.parseInt((String) masterid), date, 0);
+			System.out.println("masterid: " + master.getMasterid() + "  name:" + master.getMastername());
+			//			String date = DateTools.transformYYYYMMDDDate(new Date());
+			String date = DateTools.getYesterday(new Date());
+			List<Map> maps = masterMessageDao.getMessagesFrom(master.getMasterid(), date, 0);
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/liveStatic.htm");
 				vmf.put("maps", maps);
-				vmf.put("mastername", propertys.get("name"));
-				vmf.put("masterid", masterid);
-				vmf.save(LIVEDIR + masterid + "/" + date + ".html");
-				System.out.println("write page : " + LIVEDIR + masterid + "/" + date + ".html");
+				vmf.put("mastername", master.getMastername());
+				vmf.put("masterid", master.getMasterid());
+				vmf.put("masterList", masters);
+				vmf.put("encodename", master.getMastername());
+				vmf.put("master", master);
+				vmf.put("date", date);
+				vmf.save(LIVEDIR + master.getMastername() + "/" + date + ".html");
+				System.out.println("write page : " + LIVEDIR + master.getMastername() + "/" + date + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -1238,7 +1242,7 @@ public class HtmlFlusher {
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
-		//		flusher.flushLiveStatic();
+		flusher.flushLiveStatic();
 		flusher.flushMasterInfo();
 		flusher.flushIndex();
 		//		flusher.flushArticleList(0);

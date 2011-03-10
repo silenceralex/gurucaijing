@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>$!mastername_投资大师</title>
+<title>$!mastername的历史直播存档_投资大师</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
@@ -15,13 +15,13 @@
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
             <div class="sec_nav">
-                <h2><a href="/">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt; <a href="">直播室</a> &gt; 直播室001</h2> 
+                <h2><a href="/">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt; 直播室 历史归档</h2> 
             </div>
             <h2 class="star_detail_star">${master.mastername}</h2>
             <ol id="star_detail_tab" class="star_detail_tab">
-            	<li id="starTab1"><a href="/master/${master.masterid}.html">简介</a></li>
+            	<li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
             	<li class="star_de_tabli_on" id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
-            	<li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">草根博客</a></li>
+            	<li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">博客</a></li>
 			</ol>
 			<div class="star_jump">
                <label>跳转到另一个大师</label>
@@ -32,7 +32,7 @@
                   #end#end
                </select>
             </div>
-            <h3 class="live-title">直播室001：$!mastername 的直播室</h3>
+            <h3 class="live-title">$!mastername 的直播室 <font color="red">($!date)</font></h3>
             <div class="live-box" id="liveBox">
             	 #foreach ($one in $maps) 
                 <ul id="liveList" class="chat-content-box">
