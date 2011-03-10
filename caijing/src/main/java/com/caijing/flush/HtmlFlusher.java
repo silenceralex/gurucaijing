@@ -1046,8 +1046,8 @@ public class HtmlFlusher {
 				vmf.put("encodename", master.getMastername());
 				vmf.put("master", master);
 				vmf.put("date", date);
-				vmf.save(LIVEDIR + master.getMastername() + "/" + date + ".html");
-				System.out.println("write page : " + LIVEDIR + master.getMastername() + "/" + date + ".html");
+				vmf.save(LIVEDIR + master.getMasterid() + "/" + date + ".html");
+				System.out.println("write page : " + LIVEDIR + master.getMasterid() + "/" + date + ".html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
