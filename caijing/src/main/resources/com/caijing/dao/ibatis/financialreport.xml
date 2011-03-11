@@ -77,4 +77,22 @@
 			</isNotEmpty>
 		</isNotEmpty>
 	</select>
+
+	<select id="getReportsListCount" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from financialreport where status = #status#
+		<dynamic>
+			<isNotEmpty prepend="AND" property="year">
+				year = #year:VARCHAR#
+	    	</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="stockcode">
+				stockcode = #stockcode:VARCHAR#
+	    	</isNotEmpty>		
+			<isNotEmpty prepend="AND" property="stockname">
+				stockname = #stockname:VARCHAR#
+	    	</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type">
+				type = #type:TINYINT#
+	    	</isNotEmpty>	    	
+		</dynamic>
+	</select>	
 </sqlMap>

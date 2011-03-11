@@ -15,5 +15,13 @@ public interface FinancialReportDao extends CrudDao {
 	 * @return
 	 */
 	List<FinancialReport> getReportsList(Map<String, Object> params);
+	
+	/**
+	 * @param params
+	 *            int status, String year, String stockcode, String stockname,
+	 *            int start, int size
+	 * @return
+	 */
+	Integer getReportsListCount(Map<String, Object> params);
 
 }

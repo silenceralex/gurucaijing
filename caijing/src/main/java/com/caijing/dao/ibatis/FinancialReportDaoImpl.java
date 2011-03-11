@@ -13,5 +13,10 @@ public class FinancialReportDaoImpl extends CrudDaoDefault implements FinancialR
 	public List<FinancialReport> getReportsList(Map<String, Object> params) {
 		return (List<FinancialReport>) getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getReportsList", params);
 	}
+
+	@Override
+	public Integer getReportsListCount(Map<String, Object> params) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getReportsListCount", params);
+	}
 	
 }

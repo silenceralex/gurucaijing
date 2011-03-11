@@ -5,6 +5,12 @@
 <title>投资大师</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript">
+		function report_searchBtn() {
+			var txt = document.getElementById("stockcode").value;
+			self.location = "financialreport/financialreportLab.htm?stockcode="+txt;
+		}
+	</script>
 </head>
 <!-- 20/ye  10ye -->
 <body>
@@ -19,11 +25,18 @@
                 <div class="report_search">
                     <label>财报搜索</label>
                     <select>
-                        <option>按时间类型</option>
+                        <option>按时间年份</option>
                         <option>按股票代码</option>
                         <option>按股票名称</option>
                     </select>
                     <input type="text" />
+                    <select>
+                    	<option>所有类型报告</option>
+                        <option>第一季度报告</option>
+                        <option>中期报告</option>
+                        <option>第三季度报告</option>
+                        <option>年度报告</option>
+                    </select>                    
                     <input type="button" value="搜索" class="report_searchBtn" />
                 </div>
             	<div class="star_detail_research" style="display:block">
