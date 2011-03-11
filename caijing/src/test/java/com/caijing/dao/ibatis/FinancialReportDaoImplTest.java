@@ -34,7 +34,7 @@ public class FinancialReportDaoImplTest {
 	}
 
 	@Test
-	public void getReportsListByStatus_A$int$int$int() throws Exception {
+	public void getReportsList_A$Map() throws Exception {
 		FinancialReportDao target = dao;
 		int status = 0;
 		int start = 0;
