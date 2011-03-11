@@ -52,7 +52,29 @@
 	    where reportid = #reportid:VARCHAR#
   	</update>
   	
-  	<select id="getReportsListByStatus" parameterClass="java.util.Map" resultClass="financialreport">
-		select * from financialreport where status = #status# order by year desc limit #offset#,#length#
+  	<select id="getReportsList" parameterClass="java.util.HashMap" resultClass="financialreport">
+		select * from financialreport where status = #status#
+		<dynamic>
+			<isNotEmpty prepend="AND" property="year">
+				year = #year:VARCHAR#
+	    	</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="stockcode">
+				stockcode = #stockcode:VARCHAR#
+	    	</isNotEmpty>		
+			<isNotEmpty prepend="AND" property="stockname">
+				stockname = #stockname:VARCHAR#
+	    	</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type">
+				type = #type:TINYINT#
+	    	</isNotEmpty>	    	
+		</dynamic>
+		<isNotEmpty property="orderby">
+			order by $orderby$
+		</isNotEmpty>		
+		<isNotEmpty property="start">
+			<isNotEmpty property="size">
+				limit #start#, #size#
+			</isNotEmpty>
+		</isNotEmpty>
 	</select>
 </sqlMap>

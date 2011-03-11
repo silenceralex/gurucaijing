@@ -2,7 +2,9 @@ package com.caijing.dao.ibatis;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,13 @@ public class FinancialReportDaoImplTest {
 		int status = 0;
 		int start = 0;
 		int size = 10;
-		List<FinancialReport> actual = target.getReportsListByStatus(status, start, size);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("status", status);
+		params.put("start", start);
+		params.put("size", size);
+		params.put("orderby", "year desc");
+		List<FinancialReport> actual = target.getReportsList(params);
 		assertTrue(actual.size()>0);
 	}
 

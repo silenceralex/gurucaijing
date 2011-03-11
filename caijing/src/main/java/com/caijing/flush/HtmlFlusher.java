@@ -424,7 +424,12 @@ public class HtmlFlusher {
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
 			try {
-				List<FinancialReport> reportList = financialReportDao.getReportsListByStatus(status, start, size);
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("status", status);
+				params.put("start", start);
+				params.put("size", size);
+				params.put("orderby", "year desc");
+				List<FinancialReport> reportList = financialReportDao.getReportsList(params);
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/financialreportlab.htm");
 				vmf.put("dateTools", dateTools);
@@ -1204,7 +1209,7 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
-		//		flusher.flushFinancialReportLab();
+		flusher.flushFinancialReportLab();
 		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		//		System.out.println("star analyzerList size:" + analyzerList.size());
@@ -1219,7 +1224,6 @@ public class HtmlFlusher {
 		//				flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//		flusher.flushIndex();
 		//				flusher.flushStarOnSale(false);
 		//		flusher.flushStarOnSale(true, 4);
 		//		flusher.flushStarOnSale(true, 3);
