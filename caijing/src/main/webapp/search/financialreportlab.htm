@@ -35,16 +35,16 @@
                     </select>
                     <select id="type">
                     	<option value="" #if(!$type)selected="selected"#end>所有类型报告</option>
-                        <option value="1" #if($!curyear == "1" )selected="selected"#end>第一季度报告</option>
-                        <option value="2" #if($!curyear == "2" )selected="selected"#end>中期报告</option>
-                        <option value="3" #if($!curyear == "3" )selected="selected"#end>第三季度报告</option>
-                        <option value="4" #if($!curyear == "4" )selected="selected"#end>年度报告</option>
+                        <option value="1" #if($type == "1" )selected="selected"#end>第一季度报告</option>
+                        <option value="2" #if($type == "2" )selected="selected"#end>中期报告</option>
+                        <option value="3" #if($type == "3" )selected="selected"#end>第三季度报告</option>
+                        <option value="4" #if($type == "4" )selected="selected"#end>年度报告</option>
                     </select> 
                     <select id="kind">
-                    <option value="1" #if($!kind == "1")selected="selected"#end>按代码</option>
-                    <option value="2" #if($!kind == "2")selected="selected"#end>按名称</option>
+                    <option value="1" #if($kind == "1")selected="selected"#end>按代码</option>
+                    <option value="2" #if($kind == "2")selected="selected"#end>按名称</option>
                     </select>
-                    <input type="text" id="query" value="$!query"/>
+                    <input type="text" id="query" value="${query}"/>
                     <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
                 </div>
             	<div class="star_detail_research" style="display:block">
