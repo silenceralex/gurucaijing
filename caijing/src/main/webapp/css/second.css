@@ -56,7 +56,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .star_detail_star{padding-left:20px;line-height:40px;font-size:16px;}
 
 .star_detail_follow{padding-left:20px;}
-.star_detail_tab{float:left;margin-left:20px;_margin-left:10px;width:504px;height:28px;line-height:28px;border:#CCC;margin-top:20px;background:#F5F5F5;}
+.star_detail_tab{float:left;margin-left:10px;_margin-left:10px;width:504px;height:28px;line-height:28px;border:#CCC;margin-top:20px;background:#F5F5F5;}
 .star_detail_tab li{float:left;width:25%;text-align:center;}
 .star_detail_tab li a{display:block}
 .star_de_tabli_on{background:#BEA555;}
@@ -115,7 +115,7 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 
 .live-box{margin:10px;height:740px;overflow:scroll;overflow-x:hidden;}
 .live-box li{padding-top:7px;}
-.live-title{font-size:14px;font-weight:bold;padding:10px;color:#666;}
+.live-title{clear:both;font-size:14px;font-weight:bold;padding:10px;color:#666;}
 
 /*趋势图浮层样式*/
 #analyLayer {width:620px;height:240px;padding:15px 10px 0 5px;background:#FFF;border:#CCC solid 1px;position:absolute;-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);-moz-box-shadow:5px 5px 10px rgba(0,0,0,0.3);box-shadow:5px 5px 10px rgba(0,0,0,0.3);}
