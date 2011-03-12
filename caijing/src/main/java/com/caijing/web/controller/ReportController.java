@@ -20,6 +20,7 @@ import com.caijing.dao.ReportDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.util.Config;
+import com.caijing.util.DateTools;
 import com.caijing.util.Paginator;
 import com.caijing.util.TopicNameConfig;
 import com.caijing.util.Vutil;
@@ -147,6 +148,7 @@ public class ReportController {
 		System.out.println("type:" + type + "  page:" + page + "  total:" + total);
 		model.put("vutil", vutil);
 		model.put("reportList", recommendlist);
+		model.put("dateTools", new DateTools());
 		System.out.println("recommendlist size:" + recommendlist.size());
 		model.put("paginatorLink", paginator.getPageNumberList());
 		return "/search/reportlab.htm";

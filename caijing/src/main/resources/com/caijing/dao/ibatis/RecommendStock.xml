@@ -39,7 +39,7 @@
 	
 	<select id="getRecommendStocksByStockcode"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.*, r.title as title from recommendstock as rs,report
+		select rs.stockcode,rs.stockname,rs.aname,rs.saname,rs.ptime,r.title as title, r.filepath as filepath from recommendstock as rs,report
 		as r where rs.reportid=r.rid and rs.stockcode=#stockcode# order
 		by rs.createdate desc limit #start#,#offset#
 	</select>
@@ -50,7 +50,7 @@
 	
 	<select id="getRecommendStocksByStockname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
-		select rs.*, r.title as title from recommendstock as rs,report
+		select rs.stockcode,rs.stockname,rs.aname,rs.saname,rs.ptime,r.title as title, r.filepath as filepath from recommendstock as rs,report
 		as r where rs.reportid=r.rid and rs.stockname like #stockname#
 		order by rs.createdate desc limit #start#,#offset#
 	</select>
