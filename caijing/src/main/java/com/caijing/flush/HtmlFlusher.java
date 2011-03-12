@@ -57,7 +57,7 @@ public class HtmlFlusher {
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
 	private static int STARTYEAR = 1996;
-	private static int ENDYEAR = 2011;
+	private static int ENDYEAR = 2010;
 
 	@Autowired
 	@Qualifier("financialReportDao")
@@ -424,7 +424,7 @@ public class HtmlFlusher {
 		int page = 10;
 		int current = 1;
 		List<String> years = new ArrayList<String>();
-		for (int i = ENDYEAR; i > STARTYEAR; --i) {
+		for (int i = ENDYEAR; i >= STARTYEAR; i--) {
 			years.add("" + i);
 		}
 
