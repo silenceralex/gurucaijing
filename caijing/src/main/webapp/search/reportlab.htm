@@ -20,15 +20,15 @@
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
         		<div class="sec_nav">
-                    <h2><a href="/">投资大师首页</a> &gt; 研报大本营</h2> 
+                    <h2><a href="/">投资大师首页</a> &gt; <a href="/report/reportLab_1.html">研报大本营</a> &gt; 研报搜索</h2> 
                 </div>
                 <div class="report_search">
                     <label>研报搜索</label>
                     <select id="type">
-                        <option value="2" >按分析师</option>
-                        <option value="3" >按机构</option>
-                        <option value="0" >按股票代码</option>
-                        <option value="1" >按股票名称</option>
+                        <option value="2" #if($!type == 2 )selected="selected"#end>按分析师</option>
+                        <option value="3" #if($!type == 3 )selected="selected"#end>按机构</option>
+                        <option value="0" #if($!type == 0 )selected="selected"#end>按股票代码</option>
+                        <option value="1" #if($!type == 1 )selected="selected"#end>按股票名称</option>
                     </select>
                     <input type="text" id="query" value="$!query" />
                     <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
@@ -48,36 +48,13 @@
 					#end#end
             	</div>
             	<div class="pageSet">
-		            	<table width="100%" border="0">
-		                  <tbody>
-				                  <tr>
-					                    <td width="20%">&nbsp;</td>
-					                    <td width="51%">
-											#if ($current == 1)
-					                    	<a href="#">第一页</a>
-											<a href="#">上一页</a>
-											#else
-											<a href="./reportLab_1.html">第一页</a>
-											#set ($prev = $current - 1)
-											<a href="./reportLab_${prev}.html">上一页</a>
-											#end
-											#if ($current == $page)
-											<a href="#">下一页</a>
-					                        <a href="#">末一页</a>
-											#else
-											#set ($next = $current + 1)
-											<a href="./reportLab_${next}.html">下一页</a>
-											<a href="./reportLab_${page}.html">末一页</a>
-											#end
-					                    </td>
-					                    <td width="21%">
-					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
-					                        到第<input class="toPage" type="text">页
-					                        <input class="toPageBtn" type="button" value="跳转">
-					                    </td>
-				                  </tr>
-		                	</tbody>
-		              </table>
+		        <table width="100%" border="0" cellspacing="2" cellpadding="0">
+				<tr>
+					<td align="center">
+						$paginatorLink
+					</td>
+				</tr>
+				</table>
 	            </div>
             </div>
         </div>

@@ -32,19 +32,27 @@
 		aname,createdate,grade FROM recommendstock where user is not
 		null;
 	</select>
-
+	
+	<select id="getRecommendStocksCountByStockcode" resultClass="java.lang.Integer"> 
+	 	select count(1) from recommendstock where stockcode=#stockcode# 
+	</select>
+	
 	<select id="getRecommendStocksByStockcode"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
 		as r where rs.reportid=r.rid and rs.stockcode=#stockcode# order
-		by rs.createdate desc
+		by rs.createdate desc limit #start#,#offset#
 	</select>
 
+	<select id="getRecommendStocksCountByStockname" resultClass="java.lang.Integer"> 
+	 	select count(1) from recommendstock where stockname like #stockname#
+	</select>
+	
 	<select id="getRecommendStocksByStockname"
 		parameterClass="java.util.Map" resultClass="RecommendStock">
 		select rs.*, r.title as title from recommendstock as rs,report
 		as r where rs.reportid=r.rid and rs.stockname like #stockname#
-		order by rs.createdate desc
+		order by rs.createdate desc limit #start#,#offset#
 	</select>
 
 	<select id="getRecommendStocksBySaname"

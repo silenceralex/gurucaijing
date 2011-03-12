@@ -393,7 +393,7 @@ public class HtmlFlusher {
 		int size = 20;
 		//		int total = reportDao.getReportsCountByType(type);
 		//		int page = total % size == 0 ? total / size : total / size + 1;
-		int page = 100;
+		int page = 50;
 		int current = 1;
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
@@ -1230,7 +1230,7 @@ public class HtmlFlusher {
 		//		}
 		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
-		//				flusher.flushReportLab();
+		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
 		//				flusher.flushStarOnSale(false);
@@ -1255,8 +1255,8 @@ public class HtmlFlusher {
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
-		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//		flusher.flushLiveStatic();
+		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);

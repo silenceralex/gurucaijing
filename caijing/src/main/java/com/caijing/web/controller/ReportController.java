@@ -2,6 +2,8 @@ package com.caijing.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
+import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.util.Config;
 import com.caijing.util.Paginator;
@@ -38,11 +42,15 @@ public class ReportController {
 	@Qualifier("vutil")
 	private Vutil vutil = null;
 
+	@Autowired
+	@Qualifier("recommendStockDao")
+	private RecommendStockDao recommendStockDao = null;
+
 	@RequestMapping("/admin/showColumn.htm")
-	public String showColomn(HttpServletResponse response, @RequestParam(value = "saname", required = false)
-	String saname, @RequestParam(value = "page", required = false)
-	Integer page, @RequestParam(value = "type", required = false)
-	Integer type, HttpServletRequest request, ModelMap model) {
+	public String showColomn(HttpServletResponse response,
+			@RequestParam(value = "saname", required = false) String saname,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "type", required = false) Integer type, HttpServletRequest request, ModelMap model) {
 		Paginator<Report> paginator = new Paginator<Report>();
 		paginator.setPageSize(20);
 
@@ -86,4 +94,62 @@ public class ReportController {
 		return "/admin/reportlist.htm";
 
 	}
+
+	@RequestMapping("/report/searchreport.htm")
+	public String searchReport(HttpServletResponse response,
+			@RequestParam(value = "query", required = true) String query,
+			@RequestParam(value = "type", required = true) int type,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
+
+		Paginator<Report> paginator = new Paginator<Report>();
+		paginator.setPageSize(20);
+		int total = 0;
+		// 分页显示时，标识当前第几页
+		if (page == null || page < 1) {
+			page = 1;
+		}
+		paginator.setCurrentPageNumber(page);
+		String urlPattern = "";
+		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
+		if (type == 3) {
+			String saname = query;
+			System.out.println("saname:" + saname);
+			total = recommendStockDao.getAllRecommendCountBySaname(saname);
+			paginator.setTotalRecordNumber(total);
+			recommendlist = recommendStockDao.getRecommendStocksBySaname(saname, (page - 1) * 20, page * 20);
+			urlPattern = "/admin/searchreport.htm?q=" + saname + "&type=1&page=$number$";
+		} else if (type == 2) {
+			String aname = query;
+			System.out.println("aname:" + aname);
+			total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
+			paginator.setTotalRecordNumber(total);
+			recommendlist = recommendStockDao.getRecommendStocksByAnalyzer(aname, (page - 1) * 20, page * 20);
+			urlPattern = "/admin/searchreport.htm?q=" + aname + "&type=2&page=$number$";
+		} else if (type == 0) {
+			String stockcode = query;
+			Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+			Matcher m = stockcodePattern.matcher(stockcode);
+			if (m != null && m.find()) {
+				System.out.println("search by stockcode:" + stockcode);
+				recommendlist = recommendStockDao.getRecommendStocksByStockcode(stockcode, (page - 1) * 20, page * 20);
+				total = recommendStockDao.getRecommendStocksCountByStockcode(stockcode);
+				paginator.setTotalRecordNumber(total);
+			}
+		} else if (type == 1) {
+			System.out.println("search by stockname:" + query);
+			recommendlist = recommendStockDao.getRecommendStocksByStockname(query, (page - 1) * 20, page * 20);
+			total = recommendStockDao.getRecommendStocksCountByStockname(query);
+			paginator.setTotalRecordNumber(total);
+		}
+		paginator.setUrl(urlPattern);
+		model.put("query", query);
+		model.put("type", type);
+		model.put("vutil", vutil);
+		model.put("recommendlist", recommendlist);
+		model.put("paginatorLink", paginator.getPageNumberList());
+		return "/search/reportlab.htm";
+
+	}
+
 }

@@ -9,9 +9,13 @@ import com.caijing.domain.StockAgencyEntity;
 import com.caijing.util.CrudDao;
 
 public interface RecommendStockDao extends CrudDao {
-	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode);
+	public List<RecommendStock> getRecommendStocksByStockcode(String stockcode, int start, int offset);
 
-	public List<RecommendStock> getRecommendStocksByStockname(String stockname);
+	public Integer getRecommendStocksCountByStockcode(String stockcode);
+
+	public List<RecommendStock> getRecommendStocksByStockname(String stockname, int start, int offset);
+
+	public Integer getRecommendStocksCountByStockname(String stockname);
 
 	public List<RecommendStock> getRecommendStocksBySaid(String said);
 

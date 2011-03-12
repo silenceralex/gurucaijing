@@ -72,7 +72,7 @@ public class SearchController {
 		List<RecommendStock> recommendlist = null;
 		if (m != null && m.find()) {
 			logger.debug("search by stockcode:" + stockcode);
-			recommendlist = recommendStockDao.getRecommendStocksByStockcode(stockcode);
+			recommendlist = recommendStockDao.getRecommendStocksByStockcode(stockcode, 0, 20);
 		} else {
 			try {
 				stockcode = URLDecoder.decode(stockcode, "UTF-8");
@@ -82,7 +82,7 @@ public class SearchController {
 				logger.error(e.getMessage());
 			}
 			logger.debug("search by stockname:" + stockcode);
-			recommendlist = recommendStockDao.getRecommendStocksByStockname(stockcode);
+			recommendlist = recommendStockDao.getRecommendStocksByStockname(stockcode, 0, 20);
 		}
 		logger.debug("size of recommendlist:" + recommendlist.size());
 		model.put("vutil", vutil);
@@ -126,10 +126,10 @@ public class SearchController {
 			Matcher m = stockcodePattern.matcher(stockcode);
 			if (m != null && m.find()) {
 				System.out.println("search by stockcode:" + stockcode);
-				recommendlist = recommendStockDao.getRecommendStocksByStockcode(stockcode);
+				recommendlist = recommendStockDao.getRecommendStocksByStockcode(stockcode, (page - 1) * 20, page * 20);
 			} else {
 				System.out.println("search by stockname:" + stockcode);
-				recommendlist = recommendStockDao.getRecommendStocksByStockname(stockcode);
+				recommendlist = recommendStockDao.getRecommendStocksByStockname(stockcode, (page - 1) * 20, page * 20);
 			}
 		}
 		paginator.setUrl(urlPattern);
