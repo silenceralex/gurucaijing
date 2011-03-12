@@ -84,15 +84,18 @@ public class FinancialReportController {
 
 		params.put("start", start);
 		params.put("size", size);
-
 		params.put("orderby", "year desc,type desc");
 		List<FinancialReport> reportList = financialReportDao.getReportsList(params);
-		System.out.println("reportList size:" + size);
+
 		paginator.setUrl(urlPattern.toString());
+		model.put("kind", "" + kind);
+		model.put("type", "" + type);
+		model.put("curyear", year);
 		model.put("years", years);
 		//×î¶à²é10Ò³
 		model.put("page", 10);
-		model.put("reportlist", reportList);
+		model.put("reportList", reportList);
+		System.out.println("reportList size:" + reportList.size());
 		model.put("paginatorLink", paginator.getPageNumberList());
 
 		return "/search/financialreportlab.htm";

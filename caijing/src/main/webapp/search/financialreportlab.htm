@@ -28,23 +28,23 @@
                 <div class="report_search">
                     <label>财报搜索</label>
                     <select id="year">
-                   		<option value="">全部</option> 
+                   		<option value="" #if(!$curyear)selected="selected"#end>全部</option> 
 						#foreach( $year in $years)
-						<option value="$!{year}">$!{year}</option> 
+						<option value="$!{year}" #if($curyear == $year)selected="selected"#end>$!{year}</option> 
 						#end
                     </select>
                     <select id="type">
-                    	<option value="">所有类型报告</option>
-                        <option value="1">第一季度报告</option>
-                        <option value="2">中期报告</option>
-                        <option value="3">第三季度报告</option>
-                        <option value="4">年度报告</option>
+                    	<option value="" #if(!$type)selected="selected"#end>所有类型报告</option>
+                        <option value="1" #if($!curyear == "1" )selected="selected"#end>第一季度报告</option>
+                        <option value="2" #if($!curyear == "2" )selected="selected"#end>中期报告</option>
+                        <option value="3" #if($!curyear == "3" )selected="selected"#end>第三季度报告</option>
+                        <option value="4" #if($!curyear == "4" )selected="selected"#end>年度报告</option>
                     </select> 
                     <select id="kind">
-                    <option value="1">按代码</option>
-                    <option value="2">按名称</option>
+                    <option value="1" #if($!kind == "1"")selected="selected"#end>按代码</option>
+                    <option value="2" #if($!kind == "2"")selected="selected"#end>按名称</option>
                     </select>
-                    <input type="text" id="query" value=""/>
+                    <input type="text" id="query" value="$!query"/>
                     <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
                 </div>
             	<div class="star_detail_research" style="display:block">
