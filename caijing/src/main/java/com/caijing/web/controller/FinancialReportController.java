@@ -38,7 +38,8 @@ public class FinancialReportController {
 			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
 
 		System.out.println("year:" + year + " kind:" + kind + " query:" + query + " type:" + type + " page:" + page);
-
+		StringBuffer urlPattern = new StringBuffer();
+		urlPattern.append("/financialreport/financialreportLab.htm?page=$number$");
 		Paginator<Report> paginator = new Paginator<Report>();
 		int size = 20; //分页大小
 		if (page == null || page < 1) { //当前分页号
@@ -50,14 +51,18 @@ public class FinancialReportController {
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 
-		StringBuffer urlPattern = new StringBuffer();
-		urlPattern.append("/financialreport/financialreportLab.htm?page=$number$");
 		params.put("status", 0); //正常的财报
 		if (type != null) { //有类型
 			params.put("type", type);
+			urlPattern.append("&type=" + type);
 		}
 		if (year != null) {
 			params.put("year", year);
+			urlPattern.append("&year=" + year);
+		}
+		urlPattern.append("&kind=" + kind);
+		if (query != null && query.trim().length() > 0) {
+			urlPattern.append("&query=" + query);
 		}
 		if ("1".equals(kind) && query != null && query.trim().length() > 0) {
 			params.put("stockcode", query);
@@ -65,9 +70,9 @@ public class FinancialReportController {
 			params.put("stockname", query);
 		}
 
-		for (Map.Entry<String, Object> m : params.entrySet()) {
-			urlPattern.append("&" + m.getKey() + "=" + m.getValue());
-		}
+		//		for (Map.Entry<String, Object> m : params.entrySet()) {
+		//			urlPattern.append("&" + m.getKey() + "=" + m.getValue());
+		//		}
 		int total = financialReportDao.getReportsListCount((Map<String, Object>) params.clone());
 		paginator.setTotalRecordNumber(total);
 		System.out.println("total ： " + total);
@@ -76,16 +81,17 @@ public class FinancialReportController {
 		for (int i = ENDYEAR; i > STARTYEAR; --i) {
 			years.add("" + i);
 		}
-		params.put("years", years);
 
 		params.put("start", start);
 		params.put("size", size);
-		//最多查10页
-		params.put("page", 10);
+
 		params.put("orderby", "year desc,type desc");
 		List<FinancialReport> reportList = financialReportDao.getReportsList(params);
-
+		System.out.println("reportList size:" + size);
 		paginator.setUrl(urlPattern.toString());
+		model.put("years", years);
+		//最多查10页
+		model.put("page", 10);
 		model.put("reportlist", reportList);
 		model.put("paginatorLink", paginator.getPageNumberList());
 
