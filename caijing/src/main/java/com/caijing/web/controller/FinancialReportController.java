@@ -77,6 +77,8 @@ public class FinancialReportController {
 		}
 		params.put("years", years);
 		params.put("current", page);
+		params.put("current", page);
+		System.out.println("current £º " + page);
 		params.put("start", start);
 		params.put("size", size);
 		//×î¶à²é10Ò³
@@ -88,7 +90,7 @@ public class FinancialReportController {
 		model.put("reportlist", reportList);
 		model.put("paginatorLink", paginator.getPageNumberList());
 
-		return "/template/financialreportlab.htm";
+		return "/search/financialreportlab.htm";
 
 	}
 }
