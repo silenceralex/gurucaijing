@@ -89,6 +89,7 @@ public class FinancialReportController {
 
 		paginator.setUrl(urlPattern.toString());
 		model.put("kind", "" + kind);
+		model.put("query", query);
 		model.put("type", "" + type);
 		model.put("curyear", year);
 		model.put("years", years);

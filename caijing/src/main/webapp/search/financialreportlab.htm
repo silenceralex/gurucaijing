@@ -44,7 +44,7 @@
                     <option value="1" #if($kind == "1")selected="selected"#end>按代码</option>
                     <option value="2" #if($kind == "2")selected="selected"#end>按名称</option>
                     </select>
-                    <input type="text" id="query" value="${query}"/>
+                    <input type="text" id="query" value="$!query"/>
                     <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
                 </div>
             	<div class="star_detail_research" style="display:block">
