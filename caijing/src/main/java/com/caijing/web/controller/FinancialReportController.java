@@ -1,5 +1,6 @@
 package com.caijing.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,23 +22,23 @@ import com.caijing.util.Paginator;
 
 @Controller
 public class FinancialReportController {
-	
+
 	@Autowired
 	@Qualifier("financialReportDao")
 	private FinancialReportDao financialReportDao = null;
 
-	@RequestMapping("/financialreport/financialreportLab.htm")
-	public String showColomn(HttpServletResponse response, 
-			@RequestParam(value = "year", required = false) String year, 
-			@RequestParam(value = "stockname", required = false) String stockname, 
-			@RequestParam(value = "stockcode", required = false) String stockcode, 
-			@RequestParam(value = "type", required = false) Integer type, 
-			@RequestParam(value = "page", required = false) Integer page, 
-			HttpServletRequest request, ModelMap model) {
+	private static int STARTYEAR = 1996;
+	private static int ENDYEAR = 2011;
 
-		System.out.println("year:" + year + " " + "stockname:" + stockname
-				+ " " + "stockcode:" + stockcode + " " + "type:" + type + " " + "page:" + page);
-		
+	@RequestMapping("/financialreport/financialreportLab.htm")
+	public String showColomn(HttpServletResponse response, @RequestParam(value = "year", required = false) String year,
+			@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "kind", required = false) String kind,
+			@RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "page", required = false) Integer page, HttpServletRequest request, ModelMap model) {
+
+		System.out.println("year:" + year + " kind:" + kind + " query:" + query + " type:" + type + " page:" + page);
+
 		Paginator<Report> paginator = new Paginator<Report>();
 		int size = 20; //分页大小
 		if (page == null || page < 1) { //当前分页号
@@ -46,33 +47,41 @@ public class FinancialReportController {
 		paginator.setPageSize(size);
 		paginator.setCurrentPageNumber(page);
 		int start = (page - 1) * size;
-		
+
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		
+
 		StringBuffer urlPattern = new StringBuffer();
 		urlPattern.append("/financialreport/financialreportLab.htm?page=$number$");
 		params.put("status", 0); //正常的财报
-		if(type!=null){ //有类型
+		if (type != null) { //有类型
 			params.put("type", type);
-		} 
-		if(year!=null){
-			params.put("year", year);
-		} 
-		if(stockcode!=null){
-			params.put("stockcode", stockcode);
-		} 
-		if(stockname!=null){
-			params.put("stockname", stockname);
 		}
+		if (year != null) {
+			params.put("year", year);
+		}
+		if ("1".equals(kind) && query != null && query.trim().length() > 0) {
+			params.put("stockcode", query);
+		} else if ("2".equals(kind) && query != null && query.trim().length() > 0) {
+			params.put("stockname", query);
+		}
+
 		for (Map.Entry<String, Object> m : params.entrySet()) {
 			urlPattern.append("&" + m.getKey() + "=" + m.getValue());
 		}
-		int total = financialReportDao.getReportsListCount((Map<String, Object>)params.clone());
+		int total = financialReportDao.getReportsListCount((Map<String, Object>) params.clone());
 		paginator.setTotalRecordNumber(total);
 
+		List<String> years = new ArrayList<String>();
+		for (int i = ENDYEAR; i > STARTYEAR; --i) {
+			years.add("" + i);
+		}
+		params.put("years", years);
+		params.put("current", page);
 		params.put("start", start);
 		params.put("size", size);
-		params.put("orderby", "year desc");
+		//最多查10页
+		params.put("page", 10);
+		params.put("orderby", "year desc,type desc");
 		List<FinancialReport> reportList = financialReportDao.getReportsList(params);
 
 		paginator.setUrl(urlPattern.toString());

@@ -56,6 +56,8 @@ public class HtmlFlusher {
 	public static String MasterDIR = "/home/html/master/";
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
+	private static int STARTYEAR = 1996;
+	private static int ENDYEAR = 2011;
 
 	@Autowired
 	@Qualifier("financialReportDao")
@@ -421,6 +423,11 @@ public class HtmlFlusher {
 		//		int page = total % size == 0 ? total / size : total / size + 1;
 		int page = 10;
 		int current = 1;
+		List<String> years = new ArrayList<String>();
+		for (int i = ENDYEAR; i > STARTYEAR; --i) {
+			years.add("" + i);
+		}
+
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
 			try {
@@ -428,12 +435,13 @@ public class HtmlFlusher {
 				params.put("status", status);
 				params.put("start", start);
 				params.put("size", size);
-				params.put("orderby", "year desc");
+				params.put("orderby", "year desc,type desc");
 				List<FinancialReport> reportList = financialReportDao.getReportsList(params);
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/financialreportlab.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("current", current);
+				vmf.put("years", years);
 				vmf.put("page", page);
 				vmf.put("reportList", reportList);
 				vmf.save(FINANCIALREPORTDIR + "financialreportLab_" + current + ".html");

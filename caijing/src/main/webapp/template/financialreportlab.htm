@@ -7,8 +7,11 @@
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		function report_searchBtn() {
-			var txt = document.getElementById("stockcode").value;
-			self.location = "financialreport/financialreportLab.htm?stockcode="+txt;
+			var year = document.getElementById("year").value;
+			var type = document.getElementById("type").value;
+			var query = document.getElementById("query").value;
+			var kind = document.getElementById("kind").value;
+			self.location = "financialreport/financialreportLab.htm?query="+query+"&kind="+kind+"&type="+type+"&year="+year;
 		}
 	</script>
 </head>
@@ -20,24 +23,29 @@
     	#include("/template/inc/colL.htm")
         <div class="sec_list">
         		<div class="sec_nav">
-                    <h2><a href="#">投资大师首页</a> &gt; 财报大本营</h2> 
+                    <h2><a href="/">投资大师首页</a> &gt; <a href="/report/reportLab_1.html">财报大本营</a> &gt; 财报搜索</h2> 
                 </div>
                 <div class="report_search">
                     <label>财报搜索</label>
-                    <select>
-                        <option>按时间年份</option>
-                        <option>按股票代码</option>
-                        <option>按股票名称</option>
+                    <select id="year">
+                   		<option value="">全部</option> 
+                   		#forearch( $year in $years)
+                        <option value="$year">$year</option>
+                        #end
                     </select>
-                    <input type="text" />
-                    <select>
-                    	<option>所有类型报告</option>
-                        <option>第一季度报告</option>
-                        <option>中期报告</option>
-                        <option>第三季度报告</option>
-                        <option>年度报告</option>
-                    </select>                    
-                    <input type="button" value="搜索" class="report_searchBtn" />
+                    <select id="type">
+                    	<option value="">所有类型报告</option>
+                        <option value="1">第一季度报告</option>
+                        <option value="2">中期报告</option>
+                        <option value="3">第三季度报告</option>
+                        <option value="4">年度报告</option>
+                    </select> 
+                    <select id="kind">
+                    <option value="1">按代码</option>
+                    <option value="2">按名称</option>
+                    </select>
+                    <input type="text" id="query" value="请输入股票代码或者名称"/>
+                    <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
                 </div>
             	<div class="star_detail_research" style="display:block">
 					#set ($count = 0)
