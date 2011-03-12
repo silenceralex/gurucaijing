@@ -442,6 +442,7 @@ public class HtmlFlusher {
 				vmf.put("dateTools", dateTools);
 				vmf.put("current", current);
 				vmf.put("years", years);
+				System.out.println("years.size() : " + years.size());
 				vmf.put("page", page);
 				vmf.put("reportList", reportList);
 				vmf.save(FINANCIALREPORTDIR + "financialreportLab_" + current + ".html");

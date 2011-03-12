@@ -29,9 +29,9 @@
                     <label>财报搜索</label>
                     <select id="year">
                    		<option value="">全部</option> 
-                   		#if ($years)#forearch ($year in $years)
-                        	<option value="$year">$year</option>
-                        #end#end
+						#foreach( $year in $years)
+						<option value="$!{year}">$!{year}</option> 
+						#end
                     </select>
                     <select id="type">
                     	<option value="">所有类型报告</option>
