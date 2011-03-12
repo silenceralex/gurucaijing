@@ -109,7 +109,8 @@ public class ReportController {
 			page = 1;
 		}
 		paginator.setCurrentPageNumber(page);
-		String urlPattern = "";
+
+		String urlPattern = "/search/reportlab.htm?page=$number$&type=" + type + "&query=" + query;
 		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
 		if (type == 3) {
 			String saname = query;
@@ -117,14 +118,12 @@ public class ReportController {
 			total = recommendStockDao.getAllRecommendCountBySaname(saname);
 			paginator.setTotalRecordNumber(total);
 			recommendlist = recommendStockDao.getRecommendStocksBySaname(saname, (page - 1) * 20, page * 20);
-			urlPattern = "/admin/searchreport.htm?q=" + saname + "&type=1&page=$number$";
 		} else if (type == 2) {
 			String aname = query;
 			System.out.println("aname:" + aname);
 			total = recommendStockDao.getRecommendStockCountsByAnalyzer(aname);
 			paginator.setTotalRecordNumber(total);
 			recommendlist = recommendStockDao.getRecommendStocksByAnalyzer(aname, (page - 1) * 20, page * 20);
-			urlPattern = "/admin/searchreport.htm?q=" + aname + "&type=2&page=$number$";
 		} else if (type == 0) {
 			String stockcode = query;
 			Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
@@ -145,8 +144,10 @@ public class ReportController {
 		paginator.setUrl(urlPattern);
 		model.put("query", query);
 		model.put("type", type);
+		System.out.println("type:" + type + "  page:" + page + "  total:" + total);
 		model.put("vutil", vutil);
-		model.put("recommendlist", recommendlist);
+		model.put("reportList", recommendlist);
+		System.out.println("recommendlist size:" + recommendlist.size());
 		model.put("paginatorLink", paginator.getPageNumberList());
 		return "/search/reportlab.htm";
 
