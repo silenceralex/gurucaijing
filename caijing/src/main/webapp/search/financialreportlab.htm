@@ -41,8 +41,8 @@
                         <option value="4" #if($!curyear == "4" )selected="selected"#end>年度报告</option>
                     </select> 
                     <select id="kind">
-                    <option value="1" #if($!kind == "1"")selected="selected"#end>按代码</option>
-                    <option value="2" #if($!kind == "2"")selected="selected"#end>按名称</option>
+                    <option value="1" #if($!kind == "1")selected="selected"#end>按代码</option>
+                    <option value="2" #if($!kind == "2")selected="selected"#end>按名称</option>
                     </select>
                     <input type="text" id="query" value="$!query"/>
                     <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
