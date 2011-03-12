@@ -111,7 +111,7 @@ public class ReportController {
 		}
 		paginator.setCurrentPageNumber(page);
 
-		String urlPattern = "/search/reportlab.htm?page=$number$&type=" + type + "&query=" + query;
+		String urlPattern = "/report/reportlab.htm?page=$number$&type=" + type + "&query=" + query;
 		List<RecommendStock> recommendlist = new ArrayList<RecommendStock>();
 		if (type == 3) {
 			String saname = query;
