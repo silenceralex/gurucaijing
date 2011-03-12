@@ -70,15 +70,14 @@ public class FinancialReportController {
 		}
 		int total = financialReportDao.getReportsListCount((Map<String, Object>) params.clone());
 		paginator.setTotalRecordNumber(total);
-
+		System.out.println("total £º " + total);
+		System.out.println("current £º " + page);
 		List<String> years = new ArrayList<String>();
 		for (int i = ENDYEAR; i > STARTYEAR; --i) {
 			years.add("" + i);
 		}
 		params.put("years", years);
-		params.put("current", page);
-		params.put("current", page);
-		System.out.println("current £º " + page);
+
 		params.put("start", start);
 		params.put("size", size);
 		//×î¶à²é10Ò³
