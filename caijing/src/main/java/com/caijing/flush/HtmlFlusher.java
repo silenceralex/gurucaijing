@@ -1160,7 +1160,7 @@ public class HtmlFlusher {
 				}
 				stockEarn.setCurrratio(currratio);
 			}
-			notice.setGain(stockEarnList.get(stockEarnList.size() - 1).getCurrratio());
+			notice.setGain(stockEarnList.get(stockEarnList.size() - 1).getCurrratio() * 100);
 			noticeStocks.add(notice);
 
 			stockDetailMap.put(notice.getId(), stockEarnList);
