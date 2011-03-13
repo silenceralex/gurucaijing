@@ -1218,7 +1218,7 @@ public class HtmlFlusher {
 
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
-		flusher.flushFinancialReportLab();
+		//		flusher.flushFinancialReportLab();
 		//		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
 		//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		//		System.out.println("star analyzerList size:" + analyzerList.size());
@@ -1230,7 +1230,7 @@ public class HtmlFlusher {
 		//		}
 		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
-		flusher.flushReportLab();
+		//		flusher.flushReportLab();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
 		//				flusher.flushStarOnSale(false);
@@ -1258,6 +1258,9 @@ public class HtmlFlusher {
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
+		flusher.flushNoticeRank(0);
+		flusher.flushNoticeRank(1);
+		flusher.flushNoticeRank(2);
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
