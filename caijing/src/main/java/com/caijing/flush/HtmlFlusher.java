@@ -1138,8 +1138,8 @@ public class HtmlFlusher {
 		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
 		Map<String, Float> startPriceMap = new HashMap<String, Float>();
 		for (Notice notice : notices) {
-			//去重
-			String key = notice.getStockcode() + notice.getDate();
+			//去重 + notice.getDate()
+			String key = notice.getStockcode();
 			if (duplicatSet.contains(key)) {
 				continue;
 			} else {
