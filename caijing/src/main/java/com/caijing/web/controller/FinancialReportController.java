@@ -81,8 +81,9 @@ public class FinancialReportController {
 		for (int i = ENDYEAR; i > STARTYEAR; --i) {
 			years.add("" + i);
 		}
+		years.add("1990-1995");
 
-		params.put("start", start);
+		params.put("sta1990-1995rt", start);
 		params.put("size", size);
 		params.put("orderby", "year desc,type desc");
 		List<FinancialReport> reportList = financialReportDao.getReportsList(params);
