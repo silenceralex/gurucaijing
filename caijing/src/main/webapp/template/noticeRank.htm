@@ -50,7 +50,7 @@
             				<td>${one.getStockname()}($one.getStockcode())&nbsp;<span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span></td>
             				<td>$dateTools.transformYYYYMMDDDate($one.date)</td>
 							<td>${htmlUtil.getSubStr($one.title,15,'...')}</td>
-            				<td>${floatUtil.getTwoDecimalNumber($one.getGain())}%</td>
+            				<td>${floatUtil.getTwoDecimalNumber($one.getGain() * 100 )}%</td>
             				<td>
             				<a href="${one.getUrl()}">查看</a>
             				</td>
