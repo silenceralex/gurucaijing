@@ -1258,6 +1258,7 @@ public class HtmlFlusher {
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
+		flusher.flushNotice();
 		flusher.flushNoticeRank(0);
 		flusher.flushNoticeRank(1);
 		flusher.flushNoticeRank(2);
