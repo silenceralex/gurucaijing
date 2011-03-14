@@ -33,14 +33,14 @@ import com.caijing.util.ServerUtil;
  */
 public class TidyFinancialReportTask {
 	
-	String fromRootDir = "/data/report/";
-	String toDir = "/data/reports/";
+	static String fromRootDir = "/data/report/";
+	static String toDir = "/data/reports/";
 	static Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 	static Pattern titlePattern = Pattern.compile("([0-9-]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES); //nj 年鉴
 	static Pattern chinesePattern=Pattern.compile("[\u4e00-\u9fa5]+", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	static Pattern yearPattern=Pattern.compile("([\\d]{4}|[零一二三四五六七八九十]{4}|[０１２３４５６７８９]{4})年?(第一季度|中期|第三季度|年度)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+	static Pattern yeartypePattern=Pattern.compile("([\\d]{4}|[零一二三四五六七八九十]{4}|[０１２３４５６７８９]{4})年?(第一季度|中期|第三季度|年度)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -172,23 +172,76 @@ public class TidyFinancialReportTask {
 		return (file1.length()>file2.length());
 	}
 	
-	//TODO
+	//TODO 
+	public static void cat(String yearDir){
+		File[] typeDir = new File(yearDir).listFiles();
+		for (File file : typeDir) {
+			if (file.isDirectory()) {
+				File[] files = file.listFiles();
+				for (File f : files) {
+					System.out.println(file.getPath());
+					String txtfile = getString(file, "GBK");
+					if(txtfile==null){
+						System.out.println("no txt");
+					}
+					Matcher m = yeartypePattern.matcher(txtfile);
+					if (m != null && m.find()) {
+						String year = m.group(1);
+						String type = m.group(2);
+						System.out.println(year + " " + type);
+					}
+				}
+			}
+		}
+		
+	}
+	
 	public static int numberParser(String number){
 		return 0;
 	}
-	
+
 	/**
-	 * 是否包含中文
-	 * @param file
-	 * @param encoding e.g.gbk
-	 * @return 
+	 * 全角空格为12288，半角空格为32 
+	 * 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
 	 */
-	public static boolean isChinese(File file, String encoding) {
+	public static String ToSBC(String input) {
+		// 半角转全角：
+		char[] c = input.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			if (c[i] == 32) {
+				c[i] = (char) 12288;
+				continue;
+			}
+			if (c[i] < 127)
+				c[i] = (char) (c[i] + 65248);
+		}
+		return new String(c);
+	}
+
+	/**
+	 * 全角转半角
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public static String ToDBC(String input) {
+		char[] c = input.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			if (c[i] == 12288) {
+				c[i] = (char) 32;
+				continue;
+			}
+			if (c[i] > 65280 && c[i] < 65375)
+				c[i] = (char) (c[i] - 65248);
+		}
+		return new String(c);
+	}
+	
+	public static String getString(File file, String encoding) {
+		String txtfile = null;
 		if(file.getName().toLowerCase().endsWith(txt)){
 			try {
-				String txtfile = FileUtils.readFileToString(file, encoding);
-				Matcher result = chinesePattern.matcher(txtfile);
-				return result.find();
+				txtfile = FileUtils.readFileToString(file, encoding);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -203,9 +256,7 @@ public class TidyFinancialReportTask {
 				stripper.setSortByPosition(sort);
 				stripper.setStartPage(startPage);
 				stripper.setEndPage(endPage);
-				String txtFile = stripper.getText(document);
-				Matcher result = chinesePattern.matcher(txtFile);
-				return result.find();
+				txtfile = stripper.getText(document);
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
 				e.printStackTrace();
@@ -218,12 +269,28 @@ public class TidyFinancialReportTask {
 				}
 			}
 		}
-		return false;
+		return txtfile;
+	}
+	
+	/**
+	 * 是否包含中文
+	 * @param file
+	 * @param encoding e.g.gbk
+	 * @return 
+	 */
+	public static boolean isChinese(File file, String encoding){
+		String txtFile = getString(file, encoding);
+		if(txtFile==null){
+			return false;
+		}
+		Matcher result = chinesePattern.matcher(txtFile);
+		return result.find();
 	}
 	
 	public static void main(String[] args) {
 		TidyFinancialReportTask task = new TidyFinancialReportTask();
-		task.run();
+		task.cat("1990-1995");
+		//task.run();
 		System.exit(0);
 	}
 
