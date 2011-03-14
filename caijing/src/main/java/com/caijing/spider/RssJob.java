@@ -101,6 +101,7 @@ public class RssJob {
 						System.out.println("author: " + article.getAuthor());
 						System.out.println("title: " + article.getTitle());
 						System.out.println("pubDate: " + article.getPtime());
+
 					}
 
 					//					System.out.println("abs: " + article.getAbs());
@@ -121,21 +122,26 @@ public class RssJob {
 
 	public static void main(String[] args) {
 
-		//		if (args.length == 0) {
-		//			printUsage();
-		//			return;
-		//		}
+		if (args.length == 0) {
+			printUsage();
+			return;
+		}
 		SAXReader sr = new SAXReader();
 		Document xml = null;
 		try {
-			//			xml = sr.read(new File("jobs\\163_huigensi.xml"));
+			//			xml = sr.read(new File("jobs\\caijing.xml"));
 			System.out.println("Input xml : " + args[0]);
 			xml = sr.read(new File(args[0]));
 		} catch (DocumentException e1) {
 			e1.printStackTrace();
 		}
+		//		String articleid = args[0];
+		//		System.out.println("articleid : " + args[0]);
 		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		RssJob rssjob = ConfigReader.getRssJobFromXML(xml);
+		ColumnArticle article = (ColumnArticle) columnArticleDao.select("4448487269d23729ff281c3d0ae41d65");
+		String url = MD5Utils.hash(article.getTitle() + article.getAuthor());
+		rssjob.getUrlDB().delete(url);
 		rssjob.setColumnArticleDao(columnArticleDao);
 		rssjob.run();
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");

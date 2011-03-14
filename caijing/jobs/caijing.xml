@@ -18,9 +18,10 @@
 		</innermatch>
 		<innermatch property="link" mapping="link"></innermatch>
 		<innermatch property="content" mapping="link" isdown="true">
-			<repexp><![CDATA[<div .*?id=\"the_content\".*?>(.*?)</div>]]></repexp>
+			<repexp><![CDATA[<div .*?id=\"the_content\".*?>(.*?)<!--责任编辑 begin-->]]></repexp>
 			<filter userPattern="true"><![CDATA[<div class=\"videoFlip\">.*?<div class=\"clear\">]]></filter>
 			<filter userPattern="true"><![CDATA[<P>\[?<A .*?</A>\]?</P>]]></filter>
+			<filter userPattern="true"><![CDATA[<div.*?</div>]]></filter>
 			<filter userPattern="true"><![CDATA[<P align=right>.*?网络编辑.*?</P>]]></filter>
 		</innermatch>
 	</page>
