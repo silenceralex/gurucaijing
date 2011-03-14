@@ -40,7 +40,8 @@ public class TidyFinancialReportTask {
 	static Pattern titlePattern = Pattern.compile("([0-9-]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES); //nj 年鉴
 	static Pattern chinesePattern=Pattern.compile("[\u4e00-\u9fa5]+", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	
+	static Pattern yearPattern=Pattern.compile("([\\d]{4}|[零一二三四五六七八九十]{4}|[０１２３４５６７８９]{4})年?(第一季度|中期|第三季度|年度)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
@@ -169,6 +170,11 @@ public class TidyFinancialReportTask {
 	
 	public static boolean islarger(File file1, File file2){
 		return (file1.length()>file2.length());
+	}
+	
+	//TODO
+	public static int numberParser(String number){
+		return 0;
 	}
 	
 	/**
