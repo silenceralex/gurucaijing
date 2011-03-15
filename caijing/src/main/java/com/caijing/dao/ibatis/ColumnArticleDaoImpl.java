@@ -94,4 +94,17 @@ public class ColumnArticleDaoImpl extends CrudDaoDefault implements ColumnArticl
 		return (Integer) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".getAllArticleCountByType",
 				type);
 	}
+
+	@Override
+	public List<ColumnArticle> getABSArticlesByType(int type, int start, int length) {
+		Map<String, Object> params = new HashMap<String, Object>(4);
+		params.put("type", type);
+		params.put("length", length);
+		params.put("start", start);
+		//宏观动态栏目没有作者
+		if (type != 2) {
+			params.put("author", "111");
+		}
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getABSArticlesByType", params);
+	}
 }

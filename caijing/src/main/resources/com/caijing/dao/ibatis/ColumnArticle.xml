@@ -97,6 +97,20 @@
 		</dynamic>
 		order by ptime desc limit #start#,#length#
 	</select>
+	
+	<select id="getABSArticlesByType" parameterClass="java.util.Map"
+		resultClass="ColumnArticle">
+		select * from columnarticle 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="type">
+				type = #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="author">
+				author is not null
+			</isNotEmpty>
+		</dynamic>
+		and length(abs)>5 order by ptime desc limit #start#,#length#
+	</select>
 
 
 	<select id="getColumnArticleByDomain" resultClass="ColumnArticle">

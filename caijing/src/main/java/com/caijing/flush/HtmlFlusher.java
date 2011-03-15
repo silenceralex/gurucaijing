@@ -888,7 +888,7 @@ public class HtmlFlusher {
 					10);
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
-			List<ColumnArticle> cjzl = columnArticleDao.getColumnArticleByType(0, 0, 6);
+			List<ColumnArticle> cjzl = columnArticleDao.getABSArticlesByType(0, 0, 6);
 			//			dsyp = alertUrl(dsyp);
 			//			hgdt = alertUrl(hgdt);
 			//			cjzl = alertUrl(cjzl);

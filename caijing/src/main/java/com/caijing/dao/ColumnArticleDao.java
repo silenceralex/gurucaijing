@@ -42,5 +42,14 @@ public interface ColumnArticleDao extends CrudDao {
 	 */
 	public List<ColumnArticle> getColumnArticleByType(int type, int start, int length);
 
+	/**
+	 * 方便首页调用，必须有摘要并且abs要长于5
+	 * @param type  1 大师研判，2 宏观动态，3 草根博客 ， 0 财经专栏
+	 * @param start  起始位置
+	 * @param length 条目数
+	 * @return
+	 */
+	public List<ColumnArticle> getABSArticlesByType(int type, int start, int length);
+
 	public int getAllArticleCountByType(int type);
 }

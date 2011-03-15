@@ -716,7 +716,7 @@ public class AnalyzerFlusher {
 		//		flusher.flushAnalyzerRankCountByMonth(-3);
 		//		flusher.flushAnalyzerRankCountByMonth(-6);
 
-		//		flusher.flushAnalyzerRank();
+		flusher.flushAnalyzerRank();
 
 		System.exit(0);
 	}
