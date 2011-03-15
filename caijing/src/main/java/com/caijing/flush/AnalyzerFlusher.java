@@ -696,8 +696,8 @@ public class AnalyzerFlusher {
 		flusher.setRecommendSuccessDao(recommendSuccessDao);
 		flusher.setReportDao(reportDao);
 		flusher.setRecommendStockDao(recommendStockDao);
-		//		flusher.flushHistorySuccessRank("2009");
-		//		flusher.flushHistorySuccessRank("2010");
+		flusher.flushHistorySuccessRank("2009");
+		flusher.flushHistorySuccessRank("2010");
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
 		//				Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
 		//		Analyzer analyzer = (Analyzer) analyzerDao.select("6EJV66CI");

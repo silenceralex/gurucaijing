@@ -1262,6 +1262,7 @@ public class HtmlFlusher {
 		flusher.flushNoticeRank(0);
 		flusher.flushNoticeRank(1);
 		flusher.flushNoticeRank(2);
+		flusher.flushFinancialReportLab();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);

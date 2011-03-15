@@ -130,6 +130,7 @@ public class LocalStorage {
 		htmlFlush.flushStockAgency();
 		htmlFlush.flushLiveStatic();
 		htmlFlush.flushMasterInfo();
+		htmlFlush.flushSuccessRank();
 		htmlFlush.flushStarOnSale(true, 4);
 		htmlFlush.flushStarOnSale(true, 3);
 		htmlFlush.flushStarOnSale(true, 2);
