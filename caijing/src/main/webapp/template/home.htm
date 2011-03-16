@@ -183,7 +183,7 @@
                             #set ($count = 0) 
                             #foreach ($one in $cjzl)  
                             #if($count == $cjzlsize) 
-                            <li style="background:none;" class="noBg">
+                            <li class="last">
                             #else 
                             <li>
                                 #end<h3><em><a href="http://51gurus.com/search/columnarticlelist.htm?author=${one.author}"  target="_blank">$one.author</a></em><a title="$one.title" href="$one.link"  target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--限制在15个字以内，控制简介在一行--></a></h3>
@@ -202,6 +202,39 @@
                                 <a href="http://51gurus.com/cms/cjzl/index.shtml" target="_blank">查看更多大师专栏</a>
                             </p>
                         </ul>
+                        
+                        <!-- 新增加的 公告掘金 -->
+                        <div class="colML">
+                           <div class="colM_title">
+                               <h2>公告掘金</h2>
+                               <a class="moreBtn" href="/stockresearch/stockResearch_1.html" target="_blank"><span>more</span><img src="img/block.gif"></a>
+                           </div>
+                           <ul class="notice-list">
+                              <li>
+                                 <span class="title"><a title="大族激光(002008)" href="#">大族激光(002008)：限售股份持有人出售股份情况</a></span>
+                                 <span class="sort">股东减持</span>
+                              </li>
+                              <li>
+                                 <span class="title"><a title="股东减持公司股份" href="#">乐通股份(002319)：股东减持公司股份</a></span>
+                                 <span class="sort">股东减持</span>
+                              </li>
+                              <li>
+                                 <span class="title"><a title="重大资产重组" href="#">ST宝利来(000008)：重大资产重组的进展</a></span>
+                                 <span class="sort">资产重组</span>
+                              </li>
+                              <li>
+                                 <span class="title"><a title="四川九洲(000801)" href="#">四川九洲(000801)：股票交易异常波动</a></span>
+                                 <span class="sort">资产重组</span>
+                              </li>
+                              <li>
+                                 <span class="title"><a title="ST钒钛(000629)" href="#">*ST钒钛(000629)：3月31日召开2011年第一次临时股东大会</a></span>
+                                 <span class="sort">资产重组</span>
+                              </li>
+                           </ul>
+                        </div>
+                        <!-- 新增加的 公告掘金 -->
+                        
+                        
                     </div>
                     <div class="colML">
                         <div class="colM_title">
