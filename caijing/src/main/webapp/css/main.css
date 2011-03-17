@@ -125,4 +125,4 @@ a{text-decoration:none}
 .colML .notice-list {height:192px;}
 .colML .notice-list li {margin:0;}
 .colML .notice-list .title {width:200px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
-.colML .notice-list .sort {width:200px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
+.colML .notice-list .sort {width:50px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
