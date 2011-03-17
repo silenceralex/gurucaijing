@@ -2,17 +2,15 @@ package com.caijing.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
 import com.caijing.business.GroupGainManager;
+import com.caijing.business.impl.AnalyzerManagerImpl;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ibatis.AnalyzerDaoImpl;
-import com.caijing.domain.Analyzer;
 
 /**
  * 按照分析师为计算单元进行的本地化处理的计算
@@ -92,27 +90,30 @@ public class AnalyzerFetcher {
 		//		}
 		//		RecommendStock rs = recommendStockDao.getRecommendStockbyReportid("6SR0VFJN");
 		//		groupGainManager.extractGroupStock(rs);
-		HashSet<String> nodupSet = new HashSet<String>();
-		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
-		for (Analyzer analyzer : analyzers) {
-			nodupSet.add(analyzer.getName() + "##" + analyzer.getAgency());
-		}
+		//		HashSet<String> nodupSet = new HashSet<String>();
+		//		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		//		for (Analyzer analyzer : analyzers) {
+		//			nodupSet.add(analyzer.getName() + "##" + analyzer.getAgency());
+		//		}
+
+		AnalyzerManagerImpl analyzerManager = (AnalyzerManagerImpl) ContextFactory.getBean("analyzerManager");
 
 		for (String agency : agencys) {
-			List<String> names = recommendStockDao.getDistinctAnalyzersBySaname(agency);
-			for (String name : names) {
-				String[] strs = name.split("\\s|,|，");
-				for (String str : strs) {
-					if (str.length() >= 2 && str.length() <= 4) {
-						String key = str + "##" + agency;
-						if (!nodupSet.contains(key)) {
-							System.out.println("key :" + key);
-							FileUtil.appendWrite("/home/app/analyzer.txt", key + "\r\n", "utf-8");
-							nodupSet.add(key);
-						}
-					}
-				}
-			}
+			analyzerManager.fetchAnalyzersFromSA(agency);
+			//			List<String> names = recommendStockDao.getDistinctAnalyzersBySaname(agency);
+			//			for (String name : names) {
+			//				String[] strs = name.split("\\s|,|，");
+			//				for (String str : strs) {
+			//					if (str.length() >= 2 && str.length() <= 4) {
+			//						String key = str + "##" + agency;
+			//						if (!nodupSet.contains(key)) {
+			//							System.out.println("key :" + key);
+			//							FileUtil.appendWrite("/home/app/analyzer.txt", key + "\r\n", "utf-8");
+			//							nodupSet.add(key);
+			//						}
+			//					}
+			//				}
+			//			}
 		}
 	}
 }

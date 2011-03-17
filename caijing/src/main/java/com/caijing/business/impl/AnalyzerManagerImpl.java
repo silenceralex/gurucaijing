@@ -72,11 +72,13 @@ public class AnalyzerManagerImpl implements AnalyzerManager {
 		List<String> anames = recommendStockDao.getDistinctAnalyzersBySaname(saname);
 		HashSet<String> nameSet = new HashSet<String>();
 		for (String aname : anames) {
-			String[] strs = aname.split("\\s|,");
+			String[] strs = aname.split("\\s|,|£¬");
 			for (String str : strs) {
 				String analyzer = str.replaceAll("[^\u4e00-\u9fa5]", "");
-				if (!nameSet.contains(analyzer)) {
-					nameSet.add(analyzer);
+				if (analyzer.length() >= 2 && analyzer.length() < 4 && !"N/A".equals(analyzer)) {
+					if (!nameSet.contains(analyzer)) {
+						nameSet.add(analyzer);
+					}
 				}
 			}
 		}
