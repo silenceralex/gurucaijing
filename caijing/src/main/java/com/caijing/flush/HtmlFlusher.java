@@ -908,11 +908,14 @@ public class HtmlFlusher {
 				System.out.println("getStockname: " + stock.getStockname());
 			}
 			System.out.println("recommendstocks size: " + recommendstocks.size());
+			List<Notice> noticeList = noticeDao.getNotices(0, 5);
+			System.out.println("noticeList size: " + noticeList.size());
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/home.htm");
 			vmf.put("dateTools", dateTools);
 			vmf.put("currdate", lastdate);
 			vmf.put("floatUtil", floatUtil);
+			vmf.put("noticeList", noticeList);
 			vmf.put("dsyp", dsyp);
 			vmf.put("hgdt", hgdt);
 			vmf.put("cjzl", cjzl);
@@ -1258,11 +1261,12 @@ public class HtmlFlusher {
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
-		flusher.flushNotice();
-		flusher.flushNoticeRank(0);
-		flusher.flushNoticeRank(1);
-		flusher.flushNoticeRank(2);
-		flusher.flushFinancialReportLab();
+		//		flusher.flushNotice();
+		//		flusher.flushNoticeRank(0);
+		//		flusher.flushNoticeRank(1);
+		//		flusher.flushNoticeRank(2);
+		//		flusher.flushFinancialReportLab();
+		flusher.flushSuccessRank();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
