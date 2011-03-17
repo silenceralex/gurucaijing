@@ -102,7 +102,7 @@ public class AnalyzerFetcher {
 						String key = str + "##" + agency;
 						if (!nodupSet.contains(key)) {
 							System.out.println("key :" + key);
-							FileUtil.appendWrite("/home/app/analyzer.txt", key);
+							FileUtil.appendWrite("/home/app/analyzer.txt", key + "\r\n", "utf-8");
 							nodupSet.add(key);
 						}
 					}
