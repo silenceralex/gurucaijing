@@ -12,6 +12,7 @@ import com.caijing.business.GroupGainManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ibatis.AnalyzerDaoImpl;
+import com.caijing.domain.Analyzer;
 
 /**
  * 按照分析师为计算单元进行的本地化处理的计算
@@ -92,6 +93,10 @@ public class AnalyzerFetcher {
 		//		RecommendStock rs = recommendStockDao.getRecommendStockbyReportid("6SR0VFJN");
 		//		groupGainManager.extractGroupStock(rs);
 		HashSet<String> nodupSet = new HashSet<String>();
+		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		for (Analyzer analyzer : analyzers) {
+			nodupSet.add(analyzer.getName() + "##" + analyzer.getAgency());
+		}
 
 		for (String agency : agencys) {
 			List<String> names = recommendStockDao.getDistinctAnalyzersBySaname(agency);
