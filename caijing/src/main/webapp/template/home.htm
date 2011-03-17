@@ -207,26 +207,30 @@
                         <div class="colML">
                            <div class="colM_title">
                                <h2>公告掘金</h2>
-                               <a class="moreBtn" href="/stockresearch/stockResearch_1.html" target="_blank"><span>more</span><img src="img/block.gif"></a>
+                               <a class="moreBtn" href="/notice/notice_1.html" target="_blank"><span>more</span><img src="img/block.gif"></a>
                            </div>
                            <ul class="notice-list">
-                           	  #foreach ($one in $noticeList)
-                              <li>
-                                 <span class="title"><a title="${one.stockname}(${one.stockcode})" href="$one.getUrl()">${one.stockname}(${one.stockcode})：${htmlUtil.getSubStr($one.title,10,'...')}</a></span>
-                                 <span class="sort">#if($one.type == 0 )
-			           	股权激励
-			        #elseif($one.type == 1)	
-			        	资产重组
-			        #elseif($one.type == 2)	
-			         	股东增持
-			      	#elseif($one.type == 3)	
-			        	股东减持
-			        #elseif($one.type == 4)	
-			        	业绩预增
-			        #elseif($one.type == 5)	
-			        	业绩预减
-			        #end</span>
-                              </li>
+                              #if ($noticeList)
+                                 #foreach ($one in $noticeList)
+                                 <li>
+                                    <span class="title"><a href="$one.getUrl()">${one.stockname}(${one.stockcode})：$one.getTitle()</a></span>
+                                    <span class="sort">
+                                       #if($one.type == 0 )
+                                          股权激励
+                                       #elseif($one.type == 1)	
+                                          资产重组
+                                       #elseif($one.type == 2)	
+                                          股东增持
+                                        #elseif($one.type == 3)	
+                                          股东减持
+                                       #elseif($one.type == 4)	
+                                          业绩预增
+                                       #elseif($one.type == 5)	
+                                          业绩预减
+                                       #end
+                                    </span>
+                                 </li>
+                                 #end
                               #end
                            </ul>
                         </div>
