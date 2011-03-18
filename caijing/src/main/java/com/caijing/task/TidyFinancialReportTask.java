@@ -17,10 +17,17 @@ import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+import com.caijing.dao.FinancialReportDao;
+import com.caijing.dao.ReportDao;
+import com.caijing.dao.StockDao;
 import com.caijing.domain.FinancialReport;
+import com.caijing.domain.Stock;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.ServerUtil;
 
@@ -31,7 +38,20 @@ import com.caijing.util.ServerUtil;
  * $from: /data/report/`report_original_name`.pdf $to: /data/reports/`year`/`type`/`stockcode`.pdf
  * 2. 数据库记录
  */
+@Component("tidyFinancialReportTask")
 public class TidyFinancialReportTask {
+	
+	@Autowired
+	@Qualifier("stockDao")
+	private StockDao stockDao = null;
+	
+	@Autowired
+	@Qualifier("financialReportDao")
+	private FinancialReportDao financialReportDao = null;
+	
+	@Autowired
+	@Qualifier("jdbcTemplate")
+	private JdbcTemplate jdbcTemplate = null;
 	
 	static String fromRootDir = "/data/report/";
 	static String toDir = "/data/reports/";
@@ -45,16 +65,16 @@ public class TidyFinancialReportTask {
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
-	String isreportexist = "select status from financialreport where filepath=?";
+	String isreportexist = "select reportid from financialreport where filepath=?";
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where reportid=?";
 
 	static String txt = ".txt";
 	static String pdf = ".pdf";
 	String[] FileSuffix = {pdf, txt};
 	
 	public void run() {
-		JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
 		
 		File[] yearDir = new File(fromRootDir).listFiles();
 		for (File dir : yearDir) {
@@ -90,17 +110,16 @@ public class TidyFinancialReportTask {
 						String report_title = reportfile.getName();
 						String stockcode = report_title.split("\\.")[0].split("_")[0];
 						String stockname = null; 
-						byte status = 1;
+						byte status = 0;
 						m = stockcodePattern.matcher(stockcode);
 						if (m != null && m.find()){//例外 异常数据
-							status = 0;
-							try {
-								stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
-							} catch (DataAccessException e) {
-								stockname = null;
+							Stock stock = (Stock) stockDao.select(stockcode);
+							if(stock==null){
 								status = 1;
+								stockname = null; 
 								System.err.println("[EmptyResultDataAccessException] stockcode: "+stockcode+" not exist");
 							}
+							stockname = stock.getStockname();
 						}
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + "."+getExtension(reportfile.getName(),"").toLowerCase();
 						
@@ -142,9 +161,7 @@ public class TidyFinancialReportTask {
 						report.setLmodify(lmodify);
 						report.setFilepath(filepath);
 						report.setStatus(status);
-						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
-						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
-								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
+						financialReportDao.insert(report);
 					}
 				} 
 			}
@@ -172,21 +189,20 @@ public class TidyFinancialReportTask {
 		return (file1.length()>file2.length());
 	}
 	
-	//TODO 
-	public static void cat(String yearDir){
+	public void cat(String yearDir){
 		
 		File[] typeDir = new File(yearDir).listFiles();
-		for (File file : typeDir) {
-			if (file.isDirectory()) {
-				File[] files = file.listFiles();
-				for (File f : files) {
-					System.out.println(f.getPath());
-					String txtfile = getString(f, "GBK");
+		for (File filedir : typeDir) {
+			if (filedir.isDirectory()) {
+				File[] files = filedir.listFiles();
+				for (File reportfile : files) {
+					System.out.println(reportfile.getPath());
+					String txtfile = getString(reportfile, "GBK");
 					Matcher m = yeartypePattern.matcher(txtfile);
 					if (m != null && m.find()) {
 						String year = numberParser(m.group(1));
 						String typestr = m.group(2);
-						int type = -1; // error type
+						byte type = -1; // error type
 						if(typestr.equals("第一季度")){
 							type = 1;
 						} else if (typestr.equals("中期")){
@@ -197,6 +213,22 @@ public class TidyFinancialReportTask {
 							type = 4;
 						}
 						System.out.println(year + " " + type);
+						String path = "/"+ year+"/"+type+"/"+reportfile.getName();
+						File targetfile = new File(toDir, path);
+						
+						FinancialReport report = new FinancialReport();
+						report.setReportid(ServerUtil.getid());
+						report.setType(type);
+						report.setYear(year);
+						report.setLmodify(new Date());
+						report.setFilepath(path);
+						
+						financialReportDao.update(report);
+						try {
+							FileUtils.copyFile(reportfile, targetfile);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -281,8 +313,9 @@ public class TidyFinancialReportTask {
 	}
 	
 	public static void main(String[] args) {
-		TidyFinancialReportTask task = new TidyFinancialReportTask();
+		TidyFinancialReportTask task = (TidyFinancialReportTask) ContextFactory.getBean("tidyFinancialReportTask");
 		task.cat("/data/reports/1990-1995");
+//		task.cat("/data/reports/1995");
 //		System.out.println(task.numberParser(null));
 		//task.run();
 		System.exit(0);
