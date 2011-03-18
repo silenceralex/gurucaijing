@@ -409,7 +409,8 @@ public class PDFReader {
 				System.out.println(args[0]);
 				pdfReader.read(args[0]);
 			}
-			pdfReader.processHistoryPath("/data/shells/log/result1.log");
+//			pdfReader.processHistoryPath("/data/shells/log/result1.log");
+			pdfReader.processHistoryPath("/data/shells/log/2008result.log");
 			System.exit(0);
 			/*
 			//∞≤–≈÷§»Ø
