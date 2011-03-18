@@ -75,27 +75,11 @@ public class TidyFinancialReportTask {
 			if (dir.isDirectory()) {
 				String dirname = dir.getName();
 				System.out.println("> yearDir: " + dirname);
-
-				String year = null;
-				String type = null;
-				byte quarter_type = 0;
-
-				Matcher m = titlePattern.matcher(dirname);
-				if (m != null && m.find()) {
-					/* //test
-					for (int i = 0; i <= m.groupCount(); i++) {
-						System.out.println("group "+i+": "+m.group(i));
-					}*/
-					year = m.group(1);
-					type = m.group(2);
-					if (type.equalsIgnoreCase("zq")) { //半年
-						quarter_type = 2;
-					} else if (type.equalsIgnoreCase("nd")) {//全年
-						quarter_type = 4;
-					} else if (type.equalsIgnoreCase("jb")) {//季度
-						quarter_type = Byte.parseByte(m.group(3).trim()); //1,3
-					}
-				}
+				
+				Object[] data = dirnameParser(dirname);
+				String year = (String) data[0];
+				byte type = (Byte) data[1];
+				
 				File reportDir = new File(dir, "reports");
 				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, FileSuffix);
 				if (reportFiles != null) {
@@ -105,7 +89,7 @@ public class TidyFinancialReportTask {
 						String stockcode = report_title.split("\\.")[0].split("_")[0];
 						String stockname = null; 
 						byte status = 1;
-						m = stockcodePattern.matcher(stockcode);
+						Matcher m = stockcodePattern.matcher(stockcode);
 						if (m != null && m.find()){//例外 异常数据
 							status = 0;
 							try {
@@ -116,7 +100,7 @@ public class TidyFinancialReportTask {
 								System.err.println("[EmptyResultDataAccessException] stockcode: "+stockcode+" not exist");
 							}
 						}
-						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + "."+getExtension(reportfile.getName(),"").toLowerCase();
+						String filepath = "/" + year + "/" + type + "/" + stockcode + "."+getExtension(reportfile.getName(),"").toLowerCase();
 						
 						Date lmodify = new Date();
 						System.out.println("[" + filepath + ", " + stockname +", "+ timeFORMAT.format(lmodify) + "]");
@@ -151,7 +135,7 @@ public class TidyFinancialReportTask {
 						report.setStockcode(stockcode);
 						report.setStockname(stockname);
 						report.setTitle(report_title);
-						report.setType(quarter_type);
+						report.setType(type);
 						report.setYear(year);
 						report.setLmodify(lmodify);
 						report.setFilepath(filepath);
@@ -187,8 +171,8 @@ public class TidyFinancialReportTask {
 	}
 	
 	//TODO 
-	public void cat(String yearDir){
-		
+	public void cat(String yearDir) {
+
 		File[] typeDir = new File(yearDir).listFiles();
 		for (File filedir : typeDir) {
 			if (filedir.isDirectory()) {
@@ -196,43 +180,88 @@ public class TidyFinancialReportTask {
 				for (File reportfile : files) {
 					System.out.println(reportfile.getPath());
 					String txtfile = getString(reportfile, "GBK");
-					Matcher m = yeartypePattern.matcher(txtfile);
-					if (m != null && m.find()) {
-						String year = numberParser(m.group(1));
-						String typestr = m.group(2);
-						byte type = -1; // error type
-						if(typestr.equals("第一季度")){
-							type = 1;
-						} else if (typestr.equals("中期")){
-							type = 2;
-						} else if (typestr.equals("第三季度")){
-							type = 3;
-						} else if (typestr.equals("年度")){
-							type = 4;
-						}
-						System.out.println(year + " " + type);
-						String path = "/"+ year+"/"+type+"/"+reportfile.getName();
-						File targetfile = new File(toDir, path);
-						
-						FinancialReport report = new FinancialReport();
-						report.setReportid(ServerUtil.getid());
-						report.setType(type);
-						report.setYear(year);
-						report.setLmodify(new Date());
-						report.setFilepath(path);
-						
-						jdbcTemplate.update(financialReportUpdate, new Object[]{report.getType(),report.getYear(), 
-								report.getFilepath(),report.getLmodify(),report.getReportid()});
-						try {
-							FileUtils.copyFile(reportfile, targetfile);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					Object[] data = txtTilteParser(txtfile);
+					String year = (String) data[0];
+					byte type = (Byte) data[1];
+
+					String path = "/" + year + "/" + type + "/"	+ reportfile.getName();
+					File targetfile = new File(toDir, path);
+
+					FinancialReport report = new FinancialReport();
+					report.setReportid(ServerUtil.getid());
+					report.setType(type);
+					report.setYear(year);
+					report.setLmodify(new Date());
+					report.setFilepath(path);
+
+//					jdbcTemplate.update(financialReportUpdate, new Object[] { report.getType(), report.getYear(),
+//									report.getFilepath(), report.getLmodify(), report.getReportid() });
+					try {
+						FileUtils.copyFile(reportfile, targetfile);
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			}
 		}
-		
+
+	}
+	
+	/**
+	 * 从目录的名称解析year和type
+	 * @param dirname
+	 * @return data[0]:year data[1]:type
+	 */
+	public static Object[] dirnameParser(String dirname){
+		Object[] data = new Object[2];
+		Matcher m = titlePattern.matcher(dirname);
+		if (m != null && m.find()) {
+			/*for (int i = 0; i <= m.groupCount(); i++) {
+				System.out.println("group "+i+": "+m.group(i));
+			}*/
+			String year = m.group(1);
+			String type = m.group(2);
+			byte quarter_type = -1; // error type
+			if (type.equalsIgnoreCase("zq")) { //半年
+				quarter_type = 2;
+			} else if (type.equalsIgnoreCase("nd")) {//全年
+				quarter_type = 4;
+			} else if (type.equalsIgnoreCase("jb")) {//季度
+				quarter_type = Byte.parseByte(m.group(3).trim()); //1,3
+			}
+			data[0] = year;
+			data[1] = quarter_type;
+			//System.out.println(year + " " + quarter_type);
+		}
+		return data;
+	}
+	
+	/**
+	 * 从研报的正文解析year和type
+	 * @param dirname
+	 * @return data[0]:year data[1]:type
+	 */
+	public static Object[] txtTilteParser(String txtfile){
+		Object[] data = new Object[2];
+		Matcher m = yeartypePattern.matcher(txtfile);
+		if (m != null && m.find()) {
+			String year = yearParser(m.group(1));
+			String typestr = m.group(2);
+			byte quarter_type = -1; // error type
+			if(typestr.equals("第一季度")){
+				quarter_type = 1;
+			} else if (typestr.equals("中期")){
+				quarter_type = 2;
+			} else if (typestr.equals("第三季度")){
+				quarter_type = 3;
+			} else if (typestr.equals("年度")){
+				quarter_type = 4;
+			} 
+			data[0] = year;
+			data[1] = quarter_type;
+			//System.out.println(year + " " + quarter_type);
+		}
+		return data;
 	}
 	
 	/**
@@ -240,7 +269,7 @@ public class TidyFinancialReportTask {
 	 * @param str 
 	 * @return
 	 */
-	public static String numberParser(String str){
+	public static String yearParser(String str){
 		if(str==null){
 			return "";
 		}
@@ -261,6 +290,12 @@ public class TidyFinancialReportTask {
 		return number.toString();
 	}
 	
+	/**
+	 * 获取研报的内容
+	 * @param file
+	 * @param encoding
+	 * @return
+	 */
 	public static String getString(File file, String encoding) {
 		String txtfile = null;
 		if(file.getName().toLowerCase().endsWith(txt)){
