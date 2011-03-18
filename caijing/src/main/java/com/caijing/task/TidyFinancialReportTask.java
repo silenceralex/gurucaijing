@@ -17,17 +17,10 @@ import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
-import com.caijing.dao.FinancialReportDao;
-import com.caijing.dao.ReportDao;
-import com.caijing.dao.StockDao;
 import com.caijing.domain.FinancialReport;
-import com.caijing.domain.Stock;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.ServerUtil;
 
@@ -38,20 +31,19 @@ import com.caijing.util.ServerUtil;
  * $from: /data/report/`report_original_name`.pdf $to: /data/reports/`year`/`type`/`stockcode`.pdf
  * 2. 数据库记录
  */
-@Component("tidyFinancialReportTask")
 public class TidyFinancialReportTask {
 	
-	@Autowired
-	@Qualifier("stockDao")
-	private StockDao stockDao = null;
-	
-	@Autowired
-	@Qualifier("financialReportDao")
-	private FinancialReportDao financialReportDao = null;
-	
-	@Autowired
-	@Qualifier("jdbcTemplate")
-	private JdbcTemplate jdbcTemplate = null;
+//	@Autowired
+//	@Qualifier("stockDao")
+//	private StockDao stockDao = null;
+//	
+//	@Autowired
+//	@Qualifier("financialReportDao")
+//	private FinancialReportDao financialReportDao = null;
+//	
+//	@Autowired
+//	@Qualifier("jdbcTemplate")
+//	private JdbcTemplate jdbcTemplate = null;
 	
 	static String fromRootDir = "/data/report/";
 	static String toDir = "/data/reports/";
@@ -69,6 +61,8 @@ public class TidyFinancialReportTask {
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where reportid=?";
+	
+	JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");;
 
 	static String txt = ".txt";
 	static String pdf = ".pdf";
@@ -110,16 +104,17 @@ public class TidyFinancialReportTask {
 						String report_title = reportfile.getName();
 						String stockcode = report_title.split("\\.")[0].split("_")[0];
 						String stockname = null; 
-						byte status = 0;
+						byte status = 1;
 						m = stockcodePattern.matcher(stockcode);
 						if (m != null && m.find()){//例外 异常数据
-							Stock stock = (Stock) stockDao.select(stockcode);
-							if(stock==null){
+							status = 0;
+							try {
+								stockname = (String) jdbcTemplate.queryForObject(stocknamequery, new Object[]{stockcode}, String.class);
+							} catch (DataAccessException e) {
+								stockname = null;
 								status = 1;
-								stockname = null; 
 								System.err.println("[EmptyResultDataAccessException] stockcode: "+stockcode+" not exist");
 							}
-							stockname = stock.getStockname();
 						}
 						String filepath = "/" + year + "/" + quarter_type + "/" + stockcode + "."+getExtension(reportfile.getName(),"").toLowerCase();
 						
@@ -161,7 +156,9 @@ public class TidyFinancialReportTask {
 						report.setLmodify(lmodify);
 						report.setFilepath(filepath);
 						report.setStatus(status);
-						financialReportDao.insert(report);
+						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
+						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				} 
 			}
@@ -189,6 +186,7 @@ public class TidyFinancialReportTask {
 		return (file1.length()>file2.length());
 	}
 	
+	//TODO 
 	public void cat(String yearDir){
 		
 		File[] typeDir = new File(yearDir).listFiles();
@@ -223,7 +221,8 @@ public class TidyFinancialReportTask {
 						report.setLmodify(new Date());
 						report.setFilepath(path);
 						
-						financialReportDao.update(report);
+						jdbcTemplate.update(financialReportUpdate, new Object[]{report.getType(),report.getYear(), 
+								report.getFilepath(),report.getLmodify(),report.getReportid()});
 						try {
 							FileUtils.copyFile(reportfile, targetfile);
 						} catch (IOException e) {
@@ -313,7 +312,7 @@ public class TidyFinancialReportTask {
 	}
 	
 	public static void main(String[] args) {
-		TidyFinancialReportTask task = (TidyFinancialReportTask) ContextFactory.getBean("tidyFinancialReportTask");
+		TidyFinancialReportTask task = new TidyFinancialReportTask();
 		task.cat("/data/reports/1990-1995");
 //		task.cat("/data/reports/1995");
 //		System.out.println(task.numberParser(null));
