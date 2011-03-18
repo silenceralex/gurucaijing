@@ -62,7 +62,7 @@ public class TidyFinancialReportTask {
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where reportid=?";
 	
-	JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");;
+	JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
 
 	static String txt = ".txt";
 	static String pdf = ".pdf";
