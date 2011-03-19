@@ -79,6 +79,7 @@ public class StockReloader {
 
 	public void reloadAnayzerIndustry() {
 		List<Analyzer> analyzers = analyzerDao.getUnStarAnalyzers();
+		System.out.println("analyzers£∫" + analyzers.size());
 		//			analyzerDao.getAnalyzersByAgency("∞≤–≈÷§»Ø");
 		for (Analyzer analyzer : analyzers) {
 			if (analyzer.getIndustry() == null || analyzer.getIndustry().trim().length() == 0) {
@@ -88,8 +89,10 @@ public class StockReloader {
 				Stock stock = (Stock) stockDao.select(recommends.get(0).getStockcode());
 				analyzer.setIndustry(stock.getIndustry());
 				analyzerDao.update(analyzer);
+				System.out.println("set analyzer£∫" + analyzer.getName() + "  industry:" + stock.getIndustry());
 			}
 		}
+		System.out.println("set all analyzer industry over!");
 	}
 
 	public static void main(String[] args) {
