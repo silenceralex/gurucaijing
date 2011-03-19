@@ -99,11 +99,12 @@ public class HistoryHandler {
 	//"国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合", "光大证券",
 	//	"中投证券", "中信建投", "申银万国", "中金公司","海通证券","东方证券" ,"银河证券","宏源证券"
 
-	private static String[] agencys = { "中金公司", "海通证券", "东方证券", "银河证券", "宏源证券" };
+	private static String[] agencys = { "申银万国", "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合",
+			"光大证券", "中投证券", "中信建投" };
 
 	//TODO 异常的处理
 	public void dealOneAnalyzer(Analyzer analyzer) {
-		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 500);
+		List<RecommendStock> rstocks = recommendStockDao.getRecommendStocksByAnalyzerASC(analyzer.getName(), 0, 1000);
 		System.out.println("analyzer getName : " + analyzer.getName());
 		System.out.println("rstocks size : " + rstocks.size());
 		//去重,防止同一天的推荐数据入库

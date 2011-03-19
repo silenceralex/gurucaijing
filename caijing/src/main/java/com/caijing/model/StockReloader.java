@@ -78,7 +78,8 @@ public class StockReloader {
 	}
 
 	public void reloadAnayzerIndustry() {
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByAgency("安信证券");
+		List<Analyzer> analyzers = analyzerDao.getUnStarAnalyzers();
+		//			analyzerDao.getAnalyzersByAgency("安信证券");
 		for (Analyzer analyzer : analyzers) {
 			if (analyzer.getIndustry() == null || analyzer.getIndustry().trim().length() == 0) {
 				List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
