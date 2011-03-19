@@ -497,8 +497,15 @@ public class AnalyzerFlusher {
 				idSet.add(analyzer.getAid());
 			}
 		}
-		//刷新哪些有成功率的分析师
-		analyzerList = analyzerDao.getSuccessRankedAnalyzers();
+		//		//刷新哪些有成功率的分析师
+		//		analyzerList = analyzerDao.getSuccessRankedAnalyzers();
+		//		for (Analyzer analyzer : analyzerList) {
+		//			if (!idSet.contains(analyzer.getAid())) {
+		//				flushAnalyzer(analyzer);
+		//				idSet.add(analyzer.getAid());
+		//			}
+		//		}
+		analyzerList = analyzerDao.getAllAnalyzers();
 		for (Analyzer analyzer : analyzerList) {
 			if (!idSet.contains(analyzer.getAid())) {
 				flushAnalyzer(analyzer);
