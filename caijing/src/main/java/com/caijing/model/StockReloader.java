@@ -105,5 +105,6 @@ public class StockReloader {
 		reloader.setRecommendSuccessDao(recommendSuccessDao);
 		//		reloader.reload();
 		reloader.reloadAnayzerIndustry();
+		System.exit(0);
 	}
 }
