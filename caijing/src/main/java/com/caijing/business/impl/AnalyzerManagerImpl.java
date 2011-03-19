@@ -2,7 +2,6 @@ package com.caijing.business.impl;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -42,8 +41,6 @@ public class AnalyzerManagerImpl implements AnalyzerManager {
 		this.recommendSuccessDao = recommendSuccessDao;
 	}
 
-	private HashMap<String, Analyzer> analyzerMap = new HashMap<String, Analyzer>();
-
 	public AnalyzerDao getAnalyzerDao() {
 		return analyzerDao;
 	}
@@ -58,13 +55,6 @@ public class AnalyzerManagerImpl implements AnalyzerManager {
 
 	public void setRecommendStockDao(RecommendStockDao recommendStockDao) {
 		this.recommendStockDao = recommendStockDao;
-	}
-
-	public void afterPropertiesSet() throws Exception {
-		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
-		for (Analyzer analyzer : analyzers) {
-			analyzerMap.put(analyzer.getName(), analyzer);
-		}
 	}
 
 	@Override

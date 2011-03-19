@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
-import com.caijing.business.AnalyzerManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.AnalyzerSuccessDao;
 import com.caijing.dao.GroupStockDao;
@@ -28,7 +27,7 @@ public class RecommendSuccessRatio {
 
 	private AnalyzerSuccessDao analyzerSuccessDao = null;
 
-	public static String[] years = { "2009", "2010", "2011" };
+	public static String[] years = { "2008", "2009", "2010", "2011" };
 
 	public AnalyzerSuccessDao getAnalyzerSuccessDao() {
 		return analyzerSuccessDao;
@@ -254,15 +253,20 @@ public class RecommendSuccessRatio {
 		//		float f = ratio.getSuccessRatio("6NMO0U38");
 		//		System.out.println("analyzer:" + "杨建海" + "  Success recommend ratio:" + f + "%");
 
-		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
-		analyzerManager.handleHistoryRecommendBySA("申银万国");
-		analyzerManager.handleHistoryRecommendBySA("招商证券");
-		analyzerManager.handleHistoryRecommendBySA("国泰君安");
-		analyzerManager.handleHistoryRecommendBySA("广发证券");
-		ratio.handleHistorySuccessBySA("申银万国");
-		ratio.handleHistorySuccessBySA("招商证券");
-		ratio.handleHistorySuccessBySA("国泰君安");
-		ratio.handleHistorySuccessBySA("广发证券");
+		//		AnalyzerManager analyzerManager = (AnalyzerManager) context.getBean("analyzerManager");
+		//		analyzerManager.handleHistoryRecommendBySA("申银万国");
+		//		analyzerManager.handleHistoryRecommendBySA("招商证券");
+		//		analyzerManager.handleHistoryRecommendBySA("国泰君安");
+		//		analyzerManager.handleHistoryRecommendBySA("广发证券");
+		//		ratio.handleHistorySuccessBySA("申银万国");
+		//		ratio.handleHistorySuccessBySA("招商证券");
+		//		ratio.handleHistorySuccessBySA("国泰君安");
+		//		ratio.handleHistorySuccessBySA("广发证券");
+		//处理所有分析师2008年度的成功率
+		List<Analyzer> analyzers = analyzerDao.getAllAnalyzers();
+		for (Analyzer analyzer : analyzers) {
+			ratio.handlerOneAnalyzerYearSuccess(analyzer, "2008");
+		}
 		//		ratio.handleHistorySuccess();
 		//		String anames = "童驯 罗鶄 任琳娜 詹凌燕 张仲杰 高源 谭志勇 陶学明 徐胜利 柳世庆 李孔逸 石磊 郑治国 周小波 励雅敏 张龙 黄文戈 陈亮";
 		//		String[] names = anames.split(" ");

@@ -712,7 +712,6 @@ public class AnalyzerFlusher {
 		//		Date outtime = groupStockDao.getNearestOutTimeByGroupid("6O3M6IMM");
 		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
 		flusher.flushAllStarGuruDetail();
-
 		flusher.flushAnalyzerRank();
 
 		System.exit(0);
