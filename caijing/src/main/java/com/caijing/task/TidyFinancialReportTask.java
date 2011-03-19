@@ -57,10 +57,10 @@ public class TidyFinancialReportTask {
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
-	String isreportexist = "select reportid from financialreport where filepath=?";
+//	String isreportexist = "select reportid from financialreport where filepath=?";
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where reportid=?";
+	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where filepath=?";
 	
 	JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
 
@@ -194,8 +194,8 @@ public class TidyFinancialReportTask {
 					report.setLmodify(new Date());
 					report.setFilepath(path);
 
-//					jdbcTemplate.update(financialReportUpdate, new Object[] { report.getType(), report.getYear(),
-//									report.getFilepath(), report.getLmodify(), report.getReportid() });
+					jdbcTemplate.update(financialReportUpdate, new Object[] { report.getType(), report.getYear(),
+									report.getFilepath(), report.getLmodify(), reportfile.getPath().replace(toDir, "/") });
 					try {
 						FileUtils.copyFile(reportfile, targetfile);
 					} catch (IOException e) {
