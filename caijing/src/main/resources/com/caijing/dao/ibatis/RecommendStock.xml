@@ -306,4 +306,8 @@
 		rs.user=#aid# and rs.reportid=r.rid order by rs.createdate desc limit
 		#length#
 	</select>
+	
+	<select id="getNonameStocks" resultClass="RecommendStock">
+		select * from recommendstock where stockcode is not null and stockname is null;
+	</select>
 </sqlMap>

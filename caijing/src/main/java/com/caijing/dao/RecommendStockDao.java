@@ -131,4 +131,9 @@ public interface RecommendStockDao extends CrudDao {
 	public void updateObjectPriceByReportid(String id, float objectprice);
 
 	public List<RecommendStock> getStocksByAidAndStock(String aid, String stockcode, int length);
+
+	/**
+	 * 获取没有股票名称的RecommendStock
+	 */
+	public List<RecommendStock> getNonameStocks();
 }

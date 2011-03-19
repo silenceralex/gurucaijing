@@ -294,4 +294,9 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 				this.getNameSpace() + ".getStocksByAidAndStock", params);
 	}
 
+	@Override
+	public List<RecommendStock> getNonameStocks() {
+		return (List<RecommendStock>) getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getNonameStocks");
+	}
+
 }
