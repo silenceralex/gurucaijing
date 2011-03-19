@@ -696,6 +696,7 @@ public class AnalyzerFlusher {
 		flusher.setRecommendSuccessDao(recommendSuccessDao);
 		flusher.setReportDao(reportDao);
 		flusher.setRecommendStockDao(recommendStockDao);
+		flusher.flushHistorySuccessRank("2008");
 		flusher.flushHistorySuccessRank("2009");
 		flusher.flushHistorySuccessRank("2010");
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
@@ -711,10 +712,6 @@ public class AnalyzerFlusher {
 		//		Date outtime = groupStockDao.getNearestOutTimeByGroupid("6O3M6IMM");
 		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
 		flusher.flushAllStarGuruDetail();
-
-		//		flusher.flushAnalyzerRankCountByMonth(-1);
-		//		flusher.flushAnalyzerRankCountByMonth(-3);
-		//		flusher.flushAnalyzerRankCountByMonth(-6);
 
 		flusher.flushAnalyzerRank();
 
