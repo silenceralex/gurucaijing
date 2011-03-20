@@ -64,4 +64,25 @@ public class AnalyzerDaoImpl extends CrudDaoDefault implements AnalyzerDao {
 	public List<Analyzer> getUnStarAnalyzers() {
 		return (List<Analyzer>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getUnStarAnalyzers");
 	}
+
+	@Override
+	public List<String> getAllIndustry() {
+		return (List<String>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getAllIndustry");
+	}
+
+	@Override
+	public List<Analyzer> getAnalyzersByIndustry(String industry, int start, int length) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("industry", industry);
+		params.put("length", length);
+		params.put("start", start);
+		return (List<Analyzer>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getAnalyzersByIndustry",
+				params);
+	}
+
+	@Override
+	public int getAnalyzersCountByIndustry(String industry) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getAnalyzersCountByIndustry",
+				industry);
+	}
 }

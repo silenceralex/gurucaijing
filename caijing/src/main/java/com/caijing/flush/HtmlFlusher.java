@@ -1219,6 +1219,21 @@ public class HtmlFlusher {
 		}
 	}
 
+	public void flushIndustryList() {
+		List<String> industryList = analyzerDao.getAllIndustry();
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.put("industryList", industryList);
+			vmf.setTemplate("/template/industryList.htm");
+			vmf.save(ADMINDIR + "industry" + ".html");
+			System.out.println("write page : " + ADMINDIR + "industry" + ".html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating flushIndustryList --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		HtmlFlusher flusher = (HtmlFlusher) ContextFactory.getBean("htmlFlush");
 		//		flusher.flushFinancialReportLab();
@@ -1260,17 +1275,18 @@ public class HtmlFlusher {
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-		flusher.flushIndex();
+		//		flusher.flushIndex();
 		//		flusher.flushNotice();
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
 		//		flusher.flushNoticeRank(2);
 		//		flusher.flushFinancialReportLab();
-		flusher.flushSuccessRank();
+		//		flusher.flushSuccessRank();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
 		//		flusher.flushArticleList(3);
+		flusher.flushIndustryList();
 		System.exit(0);
 	}
 

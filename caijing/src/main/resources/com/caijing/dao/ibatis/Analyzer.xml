@@ -98,5 +98,17 @@
 	<select id="getAnalyzersAfter" resultClass="Analyzer">
 		select * from analyzer where ptime>#value#
 	</select>
+	
+	<select id="getAllIndustry" resultClass="java.lang.String">
+		select distinct(industry) from analyzer
+	</select>
+	
+	<select id="getAnalyzersCountByIndustry"  parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select * from analyzer where industry=#value#
+	</select>
+	
+	<select id="getAnalyzersByIndustry" parameterClass="java.util.Map" resultClass="Analyzer">
+		select * from analyzer where industry=#industry# order by level desc limit #start#,#length#
+	</select>
 		
 </sqlMap>

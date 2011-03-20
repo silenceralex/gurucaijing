@@ -26,4 +26,10 @@ public interface AnalyzerDao extends CrudDao {
 
 	//获取非明星分析师，level=0
 	public List<Analyzer> getUnStarAnalyzers();
+
+	public List<String> getAllIndustry();
+
+	public List<Analyzer> getAnalyzersByIndustry(String industry, int start, int length);
+
+	public int getAnalyzersCountByIndustry(String industry);
 }
