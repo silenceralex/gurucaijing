@@ -104,7 +104,7 @@
 	</select>
 	
 	<select id="getAnalyzersCountByIndustry"  parameterClass="java.lang.String" resultClass="java.lang.Integer">
-		select * from analyzer where industry=#value#
+		select count(1) from analyzer where industry=#value#
 	</select>
 	
 	<select id="getAnalyzersByIndustry" parameterClass="java.util.Map" resultClass="Analyzer">
