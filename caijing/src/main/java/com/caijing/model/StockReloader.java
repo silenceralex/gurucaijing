@@ -1,7 +1,6 @@
 package com.caijing.model;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -12,7 +11,6 @@ import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.RecommendStock;
-import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Stock;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.UrlDownload;
@@ -23,6 +21,15 @@ public class StockReloader {
 
 	private AnalyzerDao analyzerDao = null;
 	private RecommendSuccessDao recommendSuccessDao = null;
+	private RecommendStockDao recommendStockDao = null;
+
+	public RecommendStockDao getRecommendStockDao() {
+		return recommendStockDao;
+	}
+
+	public void setRecommendStockDao(RecommendStockDao recommendStockDao) {
+		this.recommendStockDao = recommendStockDao;
+	}
 
 	public RecommendSuccessDao getRecommendSuccessDao() {
 		return recommendSuccessDao;
@@ -86,7 +93,9 @@ public class StockReloader {
 		//			analyzerDao.getAnalyzersByAgency("安信证券");
 		for (Analyzer analyzer : analyzers) {
 			if (analyzer.getIndustry() == null || analyzer.getIndustry().trim().length() == 0) {
-				List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+				//				List<RecommendSuccess> recommends = recommendSuccessDao.getRecommendsByAid(analyzer.getAid());
+				List<RecommendStock> recommends = recommendStockDao.getRecommendStocksByAnalyzer(analyzer.getName(), 0,
+						1);
 				if (recommends == null || recommends.size() == 0)
 					continue;
 				Stock stock = (Stock) stockDao.select(recommends.get(0).getStockcode());
@@ -101,31 +110,33 @@ public class StockReloader {
 	public static void main(String[] args) {
 		StockDao stockDao = (StockDao) ContextFactory.getBean("stockDao");
 		AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
+		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 		RecommendSuccessDao recommendSuccessDao = (RecommendSuccessDao) ContextFactory.getBean("recommendSuccessDao");
 		StockReloader reloader = new StockReloader();
 		reloader.setStockDao(stockDao);
 		reloader.setAnalyzerDao(analyzerDao);
 		reloader.setRecommendSuccessDao(recommendSuccessDao);
+		reloader.setRecommendStockDao(recommendStockDao);
 		//		reloader.reload();
-		//		reloader.reloadAnayzerIndustry();
+		reloader.reloadAnayzerIndustry();
 
 		//处理所有recommendstock中没有stockname的情况
-		HashMap<String, String> stockmap = new HashMap<String, String>();
-		List<Stock> list = stockDao.getAllStock();
-		for (Stock stock : list) {
-			if (!stockmap.containsKey(stock.getStockcode())) {
-				stockmap.put(stock.getStockcode(), stock.getStockname());
-			}
-		}
-		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
-		List<RecommendStock> stocks = recommendStockDao.getNonameStocks();
-		for (RecommendStock stock : stocks) {
-			String stockname = stockmap.get(stock.getStockcode());
-			if (stockname != null) {
-				stock.setStockname(stockname);
-				recommendStockDao.update(stock);
-			}
-		}
+		//		HashMap<String, String> stockmap = new HashMap<String, String>();
+		//		List<Stock> list = stockDao.getAllStock();
+		//		for (Stock stock : list) {
+		//			if (!stockmap.containsKey(stock.getStockcode())) {
+		//				stockmap.put(stock.getStockcode(), stock.getStockname());
+		//			}
+		//		}
+		//		RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
+		//		List<RecommendStock> stocks = recommendStockDao.getNonameStocks();
+		//		for (RecommendStock stock : stocks) {
+		//			String stockname = stockmap.get(stock.getStockcode());
+		//			if (stockname != null) {
+		//				stock.setStockname(stockname);
+		//				recommendStockDao.update(stock);
+		//			}
+		//		}
 		System.exit(0);
 	}
 }
