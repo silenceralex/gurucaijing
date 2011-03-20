@@ -170,6 +170,10 @@ public class AnalyzerFlusher {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		//没有任何推荐的分析师跳出
+		if (startDate == null) {
+			return;
+		}
 		int startYear = Integer.parseInt(DateTools.getYear(startDate));
 		int currYear = Integer.parseInt(DateTools.getYear(new Date()));
 		//分析师当前组合为空的状况
