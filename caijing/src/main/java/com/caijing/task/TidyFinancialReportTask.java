@@ -52,15 +52,15 @@ public class TidyFinancialReportTask {
 	static Pattern titlePattern = Pattern.compile("([0-9-]{4,9})(jb|nd|zq)_?(\\d{1})?", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 			| Pattern.UNIX_LINES); //nj 年鉴
 	static Pattern chinesePattern=Pattern.compile("[\u4e00-\u9fa5]+", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	static Pattern yeartypePattern=Pattern.compile("([\\d]{4}|[零一二三四五六七八九]{4}|[０１２３４５６７８９]{4})年?(第一季度|中期|第三季度|年度)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+	static Pattern yeartypePattern=Pattern.compile("([\\d]{4}|[零一二三四五六七八九]{4}|[０１２３４５６７８９]{4})年?度?(第一季度|中期|第三季度|年度)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	final SimpleDateFormat timeFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	String stocknamequery = "select stockname from stock where stockcode=?";
-//	String isreportexist = "select reportid from financialreport where filepath=?";
+	String isreportexist = "select reportid from financialreport where filepath=?";
 	String financialReportInsert = "insert into financialreport (reportid, title, type, year, stockcode, stockname, filepath, lmodify, status) " +
 			"values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where filepath=?";
+	String financialReportUpdate = "update financialreport set type=?, year=?, filepath=?, lmodify=? where reportid=?";
 	
 	JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextFactory.getBean("jdbcTemplate");
 
@@ -69,7 +69,7 @@ public class TidyFinancialReportTask {
 	String[] FileSuffix = {pdf, txt};
 	
 	public void run() {
-		
+		int count =0;
 		File[] yearDir = new File(fromRootDir).listFiles();
 		for (File dir : yearDir) {
 			if (dir.isDirectory()) {
@@ -77,14 +77,34 @@ public class TidyFinancialReportTask {
 				System.out.println("> yearDir: " + dirname);
 				
 				Object[] data = dirnameParser(dirname);
+				if(data[0]==null&&data[1]==null){ //跳过nj年鉴的处理
+					continue;
+				}
 				String year = (String) data[0];
-				byte type = (Byte) data[1];
+				Byte type = (Byte) data[1];
 				
 				File reportDir = new File(dir, "reports");
 				File[] reportFiles = TidyFinancialReportTask.listFileBySuffix(reportDir, FileSuffix);
 				if (reportFiles != null) {
 					for (File reportfile : reportFiles) {
 						System.out.println("==> report: " + reportfile.getPath());
+						if(reportfile.getName().toLowerCase().contains("index")){//跳过index文件的处理
+							continue;
+						}
+						
+						if(dirname.contains("1990-1995")){//对1990-1995特殊分类处理
+							Object[] _data = txtTilteParser(getString(reportfile, "GBK"));
+							year = (String) _data[0];
+							type = (Byte) _data[1];
+							if(year==null && type==null){
+								count++;
+								continue;
+							}
+						} else {
+							year = (String) data[0];
+							type = (Byte) data[1];
+						}
+						
 						String report_title = reportfile.getName();
 						String stockcode = report_title.split("\\.")[0].split("_")[0];
 						String stockname = null; 
@@ -103,7 +123,7 @@ public class TidyFinancialReportTask {
 						String filepath = "/" + year + "/" + type + "/" + stockcode + "."+getExtension(reportfile.getName(),"").toLowerCase();
 						
 						Date lmodify = new Date();
-						System.out.println("[" + filepath + ", " + stockname +", "+ timeFORMAT.format(lmodify) + "]");
+						System.out.println("[" + filepath + ", " + stockname +", "+ year + ", "+ status+ "]");
 						
 						//cp report
 						try {
@@ -141,12 +161,13 @@ public class TidyFinancialReportTask {
 						report.setFilepath(filepath);
 						report.setStatus(status);
 						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
-						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
-								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
+//						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+//								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				} 
 			}
 		}
+		System.out.println(count);
 	}
 
 	public static File[] listFileBySuffix(File dir, String[] suffix) {
@@ -194,8 +215,8 @@ public class TidyFinancialReportTask {
 					report.setLmodify(new Date());
 					report.setFilepath(path);
 
-					jdbcTemplate.update(financialReportUpdate, new Object[] { report.getType(), report.getYear(),
-									report.getFilepath(), report.getLmodify(), reportfile.getPath().replace(toDir, "/") });
+//					jdbcTemplate.update(financialReportUpdate, new Object[] { report.getType(), report.getYear(),
+//									report.getFilepath(), report.getLmodify(), report.getReportid() });
 					try {
 						FileUtils.copyFile(reportfile, targetfile);
 					} catch (IOException e) {
@@ -250,7 +271,7 @@ public class TidyFinancialReportTask {
 			byte quarter_type = -1; // error type
 			if(typestr.equals("第一季度")){
 				quarter_type = 1;
-			} else if (typestr.equals("中期")){
+			} else if (typestr.equals("中期")||typestr.equals("年度中期")){
 				quarter_type = 2;
 			} else if (typestr.equals("第三季度")){
 				quarter_type = 3;
@@ -348,10 +369,10 @@ public class TidyFinancialReportTask {
 	
 	public static void main(String[] args) {
 		TidyFinancialReportTask task = new TidyFinancialReportTask();
-		task.cat("/data/reports/1990-1995");
+//		task.cat("/data/reports/1990-1995");
 //		task.cat("/data/reports/1995");
 //		System.out.println(task.numberParser(null));
-		//task.run();
+		task.run();
 		System.exit(0);
 	}
 
