@@ -161,8 +161,8 @@ public class TidyFinancialReportTask {
 						report.setFilepath(filepath);
 						report.setStatus(status);
 						//reportid, title, type, year, stockcode, stockname, filepath, lmodify, status
-//						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
-//								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
+						jdbcTemplate.update(financialReportInsert, new Object[]{report.getReportid(),report.getTitle(),report.getType(),report.getYear(),
+								report.getStockcode(),report.getStockname(),report.getFilepath(),report.getLmodify(),report.getStatus()});
 					}
 				} 
 			}
