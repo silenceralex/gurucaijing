@@ -56,7 +56,7 @@ public class HtmlFlusher {
 	public static String MasterDIR = "/home/html/master/";
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
-	private static int STARTYEAR = 1996;
+	private static int STARTYEAR = 1990;
 	private static int ENDYEAR = 2010;
 
 	@Autowired
@@ -1280,7 +1280,7 @@ public class HtmlFlusher {
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
 		//		flusher.flushNoticeRank(2);
-		//		flusher.flushFinancialReportLab();
+				flusher.flushFinancialReportLab();
 		//		flusher.flushSuccessRank();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);
