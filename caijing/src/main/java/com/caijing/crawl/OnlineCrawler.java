@@ -60,9 +60,11 @@ public class OnlineCrawler {
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	// TODO 获取直播时的解析内容   <div class="qzL2"> 09:38:19  今日的压力带依旧是在2740--2760之间</div>
-	private static Pattern contentPattern = Pattern.compile(
-			"<div class=\"qzL2\">\\s+([0-9]{2}:[0-9]{2}:[0-9]{2})\\s+(.*?)</div>", Pattern.CASE_INSENSITIVE
-					| Pattern.DOTALL | Pattern.UNIX_LINES);
+	//<div class=zbs_zb><div class=zbs_time>13:47:47</div><div class=zbs_con>我们在2856（实际是2850）以及2885的时候计划是等小时级别5个浪完成后才高抛做差价。现在正运行小时级别4浪调整，所以熬过去。不理会短期调整</div>
+	private static Pattern contentPattern = Pattern
+			.compile(
+					"<div class=zbs_zb><div class=zbs_time>([0-9]{2}:[0-9]{2}:[0-9]{2})</div><div class=zbs_con>(.*?)</div></div>",
+					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static String LOGPATH = "/home/app/crawlog/";
 	private static final String COOKIE = "__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1100; g7F_cookietime=86400; g7F_visitedfid=27; smile=1D1; __utma=105107665.1699322037.1295749815.1295749815.1295749815.1; __utmz=105107665.1295749816.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1295749815844; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=1967D734C104ABF31D2D3D884862D06A; cookie[passport][logtime]=1298341899; cookie[passport][keystr]=EC249A80CDE48A2224CA9CD150AB1A74; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=1; cookie[passport][mailnum]=2;";
@@ -167,7 +169,7 @@ public class OnlineCrawler {
 			// String content = EntityUtils.toString(response.getEntity(),
 			// "utf-8");
 			String content = EntityUtils.toString(gentity, "GB2312");
-//			System.out.println("content:" + content);
+			//			System.out.println("content:" + content);
 			Matcher m = keyPattern.matcher(content);
 			if (m != null && m.find()) {
 				String curdstr = m.group(1);
