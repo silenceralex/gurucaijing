@@ -93,8 +93,8 @@ public class OnlineCrawler {
 		data.add(new BasicNameValuePair("clubid", "" + masterid));
 		data.add(new BasicNameValuePair("displayNum", "" + startnum));
 		data.add(new BasicNameValuePair("uid", "3929853"));
-		data.add(new BasicNameValuePair("key", key));
-		data.add(new BasicNameValuePair("d_str", d_str));
+		data.add(new BasicNameValuePair("k", key));
+		data.add(new BasicNameValuePair("c", d_str));
 
 		post.setHeader("Host", "online.g.cnfol.com");
 		post.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -167,7 +167,7 @@ public class OnlineCrawler {
 			// String content = EntityUtils.toString(response.getEntity(),
 			// "utf-8");
 			String content = EntityUtils.toString(gentity, "GB2312");
-			//			System.out.println("content:" + content);
+//			System.out.println("content:" + content);
 			Matcher m = keyPattern.matcher(content);
 			if (m != null && m.find()) {
 				String curdstr = m.group(1);
