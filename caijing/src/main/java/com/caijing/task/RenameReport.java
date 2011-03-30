@@ -42,7 +42,7 @@ public class RenameReport {
 		
 		POIExcelUtil poi = new POIExcelUtil();
 		for (File excel : excels) {
-			String prefix = reportDirPath+excel.getName().split("\\.")[0]+"/";
+			String prefix = reportDirPath+excel.getName().split("\\.")[0].split("-")+"/";
 			List<ArrayList<String>> data = poi.read(excel.getPath());
 			for (ArrayList<String> row : data) {
 				System.out.println("row : " + row);
