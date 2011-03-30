@@ -162,7 +162,7 @@
                         </div>
                         <ul>
                             #foreach ($one in $analyzerList)
-                                <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.getWeight())}%</span></li>
+                                <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.weight)}%</span></li>
                             <!--   <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">#set ($ratio = $one.getWeight() - 100)${floatUtil.getTwoDecimalNumber(${ratio})}%</span></li>--> 
                             #end
                         </ul>

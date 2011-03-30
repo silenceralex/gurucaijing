@@ -899,6 +899,7 @@ public class HtmlFlusher {
 			jsonConfig.setIgnoreDefaultExcludes(false);
 			System.out.println("analyzerjson:" + analyzerjson);
 			List<Analyzer> analyzerList = JSONArray.toList(jsonArray, jsonConfig);
+			System.out.println("analyzerList.get(0).getWeight():" + analyzerList.get(0).getWeight());
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getABSArticlesByType(0, 0, 6);
