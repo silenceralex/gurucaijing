@@ -12,7 +12,6 @@ import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -134,6 +133,7 @@ public class POIExcelUtil {
 					continue;
 				}
 
+				//FIXME 不自动去零
 				/** 处理数字型的,自动去零 */
 				if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
 
