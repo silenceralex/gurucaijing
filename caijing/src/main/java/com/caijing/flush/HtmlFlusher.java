@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JsonConfig;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -893,13 +892,13 @@ public class HtmlFlusher {
 			File file = new File(AnalyzerFlusher.TOP10);
 			String analyzerjson = FileUtils.readFileToString(file);
 			JSONArray jsonArray = JSONArray.fromObject(analyzerjson);
-			JsonConfig jsonConfig = new JsonConfig();
-			jsonConfig.setExcludes(new String[] { "level", "status", "info", "ptime", "lmodify", "image_url",
-					"position", "successratio" });
-			jsonConfig.setIgnoreDefaultExcludes(false);
+			//			JsonConfig jsonConfig = new JsonConfig();
+			//			jsonConfig.setExcludes(new String[] { "level", "status", "info", "ptime", "lmodify", "image_url",
+			//					"position", "successratio" });
+			//			jsonConfig.setIgnoreDefaultExcludes(false);
 			System.out.println("analyzerjson:" + analyzerjson);
-			List<Analyzer> analyzerList = JSONArray.toList(jsonArray, jsonConfig);
-			System.out.println("analyzerList.get(0).getWeight():" + analyzerList.get(0).getWeight());
+			List<Analyzer> analyzerList = JSONArray.toList(jsonArray, Analyzer.class);
+			//			System.out.println("analyzerList.get(0).getWeight():" + analyzerList.get(0).getWeight());
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getABSArticlesByType(0, 0, 6);
