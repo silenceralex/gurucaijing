@@ -33,8 +33,6 @@ import org.apache.http.util.EntityUtils;
 
 import com.caijing.dao.MasterMessageDao;
 import com.caijing.domain.MasterMessage;
-import com.caijing.util.ContextFactory;
-import com.caijing.util.DateTools;
 import com.caijing.util.FileUtil;
 import com.caijing.util.ServerUtil;
 
@@ -56,7 +54,7 @@ public class OnlineCrawler {
 	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
-	private static Pattern keyPattern = Pattern.compile("callGetInfoService\\('\\d+','3929853','(.*?)','(.*?)'\\)",
+	private static Pattern keyPattern = Pattern.compile("callGetInfoService\\('\\d+','[0-9]+','(.*?)','(.*?)'\\)",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	// TODO 获取直播时的解析内容   <div class="qzL2"> 09:38:19  今日的压力带依旧是在2740--2760之间</div>
@@ -67,7 +65,8 @@ public class OnlineCrawler {
 					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static String LOGPATH = "/home/app/crawlog/";
-	private static final String COOKIE = "__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1100; g7F_cookietime=86400; g7F_visitedfid=27; smile=1D1; __utma=105107665.1699322037.1295749815.1295749815.1295749815.1; __utmz=105107665.1295749816.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1295749815844; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=1967D734C104ABF31D2D3D884862D06A; cookie[passport][logtime]=1298341899; cookie[passport][keystr]=EC249A80CDE48A2224CA9CD150AB1A74; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=1; cookie[passport][mailnum]=2;";
+
+	//	private static final String COOKIE = "__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1100; g7F_cookietime=86400; g7F_visitedfid=27; smile=1D1; __utma=105107665.1699322037.1295749815.1295749815.1295749815.1; __utmz=105107665.1295749816.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1295749815844; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=1967D734C104ABF31D2D3D884862D06A; cookie[passport][logtime]=1298341899; cookie[passport][keystr]=EC249A80CDE48A2224CA9CD150AB1A74; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=1; cookie[passport][mailnum]=2;";
 
 	public void init() {
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
@@ -89,12 +88,12 @@ public class OnlineCrawler {
 		httpClient = new DefaultHttpClient(cm, params);
 	}
 
-	public boolean getZhibo(int masterid, int startnum, String key, String d_str) {
+	public boolean getZhibo(int masterid, int startnum, String uid, String cookie, String key, String d_str) {
 		HttpPost post = new HttpPost("http://online.g.cnfol.com/getinfo.html");
 		List<BasicNameValuePair> data = new ArrayList<BasicNameValuePair>();
 		data.add(new BasicNameValuePair("clubid", "" + masterid));
 		data.add(new BasicNameValuePair("displayNum", "" + startnum));
-		data.add(new BasicNameValuePair("uid", "3929853"));
+		data.add(new BasicNameValuePair("uid", uid));
 		data.add(new BasicNameValuePair("k", key));
 		data.add(new BasicNameValuePair("c", d_str));
 
@@ -109,7 +108,7 @@ public class OnlineCrawler {
 		post.setHeader("Accept-Encoding", "gzip,deflate");
 		post.setHeader("Content-type", "application/x-www-form-urlencoded");
 		post.setHeader("Referer", "http://online.g.cnfol.com/" + masterid + ",display");
-		post.setHeader("Cookie", COOKIE);
+		post.setHeader("Cookie", cookie);
 		try {
 			post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 			HttpResponse response = httpClient.execute(post);
@@ -117,8 +116,8 @@ public class OnlineCrawler {
 
 			String content = EntityUtils.toString(gentity, "GB2312");
 			System.out.println("HTML: " + content);
-			String log = DateTools.transformDateDetail(new Date()) + "  Html: " + content + "\r\n";
-			FileUtil.appendWrite(LOGPATH + masterid + ".html", log, "GB2312");
+			//			String log = DateTools.transformDateDetail(new Date()) + "  Html: " + content + "\r\n";
+			//			FileUtil.appendWrite(LOGPATH + masterid + ".html", log, "GB2312");
 			String curnum = content.substring(0, content.indexOf(","));
 			System.out.println("curnum: " + curnum);
 			Matcher m = contentPattern.matcher(content);
@@ -136,8 +135,9 @@ public class OnlineCrawler {
 				mm.setMasterid(masterid);
 				if (masterMessageDao == null) {
 					System.out.println("masterMessageDao is null! ");
+				} else {
+					masterMessageDao.insert(mm);
 				}
-				masterMessageDao.insert(mm);
 			}
 			return true;
 		} catch (ClientProtocolException e) {
@@ -149,7 +149,7 @@ public class OnlineCrawler {
 		}
 	}
 
-	public void crawler(int masterid, int startnum, String dstr, String key, String refer) {
+	public void crawler(int masterid, int startnum, String uid, String cookie, String dstr, String key, String refer) {
 		HttpGet get = new HttpGet("http://vip.g.cnfol.com/" + masterid + ",display");
 		// HttpGet get = new HttpGet(str3);
 		//		get.setHeader("Host", "online.g.cnfol.com");
@@ -162,21 +162,21 @@ public class OnlineCrawler {
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Referer", "http://vip.g.cnfol.com/" + refer);
-		get.setHeader("Cookie", COOKIE);
+		get.setHeader("Cookie", cookie);
 		try {
 			HttpResponse response = httpClient.execute(get);
 			GzipEntity gentity = new GzipEntity(response.getEntity());
 			// String content = EntityUtils.toString(response.getEntity(),
 			// "utf-8");
 			String content = EntityUtils.toString(gentity, "GB2312");
-			//			System.out.println("content:" + content);
+			System.out.println("content:" + content);
 			Matcher m = keyPattern.matcher(content);
 			if (m != null && m.find()) {
 				String curdstr = m.group(1);
 				String curkey = m.group(2);
 				System.out.println("dstr:" + dstr + "   key:" + key);
-				if (!getZhibo(masterid, startnum, key, dstr)) {
-					getZhibo(masterid, startnum, curkey, curdstr);
+				if (!getZhibo(masterid, startnum, uid, cookie, key, dstr)) {
+					getZhibo(masterid, startnum, uid, cookie, curkey, curdstr);
 				}
 			} else {
 				System.out.println("No match:");
@@ -226,8 +226,10 @@ public class OnlineCrawler {
 		//		scheduledExtract.crawlOnline();clubid=2074&displayNum=43&sortid=0&uid=3929853&d_str=a405932e67b937eb833b053754759193&key=e00a8a446576385306505e14199
 		OnlineCrawler crawler = new OnlineCrawler();
 		crawler.init();
-		MasterMessageDao masterMessageDao = (MasterMessageDao) ContextFactory.getBean("masterMessageDao");
-		crawler.setMasterMessageDao(masterMessageDao);
-		crawler.crawler(2074, 0, "b8e60900bb925cb2b5eee0f928956ffa", "2eab9394eae2ef204c492a932ae", "hgs");
+		//		MasterMessageDao masterMessageDao = (MasterMessageDao) ContextFactory.getBean("masterMessageDao");
+		//		crawler.setMasterMessageDao(masterMessageDao);
+		String COOKIE = "__gads=ID=f97e87092220bb70:T=1301291138:S=ALNI_MYx_ZLCGBpMwyoKgyc3lKYdrchwHg; SUV=1301291829163548; IPLOC=CN1100; JSESSIONID=aVygncqo6fAg-00Qe8; __utma=268884647.406910617.1301453883.1301453883.1301482212.2; __utmc=268884647; __utmz=268884647.1301453884.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lpvt_c378c4854ec370c1c8438f72e19b7170=1301482233852; Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1301482212548; __utma=105107665.1832895910.1301453886.1301453886.1301453886.1; __utmc=105107665; __utmz=105107665.1301453887.1.1.utmcsr=g.cnfol.com|utmccn=(referral)|utmcmd=referral|utmcct=/; cookie[passport][userId]=5374484; cookie[passport][username]=scottxia; cookie[passport][nickname]=%E6%9D%9C%E6%8B%89%E6%8B%89%E7%9A%84%E6%83%85%E4%BA%BA; cookie[passport][money]=3; cookie[passport][keys]=B6B97806A8E61C806FA38D6D975E7B31; cookie[passport][logtime]=1304046135; cookie[passport][keystr]=8FBFB1D804C24FEBDDDB87A88555C8FE; cookie[passport][cache]=5365C7FFF3AE12028183CBCF7230C011; cookie[passport][auto]=0;";
+		crawler.crawler(4667, 0, "5374484", COOKIE, "b8e60900bb925cb2b5eee0f928956ffa", "2eab9394eae2ef204c492a932ae",
+				"safs");
 	}
 }

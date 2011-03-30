@@ -64,12 +64,14 @@ public class ExtractSchedule {
 			String k = (String) propertys.get("key");
 			String d_str = (String) propertys.get("dstr");
 			String refer = (String) propertys.get("refer");
+			String uid = (String) propertys.get("uid");
+			String cookie = (String) propertys.get("cookie");
 
 			int masterid = Integer.parseInt((String) key);
 			int num = masterMessageDao.getCurrentNumByMasterid(masterid, DateTools.transformYYYYMMDDDate(new Date()));
 			logger.debug("masterid:" + key + "  mastername:" + propertys.get("name") + "  key:" + k + "  d_str:"
 					+ d_str + "  startNum:" + num);
-			crawler.crawler(masterid, num, d_str, k, refer);
+			crawler.crawler(masterid, num, uid, cookie, d_str, k, refer);
 			//				crawler.getZhibo(masterid, num, k, d_str);
 
 		}
