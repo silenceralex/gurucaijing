@@ -1,5 +1,7 @@
 package com.caijing.flush;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,6 +12,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -35,6 +41,8 @@ import com.caijing.util.FloatUtil;
 
 public class AnalyzerFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
+
+	public static String TOP10 = "/home/html/analyzer/top10.json";
 
 	@Autowired
 	@Qualifier("recommendStockDao")
@@ -565,6 +573,24 @@ public class AnalyzerFlusher {
 			groupEarnMap.put(analyzerList.get(i).getAid(), weightList);
 		}
 		Collections.sort(analyzerList);
+		String currYear = DateTools.getYear(new Date());
+		//如果是当前年度，将top10的收益统计写入本地的一个json中
+		if (currYear.equals(year)) {
+			List<Analyzer> top10 = analyzerList.subList(0, 10);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setExcludes(new String[] { "level", "status", "info", "ptime", "lmodify", "image_url",
+					"position", "successratio" });
+			jsonConfig.setIgnoreDefaultExcludes(false);
+			String analyzerjson = JSONArray.fromObject(top10, jsonConfig).toString();
+			System.out.println("analyzerjson:" + analyzerjson);
+			File file = new File(TOP10);
+			try {
+				FileUtils.writeStringToFile(file, analyzerjson);
+			} catch (IOException e1) {
+				System.out.println("Write top10 file catch Exception:" + e1.getMessage());
+				e1.printStackTrace();
+			}
+		}
 		ArrayList<String> yearList = new ArrayList<String>();
 		yearList.addAll(groupYears);
 		Collections.reverse(yearList);
@@ -707,9 +733,9 @@ public class AnalyzerFlusher {
 		flusher.setRecommendSuccessDao(recommendSuccessDao);
 		flusher.setReportDao(reportDao);
 		flusher.setRecommendStockDao(recommendStockDao);
-		flusher.flushHistorySuccessRank("2008");
-		flusher.flushHistorySuccessRank("2009");
-		flusher.flushHistorySuccessRank("2010");
+		//		flusher.flushHistorySuccessRank("2008");
+		//		flusher.flushHistorySuccessRank("2009");
+		//		flusher.flushHistorySuccessRank("2010");
 		//		"周小波" " 付娟"  " 董亚光" "卢平" "黄挺" ,罗鶄 赵湘鄂  叶洮 李凡衡昆 
 		//				Analyzer analyzer = analyzerDao.getAnalyzerByName("苏惠");
 		//		Analyzer analyzer = (Analyzer) analyzerDao.select("6EJV66CI");
@@ -722,7 +748,7 @@ public class AnalyzerFlusher {
 		//		System.out.println(groupStockDao.getCurrentStockCountByGroupid("6O3M6IMM"));
 		//		Date outtime = groupStockDao.getNearestOutTimeByGroupid("6O3M6IMM");
 		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
-		flusher.flushAllStarGuruDetail();
+		//		flusher.flushAllStarGuruDetail();
 		flusher.flushAnalyzerRank();
 
 		System.exit(0);

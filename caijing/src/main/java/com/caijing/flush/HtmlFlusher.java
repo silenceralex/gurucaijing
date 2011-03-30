@@ -11,6 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -884,8 +888,17 @@ public class HtmlFlusher {
 					dateTools.transformYYYYMMDDDate(cal.getTime()));
 			Date lastdate = groupEarnDao.getLatestDate();
 			//			AnalyzerDao analyzerDao = (AnalyzerDao) ContextFactory.getBean("analyzerDao");
-			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 0,
-					10);
+			//			List<Analyzer> analyzerList = analyzerDao.getAnalyzerRankList(DateTools.transformYYYYMMDDDate(lastdate), 0,
+			//					10);
+			File file = new File(AnalyzerFlusher.TOP10);
+			String analyzerjson = FileUtils.readFileToString(file);
+			JSONArray jsonArray = JSONArray.fromObject(analyzerjson);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setExcludes(new String[] { "level", "status", "info", "ptime", "lmodify", "image_url",
+					"position", "successratio" });
+			jsonConfig.setIgnoreDefaultExcludes(false);
+			System.out.println("analyzerjson:" + analyzerjson);
+			List<Analyzer> analyzerList = JSONArray.toList(jsonArray, jsonConfig);
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
 			List<ColumnArticle> cjzl = columnArticleDao.getABSArticlesByType(0, 0, 6);
@@ -1275,12 +1288,12 @@ public class HtmlFlusher {
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-		//		flusher.flushIndex();
+		flusher.flushIndex();
 		//		flusher.flushNotice();
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
 		//		flusher.flushNoticeRank(2);
-				flusher.flushFinancialReportLab();
+		//		flusher.flushFinancialReportLab();
 		//		flusher.flushSuccessRank();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);

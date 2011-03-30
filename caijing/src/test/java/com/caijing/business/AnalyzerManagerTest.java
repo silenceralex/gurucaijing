@@ -33,7 +33,11 @@ public class AnalyzerManagerTest extends TestCase {
 	 */
 	public void testFetchAnalyzersFromSA() {
 		AnalyzerManagerImpl analyzerManager = (AnalyzerManagerImpl) ContextFactory.getBean("analyzerManager");
-		analyzerManager.fetchAnalyzersFromSA("安信证券");
+		String[] agencys = { "申银万国", "国泰君安", "招商证券", "安信证券", "广发证券", "国金证券", "国信证券", "长江证券", "华泰证券", "华泰联合", "光大证券",
+				"中投证券", "中信建投" };
+		for (String agency : agencys) {
+			analyzerManager.fetchAnalyzersFromSA(agency);
+		}
 		fail("Not yet implemented");
 	}
 
