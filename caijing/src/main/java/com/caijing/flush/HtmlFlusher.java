@@ -1234,9 +1234,15 @@ public class HtmlFlusher {
 
 	public void flushIndustryList() {
 		List<String> industryList = analyzerDao.getAllIndustry();
+		Map<String, List<Analyzer>> map = new HashMap<String, List<Analyzer>>();
+		for (String industry : industryList) {
+			List<Analyzer> analyzers = analyzerDao.getAnalyzersByIndustry(industry, 0, 5);
+			map.put(industry, analyzers);
+		}
 		try {
 			VMFactory vmf = new VMFactory();
 			vmf.put("industryList", industryList);
+			vmf.put("analyzerMap", map);
 			vmf.setTemplate("/template/industryList.htm");
 			vmf.save(ADMINDIR + "industry" + ".html");
 			System.out.println("write page : " + ADMINDIR + "industry" + ".html");
@@ -1286,8 +1292,8 @@ public class HtmlFlusher {
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
-		//		flusher.flushLiveStatic();
-		//		flusher.flushMasterInfo();
+		flusher.flushLiveStatic();
+		flusher.flushMasterInfo();
 		flusher.flushIndex();
 		//		flusher.flushNotice();
 		//		flusher.flushNoticeRank(0);
