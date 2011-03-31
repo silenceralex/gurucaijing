@@ -27,6 +27,9 @@ public class RenameReport {
 	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);	
 	
+	private Pattern datePattern = Pattern.compile("([\\d]{8})",
+			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+	
 	final static String excelDirPath = "/data/excel/"; //TODO rename to same name with report dirname
 	final static String reportDirPath = "/data/oldpapers2/";
 	final static String desthtmlPath = "/home/rnhtml/papers/"; //TODO 
@@ -117,7 +120,7 @@ public class RenameReport {
 		report.setRid(rid);
 		report.setSaname(saname);
 		String stockcode = getcode(stockcodestr);
-		if(stockcode==null){
+		if(stockcode==null || createdate.trim().length()==0){
 			return false;
 		}
 		report.setStockcode(stockcode);
