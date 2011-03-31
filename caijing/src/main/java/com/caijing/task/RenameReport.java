@@ -23,6 +23,9 @@ import com.caijing.util.ContextFactory;
 import com.caijing.util.POIExcelUtil;
 import com.caijing.util.ServerUtil;
 
+/**
+ * 有重复记录的问题
+ */
 public class RenameReport {
 	
 	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
@@ -48,19 +51,21 @@ public class RenameReport {
 		for (File excel : excels) {
 			String prefix = reportDirPath+excel.getName().split("\\.")[0].split("-")[0]+"/";
 			List<ArrayList<String>> data = poi.read(excel.getPath());
+			System.out.println(excel.getName()+": "+poi.getTotalRows());
 			for (ArrayList<String> row : data) {
 				System.out.println("row : " + row);
 				if(row.get(1).equals("券商名称")||row.get(1).length()==0||row.get(1).length()>8){
 					continue;
 				}
 				String rid = ServerUtil.getid();
-				boolean isvalid = newReport(rid, row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), row.get(6), row.get(7));
+				boolean isvalid = newReport(rid, row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), 
+						row.get(6), row.get(7), row.get(0), prefix);
 				if(!isvalid){
 					continue;
 				}
-				String filename = row.get(0);
-				String createdate = row.get(7);
-				newReportFile(prefix, createdate, filename, rid);
+//				String filename = row.get(0);
+//				String createdate = row.get(7);
+//				newReportFile(prefix, createdate, filename, rid);
 			}
 		}
 	}
@@ -85,7 +90,7 @@ public class RenameReport {
 		}
 	}
 	
-	private void newReportFile(String prefix, String createdate, String filename, String rid) {
+	private boolean newReportFile(String prefix, String createdate, String filename, String rid) {
 		String[] suffixs = {".pdf",".PDF",".PDf", ".Pdf"};
 		
 		for (String suffix : suffixs) {
@@ -95,7 +100,6 @@ public class RenameReport {
 					System.out.println("report:" + report.getAbsolutePath() + " " + report.getName());
 					FileUtils.copyFile(report, new File(desthtmlPath +createdate+"/"+rid + ".pdf")); 
 					FileUtils.copyFile(report, new File(destpapersPath +createdate+"/"+report.getName() + ".pdf")); 
-					return;
 				} else {
 					String utfName = new String(filename.getBytes("gbk"));
 					report = new File(prefix + utfName + suffix);
@@ -103,9 +107,9 @@ public class RenameReport {
 						System.out.println("report:" + report.getAbsolutePath() + " " + report.getName());
 						FileUtils.copyFile(report, new File(desthtmlPath +createdate+"/"+ rid + ".pdf")); 
 						FileUtils.copyFile(report, new File(destpapersPath +createdate+"/"+ report.getName() + ".pdf"));
-						return;
 					}
 				}
+				return true;
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -113,9 +117,11 @@ public class RenameReport {
 			}
 		}
 		System.out.println("transform title Error!");
+		return false;
 	}
 
-	public boolean newReport(String rid, String saname, String stockcodestr, String title, String aname, String grade, String objectpricestr, String createdate) {
+	public boolean newReport(String rid, String saname, String stockcodestr, String title, String aname, 
+			String grade, String objectpricestr, String createdate, String filename, String prefix) {
 		//Report
 		Report report = new Report();
 		report.setRid(rid);
@@ -144,8 +150,13 @@ public class RenameReport {
 		System.out.println("type:" + report.getType());
 		System.out.println("title:" + report.getTitle());
 		System.out.println("aname:" + report.getAname());
-		reportDao.insert(report);
 		
+		boolean isvalid = newReportFile(prefix, createdate, filename, rid);
+		if(!isvalid){
+			return false;
+		}
+		
+		reportDao.insert(report);
 		//RecommendStock
 		RecommendStock recommendStock = new RecommendStock();
 		recommendStock.setRecommendid(ServerUtil.getid());
