@@ -79,7 +79,8 @@ public class RenameReport {
 					continue;
 				}
 				set.add(uid);
-				String eps = fetchEps(saname, destPdffilepath, destTxtfilepath);
+//				String eps = fetchEps(saname, destPdffilepath, destTxtfilepath);
+				String eps = null;
 				newReport(rid, saname, stockcode, row.get(3), row.get(4), row.get(5), row.get(6), createdate, eps);
 			}
 		}
@@ -157,9 +158,7 @@ public class RenameReport {
 		System.out.println("filepath:" + report.getFilepath());
 		System.out.println("saname:" + report.getSaname());
 		System.out.println("stockname(code):" + report.getStockname() + "(" + report.getStockcode() + ")");
-		System.out.println("type:" + report.getType());
-		System.out.println("title:" + report.getTitle());
-		System.out.println("aname:" + report.getAname());
+		System.out.println("eps:" + eps);
 		reportDao.insert(report);
 		
 		//RecommendStock
