@@ -143,9 +143,9 @@
 
 	<insert id="insert">
 		insert into recommendstock
-		(recommendid,reportid,stockcode,saname,aname,createdate,grade,eps,objectprice,buyprice,user,lmodify,extractnum,stockname)
+		(recommendid,reportid,stockcode,saname,aname,createdate,grade,eps,objectprice,buyprice,user,lmodify,extractnum,stockname,status)
 		values
-		(#recommendid#,#reportid#,#stockcode#,#saname#,#aname#,#createdate#,#grade#,#eps#,#objectprice#,#buyprice#,#user#,now(),#extractnum#,#stockname#)
+		(#recommendid#,#reportid#,#stockcode#,#saname#,#aname#,#createdate#,#grade#,#eps#,#objectprice#,#buyprice#,#user#,now(),#extractnum#,#stockname#,#status#)
 	</insert>
 
 	<update id="updateAnalyzer" parameterClass="java.util.Map">
