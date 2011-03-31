@@ -51,20 +51,18 @@ public class RenameReport {
 			for (ArrayList<String> row : data) {
 				System.out.println("row : " + row);
 				
+				String rid = ServerUtil.getid();
 				String filename = row.get(0);
 				String stockcode = getcode(row.get(2));
 				String createdate = row.get(7).trim();
 				if(stockcode==null||createdate.length()==0||row.get(1).equals("È¯ÉÌÃû³Æ")||row.get(1).length()==0||row.get(1).length()>8){
 					continue;
 				}
-				
-				String rid = ServerUtil.getid();
-				boolean isvalid = newReport(rid, row.get(1), stockcode, row.get(3), row.get(4), row.get(5), row.get(6), createdate);
-				if(!isvalid){
+
+				if(!newReportFile(prefix, createdate, filename, rid)){
 					continue;
 				}
-				
-				newReportFile(prefix, createdate, filename, rid);
+				newReport(rid, row.get(1), stockcode, row.get(3), row.get(4), row.get(5), row.get(6), createdate);
 			}
 		}
 	}
@@ -89,7 +87,7 @@ public class RenameReport {
 		}
 	}
 	
-	private void newReportFile(String prefix, String createdate, String filename, String rid) {
+	private boolean newReportFile(String prefix, String createdate, String filename, String rid) {
 		String[] suffixs = {".pdf",".PDF",".PDf", ".Pdf"};
 		
 		for (String suffix : suffixs) {
@@ -99,7 +97,8 @@ public class RenameReport {
 					System.out.println("report:" + report.getAbsolutePath() + " " + report.getName());
 					FileUtils.copyFile(report, new File(desthtmlPath +createdate+"/"+rid + ".pdf")); 
 					FileUtils.copyFile(report, new File(destpapersPath +createdate+"/"+report.getName() + ".pdf")); 
-					return;
+					System.out.println("##########");
+					return true;
 				} else {
 					String utfName = new String(filename.getBytes("gbk"));
 					report = new File(prefix + utfName + suffix);
@@ -107,7 +106,8 @@ public class RenameReport {
 						System.out.println("report:" + report.getAbsolutePath() + " " + report.getName());
 						FileUtils.copyFile(report, new File(desthtmlPath +createdate+"/"+ rid + ".pdf")); 
 						FileUtils.copyFile(report, new File(destpapersPath +createdate+"/"+ report.getName() + ".pdf"));
-						return;
+						System.out.println("$$$$$$$$$$");
+						return true;
 					}
 				}
 			} catch (UnsupportedEncodingException e) {
@@ -117,9 +117,10 @@ public class RenameReport {
 			}
 		}
 		System.out.println("transform title Error!");
+		return false;
 	}
 
-	public boolean newReport(String rid, String saname, String stockcode, String title, String aname, String grade, String objectpricestr, String createdate) {
+	public void newReport(String rid, String saname, String stockcode, String title, String aname, String grade, String objectpricestr, String createdate) {
 		//Report
 		Report report = new Report();
 		report.setRid(rid);
@@ -165,7 +166,6 @@ public class RenameReport {
 		recommendStock.setObjectprice(objectprice);
 		recommendStock.setExtractnum(4);
 		recommendStockDao.insert(recommendStock);
-		return true;
 	}
 	
 	public static boolean isNumeric(String str){
