@@ -50,16 +50,20 @@ public class RenameReport {
 			List<ArrayList<String>> data = poi.read(excel.getPath());
 			for (ArrayList<String> row : data) {
 				System.out.println("row : " + row);
-				if(row.get(1).equals("券商名称")||row.get(1).length()==0||row.get(1).length()>8){
+				
+				String filename = row.get(0);
+				String stockcode = getcode(row.get(2));
+				String createdate = row.get(7).trim();
+				if(stockcode==null||createdate.length()==0||row.get(1).equals("券商名称")||row.get(1).length()==0||row.get(1).length()>8){
 					continue;
 				}
+				
 				String rid = ServerUtil.getid();
-				boolean isvalid = newReport(rid, row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), row.get(6), row.get(7));
+				boolean isvalid = newReport(rid, row.get(1), stockcode, row.get(3), row.get(4), row.get(5), row.get(6), createdate);
 				if(!isvalid){
 					continue;
 				}
-				String filename = row.get(0);
-				String createdate = row.get(7);
+				
 				newReportFile(prefix, createdate, filename, rid);
 			}
 		}
@@ -115,15 +119,11 @@ public class RenameReport {
 		System.out.println("transform title Error!");
 	}
 
-	public boolean newReport(String rid, String saname, String stockcodestr, String title, String aname, String grade, String objectpricestr, String createdate) {
+	public boolean newReport(String rid, String saname, String stockcode, String title, String aname, String grade, String objectpricestr, String createdate) {
 		//Report
 		Report report = new Report();
 		report.setRid(rid);
 		report.setSaname(saname);
-		String stockcode = getcode(stockcodestr);
-		if(stockcode==null || createdate.trim().length()==0){
-			return false;
-		}
 		report.setStockcode(stockcode);
 		Stock stock = (Stock)stockDao.select(stockcode);
 		String stockname = null;
