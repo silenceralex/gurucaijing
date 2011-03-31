@@ -46,8 +46,8 @@
                                                 <ul>
                                                 #set ($count = $page * 10)
                                                 #set ($end = $count + 10)
-                                                #if($end >= $urls.size() - 1)
-                                                #set ($end = $urls.size() - 1 )
+                                                #if($end >= $urls.size() )
+                                                #set ($end = $urls.size() )
                                                 #end
 
                                                 #foreach ($url in ${urls.subList($count,$end)})
