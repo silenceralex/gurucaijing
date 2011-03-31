@@ -307,7 +307,7 @@ public class ReportExtractorImpl implements ReportExtractor {
 		return analyzer;
 	}
 
-	private String fetchEPS(String saname, String content) {
+	public String fetchEPS(String saname, String content) {
 		Pattern epsPattern = null;
 		Matcher m = null;
 		String eps = null;
