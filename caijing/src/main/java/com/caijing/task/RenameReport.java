@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -133,6 +134,7 @@ public class RenameReport {
 		report.setType(1);
 		report.setTitle(title);
 		report.setAname(aname);
+		report.setPtime(new Date());
 		
 		String filepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 		report.setFilepath(filepath.replace("/home", ""));
