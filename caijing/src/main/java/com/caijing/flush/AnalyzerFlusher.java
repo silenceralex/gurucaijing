@@ -535,6 +535,7 @@ public class AnalyzerFlusher {
 		Map<String, Float> startPriceMap = new HashMap<String, Float>();
 		Map<String, String> startDateMap = new HashMap<String, String>();
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+
 		for (int i = 0; i < analyzerList.size(); i++) {
 			//°üÀ¨ÆðÊ¼µ±ÈÕ
 			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(analyzerList.get(i).getAid(), startDate,
@@ -603,7 +604,11 @@ public class AnalyzerFlusher {
 				vmf.put("groupYears", yearList);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("floatUtil", new FloatUtil());
-				vmf.put("currDate", DateTools.transformYYYYMMDDDate(endDate));
+				if (endDate.after(new Date())) {
+					vmf.put("currDate", DateTools.transformYYYYMMDDDate(new Date()));
+				} else {
+					vmf.put("currDate", DateTools.transformYYYYMMDDDate(endDate));
+				}
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("current", current);
 				vmf.put("page", 2);
@@ -733,9 +738,9 @@ public class AnalyzerFlusher {
 		flusher.setRecommendSuccessDao(recommendSuccessDao);
 		flusher.setReportDao(reportDao);
 		flusher.setRecommendStockDao(recommendStockDao);
-		//		flusher.flushHistorySuccessRank("2008");
-		//		flusher.flushHistorySuccessRank("2009");
-		//		flusher.flushHistorySuccessRank("2010");
+		flusher.flushHistorySuccessRank("2008");
+		flusher.flushHistorySuccessRank("2009");
+		flusher.flushHistorySuccessRank("2010");
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
 		//				Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
 		//		Analyzer analyzer = (Analyzer) analyzerDao.select("6EJV66CI");
@@ -748,7 +753,7 @@ public class AnalyzerFlusher {
 		//		System.out.println(groupStockDao.getCurrentStockCountByGroupid("6O3M6IMM"));
 		//		Date outtime = groupStockDao.getNearestOutTimeByGroupid("6O3M6IMM");
 		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
-		//		flusher.flushAllStarGuruDetail();
+		flusher.flushAllStarGuruDetail();
 		flusher.flushAnalyzerRank();
 
 		System.exit(0);

@@ -44,7 +44,7 @@
 	</delete>
 
 	<select id="getAnalyzerRankByYear" resultClass="AnalyzerSuccess"  parameterClass="java.util.Map">
-		select ays.*,a.agency as saname,a.industry as industry from analyzersuccessyear ays, analyzer a where ays.year=#year# and ays.aid=a.aid order by ays.successratio desc limit #start#,#length#
+		select ays.*,a.agency as saname,a.industry as industry from analyzersuccessyear ays, analyzer a where ays.year=#year# and ays.total>1 and ays.aid=a.aid order by ays.successratio desc limit #start#,#length#
 	</select>
 	
 	<select id="getAnalyzerRankBySanameYear" resultClass="AnalyzerSuccess"  parameterClass="java.util.Map">

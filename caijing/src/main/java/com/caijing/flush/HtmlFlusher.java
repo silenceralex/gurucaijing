@@ -323,6 +323,7 @@ public class HtmlFlusher {
 		FloatUtil floatUtil = new FloatUtil();
 		//		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzersByAgency("安信证券");
 		List<Analyzer> analyzers = analyzerDao.getSuccessRankedAnalyzers();
+		List<Analyzer> disAnalyzers = new ArrayList<Analyzer>();
 		System.out.println("rank size : " + analyzers.size());
 		for (Analyzer analyzer : analyzers) {
 			if (analyzer.getAid() == null) {
@@ -333,10 +334,15 @@ public class HtmlFlusher {
 			int total = recommendSuccessDao.getTotalRecommendCountByAid(analyzer.getAid());
 			analyzer.setSuccess(success);
 			analyzer.setTotal(total);
+			//排出推荐1篇的
+			if (total > 1) {
+				disAnalyzers.add(analyzer);
+			}
 			flushOneSuccess(analyzer);
 		}
+		System.out.println("disAnalyzers size : " + disAnalyzers.size());
 		for (int current = 1; current <= 3; current++) {
-			List<Analyzer> analyzerList = analyzers.subList((current - 1) * 20, current * 20);
+			List<Analyzer> analyzerList = disAnalyzers.subList((current - 1) * 20, current * 20);
 			try {
 				VMFactory vmf = new VMFactory();
 				vmf.setTemplate("/template/anayzerSucRank.htm");
@@ -1291,7 +1297,7 @@ public class HtmlFlusher {
 		//		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
-		//		flusher.flushSuccessRank();
+		flusher.flushSuccessRank();
 		flusher.flushLiveStatic();
 		flusher.flushMasterInfo();
 		flusher.flushIndex();
