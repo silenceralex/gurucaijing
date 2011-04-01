@@ -141,10 +141,7 @@ public class RecommendSuccessRatio {
 				System.out.println("judgedate date" + judgedate);
 				List<StockEarn> ses = stockEarnDao.getRatiosByCodeAndPeriod(recommendsuccess.getStockcode(),
 						recommendsuccess.getRecommenddate(), se.getDate());
-				float gain = 1;
-				for (StockEarn stockEarn : ses) {
-					gain = gain * (1 + stockEarn.getRatio() / 100);
-				}
+
 				StockEarn seNear = stockEarnDao.getFormerNearPriceByCodeDate(recommendsuccess.getStockcode(),
 						recommendsuccess.getRecommenddate());
 				if (seNear == null) {
@@ -153,13 +150,24 @@ public class RecommendSuccessRatio {
 					continue;
 				}
 				float recommendprice = seNear.getPrice();
-				float judgeprice = recommendprice * gain;
+				//只要复权收盘价一次超过目标价则算成功
+				float gain = 1;
+				boolean isArchieved = false;
+				float judgeprice = 0;
+				for (StockEarn stockEarn : ses) {
+					gain = gain * (1 + stockEarn.getRatio() / 100);
+					judgeprice = recommendprice * gain;
+					if (judgeprice >= recommendsuccess.getObjectprice()) {
+						isArchieved = true;
+						break;
+					}
+				}
 				System.out.println("analyzer:" + recommendsuccess.getAname() + "  recommend stock:"
 						+ recommendsuccess.getStockname() + recommendsuccess.getRecommenddate() + "  recommendprice:"
 						+ recommendprice + "  gain:" + gain + "  objectprice:" + recommendsuccess.getObjectprice()
 						+ "  judgeprice:" + judgeprice);
 
-				if (judgeprice >= recommendsuccess.getObjectprice()) {
+				if (isArchieved) {
 					recommendsuccess.setIsAchieved(1);
 					recommendsuccess.setValidate(se.getDate());
 					recommendsuccess.setValidateprice(judgeprice);
