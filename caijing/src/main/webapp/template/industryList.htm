@@ -23,7 +23,12 @@
 					#if ($count%5==0)
 					<ul>
 					#end
-						<li><a href="/analyzer/getIndustry.htm?industry=$one">$one</a>			  
+						<li>
+                     <a href="/analyzer/getIndustry.htm?industry=$one">$one</a>
+                     #* 新增加的 *#
+                     <a class="indust-analyzer vip" href="#">赵强</a>
+                     <a class="indust-analyzer" href="#">白宏炜</a>
+                     <a class="indust-analyzer" href="#">陈聪</a>
 			        </li>
 					#set ($count = $count + 1)
             		#if ($count%5==0)
