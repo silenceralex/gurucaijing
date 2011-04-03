@@ -26,8 +26,12 @@
 					#if ($count%5==0)
 					<ul>
 					#end
-						<li><span class="notice_list_date">$one.agency</span><a href="/analyzer/static/${one.aid}_intro.html">$one.name</a>			  
-			        </li>
+											#if($one.level ==3)
+                     <li><span class="notice_list_date">$one.agency</span><a class="indust-analyzer vip" href="/analyzer/static/${one.aid}_intro.html">$one.name</a> </li>
+                    #else
+                     <li><span class="notice_list_date">$one.agency</span><a class="indust-analyzer" href="/analyzer/static/${one.aid}_intro.html">$one.name</a> </li>
+                     #end		  
+			       
 					#set ($count = $count + 1)
             		#if ($count%5==0)
 					</ul>
