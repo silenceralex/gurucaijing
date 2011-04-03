@@ -58,7 +58,7 @@ a{text-decoration:none}
 .colL1 ul li{clear:both; width:120px; height:32px; padding-left:36px; line-height:32px; border:#CCC solid 1px; margin:0 auto 10px auto; background:url(/img/sprite3.png) repeat-x}
 .colL2 ul li{clear:both; width:120px; height:32px; padding-left:36px; line-height:36px; border:#CCC solid 1px; margin:0 auto 10px auto; background:url(/img/sprite3.png) repeat-x left -46px}
 .colL3 ul li{width:120px; height:22px; padding-left:36px; line-height:22px; margin:0 auto 10px auto; background:url(/img/sprite1.png) no-repeat 22px -262px}
-.colL4 ul{margin:10px;height:208px;overflow:hidden;}
+.colL4 ul{margin:10px;height:168px;overflow:hidden;}
 .colL4 ul li{line-height:24px;border-bottom:#CCC dotted 1px;}
 .moreBtn{float:right; margin-right:10px}
 .moreBtn span{display:none}
@@ -71,7 +71,7 @@ a{text-decoration:none}
 .colML ul li h3 em, .colMR ul li h3 em{float:left; width:42px; height:21px; line-height:21px; font-weight:bold; display:block; text-align:center; overflow:hidden; margin-right:5px; background:url(/img/sprite1.png) no-repeat}
 .colML ul li h3 em a:link, .colML ul li h3 em a:visited, .colMR ul li h3 em a:link, .colMR ul li h3 em a:visited{color:#FFF}
 .colML ul, .colMR ul{width:268px; padding:10px; padding-bottom:0; border:#CCC solid 1px; border-top:none; margin-bottom:10px}
-.colML ul{height:172px; overflow:hidden}
+.colML ul{height:200px; overflow:hidden}
 .colML ul li, .colMR ul li{padding-top:5px; padding-bottom:6px;-padding-top:2px;}
 .colMR ul li{line-height:25px}
 .colMR ul li{margin-bottom:6px}
@@ -87,7 +87,7 @@ a{text-decoration:none}
 .followBtn img{width:50px; height:21px}
 .colM_title, .colM2_title{width:288px; height:25px; border:#CCC solid 1px;_border-bottom:none;line-height:25px; color:#000; background:url(/img/sprite2.png) repeat-x left -315px}
 .colM_title h2, .colM2_title h2{float:left; width:60px;height:23px;_height:23px;_overflow:hidden;border-bottom:#C00 solid 3px;padding-left:15px; }
-.colMR ul{height:460px; overflow:hidden}
+.colMR ul{height:580px; overflow:hidden}
 .colML ul li, .colMR ul li{background:url(/img/dotLine.gif) repeat-x bottom}
 .colML ul li p{+padding-top: 2px;}
 .moreBtn2 span{display:none}
