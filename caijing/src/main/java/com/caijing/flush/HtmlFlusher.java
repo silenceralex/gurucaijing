@@ -905,8 +905,8 @@ public class HtmlFlusher {
 			System.out.println("analyzerjson:" + analyzerjson);
 			List<Analyzer> analyzerList = JSONArray.toList(jsonArray, Analyzer.class);
 			//			System.out.println("analyzerList.get(0).getWeight():" + analyzerList.get(0).getWeight());
-			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 3);
-			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 6);
+			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 4);
+			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 8);
 			List<ColumnArticle> cjzl = columnArticleDao.getABSArticlesByType(0, 0, 6);
 			//			dsyp = alertUrl(dsyp);
 			//			hgdt = alertUrl(hgdt);
@@ -927,7 +927,7 @@ public class HtmlFlusher {
 				System.out.println("getStockname: " + stock.getStockname());
 			}
 			System.out.println("recommendstocks size: " + recommendstocks.size());
-			List<Notice> noticeList = noticeDao.getNotices(0, 5);
+			List<Notice> noticeList = noticeDao.getNotices(0, 6);
 			System.out.println("noticeList size: " + noticeList.size());
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/home.htm");
@@ -1297,9 +1297,9 @@ public class HtmlFlusher {
 		//		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
-		flusher.flushSuccessRank();
-		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//		flusher.flushSuccessRank();
+		//		flusher.flushLiveStatic();
+		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
 		//		flusher.flushNotice();
 		//		flusher.flushNoticeRank(0);
