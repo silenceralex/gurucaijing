@@ -1,10 +1,12 @@
 package com.caijing.web.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,13 +37,14 @@ public class DirectoryController {
 	String prefix = "/home/html/";
 
 	@RequestMapping("/notice/")
-	public String notice(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
+	public void notice(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
 			throws IOException, Exception {
 		status.setComplete();
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "/");
 		System.out.println("getRequestURL:" + url);
-		//		String file = FileUtils.readFileToString(new File(prefix + url), "utf-8");
-		//		response.getWriter().write(file);
-		return url;
+		System.out.println("prefix + url");
+		String file = FileUtils.readFileToString(new File(prefix + url), "utf-8");
+		response.getWriter().write(file);
+		return;
 	}
 }
