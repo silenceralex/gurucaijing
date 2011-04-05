@@ -32,15 +32,16 @@ public class DirectoryController {
 	@Qualifier("TopicNameConfig")
 	private TopicNameConfig topicNameMap = null;
 
-	@RequestMapping("/notice/*.htm")
-	public void notice(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
+	String prefix = "/home/html/";
+
+	@RequestMapping("/notice/")
+	public String notice(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
 			throws IOException, Exception {
 		status.setComplete();
-		String path = request.getRemoteAddr();
-		System.out.println("path:" + path);
-		System.out.println("getContextPath:" + request.getContextPath());
-		System.out.println("getRequestURL:" + request.getRequestURL());
-		response.sendRedirect("/notice/*.html");
-		return;
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "/");
+		System.out.println("getRequestURL:" + url);
+		//		String file = FileUtils.readFileToString(new File(prefix + url), "utf-8");
+		//		response.getWriter().write(file);
+		return url;
 	}
 }
