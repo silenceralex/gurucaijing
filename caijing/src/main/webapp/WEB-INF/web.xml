@@ -117,7 +117,7 @@
 
 	<filter-mapping>
 		<filter-name>Security Filter</filter-name>
-		<url-pattern>/admin/*</url-pattern>
+		<url-pattern>/admin/*,/notice/*</url-pattern>
 	</filter-mapping>
 
 	<servlet>
