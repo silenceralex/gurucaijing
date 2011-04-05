@@ -36,14 +36,15 @@ public class DirectoryController {
 
 	String prefix = "/home/html/";
 
-	@RequestMapping("/notice/")
+	@RequestMapping("/notice/*.htm")
 	public void notice(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
 			throws IOException, Exception {
 		status.setComplete();
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "/");
 		System.out.println("getRequestURL:" + url);
-		System.out.println("prefix + url");
-		String file = FileUtils.readFileToString(new File(prefix + url), "utf-8");
+		String filepath = prefix + url;
+		System.out.println("filepath:" + filepath);
+		String file = FileUtils.readFileToString(new File(filepath.toLowerCase()), "utf-8");
 		response.getWriter().write(file);
 		return;
 	}
