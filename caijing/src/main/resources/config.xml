@@ -874,6 +874,9 @@
 				<entry key="0020">
 					<value>中投证券</value>
 				</entry>
+				<entry key="notice">
+					<value>/intro/reportdig.html</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
