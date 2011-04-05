@@ -44,8 +44,8 @@ public class DirectoryController {
 		System.out.println("getRequestURL:" + url);
 		String filepath = prefix + url;
 		System.out.println("filepath:" + filepath);
-		String file = FileUtils.readFileToString(new File(filepath.toLowerCase()), "utf-8");
-		response.setContentType("text/html;charset=UTF-8");
+		String file = FileUtils.readFileToString(new File(filepath.toLowerCase()));
+		response.setContentType("text/html;charset=gbk");
 		response.getWriter().write(file);
 		return;
 	}

@@ -95,7 +95,7 @@
 
 	<filter-mapping>
 		<filter-name>Set Character Encoding</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/search/</url-pattern>
 	</filter-mapping>
 
 	<filter>
