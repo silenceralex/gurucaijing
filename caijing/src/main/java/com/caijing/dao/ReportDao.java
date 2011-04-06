@@ -28,4 +28,5 @@ public interface ReportDao extends CrudDao {
 
 	public List<Report> getReportsListByType(int type, int offset, int length);
 
+	public List<Report> selectByMultiKey(String saname, String stockcode, String createdate);
 }

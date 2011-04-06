@@ -56,6 +56,10 @@
 		select * from report order by ptime desc limit #start#,#offset#
 	</select>
 
+	<select id="selectByMultiKey"  parameterClass="java.util.Map" resultClass="reportClass">
+		select * from report where saname = #saname# and stockcode = #stockcode# and filepath like "%createtime%"
+	</select>
+
 	<select id="select" resultClass="reportClass">
 		select * from report where rid=#value#
 	</select>

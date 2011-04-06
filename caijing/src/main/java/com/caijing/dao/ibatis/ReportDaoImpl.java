@@ -85,4 +85,13 @@ public class ReportDaoImpl extends CrudDaoDefault implements ReportDao {
 		return (List<Report>) getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getReportsListByType",
 				params);
 	}
+
+	@Override
+	public List<Report> selectByMultiKey(String saname, String stockcode, String createdate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("saname", saname);
+		params.put("stockcode", stockcode);
+		params.put("createdate", createdate);
+		return (List<Report>) getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".selectByMultiKey",	params);
+	}
 }
