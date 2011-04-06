@@ -103,7 +103,7 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 				filterChain.doFilter(sRequest, response);
 			} else {
 				if (sRequest.getRequestURI().toLowerCase().contains("notice")) {
-					logger.warn("用户跳转如介绍页。");
+					logger.warn("用户跳转如介绍页。" + topicNameMap.getTopicName("notice"));
 					sResponse.sendRedirect(topicNameMap.getTopicName("notice"));
 				} else {
 					logger.warn("用户还没有登录,强制用户登录。");

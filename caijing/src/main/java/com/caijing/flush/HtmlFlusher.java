@@ -1298,8 +1298,8 @@ public class HtmlFlusher {
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
-		//		flusher.flushLiveStatic();
-		//		flusher.flushMasterInfo();
+		flusher.flushLiveStatic();
+		flusher.flushMasterInfo();
 		flusher.flushIndex();
 		//		flusher.flushNotice();
 		//		flusher.flushNoticeRank(0);
