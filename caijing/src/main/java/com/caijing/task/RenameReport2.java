@@ -61,18 +61,21 @@ public class RenameReport2 {
 		Map<String, String> map = new HashMap<String, String>() {
 			private static final long serialVersionUID = 1L;
 			{
-				put("/data/oldreports/201008/201008.xls", "/data/oldreports/201008/");
-				put("/data/oldreports/201009/201009.xlsx", "/data/oldreports/201009/");
-				put("/data/oldreports/201010/201010.xlsx", "/data/oldreports/201010/");
-				put("/data/oldreports/201011/201011.xls", "/data/oldreports/201011/");
-				put("/data/oldreports/201012/201012.xls", "/data/oldreports/201012/");
-				put("/data/oldreports/201101temp/201101temp.xls", "/data/oldreports/201101temp/");
+				put("/data/oldpapers/201008/201008.xls", "/data/oldreports/201008/");
+				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
+				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
 				put("/data/excel/hanjianping-2.xls", "/data/oldreports/hanjianping/");
+				put("/data/excel/yanshiyou-1.xlsx", "/data/oldreports/yanshiyou/");
+				put("/data/excel/wanghan-3.xlsx", "/data/oldreports/wanghan/");
 			}
 		};
 		
 		for (Map.Entry<String,String> data : map.entrySet()) {
 			String excel = data.getKey();
+			System.out.println("=== "+excel+" ===");
 			String reportdir = data.getValue();
 			readExcel(new File(excel), new File(reportdir));
 		}
@@ -158,22 +161,22 @@ public class RenameReport2 {
 			String objectpricestr, String createdate, String eps) {
 		//Report
 		Report report = newReport(rid, saname, stockcode, title, aname, createdate);
-		reportDao.update(report);
+//		reportDao.update(report);
 		
 		//RecommendStock
 		RecommendStock recommendStock = newRecommendStock(rid, stockcode, report.getStockname(), saname, aname, grade, eps, createdate, objectpricestr);
-		recommendStockDao.update(recommendStock);
+//		recommendStockDao.update(recommendStock);
 	}
 	
 	public void insertReport(String rid, String saname, String stockcode, String title, String aname, String grade, 
 			String objectpricestr, String createdate, String eps) {
 		//Report
 		Report report = newReport(rid, saname, stockcode, title, aname, createdate);
-		reportDao.insert(report);
+//		reportDao.insert(report);
 		
 		//RecommendStock
 		RecommendStock recommendStock = newRecommendStock(rid, stockcode, report.getStockname(), saname, aname, grade, eps, createdate, objectpricestr);
-		recommendStockDao.insert(recommendStock);
+//		recommendStockDao.insert(recommendStock);
 	}
 	
 	public Report newReport(String rid, String saname, String stockcode, String title, String aname, String createdate){
@@ -356,7 +359,8 @@ public class RenameReport2 {
 	
 	public static void main(String[] args) {
 		RenameReport2 rr = new RenameReport2();
-		rr.readExcels(excelDirPath);
+		//rr.readExcels(excelDirPath);
+		rr.readExcels2();
 //		rr.readTxt(excelDirPath);
 		System.exit(0);
 	}
