@@ -31,7 +31,6 @@ public class ColumnJob extends Thread {
 	private Pattern rangePattern = null;
 	// 解析每个视频
 	private Pattern regexp = null;
-	private BerkeleyDB urlDB = new BerkeleyDB();
 	private final String DefaultTime = "2000-01-01 00:00:00";
 	private final String THRESHOLD = "2009-05-01 00:00:00";
 	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -198,14 +197,6 @@ public class ColumnJob extends Thread {
 
 	public void setRangePattern(Pattern rangePattern) {
 		this.rangePattern = rangePattern;
-	}
-
-	public BerkeleyDB getUrlDB() {
-		return urlDB;
-	}
-
-	public void setUrlDB(BerkeleyDB urlDB) {
-		this.urlDB = urlDB;
 	}
 
 	public Pattern getRegexp() {

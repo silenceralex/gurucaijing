@@ -15,18 +15,20 @@
        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	<!--========================================================================
 		CronTriggerBean
-
-		=========================================================================-->
 	<bean id="bdb"	class="com.caijing.cache.BerkeleyDB">
 		<property name="cacheHome">
 			<value>/home/app/urldb/list</value>
 		</property>
 	</bean>
+		=========================================================================-->
+
+	
+	<bean id="bdbSpider" class="com.caijing.spider.BerkeleyDB">
+		<constructor-arg><value>/home/app/urldb/spider</value></constructor-arg>
+		<constructor-arg><value>false</value></constructor-arg>
+	</bean>
 	
 	<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
-		<property name="bdb">
-			<ref bean="bdb" />
-		</property>
 		<property name="config">
 			<ref bean="config" />
 		</property>
@@ -35,6 +37,12 @@
 	<bean id="threadCrawler" class="com.caijing.crawl.ThreadCrawler">
 		<property name="listExtractor">
 			<ref bean="listExtractor" />
+		</property>
+		<property name="bdb">
+			<ref bean="bdbSpider" />
+		</property>
+		<property name="postDao">
+			<ref bean="postDao" />
 		</property>
 	</bean>
 		

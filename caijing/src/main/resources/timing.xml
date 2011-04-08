@@ -75,8 +75,12 @@
 		<property name="config">
 			<ref bean="config" />
 		</property>
+		<property name="threadCrawler">
+			<ref bean="threadCrawler" />
+		</property>
 	</bean>
-	<bean id="scheduledExtract"
+	
+	<bean id="scheduledOnlineCrawl"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject">
 			<ref bean="extractScheduler" />
@@ -86,13 +90,33 @@
 		</property>
 		<property name="concurrent" value="false" />
 	</bean>
-	<bean id="extractTrigger"
+	<bean id="onlinecrawlTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
-			<ref bean="scheduledExtract" />
+			<ref bean="scheduledOnlineCrawl" />
 		</property>
 		<property name="cronExpression">
-			<value>0 1/2 9-16 ? * MON-FRI</value><!-- 每小时执行一次 -->
+			<value>10 */3 9-16 ? * MON-FRI</value><!-- 每小时执行一次 -->
+		</property>
+	</bean>
+
+	<bean id="scheduledThreadCrawl"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="extractScheduler" />
+		</property>
+		<property name="targetMethod">
+			<value>crawlThread</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="threadcrawlTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledThreadCrawl" />
+		</property>
+		<property name="cronExpression">
+			<value>0 17/20 6-23 * * ?</value><!-- 每小时执行一次 -->
 		</property>
 	</bean>
 
@@ -207,7 +231,8 @@
 			<list>
 				<ref bean="cronInfoTrigger" />
 				<ref bean="cronSpide" />
-				<ref bean="extractTrigger" />
+				<ref bean="onlinecrawlTrigger" />
+				<ref bean="threadcrawlTrigger" />
 				<ref bean="cronStore" />
 				<ref bean="cronFlush" />
 			</list>

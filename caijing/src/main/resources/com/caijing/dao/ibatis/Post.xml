@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Post">
+
+	<typeAlias alias="Post"
+		type="com.caijing.domain.Post" />
+
+	<select id="getPostByGroupid"  parameterClass="java.util.Map" resultClass="Post">
+		select * from post where groupid=#groupid# order by ptime desc limit #start#,#length#
+	</select>
+
+	<select id="getPostCountByGroupid" resultClass="java.lang.Integer">
+		select count(1) from post where groupid=#groupid#
+	</select>
+
+	<select id="select" parameterClass="Post"
+		resultClass="Post">
+		select * from notice where pid=#pid#
+	</select>
+
+	<insert id="insert">
+		insert into post
+		(pid,title,content,groupid,nick,ptime,relatedstocks) values
+		(#pid#,#title#,#content#,#groupid#,#nick#,#ptime#,#relatedstocks#)
+	</insert>
+
+	<update id="update" parameterClass="Post">
+		update post
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="title">
+				title = #title#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="content">
+				content = #content#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="nick">
+				nick = #nick#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="groupid">
+				groupid = #groupid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="ptime">
+				ptime = #ptime#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="relatedstocks">
+				relatedstocks = #relatedstocks#
+			</isNotEmpty>
+		</dynamic>
+		where pid=#pid#
+	</update>
+
+	<delete id="delete" parameterClass="Post">
+		delete from post where pid=#pid#
+	</delete>
+
+</sqlMap>

@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.crawl.OnlineCrawler;
 import com.caijing.crawl.ReportExtractorImpl;
+import com.caijing.crawl.ThreadCrawler;
 import com.caijing.dao.MasterMessageDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
 import com.caijing.util.Config;
+import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.FileUtil;
 
@@ -35,6 +37,18 @@ public class ExtractSchedule {
 	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
+
+	@Autowired
+	@Qualifier("threadCrawler")
+	private ThreadCrawler threadCrawler = null;
+
+	public ThreadCrawler getThreadCrawler() {
+		return threadCrawler;
+	}
+
+	public void setThreadCrawler(ThreadCrawler threadCrawler) {
+		this.threadCrawler = threadCrawler;
+	}
 
 	@Autowired
 	@Qualifier("config")
@@ -72,8 +86,28 @@ public class ExtractSchedule {
 			logger.debug("masterid:" + key + "  mastername:" + propertys.get("name") + "  key:" + k + "  d_str:"
 					+ d_str + "  startNum:" + num);
 			crawler.crawler(masterid, num, uid, cookie, d_str, k, refer);
+
+			try {
+				Thread.sleep(20000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			//				crawler.getZhibo(masterid, num, k, d_str);
 
+		}
+	}
+
+	public void crawlThread() {
+		Map map = (Map) config.getObject("groupid");
+		for (Object key : map.keySet()) {
+			Map propertys = (Map) map.get(key);
+			String cookie = (String) propertys.get("cookie");
+			threadCrawler.crawl((String) key, cookie);
+			try {
+				Thread.sleep(20000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -157,5 +191,11 @@ public class ExtractSchedule {
 
 	public void setConfig(Config config) {
 		this.config = config;
+	}
+
+	public static void main(String[] args) {
+		ExtractSchedule extractScheduler = (ExtractSchedule) ContextFactory.getBean("extractScheduler");
+		extractScheduler.crawlThread();
+		System.exit(0);
 	}
 }

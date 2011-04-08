@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
-import com.caijing.cache.BerkeleyDB;
 import com.caijing.domain.Post;
 import com.caijing.util.Config;
 
@@ -44,7 +43,7 @@ public class ListExtractor implements Extractor {
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	private BerkeleyDB bdb = null;
+	//	private BerkeleyDB bdb = null;
 
 	private Config config = null;
 
@@ -138,14 +137,6 @@ public class ListExtractor implements Extractor {
 			return Integer.parseInt(m.group(1).trim());
 		}
 		return 0;
-	}
-
-	public BerkeleyDB getBdb() {
-		return bdb;
-	}
-
-	public void setBdb(BerkeleyDB bdb) {
-		this.bdb = bdb;
 	}
 
 	public Config getConfig() {

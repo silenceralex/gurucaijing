@@ -28,11 +28,7 @@ public class BerkeleyDB {
 	EntryBinding strBinding = TupleBinding.getPrimitiveBinding(String.class);
 	private Database myDB = null;
 
-	public BerkeleyDB() {
-
-	}
-
-	public void setup(String envHome, boolean readOnly) throws DatabaseException {
+	public BerkeleyDB(String envHome, boolean readOnly) {
 		EnvironmentConfig myEnvConfig = new EnvironmentConfig();
 		DatabaseConfig myDbConfig = new DatabaseConfig();
 		myEnvConfig.setReadOnly(readOnly);
@@ -48,6 +44,23 @@ public class BerkeleyDB {
 		myDbConfig.setTransactional(true);
 		myDB = myEnv.openDatabase(null, "urlDB", myDbConfig);
 	}
+
+	//	public void setup(String envHome, boolean readOnly) throws DatabaseException {
+	//		EnvironmentConfig myEnvConfig = new EnvironmentConfig();
+	//		DatabaseConfig myDbConfig = new DatabaseConfig();
+	//		myEnvConfig.setReadOnly(readOnly);
+	//		myEnvConfig.setTransactional(true);
+	//		myEnvConfig.setAllowCreate(!readOnly);
+	//		File file = new File(envHome);
+	//		if (!file.exists()) {
+	//			file.mkdirs();
+	//		}
+	//		myEnv = new Environment(new File(envHome), myEnvConfig);
+	//		myDbConfig.setAllowCreate(!readOnly);
+	//		myDbConfig.setReadOnly(readOnly);
+	//		myDbConfig.setTransactional(true);
+	//		myDB = myEnv.openDatabase(null, "urlDB", myDbConfig);
+	//	}
 
 	/**
 	 * key-value对的存储
@@ -147,10 +160,10 @@ public class BerkeleyDB {
 	}
 
 	public static void main(String argv[]) {
-		BerkeleyDB db = new BerkeleyDB();
+		BerkeleyDB db = new BerkeleyDB("/home/app/urldb/caijing", false);
 		//		ColumnArticleDao columnArticleDao = (ColumnArticleDao) ContextFactory.getBean("columnArticleDao");
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
-		db.setup("/home/app/urldb/caijing", false);
+		//		db.setup("/home/app/urldb/caijing", false);
 		System.out.println("/home/app/urldb/caijing:  success!");
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleByDomain();
 		//		for (ColumnArticle article : articles) {

@@ -15,7 +15,7 @@ public class Post {
 		this.pid = pid;
 	}
 
-	private int groupid = 0;
+	private String groupid = null;
 	private String content = null;
 	private Date ptime = null;
 	private String relatedstocks = null;
@@ -44,11 +44,11 @@ public class Post {
 		this.nick = nick;
 	}
 
-	public int getGroupid() {
+	public String getGroupid() {
 		return groupid;
 	}
 
-	public void setGroupid(int groupid) {
+	public void setGroupid(String groupid) {
 		this.groupid = groupid;
 	}
 

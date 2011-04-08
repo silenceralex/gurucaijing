@@ -83,7 +83,7 @@ public class CrawlNotice {
 	protected boolean finished = false;
 	private Trie trie = new Trie();
 
-	private BerkeleyDB urlDB = new BerkeleyDB();
+	private BerkeleyDB urlDB = new BerkeleyDB("/home/app/urldb/notice", false);
 
 	@Autowired
 	@Qualifier("noticeDao")
@@ -116,7 +116,7 @@ public class CrawlNotice {
 		trie.add("¼¤Àø¼Æ»®", 0);
 		urlsToSearch.add("http://stockdata.stock.hexun.com/2008/jrgg.aspx?type=3");
 		urlsToSearch.add("http://stockdata.stock.hexun.com/2008/jrgg.aspx?type=2");
-		urlDB.setup("/home/app/urldb/notice", false);
+		//		urlDB.setup("/home/app/urldb/notice", false);
 	}
 
 	private boolean withIn(URL ou) {

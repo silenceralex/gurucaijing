@@ -23,6 +23,7 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.springframework.context.ApplicationContext;
 
+import com.caijing.dao.PostDao;
 import com.caijing.domain.Post;
 import com.caijing.spider.BerkeleyDB;
 import com.caijing.util.Config;
@@ -31,12 +32,20 @@ import com.caijing.util.ServerUtil;
 
 public class ThreadCrawler {
 
-	private static final String COOKIE = "	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s";
-
 	private static final String start = "http://vip.g.cnfol.com/fourm/master_lastpost_";
 	private HttpParams params = new BasicHttpParams();
 	private ClientConnectionManager cm = null;
 	private Extractor listExtractor = null;
+
+	private PostDao postDao = null;
+
+	public PostDao getPostDao() {
+		return postDao;
+	}
+
+	public void setPostDao(PostDao postDao) {
+		this.postDao = postDao;
+	}
 
 	private static Pattern rangePattern = Pattern.compile("<tr\\s+bgcolor=\"#[f8]{6}\">(.*?)</tr>",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
@@ -133,7 +142,14 @@ public class ThreadCrawler {
 						String threadcontent = download(threadurl, cookie);
 						Post post = listExtractor.extractFromHtml(threadcontent, "" + masterid);
 						post.setPid(ServerUtil.getid());
-						bdb.putUrl(threadurl);
+						post.setGroupid(masterid);
+						try {
+							postDao.insert(post);
+							bdb.putUrl(threadurl);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
 					}
 				}
 
@@ -166,8 +182,8 @@ public class ThreadCrawler {
 	public static void main(String[] args) {
 		//		ThreadCrawler crawler = new ThreadCrawler();
 		//		ListExtractor extractor = new ListExtractor();
-		BerkeleyDB bdb = new BerkeleyDB();
-		bdb.setup("D:\\bdb", false);
+		BerkeleyDB bdb = new BerkeleyDB("D:\\bdb", false);
+		//		bdb.setup("D:\\bdb", false);
 		//		extractor.setBdb(bdb);
 		//		crawler.setListExtractor(extractor);
 		//		crawler.init();
@@ -176,7 +192,9 @@ public class ThreadCrawler {
 		//"http://vip.g.cnfol.com/fourm/master_lastpost_1752.html"
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		ThreadCrawler crawler = (ThreadCrawler) context.getBean("threadCrawler");
+		PostDao postDao = (PostDao) context.getBean("postDao");
 		crawler.setBdb(bdb);
+		crawler.setPostDao(postDao);
 		Config config = (Config) context.getBean("config");
 		Map map = (Map) config.getObject("groupid");
 		//		for (Object key : map.keySet()) {

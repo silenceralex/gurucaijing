@@ -24,4 +24,5 @@
 	<sqlMap resource="com/caijing/dao/ibatis/Master.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/AnalyzerSuccess.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/financialreport.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/Post.xml" />
 </sqlMapConfig>

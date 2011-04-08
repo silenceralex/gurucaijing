@@ -30,7 +30,7 @@ public class PageParser extends Thread {
 	private List<InnerMatch> innerMatches = new ArrayList<InnerMatch>();
 	private UrlDownload urldown = new UrlDownload();
 	private Vector<String> pageUrls = new Vector<String>();
-	private BerkeleyDB urlDB = new BerkeleyDB();
+	private BerkeleyDB urlDB = null;
 	private String THRESHOLD = "2009-10-01 00:00:00";
 	//	private Column col = null;
 	private long bytesDownloaded = 0;
@@ -44,10 +44,11 @@ public class PageParser extends Thread {
 	private HashSet<String> fieldSet = new HashSet<String>();
 	String[] fields = { "title", "video_url", "url", "description", "last_time", "publish_time", "tag" };
 
-	public PageParser() {
+	public PageParser(String urlDbPath, boolean readOnly) {
 		for (String str : fields) {
 			fieldSet.add(str);
 		}
+		urlDB = new BerkeleyDB(urlDbPath, readOnly);
 	}
 
 	/**
@@ -260,13 +261,7 @@ public class PageParser extends Thread {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PageParser p = new PageParser();
-		try {
-			p.getUrlDB().setup("d:\\test", false);
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PageParser p = new PageParser("d:\\test", false);
 
 		p.getPageUrls().add("http://video.nxtv.cn/player.php?id=19548");
 		InnerMatch im = new InnerMatch("现在播放的视频: (.*?)</", "title");

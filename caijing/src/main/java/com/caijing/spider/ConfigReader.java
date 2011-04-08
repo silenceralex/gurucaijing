@@ -72,8 +72,8 @@ public class ConfigReader {
 			job.setType(type);
 			job.setColumnid(columnid);
 
-			BerkeleyDB urlDB = new BerkeleyDB();
-			urlDB.setup(urlDB_path, false);
+			BerkeleyDB urlDB = new BerkeleyDB(urlDB_path, false);
+			//			urlDB.setup(urlDB_path, false);
 			job.setUrlDB(urlDB);
 
 			// ranges
@@ -187,8 +187,8 @@ public class ConfigReader {
 		} else {
 			System.out.println("urlDB_path is :" + urlDB_path);
 		}
-		BerkeleyDB urlDB = new BerkeleyDB();
-		urlDB.setup(urlDB_path, false);
+		BerkeleyDB urlDB = new BerkeleyDB(urlDB_path, false);
+		//		urlDB.setup(urlDB_path, false);
 		rssjob.setUrlDB(urlDB);
 		Element node = (Element) root.selectSingleNode("root");
 		rssjob.setRoot(node.attributeValue("property"));
@@ -236,8 +236,8 @@ public class ConfigReader {
 	}
 
 	public static InnerMatch createInnerMatch(Element imNode) {
-		InnerMatch im = new InnerMatch(imNode.selectSingleNode("regexp").getText().trim(), imNode
-				.attributeValue("property"));
+		InnerMatch im = new InnerMatch(imNode.selectSingleNode("regexp").getText().trim(),
+				imNode.attributeValue("property"));
 		String attvStripTags = imNode.attributeValue("striptags");
 		if (attvStripTags != null && attvStripTags.equalsIgnoreCase("true")) {
 			im.setStripTags(true);
@@ -285,14 +285,14 @@ public class ConfigReader {
 		bpInterface.setDownEncode(charset);
 		String urlDbPath = root.attributeValue("urldb");
 
-		PageParser pp = new PageParser();
+		PageParser pp = new PageParser(urlDbPath, false);
 		pp.setDownEncode(charset);
-		try {
-			pp.getUrlDB().setup(urlDbPath, false);
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//		try {
+		//			pp.getUrlDB().setup(urlDbPath, false);
+		//		} catch (DatabaseException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 
 		Element patternNode = (Element) root.selectSingleNode("pattern");
 		List<Element> linkIMNodes = patternNode.selectNodes("innermatch");

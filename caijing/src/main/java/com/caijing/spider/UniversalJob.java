@@ -14,8 +14,6 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.sleepycat.je.DatabaseException;
-
 /**
  * 通用的包含最终页面的栏目抓取任务，可以通过BuildProperty的接口来进行特殊字段的解析，如，video_url等
  * 因此，set不同的bpInterface可以处理不同卫视的按照“最终页面”方式来抓取的任务。
@@ -167,17 +165,17 @@ public class UniversalJob {
 		//		for (Column job : jobs) {
 		//		Vector<String> pages = cidUrlMap.get(job.getCid());
 		//		System.out.println("CID: " + job.getCid() + "  download " + pages.size() + " pages!");
-		PageParser p = new PageParser();
+		PageParser p = new PageParser(urlDbPath, false);
 		//		p.setCol(job);
 		p.setInnerMatches(innerMatches);
 		p.setDownEncode(charset);
 		p.setPageUrls(pageUrls);
 		//		p.setBpInterface(bpInterface);
-		try {
-			p.getUrlDB().setup(urlDbPath, false);
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
+		//		try {
+		//			p.getUrlDB().setup(urlDbPath, false);
+		//		} catch (DatabaseException e) {
+		//			e.printStackTrace();
+		//		}
 		pageParsers.add(p);
 		p.start();
 		//		}
