@@ -1,6 +1,9 @@
 package com.caijing.crawl;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -20,14 +23,37 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.springframework.context.ApplicationContext;
 
+import com.caijing.domain.Post;
+import com.caijing.spider.BerkeleyDB;
+import com.caijing.util.Config;
 import com.caijing.util.ContextFactory;
+import com.caijing.util.ServerUtil;
 
 public class ThreadCrawler {
 
 	private static final String COOKIE = "	__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1101; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=7784D13AA43F27CD6A8B9D407CC6960B; cookie[passport][logtime]=1297951270; cookie[passport][keystr]=3F2F7AD6501967C235923E324600DC97; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=0; g7F_cookietime=86400; g7F_sid=8H8yhY; g7F_visitedfid=27; smile=1D1; JSESSIONID=0QlCoiXh4ScZAJfK2s";
+
+	private static final String start = "http://vip.g.cnfol.com/fourm/master_lastpost_";
 	private HttpParams params = new BasicHttpParams();
 	private ClientConnectionManager cm = null;
 	private Extractor listExtractor = null;
+
+	private static Pattern rangePattern = Pattern.compile("<tr\\s+bgcolor=\"#[f8]{6}\">(.*?)</tr>",
+			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	private static Pattern urlPattern = Pattern.compile(
+			"<a\\s+href='(http://vip\\.g\\.cnfol\\.com/thread/[0-9]+,[0-9]+\\.html)'>", Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
+
+	private BerkeleyDB bdb = null;
+
+	public BerkeleyDB getBdb() {
+		return bdb;
+	}
+
+	public void setBdb(BerkeleyDB bdb) {
+		this.bdb = bdb;
+	}
 
 	public void init() {
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
@@ -45,7 +71,7 @@ public class ThreadCrawler {
 		cm = new ThreadSafeClientConnManager(params, schemeRegistry);
 	}
 
-	private void assemble(HttpGet get) {
+	private void assemble(HttpGet get, String cookie) {
 
 		get.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		get.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
@@ -56,14 +82,14 @@ public class ThreadCrawler {
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Content-type", "application/x-www-form-urlencoded");
-		get.setHeader("Cookie", COOKIE);
+		get.setHeader("Cookie", cookie);
 	}
 
-	private String download(String url) {
+	private String download(String url, String cookie) {
 		HttpClient httpClient = new DefaultHttpClient(cm, params);
 		HttpGet get = new HttpGet(url);
 		get.setHeader("Host", "vip.g.cnfol.com");
-		assemble(get);
+		assemble(get, cookie);
 		try {
 			HttpResponse response = httpClient.execute(get);
 			//			String cookie = response.getFirstHeader("Set-Cookie").getValue();
@@ -82,38 +108,53 @@ public class ThreadCrawler {
 		}
 	}
 
-	public void crawl(String startUrl) {
+	public void crawl(String masterid, String cookie) {
 		HttpClient httpClient = new DefaultHttpClient(cm, params);
+		String startUrl = start + masterid + ".html";
 		HttpGet get = new HttpGet(startUrl);
-		String groupID = startUrl.substring(startUrl.lastIndexOf("/") + 1, startUrl.indexOf(','));
-		System.out.println("groupID: " + groupID);
+		System.out.println("groupID: " + masterid);
 		get.setHeader("Host", "vip.g.cnfol.com");
-		assemble(get);
+		assemble(get, cookie);
 		try {
 			HttpResponse response = httpClient.execute(get);
 			//			String cookie = response.getFirstHeader("Set-Cookie").getValue();
 			GzipEntity gentity = new GzipEntity(response.getEntity());
-			String content = EntityUtils.toString(gentity, "utf-8");
+			String content = EntityUtils.toString(gentity, "GBK");
 			//			String content = EntityUtils.toString(response.getEntity(), "utf-8");
-			int page = listExtractor.getTotalPages(content);
-			System.out.println("page: " + page);
-			page = (page / 15 + 1);
-			System.out.println("page num: " + page);
-			for (int i = 1; i < page + 1; i++) {
-				String url = startUrl.substring(0, startUrl.lastIndexOf(".html")) + ",p" + i + ".html";
-				System.out.println("page url: " + url);
-				String pageContent = download(url);
-				//				System.out.println("pageContent: " + pageContent);
-				listExtractor.extractFromHtml(pageContent, groupID);
-				Thread.sleep(5000);
+
+			Matcher m = rangePattern.matcher(content);
+			while (m != null && m.find()) {
+				String rangecontent = m.group(1).trim();
+				Matcher urlm = urlPattern.matcher(rangecontent);
+				if (urlm != null && urlm.find()) {
+					String threadurl = urlm.group(1).trim();
+					System.out.println("threadurl:" + threadurl);
+					if (!bdb.contains(threadurl)) {
+						String threadcontent = download(threadurl, cookie);
+						Post post = listExtractor.extractFromHtml(threadcontent, "" + masterid);
+						post.setPid(ServerUtil.getid());
+						bdb.putUrl(threadurl);
+					}
+				}
+
 			}
+
+			//			int page = listExtractor.getTotalPages(content);
+			//			System.out.println("page: " + page);
+			//			page = (page / 15 + 1);
+			//			System.out.println("page num: " + page);
+			//			for (int i = 1; i < page + 1; i++) {
+			//				String url = startUrl.substring(0, startUrl.lastIndexOf(".html")) + ",p" + i + ".html";
+			//				System.out.println("page url: " + url);
+			//				String pageContent = download(url);
+			//				System.out.println("pageContent: " + pageContent);
+			//				listExtractor.extractFromHtml(pageContent, groupID);
+			//				Thread.sleep(5000);
+			//			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -125,17 +166,25 @@ public class ThreadCrawler {
 	public static void main(String[] args) {
 		//		ThreadCrawler crawler = new ThreadCrawler();
 		//		ListExtractor extractor = new ListExtractor();
-		//		BerkeleyDB bdb = new BerkeleyDB();
-		//		bdb.setup("D:\\bdb", false);
+		BerkeleyDB bdb = new BerkeleyDB();
+		bdb.setup("D:\\bdb", false);
 		//		extractor.setBdb(bdb);
 		//		crawler.setListExtractor(extractor);
 		//		crawler.init();
 		//		crawler.crawl("http://vip.g.cnfol.com/thread/2074,316182.html");
 		//		crawler.crawl("http://vip.g.cnfol.com/thread/103,144394.html");
+		//"http://vip.g.cnfol.com/fourm/master_lastpost_1752.html"
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		ThreadCrawler crawler = (ThreadCrawler) context.getBean("threadCrawler");
-		crawler.crawl("http://vip.g.cnfol.com/thread/2074,316182.html");
-
+		crawler.setBdb(bdb);
+		Config config = (Config) context.getBean("config");
+		Map map = (Map) config.getObject("groupid");
+		//		for (Object key : map.keySet()) {
+		Map propertys = (Map) map.get("575");
+		String cookie = (String) propertys.get("cookie");
+		crawler.crawl("575", cookie);
+		//		}
+		System.exit(0);
 	}
 
 	public Extractor getListExtractor() {

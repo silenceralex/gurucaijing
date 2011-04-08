@@ -5,10 +5,28 @@ import java.util.Date;
 public class Post {
 	private String title = null;
 	private String nick = null;
-	private long userid = 0;
+	private String pid = null;
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
 	private int groupid = 0;
 	private String content = null;
-	private String date = null;
+	private Date ptime = null;
+	private String relatedstocks = null;
+
+	public String getRelatedstocks() {
+		return relatedstocks;
+	}
+
+	public void setRelatedstocks(String relatedstocks) {
+		this.relatedstocks = relatedstocks;
+	}
 
 	public String getTitle() {
 		return title;
@@ -24,14 +42,6 @@ public class Post {
 
 	public void setNick(String nick) {
 		this.nick = nick;
-	}
-
-	public long getUserid() {
-		return userid;
-	}
-
-	public void setUserid(long userid) {
-		this.userid = userid;
 	}
 
 	public int getGroupid() {
@@ -50,11 +60,11 @@ public class Post {
 		this.content = content;
 	}
 
-	public String getDate() {
-		return date;
+	public Date getPtime() {
+		return ptime;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setPtime(Date ptime) {
+		this.ptime = ptime;
 	}
 }
