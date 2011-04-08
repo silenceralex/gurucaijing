@@ -299,4 +299,14 @@ public class RecommendStockDaoImpl extends CrudDaoDefault implements RecommendSt
 		return (List<RecommendStock>) getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getNonameStocks");
 	}
 
+	@Override
+	public int updateByPrimaryKeySelective(Map<String, Object> parms) {
+		int rows = getSqlMapClientTemplate().update(this.getNameSpace()+".updateByPrimaryKeySelective", parms);
+        return rows;
+	}
+
+	@Override
+	public RecommendStock selectByReportid(String reportid) {
+		return (RecommendStock) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".selectByReportid", reportid);
+	}
 }

@@ -41,7 +41,6 @@
 		select count(1) from report where saname = #saname# and type = #type#
 	</select>
 
-
 	<select id="getAllReportsCountBySaname"
 		resultClass="java.lang.Integer">
 		select count(1) from report where saname = #value#
@@ -57,7 +56,7 @@
 	</select>
 
 	<select id="selectByMultiKey"  parameterClass="java.util.Map" resultClass="reportClass">
-		select * from report where saname = #saname# and stockcode = #stockcode# and filepath like "%createtime%"
+		<![CDATA[select * from report where saname = #saname# and stockcode = #stockcode# and filepath like "%$createtime$%"]]>
 	</select>
 
 	<select id="select" resultClass="reportClass">
@@ -108,6 +107,52 @@
 		</dynamic>
 		where rid=#rid#
 	</update>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="java.util.Map">
+	    update report
+	    <dynamic prepend="set">
+	      <isNotEmpty prepend="," property="title">
+	        title = #title:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="filepath">
+	        filepath = #filepath:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="ptime">
+	        ptime = #ptime:TIMESTAMP#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="aname">
+	        aname = #aname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="saname">
+	        saname = #saname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="abs">
+	        abs = #abs:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="type">
+	        type = #type:BIT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="status">
+	        status = #status:TINYINT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="stockcode">
+	        stockcode = #stockcode:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="publishdate">
+	        publishdate = #publishdate:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="stockname">
+	        stockname = #stockname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="said">
+	        said = #said:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="description">
+	        description = #description:LONGVARCHAR#
+	      </isNotEmpty>
+	    </dynamic>
+	    where rid = #rid:VARCHAR#
+  	</update>
 
 	<delete id="delete" parameterClass="reportClass">
 		delete from report where rid=#rid#

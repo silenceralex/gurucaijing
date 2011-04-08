@@ -1,6 +1,7 @@
 package com.caijing.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.caijing.domain.Report;
 import com.caijing.util.CrudDao;
@@ -28,5 +29,7 @@ public interface ReportDao extends CrudDao {
 
 	public List<Report> getReportsListByType(int type, int offset, int length);
 
-	public List<Report> selectByMultiKey(String saname, String stockcode, String createdate);
+	public Report selectByMultiKey(String saname, String stockcode, String createdate);
+	
+	public int updateByPrimaryKeySelective(Map<String, Object> params);
 }

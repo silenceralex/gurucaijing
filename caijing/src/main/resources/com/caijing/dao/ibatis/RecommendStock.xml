@@ -14,6 +14,10 @@
 	<select id="select" resultClass="RecommendStock">
 		select * from recommendstock where recommendid=#recommendid#
 	</select>
+	
+	<select id="selectByReportid" resultClass="RecommendStock">
+		select * from recommendstock where reportid = #reportid:VARCHAR#
+	</select>
 
 	<select id="getProblemData" resultClass="RecommendStock">
 		select * from recommendstock where stockname is null
@@ -25,7 +29,6 @@
 		as r where rs.reportid=r.rid order by rs.createdate desc limit
 		#start#,#offset#
 	</select>
-
 
 	<select id="getDiscountStocks" resultClass="DiscountStock">
 		select reportid,stockname,stockcode, saname,
@@ -205,6 +208,64 @@
 		</dynamic>
 		where reportid=#reportid#
 	</update>
+
+  	<update id="updateByPrimaryKeySelective" parameterClass="java.util.Map" >
+	    update recommendstock
+	    <dynamic prepend="set" >
+	      <isNotEmpty prepend="," property="stockname" >
+	        stockname = #stockname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="stockcode" >
+	        stockcode = #stockcode:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="aname" >
+	        aname = #aname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="saname" >
+	        saname = #saname:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="createdate" >
+	        createdate = #createdate:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="enddate" >
+	        enddate = #enddate:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="info" >
+	        info = #info:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="objectprice" >
+	        objectprice = #objectprice:REAL#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="buyprice" >
+	        buyprice = #buyprice:REAL#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="eps" >
+	        eps = #eps:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="level" >
+	        level = #level:BIT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="status" >
+	        status = #status:BIT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="action" >
+	        action = #action:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="grade" >
+	        grade = #grade:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="extractnum" >
+	        extractnum = #extractnum:BIT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="user" >
+	        user = #user:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="," property="lmodify" >
+	        lmodify = #lmodify:TIMESTAMP#
+	      </isNotEmpty>
+	    </dynamic>
+	    where reportid = #reportid:VARCHAR#
+  	</update>
 
 	<delete id="delete" parameterClass="RecommendStock">
 		delete from recommendstock where recommendid=#recommendid#

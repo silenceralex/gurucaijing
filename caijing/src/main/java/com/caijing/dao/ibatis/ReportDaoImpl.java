@@ -87,11 +87,17 @@ public class ReportDaoImpl extends CrudDaoDefault implements ReportDao {
 	}
 
 	@Override
-	public List<Report> selectByMultiKey(String saname, String stockcode, String createdate) {
+	public Report selectByMultiKey(String saname, String stockcode, String createdate) {
 		Map<String, Object> params = new HashMap<String, Object>(3);
 		params.put("saname", saname);
 		params.put("stockcode", stockcode);
-		params.put("createdate", createdate);
-		return (List<Report>) getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".selectByMultiKey",	params);
+		params.put("createtime", createdate);
+		return (Report) getSqlMapClientTemplate().queryForObject(this.getNameSpace() + ".selectByMultiKey",	params);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Map<String, Object> parms) {
+		int rows = getSqlMapClientTemplate().update(this.getNameSpace()+".updateByPrimaryKeySelective", parms);
+        return rows;
 	}
 }

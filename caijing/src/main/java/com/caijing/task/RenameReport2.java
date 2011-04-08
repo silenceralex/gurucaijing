@@ -41,7 +41,7 @@ public class RenameReport2 {
 	
 	final static String excelDirPath = "/data/excel/"; //TODO rename to same name with report dirname
 	final static String reportDirPath = "/data/oldpapers2/";
-	final static String desthtmlPath = "/home/rnhtml/papers/"; //TODO 
+	final static String desthtmlPath = "/home/rnhtml2/papers/"; //TODO 
 
 	private ReportDao reportDao = (ReportDao) ContextFactory.getBean("reportDao");
 	private StockDao stockDao = (StockDao) ContextFactory.getBean("stockDao");
@@ -61,15 +61,16 @@ public class RenameReport2 {
 		Map<String, String> map = new HashMap<String, String>() {
 			private static final long serialVersionUID = 1L;
 			{
-				put("/data/oldpapers/201008/201008.xls", "/data/oldreports/201008/");
-				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
-				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
-				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
-				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
-				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
-				put("/data/excel/hanjianping-2.xls", "/data/oldreports/hanjianping/");
-				put("/data/excel/yanshiyou-1.xlsx", "/data/oldreports/yanshiyou/");
-				put("/data/excel/wanghan-3.xlsx", "/data/oldreports/wanghan/");
+//				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
+//				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
+//				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
+//				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
+//				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
+//				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
+//				put("/data/excel/hanjianping-2.xls", "/data/oldpapers/hanjianping/");
+//				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers/yanshiyou/");
+//				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers/wanghan/");
+				put("/data/excel/test.xlsx", "/data/oldpapers/test/");
 			}
 		};
 		
@@ -90,24 +91,26 @@ public class RenameReport2 {
 			
 			String rid = ServerUtil.getid();
 			String filename = row.get(0);
-			String saname = row.get(1);
+			String saname = row.get(1).trim();
 			String stockcode = getcode(row.get(2));
 			String createdate = row.get(7).trim();
-			String title = row.get(3);
-			String aname = row.get(4);
-			String grade = row.get(5);
-			String objectpricestr = row.get(6);
+			String title = row.get(3).trim();
+			String aname = row.get(4).trim();
+			String grade = row.get(5).trim();
+			String objectpricestr = row.get(6).trim();
 //			String eps = fetchEps(saname, destPdffilepath, destTxtfilepath);
 			String eps = null;
 			
 			String destPdffilepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 			String destTxtfilepath = desthtmlPath +createdate+"/"+rid + ".txt";
 
-			if(stockcode==null||createdate.length()==0||row.get(1).equals("券商名称")||row.get(1).length()==0||row.get(1).length()>8){
+			if(stockcode==null||createdate.length()==0||createdate.equals("无")||row.get(1).equals("券商名称")||row.get(1).length()==0||row.get(1).length()>8){
 				continue;
 			}
 
-			if(isReportExist(saname, stockcode, createdate)){ //重复的话，更新数据
+			String rid2 = isReportExist(saname, stockcode, createdate);
+			if(rid2!=null){ //重复的话，更新数据
+				rid = rid2;
 				updateReport(rid, saname, stockcode, title, aname, grade, objectpricestr, createdate, eps);
 				continue;
 			}
@@ -120,16 +123,16 @@ public class RenameReport2 {
 		}
 	}
 	
-	public boolean isReportExist(String saname,String stockcode,String createdate){
-		List<Report> reports = reportDao.selectByMultiKey(saname, stockcode, createdate);
-		if(reports==null || reports.size()==0){
-			return false;
+	public String isReportExist(String saname,String stockcode,String createdate){
+		Report report = reportDao.selectByMultiKey(saname, stockcode, createdate);
+		if(report==null){
+			return null;
 		}
-		return true;
+		return report.getRid();
 	}
 	
 	private boolean newReportFile(String prefix, String filename, String destPdffilepath) {
-		String[] suffixs = {".pdf",".PDF",".PDf", ".Pdf"};
+		String[] suffixs = {".pdf",".PDF",".PDf", ".Pdf",""};
 		
 		for (String suffix : suffixs) {
 			File report = new File(prefix + filename + suffix);
@@ -160,23 +163,78 @@ public class RenameReport2 {
 	public void updateReport(String rid, String saname, String stockcode, String title, String aname, String grade, 
 			String objectpricestr, String createdate, String eps) {
 		//Report
-		Report report = newReport(rid, saname, stockcode, title, aname, createdate);
-//		reportDao.update(report);
+		Map<String, Object> report = newReportMap(rid, saname, stockcode, title, aname, createdate);
+		reportDao.updateByPrimaryKeySelective(report);
+		System.out.println("update report " + rid);
 		
 		//RecommendStock
-		RecommendStock recommendStock = newRecommendStock(rid, stockcode, report.getStockname(), saname, aname, grade, eps, createdate, objectpricestr);
-//		recommendStockDao.update(recommendStock);
+		if(recommendStockDao.selectByReportid((String)report.get("reportid"))==null){
+			RecommendStock recommendStock = newRecommendStock(rid, stockcode, (String)report.get("stockname"), saname, aname, grade, eps, createdate, objectpricestr);
+			recommendStockDao.insert(recommendStock);
+			System.out.println("insert missing recommendStock " + rid);
+		} else {
+			Map<String, Object> recommendStock = newRecommendStockMap(rid, stockcode, (String)report.get("stockname"), saname, aname, grade, eps, createdate, objectpricestr);
+			recommendStockDao.updateByPrimaryKeySelective(recommendStock);
+			System.out.println("update recommendStock " + rid);
+		}
 	}
 	
 	public void insertReport(String rid, String saname, String stockcode, String title, String aname, String grade, 
 			String objectpricestr, String createdate, String eps) {
 		//Report
 		Report report = newReport(rid, saname, stockcode, title, aname, createdate);
-//		reportDao.insert(report);
+		reportDao.insert(report);
+		System.out.println("insert report " + rid);
 		
 		//RecommendStock
 		RecommendStock recommendStock = newRecommendStock(rid, stockcode, report.getStockname(), saname, aname, grade, eps, createdate, objectpricestr);
-//		recommendStockDao.insert(recommendStock);
+		recommendStockDao.insert(recommendStock);
+		System.out.println("insert recommendStock " + rid);
+	}
+	
+	public Map<String, Object> newReportMap(String rid, String saname, String stockcode, String title, String aname, String createdate){
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put("rid", rid);
+		params.put("saname",saname);
+		params.put("stockcode",stockcode);
+		Stock stock = (Stock)stockDao.select(stockcode);
+		String stockname = null;
+		if(stock!=null){
+			stockname = stock.getStockname();
+		}
+		params.put("stockname",stockname);
+		params.put("type",1);
+		params.put("title",title);
+		params.put("aname",aname);
+		params.put("ptime",new Date());
+		
+		String filepath = desthtmlPath +createdate+"/"+rid + ".pdf";
+		params.put("filepath",filepath.replace("/home", ""));
+		return params;
+	}
+	
+	public Map<String, Object> newRecommendStockMap(String rid, String stockcode, String stockname, String saname, 
+			String aname, String grade, String eps, String createdate, String objectpricestr){
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+//		params.put("recommendid",ServerUtil.getid());
+		params.put("reportid",rid);
+		params.put("stockcode",stockcode);
+		params.put("stockname",stockname);
+		params.put("saname",saname);
+		params.put("aname",aname);
+		params.put("grade",grade);
+		params.put("status",judgeStaus(grade));
+		params.put("eps",eps);
+		params.put("createdate",createdate);
+		float objectprice = 0;
+		if(isNumeric(objectpricestr)){
+			objectprice = Float.parseFloat(objectpricestr);
+		}
+		params.put("objectprice",objectprice);
+		params.put("extractnum",4);
+		return params;
 	}
 	
 	public Report newReport(String rid, String saname, String stockcode, String title, String aname, String createdate){
@@ -223,6 +281,9 @@ public class RenameReport2 {
 	}
 	
 	public String getcode(String codestr){
+		if(codestr.trim().length()==0){
+			return null;
+		}
 		if(isNumeric(codestr)){
 			codestr = addZeroForNum(codestr, 6, true); 
 		}
@@ -329,7 +390,7 @@ public class RenameReport2 {
 	 * @return
 	 */
 	public static boolean isNumeric(String str){
-	    Pattern pattern = Pattern.compile("[0-9]*");
+	    Pattern pattern = Pattern.compile("[0-9]+");
 	    return pattern.matcher(str).matches();   
 	} 
 	

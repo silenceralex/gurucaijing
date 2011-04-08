@@ -1,6 +1,7 @@
 package com.caijing.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.DiscountStock;
@@ -136,4 +137,10 @@ public interface RecommendStockDao extends CrudDao {
 	 * 获取没有股票名称的RecommendStock
 	 */
 	public List<RecommendStock> getNonameStocks();
+
+	public int updateByPrimaryKeySelective(Map<String, Object> parms);
+
+	public RecommendStock selectByReportid(String reportid);
+	
+	
 }
