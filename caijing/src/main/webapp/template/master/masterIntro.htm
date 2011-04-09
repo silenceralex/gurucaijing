@@ -48,7 +48,7 @@
 							#if ($count % 5 == 0)
 		            		<ul>
 							#end
-								<li><span>(${dateTools.transformDate(${one.getPtime()})})</span><a href="${one.getUrl()}">${one.getTitle()}</a></li>
+								<li><span>(${dateTools.transformDateDetail(${one.getPtime()})})</span><a href="${one.getUrl()}">${one.getTitle()}</a></li>
 		            			#set ($count = $count + 1)
 							#if ($count % 5 == 0)
 		            		</ul>

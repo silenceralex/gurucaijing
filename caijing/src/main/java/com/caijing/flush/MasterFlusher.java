@@ -19,6 +19,7 @@ import com.caijing.util.Config;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
 import com.caijing.util.IDPathUtil;
+import com.caijing.util.Paginator;
 
 @Component("masterFlusher")
 public class MasterFlusher {
@@ -150,8 +151,46 @@ public class MasterFlusher {
 		}
 	}
 
+	public void flushThreadList() {
+		List<Master> masters = masterDao.getAllMasters(0, 100);
+		DateTools dateTools = new DateTools();
+		for (Master master : masters) {
+			int total = postDao.getPostCountByGroupid("" + master.getMasterid());
+			int totalpage = (total % 20 == 0) ? total : (total / 20 + 1);
+			Paginator<Post> paginator = new Paginator<Post>();
+			paginator.setPageSize(20);
+			paginator.setTotalRecordNumber(total);
+			paginator.setUrl("/master/" + master.getMasterid() + "/thread_$number$.html");
+			for (int i = 1; i <= totalpage; i++) {
+				paginator.setCurrentPageNumber(i);
+				List<Post> postList = postDao.getPostByGroupid("" + master.getMasterid(), (i - 1) * 20, 20 * i);
+				for (Post post : postList) {
+					post.setUrl(idPathUtil.getMasterPostFilePath(post).replace("/home/html", ""));
+					flushOnePost(post);
+				}
+
+				try {
+					VMFactory vmf = new VMFactory();
+					vmf.setTemplate("/template/master/masterThreadList.htm");
+					vmf.put("masters", masters);
+					vmf.put("articlelist", postList);
+					vmf.put("dateTools", dateTools);
+					vmf.put("paginatorLink", paginator.getPageNumberList());
+					String url = config.getProperty("masterPath") + master.getMasterid() + "/thread_" + i + ".html";
+					vmf.save(url);
+					System.out.println("write page : " + url);
+				} catch (Exception e) {
+					System.out.println("===> exception !!");
+					System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+
+		}
+	}
+
 	public void flushMasterInfo() {
-		List<Master> masters = masterDao.getAllMasters(0, 10);
+		List<Master> masters = masterDao.getAllMasters(0, 100);
 		for (Master master : masters) {
 			List<Post> postList = postDao.getPostByGroupid("" + master.getMasterid(), 0, 10);
 			for (Post post : postList) {
@@ -210,6 +249,7 @@ public class MasterFlusher {
 		//		flusher.flushLiveStatic();
 		flusher.flushMasterInfo();
 		flusher.flushArchive();
+		flusher.flushThreadList();
 		System.exit(0);
 	}
 

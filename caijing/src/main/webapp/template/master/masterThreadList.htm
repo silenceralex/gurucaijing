@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-        <title>投资大师_$!author 的博客列表页</title>
+        <title>投资大师_${master.mastername} 的观点列表页</title>
         <link href="/css/main.css" rel="stylesheet" type="text/css" />
         <link href="/css/second.css" rel="stylesheet" type="text/css" />
     </head>
@@ -41,8 +41,8 @@
                         <ul>
                             #end
                             <li>
-                            <span class="notice_list_date">($dateTools.transformYYYYMMDDDate($one.ptime))</span>
-                            <a title="$one.title" href="$one.link" target="_blank">$one.getTitle()</a>
+                            <span class="notice_list_date">($dateTools.transformDateDetail($one.ptime))</span>
+                            <a title="$one.title" href="$one.url" target="_blank">$one.getTitle()</a>
                             #if ($count%5==0)
                         </ul>
                         #end 
