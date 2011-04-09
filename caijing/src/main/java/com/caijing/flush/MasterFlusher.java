@@ -173,6 +173,7 @@ public class MasterFlusher {
 					VMFactory vmf = new VMFactory();
 					vmf.setTemplate("/template/master/masterThreadList.htm");
 					vmf.put("masters", masters);
+					vmf.put("master", master);
 					vmf.put("articlelist", postList);
 					vmf.put("dateTools", dateTools);
 					vmf.put("paginatorLink", paginator.getPageNumberList());
