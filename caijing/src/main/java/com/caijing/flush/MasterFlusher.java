@@ -155,7 +155,7 @@ public class MasterFlusher {
 		for (Master master : masters) {
 			List<Post> postList = postDao.getPostByGroupid("" + master.getMasterid(), 0, 10);
 			for (Post post : postList) {
-				post.setUrl(idPathUtil.getMasterPostFilePath(post).replace("/html/home", ""));
+				post.setUrl(idPathUtil.getMasterPostFilePath(post).replace("/home/html", ""));
 				flushOnePost(post);
 			}
 			try {
@@ -194,6 +194,7 @@ public class MasterFlusher {
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/master/masterThread.htm");
 			vmf.put("post", post);
+			vmf.put("dateTools", new DateTools());
 			String filePath = idPathUtil.getMasterPostFilePath(post);
 			vmf.save(filePath);
 			System.out.println("write page : " + filePath);
