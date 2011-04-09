@@ -82,7 +82,7 @@ public class MasterFlusher {
 			List<String> curdates = new ArrayList<String>();
 			for (Date date : dates) {
 				curdates.add(DateTools.transformYYYYMMDDDate(date));
-				urls.add(idPathUtil.getMasterLiveFilePath("" + master.getMasterid(), date));
+				urls.add(idPathUtil.getMasterLiveFilePath("" + master.getMasterid(), date).replace("/home/html", ""));
 				flushOneStatic(master, masters, date);
 			}
 			List<Integer> pages = new ArrayList<Integer>();
@@ -155,7 +155,7 @@ public class MasterFlusher {
 		for (Master master : masters) {
 			List<Post> postList = postDao.getPostByGroupid("" + master.getMasterid(), 0, 10);
 			for (Post post : postList) {
-				post.setUrl(idPathUtil.getMasterPostFilePath(post));
+				post.setUrl(idPathUtil.getMasterPostFilePath(post).replace("/html/home", ""));
 				flushOnePost(post);
 			}
 			try {
