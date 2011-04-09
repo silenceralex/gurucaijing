@@ -107,9 +107,9 @@ public class MasterFlusher {
 				vmf.put("encodename", encodename);
 				vmf.put("pages", pages);
 				vmf.put("curdates", curdates);
-				vmf.save(config.getProperty("masterPath") + master.getMasterid() + ".html");
+				vmf.save(config.getProperty("masterPath") + master.getMasterid() + "/archive_1.html");
 				System.out.println("write page : " + config.getProperty("masterPath") + master.getMasterid()
-						+ "_archive_1.html");
+						+ "/archive_1.html");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -139,7 +139,7 @@ public class MasterFlusher {
 			vmf.put("masterList", masters);
 			vmf.put("encodename", master.getMastername());
 			vmf.put("master", master);
-			vmf.put("date", date);
+			vmf.put("date", DateTools.transformYYYYMMDDDate(date));
 			String filePath = idPathUtil.getMasterLiveFilePath("" + master.getMasterid(), date);
 			vmf.save(filePath);
 			System.out.println("write page : " + filePath);
@@ -154,6 +154,10 @@ public class MasterFlusher {
 		List<Master> masters = masterDao.getAllMasters(0, 10);
 		for (Master master : masters) {
 			List<Post> postList = postDao.getPostByGroupid("" + master.getMasterid(), 0, 10);
+			for (Post post : postList) {
+				post.setUrl(idPathUtil.getMasterPostFilePath(post));
+				flushOnePost(post);
+			}
 			try {
 				String encodename = master.getMastername();
 				VMFactory vmf = new VMFactory();
@@ -185,9 +189,24 @@ public class MasterFlusher {
 		}
 	}
 
+	private void flushOnePost(Post post) {
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/master/masterThread.htm");
+			vmf.put("post", post);
+			String filePath = idPathUtil.getMasterPostFilePath(post);
+			vmf.save(filePath);
+			System.out.println("write page : " + filePath);
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		MasterFlusher flusher = (MasterFlusher) ContextFactory.getBean("masterFlusher");
-		flusher.flushLiveStatic();
+		//		flusher.flushLiveStatic();
 		flusher.flushMasterInfo();
 		flusher.flushArchive();
 		System.exit(0);

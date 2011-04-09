@@ -6,6 +6,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.caijing.domain.Post;
+
 @Component("IdUtil")
 public class IDPathUtil {
 
@@ -91,8 +93,9 @@ public class IDPathUtil {
 				+ DateTools.transformYYYYMMDDDate(date) + ".html";
 	}
 
-	public String getMasterFilePath(String vid, String product) {
-		return config.getValue("masterPath") + getIDPath(vid) + "/" + product + "_" + vid + ".xml";
+	public String getMasterPostFilePath(Post post) {
+		return config.getValue("masterPath") + post.getGroupid() + "/" + DateTools.getYear(post.getPtime()) + "/"
+				+ post.getPid() + ".html";
 	}
 
 	/**

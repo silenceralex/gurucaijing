@@ -12,6 +12,17 @@ public class Post {
 	private String relatedstocks = null;
 	private String threadid = null;
 
+	//数据库不存，仅作展示用
+	private String url = null;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public String getThreadid() {
 		return threadid;
 	}
