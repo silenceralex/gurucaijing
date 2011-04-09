@@ -114,7 +114,7 @@ public class ListExtractor implements Extractor {
 		HashSet<String> st = new HashSet<String>();
 		while (stockm != null && stockm.find()) {
 			String tmp = stockm.group(1);
-			if (!st.contains(tmp)) {
+			if (!st.contains(tmp) && !"000000".equals(tmp)) {
 				stock.append(tmp + " ");
 				// System.out.println("stock: " + tmp);
 				st.add(tmp);
