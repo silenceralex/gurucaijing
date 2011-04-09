@@ -17,10 +17,11 @@ import com.caijing.util.Config;
 public class ListExtractor implements Extractor {
 	private static Pattern stockPattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
-	private static Pattern rangePattern = Pattern.compile(
-			"<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">(.*?)<div class=\"lt5\">",
-			//			"<table width=\"96%\".*?bgcolor=\"#D7E4EA\" style=\"margin:7px;\">(.*?)<div class=\"lt5\">",
-			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
+	private static Pattern rangePattern = Pattern
+			.compile(
+					"<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">(.*?)</table>\\s+<div id=\"reply_img\">",
+					//			"<table width=\"96%\".*?bgcolor=\"#D7E4EA\" style=\"margin:7px;\">(.*?)<div class=\"lt5\">",
+					Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static Pattern titlePattern = Pattern.compile("<div class=\"lt2\">(.*?)</div>", Pattern.CASE_INSENSITIVE
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
