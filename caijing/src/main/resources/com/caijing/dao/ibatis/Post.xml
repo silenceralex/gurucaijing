@@ -20,8 +20,8 @@
 
 	<insert id="insert">
 		insert into post
-		(pid,title,content,groupid,nick,ptime,relatedstocks) values
-		(#pid#,#title#,#content#,#groupid#,#nick#,#ptime#,#relatedstocks#)
+		(pid,title,content,groupid,threadid,nick,ptime,relatedstocks) values
+		(#pid#,#title#,#content#,#threadid#,#groupid#,#nick#,#ptime#,#relatedstocks#)
 	</insert>
 
 	<update id="update" parameterClass="Post">
@@ -38,6 +38,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="groupid">
 				groupid = #groupid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="threadid">
+				threadid = #threadid#
 			</isNotEmpty>
 			<isNotEmpty prepend="," property="ptime">
 				ptime = #ptime#

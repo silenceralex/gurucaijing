@@ -17,6 +17,24 @@
 	<bean id="config" class="com.caijing.util.Config">
 		<property name="configMap">
 			<map>
+				<entry key="masterPath">
+					<value>/home/html/master/</value>
+				</entry>
+				<entry key="analyzerPath">
+					<value>/home/html/analyzer/</value>
+				</entry>
+				<entry key="reportPath">
+					<value>/home/html/report/</value>
+				</entry>
+				<entry key="noticePath">
+					<value>/home/html/notice/</value>
+				</entry>
+				<entry key="articlesPath">
+					<value>/home/html/articles/</value>
+				</entry>
+				<entry key="financialreportPath">
+					<value>/home/html/financialreport/</value>
+				</entry>
 				<entry key="groupid">
 					<map>
 					<!--

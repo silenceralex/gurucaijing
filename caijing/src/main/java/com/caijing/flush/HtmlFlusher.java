@@ -34,7 +34,6 @@ import com.caijing.domain.ColumnArticle;
 import com.caijing.domain.FinancialReport;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
-import com.caijing.domain.Master;
 import com.caijing.domain.Notice;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.RecommendSuccess;
@@ -1063,88 +1062,88 @@ public class HtmlFlusher {
 		return link;
 	}
 
-	public void flushLiveStatic() {
-		Map map = (Map) config.getObject("groupid");
-		List<Master> masters = masterDao.getAllMasters(0, 100);
-		for (Master master : masters) {
-
-			System.out.println("masterid: " + master.getMasterid() + "  name:" + master.getMastername());
-			String date = DateTools.transformYYYYMMDDDate(new Date());
-			//			String date = DateTools.getYesterday(new Date());
-			List<Map> maps = masterMessageDao.getMessagesFrom(master.getMasterid(), date, 0);
-			try {
-				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/liveStatic.htm");
-				vmf.put("maps", maps);
-				vmf.put("mastername", master.getMastername());
-				vmf.put("masterid", master.getMasterid());
-				vmf.put("masterList", masters);
-				vmf.put("encodename", master.getMastername());
-				vmf.put("master", master);
-				vmf.put("date", date);
-				vmf.save(LIVEDIR + master.getMasterid() + "/" + date + ".html");
-				System.out.println("write page : " + LIVEDIR + master.getMasterid() + "/" + date + ".html");
-			} catch (Exception e) {
-				System.out.println("===> exception !!");
-				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void flushMasterInfo() {
-		List<Master> masters = masterDao.getAllMasters(0, 10);
-		for (Master master : masters) {
-			List<Date> dates = masterMessageDao.getDatesByMasterid(master.getMasterid());
-			List<String> urls = new ArrayList<String>();
-			List<String> curdates = new ArrayList<String>();
-			for (Date date : dates) {
-				curdates.add(DateTools.transformYYYYMMDDDate(date));
-				urls.add("/live/" + master.getMasterid() + "/" + DateTools.transformYYYYMMDDDate(date) + ".html");
-			}
-			List<Integer> pages = new ArrayList<Integer>();
-			int page = 0;
-			if (dates.size() % 10 == 0) {
-				page = dates.size() / 10;
-			} else {
-				page = dates.size() / 10 + 1;
-			}
-			for (int i = 0; i < page; i++) {
-				pages.add(i);
-			}
-
-			try {
-				String encodename = master.getMastername();
-				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/masterintro.htm");
-				vmf.put("master", master);
-				vmf.put("dateTools", new DateTools());
-				vmf.put("urls", urls);
-				vmf.put("masterList", masters);
-				vmf.put("encodename", encodename);
-				vmf.put("pages", pages);
-				vmf.put("curdates", curdates);
-				vmf.save(MasterDIR + master.getMasterid() + ".html");
-				System.out.println("write page : " + MasterDIR + master.getMasterid() + ".html");
-			} catch (Exception e) {
-				System.out.println("===> exception !!");
-				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		try {
-			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/masterList.htm");
-			vmf.put("masters", masters);
-			vmf.save(MasterDIR + "index.html");
-			System.out.println("write page : " + MasterDIR + "index.html");
-		} catch (Exception e) {
-			System.out.println("===> exception !!");
-			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-			e.printStackTrace();
-		}
-	}
+	//	public void flushLiveStatic() {
+	//		Map map = (Map) config.getValue("groupid");
+	//		List<Master> masters = masterDao.getAllMasters(0, 100);
+	//		for (Master master : masters) {
+	//
+	//			System.out.println("masterid: " + master.getMasterid() + "  name:" + master.getMastername());
+	//			String date = DateTools.transformYYYYMMDDDate(new Date());
+	//			//			String date = DateTools.getYesterday(new Date());
+	//			List<Map> maps = masterMessageDao.getMessagesFrom(master.getMasterid(), date, 0);
+	//			try {
+	//				VMFactory vmf = new VMFactory();
+	//				vmf.setTemplate("/template/liveStatic.htm");
+	//				vmf.put("maps", maps);
+	//				vmf.put("mastername", master.getMastername());
+	//				vmf.put("masterid", master.getMasterid());
+	//				vmf.put("masterList", masters);
+	//				vmf.put("encodename", master.getMastername());
+	//				vmf.put("master", master);
+	//				vmf.put("date", date);
+	//				vmf.save(LIVEDIR + master.getMasterid() + "/" + date + ".html");
+	//				System.out.println("write page : " + LIVEDIR + master.getMasterid() + "/" + date + ".html");
+	//			} catch (Exception e) {
+	//				System.out.println("===> exception !!");
+	//				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//	}
+	//
+	//	public void flushMasterInfo() {
+	//		List<Master> masters = masterDao.getAllMasters(0, 10);
+	//		for (Master master : masters) {
+	//			List<Date> dates = masterMessageDao.getDatesByMasterid(master.getMasterid());
+	//			List<String> urls = new ArrayList<String>();
+	//			List<String> curdates = new ArrayList<String>();
+	//			for (Date date : dates) {
+	//				curdates.add(DateTools.transformYYYYMMDDDate(date));
+	//				urls.add("/live/" + master.getMasterid() + "/" + DateTools.transformYYYYMMDDDate(date) + ".html");
+	//			}
+	//			List<Integer> pages = new ArrayList<Integer>();
+	//			int page = 0;
+	//			if (dates.size() % 10 == 0) {
+	//				page = dates.size() / 10;
+	//			} else {
+	//				page = dates.size() / 10 + 1;
+	//			}
+	//			for (int i = 0; i < page; i++) {
+	//				pages.add(i);
+	//			}
+	//
+	//			try {
+	//				String encodename = master.getMastername();
+	//				VMFactory vmf = new VMFactory();
+	//				vmf.setTemplate("/template/masterintro.htm");
+	//				vmf.put("master", master);
+	//				vmf.put("dateTools", new DateTools());
+	//				vmf.put("urls", urls);
+	//				vmf.put("masterList", masters);
+	//				vmf.put("encodename", encodename);
+	//				vmf.put("pages", pages);
+	//				vmf.put("curdates", curdates);
+	//				vmf.save(MasterDIR + master.getMasterid() + ".html");
+	//				System.out.println("write page : " + MasterDIR + master.getMasterid() + ".html");
+	//			} catch (Exception e) {
+	//				System.out.println("===> exception !!");
+	//				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//
+	//		try {
+	//			VMFactory vmf = new VMFactory();
+	//			vmf.setTemplate("/template/masterList.htm");
+	//			vmf.put("masters", masters);
+	//			vmf.save(MasterDIR + "index.html");
+	//			System.out.println("write page : " + MasterDIR + "index.html");
+	//		} catch (Exception e) {
+	//			System.out.println("===> exception !!");
+	//			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 	public void flushNoticeRank(int type) {
 		Date now = new Date();
@@ -1298,8 +1297,8 @@ public class HtmlFlusher {
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
 		//		flusher.flushSuccessRank();
-		flusher.flushLiveStatic();
-		flusher.flushMasterInfo();
+		//		flusher.flushLiveStatic();
+		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
 		//		flusher.flushNotice();
 		//		flusher.flushNoticeRank(0);

@@ -1,0 +1,196 @@
+package com.caijing.flush;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import com.caijing.dao.MasterDao;
+import com.caijing.dao.MasterMessageDao;
+import com.caijing.dao.PostDao;
+import com.caijing.domain.ColumnArticle;
+import com.caijing.domain.Master;
+import com.caijing.domain.Post;
+import com.caijing.util.Config;
+import com.caijing.util.ContextFactory;
+import com.caijing.util.DateTools;
+import com.caijing.util.IDPathUtil;
+
+@Component("masterFlusher")
+public class MasterFlusher {
+
+	@Autowired
+	@Qualifier("masterDao")
+	private MasterDao masterDao = null;
+
+	@Autowired
+	@Qualifier("postDao")
+	private PostDao postDao = null;
+
+	@Autowired
+	@Qualifier("IdUtil")
+	private IDPathUtil idPathUtil = null;
+
+	public MasterDao getMasterDao() {
+		return masterDao;
+	}
+
+	public void setMasterDao(MasterDao masterDao) {
+		this.masterDao = masterDao;
+	}
+
+	@Autowired
+	@Qualifier("masterMessageDao")
+	private MasterMessageDao masterMessageDao = null;
+
+	public MasterMessageDao getMasterMessageDao() {
+		return masterMessageDao;
+	}
+
+	public void setMasterMessageDao(MasterMessageDao masterMessageDao) {
+		this.masterMessageDao = masterMessageDao;
+	}
+
+	@Autowired
+	@Qualifier("config")
+	private Config config = null;
+
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
+
+	private String getLink(ColumnArticle article) {
+		String linkprefix = "http://51gurus.com/articles/" + article.getType() + "/";
+		String link = linkprefix + DateTools.getYear(article.getPtime()) + "/" + DateTools.getMonth(article.getPtime())
+				+ "/" + article.getAid() + ".html";
+		return link;
+	}
+
+	public void flushArchive() {
+		List<Master> masters = masterDao.getAllMasters(0, 10);
+		for (Master master : masters) {
+			List<Date> dates = masterMessageDao.getDatesByMasterid(master.getMasterid());
+			List<String> urls = new ArrayList<String>();
+			List<String> curdates = new ArrayList<String>();
+			for (Date date : dates) {
+				curdates.add(DateTools.transformYYYYMMDDDate(date));
+				urls.add(idPathUtil.getMasterLiveFilePath("" + master.getMasterid(), date));
+				flushOneStatic(master, masters, date);
+			}
+			List<Integer> pages = new ArrayList<Integer>();
+			int page = 0;
+			if (dates.size() % 10 == 0) {
+				page = dates.size() / 10;
+			} else {
+				page = dates.size() / 10 + 1;
+			}
+			for (int i = 0; i < page; i++) {
+				pages.add(i);
+			}
+
+			try {
+				String encodename = master.getMastername();
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/master/masterArchive.htm");
+				vmf.put("master", master);
+				vmf.put("dateTools", new DateTools());
+				vmf.put("urls", urls);
+				vmf.put("masterList", masters);
+				vmf.put("encodename", encodename);
+				vmf.put("pages", pages);
+				vmf.put("curdates", curdates);
+				vmf.save(config.getProperty("masterPath") + master.getMasterid() + ".html");
+				System.out.println("write page : " + config.getProperty("masterPath") + master.getMasterid()
+						+ "_archive_1.html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void flushLiveStatic() {
+		Map map = config.getValue("groupid");
+		List<Master> masters = masterDao.getAllMasters(0, 100);
+		for (Master master : masters) {
+			System.out.println("masterid: " + master.getMasterid() + "  name:" + master.getMastername());
+			flushOneStatic(master, masters, new Date());
+		}
+	}
+
+	private void flushOneStatic(Master master, List<Master> masters, Date date) {
+		List<Map> maps = masterMessageDao.getMessagesFrom(master.getMasterid(), DateTools.transformYYYYMMDDDate(date),
+				0);
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/master/liveStatic.htm");
+			vmf.put("maps", maps);
+			vmf.put("mastername", master.getMastername());
+			vmf.put("masterid", master.getMasterid());
+			vmf.put("masterList", masters);
+			vmf.put("encodename", master.getMastername());
+			vmf.put("master", master);
+			vmf.put("date", date);
+			String filePath = idPathUtil.getMasterLiveFilePath("" + master.getMasterid(), date);
+			vmf.save(filePath);
+			System.out.println("write page : " + filePath);
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void flushMasterInfo() {
+		List<Master> masters = masterDao.getAllMasters(0, 10);
+		for (Master master : masters) {
+			List<Post> postList = postDao.getPostByGroupid("" + master.getMasterid(), 0, 10);
+			try {
+				String encodename = master.getMastername();
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/master/masterIntro.htm");
+				vmf.put("master", master);
+				vmf.put("dateTools", new DateTools());
+				vmf.put("masterList", masters);
+				vmf.put("encodename", encodename);
+				vmf.put("postList", postList);
+				vmf.save(config.getProperty("masterPath") + master.getMasterid() + ".html");
+				System.out.println("write page : " + config.getProperty("masterPath") + master.getMasterid() + ".html");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			VMFactory vmf = new VMFactory();
+			vmf.setTemplate("/template/master/masterList.htm");
+			vmf.put("masters", masters);
+			vmf.save(config.getProperty("masterPath") + "index.html");
+			System.out.println("write page : " + config.getProperty("masterPath") + "index.html");
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		MasterFlusher flusher = (MasterFlusher) ContextFactory.getBean("masterFlusher");
+		flusher.flushLiveStatic();
+		flusher.flushMasterInfo();
+		flusher.flushArchive();
+		System.exit(0);
+	}
+
+}

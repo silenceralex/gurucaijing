@@ -18,6 +18,7 @@ import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.ReportDao;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.Report;
+import com.caijing.flush.MasterFlusher;
 import com.caijing.util.Config;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.DateTools;
@@ -50,6 +51,16 @@ public class ExtractSchedule {
 		this.threadCrawler = threadCrawler;
 	}
 
+	private MasterFlusher masterFlush = null;
+
+	public MasterFlusher getMasterFlush() {
+		return masterFlush;
+	}
+
+	public void setMasterFlush(MasterFlusher masterFlush) {
+		this.masterFlush = masterFlush;
+	}
+
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
@@ -72,7 +83,7 @@ public class ExtractSchedule {
 		OnlineCrawler crawler = new OnlineCrawler();
 		crawler.init();
 		crawler.setMasterMessageDao(masterMessageDao);
-		Map map = (Map) config.getObject("groupid");
+		Map map = config.getValue("groupid");
 		for (Object key : map.keySet()) {
 			Map propertys = (Map) map.get(key);
 			String k = (String) propertys.get("key");
@@ -98,11 +109,14 @@ public class ExtractSchedule {
 	}
 
 	public void crawlThread() {
-		Map map = (Map) config.getObject("groupid");
+		Map map = config.getValue("groupid");
 		for (Object key : map.keySet()) {
 			Map propertys = (Map) map.get(key);
 			String cookie = (String) propertys.get("cookie");
-			threadCrawler.crawl((String) key, cookie);
+			//有新thread入库,刷新thread页
+			if (threadCrawler.crawl((String) key, cookie)) {
+				masterFlush.flushMasterInfo();
+			}
 			try {
 				Thread.sleep(20000);
 			} catch (InterruptedException e) {

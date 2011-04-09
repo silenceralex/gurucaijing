@@ -41,7 +41,7 @@ public class MasterMessageController {
 	@Qualifier("config")
 	private Config config = null;
 
-	@RequestMapping("/online.do")
+	@RequestMapping("/master/online.do")
 	public void showMessages(HttpServletResponse response,
 			@RequestParam(value = "masterid", required = true) Integer masterid,
 			@RequestParam(value = "start", required = false) Integer start, HttpServletRequest request, ModelMap model) {
@@ -62,11 +62,11 @@ public class MasterMessageController {
 		}
 	}
 
-	@RequestMapping("/liveDetail.htm")
+	@RequestMapping("/master/liveDetail.htm")
 	public String showMessages(HttpServletResponse response,
 			@RequestParam(value = "masterid", required = true) Integer masterid, HttpServletRequest request,
 			ModelMap model) {
-		Map map = (Map) config.getObject("groupid");
+		Map map = (Map) config.getValue("groupid");
 		Map propertys = (Map) map.get("" + masterid);
 		logger.info("masterid: " + masterid + "  name:" + propertys.get("name"));
 		model.put("mastername", propertys.get("name"));
@@ -76,6 +76,6 @@ public class MasterMessageController {
 		List<Master> masters = masterDao.getAllMasters(0, 100);
 		model.put("masterList", masters);
 		model.put("master", master);
-		return "/template/liveDetail.htm";
+		return "/template/master/liveDetail.htm";
 	}
 }

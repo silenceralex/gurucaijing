@@ -78,6 +78,9 @@
 		<property name="threadCrawler">
 			<ref bean="threadCrawler" />
 		</property>
+		<property name="masterFlush">
+			<ref bean="masterFlusher" />
+		</property>
 	</bean>
 	
 	<bean id="scheduledOnlineCrawl"

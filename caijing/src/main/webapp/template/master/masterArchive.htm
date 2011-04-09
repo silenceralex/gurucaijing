@@ -19,9 +19,10 @@
             </div>
             <h2 class="star_detail_star">${master.mastername}</h2>
             <ol id="star_detail_tab" class="star_detail_tab">
-            	<li class="star_de_tabli_on" id="starTab1"><a href="#">首页</a></li>
-            	<li id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
-            	<li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">博客</a></li>
+            	<li id="starTab1"><a href="#">首页</a></li>
+            	<li id="starTab2"><a href="/master/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
+            	<li id="starTab3"><a href="/master/${master.masterid}_thread_1.html">大师观点</a></li>
+            	<li class="star_de_tabli_on" id="starTab4"><a href="/master/${master.masterid}_archive_1.html">直播归档</a></li>
 			</ol>
 			 <div class="star_jump">
                <label>跳转到另一个大师</label>
@@ -41,19 +42,6 @@
 				            			
 			            		</div>
 			            		<h2 class="analyticsTitle">直播室归档列表</h2>
-			            			<div id="starTb3" class="star_detail_research" style="display:block">
-							#set ($count = 0)
-							#if ($postList)#foreach ($one in $postList)
-							#if ($count % 5 == 0)
-		            		<ul>
-							#end
-								<li><span>(${dateTools.transformDate(${one.getPtime()})})</span><a href="/master/${one.groupid}/${one.pid}.html">${one.getTitle()}</a></li>
-		            			#set ($count = $count + 1)
-							#if ($count % 5 == 0)
-		            		</ul>
-							#end
-							#end#end
-		            	</div><!-- starTb3 -->
 			            		<div class="notice_list">
 			            		                #foreach ($page in $pages)
                                                 <ul>
@@ -70,7 +58,6 @@
                                                 </ul>
                                                 #end
 			            		</div>
-						
 			            </div><!-- starTb1 -->
             </div>
 

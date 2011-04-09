@@ -20,6 +20,7 @@ import com.caijing.domain.Stock;
 import com.caijing.domain.StockEarn;
 import com.caijing.flush.AnalyzerFlusher;
 import com.caijing.flush.HtmlFlusher;
+import com.caijing.flush.MasterFlusher;
 import com.caijing.model.StockReloader;
 
 public class LocalStorage {
@@ -69,6 +70,16 @@ public class LocalStorage {
 	}
 
 	private HtmlFlusher htmlFlush = null;
+
+	private MasterFlusher masterFlush = null;
+
+	public MasterFlusher getMasterFlush() {
+		return masterFlush;
+	}
+
+	public void setMasterFlush(MasterFlusher masterFlush) {
+		this.masterFlush = masterFlush;
+	}
 
 	private AnalyzerFlusher analyzerFlusher = null;
 
@@ -128,8 +139,10 @@ public class LocalStorage {
 		htmlFlush.flushReportLab();
 		htmlFlush.flushStockResearch();
 		htmlFlush.flushStockAgency();
-		htmlFlush.flushLiveStatic();
-		htmlFlush.flushMasterInfo();
+		//		htmlFlush.flushLiveStatic();
+		//		htmlFlush.flushMasterInfo();
+		masterFlush.flushLiveStatic();
+		masterFlush.flushArchive();
 		htmlFlush.flushSuccessRank();
 		htmlFlush.flushStarOnSale(true, 4);
 		htmlFlush.flushStarOnSale(true, 3);

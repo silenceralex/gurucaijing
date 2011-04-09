@@ -92,6 +92,9 @@
 		<property name="htmlFlush">
 			<ref bean="htmlFlush" />
 		</property>
+		<property name="masterFlush">
+			<ref bean="masterFlusher" />
+		</property>
 		<property name="analyzerFlusher">
 			<ref bean="analyzerFlusher" />
 		</property>

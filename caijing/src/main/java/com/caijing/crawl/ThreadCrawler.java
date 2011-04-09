@@ -117,13 +117,14 @@ public class ThreadCrawler {
 		}
 	}
 
-	public void crawl(String masterid, String cookie) {
+	public boolean crawl(String masterid, String cookie) {
 		HttpClient httpClient = new DefaultHttpClient(cm, params);
 		String startUrl = start + masterid + ".html";
 		HttpGet get = new HttpGet(startUrl);
 		System.out.println("groupID: " + masterid);
 		get.setHeader("Host", "vip.g.cnfol.com");
 		assemble(get, cookie);
+		boolean status = false;
 		try {
 			HttpResponse response = httpClient.execute(get);
 			//			String cookie = response.getFirstHeader("Set-Cookie").getValue();
@@ -144,7 +145,13 @@ public class ThreadCrawler {
 						post.setPid(ServerUtil.getid());
 						post.setGroupid(masterid);
 						try {
+
+							String threadid = threadurl.substring(threadurl.indexOf(',') + 1,
+									threadurl.lastIndexOf('.'));
+							System.out.println("threadid:" + threadid);
+							post.setThreadid(threadid);
 							postDao.insert(post);
+							status = true;
 							bdb.putUrl(threadurl);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -154,25 +161,13 @@ public class ThreadCrawler {
 				}
 
 			}
-
-			//			int page = listExtractor.getTotalPages(content);
-			//			System.out.println("page: " + page);
-			//			page = (page / 15 + 1);
-			//			System.out.println("page num: " + page);
-			//			for (int i = 1; i < page + 1; i++) {
-			//				String url = startUrl.substring(0, startUrl.lastIndexOf(".html")) + ",p" + i + ".html";
-			//				System.out.println("page url: " + url);
-			//				String pageContent = download(url);
-			//				System.out.println("pageContent: " + pageContent);
-			//				listExtractor.extractFromHtml(pageContent, groupID);
-			//				Thread.sleep(5000);
-			//			}
+			return status;
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return status;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return status;
 		}
 	}
 
@@ -180,28 +175,15 @@ public class ThreadCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//		ThreadCrawler crawler = new ThreadCrawler();
-		//		ListExtractor extractor = new ListExtractor();
-		BerkeleyDB bdb = new BerkeleyDB("D:\\bdb", false);
-		//		bdb.setup("D:\\bdb", false);
-		//		extractor.setBdb(bdb);
-		//		crawler.setListExtractor(extractor);
-		//		crawler.init();
-		//		crawler.crawl("http://vip.g.cnfol.com/thread/2074,316182.html");
-		//		crawler.crawl("http://vip.g.cnfol.com/thread/103,144394.html");
-		//"http://vip.g.cnfol.com/fourm/master_lastpost_1752.html"
 		ApplicationContext context = ContextFactory.getApplicationContext();
 		ThreadCrawler crawler = (ThreadCrawler) context.getBean("threadCrawler");
-		PostDao postDao = (PostDao) context.getBean("postDao");
-		crawler.setBdb(bdb);
-		crawler.setPostDao(postDao);
 		Config config = (Config) context.getBean("config");
-		Map map = (Map) config.getObject("groupid");
-		//		for (Object key : map.keySet()) {
-		Map propertys = (Map) map.get("575");
-		String cookie = (String) propertys.get("cookie");
-		crawler.crawl("575", cookie);
-		//		}
+		Map map = config.getValue("groupid");
+		for (Object key : map.keySet()) {
+			Map propertys = (Map) map.get(key);
+			String cookie = (String) propertys.get("cookie");
+			crawler.crawl((String) key, cookie);
+		}
 		System.exit(0);
 	}
 

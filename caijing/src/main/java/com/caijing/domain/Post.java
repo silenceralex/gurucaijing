@@ -6,6 +6,19 @@ public class Post {
 	private String title = null;
 	private String nick = null;
 	private String pid = null;
+	private String groupid = null;
+	private String content = null;
+	private Date ptime = null;
+	private String relatedstocks = null;
+	private String threadid = null;
+
+	public String getThreadid() {
+		return threadid;
+	}
+
+	public void setThreadid(String threadid) {
+		this.threadid = threadid;
+	}
 
 	public String getPid() {
 		return pid;
@@ -14,11 +27,6 @@ public class Post {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-
-	private String groupid = null;
-	private String content = null;
-	private Date ptime = null;
-	private String relatedstocks = null;
 
 	public String getRelatedstocks() {
 		return relatedstocks;
