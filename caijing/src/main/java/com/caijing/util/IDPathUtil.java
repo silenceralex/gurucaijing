@@ -94,7 +94,7 @@ public class IDPathUtil {
 	}
 
 	public String getMasterPostFilePath(Post post) {
-		return config.getValue("masterPath") + post.getGroupid() + "/" + DateTools.getYear(post.getPtime()) + "/"
+		return config.getProperty("masterPath") + post.getGroupid() + "/" + DateTools.getYear(post.getPtime()) + "/"
 				+ post.getPid() + ".html";
 	}
 
