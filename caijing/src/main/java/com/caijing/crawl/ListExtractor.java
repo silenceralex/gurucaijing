@@ -32,8 +32,8 @@ public class ListExtractor implements Extractor {
 			| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static Pattern contentPattern = Pattern.compile(
-			"<div id=\"article_img\">(.*?)</div>\\s+<div class=\"lt5\">", Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-					| Pattern.UNIX_LINES);
+			"<div id=\"article_img\">(.*?)</div>\\s+</div>\\s+<div class=\"lt5\">", Pattern.CASE_INSENSITIVE
+					| Pattern.DOTALL | Pattern.UNIX_LINES);
 
 	private static Pattern nickPattern = Pattern.compile("id=\"main_nick\">\\s+<a.*?>(.*?)</a>",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
