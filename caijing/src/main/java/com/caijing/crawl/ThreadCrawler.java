@@ -66,11 +66,11 @@ public class ThreadCrawler {
 
 	private BerkeleyDB titleDB = null;
 
-	public BerkeleyDB getTitledb() {
+	public BerkeleyDB getTitleDB() {
 		return titleDB;
 	}
 
-	public void setTitledb(BerkeleyDB titleDB) {
+	public void setTitleDB(BerkeleyDB titleDB) {
 		this.titleDB = titleDB;
 	}
 
