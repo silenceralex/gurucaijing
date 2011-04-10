@@ -1,66 +1,65 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-    
-        <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-        <title>投资大师_${category}_文章列表页</title>
-        <link href="/css/main.css" rel="stylesheet" type="text/css" />
-        <link href="/css/second.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div class="wrapper">
-            #include("/template/inc/header.htm")<!--header end-->
-            <div class="mainBox">
-                #include("/template/inc/colL.htm")
-                <div class="sec_list">
-                    <div class="sec_nav">
-                        <h2><a href="/">首页</a> &gt;&gt; <a href="/articles/${ctype}/list.html">$!category</a></h2>
-                    </div>
-                <ul>
-				#foreach($article in $articlelist)
-				<li><h3><span class="right">[$dateTools.transformYYYYMMDDDate(${article.ptime})]</span><a href="${article.link}" target="_blank">${article.title}</a><a href="http://51gurus.com/search/columnarticlelist.htm?author=${article.author}" target="_blank">$!{article.author}</a></h3>
-				<p>$!{article.abs}</p>
-				</li>
-				#end
-				</ul>
-                    <div class="pageSet">
-                        <table width="100%" border="0">
-                            <tbody>
-                                <tr>
-                                      <td width="28%">&nbsp;</td>
-					                    <td width="51%">
-											#if ($current == 1)
-					                    	<a href="#">第一页</a>
-											<a href="#">上一页</a>
-											#else
-											<a href="./list_1.html">第一页</a>
-											#set ($prev = $current - 1)
-											<a href="./list_${prev}.html">上一页</a>
-											#end
-											#if ($current == $page)
-											<a href="#">下一页</a>
-					                        <a href="#">末一页</a>
-											#else
-											#set ($next = $current + 1)
-											<a href="./list_${next}.html">下一页</a>
-											<a href="./list_${page}.html">末一页</a>
-											#end
-					                    </td>
-					                    <td width="21%">
-					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
-					                        到第<input class="toPage" type="text">页
-					                        <input class="toPageBtn" type="button" value="跳转">
-					                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-                #include("/template/inc/footer.htm")
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+      <title>投资大师_${category}_文章列表页</title>
+      <link href="/css/main.css" rel="stylesheet" type="text/css" />
+      <link href="/css/second.css" rel="stylesheet" type="text/css" />
+   </head>
+   <body>
+      <div class="wrapper">
+         #include("/template/inc/header.htm")
+         <div class="mainBox">
+            #include("/template/inc/colL.htm")
+            <div class="sec_list">
+               <div class="sec_nav">
+                  <h2><a href="/">首页</a> &gt;&gt; <a href="/articles/${ctype}/list.html">$!category</a></h2>
+               </div>
+               <ul>
+               #foreach($article in $articlelist)
+                  <li><h3><span class="right">[$dateTools.transformYYYYMMDDDate(${article.ptime})]</span><a href="${article.link}" target="_blank">${article.title}</a><a href="http://51gurus.com/search/columnarticlelist.htm?author=${article.author}" target="_blank">$!{article.author}</a></h3>
+                  <p>$!{article.abs}</p>
+                  </li>
+               #end
+               </ul>
+               <div class="pageSet">
+                  <table width="100%" border="0">
+                     <tbody>
+                        <tr>
+                           <td width="28%">&nbsp;</td>
+                           <td width="51%">
+                           #if ($current == 1)
+                              <a href="#">第一页</a>
+                              <a href="#">上一页</a>
+                           #else
+                              <a href="./list_1.html">第一页</a>
+                              #set ($prev = $current - 1)
+                              <a href="./list_${prev}.html">上一页</a>
+                           #end
+                           #if ($current == $page)
+                              <a href="#">下一页</a>
+                              <a href="#">末一页</a>
+                           #else
+                              #set ($next = $current + 1)
+                              <a href="./list_${next}.html">下一页</a>
+                              <a href="./list_${page}.html">末一页</a>
+                           #end
+                           </td>
+                           <td width="21%">
+                              <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+                              到第<input class="toPage" type="text">页
+                              <input class="toPageBtn" type="button" value="跳转">
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
             </div>
-            <!--mainBox end-->
-        </div>
-    </body>
+            <div class="clear"></div>
+            #include("/template/inc/footer.htm")
+         </div>
+         <!--mainBox end-->
+      </div>
+   </body>
 </html>
+<!-- articleList -->

@@ -3,116 +3,126 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <title>投资大师_分析师股票组合--${analyzer.getName()}</title>
-#include("/template/inc/cssjs.htm")<!--cssjs end-->
+#include("/template/inc/cssjs.htm")
 </head>
 
 <body>
 <div class="wrapper">
    #include("/template/inc/header.htm")
-    <div class="mainBox">
+   <div class="mainBox">
       #include("/template/inc/colL.htm")
-        <div class="sec_list">
-            <div class="sec_nav">
-               <h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
-            </div>
-            <h2 class="star_detail_star">
-                <span class="stockHis-current">${analyzer.getName()}的当前股票池组合</span>
-               <!--2010-2-21组合历史按钮-->
-               <a class="history-btn" href="${analyzer.getAid()}_hisstock.html">查看组合历史</a>
-               <!--2010-2-21组合历史按钮-->
-            </h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-               <li id="starTab1"><a href="${analyzer.getAid()}_intro.html">首页</a></li>
-               <li class="star_de_tabli_on" id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
-               <li id="starTab3"><a href="${analyzer.getAid()}_report.html">研究报告</a></li>
-               <li id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
-            </ol>
-            <div class="star_jump">
-               <label>跳转到另一个大师</label>
-               <select onchange="window.location = this.value;">
-                  <option>请选择</option>
-                  #if ($analyzerList)#foreach ($one in $analyzerList)
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+         </div>
+         <h2 class="star_detail_star">
+            <span class="stockHis-current">${analyzer.getName()}的当前股票池组合</span>
+            <a class="history-btn" href="${analyzer.getAid()}_hisstock.html">查看组合历史</a>
+         </h2>
+         <ol id="star_detail_tab" class="star_detail_tab">
+            <li id="starTab1"><a href="${analyzer.getAid()}_intro.html">首页</a></li>
+            <li class="star_de_tabli_on" id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
+            <li id="starTab3"><a href="${analyzer.getAid()}_report.html">研究报告</a></li>
+            <li id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
+         </ol>
+         <div class="star_jump">
+            <label>跳转到另一个大师</label>
+            <select onchange="window.location = this.value;">
+               <option>请选择</option>
+               #if ($analyzerList)
+                  #foreach ($one in $analyzerList)
                      <option value="${one.getAid()}_stock.html">${one.getName()}</option>
-                  #end#end
-               </select>
-            </div>
-            <div id="star_detail_box" class="star_intro_box">
-               <div id="starTb2" class="star_detail_recommand" style="display:block">
-                  <table cellpadding="0" cellspacing="0">
-                     <tr>
-                        <th>公司</th>
-                        <th>推荐日期</th>
-                        <th>推荐价</th>
-                        <th>目标价</th>
-                        <th>当前价</th>
-                        <th>目标价差距</th>
-                        <th>回报率</th>
-                        <th>研究报告</th>
-                     </tr>
-                     #set ($count = 1)
-                     #if ($stockDetailList)#foreach ($one in $stockDetailList)
-                     #if ($count%2 == 1)
-                     <tr>
-                     #else
-                     <tr class="star_detail_tb_even">
-                     #end
-                     <td class="stockHis-company">
-                        <!--2010-2-21三类图标-->
-                        <img title="当前" src="/img/current-icon.png" />
-                        ${one.getStockname()}(${one.getStockcode()})&nbsp;
-                        <span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span>
-                     </td>
-                     <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
-                     <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
-                     #if ($one.getObjectprice() != 0)
-                     <td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
-                     #else
-                     <td> - </td>
-                     #end
-                     <td>${floatUtil.getTwoDecimalNumber($one.getCurrentprice())}</td>
-                     #if ($one.getObjectprice() != 0)
-                     #set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
-                     <td>${floatUtil.getTwoDecimalNumber($ratio)}</td>
-                     #else
-                     <td> - </td>
-                     #end
-                     <td>${one.getGain()}%</td>
-                     <td>
-                        <a href="/search/report.htm?aid=${analyzer.getAid()}&stockcode=${one.stockcode}">查看</a>
-                     </td>
-                     #set ($count = $count + 1)
-                     #end#end
-                  </table>
+                  #end
+               #end
+            </select>
+         </div>
+         <div id="star_detail_box" class="star_intro_box">
+            <div id="starTb2" class="star_detail_recommand" style="display:block">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th>公司</th>
+                     <th>推荐日期</th>
+                     <th>推荐价</th>
+                     <th>目标价</th>
+                     <th>当前价</th>
+                     <th>目标价差距</th>
+                     <th>回报率</th>
+                     <th>研究报告</th>
+                  </tr>
                   #set ($count = 1)
-                  #if ($stockDetailList)#foreach ($one in $stockDetailList)
+                  #if ($stockDetailList)
+                     #foreach ($one in $stockDetailList)
+                        #if ($count%2 == 1)
+                           <tr>
+                        #else
+                           <tr class="star_detail_tb_even">
+                        #end
+                              <td class="stockHis-company">
+                                 <img title="当前" src="/img/current-icon.png" />
+                                 ${one.getStockname()}(${one.getStockcode()})&nbsp;
+                                 <span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getStockname()}($one.getStockcode())','大盘涨跌幅度')">【对比图】</span>
+                              </td>
+                              <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
+                              <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
+                              #if ($one.getObjectprice() != 0)
+                                 <td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
+                              #else
+                                 <td> - </td>
+                              #end
+                              <td>${floatUtil.getTwoDecimalNumber($one.getCurrentprice())}</td>
+                              #if ($one.getObjectprice() != 0)
+                                 #set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
+                                 <td>${floatUtil.getTwoDecimalNumber($ratio)}</td>
+                              #else
+                                 <td> - </td>
+                              #end
+                              <td>${one.getGain()}%</td>
+                              <td>
+                                 <a href="/search/report.htm?aid=${analyzer.getAid()}&stockcode=${one.stockcode}">查看</a>
+                              </td>
+                              #set ($count = $count + 1)
+                           </tr>
+                     #end
+                  #end
+               </table>
+               #set ($count = 1)
+               #if ($stockDetailList)#foreach ($one in $stockDetailList)
                   <table id="rec${count}" class="hidden">
                      #set ($stockEarnList = $stockDetailMap.get(${one.getStockcode()}))
                      <tr>
-                     #if ($stockEarnList)#foreach ($one in $stockEarnList)
-                        <th>${one.getDate().getTime()}</th>
-                     #end#end
+                        #if ($stockEarnList)
+                           #foreach ($one in $stockEarnList)
+                              <th>${one.getDate().getTime()}</th>
+                           #end
+                        #end
                      </tr>
                      <tr>
-                     #if ($stockEarnList)#foreach ($one in $stockEarnList)
-                     #set ($ratio = $one.getCurrratio() * 100)
-                        <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
-                     #end#end
+                        #if ($stockEarnList)
+                           #foreach ($one in $stockEarnList)
+                              #set ($ratio = $one.getCurrratio() * 100)
+                              <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
+                           #end
+                        #end
                      </tr>
                      <tr>
-                        #if ($priceList)#foreach ($one in $priceList)
-                        #set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
-                           <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
-                        #end#end
+                        #if ($priceList)
+                           #foreach ($one in $priceList)
+                              #set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
+                              <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber($ratio)}%</td>
+                           #end
+                        #end
                      </tr>
                   </table>
                   #set ($count = $count + 1)
-                  #end#end
-                  </div><!-- starTb2 -->
+                  #end
+               #end
             </div>
-        </div>
+         </div>
+      </div>
       <div class="clear"></div>
       #include("/template/inc/footer.htm")
    </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- starstock -->

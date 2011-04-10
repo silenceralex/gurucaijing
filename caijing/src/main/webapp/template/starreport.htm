@@ -10,52 +10,57 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")
-    <div class="mainBox">
-    	#include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-            	<h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+         </div>
+         <h2 class="star_detail_star">${analyzer.getName()}</h2>
+         <ol id="star_detail_tab" class="star_detail_tab">
+            <li id="starTab1"><a href="${analyzer.getAid()}_intro.html">首页</a></li>
+            <li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
+            <li class="star_de_tabli_on" id="starTab3"><a href="#">研究报告</a></li>
+            <li id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
+         </ol>
+         <div class="star_jump">
+            <label>跳转到另一个大师</label>
+            <select onchange="window.location = this.value;">
+               <option>请选择</option>
+               #if ($analyzerList)
+                  #foreach ($one in $analyzerList)
+                     <option value="${one.getAid()}_report.html">${one.getName()}</option>
+                  #end
+               #end
+            </select>
+         </div>
+         <div id="star_detail_box" class="star_intro_box">
+            <div id="starTb3" class="star_detail_research" style="display:block">
+               #set ($count = 0)
+               #if ($stockList)
+                  #foreach ($one in $stockList)
+                     #if ($count % 5 == 0)
+                        <ul>
+                     #end
+                           <li>
+                              <span>(${dateTools.transformDate(${one.getCreatedate()})})</span>
+                              <a href="http://51gurus.com${one.getFilepath()}">${one.getTitle()}</a>
+                           </li>
+                     #set ($count = $count + 1)
+                     #if ($count % 5 == 0)
+                        </ul>
+                     #end
+                  #end
+               #end
             </div>
-            <h2 class="star_detail_star">${analyzer.getName()}</h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-				
-            	<li id="starTab1"><a href="${analyzer.getAid()}_intro.html">首页</a></li>
-            	<li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
-            	<li class="star_de_tabli_on" id="starTab3"><a href="#">研究报告</a></li>
-            	<li id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
-						</ol>
-						<div class="star_jump">
-							<label>跳转到另一个大师</label>
-							<select onchange="window.location = this.value;">
-								<option>请选择</option>
-								#if ($analyzerList)#foreach ($one in $analyzerList)
-								<option value="${one.getAid()}_report.html">${one.getName()}</option>
-								#end#end
-							</select>
-						</div>
-            <div id="star_detail_box" class="star_intro_box">
-									<div id="starTb3" class="star_detail_research" style="display:block">
-							#set ($count = 0)
-							#if ($stockList)#foreach ($one in $stockList)
-							#if ($count % 5 == 0)
-		            		<ul>
-							#end
-								<li><span>(${dateTools.transformDate(${one.getCreatedate()})})</span><a href="http://51gurus.com${one.getFilepath()}">${one.getTitle()}</a></li>
-		            			#set ($count = $count + 1)
-							#if ($count % 5 == 0)
-		            		</ul>
-							#end
-							#end#end
-		            	</div><!-- starTb3 -->
-            		
-            </div>
-
-        </div>
-        <div id="star_detail_preview"></div>
+         </div>
+      </div>
+      <div id="star_detail_preview"></div>
       <div class="clear"></div>
-        #include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- starreport -->

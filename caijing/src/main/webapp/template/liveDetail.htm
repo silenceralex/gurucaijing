@@ -10,78 +10,78 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")<!--header end-->
-    <div class="mainBox">
-    	#include("/template/inc/colL.htm")
-        <div class="sec_list">
-            <div class="sec_nav">
-                <h2><a href="/">投资大师首页</a> &gt;  <a href="/master/index.html">草根大师</a> &gt; ${master.mastername}的直播室</h2> 
-            </div>
-            <h2 class="star_detail_star">${master.mastername}</h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-            	<li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
-            	<li class="star_de_tabli_on" id="starTab2"><a href="#"><font color="red">直播室入口</font></a></li>
-            	<li id="starTab3"><a href="/master/bloglist.htm?author=${master.mastername}">草根博客</a></li>
-			</ol>
-			<div class="star_jump">
-               <label>跳转到另一个大师</label>
-               <select onchange="window.location = this.value;">
-                  <option>请选择</option>
-                  #if ($masterList)#foreach ($one in $masterList)
-                     <option value="${one.masterid}.html">${one.mastername}</option>
-                  #end#end
-               </select>
-            </div>
-            <div id="star_detail_box" class="star_intro_box">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+             <h2><a href="/">投资大师首页</a> &gt;  <a href="/master/index.html">草根大师</a> &gt; ${master.mastername}的直播室</h2> 
+         </div>
+         <h2 class="star_detail_star">${master.mastername}</h2>
+         <ol id="star_detail_tab" class="star_detail_tab">
+            <li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
+            <li class="star_de_tabli_on" id="starTab2"><a href="#"><font color="red">直播室入口</font></a></li>
+            <li id="starTab3"><a href="/master/bloglist.htm?author=${master.mastername}">草根博客</a></li>
+         </ol>
+         <div class="star_jump">
+            <label>跳转到另一个大师</label>
+            <select onchange="window.location = this.value;">
+               <option>请选择</option>
+               #if ($masterList)#foreach ($one in $masterList)
+                  <option value="${one.masterid}.html">${one.mastername}</option>
+               #end#end
+            </select>
+         </div>
+         <div id="star_detail_box" class="star_intro_box">
             <h3 class="live-title">$!mastername 的直播室</h3>
             <div class="live-box" id="liveBox">
-                <ul id="liveList" class="chat-content-box">
-                </ul>
+               <ul id="liveList" class="chat-content-box">
+               </ul>
             </div>
-            </div>
-        </div>
+         </div>
+      </div>
       <div class="clear"></div>
-        #include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
-    <script type="text/javascript">
-	(function(){
-		var jQuery = window.jQuery;
-		var live = {
-			requestUrl : "/online.do?masterid=",//http://51gurus.com/online.do?masterid=2074&start=0
-			listNode : null,
-			uid : "$!masterid",
-			rqTimeStep : 60000,
-			rollTimeStep : 1000,
-			requestTimer : null,
-			rollTimer : null,
-			textNum : 0,
-			/// 初始化
-			init : function () {
-				var t = this;
-				t.listNode = document.getElementById("liveList");
-				t.requestData( 0 );
-				t.requestTimer = setInterval( t.requestData, t.rqTimeStep );
-				//t.rollTimer = setInterval( t.rollContent, t.rollTimeStep );
-			},
-			/// 获取数据
-			requestData : function () {
-				var t = live;
-				jQuery.getJSON( t.requestUrl + t.uid + "&start=" + ( t.textNum + 1 ), function( data ){
-					if ( data.length > 0 ) {
-						t.textNum += data.length;
-						jQuery.each( data, function ( i, n ) {
-							t.listNode.innerHTML = "<li><b>时间</b>：" + data[i].ptime + " <b>内容</b>：" + data[i].content + "</li>" + t.listNode.innerHTML;
-						})
-					}
-				});
-			},
-			rollContent : function () {
-				document.getElementById("liveBox").scrollTop += 20;
-			}
-		}
-		live.init();
-	})();
-	</script>
+<script type="text/javascript">
+(function(){
+   var jQuery = window.jQuery;
+   var live = {
+      requestUrl : "/online.do?masterid=",//http://51gurus.com/online.do?masterid=2074&start=0
+      listNode : null,
+      uid : "$!masterid",
+      rqTimeStep : 60000,
+      rollTimeStep : 1000,
+      requestTimer : null,
+      rollTimer : null,
+      textNum : 0,
+      /// 初始化
+      init : function () {
+         var t = this;
+         t.listNode = document.getElementById("liveList");
+         t.requestData( 0 );
+         t.requestTimer = setInterval( t.requestData, t.rqTimeStep );
+      },
+      /// 获取数据
+      requestData : function () {
+         var t = live;
+         jQuery.getJSON( t.requestUrl + t.uid + "&start=" + ( t.textNum + 1 ), function( data ){
+            if ( data.length > 0 ) {
+               t.textNum += data.length;
+               jQuery.each( data, function ( i, n ) {
+                  t.listNode.innerHTML = "<li><b>时间</b>：" + data[i].ptime + " <b>内容</b>：" + data[i].content + "</li>" + t.listNode.innerHTML;
+               })
+            }
+         });
+      },
+      rollContent : function () {
+         document.getElementById("liveBox").scrollTop += 20;
+      }
+   }
+   live.init();
+})();
+</script>
 </body>
 </html>
+<!-- liveDetail -->

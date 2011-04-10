@@ -9,83 +9,83 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")
-    <div class="mainBox">
-    	#include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-            	<h2>
-                    <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
-                    <a href="/">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 机构共同之选
-                </h2>   
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <span class="sec_nav_date">$dateTools.transformYYYYMMDDDate($currdate)</span>
+               <a href="/">投资大师首页</a> &gt; <a href="#">股票精选</a> &gt; 机构共同之选
+            </h2>   
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">机构共同之选</h2>
+            <span><a href="/stockagency/1.html">年度共同推荐</a></span>
+            <span><a href="/stockagency/halfyear_1.html">半年共同推荐</a></span>
+            <span><a href="/stockagency/quarter_1.html">季度共同推荐</a></span>
+            <span class="current"><a href="/stockagency/month_1.html">月度共同推荐</a></span>
+            <em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
+         </div>
+         <div id="star_detail_box" class="star_detail_box">
+            <div class="onsaleTable">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th>公司</th>
+                     <th>当前价</th>
+                     <th>推荐机构数</th>
+                     <th>推荐机构名称</th>
+                     <th>研究报告</th>
+                  </tr>
+                  #foreach ($one in $stockAgencyList)
+                  <tr>
+                     <td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">${one.stockname}(${one.stockcode})</a></td>
+                     <td>${floatUtil.getTwoDecimalNumber($one.currentprice)}</td>
+                     <td>${one.sacounts}</td>
+                     <td title="${one.sanames}" class="agencys">${htmlUtil.getSubStr($one.sanames,12,'...')}</td>
+                     <td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">研报链接...</a></td>
+                  </tr>
+                  #end
+               </table>
             </div>
-             <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
-				<h2 class="star_de_tabli_on">机构共同之选</h2>
-                <span><a href="/stockagency/1.html">年度共同推荐</a></span>
-				<span><a href="/stockagency/halfyear_1.html">半年共同推荐</a></span>
-				<span><a href="/stockagency/quarter_1.html">季度共同推荐</a></span>
-				<span  class="current"><a href="/stockagency/month_1.html">月度共同推荐</a></span>
-			    <em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
-             </div>
-						
-            <div id="star_detail_box" class="star_detail_box">
-				<div class="onsaleTable">
-            		<table cellpadding="0" cellspacing="0">
-            			<tr>
-            				<th>公司</th>
-            				<th>当前价</th>
-            				<th>推荐机构数</th>
-            				<th>推荐机构名称</th>
-            				<th>研究报告</th>
-            			</tr>
-            			#foreach ($one in $stockAgencyList)
-            			<tr>
-            				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">${one.stockname}(${one.stockcode})</a></td>
-            				<td>${floatUtil.getTwoDecimalNumber($one.currentprice)}</td>
-            				<td>${one.sacounts}</td>
-            				<td title="${one.sanames}" class="agencys">${htmlUtil.getSubStr($one.sanames,12,'...')}</td>
-            				<td><a href="/searchstock.htm?type=2&stockcode=${one.stockcode}">研报链接...</a></td>
-            			</tr>
-            			#end
-            		</table>
-            	</div>
-            	<div class="pageSet">
-		            	<table width="100%" border="0">
-		                  <tbody>
-				                  <tr>
-					                    <td width="28%">&nbsp;</td>
-					                    <td width="51%">
-											#if ($current == 1)
-					                    	<a href="#">第一页</a>
-											<a href="#">上一页</a>
-											#else
-											<a href="./month_1.html">第一页</a>
-											#set ($prev = $current - 1)
-											<a href="./month_${prev}.html">上一页</a>
-											#end
-											#if ($current == $page)
-											<a href="#">下一页</a>
-					                        <a href="#">末一页</a>
-											#else
-											#set ($next = $current + 1)
-											<a href="./month_${next}.html">下一页</a>
-											<a href="./month_${page}.html">末一页</a>
-											#end
-					                    </td>
-					                    <td width="21%">
-					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
-					                        到第<input class="toPage" type="text">页
-					                        <input class="toPageBtn" type="button" value="跳转">
-					                    </td>
-				                  </tr>
-		                	</tbody>
-		              </table>
-	            </div>
-               </div>
-        </div>
+            <div class="pageSet">
+               <table width="100%" border="0">
+                  <tbody>
+                     <tr>
+                        <td width="28%">&nbsp;</td>
+                        <td width="51%">
+                           #if ($current == 1)
+                              <a href="#">第一页</a>
+                              <a href="#">上一页</a>
+                           #else
+                              <a href="./month_1.html">第一页</a>
+                              #set ($prev = $current - 1)
+                              <a href="./month_${prev}.html">上一页</a>
+                           #end
+                           #if ($current == $page)
+                              <a href="#">下一页</a>
+                              <a href="#">末一页</a>
+                           #else
+                              #set ($next = $current + 1)
+                              <a href="./month_${next}.html">下一页</a>
+                              <a href="./month_${page}.html">末一页</a>
+                           #end
+                        </td>
+                        <td width="21%">
+                           <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+                           到第<input class="toPage" type="text">页
+                           <input class="toPageBtn" type="button" value="跳转">
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
       <div class="clear"></div>
-        #include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- stockagency_m -->

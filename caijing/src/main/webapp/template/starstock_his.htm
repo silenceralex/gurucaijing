@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 <title>投资大师_分析师股票组合--${analyzer.getName()}</title>
-#include("/template/inc/cssjs.htm")<!--cssjs end-->
+#include("/template/inc/cssjs.htm")
 </head>
 
 <body>
@@ -51,49 +51,52 @@
                         <th>研究报告</th>
                      </tr>
                      #set ($count = 1)
-                     #if ($stockDetailList)#foreach ($one in $stockDetailList)
-                     #if ($count%2 == 1)
-                     <tr>
-                     #else
-                     <tr class="star_detail_tb_even">
-                     #end
-                     <td class="stockHis-company">
-                        #if($one.status == -1)
-                        <img title="过期" src="/img/out-icon.png" />
-                        #else
-                        <img title="下调" src="/img/down-icon.png" />
+                     #if ($stockDetailList)
+                        #foreach ($one in $stockDetailList)
+                           #if ($count%2 == 1)
+                              <tr>
+                           #else
+                              <tr class="star_detail_tb_even">
+                           #end
+                                 <td class="stockHis-company">
+                                    #if($one.status == -1)
+                                       <img title="过期" src="/img/out-icon.png" />
+                                    #else
+                                       <img title="下调" src="/img/down-icon.png" />
+                                    #end
+                                    ${one.getStockname()}(${one.getStockcode()})&nbsp;
+                                 </td>
+                                 <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
+                                 <td>${dateTools.transformYYYYMMDDDate(${one.getOuttime()})}</td>
+                                 <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
+                                 #if ($one.getObjectprice() != 0)
+                                    <td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
+                                 #else
+                                    <td> - </td>
+                                 #end
+                                 <td>${floatUtil.getTwoDecimalNumber($one.getCurrentprice())}</td>
+                                 #if ($one.getObjectprice() != 0)
+                                    #set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
+                                    <td>${floatUtil.getTwoDecimalNumber($ratio)}</td>
+                                 #else
+                                    <td> - </td>
+                                 #end
+                                 <td>${one.getGain()}%</td>
+                                 <td>
+                                    <a href="/search/report.htm?aid=${analyzer.getAid()}&stockcode=${one.stockcode}">查看</a>
+                                 </td>
+                                 #set ($count = $count + 1)
+                              </tr>
                         #end
-                        ${one.getStockname()}(${one.getStockcode()})&nbsp;
-                     </td>
-                     <td>${dateTools.transformYYYYMMDDDate(${one.getIntime()})}</td>
-                     <td>${dateTools.transformYYYYMMDDDate(${one.getOuttime()})}</td>
-                     <td>${floatUtil.getTwoDecimalNumber($one.getInprice())}</td>
-                     #if ($one.getObjectprice() != 0)
-                     <td>${floatUtil.getTwoDecimalNumber($one.getObjectprice())}</td>
-                     #else
-                     <td> - </td>
                      #end
-                     <td>${floatUtil.getTwoDecimalNumber($one.getCurrentprice())}</td>
-                     #if ($one.getObjectprice() != 0)
-                     #set ($ratio = $one.getObjectprice() - $one.getCurrentprice())
-                     <td>${floatUtil.getTwoDecimalNumber($ratio)}</td>
-                     #else
-                     <td> - </td>
-                     #end
-                     <td>${one.getGain()}%</td>
-                     <td>
-                     <a href="/search/report.htm?aid=${analyzer.getAid()}&stockcode=${one.stockcode}">查看</a>
-                     </td>
-                     #set ($count = $count + 1)
-                     </tr>
-                     #end#end
                   </table>
-                  </div><!-- starTb2 -->
+               </div>
             </div>
-        </div>
+         </div>
       <div class="clear"></div>
       #include("/template/inc/footer.htm")
    </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- starstock_his -->

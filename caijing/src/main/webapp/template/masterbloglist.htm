@@ -1,69 +1,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-        <title>投资大师_$!author 的博客列表页</title>
-        <link href="/css/main.css" rel="stylesheet" type="text/css" />
-        <link href="/css/second.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div class="wrapper">
-            #include("/template/inc/header.htm")<!--header end-->
-            <div class="mainBox">
-                #include("/template/inc/colL.htm")
-                <div class="sec_list">
-                    <div class="sec_nav">
-                        <h2><a href="/">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt;  $!author 博客列表</h2>
-                    </div>
-                     <h2 class="star_detail_star">${master.mastername}</h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-            	<li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
-            	<li id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
-            	<li class="star_de_tabli_on" id="starTab3"><a href="#">博客</a></li>
-			</ol>
-			 <div class="star_jump">
-               <label>跳转到另一个大师</label>
-               <select onchange="window.location = this.value;">
-                  <option>请选择</option>
-                  #if ($masterList)#foreach ($one in $masterList)
-                     <option value="${one.masterid}.html">${one.mastername}</option>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+      <title>投资大师_$!author 的博客列表页</title>
+      <link href="/css/main.css" rel="stylesheet" type="text/css" />
+      <link href="/css/second.css" rel="stylesheet" type="text/css" />
+   </head>
+   <body>
+      <div class="wrapper">
+         #include("/template/inc/header.htm")<!--header end-->
+         <div class="mainBox">
+            #include("/template/inc/colL.htm")
+            <div class="sec_list">
+               <div class="sec_nav">
+                   <h2><a href="/">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt;  $!author 博客列表</h2>
+               </div>
+               <h2 class="star_detail_star">${master.mastername}</h2>
+               <ol id="star_detail_tab" class="star_detail_tab">
+                  <li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
+                  <li id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
+                  <li class="star_de_tabli_on" id="starTab3"><a href="#">博客</a></li>
+               </ol>
+               <div class="star_jump">
+                  <label>跳转到另一个大师</label>
+                  <select onchange="window.location = this.value;">
+                     <option>请选择</option>
+                     #if ($masterList)#foreach ($one in $masterList)
+                        <option value="${one.masterid}.html">${one.mastername}</option>
+                     #end#end
+                  </select>
+               </div>
+               <div class="article_list">
+                  #set ($count = 0) 
+                  #if($articlelist) #foreach ($one in $articlelist) 
+                     #if ($count%5==0)
+                     <ul>
+                     #end
+                        <li>
+                           <span class="notice_list_date">($dateTools.transformYYYYMMDDDate($one.ptime))</span>
+                           <a title="$one.title" href="$one.link" target="_blank">$one.getTitle()</a>
+                        </li>
+                     #if ($count%5==0)
+                     </ul>
+                     #end 
                   #end#end
-               </select>
+               </div>
+               <div class="pageSet">
+                  <table width="100%" border="0">
+                     <tbody>
+                        <tr>
+                           <td align="center">
+                              $paginatorLink
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
             </div>
-                    <!--<div class="onsaleTitle">分析师折价之选</div>-->
-                    <div class="article_list">
-                        #set ($count = 0) 
-                        #if($articlelist) 
-                        #foreach ($one in $articlelist) 
-                        #if ($count%5==0)
-                        <ul>
-                            #end
-                            <li>
-                            <span class="notice_list_date">($dateTools.transformYYYYMMDDDate($one.ptime))</span>
-                            <a title="$one.title" href="$one.link" target="_blank">$one.getTitle()</a>
-                            #if ($count%5==0)
-                        </ul>
-                        #end 
-                        #end
-                        #end
-                    </div>
-                    <div class="pageSet">
-                        <table width="100%" border="0">
-                            <tbody>
-                                <tr>
-                                    <td align="center">
-                                        $paginatorLink
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-                #include("/template/inc/footer.htm")
-            </div>
-            <!--mainBox end-->
-        </div>
-    </body>
+            <div class="clear"></div>
+            #include("/template/inc/footer.htm")
+         </div><!--mainBox end-->
+      </div>
+   </body>
 </html>
+<!-- masterbloglist -->

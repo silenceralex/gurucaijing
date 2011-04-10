@@ -9,42 +9,38 @@
 
 <body>
 <div class="wrapper">
- #include("/template/inc/header.htm")<!--header end-->
-    <div class="mainBox">
-    	 #include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-                    <h2><a href="/">投资大师首页</a> &gt;<a href="/analyzer/starGuruList.html">大师殿堂</a> &gt; 行业列表</h2> 
-                </div>
-            <!--<div class="onsaleTitle">分析师折价之选</div>-->
-            	<div class="article_list">
-					#set ($count = 0)
-					#if ($industryList)#foreach ($one in $industryList)
-					#if ($count%5==0)
-					<ul>
-					#end
-						<li>
-					#if($one.level ==3)
-                     <a class="indust-analyzer vip" href="/analyzer/getIndustry.htm?industry=$one">$one</a>
-                    #else
-                    <a class="indust-analyzer" href="/analyzer/getIndustry.htm?industry=$one">$one</a>
-                     #end
-			        </li>
-					#set ($count = $count + 1)
-            		#if ($count%5==0)
-					</ul>
-					#end
-					#end#end
-            	</div>
-            	<div class="pageSet">
-		           
-	            </div>
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+            <div class="sec_nav">
+               <h2><a href="/">投资大师首页</a> &gt;<a href="/analyzer/starGuruList.html">大师殿堂</a> &gt; 行业列表</h2> 
             </div>
-        </div>
-        
-		<div class="clear"></div>
-		#include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+            <div class="article_list">
+            #set ($count = 0)
+            #if ($industryList)#foreach ($one in $industryList)
+               #if ($count%5==0)
+                  <ul>
+               #end
+                  <li>
+                  #if($one.level ==3)
+                     <a class="indust-analyzer vip" href="/analyzer/getIndustry.htm?industry=$one">$one</a>
+                  #else
+                     <a class="indust-analyzer" href="/analyzer/getIndustry.htm?industry=$one">$one</a>
+                  #end
+                  </li>
+               #set ($count = $count + 1)
+                  #if ($count%5==0)
+               </ul>
+               #end
+            #end#end
+            </div>
+            <div class="pageSet"></div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- industryList -->

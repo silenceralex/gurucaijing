@@ -12,96 +12,94 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")<!--header end-->
-    <div class="mainBox">
-    	#include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-            	<h2><a href="#">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="#">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2> 
+         </div>
+         <h2 class="star_detail_star">${analyzer.getName()}</h2>
+         <ol id="star_detail_tab" class="star_detail_tab">
+            <li class="star_de_tabli_on"><a href="#">赚钱排行榜</a></li>
+         </ol>
+         <div id="star_detail_box" class="star_detail_box">
+            <div class="star_detail_recommand" style="display:block">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th>分析师名</th>
+                     <th>研报标题</th>
+                     <th>评级</th>
+                     <th>推荐日期</th>
+                     <th>推荐日价格</th>
+                     <th>目标价</th>
+                     <th>当前价</th>
+                     <th>回报率</th>
+                     <th>每股收益</th>
+                     <th>研究报告</th>
+                  </tr>
+                  <tr onmouseover="showAnaly(1,'rec1','股票1','大盘')">
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                     <td>111</td>
+                  </tr>
+               </table>
+               <table id="rec1" class="hidden">
+                  <tr>
+                      <th>07-30</th>
+                     <th>08-02</th>
+                     <th>08-03</th>
+                     <th>08-04</th>
+                                                
+                  </tr>
+                  <tr>
+                     <td>24.11,-1.19%</td>
+                     <td>24.38,-0.08%</td>
+                     <td>23.78,-2.54%</td>
+                     <td>23.56,-3.45%</td>
+                                                
+                  </tr>
+                  <tr>
+                     <td>2868.85,-0.32%</td>
+                     <td>2917.27,1.37%</td>
+                     <td>2865.97,-0.42%</td>
+                     <td>2876.43,-0.05%</td>
+                  </tr>
+               </table>
             </div>
-            <h2 class="star_detail_star">${analyzer.getName()}</h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-            	<li class="star_de_tabli_on"><a href="#">赚钱排行榜</a></li>
-						</ol>
-            <div id="star_detail_box" class="star_detail_box">
-		            	<div class="star_detail_recommand" style="display:block">
-			            		<table cellpadding="0" cellspacing="0">
-			            			<tr>
-			            				<th>分析师名</th>
-			            				<th>研报标题</th>
-			            				<th>评级</th>
-			            				<th>推荐日期</th>
-			            				<th>推荐日价格</th>
-			            				<th>目标价</th>
-			            				<th>当前价</th>
-                                        <th>回报率</th>
-			            				<th>每股收益</th>
-                                        <th>研究报告</th>
-			            			</tr>
-									<tr onmouseover="showAnaly(1,'rec1','股票1','大盘')">
-                                        <td>111</td>
-			            				<td>111</td>
-			            				<td>111</td>
-			            				<td>111</td>
-			            				<td>111</td>
-			            				<td>111</td>
-			            				<td>111</td>
-                                        <td>111</td>
-			            				<td>111</td>
-                                        <td>111</td>
-                                    </tr>
-                                    <table id="rec1" class="hidden">
-										<tr>
-										    <th>07-30</th>
-											<th>08-02</th>
-											<th>08-03</th>
-											<th>08-04</th>
-																				
-										</tr>
-									    <tr>
-											<td>24.11,-1.19%</td>
-											<td>24.38,-0.08%</td>
-											<td>23.78,-2.54%</td>
-											<td>23.56,-3.45%</td>
-																				
-									    </tr>
-									    <tr>
-										    <td>2868.85,-0.32%</td>
-										    <td>2917.27,1.37%</td>
-										    <td>2865.97,-0.42%</td>
-										    <td>2876.43,-0.05%</td>
-										                                        
-									    </tr>
-								</table>
-
-						</div><!-- starTb -->
-            </div>
-
-        </div>
-        <div id="star_detail_preview"></div>
+         </div>
+      </div>
+      <div id="star_detail_preview"></div>
       <div class="clear"></div>
-        #include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
-    <script language="javascript" type="text/javascript">
-    	$("#star_detail_preview").hover(
-					function () {
-						$(this).show();
-					},
-					function (){
-						$(this).hide();
-						$(this).empty();
-					}
-			)
-			function showAnaly(num,id,name1,name2){
-					var leftCount = (document.body.scrollWidth-1013)/2+360;
-					var topCount = 360;
-					init("star_detail_preview",600,200,id,name1,name2,1);
-					$("#star_detail_preview").show();
-					$("#star_detail_preview").css("top" , topCount+num*43+"px");
-					$("#star_detail_preview").css("left" , (leftCount)+"px");
-			}
-    </script>
-    
+      include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+   <script language="javascript" type="text/javascript">
+      $("#star_detail_preview").hover(
+         function () {
+            $(this).show();
+         },
+         function (){
+            $(this).hide();
+            $(this).empty();
+         }
+      );
+      function showAnaly(num,id,name1,name2){
+         var leftCount = (document.body.scrollWidth-1013)/2+360;
+         var topCount = 360;
+         init("star_detail_preview",600,200,id,name1,name2,1);
+         $("#star_detail_preview").show();
+         $("#star_detail_preview").css("top" , topCount+num*43+"px");
+         $("#star_detail_preview").css("left" , (leftCount)+"px");
+      }
+   </script>
 </div>
 </body>
 </html>
+<!-- gainRank -->

@@ -9,28 +9,26 @@
 
 <body>
 <div class="wrapper">
- #include("/template/inc/header.htm")<!--header end-->
-    <div class="mainBox">
-    	 #include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-                    <h2><a href="/">投资大师首页</a> &gt; 草根大师列表</h2> 
-                </div>
-            	<div class="notice_list">
-					<ul>
-						#foreach ($master in $masters)
-						<li><a href="/master/${master.masterid}.html">${master.mastername}</a></li>
-			       		 #end
-					</ul>
-            	</div>
-            	<div class="pageSet">
-	            </div>
-            </div>
-        </div>
-        
-		<div class="clear"></div>
-		#include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
-</div>
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="/">投资大师首页</a> &gt; 草根大师列表</h2> 
+         </div>
+         <div class="notice_list">
+            <ul>
+               #foreach ($master in $masters)
+               <li><a href="/master/${master.masterid}.html">${master.mastername}</a></li>
+               #end
+            </ul>
+         </div>
+         <div class="pageSet"></div>
+      </div>
+   </div>
+   <div class="clear"></div>
+   #include("/template/inc/footer.htm")
+</div><!--mainBox end-->
 </body>
 </html>
+<!-- masterList -->

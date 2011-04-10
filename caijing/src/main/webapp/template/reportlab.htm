@@ -6,85 +6,88 @@
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 </head>
-	<script type="text/javascript">
-		function report_searchBtn() {
-			var type = document.getElementById("type").value;
-			var query = document.getElementById("query").value;
-			self.location = "/report/searchreport.htm?query="+query+"&type="+type;
-		}
-	</script>
+   <script type="text/javascript">
+      function report_searchBtn() {
+         var type = document.getElementById("type").value;
+         var query = document.getElementById("query").value;
+         self.location = "/report/searchreport.htm?query="+query+"&type="+type;
+      }
+   </script>
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")
-    <div class="mainBox">
-    	#include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-                    <h2><a href="/">投资大师首页</a> &gt; 研报大本营</h2> 
-                </div>
-                <div class="report_search">
-                    <label>研报搜索</label>
-                    <select id="type">
-                        <option value="2" >按分析师</option>
-                        <option value="3" >按机构</option>
-                        <option value="0" >按股票代码</option>
-                        <option value="1" >按股票名称</option>
-                    </select>
-                    <input type="text" id="query" value="$!query" />
-                    <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
-                </div>
-            <!--<div class="onsaleTitle">分析师折价之选</div>-->
-            	<div class="star_detail_research" style="display:block">
-					#set ($count = 0)
-					#if ($reportList)#foreach ($one in $reportList)
-					#if ($count%5==0)
-					<ul>
-					#end
-						<li><span>($dateTools.transformDate($one.getPtime()))</span><a href="http://51gurus.com$one.getFilepath()">$one.getTitle()</a></li>	
-					#set ($count = $count + 1)
-            		#if ($count%5==0)
-					</ul>
-					#end
-					#end#end
-            	</div>
-            	<div class="pageSet">
-		            	<table width="100%" border="0">
-		                  <tbody>
-				                  <tr>
-					                    <td width="20%">&nbsp;</td>
-					                    <td width="51%">
-											#if ($current == 1)
-					                    	<a href="#">第一页</a>
-											<a href="#">上一页</a>
-											#else
-											<a href="./reportLab_1.html">第一页</a>
-											#set ($prev = $current - 1)
-											<a href="./reportLab_${prev}.html">上一页</a>
-											#end
-											#if ($current == $page)
-											<a href="#">下一页</a>
-					                        <a href="#">末一页</a>
-											#else
-											#set ($next = $current + 1)
-											<a href="./reportLab_${next}.html">下一页</a>
-											<a href="./reportLab_${page}.html">末一页</a>
-											#end
-					                    </td>
-					                    <td width="21%">
-					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
-					                        到第<input class="toPage" type="text">页
-					                        <input class="toPageBtn" type="button" value="跳转">
-					                    </td>
-				                  </tr>
-		                	</tbody>
-		              </table>
-	            </div>
-            </div>
-        </div>
-        
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="/">投资大师首页</a> &gt; 研报大本营</h2> 
+         </div>
+         <div class="report_search">
+             <label>研报搜索</label>
+             <select id="type">
+                 <option value="2" >按分析师</option>
+                 <option value="3" >按机构</option>
+                 <option value="0" >按股票代码</option>
+                 <option value="1" >按股票名称</option>
+             </select>
+             <input type="text" id="query" value="$!query" />
+             <input type="button" value="搜索" onclick="report_searchBtn()" class="report_searchBtn" />
+         </div>
+         <div class="star_detail_research" style="display:block">
+         #set ($count = 0)
+         #if ($reportList)
+            #foreach ($one in $reportList)
+               #if ($count%5==0)
+               <ul>
+               #end
+                  <li>
+                     <span>($dateTools.transformDate($one.getPtime()))</span>
+                     <a href="http://51gurus.com$one.getFilepath()">$one.getTitle()</a>
+                  </li>
+               #set ($count = $count + 1)
+               #if ($count%5==0)
+               </ul>
+               #end
+            #end
+         #end
+         </div>
+         <div class="pageSet">
+            <table width="100%" border="0">
+               <tbody>
+                  <tr>
+                     <td width="20%">&nbsp;</td>
+                     <td width="51%">
+                        #if ($current == 1)
+                           <a href="#">第一页</a>
+                           <a href="#">上一页</a>
+                        #else
+                           <a href="./reportLab_1.html">第一页</a>
+                           #set ($prev = $current - 1)
+                           <a href="./reportLab_${prev}.html">上一页</a>
+                        #end
+                        #if ($current == $page)
+                           <a href="#">下一页</a>
+                           <a href="#">末一页</a>
+                        #else
+                           #set ($next = $current + 1)
+                           <a href="./reportLab_${next}.html">下一页</a>
+                           <a href="./reportLab_${page}.html">末一页</a>
+                        #end
+                     </td>
+                     <td width="21%">
+                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+                        到第<input class="toPage" type="text">页
+                        <input class="toPageBtn" type="button" value="跳转">
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
       <div class="clear"></div>
-        #include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- reportlab -->

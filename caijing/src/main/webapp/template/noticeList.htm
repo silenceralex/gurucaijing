@@ -9,79 +9,79 @@
 
 <body>
 <div class="wrapper">
- #include("/template/inc/header.htm")<!--header end-->
+ #include("/template/inc/header.htm")
     <div class="mainBox">
-    	 #include("/template/inc/colL.htm")
-        <div class="sec_list">
-        		<div class="sec_nav">
-                    <h2><a href="/">投资大师首页</a> &gt; 公告掘金列表</h2> 
-                </div>
-            <!--<div class="onsaleTitle">分析师折价之选</div>-->
-            	<div class="article_list">
-					#set ($count = 0)
-					#if ($noticeList)#foreach ($one in $noticeList)
-					#if ($count%5==0)
-					<ul>
-					#end
-						<li><span class="notice_list_date">($dateTools.transformYYYYMMDDDate($one.date))</span><a href="$one.getUrl()">${one.stockname}(${one.stockcode})：$one.getTitle()</a>&nbsp;&nbsp;&nbsp;
-			        #if($one.type == 0 )
-			           	股权激励
-			        #elseif($one.type == 1)	
-			        	资产重组
-			        #elseif($one.type == 2)	
-			         	股东增持
-			      	#elseif($one.type == 3)	
-			        	股东减持
-			        #elseif($one.type == 4)	
-			        	业绩预增
-			        #elseif($one.type == 5)	
-			        	业绩预减
-			        #end
-			        </li>
-					#set ($count = $count + 1)
-            		#if ($count%5==0)
-					</ul>
-					#end
-					#end#end
-            	</div>
-            	<div class="pageSet">
-		            	<table width="100%" border="0">
-		                  <tbody>
-				                  <tr>
-					                    <td width="28%">&nbsp;</td>
-					                    <td width="51%">
-											#if ($current == 1)
-					                    	<a href="#">第一页</a>
-											<a href="#">上一页</a>
-											#else
-											<a href="./notice_1.html">第一页</a>
-											#set ($prev = $current - 1)
-											<a href="./notice_${prev}.html">上一页</a>
-											#end
-											#if ($current == $page)
-											<a href="#">下一页</a>
-					                        <a href="#">末一页</a>
-											#else
-											#set ($next = $current + 1)
-											<a href="./notice_${next}.html">下一页</a>
-											<a href="./notice_${page}.html">末一页</a>
-											#end
-					                    </td>
-					                    <td width="21%">
-					                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
-					                        到第<input class="toPage" type="text">页
-					                        <input class="toPageBtn" type="button" value="跳转">
-					                    </td>
-				                  </tr>
-		                	</tbody>
-		              </table>
-	            </div>
-            </div>
-        </div>
-        
-		<div class="clear"></div>
-		#include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="/">投资大师首页</a> &gt; 公告掘金列表</h2> 
+         </div>
+         <div class="article_list">
+            #set ($count = 0)
+            #if ($noticeList)#foreach ($one in $noticeList)
+               #if ($count%5==0)
+               <ul>
+               #end
+                  <li>
+                     <span class="notice_list_date">($dateTools.transformYYYYMMDDDate($one.date))</span>
+                     <a href="$one.getUrl()">${one.stockname}(${one.stockcode})：$one.getTitle()</a>&nbsp;&nbsp;&nbsp;
+                     #if($one.type == 0 )
+                        股权激励
+                     #elseif($one.type == 1)	
+                        资产重组
+                     #elseif($one.type == 2)	
+                        股东增持
+                     #elseif($one.type == 3)	
+                        股东减持
+                     #elseif($one.type == 4)	
+                        业绩预增
+                     #elseif($one.type == 5)	
+                        业绩预减
+                     #end
+                  </li>
+               #set ($count = $count + 1)
+               #if ($count%5==0)
+               </ul>
+               #end
+            #end#end
+         </div>
+         <div class="pageSet">
+            <table width="100%" border="0">
+               <tbody>
+                  <tr>
+                     <td width="28%">&nbsp;</td>
+                     <td width="51%">
+                     #if ($current == 1)
+                        <a href="#">第一页</a>
+                        <a href="#">上一页</a>
+                     #else
+                        <a href="./notice_1.html">第一页</a>
+                        #set ($prev = $current - 1)
+                        <a href="./notice_${prev}.html">上一页</a>
+                     #end
+                     #if ($current == $page)
+                        <a href="#">下一页</a>
+                        <a href="#">末一页</a>
+                     #else
+                        #set ($next = $current + 1)
+                        <a href="./notice_${next}.html">下一页</a>
+                        <a href="./notice_${page}.html">末一页</a>
+                     #end
+                     </td>
+                     <td width="21%">
+                        <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+                        到第<input class="toPage" type="text">页
+                        <input class="toPageBtn" type="button" value="跳转">
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- noticeList -->

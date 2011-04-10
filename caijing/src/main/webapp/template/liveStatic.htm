@@ -10,40 +10,41 @@
 
 <body>
 <div class="wrapper">
-	#include("/template/inc/header.htm")<!--header end-->
-    <div class="mainBox">
-    	#include("/template/inc/colL.htm")
-        <div class="sec_list">
-            <div class="sec_nav">
-                <h2><a href="/">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt; 直播室 历史归档</h2> 
-            </div>
-            <h2 class="star_detail_star">${master.mastername}</h2>
-            <ol id="star_detail_tab" class="star_detail_tab">
-            	<li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
-            	<li class="star_de_tabli_on" id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
-            	<li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">博客</a></li>
-			</ol>
-			<div class="star_jump">
-               <label>跳转到另一个大师</label>
-               <select onchange="window.location = this.value;">
-                  <option>请选择</option>
-                  #if ($masterList)#foreach ($one in $masterList)
-                     <option value="/master/${one.masterid}.html">${one.mastername}</option>
-                  #end#end
-               </select>
-            </div>
-            <h3 class="live-title">$!mastername 的直播室 <font color="red">($!date)</font></h3>
-            <div class="live-box" id="liveBox">
-            	 #foreach ($one in $maps) 
-                <ul id="liveList" class="chat-content-box">
-                	<li><b>时间</b>：${one.get("ptime")} <b>内容</b>：${one.get("content")}
-                </ul>
-                #end
-            </div>
-        </div>
+   #include("/template/inc/header.htm")<!--header end-->
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="/">投资大师首页</a> &gt; <a href="/master/index.html">草根大师</a> &gt; 直播室 历史归档</h2> 
+         </div>
+         <h2 class="star_detail_star">${master.mastername}</h2>
+         <ol id="star_detail_tab" class="star_detail_tab">
+            <li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
+            <li class="star_de_tabli_on" id="starTab2"><a href="/liveDetail.htm?masterid=${master.masterid}"><font color="red">直播室入口</font></a></li>
+            <li id="starTab3"><a href="/master/bloglist.htm?author=${encodename}">博客</a></li>
+         </ol>
+         <div class="star_jump">
+            <label>跳转到另一个大师</label>
+            <select onchange="window.location = this.value;">
+               <option>请选择</option>
+               #if ($masterList)#foreach ($one in $masterList)
+                  <option value="/master/${one.masterid}.html">${one.mastername}</option>
+               #end#end
+            </select>
+         </div>
+         <h3 class="live-title">$!mastername 的直播室 <font color="red">($!date)</font></h3>
+         <div class="live-box" id="liveBox">
+            #foreach ($one in $maps) 
+            <ul id="liveList" class="chat-content-box">
+               <li><b>时间</b>：${one.get("ptime")} <b>内容</b>：${one.get("content")}
+            </ul>
+            #end
+         </div>
+      </div>
       <div class="clear"></div>
-        #include("/template/inc/footer.htm")
-    </div><!--mainBox end-->
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
 </div>
 </body>
 </html>
+<!-- liveStatic -->
