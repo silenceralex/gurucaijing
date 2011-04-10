@@ -118,8 +118,12 @@ public class RssJob {
 					if (!urlDB.contains(md5)) {
 						article.setAid(MD5Utils.hash(article.getLink()));
 						article.setType(type);
-						columnArticleDao.insert(article);
-						urlDB.putUrl(md5);
+						try {
+							columnArticleDao.insert(article);
+							urlDB.putUrl(md5);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						//»°œ˚≤Â»Îcms
 						//						long articleid = CmsWebservice.getInstance().addArticle(
 						//								columnid != 0 ? columnid : CmsWebservice.catelogID, article.getTitle(),

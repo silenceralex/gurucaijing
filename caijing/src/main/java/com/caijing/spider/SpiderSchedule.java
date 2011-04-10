@@ -227,5 +227,6 @@ public class SpiderSchedule {
 	public static void main(String[] args) {
 		SpiderSchedule schedule = (SpiderSchedule) ContextFactory.getBean("timeSpiderSchedule");
 		schedule.run();
+		System.exit(0);
 	}
 }
