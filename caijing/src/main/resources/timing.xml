@@ -136,11 +136,26 @@
 		<property name="noticeDao">
 			<ref bean="noticeDao" />
 		</property>
+		<property name="postDao">
+			<ref bean="postDao" />
+		</property>
+		<property name="titleDB">
+			<ref bean="titleDB" />
+		</property>
 		<property name="htmlFlush">
 			<ref bean="htmlFlush" />
 		</property>
 		<property name="paramXml">
 			<value>/home/app/caijing/jobs/caijing.xml</value>
+		</property>
+		<property name="caogenXml">
+			<value>/home/app/caijing/jobs/163_huigensi.xml</value>
+		</property>
+		<property name="tyjXml">
+			<value>/home/app/caijing/jobs/tyj.xml</value>
+		</property>
+			<property name="hgsXml">
+			<value>/home/app/caijing/jobs/hgs.xml</value>
 		</property>
 		<property name="caogenXml">
 			<value>/home/app/caijing/jobs/163_huigensi.xml</value>

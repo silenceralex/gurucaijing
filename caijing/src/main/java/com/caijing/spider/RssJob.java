@@ -15,14 +15,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
+import com.caijing.dao.PostDao;
 import com.caijing.domain.ColumnArticle;
+import com.caijing.domain.Post;
 import com.caijing.util.ContextFactory;
 import com.caijing.util.MD5Utils;
+import com.caijing.util.ServerUtil;
 import com.caijing.util.UrlDownload;
 
 public class RssJob {
 
 	private BerkeleyDB urlDB = null;
+
+	private BerkeleyDB titleDB = null;
 
 	private SimpleDateFormat sdf = null;
 
@@ -30,6 +35,25 @@ public class RssJob {
 	private String root = null;
 	private String list = null;
 	private String src = null;
+
+	private String masterid = null;
+
+	public BerkeleyDB getTitleDB() {
+		return titleDB;
+	}
+
+	public void setTitleDB(BerkeleyDB titleDB) {
+		this.titleDB = titleDB;
+	}
+
+	public String getMasterid() {
+		return masterid;
+	}
+
+	public void setMasterid(String masterid) {
+		this.masterid = masterid;
+	}
+
 	private long columnid = 0;
 	private String charset = "GBK";
 	private int maxConnections = 5;
@@ -43,6 +67,18 @@ public class RssJob {
 	@Autowired
 	@Qualifier("columnArticleDao")
 	private ColumnArticleDao columnArticleDao = null;
+
+	@Autowired
+	@Qualifier("postDao")
+	private PostDao postDao = null;
+
+	public PostDao getPostDao() {
+		return postDao;
+	}
+
+	public void setPostDao(PostDao postDao) {
+		this.postDao = postDao;
+	}
 
 	public void run() {
 		SAXReader sr = new SAXReader();
@@ -98,6 +134,22 @@ public class RssJob {
 						//							System.out.println("publish article:" + article.getTitle() + "  articleid:" + articleid
 						//									+ " failed!");
 						//						}
+
+					}
+					if (masterid != null) {
+						//如果有草根id，则插一份数据入草根观点中,按照id去重
+						String key = masterid + article.getTitle().trim();
+						if (!titleDB.contains(key)) {
+							Post post = new Post();
+							post.setGroupid(masterid);
+							post.setContent(article.getContent());
+							post.setNick(article.getAuthor());
+							post.setTitle(article.getTitle());
+							post.setPtime(article.getPtime());
+							post.setPid(ServerUtil.getid());
+							postDao.insert(post);
+							titleDB.putUrl(key);
+						}
 						System.out.println("author: " + article.getAuthor());
 						System.out.println("title: " + article.getTitle());
 						System.out.println("pubDate: " + article.getPtime());

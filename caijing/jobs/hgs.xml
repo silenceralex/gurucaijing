@@ -1,7 +1,6 @@
-<job type="3" columnid="9134" threads="10" maxconnections="10"
+<job type="3" columnid="9134" threads="10" maxconnections="10" masterid="2074"
 	charset="utf-8" urldb="/home/app/urldb/163">
-	<starturl>http://cannes29.blog.163.com/rss/</starturl>
-	<starturl>http://blog.sina.com.cn/rss/1364334665.xml</starturl>
+	<starturl>http://tl.dx.blog.163.com/rss/</starturl>
 	<root property="rss"></root>
 	<list property="channel/item"></list>
 	<src property="channel/generator"></src>

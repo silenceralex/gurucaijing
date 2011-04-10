@@ -28,6 +28,11 @@
 		<constructor-arg><value>false</value></constructor-arg>
 	</bean>
 	
+	<bean id="titleDB" class="com.caijing.spider.BerkeleyDB">
+		<constructor-arg><value>/home/app/urldb/title</value></constructor-arg>
+		<constructor-arg><value>false</value></constructor-arg>
+	</bean>
+	
 	<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
 		<property name="config">
 			<ref bean="config" />
@@ -43,6 +48,9 @@
 		</property>
 		<property name="postDao">
 			<ref bean="postDao" />
+		</property>
+		<property name="titleDB">
+			<ref bean="titleDB" />
 		</property>
 	</bean>
 		

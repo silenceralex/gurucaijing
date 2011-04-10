@@ -33,7 +33,7 @@ public class ConfigReader {
 			String charset = root.attributeValue("charset");
 			String strMaxConnections = root.attributeValue("maxconnections");
 			int downMethod = Integer.parseInt(root.attributeValue("downMethod"));
-			String source = root.attributeValue("source");
+			//			String masterid = root.attributeValue("masterid");
 			int type = 0;
 			if (root.attributeValue("type") != null) {
 				type = Integer.parseInt(root.attributeValue("type"));
@@ -180,7 +180,17 @@ public class ConfigReader {
 		String urlDB_path = root.attributeValue("urldb");
 		urldown.setCharset(charset);
 		rssjob.setUrldown(urldown);
-		//		rssjob.setStartPage(startPage);
+
+		String masterid = null;
+		if (root.attributeValue("masterid") != null) {
+			masterid = root.attributeValue("masterid");
+			rssjob.setMasterid(masterid);
+		}
+
+		//		if (root.attributeValue("titledb") != null) {
+		//			BerkeleyDB titledb = new BerkeleyDB(root.attributeValue("titledb"), false);
+		//			rssjob.setTitleDB(titledb);
+		//		}
 
 		if (urlDB_path == null) {
 			System.out.println("urlDB_path is null£¡");

@@ -64,6 +64,16 @@ public class ThreadCrawler {
 		this.bdb = bdb;
 	}
 
+	private BerkeleyDB titleDB = null;
+
+	public BerkeleyDB getTitledb() {
+		return titleDB;
+	}
+
+	public void setTitledb(BerkeleyDB titleDB) {
+		this.titleDB = titleDB;
+	}
+
 	public void init() {
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, "GB2312");
@@ -145,14 +155,21 @@ public class ThreadCrawler {
 						post.setPid(ServerUtil.getid());
 						post.setGroupid(masterid);
 						try {
-
 							String threadid = threadurl.substring(threadurl.indexOf(',') + 1,
 									threadurl.lastIndexOf('.'));
 							System.out.println("threadid:" + threadid);
 							post.setThreadid(threadid);
-							postDao.insert(post);
+
 							status = true;
 							bdb.putUrl(threadurl);
+
+							//判断是否已经有草根博客抓取相同观点
+							String key = masterid + post.getTitle();
+							if (!titleDB.contains(key)) {
+								postDao.insert(post);
+								titleDB.putUrl(key);
+							}
+
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

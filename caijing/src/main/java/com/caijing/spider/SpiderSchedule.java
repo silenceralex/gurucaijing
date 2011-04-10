@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.dao.ColumnArticleDao;
 import com.caijing.dao.NoticeDao;
+import com.caijing.dao.PostDao;
 import com.caijing.flush.HtmlFlusher;
 import com.caijing.util.ContextFactory;
 
@@ -23,6 +24,25 @@ public class SpiderSchedule {
 	private String wsjdashiXml = null;
 	private String wsjhongguanXml = null;
 	private String caogenXml = null;
+
+	public String getTyjXml() {
+		return tyjXml;
+	}
+
+	public void setTyjXml(String tyjXml) {
+		this.tyjXml = tyjXml;
+	}
+
+	public String getHgsXml() {
+		return hgsXml;
+	}
+
+	public void setHgsXml(String hgsXml) {
+		this.hgsXml = hgsXml;
+	}
+
+	private String tyjXml = null;
+	private String hgsXml = null;
 	private static Log logger = LogFactory.getLog(SpiderSchedule.class);
 	@Autowired
 	@Qualifier("htmlFlush")
@@ -36,10 +56,34 @@ public class SpiderSchedule {
 		this.htmlFlush = htmlFlush;
 	}
 
+	@Autowired
+	@Qualifier("postDao")
+	private PostDao postDao = null;
+
+	public PostDao getPostDao() {
+		return postDao;
+	}
+
+	public void setPostDao(PostDao postDao) {
+		this.postDao = postDao;
+	}
+
+	private BerkeleyDB titleDB = null;
+
+	public BerkeleyDB getTitleDB() {
+		return titleDB;
+	}
+
+	public void setTitleDB(BerkeleyDB titleDB) {
+		this.titleDB = titleDB;
+	}
+
 	public void run() {
 		try {
 			crawlRss(paramXml);
 			crawlRss(caogenXml);
+			crawlRss(hgsXml);
+			crawlRss(tyjXml);
 			crawlHtml(astockXml);
 			crawlHtml(wsjdashiXml);
 			crawlHtml(wsjhongguanXml);
@@ -74,6 +118,8 @@ public class SpiderSchedule {
 		}
 		RssJob rssjob = ConfigReader.getRssJobFromXML(xml);
 		rssjob.setColumnArticleDao(columnArticleDao);
+		rssjob.setPostDao(postDao);
+		rssjob.setTitleDB(titleDB);
 		rssjob.run();
 	}
 
