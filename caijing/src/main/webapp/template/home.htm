@@ -1,216 +1,206 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-        <title>投资大师</title>
-        #include("/template/inc/cssjs.htm")<!--cssjs end-->
-        <script language="javascript" type="text/javascript">
-            function getLength(){
-                var liArr1 = document.getElementById("colR2").getElementsByTagName("ul")[0].getElementsByTagName("li");
-                var liArr2 = document.getElementById("colR3").getElementsByTagName("ul")[0].getElementsByTagName("li");
-                for (i = 0; i < liArr2.length; i++) {
-                    if (i % 2 != 0) {
-                        liArr1[i].style.background = "#EEE";
-                        liArr2[i].style.background = "#EEE";
-                    }
-                }
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+      <title>投资大师</title>
+      #include("/template/inc/cssjs.htm")
+      <script language="javascript" type="text/javascript">
+         function getLength(){
+            var liArr1 = document.getElementById("colR2").getElementsByTagName("ul")[0].getElementsByTagName("li");
+            var liArr2 = document.getElementById("colR3").getElementsByTagName("ul")[0].getElementsByTagName("li");
+            for (i = 0; i < liArr2.length; i++) {
+               if (i % 2 != 0) {
+                  liArr1[i].style.background = "#EEE";
+                  liArr2[i].style.background = "#EEE";
+               }
             }
-            
-            window.onload = getLength;
-        </script>
-    </head>
-    <body>
-        <div class="wrapper">
-           #include("/template/inc/header.htm")<!--header end-->
-            <div class="mainBox">
-                #include("/template/inc/colL.htm")
-                <div class="colM">
-                    <div class="colML">
-                        <div class="colM_title">
-                            <h2>大势研判</h2>
-                            <a class="moreBtn" href="http://51gurus.com/articles/1/list_1.html"  target="_blank"><span>more</span><img src="img/block.gif"/></a>
-                        </div>
-                        <ul style="height:332px">
-                            #foreach ($one in $dsyp)
-                            <li>
-                                <h3><em><a href="$one.link" target="_blank">$one.author</a></em><a title="$one.title" href="$one.link" target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--这里放截取的内容，限制在15个字以内，控制简介在一行--></a></h3>
-                                <p title="$one.abs">
-                                    ${htmlUtil.getSubStr($one.abs,40,'...')}<!--这里放截取的内容，限制在40个字以内，控制简介在两行-->
-                                </p>
-                                <span class="clear"></span>
-                            </li>
-                            #end
-                        </ul>
-                    </div>
-                    <div class="colMR">
-                        <div class="colM2_title">
-                            <h2>大师专栏</h2>
-                            <a class="moreBtn" href="http://51gurus.com/articles/0/list_1.html" target="_blank"><span>more</span><img src="img/block.gif"/></a>
-                        </div>
-                        <ul id="colMRUL">
-                            #set ($count = 0) 
-                            #foreach ($one in $cjzl)  
-                            #if($count == $cjzlsize) 
-                            <li class="last">
-                            #else 
-                            <li>
-                                #end<h3><em><a href="http://51gurus.com/search/columnarticlelist.htm?author=${one.author}"  target="_blank">$one.author</a></em><a title="$one.title" href="$one.link"  target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--限制在15个字以内，控制简介在一行--></a></h3>
-                                <p title="$one.abs">
-                                    ${htmlUtil.getSubStr($one.abs,40,'...')}<!--这里放截取的内容，限制在40个字以内，控制简介在两行-->
-                                </p>
-                                <p>
-                                    <em class="colMR_date">${dateTools.transformTomm($one.ptime)}</em>
-                                    <a class="moreBtn2" href="$one.link" target="_blank"><img src="img/block.gif"/></a>
-                                </p>
-                                <div class="clear">
-                                </div>
-                            </li>
-                            #end
-                            <p class="colM_more">
-                                <a href="http://51gurus.com/cms/cjzl/index.shtml" target="_blank">查看更多大师专栏</a>
-                            </p>
-                        </ul>
-                        
-                        <!-- 新增加的 公告掘金 -->
-                        <div class="colML">
-                           <div class="colM_title">
-                               <h2>公告掘金</h2>
-                               <a class="moreBtn" href="/notice/notice_1.html" target="_blank"><span>more</span><img src="img/block.gif"></a>
-                           </div>
-                           <ul class="notice-list">
-                              #if ($noticeList)
-                                 #foreach ($one in $noticeList)
-                                 <li>
-                                    <span class="title"><a href="$one.getUrl()">${one.stockname}(${one.stockcode})：$one.getTitle()</a></span>
-                                    <span class="sort">
-                                       #if($one.type == 0 )
-                                          股权激励
-                                       #elseif($one.type == 1)	
-                                          资产重组
-                                       #elseif($one.type == 2)	
-                                          股东增持
-                                        #elseif($one.type == 3)	
-                                          股东减持
-                                       #elseif($one.type == 4)	
-                                          业绩预增
-                                       #elseif($one.type == 5)	
-                                          业绩预减
-                                       #end
-                                    </span>
-                                 </li>
+         }
+         window.onload = getLength;
+      </script>
+   </head>
+   <body>
+      <div class="wrapper">
+         #include("/template/inc/header.htm")
+         <div class="mainBox">
+            #include("/template/inc/colL.htm")
+            <div class="colM">
+               <div class="colML">
+                  <div class="colM_title">
+                      <h2>大势研判</h2>
+                      <a class="moreBtn" href="http://51gurus.com/articles/1/list_1.html"  target="_blank"><span>more</span><img src="img/block.gif"/></a>
+                  </div>
+                  <ul style="height:332px">
+                     #foreach ($one in $dsyp)
+                     <li>
+                        <h3><em><a href="$one.link" target="_blank">$one.author</a></em><a title="$one.title" href="$one.link" target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--这里放截取的内容，限制在15个字以内，控制简介在一行--></a></h3>
+                        <p title="$one.abs">
+                            ${htmlUtil.getSubStr($one.abs,40,'...')}<!--这里放截取的内容，限制在40个字以内，控制简介在两行-->
+                        </p>
+                        <span class="clear"></span>
+                     </li>
+                     #end
+                  </ul>
+               </div>
+               <div class="colMR">
+                  <div class="colM2_title">
+                     <h2>大师专栏</h2>
+                     <a class="moreBtn" href="http://51gurus.com/articles/0/list_1.html" target="_blank"><span>more</span><img src="img/block.gif"/></a>
+                  </div>
+                  <ul id="colMRUL">
+                     #set ($count = 0) 
+                     #foreach ($one in $cjzl)  
+                        <li #if($count == $cjzlsize) class="last"#end>
+                           <h3><em><a href="http://51gurus.com/search/columnarticlelist.htm?author=${one.author}"  target="_blank">$one.author</a></em><a title="$one.title" href="$one.link"  target="_blank">${htmlUtil.getSubStr($one.title,15,'...')}<!--限制在15个字以内，控制简介在一行--></a></h3>
+                           <p title="$one.abs">
+                              ${htmlUtil.getSubStr($one.abs,40,'...')}<!--这里放截取的内容，限制在40个字以内，控制简介在两行-->
+                           </p>
+                           <p>
+                              <em class="colMR_date">${dateTools.transformTomm($one.ptime)}</em>
+                              <a class="moreBtn2" href="$one.link" target="_blank"><img src="img/block.gif"/></a>
+                           </p>
+                           <div class="clear"></div>
+                        </li>
+                     #end
+                     <p class="colM_more">
+                        <a href="http://51gurus.com/cms/cjzl/index.shtml" target="_blank">查看更多大师专栏</a>
+                     </p>
+                  </ul>
+                  <!-- 新增加的 公告掘金 -->
+                  <div class="colML">
+                     <div class="colM_title">
+                        <h2>公告掘金</h2>
+                        <a class="moreBtn" href="/notice/notice_1.html" target="_blank"><span>more</span><img src="img/block.gif"></a>
+                     </div>
+                     <ul class="notice-list">
+                        #if ($noticeList)
+                           #foreach ($one in $noticeList)
+                           <li>
+                              <span class="title"><a href="$one.getUrl()">${one.stockname}(${one.stockcode})：$one.getTitle()</a></span>
+                              <span class="sort">
+                                 #if($one.type == 0 )
+                                    股权激励
+                                 #elseif($one.type == 1)	
+                                    资产重组
+                                 #elseif($one.type == 2)	
+                                    股东增持
+                                  #elseif($one.type == 3)	
+                                    股东减持
+                                 #elseif($one.type == 4)	
+                                    业绩预增
+                                 #elseif($one.type == 5)	
+                                    业绩预减
                                  #end
-                              #end
-                           </ul>
-                        </div>
-                        <!-- 新增加的 公告掘金 -->
-                        
-                        
-                    </div>
-                    <div class="colML">
-                        <div class="colM_title">
-                            <h2>宏观动态</h2>
-                            <a class="moreBtn" href="http://51gurus.com/articles/2/list_1.html" target="_blank"><span>more</span><img src="img/block.gif"/></a>
-                        </div>
-                        <ul>
-                            #foreach ($one in $hgdt)
-                            <li>
-                                <a title="$one.title" href="$one.link" target="_blank"><span class="agency">[$one.src]</span>${htmlUtil.getSubStr($one.title,15,'...')}<!--这里放截取后的标题，限制在15个字以内，控制简介在一行--></a>
-                            </li>
-                            #end
-                        </ul>
-                    </div>
-                    <div class="colML">
-                        <div class="colM_title">
-                            <h2>个股研究</h2>
-                            <a class="moreBtn" href="/stockresearch/stockResearch_1.html" target="_blank"><span>more</span><img src="img/block.gif"/></a>
-                        </div>
-                        <ul style="height: 192px;">
-                            #foreach ($one in $recommendstocks)
-                            <li>
-                                <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
-                                <p title="$one.title">
-                                    ${htmlUtil.getSubStr($one.title,18,'...')}<!--这里放截取的标题，限制在18个字以内，控制简介在一行-->
-                                </p>
-                                <span class="clear"></span>
-                            </li>
-                            #end
-                        </ul>
-                    </div>
-                </div>
-                <div class="colR">
-                    <div id="colR2" class="colR2 colRItem">
-                        <div class="colR_title">
-                            <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
-                            <h2><a href="/analyzer/2011/rank_1.html" target="_blank">大师排行榜</a></h2>
-                        </div>
-                        <ul>
-                            #foreach ($one in $analyzerList)
-                                <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.weight)}%</span></li>
-                            <!--   <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">#set ($ratio = $one.getWeight() - 100)${floatUtil.getTwoDecimalNumber(${ratio})}%</span></li>--> 
-                            #end
-                        </ul>
-                    </div>
-                    <div id="colR3" class="colR3 colRItem">
-                        <div class="colR_title">
-                            <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
-                            <h2><a href="/analyzer/earnrank_4_1.html" target="_blank">赚钱排行榜</a></h2>
-                        </div>
-                        <ul>
-                            #foreach ($one in $groupStockList)
-                            <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
-                            #end
-                        </ul>
-                    </div>
-                    <div id="colR4" class="colR3 colRItem">
-                        <div class="colR_title">
-                            <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
-                            <h2><a href="/analyzer/earnrank_4_1.html" target="_blank">赚钱排行榜</a></h2>
-                        </div>
-                        <ul>
-                            #foreach ($one in $groupStockList)
-                            <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
-                            #end
-                        </ul>
-                    </div>
-                </div>
-                <div class="clear">
-                </div>
-                <div class="links">
-                    <div class="links_title">
-                        <h2>友情链接</h2>
-                        <em>
-                    </div>
-                    <ul>
-                        <li>
-                            <a href="http://cn.wsj.com/gb/" target="_blank"><img alt="华尔街日报" title="华尔街日报" src="upload/wsj.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://www.aastocks.com.cn/" target="_blank"><img alt="阿思达克" title="阿思达克" src="upload/aast.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://www.caijing.com.cn/" target="_blank"><img alt="财经网" title="财经网" src="upload/caijing.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://www.baring.cn/quo/index.html" target="_blank"><img alt="霸灵财经网" title="霸灵财经网" src="upload/baring.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://www.capitalweek.com.cn/index.html" target="_blank"><img alt="证券市场周刊" title="证券市场周刊" src="upload/cap.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://www.simuwang.com/" target="_blank"><img alt="私募排排网" title="私募排排网" src="upload/simu.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://www.jrj.com.cn/" target="_blank"><img alt="金融界" title="金融界" src="upload/jrj.gif" /></a>
-                        </li>
-                        <li>
-                            <a href="http://finance.sina.com.cn/" target="_blank"><img alt="新浪财经" title="新浪财经" src="upload/sina.gif" /></a>
-                        </li><span class="clear"></span>
-                    </ul>
-                    <span class="clear"></span>
-                </div>
-				#include("/template/inc/footer.htm")
+                              </span>
+                           </li>
+                           #end
+                        #end
+                     </ul>
+                  </div>
+                  <!-- 新增加的 公告掘金 -->
+               </div><!-- colMR -->
+               <div class="colML">
+                  <div class="colM_title">
+                     <h2>宏观动态</h2>
+                     <a class="moreBtn" href="http://51gurus.com/articles/2/list_1.html" target="_blank"><span>more</span><img src="img/block.gif"/></a>
+                  </div>
+                  <ul>
+                  #foreach ($one in $hgdt)
+                     <li>
+                        <a title="$one.title" href="$one.link" target="_blank"><span class="agency">[$one.src]</span>${htmlUtil.getSubStr($one.title,15,'...')}<!--这里放截取后的标题，限制在15个字以内，控制简介在一行--></a>
+                     </li>
+                  #end
+                  </ul>
+               </div>
+               <div class="colML">
+                  <div class="colM_title">
+                     <h2>个股研究</h2>
+                     <a class="moreBtn" href="/stockresearch/stockResearch_1.html" target="_blank"><span>more</span><img src="img/block.gif"/></a>
+                  </div>
+                  <ul style="height: 192px;">
+                  #foreach ($one in $recommendstocks)
+                     <li>
+                        <h3><em><a href="http://51gurus.com${one.filepath}" target="_blank">$one.aname</a></em><a href="http://51gurus.com${one.filepath}" target="_blank">${one.stockname}(${one.stockcode})</a><span class="rec">${one.grade}</span></h3>
+                        <p title="$one.title">
+                            ${htmlUtil.getSubStr($one.title,18,'...')}<!--这里放截取的标题，限制在18个字以内，控制简介在一行-->
+                        </p>
+                        <span class="clear"></span>
+                     </li>
+                  #end
+                  </ul>
+               </div>
+            </div><!-- colM -->
+            <div class="colR">
+               <div id="colR2" class="colR2 colRItem">
+                  <div class="colR_title">
+                      <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
+                      <h2><a href="/analyzer/2011/rank_1.html" target="_blank">大师排行榜</a></h2>
+                  </div>
+                  <ul>
+                      #foreach ($one in $analyzerList)
+                          <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.weight)}%</span></li>
+                      <!--   <li><em><img src="img/num${velocityCount}.gif" /></em><a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank"><span class="name">$one.name</a></span><span>[$one.agency]</span><span class="percent">#set ($ratio = $one.getWeight() - 100)${floatUtil.getTwoDecimalNumber(${ratio})}%</span></li>--> 
+                      #end
+                  </ul>
+               </div>
+               <div id="colR3" class="colR3 colRItem">
+                  <div class="colR_title">
+                     <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
+                     <h2><a href="/analyzer/earnrank_4_1.html" target="_blank">赚钱排行榜</a></h2>
+                  </div>
+                  <ul>
+                  #foreach ($one in $groupStockList)
+                     <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
+                  #end
+                  </ul>
+               </div>
+               <div id="colR4" class="colR3 colRItem">
+                  <div class="colR_title">
+                     <span class="colRDate">$dateTools.transformYYYYMMDDDate($currdate)</span>
+                     <h2><a href="/analyzer/earnrank_4_1.html" target="_blank">赚钱排行榜</a></h2>
+                  </div>
+                  <ul>
+                  #foreach ($one in $groupStockList)
+                     <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}(${one.stockcode})">${one.stockname}</span><span class="name">${one.groupname}</span><span class="percent">${floatUtil.getTwoDecimalNumber($one.gain)}%</span></li>
+                  #end
+                  </ul>
+               </div>
             </div>
-            <!--mainBox end-->
-        </div>
-    </body>
+            <div class="clear"></div>
+            <div class="links">
+               <div class="links_title">
+                  <h2>友情链接</h2>
+                  <em>
+               </div>
+               <ul>
+                  <li>
+                     <a href="http://cn.wsj.com/gb/" target="_blank"><img alt="华尔街日报" title="华尔街日报" src="upload/wsj.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://www.aastocks.com.cn/" target="_blank"><img alt="阿思达克" title="阿思达克" src="upload/aast.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://www.caijing.com.cn/" target="_blank"><img alt="财经网" title="财经网" src="upload/caijing.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://www.baring.cn/quo/index.html" target="_blank"><img alt="霸灵财经网" title="霸灵财经网" src="upload/baring.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://www.capitalweek.com.cn/index.html" target="_blank"><img alt="证券市场周刊" title="证券市场周刊" src="upload/cap.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://www.simuwang.com/" target="_blank"><img alt="私募排排网" title="私募排排网" src="upload/simu.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://www.jrj.com.cn/" target="_blank"><img alt="金融界" title="金融界" src="upload/jrj.gif" /></a>
+                  </li>
+                  <li>
+                     <a href="http://finance.sina.com.cn/" target="_blank"><img alt="新浪财经" title="新浪财经" src="upload/sina.gif" /></a>
+                  </li><span class="clear"></span>
+               </ul>
+               <span class="clear"></span>
+            </div>
+            #include("/template/inc/footer.htm")
+         </div><!--mainBox end-->
+      </div>
+   </body>
 </html>
