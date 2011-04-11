@@ -123,6 +123,10 @@ public class OnlineCrawler {
 				return false;
 			}
 			String curnum = content.substring(0, content.indexOf(","));
+			if ("-1".equals(curnum)) {
+				System.out.println(" curnum  -1  No right to get data!");
+				return false;
+			}
 			System.out.println("curnum: " + curnum);
 			Matcher m = contentPattern.matcher(content);
 			if (m == null)
@@ -179,7 +183,9 @@ public class OnlineCrawler {
 				String curdstr = m.group(1);
 				String curkey = m.group(2);
 				System.out.println("dstr:" + dstr + "   key:" + key);
+				System.out.println("curdstr:" + curdstr + "   curkey:" + curkey);
 				if (!getZhibo(masterid, startnum, uid, cookie, key, dstr)) {
+					System.out.println("use currkey to download! curdstr:" + curdstr + "   curkey:" + curkey);
 					getZhibo(masterid, startnum, uid, cookie, curkey, curdstr);
 				}
 			} else {
@@ -234,7 +240,7 @@ public class OnlineCrawler {
 		//		crawler.setMasterMessageDao(masterMessageDao);
 		//		String COOKIE = "__gads=ID=f97e87092220bb70:T=1301291138:S=ALNI_MYx_ZLCGBpMwyoKgyc3lKYdrchwHg; SUV=1301291829163548; IPLOC=CN1100; JSESSIONID=aVygncqo6fAg-00Qe8; __utma=268884647.406910617.1301453883.1301453883.1301482212.2; __utmc=268884647; __utmz=268884647.1301453884.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lpvt_c378c4854ec370c1c8438f72e19b7170=1301482233852; Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1301482212548; __utma=105107665.1832895910.1301453886.1301453886.1301453886.1; __utmc=105107665; __utmz=105107665.1301453887.1.1.utmcsr=g.cnfol.com|utmccn=(referral)|utmcmd=referral|utmcct=/; cookie[passport][userId]=5374484; cookie[passport][username]=scottxia; cookie[passport][nickname]=%E6%9D%9C%E6%8B%89%E6%8B%89%E7%9A%84%E6%83%85%E4%BA%BA; cookie[passport][money]=3; cookie[passport][keys]=B6B97806A8E61C806FA38D6D975E7B31; cookie[passport][logtime]=1304046135; cookie[passport][keystr]=8FBFB1D804C24FEBDDDB87A88555C8FE; cookie[passport][cache]=5365C7FFF3AE12028183CBCF7230C011; cookie[passport][auto]=0;";
 		String COOKIE = "__gads=ID=579bb78f0ec5705b:T=1295015028:S=ALNI_MadvIXE6VJLvQ5cweicul8cCF7w5w; SUV=1295015144090647; IPLOC=CN1100; g7F_cookietime=86400; g7F_visitedfid=27; smile=1D1; __utma=105107665.1699322037.1295749815.1295749815.1295749815.1; __utmz=105107665.1295749816.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Hm_lvt_c378c4854ec370c1c8438f72e19b7170=1295749815844; cookie[passport][userId]=3929853; cookie[passport][username]=issn517; cookie[passport][nickname]=surrogate; cookie[passport][money]=2637; cookie[passport][keys]=1967D734C104ABF31D2D3D884862D06A; cookie[passport][logtime]=1298341899; cookie[passport][keystr]=EC249A80CDE48A2224CA9CD150AB1A74; cookie[passport][cache]=97AD78F6FB1A883684391560CD13A803; cookie[passport][auto]=1; cookie[passport][mailnum]=2;";
-		crawler.crawler(2074, 0, "3929853", COOKIE, "b8e60900bb925cb2b5eee0f928956ffa", "2eab9394eae2ef204c492a932ae",
+		crawler.crawler(1752, 0, "3929853", COOKIE, "b8e60900bb925cb2b5eee0f928956ffa", "2eab9394eae2ef204c492a932ae",
 				"safs");
 	}
 }
