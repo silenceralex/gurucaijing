@@ -1072,18 +1072,21 @@ public class HtmlFlusher {
 		cal.setTime(now);
 		cal.add(Calendar.MONTH, -6);
 		Date startDate = cal.getTime();
+		System.out.println("half year startDate:" + startDate.toString());
 		List<Notice> notices = noticeDao.getActiveNoticeStocks(startDate, new Date());
 		System.out.println("half year raw notices size:" + notices.size());
 		flushNoticeList(notices, 0);
 
 		cal.add(Calendar.MONTH, 3);
 		startDate = cal.getTime();
+		System.out.println("quater year startDate:" + startDate.toString());
 		notices = noticeDao.getActiveNoticeStocks(startDate, new Date());
 		System.out.println("quater raw notices size:" + notices.size());
 		flushNoticeList(notices, 1);
 
 		cal.add(Calendar.MONTH, 2);
 		startDate = cal.getTime();
+		System.out.println("month year startDate:" + startDate.toString());
 		notices = noticeDao.getActiveNoticeStocks(startDate, new Date());
 		System.out.println("month raw notices size:" + notices.size());
 		flushNoticeList(notices, 2);
@@ -1255,8 +1258,8 @@ public class HtmlFlusher {
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-		flusher.flushIndex();
-		flusher.flushNotice();
+		//		flusher.flushIndex();
+		//		flusher.flushNotice();
 		flusher.flushNoticeRank();
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
