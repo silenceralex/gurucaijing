@@ -19,4 +19,12 @@ public interface NoticeDao extends CrudDao {
 	 */
 	public List<Notice> getNoticeStocksByType(int type, Date startDate, Date endDate);
 
+	/**
+	 * 获取积极意义的公告股票数据，即type 0 激励 ，2 增持 ，1重组 ，4预增
+	 * @param startDate  起始日期
+	 * @param endDate
+	 * @return
+	 */
+	public List<Notice> getActiveNoticeStocks(Date startDate, Date endDate);
+
 }

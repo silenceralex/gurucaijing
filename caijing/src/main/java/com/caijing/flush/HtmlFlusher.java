@@ -500,7 +500,11 @@ public class HtmlFlusher {
 		DateTools dateTools = new DateTools();
 		int size = 20;
 		int total = noticeDao.getNoticesCount();
+
 		int page = total % size == 0 ? total / size : total / size + 1;
+		if (page > 20) {
+			page = 20;
+		}
 		int current = 1;
 		for (; current <= page; current++) {
 			int start = (current - 1) * size;
@@ -510,7 +514,7 @@ public class HtmlFlusher {
 					flushOneNotice(notice);
 				}
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/noticeList.htm");
+				vmf.setTemplate("/template/notice/noticeList.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("current", current);
 				vmf.put("page", page);
@@ -530,7 +534,7 @@ public class HtmlFlusher {
 		DateTools dateTools = new DateTools();
 		try {
 			VMFactory vmf = new VMFactory();
-			vmf.setTemplate("/template/noticeContent.htm");
+			vmf.setTemplate("/template/notice/noticeContent.htm");
 			vmf.put("dateTools", dateTools);
 			vmf.put("notice", notice);
 			String filepath = notice.getUrl().replaceAll("http://51gurus.com", "/home/html");
@@ -1062,88 +1066,28 @@ public class HtmlFlusher {
 		return link;
 	}
 
-	//	public void flushLiveStatic() {
-	//		Map map = (Map) config.getValue("groupid");
-	//		List<Master> masters = masterDao.getAllMasters(0, 100);
-	//		for (Master master : masters) {
-	//
-	//			System.out.println("masterid: " + master.getMasterid() + "  name:" + master.getMastername());
-	//			String date = DateTools.transformYYYYMMDDDate(new Date());
-	//			//			String date = DateTools.getYesterday(new Date());
-	//			List<Map> maps = masterMessageDao.getMessagesFrom(master.getMasterid(), date, 0);
-	//			try {
-	//				VMFactory vmf = new VMFactory();
-	//				vmf.setTemplate("/template/liveStatic.htm");
-	//				vmf.put("maps", maps);
-	//				vmf.put("mastername", master.getMastername());
-	//				vmf.put("masterid", master.getMasterid());
-	//				vmf.put("masterList", masters);
-	//				vmf.put("encodename", master.getMastername());
-	//				vmf.put("master", master);
-	//				vmf.put("date", date);
-	//				vmf.save(LIVEDIR + master.getMasterid() + "/" + date + ".html");
-	//				System.out.println("write page : " + LIVEDIR + master.getMasterid() + "/" + date + ".html");
-	//			} catch (Exception e) {
-	//				System.out.println("===> exception !!");
-	//				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//	}
-	//
-	//	public void flushMasterInfo() {
-	//		List<Master> masters = masterDao.getAllMasters(0, 10);
-	//		for (Master master : masters) {
-	//			List<Date> dates = masterMessageDao.getDatesByMasterid(master.getMasterid());
-	//			List<String> urls = new ArrayList<String>();
-	//			List<String> curdates = new ArrayList<String>();
-	//			for (Date date : dates) {
-	//				curdates.add(DateTools.transformYYYYMMDDDate(date));
-	//				urls.add("/live/" + master.getMasterid() + "/" + DateTools.transformYYYYMMDDDate(date) + ".html");
-	//			}
-	//			List<Integer> pages = new ArrayList<Integer>();
-	//			int page = 0;
-	//			if (dates.size() % 10 == 0) {
-	//				page = dates.size() / 10;
-	//			} else {
-	//				page = dates.size() / 10 + 1;
-	//			}
-	//			for (int i = 0; i < page; i++) {
-	//				pages.add(i);
-	//			}
-	//
-	//			try {
-	//				String encodename = master.getMastername();
-	//				VMFactory vmf = new VMFactory();
-	//				vmf.setTemplate("/template/masterintro.htm");
-	//				vmf.put("master", master);
-	//				vmf.put("dateTools", new DateTools());
-	//				vmf.put("urls", urls);
-	//				vmf.put("masterList", masters);
-	//				vmf.put("encodename", encodename);
-	//				vmf.put("pages", pages);
-	//				vmf.put("curdates", curdates);
-	//				vmf.save(MasterDIR + master.getMasterid() + ".html");
-	//				System.out.println("write page : " + MasterDIR + master.getMasterid() + ".html");
-	//			} catch (Exception e) {
-	//				System.out.println("===> exception !!");
-	//				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//
-	//		try {
-	//			VMFactory vmf = new VMFactory();
-	//			vmf.setTemplate("/template/masterList.htm");
-	//			vmf.put("masters", masters);
-	//			vmf.save(MasterDIR + "index.html");
-	//			System.out.println("write page : " + MasterDIR + "index.html");
-	//		} catch (Exception e) {
-	//			System.out.println("===> exception !!");
-	//			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
-	//			e.printStackTrace();
-	//		}
-	//	}
+	public void flushNoticeRank() {
+		Date now = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		cal.add(Calendar.MONTH, -6);
+		Date startDate = cal.getTime();
+		List<Notice> notices = noticeDao.getActiveNoticeStocks(startDate, new Date());
+		System.out.println("half year raw notices size:" + notices.size());
+		flushNoticeList(notices, 0);
+
+		cal.add(Calendar.MONTH, 3);
+		startDate = cal.getTime();
+		notices = noticeDao.getActiveNoticeStocks(startDate, new Date());
+		System.out.println("quater raw notices size:" + notices.size());
+		flushNoticeList(notices, 1);
+
+		cal.add(Calendar.MONTH, 2);
+		startDate = cal.getTime();
+		notices = noticeDao.getActiveNoticeStocks(startDate, new Date());
+		System.out.println("month raw notices size:" + notices.size());
+		flushNoticeList(notices, 2);
+	}
 
 	public void flushNoticeRank(int type) {
 		Date now = new Date();
@@ -1153,6 +1097,15 @@ public class HtmlFlusher {
 		Date startDate = cal.getTime();
 		List<Notice> notices = noticeDao.getNoticeStocksByType(type, startDate, new Date());
 		System.out.println("raw notices size:" + notices.size());
+
+	}
+
+	/**
+	 * 
+	 * @param notices
+	 * @param type   0代表半年，1代表季度，2代表阅读
+	 */
+	private void flushNoticeList(List<Notice> notices, int type) {
 		List<Notice> noticeStocks = new ArrayList<Notice>();
 		HashSet<String> duplicatSet = new HashSet<String>();
 		Map<String, List<StockEarn>> stockDetailMap = new HashMap<String, List<StockEarn>>();
@@ -1197,10 +1150,11 @@ public class HtmlFlusher {
 		int page = 0;
 		if (total <= 0)
 			return;
-		if (0 < total && total <= 20) {
-			page = 1;
+
+		if (0 < total && total < 100) {
+			page = total % 20 == 0 ? total / 20 : (total / 20 + 1);
 		} else {
-			page = 2;
+			page = 5;
 		}
 		for (int current = 1; current <= page; current++) {
 			try {
@@ -1208,7 +1162,7 @@ public class HtmlFlusher {
 				vmf.put("type", type);
 				vmf.put("dateTools", new DateTools());
 				vmf.put("htmlUtil", new HtmlUtils());
-				vmf.put("currdate", now);
+				vmf.put("currdate", new Date());
 				vmf.put("floatUtil", new FloatUtil());
 				vmf.put("start", (current - 1) * 20);
 				vmf.put("page", page);
@@ -1218,16 +1172,18 @@ public class HtmlFlusher {
 				vmf.put("startPriceMap", startPriceMap);
 				vmf.put("stockEarnMap", stockEarnMap);
 
-				vmf.setTemplate("/template/noticeRank.htm");
 				if (type == 0) {
-					vmf.save(ADMINDIR + "noticerank_1_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "noticerank_1_" + current + ".html");
+					vmf.setTemplate("/template/notice/noticeRank_h.htm");
+					vmf.save(NOTICEDIR + "hrank_" + current + ".html");
+					System.out.println("write page : " + NOTICEDIR + "hrank_" + current + ".html");
 				} else if (type == 1) {
-					vmf.save(ADMINDIR + "noticerank_2_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "noticerank_2_" + current + ".html");
+					vmf.setTemplate("/template/notice/noticeRank_q.htm");
+					vmf.save(NOTICEDIR + "qrank_" + current + ".html");
+					System.out.println("write page : " + NOTICEDIR + "qrank_" + current + ".html");
 				} else if (type == 2) {
-					vmf.save(ADMINDIR + "noticerank_3_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "noticerank_3_" + current + ".html");
+					vmf.setTemplate("/template/notice/noticeRank_m.htm");
+					vmf.save(NOTICEDIR + "mrank_" + current + ".html");
+					System.out.println("write page : " + NOTICEDIR + "mrank_" + current + ".html");
 				}
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
@@ -1300,7 +1256,8 @@ public class HtmlFlusher {
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 		flusher.flushIndex();
-		//		flusher.flushNotice();
+		flusher.flushNotice();
+		flusher.flushNoticeRank();
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
 		//		flusher.flushNoticeRank(2);
@@ -1310,7 +1267,7 @@ public class HtmlFlusher {
 		//		flusher.flushArticleList(1);
 		//		flusher.flushArticleList(2);
 		//		flusher.flushArticleList(3);
-		flusher.flushIndustryList();
+		//		flusher.flushIndustryList();
 		System.exit(0);
 	}
 

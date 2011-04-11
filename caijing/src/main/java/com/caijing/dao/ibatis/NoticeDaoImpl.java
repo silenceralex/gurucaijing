@@ -33,4 +33,12 @@ public class NoticeDaoImpl extends CrudDaoDefault implements NoticeDao {
 		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getNoticeStocksByType", params);
 	}
 
+	@Override
+	public List<Notice> getActiveNoticeStocks(Date startDate, Date endDate) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		return getSqlMapClientTemplate().queryForList(this.getNameSpace() + ".getActiveNoticeStocks", params);
+	}
+
 }

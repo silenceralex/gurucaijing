@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>${notice.title}_投资大师</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript">
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+	#include("/template/inc/header.htm")<!--header end-->
+    <div class="mainBox">
+    	#include("/template/inc/colL.htm")
+        <div class="sec_list">
+        		<div class="sec_nav">
+                    <h2><a href="#">投资大师首页</a> &gt; <a href="/notice/notice_1.html">公告掘金</a></h2> 
+                </div>
+            <h2 class="sec_conTitle">${notice.title}</h2>
+            <div class="sec_dtlSet">
+            	<span>公告公司：${notice.stockname}(${notice.stockcode})</span>　$dateTools.transformDate(${notice.date})
+            	<em class="redFont">
+            		#if($notice.type == 0 )
+			           	股权激励
+			        #elseif($notice.type == 1)	
+			        	资产重组
+			        #elseif($notice.type == 2)	
+			         	股东增持
+			      	#elseif($notice.type == 3)	
+			        	股东减持
+			        #elseif($one.type == 4)	
+			        	业绩预增
+			        #elseif($one.type == 5)	
+			        	业绩预减
+			        #end
+            	</em>
+                &nbsp;&nbsp;&nbsp;<a href="#"><img src="/img/printIcon.jpg"/></a><a href="#"><img src="/img/favIcon.jpg"/></a>
+                字号：<a class="fontSizeBtn" href="#">大</a><a class="fontSizeBtn" href="#">中</a><a class="fontSizeBtn" href="#">小</a>
+            </div>
+            <div class="sec_conDetail">
+            		${notice.content}
+            </div>
+            <div class="sec_conRelat">
+                <span class="clear"></span>
+            </div>
+        </div>
+      <div class="clear"></div>
+        #include("/template/inc/footer.htm")
+    </div><!--mainBox end-->
+</div>
+</body>
+</html>
