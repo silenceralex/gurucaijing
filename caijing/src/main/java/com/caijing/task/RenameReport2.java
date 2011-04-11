@@ -1,8 +1,10 @@
 package com.caijing.task;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -16,8 +18,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.springframework.dao.DataAccessException;
 
 import com.caijing.crawl.ReportExtractorImpl;
 import com.caijing.dao.RecommendStockDao;
@@ -48,6 +52,18 @@ public class RenameReport2 {
 	private RecommendStockDao recommendStockDao = (RecommendStockDao) ContextFactory.getBean("recommendStockDao");
 	private ReportExtractorImpl extractor = (ReportExtractorImpl) ContextFactory.getBean("reportExtractor");
 	
+	private static OutputStream os = null;
+	static{
+		try {
+			os = new FileOutputStream("/data/oldreport_log.log", true);
+			IOUtils.write("==== start RenameReport2 ===="+"\r\n", os, "UTF-8");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void readExcels(String filepath){
 		File excelDir = new File(filepath);
 		File[] excels = excelDir.listFiles();
@@ -61,16 +77,21 @@ public class RenameReport2 {
 		Map<String, String> map = new HashMap<String, String>() {
 			private static final long serialVersionUID = 1L;
 			{
-//				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
-//				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
-//				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
-//				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
-//				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
-//				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
+				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/yw201008_0411.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
+				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201010/201010_0411.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201011/201011_0411.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201012/201012_0411.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
 //				put("/data/excel/hanjianping-2.xls", "/data/oldpapers/hanjianping/");
+//				put("/data/excel/hanjianping-3.xls", "/data/oldpapers/hanjianping/");
 //				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers/yanshiyou/");
 //				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers/wanghan/");
-				put("/data/excel/test.xlsx", "/data/oldpapers/test/");
+//				put("/data/excel/test.xlsx", "/data/oldpapers/test/");
 			}
 		};
 		
@@ -79,6 +100,12 @@ public class RenameReport2 {
 			System.out.println("=== "+excel+" ===");
 			String reportdir = data.getValue();
 			readExcel(new File(excel), new File(reportdir));
+		}
+		
+		try {
+			IOUtils.write("==== end RenameReport2 ====", os, "UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -91,8 +118,8 @@ public class RenameReport2 {
 			
 			String rid = ServerUtil.getid();
 			String filename = row.get(0);
-			String saname = row.get(1).trim();
-			String stockcode = getcode(row.get(2));
+			String saname = getsaname(row.get(1).trim());
+			String stockcode = getcode(row.get(2).trim());
 			String createdate = row.get(7).trim();
 			String title = row.get(3).trim();
 			String aname = row.get(4).trim();
@@ -108,28 +135,53 @@ public class RenameReport2 {
 				continue;
 			}
 
-			String rid2 = isReportExist(saname, stockcode, createdate);
-			if(rid2!=null){ //重复的话，更新数据
-				rid = rid2;
-				updateReport(rid, saname, stockcode, title, aname, grade, objectpricestr, createdate, eps);
-				continue;
+			try {
+				String rid2 = isReportExist(saname, stockcode, createdate, title);
+				if(rid2!=null){ //重复的话，更新数据
+					rid = rid2;
+					updateReport(rid, saname, stockcode, title, aname, grade, objectpricestr, createdate, eps);
+					continue;
+				} else {
+					if(!newReportFile(prefix, filename, destPdffilepath)){
+						continue;
+					}
+					insertReport(rid, saname, stockcode, title, aname, grade, objectpricestr, createdate, eps);
+				}
+			} catch (DataAccessException e) {
+				try {
+					IOUtils.write(excel.getName()+" >>> "+filename+"\r\n", os, "UTF-8");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
 			}
-			
-			if(!newReportFile(prefix, filename, destPdffilepath)){
-				continue;
-			}
-
-			insertReport(rid, saname, stockcode, title, aname, grade, objectpricestr, createdate, eps);
 		}
 	}
 	
+	public String isReportExist(String saname,String stockcode,String createdate, String title){
+		String rid = null;
+		List<Report> reports = reportDao.selectByMultiKey(saname, stockcode, createdate);
+		if(reports.size()==1){
+			rid = reports.get(0).getRid();
+		} else {
+			for (Report report : reports) {
+				if(report.getTitle().equalsIgnoreCase(title)){
+					rid = report.getRid();
+					break;
+				}
+			}
+		}
+		return rid;
+	}
+	
+	/*
 	public String isReportExist(String saname,String stockcode,String createdate){
 		Report report = reportDao.selectByMultiKey(saname, stockcode, createdate);
 		if(report==null){
 			return null;
 		}
 		return report.getRid();
-	}
+	}*/
 	
 	private boolean newReportFile(String prefix, String filename, String destPdffilepath) {
 		String[] suffixs = {".pdf",".PDF",".PDf", ".Pdf",""};
@@ -161,7 +213,7 @@ public class RenameReport2 {
 	}
 
 	public void updateReport(String rid, String saname, String stockcode, String title, String aname, String grade, 
-			String objectpricestr, String createdate, String eps) {
+			String objectpricestr, String createdate, String eps) throws DataAccessException {
 		//Report
 		Map<String, Object> report = newReportMap(rid, saname, stockcode, title, aname, createdate);
 		reportDao.updateByPrimaryKeySelective(report);
@@ -180,7 +232,7 @@ public class RenameReport2 {
 	}
 	
 	public void insertReport(String rid, String saname, String stockcode, String title, String aname, String grade, 
-			String objectpricestr, String createdate, String eps) {
+			String objectpricestr, String createdate, String eps) throws DataAccessException {
 		//Report
 		Report report = newReport(rid, saname, stockcode, title, aname, createdate);
 		reportDao.insert(report);
@@ -218,7 +270,7 @@ public class RenameReport2 {
 			String aname, String grade, String eps, String createdate, String objectpricestr){
 		Map<String, Object> params = new HashMap<String, Object>();
 		
-//		params.put("recommendid",ServerUtil.getid());
+		//params.put("recommendid",ServerUtil.getid());
 		params.put("reportid",rid);
 		params.put("stockcode",stockcode);
 		params.put("stockname",stockname);
@@ -278,6 +330,19 @@ public class RenameReport2 {
 		recommendStock.setObjectprice(objectprice);
 		recommendStock.setExtractnum(4);
 		return recommendStock;
+	}
+	
+	public String getsaname(String titlestr){
+		int len = titlestr.length();
+		if(len>4 && titlestr.endsWith("证券")){
+			titlestr = titlestr.substring(0, 4);
+		}
+		if(len==2){
+			if(titlestr.endsWith("中金")){
+				titlestr="中金证券";
+			}
+		}
+		return titlestr;
 	}
 	
 	public String getcode(String codestr){
