@@ -110,7 +110,6 @@
 				                  <tr>
 					                    <td width="28%">&nbsp;</td>
 					                    <td width="51%">
-					                    #if($type == 0)
 											#if ($current == 1)
 					                    	<a href="#">第一页</a>
 											<a href="#">上一页</a>
@@ -126,7 +125,8 @@
 											#set ($next = $current + 1)
 											<a href="/notice/hrank_${next}.html">下一页</a>
 											<a href="/notice/hrank_${page}.html">末一页</a>
-											#end				
+											#end
+							
 					                    </td>
 					                    	
 					                    <td width="21%">
