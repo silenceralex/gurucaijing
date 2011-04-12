@@ -45,7 +45,7 @@ public class RenameReport2 {
 	
 	final static String excelDirPath = "/data/excel/"; //TODO rename to same name with report dirname
 	final static String reportDirPath = "/data/oldpapers2/";
-	final static String desthtmlPath = "/home/rnhtml2/papers/"; //TODO 
+	final static String desthtmlPath = "/home/rnhtml/papers/"; //TODO 
 
 	private ReportDao reportDao = (ReportDao) ContextFactory.getBean("reportDao");
 	private StockDao stockDao = (StockDao) ContextFactory.getBean("stockDao");
@@ -87,6 +87,7 @@ public class RenameReport2 {
 				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
 				put("/data/oldpapers/201012/201012_0411.xls", "/data/oldpapers/201012/");
 				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
+//				put("/data/excel/hanjianping.xls", "/data/oldpapers/hanjianping/");
 				put("/data/excel/hanjianping-2.xls", "/data/oldpapers/hanjianping/");
 				put("/data/excel/hanjianping-3.xls", "/data/oldpapers/hanjianping/");
 				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers/yanshiyou/");
@@ -334,7 +335,7 @@ public class RenameReport2 {
 	
 	public String getsaname(String titlestr){
 		int len = titlestr.length();
-		if(len>4 && titlestr.endsWith("֤ȯ")){
+		if(len==6 && titlestr.endsWith("֤ȯ")){
 			titlestr = titlestr.substring(0, 4);
 		}
 		if(len==2){
