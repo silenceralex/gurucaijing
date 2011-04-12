@@ -1,6 +1,7 @@
 package com.caijing.flush;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,8 @@ public class HtmlFlusher {
 	public static String STARTDATE = "2010-01-01";
 	private static int STARTYEAR = 1990;
 	private static int ENDYEAR = 2010;
+
+	public static String TOP10 = "/home/html/notice/top10.json";
 
 	@Autowired
 	@Qualifier("financialReportDao")
@@ -907,6 +911,14 @@ public class HtmlFlusher {
 			//			jsonConfig.setIgnoreDefaultExcludes(false);
 			System.out.println("analyzerjson:" + analyzerjson);
 			List<Analyzer> analyzerList = JSONArray.toList(jsonArray, Analyzer.class);
+
+			file = new File(TOP10);
+			String noticejson = FileUtils.readFileToString(file);
+			jsonArray = JSONArray.fromObject(noticejson);
+
+			System.out.println("noticejson:" + noticejson);
+			List<Notice> noticetop10 = JSONArray.toList(jsonArray, Notice.class);
+
 			//			System.out.println("analyzerList.get(0).getWeight():" + analyzerList.get(0).getWeight());
 			List<ColumnArticle> dsyp = columnArticleDao.getColumnArticleByType(1, 0, 4);
 			List<ColumnArticle> hgdt = columnArticleDao.getColumnArticleByType(2, 0, 8);
@@ -941,6 +953,7 @@ public class HtmlFlusher {
 			vmf.put("dsyp", dsyp);
 			vmf.put("hgdt", hgdt);
 			vmf.put("cjzl", cjzl);
+			vmf.put("noticeList", noticetop10);
 			vmf.put("cjzlsize", cjzl.size());
 			vmf.put("htmlUtil", htmlUtil);
 			vmf.put("recommendstocks", recommendstocks);
@@ -1149,6 +1162,22 @@ public class HtmlFlusher {
 		}
 		System.out.println("Discard duplicated notices size:" + noticeStocks.size());
 		Collections.sort(noticeStocks);
+
+		if (type == 0) {
+			List<Notice> noticetop10 = noticeStocks.subList(0, 10);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setExcludes(new String[] { "stockcode", "title", "id", "date", "url" });
+			jsonConfig.setIgnoreDefaultExcludes(false);
+			String noticejson = JSONArray.fromObject(noticetop10, jsonConfig).toString();
+			System.out.println("noticejson:" + noticejson);
+			File file = new File(TOP10);
+			try {
+				FileUtils.writeStringToFile(file, noticejson);
+			} catch (IOException e1) {
+				System.out.println("Write top10 file catch Exception:" + e1.getMessage());
+				e1.printStackTrace();
+			}
+		}
 		int total = noticeStocks.size();
 		int page = 0;
 		if (total <= 0)
@@ -1258,9 +1287,10 @@ public class HtmlFlusher {
 		//		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-		//		flusher.flushIndex();
+
 		//		flusher.flushNotice();
 		flusher.flushNoticeRank();
+		flusher.flushIndex();
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
 		//		flusher.flushNoticeRank(2);
