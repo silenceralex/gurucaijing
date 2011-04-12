@@ -1129,7 +1129,7 @@ public class HtmlFlusher {
 		Map<String, Float> startPriceMap = new HashMap<String, Float>();
 		for (Notice notice : notices) {
 			//ШЅжи + notice.getDate()
-			String key = notice.getStockcode() + notice.getDate();
+			String key = notice.getStockcode();
 			if (duplicatSet.contains(key)) {
 				continue;
 			} else {
