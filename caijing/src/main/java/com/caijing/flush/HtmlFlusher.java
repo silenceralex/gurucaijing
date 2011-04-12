@@ -1166,7 +1166,7 @@ public class HtmlFlusher {
 		if (type == 0) {
 			List<Notice> noticetop10 = noticeStocks.subList(0, 10);
 			JsonConfig jsonConfig = new JsonConfig();
-			jsonConfig.setExcludes(new String[] { "stockcode", "title", "id", "date", "url" });
+			jsonConfig.setExcludes(new String[] { "stockcode", "title", "id", "date", "url", "content" });
 			jsonConfig.setIgnoreDefaultExcludes(false);
 			String noticejson = JSONArray.fromObject(noticetop10, jsonConfig).toString();
 			System.out.println("noticejson:" + noticejson);

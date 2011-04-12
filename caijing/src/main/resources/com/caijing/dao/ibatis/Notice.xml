@@ -14,7 +14,7 @@
 	</select>
 	
 	<select id="getActiveNoticeStocks"  parameterClass="java.util.Map" resultClass="Notice">
-		<![CDATA[select id,stockname,stockcode,date,title,url from notice where date>= #startDate# and date<#endDate# and type in (0,1,2,4) order by date]]>
+		<![CDATA[select id,stockname,stockcode,date,title,url,type from notice where date>= #startDate# and date<#endDate# and type in (0,1,2,4) order by date]]>
 	</select>
 
 	<select id="select" parameterClass="Notice"
