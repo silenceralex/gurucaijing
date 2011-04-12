@@ -953,7 +953,7 @@ public class HtmlFlusher {
 			vmf.put("dsyp", dsyp);
 			vmf.put("hgdt", hgdt);
 			vmf.put("cjzl", cjzl);
-			vmf.put("noticeList", noticetop10);
+			vmf.put("noticeTop", noticetop10);
 			vmf.put("cjzlsize", cjzl.size());
 			vmf.put("htmlUtil", htmlUtil);
 			vmf.put("recommendstocks", recommendstocks);
@@ -1129,7 +1129,7 @@ public class HtmlFlusher {
 		Map<String, Float> startPriceMap = new HashMap<String, Float>();
 		for (Notice notice : notices) {
 			//ШЅжи + notice.getDate()
-			String key = notice.getStockcode();
+			String key = notice.getStockcode() + notice.getDate();
 			if (duplicatSet.contains(key)) {
 				continue;
 			} else {
@@ -1165,6 +1165,9 @@ public class HtmlFlusher {
 
 		if (type == 0) {
 			List<Notice> noticetop10 = noticeStocks.subList(0, 10);
+			for (Notice notice : noticetop10) {
+				System.out.println("notice :" + notice.getType());
+			}
 			JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig.setExcludes(new String[] { "stockcode", "title", "id", "date", "url", "content" });
 			jsonConfig.setIgnoreDefaultExcludes(false);
