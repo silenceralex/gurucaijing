@@ -223,7 +223,7 @@ public class RenameReport2 {
 		System.out.println("update report " + rid);
 		
 		//RecommendStock
-		if(recommendStockDao.selectByReportid((String)report.get("reportid"))==null){
+		if(recommendStockDao.selectByReportid((String)report.get("rid"))==null){
 			RecommendStock recommendStock = newRecommendStock(rid, stockcode, (String)report.get("stockname"), saname, aname, grade, eps, createdate, objectpricestr);
 			recommendStockDao.insert(recommendStock);
 			System.out.println("insert missing recommendStock " + rid);
