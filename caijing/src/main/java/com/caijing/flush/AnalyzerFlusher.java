@@ -218,7 +218,7 @@ public class AnalyzerFlusher {
 		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
 		try {
 			VMFactory reportvmf = new VMFactory();
-			reportvmf.setTemplate("/template/starreport.htm");
+			reportvmf.setTemplate("/template/analyzer/starreport.htm");
 			reportvmf.put("floatUtil", new FloatUtil());
 			reportvmf.put("dateTools", new DateTools());
 			reportvmf.put("analyzer", analyzer);
@@ -283,7 +283,7 @@ public class AnalyzerFlusher {
 			float ratio300 = (priceList.get(priceList.size() - 1).getPrice() - startprice) * 100 / startprice;
 			float relativeratio = FloatUtil.getTwoDecimal(ratio - ratio300);
 			VMFactory introvmf = new VMFactory();
-			introvmf.setTemplate("/template/starintro_y.htm");
+			introvmf.setTemplate("/template/analyzer/starintro_y.htm");
 			introvmf.put("floatUtil", floatUtil);
 			introvmf.put("dateTools", new DateTools());
 			introvmf.put("analyzer", analyzer);
@@ -430,7 +430,7 @@ public class AnalyzerFlusher {
 		List<StockEarn> priceList = stockEarnDao.getPriceByCodeDate("000300",
 				DateTools.transformYYYYMMDDDate(startDate));
 		VMFactory stockvmf = new VMFactory();
-		stockvmf.setTemplate("/template/starstock.htm");
+		stockvmf.setTemplate("/template/analyzer/starstock.htm");
 		stockvmf.put("floatUtil", new FloatUtil());
 		stockvmf.put("dateTools", new DateTools());
 		stockvmf.put("analyzer", analyzer);
@@ -448,7 +448,7 @@ public class AnalyzerFlusher {
 		List<String> years = analyzerSuccessDao.getYearList(analyzer.getAid());
 		FloatUtil floatUtil = new FloatUtil();
 		VMFactory vmf = new VMFactory();
-		vmf.setTemplate("/template/starsuc.htm");
+		vmf.setTemplate("/template/analyzer/starsuc.htm");
 		List<RecommendSuccess> recommends = null;
 		String ratio = "";
 		if (year != null) {
@@ -599,7 +599,7 @@ public class AnalyzerFlusher {
 		for (int current = 1; current <= 2; current++) {
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/analyzerrank.htm");
+				vmf.setTemplate("/template/analyzer/analyzerrank.htm");
 				vmf.put("year", year);
 				vmf.put("groupYears", yearList);
 				vmf.put("dateTools", new DateTools());
@@ -664,7 +664,7 @@ public class AnalyzerFlusher {
 		for (int current = 1; current <= 2; current++) {
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/analyzerrank_time.htm");
+				vmf.setTemplate("/template/analyzer/analyzerrank_time.htm");
 				vmf.put("year", DateTools.getYear(new Date()));
 				vmf.put("groupYears", yearList);
 				vmf.put("dateTools", new DateTools());

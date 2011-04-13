@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_分析师 ${aname}的推荐成功率</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <span class="sec_nav_date">当前日期：$dateTools.transformYYYYMMDDDate($currdate)</span>
+               <a href="/">投资大师首页</a> &gt; 分析师推荐成功率
+            </h2>   
+         </div>
+         <h2 class="star_detail_star">
+            <span class="vip">${analyzer.getName()}</span> &nbsp;&nbsp;&nbsp;
+            <select onchange="window.location = this.value;">
+            #foreach($one in $yearList)
+               <option value="${analyzer.getAid()}_${one}_success.html" #if($one == ${year})selected="selected"#end>${one}</option>
+            #end
+            #if($year)
+               <option value="${analyzer.getAid()}_success.html">总体</option>
+            #else
+               <option value="${analyzer.getAid()}_success.html" selected="selected">总体</option>
+            #end
+            </select>
+            #if($year)
+               ${year}年度推荐成功率为：
+            #else
+               分析师总体推荐成功率为：
+            #end
+            <font color="red">$ratio</font>
+         </h2>
+         <ol style="width:680px" id="star_detail_tab" class="star_detail_tab">
+            <li id="starTab1"><a href="${analyzer.getAid()}_intro.html">简介</a></li>
+            <li id="starTab2"><a href="${analyzer.getAid()}_stock.html">股票组合</a></li>
+            <li id="starTab3"><a href="${analyzer.getAid()}_report.html">研究报告</a></li>
+            <li class="star_de_tabli_on" id="starTab4"><a href="${analyzer.getAid()}_success.html">成功率</a></li>
+         </ol>
+         <div class="star_intro_box">
+            <div class="onsaleTable">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th>上市公司</th>
+                     <th>推荐日期</th>
+                     <th>目标价</th>
+                     <th>验证日期</th>
+                     <th>验证日除权价</th>
+                     <th>推荐成败</th>
+                  </tr>
+                  #if ($recommends)
+                     #foreach ($recommend in $recommends)
+                     <tr>
+                        <td>
+                           <a href="${recommend.reporturl}" >${recommend.stockname}(${recommend.stockcode})
+                        </td>
+                        <td>
+                           ${dateTools.transformYYYYMMDDDate($recommend.recommenddate)}
+                        </td>
+                        <td>
+                           $recommend.objectprice
+                        </td>
+                        <td>
+                           ${dateTools.transformYYYYMMDDDate($recommend.validate)}
+                        </td>
+                        <td>
+                           $floatUtil.getTwoDecimalNumber($recommend.validateprice)
+                        </td>
+                        <td>
+                           #if($recommend.isAchieved==1)
+                              <font color="red">成功</font>
+                           #else
+                              <font color="red">失败</font>
+                           #end
+                        </td>
+                     </tr>
+                     #end
+                  #end
+               </table>
+            </div>
+            <div class="pageSet"></div>
+         </div>
+      </div>
+      <div id="star_detail_preview"></div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+</div>
+</body>
+</html>
+<!-- starsuc -->

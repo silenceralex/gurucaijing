@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+      <title>投资大师_分析师简介——${analyzer.getName()}</title>
+      #include("/template/inc/cssjs.htm")<!--cssjs end-->
+   </head>
+   <body>
+      <div class="wrapper">
+         #include("/template/inc/header.htm")
+         <div class="mainBox">
+            #include("/template/inc/colL.htm")
+            <div class="sec_list">
+               <div class="sec_nav">
+                  <h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2>
+               </div>
+               <h2 class="star_detail_star">
+                  <span class="vip">${analyzer.getName()}</span> &nbsp;&nbsp;&nbsp; 
+                  <select onchange="window.location = this.value;">
+                     #foreach($one in $yearList)
+                        <option 
+                        #if( $one == ${maxYear})
+                           value="${analyzer.getAid()}_intro.html"
+                        #else
+                           value="${analyzer.getAid()}_${one}_intro.html"
+                        #end
+                        #if($one == ${year})selected="selected"#end>
+                           ${one}
+                        </option>
+                     #end
+                  </select>
+                  ${year} 
+                  年度组合收益率为：
+                  <font color="red">${ratio}%</font>
+               </h2>
+               <ol id="star_detail_tab" class="star_detail_tab">
+                  <li class="star_de_tabli_on" id="starTab1">
+                     <a href="#">首页</a>
+                  </li>
+                  <li id="starTab2">
+                     <a href="${analyzer.getAid()}_stock.html">股票组合</a>
+                  </li>
+                  <li id="starTab3">
+                     <a href="${analyzer.getAid()}_report.html">研究报告</a>
+                  </li>
+                  <li id="starTab4">
+                     <a href="${analyzer.getAid()}_success.html">成功率</a>
+                  </li>
+               </ol>
+               <div class="star_jump">
+                  <label>
+                     跳转到另一个大师
+                  </label>
+                  <select onchange="window.location = this.value;">
+                     <option>请选择</option>
+                     #if ($analyzerList)
+                        #foreach ($one in $analyzerList)
+                           <option value="${one.getAid()}_intro.html">${one.getName()}</option>
+                        #end
+                     #end
+                  </select>
+               </div>
+               <div id="star_detail_box" class="star_intro_box">
+                  <div id="starTb1" class="star_detail_intro">
+                     <div class="star_detail_intro_img">
+                        <img src="/img/starGuru_default.jpg" />
+                     </div>
+                     <div class="star_detail_intro_text">
+                        <em>简介：</em>
+                        <p>
+                           银行业的资深研究员伍永刚，他是国泰君安研究经验非常丰富的研究院，从05年到08年，伍永刚先生在新财富银行行业最佳评比中都是位列前五名。他曾经给打架推荐深发展、浦发银行，这些给打架留下了很深的印象，给投资者创造了价值。
+                        </p>
+                        <p>
+                           银行业的资深研究员伍永刚，他是国泰君安研究经验非常丰富的研究院，从05年到08年，伍永刚先生在新财富银行行业最佳评比中都是位列前五名。他曾经给打架推荐深发展、浦发银行，这些给打架留下了很深的印象，给投资者创造了价值。
+                        </p>
+                     </div>
+                     <h2 class="analyticsTitle">股票组合回报率趋势图</h2>
+                     <!--2010-2-21相对沪深300-->
+                     <h2 class="analyticsSubTitle">相对沪深300的收益率为：$relativeratio %</h2>
+                     <!--2010-2-21相对沪深300-->
+                     <div id="holder1" class="holder"></div>
+                     <table id="data1" class="hidden">
+                        <tr>
+                            #if ($weightList)#foreach ($one in $weightList)
+                            <th>
+                                ${one.getDate().getTime()}
+                            </th>
+                            #end#end
+                        </tr>
+                        <tr>
+                            #if ($weightList)#foreach ($one in $weightList)
+                            #set ($ratio = ($one.getWeight() - $startweight)/$startweight * 100)
+                            <td>
+                                ${one.getWeight()},${floatUtil.getTwoDecimalNumber($ratio)}%
+                            </td>
+                            #end#end
+                        </tr>
+                        <tr>
+                            #if ($priceList)#foreach ($one in $priceList)
+                            #set ($ratio = ($one.getPrice() - $startprice)/$startprice * 100)
+                            <td>
+                                $one.getPrice(),${floatUtil.getTwoDecimalNumber($ratio)}%
+                            </td>
+                            #end#end
+                        </tr>
+                     </table>
+                     <script language="javascript" type="text/javascript">
+                                //data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
+                                var chartData = getData("data1", "${analyzer.getName()}的股票组合", "沪深300指数");
+                                chart.init(chartData, "holder1");
+                     </script>
+                  </div>
+               </div>
+            </div>
+            <div class="clear"></div>
+            #include("/template/inc/footer.htm")
+         </div>
+         <!--mainBox end-->
+      </div>
+   </body>
+</html>
+<!-- starintro_y -->

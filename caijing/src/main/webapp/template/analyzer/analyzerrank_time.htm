@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师——分析师组合排行榜</title>
+#include("/template/inc/cssjs.htm")
+<script language="javascript" type="text/javascript">
+function switchTab(id){
+   for(i=1;i<=3;i++){
+      $("#starTb"+i).hide();
+      $("#starTab"+i).attr("class","");
+   }
+   $("#starTb"+id).show();
+   $("#starTab"+id).attr("class","star_de_tabli_on");
+}
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")<!--header end-->
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2><a href="#">投资大师首页</a> &gt; 组合排行榜</h2>
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">组合排行榜</h2>
+            <select class="historySelect" onchange="window.location = this.value;">
+            #foreach($one in $groupYears)
+               <option value="/analyzer/${one}/rank_1.html" #if($one == ${year})selected="selected"#end>${one}</option>
+            #end
+            </select> 
+            <span #if($type == 3)class="current"#end>
+               <a href="/analyzer/halfyearrank_1.html">半年排行榜</a>
+            </span>
+            <span #if($type == 2)class="current"#end>
+               <a href="/analyzer/quarterrank_1.html">季度排行榜</a>
+            </span>
+            <span #if($type == 1)class="current"#end>
+               <a href="/analyzer/monthrank_1.html">月排行榜</a>
+            </span>
+            <em class="sec_tab_right">$currDate</em>
+         </div>
+         <div class="star_detail_box">
+            <div class="onsaleTable">
+               <table cellpadding="0" cellspacing="0">
+                  <tr>
+                     <th class="rank_score">排名</th>
+                     <th>分析师组合名称</th>
+                     <th>证券公司</th>
+                     <th>研究行业</th>
+                     <th>起始时间</th>
+                     <th>当前日期</th>
+                     <th>收益率</th>
+                  </tr>
+                  #set ($count = $start + 1)
+                  #if ($analyzerList)#foreach ($one in $analyzerList)
+                  <tr #if ($count%2 == 0)class="star_detail_tb_even"#end>
+                     <td class="rank_score">
+                     #if ($count <= 3)
+                        <div class="rank_top3">${count}</div>
+                     #else
+                        ${count}
+                     #end
+                     </td>
+                     <td class="rank_name"><a class="vip" href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank">${one.getName()}</a>&nbsp;<span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getName()}','大盘涨跌幅度')">【对比图】</span></td>
+                     <td>${one.getAgency()}</td>
+                        <td>${one.getIndustry()}</td>
+                        <td>${startDate}</td>
+                        <td>${currDate}</td>
+                        <td>${floatUtil.getTwoDecimalNumber($one.getWeight())}%</td>
+                     </tr>
+                  #set ($count = $count + 1)
+                  #end#end
+               </table>
+            </div>
+            <div>
+               #set ($count = 1)
+               #if ($analyzerList)#foreach ($one in $analyzerList)
+               <table id="rec${count}" class="hidden">  
+                     <tr>
+                  #set ($weightList = $groupEarnMap.get(${one.getAid()}))
+                  #if ($weightList)#foreach ($one in $weightList)
+                  <th>${one.getDate().getTime()}</th>
+                  #end#end
+                   </tr>
+                   <tr>
+                     #set ($startWeight = $startWeightMap.get(${one.getAid()}))
+                  #if ($weightList)#foreach ($one in $weightList)
+                  #set ($ratio = ($one.getWeight() - $startWeight)/$startWeight*100)
+                         <td>${one.getWeight()},${floatUtil.getTwoDecimalNumber(${ratio})}%</td>
+                  #end#end
+                </tr>
+                     <tr>
+                  #if ($priceList)#foreach ($one in $priceList)
+                  #set ($ratio = ($one.getPrice()-$startPrice)/$startPrice*100)
+                  <td>${one.getPrice()},${floatUtil.getTwoDecimalNumber(${ratio})}%</td>
+                  #end#end
+                   </tr>
+               </table>
+               #set ($count = $count + 1)
+               #end#end
+            </div>
+            <div class="pageSet">
+                  <table width="100%" border="0">
+                     <tbody>
+                        <tr>
+                           <td width="28%">&nbsp;</td>
+                           <td width="51%">
+                           #if($type == 1)
+                              #if ($current == 1)
+                                 <a href="#">第一页</a>
+                                 <a href="#">上一页</a>
+                              #else
+                                 <a href="./monthrank_1.html">第一页</a>
+                                 #set ($prev = $current - 1)
+                                 <a href="./monthrank_${prev}.html">上一页</a>
+                              #end
+                              #if ($current == $page)
+                                 <a href="#">下一页</a>
+                                 <a href="#">末一页</a>
+                              #else
+                                 #set ($next = $current + 1)
+                              <a href="./monthrank_${next}.html">下一页</a>
+                              <a href="./monthrank_${page}.html">末一页</a>
+                              #end
+                           #elseif ($type == 2)
+                              #if ($current == 1)
+                                 <a href="#">第一页</a>
+                                 <a href="#">上一页</a>
+                              #else
+                                 <a href="./quarterrank_1.html">第一页</a>
+                                 #set ($prev = $current - 1)
+                                 <a href="./quarterrank_${prev}.html">上一页</a>
+                              #end
+                              #if ($current == $page)
+                                 <a href="#">下一页</a>
+                                 <a href="#">末一页</a>
+                              #else
+                                 #set ($next = $current + 1)
+                                 <a href="./quarterrank_${next}.html">下一页</a>
+                                 <a href="./quarterrank_${page}.html">末一页</a>
+                              #end
+                           #elseif ($type == 3)
+                              #if ($current == 1)
+                                 <a href="#">第一页</a>
+                                 <a href="#">上一页</a>
+                              #else
+                                 <a href="./halfyearrank_1.html">第一页</a>
+                                 #set ($prev = $current - 1)
+                                 <a href="./halfyearrank_${prev}.html">上一页</a>
+                              #end
+                              #if ($current == $page)
+                                 <a href="#">下一页</a>
+                                 <a href="#">末一页</a>
+                              #else
+                                 #set ($next = $current + 1)
+                                 <a href="./halfyearrank_${next}.html">下一页</a>
+                                 <a href="./halfyearrank_${page}.html">末一页</a>
+                              #end
+                           #end
+                           </td>
+                           <td width="21%">
+                              <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;
+                              到第<input class="toPage" type="text">页
+                              <input class="toPageBtn" type="button" value="跳转">
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+         </div>
+      </div>
+      <div id="star_detail_preview"></div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+   <script language="javascript" type="text/javascript">
+      $("#star_detail_preview").hover(
+         function () {
+            $(this).show();
+         },
+         function (){
+            $(this).hide();
+            $(this).empty();
+         }
+      );
+   </script>
+</div>
+</body>
+</html>
+<!-- analyzerrank_time -->
