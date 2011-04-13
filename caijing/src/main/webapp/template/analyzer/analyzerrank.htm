@@ -59,7 +59,13 @@ function switchTab(id){
                         ${count}
                      #end
                      </td>
-                     <td class="rank_name"><a class="vip" href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank">${one.getName()}</a>&nbsp;<span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getName()}','大盘涨跌幅度')">【对比图】</span></td>
+                     <td class="rank_name">
+                     #if($one.getLevel()>0)
+                     <a class="vip" href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank">
+                     #else 
+                     <a href="http://51gurus.com/analyzer/static/${one.aid}_intro.html" target="_blank">
+                     #end
+                     ${one.getName()}</a>&nbsp;<span id="analyicon$count" class="analyicon" onclick="showAnaly('analyicon$count','rec$count','${one.getName()}','大盘涨跌幅度')">【对比图】</span></td>
                      <td>${one.getAgency()}</td>
                      <td>${one.getIndustry()}</td>
                      <td>${startDateMap.get(${one.getAid()})}</td>

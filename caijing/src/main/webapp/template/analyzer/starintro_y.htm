@@ -15,7 +15,12 @@
                   <h2><a href="/">投资大师首页</a> &gt; <a href="#">大师专栏</a> &gt; 金牌分析师</h2>
                </div>
                <h2 class="star_detail_star">
-                  <span class="vip">${analyzer.getName()}</span> &nbsp;&nbsp;&nbsp; 
+                  #if($one.getLevel()>0)
+                  <span class="vip">${analyzer.getName()}</span> 
+                  #else
+                  ${analyzer.getName()}
+                  #end
+                  &nbsp;&nbsp;&nbsp; 
                   <select onchange="window.location = this.value;">
                      #foreach($one in $yearList)
                         <option 
