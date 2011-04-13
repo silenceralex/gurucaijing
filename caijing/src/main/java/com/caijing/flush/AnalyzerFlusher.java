@@ -145,7 +145,7 @@ public class AnalyzerFlusher {
 			List<AnalyzerSuccess> analyzerList = anlyzers.subList((current - 1) * 20, current * 20);
 			try {
 				VMFactory vmf = new VMFactory();
-				vmf.setTemplate("/template/anayzerHistorySucRank.htm");
+				vmf.setTemplate("/template/analyzer/anayzerHistorySucRank.htm");
 				vmf.put("dateTools", dateTools);
 				vmf.put("floatUtil", floatUtil);
 				vmf.put("year", year);
@@ -534,7 +534,8 @@ public class AnalyzerFlusher {
 		Map<String, List<StockEarn>> stockEarnMap = new HashMap<String, List<StockEarn>>();
 		Map<String, Float> startPriceMap = new HashMap<String, Float>();
 		Map<String, String> startDateMap = new HashMap<String, String>();
-		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		List<Analyzer> analyzerList = analyzerDao.getAllAnalyzers();
 
 		for (int i = 0; i < analyzerList.size(); i++) {
 			//包括起始当日
@@ -639,7 +640,8 @@ public class AnalyzerFlusher {
 		//		HashMap<String, GroupEarn> analyzerStartWeights = new HashMap<String, GroupEarn>();
 		Map<String, List<GroupEarn>> groupEarnMap = new HashMap<String, List<GroupEarn>>();
 		Map<String, Float> startWeightMap = new HashMap<String, Float>();
-		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		//		List<Analyzer> analyzerList = analyzerDao.getStarAnalyzers();
+		List<Analyzer> analyzerList = analyzerDao.getAllAnalyzers();
 		for (int i = 0; i < analyzerList.size(); i++) {
 			//包括起始当日
 			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(analyzerList.get(i).getAid(), cal.getTime(),
