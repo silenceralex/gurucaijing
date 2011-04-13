@@ -120,6 +120,8 @@ a{text-decoration:none}
 .colR .colRDate{float:right;-webkit-text-size-adjust:none;font-size:11px;padding-right:5px}
 .colRItem ul li span.percent{-webkit-text-size-adjust:none;font-size:11px;width:42px;}
 .rec{color:#C00;}
+#colR4 li span {width:55px;}
+#colR4 span.percent {width:42px;}
 
 .colML .notice-list {height:195px;margin-top:-5px;}
 .colML .notice-list li {margin:0;}
