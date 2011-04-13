@@ -121,7 +121,7 @@ a{text-decoration:none}
 .colRItem ul li span.percent{-webkit-text-size-adjust:none;font-size:11px;width:42px;}
 .rec{color:#C00;}
 
-.colML .notice-list {height:192px;}
+.colML .notice-list {height:195px;margin-top:-5px;}
 .colML .notice-list li {margin:0;}
 .colML .notice-list .title {width:200px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
 .colML .notice-list .sort {width:50px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
