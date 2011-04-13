@@ -160,9 +160,7 @@
                   </div>
                   <ul>
                   #foreach ($one in $noticeTop)
-                     <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}">${one.stockname}</span>
-                     <span class="name">#if($one.type == 0 )股权激励#elseif($one.type == 1)资产重组#elseif($one.type == 2)股东增持#elseif($one.type == 4)	业绩预增#end</span>
-                     <span class="percent">${floatUtil.getTwoDecimalNumber(${one.gain})}%</span></li>
+                     <li><em><img src="img/num${velocityCount}.gif" /></em><span title="${one.stockname}">${one.stockname}</span><span class="name">#if($one.type == 0 )股权激励#elseif($one.type == 1)资产重组#elseif($one.type == 2)股东增持#elseif($one.type == 4)	业绩预增#end</span><span class="percent">${floatUtil.getTwoDecimalNumber(${one.gain})}%</span></li>
                   #end
                   </ul>
                </div>
