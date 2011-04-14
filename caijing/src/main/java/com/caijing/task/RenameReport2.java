@@ -40,7 +40,7 @@ public class RenameReport2 {
 	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);	
 	
-	private Pattern datePattern = Pattern.compile("([\\d]{8})",
+	private Pattern datePattern = Pattern.compile("(20[\\d]{4}|[\\d]{6})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 	
 	final static String excelDirPath = "/data/excel/"; //TODO rename to same name with report dirname
@@ -123,7 +123,7 @@ public class RenameReport2 {
 			String filename = row.get(0);
 			String saname = getsaname(row.get(1).trim());
 			String stockcode = getcode(row.get(2).trim());
-			String createdate = row.get(7).trim();
+			String createdate = getcreatedate(row.get(7).trim());
 			String title = row.get(3).trim();
 			String aname = row.get(4).trim();
 			String grade = row.get(5).trim();
@@ -263,6 +263,7 @@ public class RenameReport2 {
 		params.put("title",title);
 		params.put("aname",aname);
 		params.put("ptime",new Date());
+		params.put("publishdate",createdate);
 		
 		String filepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 		params.put("filepath",filepath.replace("/home", ""));
@@ -307,6 +308,7 @@ public class RenameReport2 {
 		report.setTitle(title);
 		report.setAname(aname);
 		report.setPtime(new Date());
+		report.setPublishdate(createdate);
 		
 		String filepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 		report.setFilepath(filepath.replace("/home", ""));
@@ -360,6 +362,12 @@ public class RenameReport2 {
 			return m.group(1);
 		}
 		return null;
+	}
+	
+	//TODO 时间校验
+	public String getcreatedate(String createdate){
+		
+		return createdate;
 	}
 	
 	public String fetchEps(String saname, String destPdffilepath, String destTxtfilepath){
