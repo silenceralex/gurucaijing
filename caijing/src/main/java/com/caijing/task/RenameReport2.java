@@ -40,7 +40,7 @@ public class RenameReport2 {
 	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);	
 	
-	private Pattern datePattern = Pattern.compile("(20[\\d]{4}|[\\d]{6})",
+	private Pattern datePattern = Pattern.compile("(19|20)\\d\\d([- /.]?)(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 	
 	final static String excelDirPath = "/data/excel/"; //TODO rename to same name with report dirname
@@ -134,7 +134,7 @@ public class RenameReport2 {
 			String destPdffilepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 			String destTxtfilepath = desthtmlPath +createdate+"/"+rid + ".txt";
 
-			if(stockcode==null||createdate.length()==0||createdate.equals("无")||row.get(1).equals("券商名称")||row.get(1).length()==0||row.get(1).length()>8){
+			if(stockcode==null||createdate==null|createdate.length()==0||createdate.equals("无")||saname.equals("券商名称")||saname.length()==0||saname.length()>8){
 				continue;
 			}
 
@@ -337,17 +337,17 @@ public class RenameReport2 {
 		return recommendStock;
 	}
 	
-	public String getsaname(String titlestr){
-		int len = titlestr.length();
-		if(len==6 && titlestr.endsWith("证券")){
-			titlestr = titlestr.substring(0, 4);
+	public String getsaname(String saname){
+		int len = saname.length();
+		if(len==6 && saname.endsWith("证券")){
+			saname = saname.substring(0, 4);
 		}
 		if(len==2){
-			if(titlestr.endsWith("中金")){
-				titlestr="中金证券";
+			if(saname.endsWith("中金")){
+				saname="中金证券";
 			}
 		}
-		return titlestr;
+		return saname;
 	}
 	
 	public String getcode(String codestr){
@@ -366,7 +366,12 @@ public class RenameReport2 {
 	
 	//TODO 时间校验
 	public String getcreatedate(String createdate){
-		
+		Matcher m = datePattern.matcher(createdate);
+		if (m != null && m.find()) {
+			return m.group(1);
+		} else {
+			createdate = null;
+		}
 		return createdate;
 	}
 	
