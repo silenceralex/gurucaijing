@@ -37,10 +37,10 @@ import com.caijing.util.ServerUtil;
 
 public class RenameReport2 {
 	
-	private Pattern stockcodePattern = Pattern.compile("(((002|000|300|600)[\\d]{3})|60[\\d]{4})",
+	private Pattern stockcodePattern = Pattern.compile("^(((002|000|300|600)[\\d]{3})|60[\\d]{4})$",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);	
 	
-	private Pattern datePattern = Pattern.compile("(19|20)\\d\\d([- /.]?)(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])",
+	private Pattern datePattern = Pattern.compile("^(19|20)\\d\\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$",
 			Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.UNIX_LINES);
 	
 	final static String excelDirPath = "/data/excel/"; //TODO rename to same name with report dirname
@@ -135,6 +135,11 @@ public class RenameReport2 {
 			String destTxtfilepath = desthtmlPath +createdate+"/"+rid + ".txt";
 
 			if(stockcode==null||createdate==null|createdate.length()==0||createdate.equals("无")||saname.equals("券商名称")||saname.length()==0||saname.length()>8){
+				try {
+					IOUtils.write(excel.getName()+" >>> "+filename+"\r\n", os, "UTF-8");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				continue;
 			}
 
@@ -363,12 +368,11 @@ public class RenameReport2 {
 		}
 		return null;
 	}
-	
-	//TODO 时间校验
+
 	public String getcreatedate(String createdate){
 		Matcher m = datePattern.matcher(createdate);
 		if (m != null && m.find()) {
-			return m.group(1);
+			return m.group(0);
 		} else {
 			createdate = null;
 		}
@@ -501,9 +505,9 @@ public class RenameReport2 {
 	
 	public static void main(String[] args) {
 		RenameReport2 rr = new RenameReport2();
-		//rr.readExcels(excelDirPath);
 		rr.readExcels2();
-//		rr.readTxt(excelDirPath);
+//		System.out.println(rr.getcreatedate("20080102"));
+//		System.out.println(rr.getcreatedate("200811207"));
 		System.exit(0);
 	}
 }
