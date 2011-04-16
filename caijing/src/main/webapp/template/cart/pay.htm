@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_分析师推荐成功率排行榜</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/Rookie.js?/js/rookie.swf"></script>
+<script language="javascript" type="text/javascript" src="/js/51gurus.js"></script> 
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <a href="/">投资大师首页</a> &gt; 我的购物车
+            </h2>   
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">我的购物车</h2>
+            <span class="current"><a href="#">确认购买</a></span>
+            <span><a href="#">确认支付方式</a></span>
+         </div>
+         <div id="star_detail_box" class="star_detail_box">
+            <div class="onsaleTable">
+               <table id="cartTb" class="myOrderTb">
+                  <tr>
+                     <th>订单号</th>
+                     <th>消费项目</th>
+                     <th>产品说明</th>
+                     <th>数量</th>
+                     <th>金额</th>
+                     <th>操作</th>
+                  </tr>
+                  <!--<tr>
+                     <td>000002</td>
+                     <td>分析师成功率</td>
+                     <td>用户可查询该行业各分析师的目标价成功率</td>
+                     <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
+                     <td><span class="price">10</span>元</td>
+                     <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
+                  </tr>-->
+               </table>
+               <hr />
+               <p style="text-align:right">产品数量总计：<span id="totalN">3</span>&nbsp;&nbsp;金额总计：￥<span id="totalP"></span></p>
+               <p style="text-align:right">
+                  <input type="button" value="&lt;继续购买" />
+                  <input type="button" value="去结算&gt;" />
+               </p>
+               <div>
+                  <p><input type="checkbox" />您的投资大师账户：wanqi.1984@163.com,余额为102.00元，可直接支付</p>
+                  <input type="button" value="确认支付方式" />
+               </div>
+               <div>
+                  <b>使用其他方式付款</b>
+                  <ul>
+                     <li><input type="radio" />在线支付-工商银行</li>
+                     <li><input type="radio" />在线支付-招商银行</li>
+                     <li><input type="radio" />在线支付-支付宝</li>
+                     <li><input type="radio" />在线支付-财付通</li>
+                     <li><input type="radio" />在线支付-快钱</li>
+                     <li><input type="radio" />在线支付-中国移动手机支付</li>
+                     <li><input type="radio" />在线支付-网汇通</li>
+                     <li><input type="radio" />邮政汇款</li>
+                  </ul>
+                  <input type="button" value="确认充值并支付" />
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+</div>
+<script type="text/javascript" language="javascript">
+   cart.pObj = {
+      1:{id : 1, title : "分析师成功率", intro : "用户可查询该行业各分析师的目标价成功率", price : 10},
+      2:{id : 1, title : "推荐后折价+折价股票研报速递", intro : "套餐", price : 99}
+   };
+   cart.show();
+</script>
+</body>
+</html>
+<!-- myConsumer -->
