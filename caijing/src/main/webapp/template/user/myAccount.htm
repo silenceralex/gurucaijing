@@ -513,6 +513,15 @@
       <div class="clear"></div>
       #include("/template/inc/footer.htm")
    </div><!--mainBox end-->
+   <div id="dialogS" class="dialogS">
+      <span href="close" onclick="hide('dialogS')">关闭</span>
+      <p class="tip">该产品已成功放入购物车</p>
+      <p class="detail">购物车共<span id="tipTotalN" class="cRed">2</span>件产品 合计：<span id="tipTotalP" class="cRed">168.00</span>元</p>
+      <p>
+         <span onclick="cart.enter();" class="enter">进入购物车</span>
+         <span onclick="cart.back();" class="continue">继续购物</span>
+      </p>
+   </div>
 </div>
 </body>
 </html>
