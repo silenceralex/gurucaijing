@@ -190,24 +190,51 @@
             this.clear("orderId");
          });
       },
-      add : function ( id, title, type, num, price ) {
+      /* add : function ( id, title, type, num, price ) {
          var t = this,
          isExist = false;
+         var total = { num : 0, price : 0 };
          for ( var i = 0; i < t.cartArr; i ++ ) {
-            alert(id + "," + t.cartArr[i].id);
+            total.num += t.cartArr[i].num;
+            total.price += t.cartArr[i].num * t.cartArr[i].price;
             if ( id == t.cartArr[i].id ) {
                isExist = true;
-               alert("is exist");
             }
          };
          if( isExist ) {
-            alert("exist!");
+            alert("不能重复添加");
             return;
          };
+         total.num += num;
+         total.price += num * price;
          t.cartArr.push({'id' : id, 'title' : title, 'type' : type, 'num' : num, 'price' : price});
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          });
+         t.popDialog( total.num, total.price );
+      }, */
+      add : function ( id, num, price ) {
+         var t = this,
+         isExist = false;
+         var total = { num : 0, price : 0 };
+         for ( var i = 0; i < t.cartArr; i ++ ) {
+            total.num += t.cartArr[i].num;
+            total.price += t.cartArr[i].num * t.cartArr[i].price;
+            if ( id == t.cartArr[i].id ) {
+               isExist = true;
+            }
+         };
+         if( isExist ) {
+            alert("不能重复添加");
+            return;
+         };
+         total.num += num;
+         total.price += num * price;
+         t.cartArr.push({'id' : id, 'num' : num, 'price' : price});
+         Rookie(function(){
+            this.write( 'cart', t.cartArr );
+         });
+         t.popDialog( total.num, total.price );
       },
       del : function ( id ) {
          for ( var i = 0; i < t.cartArr; i ++ ) {
@@ -241,7 +268,9 @@
          
       },
       popDialog : function ( num, price ) {
-         var elem = $("#dialogS")
+         var elem = $("#dialogS");
+         $("#tipTotalN").innerHTML = num;
+         $("#tipTotalP").innerHTML = price;
          $( elem ).fadeIn("slow");
          $( elem ).css({ 
             position : 'absolute',
