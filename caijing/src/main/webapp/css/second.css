@@ -125,9 +125,25 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 #analyLayer .close a:link, #analyLayer .close a:visited {color:#333;}
 #analyLayer .close a:hover {color:#FFF;background:#333;}
 .analyicon {color:#C20000;font-size:12px;cursor:pointer;}
-/*股票图标*/
+/* 股票图标 */
 .vip {padding-right:17px;background:url(../img/V.png) no-repeat right;vertical-align:center;}
 .history-btn{width:109px;height:23px;line-height:23px;margin-left:200px;text-align:center;background:url(../img/allHistory.png) no-repeat;color:#FFF;font-weight:bold;font-size:12px;display:inline-block;}
 .star_detail_recommand table tr td.stockHis-company{text-align:left;padding-left:30px;}
 .stockHis-current{color:#C20000;}
 .historySelect{float:left;height:20px;line-height:22px;overflow:hidden;font-size:12px;margin-top:4px;}
+/* 个人中心 */
+.ta-l {text-align:left;}
+.pd-l-5 {padding-left:5px;}
+.cGray {color:gray;}
+.cRed {color:#C00;}
+.aRed {color:#C00;}
+hr {height:1px;border:none;border-top:#CCC solid 1px;}
+.myOrderTb th {border:none;border-bottom:#CCC solid 1px;}
+/* 对话框 */
+.dialogS {width:260px;height:100px;padding:10px;background:#FFF;border:#CCC solid 1px;position:absolute;}
+.dialogS p {clear:both;text-align:center;}
+.dialogS .close {float:right;}
+.dialogS .tip {font-size:14px;}
+.dialogS .detail {color:#333;}
+.dialogS .enter {width:92px;height:30px;background:url(../img/gotoCartBtn.png) no-repeat;text-indent:1000px;overflow:hidden;}
+.dialogS .continue {width:92px;height:30px;background:url(../img/continueBtn.png) no-repeat;text-indent:1000px;overflow:hidden;}
