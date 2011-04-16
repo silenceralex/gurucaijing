@@ -25,53 +25,55 @@
          </div>
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
-               <table id="cartTb" class="myOrderTb">
-                  <tr>
-                     <td>请填写您的Email地址:</td>
-                     <td><input id="email" name="email" type="text" /></td>
-                     <td class="cGray">请填写有效的Email地址作为下次登录的用户名</td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                     <td class="cRed"><span id="emailTip" class="hidden">请输入有效的Email地址</span></td>
-                     <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td>请设定密码:</td>
-                     <td><input id="pass1" name="password" type="password" /></td>
-                     <td class="cGray">密码请设为6-16位字母或数字</td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                      <td class="cRed"><span id="pass1Tip" class="hidden">此项为必填项，密码不能小于6位</span></td>
-                     <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td>请再次输入设定密码:</td>
-                     <td><input id="pass2" name="password" type="password" /></td>
-                     <td class="cGray">请再输一遍密码</td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                     <td class="cRed"><span id="pass2Tip" class="hidden">两次输入密码不一致，请重新输入!</span></td>
-                     <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td>昵称:</td>
-                     <td><input id="nickname" name="nickname" type="text" /></td>
-                     <td class="cGray">请输入中英文、数字、下划线或他们的组合</td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                     <td class="cRed"><span id="nickTip" class="hidden">请输入有效的昵称</span></td>
-                     <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                     <td><input type="button" value="完成注册" /></td>
-                     <td></td>
-                  </tr>
-               </table>
+               <form name="reg">
+                  <table id="cartTb" class="myOrderTb">
+                     <tr>
+                        <td>请填写您的Email地址:</td>
+                        <td><input id="email" name="email" type="text" /></td>
+                        <td class="cGray">请填写有效的Email地址作为下次登录的用户名</td>
+                     </tr>
+                     <tr>
+                        <td>&nbsp;</td>
+                        <td class="cRed"><span id="emailTip" class="hidden">请输入有效的Email地址</span></td>
+                        <td>&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td>请设定密码:</td>
+                        <td><input id="pass1" name="password" type="password" /></td>
+                        <td class="cGray">密码请设为6-16位字母或数字</td>
+                     </tr>
+                     <tr>
+                        <td>&nbsp;</td>
+                         <td class="cRed"><span id="pass1Tip" class="hidden">此项为必填项，密码不能小于6位</span></td>
+                        <td>&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td>请再次输入设定密码:</td>
+                        <td><input id="pass2" name="password" type="password" /></td>
+                        <td class="cGray">请再输一遍密码</td>
+                     </tr>
+                     <tr>
+                        <td>&nbsp;</td>
+                        <td class="cRed"><span id="pass2Tip" class="hidden">两次输入密码不一致，请重新输入!</span></td>
+                        <td>&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td>昵称:</td>
+                        <td><input id="nickname" name="nickname" type="text" /></td>
+                        <td class="cGray">请输入中英文、数字、下划线或他们的组合</td>
+                     </tr>
+                     <tr>
+                        <td>&nbsp;</td>
+                        <td class="cRed"><span id="nicknameTip" class="hidden">请输入有效的昵称</span></td>
+                        <td>&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td>&nbsp;</td>
+                        <td><input onclick="reg.formSubmit();return false;" type="button" value="完成注册" /></td>
+                        <td></td>
+                     </tr>
+                  </table>
+               </form>
             </div>
          </div>
       </div>
