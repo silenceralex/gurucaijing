@@ -165,4 +165,89 @@
       }
       return { "x" : x, "y" : y + document.body.scrollTop };
    };
+   cart = {
+      init : function ( user, orderId ) {
+         var t = this;
+         t.user = user;
+         t.orderId = orderId;
+         t.cartArr = [];
+         Rookie(function(){
+            if ( !this.read("orderId") ) {
+               t.orderId = +new Date();
+               this.write( 'orderId', t.orderId );
+            } else if ( t.orderId >= this.read("orderId") ) {
+               alert( "应该清空本地数据" );
+               t.clear();
+            } else {
+               t.cartArr = this.read('cart');
+            };
+         });
+      },
+      clear : function () {
+         var t = this;
+         Rookie(function(){
+            this.clear("cart");
+            this.clear("orderId");
+         });
+      },
+      add : function ( id, title, type, num, price ) {
+         var t = this,
+         isExist = false;
+         for ( var i = 0; i < t.cartArr; i ++ ) {
+            alert(id + "," + t.cartArr[i].id);
+            if ( id == t.cartArr[i].id ) {
+               isExist = true;
+               alert("is exist");
+            }
+         };
+         if( isExist ) {
+            alert("exist!");
+            return;
+         };
+         t.cartArr.push({'id' : id, 'title' : title, 'type' : type, 'num' : num, 'price' : price});
+         Rookie(function(){
+            this.write( 'cart', t.cartArr );
+         });
+      },
+      del : function ( id ) {
+         for ( var i = 0; i < t.cartArr; i ++ ) {
+            if ( id == t.cartArr[i].id ) {
+               t.cartArr.splice( i, 1 );
+            }
+         };
+         Rookie(function(){
+            this.write( 'cart', t.cartArr );
+         });
+      },
+      motify : function ( id, field, value ) {
+         for ( var i = 0; i < t.cartArr; i ++ ) {
+            if ( id == t.cartArr[i].id ) {
+               t.cartArr[i][field] = value;
+            }
+         };
+         Rookie(function(){
+            this.write( 'cart', t.cartArr );
+         })
+      },
+      show : function () {
+         Rookie(function(){
+            console.log(this.read('cart'));
+         })
+      },
+      enter : function () {
+         
+      },
+      back : function () {
+         
+      },
+      popDialog : function ( num, price ) {
+         var elem = $("#dialogS")
+         $( elem ).fadeIn("slow");
+         $( elem ).css({ 
+            position : 'absolute',
+            left : ($(window).width() - $( elem ).outerWidth())/2,
+            top : ($(window).height() - $( elem ).outerHeight())/2
+         });
+      }
+   };
 })(window);
