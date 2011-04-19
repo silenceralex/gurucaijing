@@ -14,7 +14,7 @@
   </select>
 
   
-  <select id="select"  resultMap="userResultMap" >
+  <select id="select"  resultClass="WebUser">
     select * from webuser where uid=#value#
   </select>
   
