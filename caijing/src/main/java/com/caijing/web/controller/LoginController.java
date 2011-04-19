@@ -1,6 +1,7 @@
 package com.caijing.web.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.caijing.dao.AnalyzerDao;
-import com.caijing.dao.EconomistDao;
 import com.caijing.dao.UserDao;
+import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.User;
+import com.caijing.domain.WebUser;
+import com.caijing.util.ServerUtil;
 import com.caijing.util.TopicNameConfig;
 
 @Controller
@@ -33,16 +37,16 @@ public class LoginController {
 	private UserDao ibatisUserDao = null;
 
 	@Autowired
+	@Qualifier("webUserDao")
+	private WebUserDao webUserDao = null;
+
+	@Autowired
 	@Qualifier("analyzerDao")
 	private AnalyzerDao analyzerDao = null;
 
 	@Autowired
 	@Qualifier("TopicNameConfig")
 	private TopicNameConfig topicNameMap = null;
-
-	@Autowired
-	@Qualifier("economistDao")
-	private EconomistDao economistDao = null;
 
 	@RequestMapping("/admin/login.do")
 	public String showColomn(HttpServletResponse response,
@@ -116,5 +120,55 @@ public class LoginController {
 		session.removeAttribute("JSONRPCBridge");
 		response.sendRedirect("/admin/login.html");
 		return;
+	}
+
+	@RequestMapping("/reg/reg.htm")
+	public String reg(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/reg/reg.htm";
+	}
+
+	@RequestMapping("/reg/regist.do")
+	public String regist(HttpServletResponse response, @RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "password", required = true) String password, HttpServletRequest request,
+			ModelMap model) {
+		WebUser user = new WebUser();
+		user.setEmail(email);
+		user.setPasswd(DigestUtils.md5Hex(password));
+		user.setPtime(new Date());
+		user.setUid(ServerUtil.getid());
+		try {
+			webUserDao.insert(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/index.html";
+	}
+
+	@RequestMapping("/user/login.do")
+	public String webLogin(HttpServletResponse response,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "password", required = true) String password,
+			@RequestParam(value = "random", required = true) String random, HttpServletRequest request, ModelMap model) {
+		User user = new User();
+		String srandom = (String) request.getSession().getAttribute("random");
+		System.out.println("srandom : " + srandom);
+
+		System.out.println("random : " + random);
+		try {
+			if (random != null && random.equals(srandom)) {
+				System.out.println("随即图验证成功！");
+				if (webUserDao.identify(username, password)) {
+					System.out.println("用户名验证成功！");
+					user.setUsername(username);
+					model.put("currUser", user);
+					response.sendRedirect("/index.html");
+					return null;
+				}
+			}
+			response.sendRedirect("/user/err.html?login=true");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

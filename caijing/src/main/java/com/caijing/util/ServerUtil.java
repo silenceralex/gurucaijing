@@ -1,6 +1,7 @@
 package com.caijing.util;
 
 import java.io.CharArrayWriter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -199,5 +200,8 @@ public class ServerUtil {
 		String test = "7143PG4L002526O3";
 		long testlong = Long.parseLong(test);
 		System.out.println("testlong:" + testlong);
+
+		AtomicInteger iter = new AtomicInteger(0);
+		iter.incrementAndGet();
 	}
 }
