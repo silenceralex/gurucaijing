@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="product" >
+
+  <typeAlias alias="Product" type="com.caijing.domain.Product" />
+
+  <select id="select" resultClass="Product" parameterClass="Product" >
+    select pid, name, continuedmonth, price, rightpaths, desc
+    from product
+    where pid = #pid:INTEGER#
+  </select>
+  <delete id="delete" parameterClass="Product" >
+    delete from product
+    where pid = #pid:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="Product" >
+    insert into product (pid, name, continuedmonth, price, rightpaths, desc)
+    values (#pid:INTEGER#, #name:VARCHAR#, #continuedmonth:INTEGER#, #price:REAL#,
+      #rightpaths:VARCHAR#, #desc:LONGVARCHAR#)
+  </insert>
+  <insert id="insertSelective" parameterClass="Product" >
+    insert into product
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="pid" >
+        pid
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        name
+      </isNotNull>
+      <isNotNull prepend="," property="continuedmonth" >
+        continuedmonth
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        price
+      </isNotNull>
+      <isNotNull prepend="," property="rightpaths" >
+        rightpaths
+      </isNotNull>
+      <isNotNull prepend="," property="desc" >
+        desc
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="pid" >
+        #pid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="continuedmonth" >
+        #continuedmonth:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        #price:REAL#
+      </isNotNull>
+      <isNotNull prepend="," property="rightpaths" >
+        #rightpaths:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="desc" >
+        #desc:LONGVARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="Product" >
+    update product
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="name" >
+        name = #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="continuedmonth" >
+        continuedmonth = #continuedmonth:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="price" >
+        price = #price:REAL#
+      </isNotNull>
+      <isNotNull prepend="," property="rightpaths" >
+        rightpaths = #rightpaths:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="desc" >
+        desc = #desc:LONGVARCHAR#
+      </isNotNull>
+    </dynamic>
+    where pid = #pid:INTEGER#
+  </update>
+  <update id="update" parameterClass="Product" >
+    update product
+    set name = #name:VARCHAR#,
+      continuedmonth = #continuedmonth:INTEGER#,
+      price = #price:REAL#,
+      rightpaths = #rightpaths:VARCHAR#
+    where pid = #pid:INTEGER#
+  </update>
+</sqlMap>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="userright" >
+
+  <typeAlias alias="Userright" type="com.caijing.domain.Userright" />
+
+  <select id="select" parameterClass="Userright" resultClass="Userright">
+    select uid, fromdate, todate, path, valid
+    from userright
+    where uid = #uid:INTEGER#
+  </select>
+  <delete id="delete" parameterClass="Userright">
+    delete from userright
+    where uid = #uid:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="Userright">
+    insert into userright (uid, fromdate, todate, path, valid)
+    values (#uid:INTEGER#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#)
+  </insert>
+  <insert id="insertSelective" parameterClass="Userright">
+    insert into userright
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="uid">
+        uid
+      </isNotNull>
+      <isNotNull prepend="," property="fromdate">
+        fromdate
+      </isNotNull>
+      <isNotNull prepend="," property="todate">
+        todate
+      </isNotNull>
+      <isNotNull prepend="," property="path">
+        path
+      </isNotNull>
+      <isNotNull prepend="," property="valid">
+        valid
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="uid">
+        #uid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fromdate">
+        #fromdate:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="todate">
+        #todate:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="path">
+        #path:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="valid">
+        #valid:TINYINT#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="Userright">
+    update userright
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="fromdate">
+        fromdate = #fromdate:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="todate">
+        todate = #todate:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="path">
+        path = #path:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="valid">
+        valid = #valid:TINYINT#
+      </isNotNull>
+    </dynamic>
+    where uid = #uid:INTEGER#
+  </update>
+  <update id="update" parameterClass="Userright">
+    update userright
+    set fromdate = #fromdate:DATE#,
+      todate = #todate:DATE#,
+      path = #path:VARCHAR#,
+      valid = #valid:TINYINT#
+    where uid = #uid:INTEGER#
+  </update>
+</sqlMap>
