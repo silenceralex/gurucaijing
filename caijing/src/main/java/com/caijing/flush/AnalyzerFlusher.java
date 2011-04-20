@@ -647,9 +647,10 @@ public class AnalyzerFlusher {
 			List<GroupEarn> weightList = groupEarnDao.getWeightListBetween(analyzerList.get(i).getAid(), cal.getTime(),
 					date);
 			GroupEarn ge = groupEarnDao.getFormerNearPriceByCodeDate(analyzerList.get(i).getAid(), cal.getTime());
-			if (ge == null) {
+			if (ge == null || weightList == null || weightList.size() == 0) {
 				continue;
 			}
+			//			System.out.println("Start date" + analyzerList.get(i).getAid() + "  weightList" + weightList.size());
 			float startWeight = ge.getWeight();
 			startWeightMap.put(analyzerList.get(i).getAid(), startWeight);
 			float endWeight = weightList.get(weightList.size() - 1).getWeight();
@@ -710,13 +711,13 @@ public class AnalyzerFlusher {
 			groupYears.add("" + i);
 		}
 		System.out.println("startYear  : " + startYear + " groupYears size: " + groupYears.size());
-		for (int i = 0; i < groupYears.size(); i++) {
-			try {
-				flushAnalyzerPeriodRank(groupYears.get(i), groupYears);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
+		//		for (int i = 0; i < groupYears.size(); i++) {
+		//			try {
+		//				flushAnalyzerPeriodRank(groupYears.get(i), groupYears);
+		//			} catch (ParseException e) {
+		//				e.printStackTrace();
+		//			}
+		//		}
 		try {
 			flushAnalyzerRankCountByMonth(-1, groupYears);
 			flushAnalyzerRankCountByMonth(-3, groupYears);
