@@ -717,9 +717,15 @@ public class AnalyzerFlusher {
 				e.printStackTrace();
 			}
 		}
-		flushAnalyzerRankCountByMonth(-1, groupYears);
-		flushAnalyzerRankCountByMonth(-3, groupYears);
-		flushAnalyzerRankCountByMonth(-6, groupYears);
+		try {
+			flushAnalyzerRankCountByMonth(-1, groupYears);
+			flushAnalyzerRankCountByMonth(-3, groupYears);
+			flushAnalyzerRankCountByMonth(-6, groupYears);
+		} catch (Exception e) {
+			System.out.println("===> exception !!");
+			System.out.println("While flushAnalyzerRankCountByMonth --> GET ERROR MESSAGE: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
