@@ -711,13 +711,13 @@ public class AnalyzerFlusher {
 			groupYears.add("" + i);
 		}
 		System.out.println("startYear  : " + startYear + " groupYears size: " + groupYears.size());
-		//		for (int i = 0; i < groupYears.size(); i++) {
-		//			try {
-		//				flushAnalyzerPeriodRank(groupYears.get(i), groupYears);
-		//			} catch (ParseException e) {
-		//				e.printStackTrace();
-		//			}
-		//		}
+		for (int i = 0; i < groupYears.size(); i++) {
+			try {
+				flushAnalyzerPeriodRank(groupYears.get(i), groupYears);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 		try {
 			flushAnalyzerRankCountByMonth(-1, groupYears);
 			flushAnalyzerRankCountByMonth(-3, groupYears);
