@@ -189,7 +189,7 @@
 		</property>
 	</bean>
 	
-		<bean id="webUserDao"
+	<bean id="webUserDao"
 		class="com.caijing.dao.ibatis.WebUserDaoImpl">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
@@ -198,6 +198,26 @@
 			<value>WebUser</value>
 		</property>
 	</bean>
+
+	<bean id="UserrightDAO"
+		class="com.caijing.dao.ibatis.UserrightDAOImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Userright</value>
+		</property>
+	</bean>
+	
+	<bean id="ProductDAO"
+		class="com.caijing.dao.ibatis.ProductDAOImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Product</value>
+		</property>
+	</bean>	
 	
 	<context:component-scan base-package="com.caijing"></context:component-scan>
 </beans>

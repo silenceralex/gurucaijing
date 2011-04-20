@@ -26,4 +26,6 @@
 	<sqlMap resource="com/caijing/dao/ibatis/financialreport.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/Post.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/WebUser.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/userright.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/product.xml" />
 </sqlMapConfig>
