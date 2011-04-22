@@ -128,9 +128,12 @@ public class LoginController {
 			ModelMap model) {
 		WebUser user = new WebUser();
 		user.setEmail(email);
+		System.out.println("email : " + email);
+		System.out.println("password : " + password);
 		user.setPasswd(DigestUtils.md5Hex(password));
 		user.setPtime(new Date());
 		user.setUid(ServerUtil.getid());
+
 		try {
 			webUserDao.insert(user);
 		} catch (Exception e) {
