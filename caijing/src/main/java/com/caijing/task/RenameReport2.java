@@ -57,6 +57,7 @@ public class RenameReport2 {
 		try {
 			os = new FileOutputStream("/data/excel/oldpapers_error.log", true);
 			IOUtils.write("==== start RenameReport2 ===="+"\r\n", os, "UTF-8");
+			IOUtils.write(new Date()+"\r\n", os, "UTF-8");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
