@@ -122,11 +122,6 @@ public class LoginController {
 		return;
 	}
 
-	@RequestMapping("/reg/reg.htm")
-	public String reg(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		return "/template/reg/reg.htm";
-	}
-
 	@RequestMapping("/reg/regist.do")
 	public String regist(HttpServletResponse response, @RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "password", required = true) String password, HttpServletRequest request,
@@ -171,4 +166,30 @@ public class LoginController {
 		}
 		return null;
 	}
+
+	@RequestMapping("/reg/reg.htm")
+	public String reg(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/reg/reg.htm";
+	}
+
+	@RequestMapping("/user/myAccount.htm")
+	public String account(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/user/myAccount.htm";
+	}
+
+	@RequestMapping("/user/myRecharge.htm")
+	public String recharge(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/user/myRecharge.htm";
+	}
+
+	@RequestMapping("/user/myInfo.htm")
+	public String myinfo(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/user/myInfo.htm";
+	}
+
+	@RequestMapping("/user/myConsumer.htm")
+	public String myconsumer(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/user/myConsumer.htm";
+	}
+
 }
