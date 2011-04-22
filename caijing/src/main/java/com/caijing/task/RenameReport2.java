@@ -140,7 +140,7 @@ public class RenameReport2 {
 			String destPdffilepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 			String destTxtfilepath = desthtmlPath +createdate+"/"+rid + ".txt";
 
-			if(stockcode==null||createdate==null|createdate.length()==0||createdate.equals("无")||saname.equals("券商名称")||saname.length()==0||saname.length()>8){
+			if(stockcode==null||createdate==null||createdate.length()==0||createdate.equals("无")||saname.equals("券商名称")||saname.length()==0||saname.length()>8){
 				try {
 					IOUtils.write(excel.getName()+" >>> "+filename+"\r\n", os, "UTF-8");
 				} catch (IOException e) {
