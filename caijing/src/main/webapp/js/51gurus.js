@@ -412,14 +412,17 @@
       },
       // 验证邮件格式
       checkEmail : function () {
+         var t = this;
          t.checkVal( t.emailReg, $( t.emailNode ), $( t.emailTipNode ));
       },
       // 验证密码格式
       checkPass : function () {
+         var t = this;
          t.checkVal( t.passReg, $( t.pass1Node ), $( t.pass1TipNode ));
       },
       // 验证两次密码输入
       checkPass2 : function () {
+         var t = this;
          if ( t.pass1Node.text() != t.pass2Node.text() ) {
             t.pass2TipNode.fadeIn("slow");
             return false;
@@ -430,6 +433,7 @@
       },
       // 验证昵称
       checkNick : function () {
+         var t = this;
          t.checkVal( t.passReg, $( t.nicknameNode ), $( t.nicknameTipNode ));
       },
       // 验证表单并提交
