@@ -111,7 +111,7 @@ public class RenameReport2 {
 		}
 		
 		try {
-			IOUtils.write("==== end RenameReport2 ====", os, "UTF-8");
+			IOUtils.write("==== end RenameReport2 ====\r\n", os, "UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
