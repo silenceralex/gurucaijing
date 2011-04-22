@@ -85,5 +85,32 @@
 			<ref bean="dataSource" />
 		</property>
 	</bean>
+	
+    <!-- 事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="dataSource"></property>
+    </bean>
+    
+    <!-- 用注解来实现事务管理 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />   
+    
+    <!-- 声明式事务管理 -->
+<!--     <bean id="baseTransactionProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true"> -->
+<!--         <property name="transactionManager" ref="transactionManager"></property> -->
+<!--         <property name="transactionAttributes"> -->
+<!--             <props> -->
+<!--                 <prop key="add*">PROPAGATION_REQUIRED</prop>            -->
+<!--                 <prop key="edit*">PROPAGATION_REQUIRED</prop> -->
+<!--                 <prop key="*">PROPAGATION_REQUIRED,readOnly</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+<!--     </bean> -->
 
+   <!-- 注意该DAO 一定要继承SqlMapClientDaoSupport 使用getSqlMapClientTemplate()方法，并且要抛出 throws DataAccessException 异常 spring才能捕获并回滚 -->
+<!--     <bean id="UserDAO" class="com.gong.struts.test.UserDAO"> -->
+<!--         <property name="sqlMapClient" ref="sqlMapClient"></property> -->
+<!--     </bean> -->
+   
+<!--     <bean id="UserManager" parent="baseTransactionProxy"> -->
+<!--     </bean>     -->     
 </beans>
