@@ -180,9 +180,21 @@
                alert( "应该清空本地数据" );
                t.clear();
             } else {
-               t.cartArr = this.read('cart');
+               var cartItem = this.read('cart');
+               if( cartItem ) {
+                  t.cartArr = this.read('cart');
+               }
             };
          });
+      },
+      buy : function ( id, num, price ) {
+         var t = this;
+         Rookie(function(){
+            t.orderId = +new Date();
+            this.write( 'orderId', t.orderId );
+            t.add( id, num, price );
+            window.location.href = "";
+         }
       },
       // 清除购物车
       clear : function () {
@@ -344,30 +356,210 @@
          });
       }
    };
-   userInfo = {
+   validator = {
       nickReg : /^[\w_]{4,16}$/,
       emailReg : /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
       mobileReg : /^1{1}\d{10}$/,
       passReg : /^.{6,16}$/,
+      checkVal : function ( reg, node, tip ) {
+         var t = this,
+             val = $( node ).text();
+         
+         if ( val && reg.test( val ) ) {
+            $( tip ).fadeOut("slow");
+            return true;
+         } else {
+            $( tip ).fadeIn("slow");
+            return false;
+         };
+      },
+      // 验证邮件格式
+      checkEmail : function ( inputNode, tipNode ) {
+         var t = this;
+         if( $( inputNode ).text() == "" ) {
+            $( tipNode ).html("邮箱地址不能为空");
+         }
+         if( !t.checkVal( t.emailReg, inputNode, tipNode ) ) {
+            $( tipNode ).html("邮箱地址格式不正确");
+            return false;
+         } else {
+            return true;
+         };
+         //t.checkVal( t.emailReg, $( t.emailNode ), $( t.emailTipNode ));
+      },
+      // 验证密码格式
+      checkPass : function ( inputNode, tipNode ) {
+         var t = this;
+         if( $( inputNode ).text() == "" ) {
+            $( tipNode ).html("密码不能为空");
+         }
+         if( !t.checkVal( t.passReg, inputNode, tipNode ) ) {
+            $( tipNode ).html("密码格式错误，长度应为：6-16位");
+            return false;
+         } else {
+            return true;
+         };
+         //t.checkVal( t.passReg, $( t.pass1Node ), $( t.pass1TipNode ));
+      },
+      // 验证两次密码输入
+      checkPass2 : function ( pass1Node, pass2Node, pass2TipNode ) {
+         var t = this;
+         if ( pass1Node.text() != pass2Node.text() ) {
+            pass2TipNode.fadeIn("slow");
+            return false;
+         } else {
+            pass2TipNode.fadeOut("slow");
+            return true;
+         };
+      },
+      // 验证昵称
+      checkNick : function ( inputNode, tipNode ) {
+         var t = this;
+         if( $( inputNode ).text() == "" ) {
+            $( tipNode ).html("昵称不能为空");
+         }
+         if( !t.checkVal( t.passReg, inputNode, tipNode ) ) {
+            $( tipNode ).html("昵称格式不正确，只能是字母、数字或下划线");
+            return false;
+         } else {
+            return true;
+         };
+      },
+      checkMobile : function ( inputNode, tipNode ) {
+         var t = this;
+         if( $( inputNode ).text() != "" && !t.checkVal( t.mobileReg, inputNode, tipNode ) ) {
+            $( tipNode ).html("手机格式不正确");
+            return false;
+         } else {
+            return true;
+         }
+      }
+   };
+   userInfo = {
       init : function () {
          var t = this;
+         t.nickNode = $("#nickname");
+         t.emailNode = $("#email");
+         t.mobileNode = $("#mobile");
+         //t.ProvinceNode = $("#Province");
+         //t.cityNode = $("#city");
+         t.oldPassNode = $("#oldPass");
+         t.newPassNode = $("#newPass");
+         t.newPass2Node = $("#newPass2");
+         
+         t.nickTipNode = $("#nickTip");
+         t.emailTipNode = $("#emailTip");
+         t.mobileTipNode = $("#mobileTip");
+         //t.cityTipNode = $("#city + td");
+         t.oldPassTipNode = $("#oldPassTip");
+         t.newPassTipNode = $("#newPassTip");
+         t.newPass2TipNode = $("#newPass2Tip");
+         
+         t.changeInfoBtn = $("#changeInfoBtn");
+         t.changePassBtn = $("#changePassBtn");
+         try {
+            $("#city").json2select(areaJson);
+         } catch ( err ) {
+            if( typeof console != "undefined" ) {
+               console.log( err );
+            }
+         }
+         $( t.nickNode ).bind("blur", function () {
+            t.checkNick();
+         });
+         $( t.nickNode ).bind("focus", function () {
+            $( t.nickTipNode ).fadeOut("slow");
+         });
+         $( t.emailNode ).bind("blur", function () {
+            t.checkEmail();
+         });
+         $( t.emailNode ).bind("focus", function () {
+            $( t.emailTipNode ).fadeOut("slow");
+         });
+         $( t.mobileNode ).bind("blur", function () {
+            t.checkMobile();
+         });
+         $( t.mobileNode ).bind("focus", function () {
+            $( t.mobileTipNode ).fadeOut("slow");
+         });
+         $( t.oldPassNode ).bind("blur", function () {
+            t.checkOldPass();
+         });
+         $( t.oldPassNode ).bind("focus", function () {
+            $( t.oldPassTipNode ).fadeOut("slow");
+         });
+         $( t.newPassNode ).bind("blur", function () {
+            t.checkNewPass();
+         });
+         $( t.newPassNode ).bind("focus", function () {
+            $( t.newPassTipNode ).fadeOut("slow");
+         });
+         $( t.newPassNode2 ).bind("blur", function () {
+            t.checkNewPass2();
+         });
+         $( t.newPassNode2 ).bind("focus", function () {
+            $( t.newPass2TipNode ).fadeOut("slow");
+         });
+         
+         $( t.ProvinceNode ).bind("click", function () {
+            
+         });
+         $( t.changeInfoBtn ).bind("click", function () {
+            t.checkInfo();
+         });
+         $( t.changePassBtn ).bind("click", function () {
+            t.checkPassInfo();
+         });
+      },
+      // 验证邮件格式
+      checkEmail : function () {
+         validator.checkEmail( t.emailNode, t.emailTipNode );
+      },
+      // 验证旧密码格式
+      checkOldPass : function () {
+         validator.checkPass( t.oldPassNode, t.oldPassTipNode );
+      },
+      // 验证新密码格式
+      checkNewPass : function () {
+         validator.checkPass( t.newPassNode, t.newPassTipNode );
+      },
+      // 验证两次新密码输入
+      checkNewPass2 : function () {
+         validator.checkPass2( t.newPassNode, t.newPass2Node, t.pass2TipNode );
+      },
+      // 验证昵称
+      checkNick : function () {
+         validator.checkNick( t.nicknameNode, t.nicknameTipNode );
+      },
+      // 验证手机
+      checkMobile : function () {
+         validator.checkMobile( t.mobileNode, t.mobileTipNode );
+      },
+      checkInfo : function () {
+         var t = this;
+         if ( t.checkEmail && t.checkMobile() && t.checkNick() ) {
+            document.info.submit();
+         };
+      },
+      checkPassInfo : function () {
+         var t = this;
+         if ( t.checkOldPass && t.checkNewPass() && t.checkNewPass2() ) {
+            document.pass.submit();
+         };
       }
    };
    reg = {
-      nickReg : /^[\w_]{4,16}$/,
-      emailReg : /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
-      passReg : /^.{6,16}$/,
-      emailNode : $("#email"),
-      pass1Node : $("#pass1"),
-      pass2Node : $("#pass2"),
-      nicknameNode : $("#nickname"),
-      emailTipNode : $("#emailTip"),
-      pass1TipNode : $("#pass1Tip"),
-      pass2TipNode : $("#pass2Tip"),
-      nicknameTipNode : $("#nicknameTip"),
       // 初始化
       init : function () {
          var t = this;
+         t.emailNode : $("#email");
+         t.pass1Node : $("#pass1");
+         t.pass2Node : $("#pass2");
+         t.nicknameNode : $("#nickname");
+         t.emailTipNode : $("#emailTip");
+         t.pass1TipNode : $("#pass1Tip");
+         t.pass2TipNode : $("#pass2Tip");
+         t.nicknameTipNode : $("#nicknameTip");
          // 绑定email验证事件
          $( t.emailNode ).bind("blur", function () {
             t.checkEmail();
@@ -397,44 +589,21 @@
             $( t.nicknameTipNode ).fadeOut("slow");
          });
       },
-      // 通用检查表单
-      checkVal : function ( reg, node, tip ) {
-         var t = this,
-             val = $( node ).text();
-         
-         if ( val && reg.test( val ) ) {
-            $( tip ).fadeOut("slow");
-            return true;
-         } else {
-            $( tip ).fadeIn("slow");
-            return false;
-         };
-      },
       // 验证邮件格式
       checkEmail : function () {
-         var t = this;
-         t.checkVal( t.emailReg, $( t.emailNode ), $( t.emailTipNode ));
+         validator.checkEmail( t.emailNode, t.emailTipNode );
       },
       // 验证密码格式
       checkPass : function () {
-         var t = this;
-         t.checkVal( t.passReg, $( t.pass1Node ), $( t.pass1TipNode ));
+         validator.checkVal( t.pass1Node, t.pass1TipNode );
       },
       // 验证两次密码输入
       checkPass2 : function () {
-         var t = this;
-         if ( t.pass1Node.text() != t.pass2Node.text() ) {
-            t.pass2TipNode.fadeIn("slow");
-            return false;
-         } else {
-            t.pass2TipNode.fadeOut("slow");
-            return true;
-         };
+         validator.checkPass2( t.pass1Node, t.pass1Node, t.pass2TipNode );
       },
       // 验证昵称
       checkNick : function () {
-         var t = this;
-         t.checkVal( t.passReg, $( t.nicknameNode ), $( t.nicknameTipNode ));
+         validator.checkPass2( t.nicknameNode, t.nicknameTipNode );
       },
       // 验证表单并提交
       formSubmit : function () {
