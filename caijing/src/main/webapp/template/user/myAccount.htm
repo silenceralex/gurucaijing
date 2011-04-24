@@ -28,11 +28,11 @@
             <span><a href="/user/myRecharge.htm">我的充值</a></span>
             <span><a href="/user/myConsumer.htm">我的消费</a></span>
          </div>
-         <div id="star_detail_box" class="star_detail_box">
-            <div class="onsaleTable">
+         <div class="user">
+            <div class="myAccount">
                2009年11月08日至今，您在投资大师共消费了&nbsp;<span class="cRed">6</span>&nbsp;项服务，订单总金额&nbsp;<span class="cRed">35</span>&nbsp;元，您的账户余额为&nbsp;<span class="cRed">193.00</span>&nbsp;元
                <hr />
-               <table width="99%" cellspacing="0" cellpadding="0" border="1" style="line-height:26px;border-collapse:collapse">
+               <table width="99%" cellspacing="0" cellpadding="0" border="1">
                   <tr>
                      <th class="ta-l pd-l-5">产品</th>
                      <th width="40">非注册用户</th>
@@ -156,7 +156,7 @@
                      <td>收费</td>
                      <td>29元/月/行业</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('0', 1, 29)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('0', 1, 29 )">放入购物车</a>
                      </td>
                   </tr>
@@ -205,8 +205,8 @@
                      <td>收费</td>
                      <td>29元/月/行业</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
-                        <a class="cRed" href="javascript:;" onclick="cart.add('1', 1, 29 )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('1', 1, 29)">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.add('1', 1, 29)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
@@ -260,7 +260,7 @@
                      <td>收费</td>
                      <td>29元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('2', 1, 29)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('2', 1, 29 )">放入购物车</a>
                      </td>
                   </tr>
@@ -290,7 +290,10 @@
                      <td>用户可发现现价相对于分析师推荐当日折价的股票</td>
                      <td>收费</td>
                      <td>19元/月</td>
-                     <td><a href="#">购买</a><a href="javascript:;" onclick="cart.add('3', 1, 19 )">放入购物车</a></td>
+                     <td>
+                        <a href="javascript:;" onclick="cart.buy('3', 1, 19)">购买</a>
+                        <a href="javascript:;" onclick="cart.add('3', 1, 19 )">放入购物车</a>
+                     </td>
                   </tr>
                   <tr>
                      <td>1.推荐日</td>
@@ -331,7 +334,7 @@
                      <td>收费</td>
                      <td>99元/月/行业</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('4', 1, 19)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('4', 1, 19 )">放入购物车</a>
                      </td>
                   </tr>
@@ -350,7 +353,7 @@
                      <td>收费</td>
                      <td>99元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('5', 1, 99)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('5', 1, 99 )">放入购物车</a>
                      </td>
                   </tr>
@@ -381,7 +384,7 @@
                      <td>收费</td>
                      <td>协商定价</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('6', 1, 0)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('6', 1, 0 )">放入购物车</a>
                      </td>
                   </tr><!-- 民间专家 -->
@@ -394,7 +397,7 @@
                      <td>收费</td>
                      <td>0.1元/票</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('7', 1, 0.1)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('7', 1, 0.1 )">放入购物车</a>
                      </td>
                   </tr>
@@ -425,7 +428,7 @@
                      <td>收费</td>
                      <td>&nbsp;</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('8', 1, 0)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('8', 1, 0 )">放入购物车</a>
                      </td>
                   </tr><!-- 搜索与排行 -->
@@ -438,7 +441,7 @@
                      <td>收费</td>
                      <td>29元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('9', 1, 29)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('9', 1, 29 )">放入购物车</a>
                      </td>
                   </tr><!-- 搜索与排行 -->
@@ -451,7 +454,7 @@
                      <td>收费</td>
                      <td>19元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('10', 1, 19)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('10', 1, 19 )">放入购物车</a>
                      </td>
                   </tr>
@@ -486,11 +489,11 @@
                      <td>&nbsp;</td>
                   </tr><!-- 公告掘金 -->
                </table>
-               <input type="button" value="去结算" />
+               <input class="submitBtn" type="button" value="去结算" />
                <p>套餐更划算，帮你省钱</p>
                <table>
                   <tr>
-                     <td>套餐项目</td>
+                     <td class="ta-l pd-l-5">套餐项目</td>
                      <td>建议价格(人民币)</td>
                      <td>操作</td>
                   </tr>
@@ -498,7 +501,7 @@
                      <td>分析师成功率+研报速递(行业)</td>
                      <td>109元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('11', 1, 109)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('11', 1, 109 )">放入购物车</a>
                      </td>
                   </tr>
@@ -506,7 +509,7 @@
                      <td>分析师收益率</td>
                      <td>109元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('12', 1, 109)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('12', 1, 109 )">放入购物车</a>
                      </td>
                   </tr>
@@ -514,7 +517,7 @@
                      <td>研报速递(行业)</td>
                      <td>-</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('13', 1, 0)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('13', 1, 0 )">放入购物车</a>
                      </td>
                   </tr>
@@ -522,7 +525,7 @@
                      <td>研报速递+分析师成功率+分析师收益率(行业)</td>
                      <td>129元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('14', 1, 129)">购买</a>
                         <a class="cRed" href="javascript:;" onclick="cart.add('14', 1, 129 )">放入购物车</a>
                      </td>
                   </tr>
@@ -530,40 +533,40 @@
                      <td>推荐后折价+折价股票研报速递</td>
                      <td>99元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
-                        <a class="cRed"  href="javascript:;" onclick="cart.add('15', 1, 99 )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('15', 1, 99)">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.add('15', 1, 99 )">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>推荐后折价</td>
                      <td>190元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
-                        <a class="cRed"  href="javascript:;" onclick="cart.add('16', 1, 190 )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('16', 1, 190)">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.add('16', 1, 190 )">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>个股追踪</td>
                      <td>290元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
-                        <a class="cRed"  href="javascript:;" onclick="cart.add('17',1, 290 )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('17', 1, 290)">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.add('17',1, 290 )">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>公告掘金</td>
                      <td>190元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
-                        <a class="cRed"  href="javascript:;" onclick="cart.add('17',1, 190 )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('17', 1, 190)">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.add('17',1, 190 )">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>年报查询</td>
                      <td>290元/月</td>
                      <td>
-                        <a class="cRed" href="#">购买</a>
-                        <a class="cRed"  href="javascript:;" onclick="cart.add('18',1, 290 )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy('18', 1, 290)">购买</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.add('18',1, 290 )">放入购物车</a>
                      </td>
                   </tr>
                </table>
