@@ -1,9 +1,6 @@
 package com.caijing.util;
 
 import java.io.CharArrayWriter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -207,22 +204,33 @@ public class ServerUtil {
 		return high << 6 + mod;
 	}
 
+	public static synchronized long getRechargeID(String userid) {
+		long usertime = getTime(userid);
+		long mod = usertime % 64;
+		long high = System.currentTimeMillis() - ORDER_TIMESTAMP;
+		System.out.println("id:" + high + "   mod:" + mod);
+		high = high << 6;
+		System.out.println("id left shift 6 bit :" + high);
+		return high + mod;
+	}
+
 	public static void main(String[] args) {
 		//		String test = "7143PG4L002526O3";
 		//		long testlong = Long.parseLong(test);
 		//		System.out.println("testlong:" + testlong);
-
-		Date date = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.YEAR, -1);
-		long start = cal.getTimeInMillis();
-		long now = date.getTime();
-		System.out.println("now:" + now);
-		System.out.println("start:" + start);
-		System.out.println("now-start:" + (now - start));
-		System.out.println("max:" + Long.MAX_VALUE);
-		AtomicInteger iter = new AtomicInteger(0);
-		iter.incrementAndGet();
+		long id = ServerUtil.getRechargeID("71GNOKP3");
+		System.out.println("id  :" + id);
+		//		Date date = new Date();
+		//		Calendar cal = Calendar.getInstance();
+		//		cal.setTime(new Date());
+		//		cal.add(Calendar.YEAR, -1);
+		//		long start = cal.getTimeInMillis();
+		//		long now = date.getTime();
+		//		System.out.println("now:" + now);
+		//		System.out.println("start:" + start);
+		//		System.out.println("now-start:" + (now - start));
+		//		System.out.println("max:" + Long.MAX_VALUE);
+		//		AtomicInteger iter = new AtomicInteger(0);
+		//		iter.incrementAndGet();
 	}
 }
