@@ -28,14 +28,14 @@
             <span><a href="/user/myRecharge.htm">我的充值</a></span>
             <span><a href="/user/myConsumer.htm">我的消费</a></span>
          </div>
-         <div id="star_detail_box" class="star_detail_box">
-            <div class="onsaleTable">
+         <div class="user">
+            <div class="myInfo">
                <b>修改资料</b><br />
                <p class="cGray">帮助我们完善您的个人资料，有助于我们未来根据您的情况提供更加个性化的服务，投资大师会对您的个人资料隐私加以保密</p>
                <form action="">
                   <table class="uinfoTb">
-                     <tr width="100">
-                        <td><span class="cRed">*</span>昵称:</td>
+                     <tr>
+                        <td width="120"><span class="cRed">*</span>昵称:</td>
                         <td><input name="nickname" type="text" /></td>
                      </tr>
                      <tr>
@@ -58,7 +58,7 @@
                         <td>
                            <select id="Province"></select>
                            <select id="city"></select>
-                           <input type="button" value="确定" />
+                           <input class="submitBtn" type="submit" value="确定" />
                         </td>
                      </tr>
                   </table>
@@ -67,8 +67,8 @@
                <b>修改密码</b><br />
                <form action="">
                   <table class="uinfoTb">
-                     <tr width="120">
-                        <td>我的旧密码:</td>
+                     <tr>
+                        <td width="120">我的旧密码:</td>
                         <td><input id="oldPass" name="oldPass" type="password" /></td>
                      </tr>
                      <tr>
@@ -79,7 +79,7 @@
                         <td>再次输入新密码:</td>
                         <td>
                            <input id="newPass2" type="password" />
-                           <input type="button" value="确定" />
+                           <input class="submitBtn" type="submit" value="确定" />
                         </td>
                      </tr>
                   </table>
