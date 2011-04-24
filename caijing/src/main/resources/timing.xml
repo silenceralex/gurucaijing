@@ -240,7 +240,7 @@
 		</property>
 	</bean>
 	
-<!--
+
 	<bean autowire="no"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -254,5 +254,4 @@
 			</list>
 		</property>
 	</bean>
-	-->
 </beans>
