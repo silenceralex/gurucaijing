@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_分析师推荐成功率排行榜</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <a href="/">投资大师首页</a> &gt; 个人中心
+            </h2>   
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">个人中心</h2>
+            <span><a href="/user/myAccount.htm">我的账号</a></span>
+            <span><a href="/user/myInfo.htm">我的信息</a></span>
+            <span class="current"><a href="/user/myRecharge.htm">我的充值</a></span>
+            <span><a href="/user/myConsumer.htm">我的消费</a></span>
+
+         </div>
+         <div id="star_detail_box" class="star_detail_box">
+            <div class="onsaleTable">
+               	您在投资大师的账户是  $!user.email , 账户余额为&nbsp;<span class="cRed">$!user.remain</span>&nbsp;元
+               <hr />
+               <b>请输入你想要充值的数额及支付方式</b><br />
+               <form action="/user/recharge.do" name="recharge" method="post" enctype="multipart/form-data">
+                  <table class="uinfoTb">
+                     <tr width="120">
+                        <td>充值金额:</td>
+                        <td><input id="cash" name="cash" type="text" value="$!money"/></td>
+                     </tr>
+                     <tr><td>支付方式:</td></tr>
+                     <tr>
+                        <td><input type="radio" name="type" value="0"  />支付宝-在线支付</td>
+                     </tr>
+                     <tr>
+                        <td><input type="radio" name="type" value="1"  />财付通-在线支付</td>
+                     </tr>
+                     <tr>
+                        <td><input type="radio" name="type" value="2"  />快钱-在线支付</td>
+                     </tr>
+                     <tr>
+                        <td><input type="radio" name="type" value="3"  />信用卡-在线支付</td>
+                     </tr>
+                     <tr>
+                      	<td><input onclick="javascript:document.recharge.submit();" type="button" value="确定" /></td>
+                     </tr>
+                  </table>
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+</div>
+</body>
+</html>
+<!-- myRecharge -->

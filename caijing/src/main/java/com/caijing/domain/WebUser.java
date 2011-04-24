@@ -4,19 +4,27 @@ import java.util.Date;
 
 public class WebUser {
 
-	String uid = null;
-	String nickname = null;
-	String realname = null;
-	String province = null;
-	String city = null;
-	String email = null;
-	String passwd = null;
-	Date ptime = null;
-	Date lmodify = null;
-	float remain = 0;
-	//ÄÐ0£¬Å®1
-	int gender = 0;
-	String mobile = null;
+	private String uid = null;
+	private String nickname = null;
+	private String realname = null;
+	private String province = null;
+	private String city = null;
+	private String email = null;
+	private String password = null;
+	//Å®0£¬ÄÐ1
+	private int gender = 1;
+	private Date ptime = null;
+	private Date lmodify = null;
+	private float remain = 0;
+	private String mobile = null;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public String getUid() {
 		return uid;
@@ -64,14 +72,6 @@ public class WebUser {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPasswd() {
-		return passwd;
-	}
-
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
 	}
 
 	public Date getPtime() {

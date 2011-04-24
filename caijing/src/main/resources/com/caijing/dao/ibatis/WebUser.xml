@@ -19,14 +19,11 @@
   </select>
   
   <insert id="insert" >
-    insert into webuser (email,password,nickname,province,city,ptime,lmodify,remain) values (#email#,#password#,#nickname#,#province#,#city#,now(),now(),#remain#)
-    <selectKey resultClass="long">
-      SELECT last_insert_id();
-    </selectKey> 
+    insert into webuser (uid,email,password,nickname,province,city,ptime,lmodify,gender,remain) values (#uid#,#email#,#password#,#nickname#,#province#,#city#,now(),now(),#gender#,#remain#)
   </insert>
 
   <update id="update" parameterClass="WebUser">
-  	update user
+  	update webuser
   	<dynamic prepend="set">
   		<isNotEmpty prepend="," property="nickname">
   			nickname = #nickname#
@@ -42,9 +39,6 @@
   		</isNotEmpty>
   		<isNotEmpty prepend="," property="mobile">
   			mobile = #mobile#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="credit">
-  			credit = #credit#
   		</isNotEmpty>
   		<isNotEmpty prepend="," property="remain">
   			remain = #remain#

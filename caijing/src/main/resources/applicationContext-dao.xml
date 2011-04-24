@@ -209,6 +209,16 @@
 		</property>
 	</bean>
 	
+	<bean id="rechargeDao"
+		class="com.caijing.dao.ibatis.RechargeDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>Recharge</value>
+		</property>
+	</bean>
+	
 	<bean id="ProductDAO"
 		class="com.caijing.dao.ibatis.ProductDAOImpl">
 		<property name="sqlMapClientTemplate">

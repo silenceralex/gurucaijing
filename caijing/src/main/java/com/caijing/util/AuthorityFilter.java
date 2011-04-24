@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.caijing.domain.User;
+import com.caijing.domain.WebUser;
 
 public class AuthorityFilter extends HttpServlet implements Filter {
 
@@ -82,9 +82,9 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 			}
 
 			if (isUsed) {
-				User user = (User) session.getAttribute("currUser");
+				WebUser user = (WebUser) session.getAttribute("currWebUser");
 				if (user != null) {
-					logger.debug("user: " + user.getUsername());
+					logger.debug("user: " + user.getEmail());
 				} else {
 					logger.debug("user is null!");
 				}
@@ -92,7 +92,7 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 				if (containsOneOfList(URL, ignoreList)) {
 					logger.debug("对请求的 " + URL + " 忽略检查。");
 					isValid = true;
-				} else if ((user == null) || (StringUtils.isEmpty(user.getUsername()))) {
+				} else if ((user == null) || (StringUtils.isEmpty(user.getEmail()))) {
 					logger.debug("对请求的 " + URL + " 进行安全检查。");
 					isValid = false;
 				}
@@ -107,7 +107,7 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 					sResponse.sendRedirect(topicNameMap.getTopicName("notice"));
 				} else {
 					logger.warn("用户还没有登录,强制用户登录。");
-					sResponse.sendRedirect("/admin/err.html?login=true");
+					sResponse.sendRedirect("/template/user/err.html?login=true");
 				}
 			}
 		} catch (ServletException sx) {

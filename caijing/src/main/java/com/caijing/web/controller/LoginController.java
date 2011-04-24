@@ -124,30 +124,33 @@ public class LoginController {
 
 	@RequestMapping("/reg/regist.do")
 	public String regist(HttpServletResponse response, @RequestParam(value = "email", required = true) String email,
-			@RequestParam(value = "password", required = true) String password, HttpServletRequest request,
+			@RequestParam(value = "passwd", required = true) String password,
+			@RequestParam(value = "nickname", required = true) String nickname, HttpServletRequest request,
 			ModelMap model) {
 		WebUser user = new WebUser();
 		user.setEmail(email);
 		System.out.println("email : " + email);
 		System.out.println("password : " + password);
-		user.setPasswd(DigestUtils.md5Hex(password));
+		user.setPassword(DigestUtils.md5Hex(password));
 		user.setPtime(new Date());
 		user.setUid(ServerUtil.getid());
+		user.setNickname(nickname);
 
 		try {
 			webUserDao.insert(user);
+			request.getSession().setAttribute("currWebUser", user);
+			model.put("user", user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/index.html";
+		return "/template/user/myInfo.htm";
 	}
 
 	@RequestMapping("/user/login.do")
-	public String webLogin(HttpServletResponse response,
-			@RequestParam(value = "username", required = true) String username,
+	public String webLogin(HttpServletResponse response, @RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "password", required = true) String password,
 			@RequestParam(value = "random", required = true) String random, HttpServletRequest request, ModelMap model) {
-		User user = new User();
+		//		User user = new User();
 		String srandom = (String) request.getSession().getAttribute("random");
 		System.out.println("srandom : " + srandom);
 
@@ -155,11 +158,13 @@ public class LoginController {
 		try {
 			if (random != null && random.equals(srandom)) {
 				System.out.println("随即图验证成功！");
-				if (webUserDao.identify(username, password)) {
+				if (webUserDao.identify(email, password)) {
 					System.out.println("用户名验证成功！");
-					user.setUsername(username);
-					model.put("currUser", user);
-					response.sendRedirect("/index.html");
+					WebUser user = webUserDao.getUserByEmail(email);
+					System.out.println("nickname:" + user.getNickname());
+					request.getSession().setAttribute("currWebUser", user);
+					model.put("currWebUser", user);
+					response.sendRedirect("/user/myInfo.htm");
 					return null;
 				}
 			}
@@ -170,9 +175,93 @@ public class LoginController {
 		return null;
 	}
 
+	@RequestMapping("/user/logout.do")
+	public void weblogout(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
+			throws IOException, Exception {
+		status.setComplete();
+		HttpSession session = request.getSession();
+		session.removeAttribute("currWebUser");
+		response.sendRedirect("/user/login.htm");
+		return;
+	}
+
+	@RequestMapping("/user/update.do")
+	public void userupdate(HttpServletResponse response,
+			@RequestParam(value = "nickname", required = true) String nickname,
+			@RequestParam(value = "gender", required = true) int gender,
+			@RequestParam(value = "province", required = true) String province,
+			@RequestParam(value = "city", required = true) String city,
+			@RequestParam(value = "mobile", required = true) String mobile, HttpServletRequest request, ModelMap model) {
+		WebUser user = (WebUser) request.getSession().getAttribute("currWebUser");
+		System.out.println("nickname : " + nickname);
+		System.out.println("city : " + city);
+		System.out.println("province : " + province);
+		System.out.println("gender : " + gender);
+		System.out.println("email : " + user.getEmail());
+		System.out.println("mobile : " + mobile);
+		user.setCity(city);
+		user.setGender(gender);
+		user.setMobile(mobile);
+		user.setProvince(province);
+		user.setNickname(nickname);
+		user.setLmodify(new Date());
+
+		int num = webUserDao.update(user);
+		if (num > 0) {
+			try {
+				request.getSession().setAttribute("currWebUser", user);
+				model.put("user", user);
+				response.setContentType("text/html;charset=GBK");
+				response.getWriter().write("<script>alert('更改资料成功!');window.location='/user/myInfo.htm';</script>");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				model.put("user", user);
+				response.setContentType("text/html;charset=GBK");
+				response.getWriter().write("<script>alert('更改资料失败!');window.location='/usr/myInfo.htm';</script>");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@RequestMapping("/user/changepasswd.do")
+	public void changepasswd(HttpServletResponse response,
+			@RequestParam(value = "oldPass", required = true) String oldPass,
+			@RequestParam(value = "newPass", required = true) String newPass,
+			@RequestParam(value = "newPass2", required = true) String newPass2, HttpServletRequest request,
+			ModelMap model) {
+		WebUser user = (WebUser) request.getSession().getAttribute("currWebUser");
+		if (user.getPassword().equals(DigestUtils.md5Hex(oldPass))) {
+			if (newPass.endsWith(newPass2)) {
+				user.setPassword(DigestUtils.md5Hex(newPass));
+				user.setLmodify(new Date());
+				webUserDao.update(user);
+				try {
+					response.setContentType("text/html;charset=GBK");
+					response.getWriter()
+							.write("<script>alert('更改密码成功!');window.location='" + request.getHeader("REFERER")
+									+ "';</script>");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		try {
+			response.setContentType("text/html;charset=GBK");
+			response.getWriter().write(
+					"<script>alert('更改密码失败！');window.location='" + request.getHeader("REFERER") + "';</script>");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@RequestMapping("/reg/reg.htm")
 	public String reg(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		return "/template/reg/reg.htm";
+		return "/template/reg/userreg.htm";
 	}
 
 	@RequestMapping("/user/myAccount.htm")
@@ -180,19 +269,20 @@ public class LoginController {
 		return "/template/user/myAccount.htm";
 	}
 
-	@RequestMapping("/user/myRecharge.htm")
-	public String recharge(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		return "/template/user/myRecharge.htm";
-	}
-
 	@RequestMapping("/user/myInfo.htm")
 	public String myinfo(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		model.put("user", request.getSession().getAttribute("currWebUser"));
 		return "/template/user/myInfo.htm";
 	}
 
 	@RequestMapping("/user/myConsumer.htm")
 	public String myconsumer(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		return "/template/user/myConsumer.htm";
+	}
+
+	@RequestMapping("/user/login.htm")
+	public String login(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/reg/login.htm";
 	}
 
 }

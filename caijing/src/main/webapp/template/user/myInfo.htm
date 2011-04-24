@@ -27,48 +27,55 @@
             <span class="current"><a href="/user/myInfo.htm">我的信息</a></span>
             <span><a href="/user/myRecharge.htm">我的充值</a></span>
             <span><a href="/user/myConsumer.htm">我的消费</a></span>
+            <span><a href="/user/logout.do">安全退出</a></span>            
          </div>
          <div class="user">
             <div class="myInfo">
                <b>修改资料</b><br />
                <p class="cGray">帮助我们完善您的个人资料，有助于我们未来根据您的情况提供更加个性化的服务，投资大师会对您的个人资料隐私加以保密</p>
-               <form action="">
+               <form action="/user/update.do" name="userinfo" method="post" enctype="multipart/form-data">
                   <table class="uinfoTb">
                      <tr>
                         <td width="120"><span class="cRed">*</span>昵称:</td>
-                        <td><input id="nickname" name="nickname" type="text" /></td>
+                        <td><input name="nickname" type="text" value="$!user.nickname"/></td>
                      </tr>
                      <tr>
                         <td><span class="cRed">*</span>Email:</td>
-                        <td><input id="email" name="email" type="text" /></td>
+                        <td>$!user.email</td>
                      </tr>
                      <tr>
                         <td>手机:</td>
-                        <td><input id="mobile" name="mobile" type="text" /></td>
+                        <td><input name="mobile" type="text" value="$!user.mobile" /></td>
                      </tr>
                      <tr>
                         <td>性别:</td>
                         <td>
-                           <input id="man" type="radio" name="sex" value="1" /><label for="man">男</label>
-                           <input id="woman" type="radio" name="sex" value="0" /><label for="woman">女</label>
+                           <input id="man" type="radio" name="gender" value="1" #if($user.gender == 1)checked="checked" #end /><label for="man">男</label>
+                           <input id="woman" type="radio" name="gender" value="0" #if($user.gender == 0)checked="checked" #end/><label for="woman">女</label>
                         </td>
                      </tr>
                      <tr>
                         <td>居住城市:</td>
                         <td>
-                           <select id="Province"></select>
-                           <select id="city"></select>
-                           <input id="changeInfoBtn" class="submitBtn" type="button" value="确定" />
+                           <select id="Province" name="province">
+                           		<option value=""></option>
+                           		<option value="北京">北京</option>
+                           </select>
+                           <select id="city" name="city" >
+                          		<option value=""></option>
+                           		<option value="北京">北京</option>
+                           </select>
+                           <input onclick="javascript:document.userinfo.submit();" type="button" value="确定" />
                         </td>
                      </tr>
                   </table>
                </form>
                <hr />
                <b>修改密码</b><br />
-               <form action="">
+               <form action="/user/changepasswd.do" name="passwd" method="post" enctype="multipart/form-data">
                   <table class="uinfoTb">
-                     <tr>
-                        <td width="120">我的旧密码:</td>
+                     <tr width="120">
+                        <td>我的旧密码:</td>
                         <td><input id="oldPass" name="oldPass" type="password" /></td>
                      </tr>
                      <tr>
@@ -78,8 +85,8 @@
                      <tr>
                         <td>再次输入新密码:</td>
                         <td>
-                           <input id="newPass2" type="password" />
-                           <input id="changePassBtn" class="submitBtn" type="button" value="确定" />
+                           <input id="newPass2" name="newPass2" type="password" />
+                           <input onclick="javascript:document.passwd.submit();" type="button" value="确定" />
                         </td>
                      </tr>
                   </table>

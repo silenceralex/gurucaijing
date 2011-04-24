@@ -1,6 +1,8 @@
 package com.caijing.util;
 
 import java.io.CharArrayWriter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class ServerUtil {
 	public static final long DIFF_TIMESTAMP = 1061500000000L;
+	public static final long ORDER_TIMESTAMP = 1303528446171L;
 	private static long l = 0L;
 
 	/**
@@ -196,11 +199,29 @@ public class ServerUtil {
 		return ip;
 	}
 
-	public static void main(String[] args) {
-		String test = "7143PG4L002526O3";
-		long testlong = Long.parseLong(test);
-		System.out.println("testlong:" + testlong);
+	//通过userid和当前时间来生成唯一的orderid,从ORDER_TIMESTAMP算起的数值一定未超过long范围
+	public static synchronized long getOrderID(String userid) {
+		long usertime = getTime(userid);
+		long mod = usertime % 64;
+		long high = System.currentTimeMillis() - ORDER_TIMESTAMP;
+		return high << 6 + mod;
+	}
 
+	public static void main(String[] args) {
+		//		String test = "7143PG4L002526O3";
+		//		long testlong = Long.parseLong(test);
+		//		System.out.println("testlong:" + testlong);
+
+		Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.YEAR, -1);
+		long start = cal.getTimeInMillis();
+		long now = date.getTime();
+		System.out.println("now:" + now);
+		System.out.println("start:" + start);
+		System.out.println("now-start:" + (now - start));
+		System.out.println("max:" + Long.MAX_VALUE);
 		AtomicInteger iter = new AtomicInteger(0);
 		iter.incrementAndGet();
 	}

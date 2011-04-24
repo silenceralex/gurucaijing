@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_用户登录页面</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <a href="/">投资大师首页</a> &gt; 用户登录
+            </h2>   
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">用户登录</h2>
+         </div>
+         <div id="star_detail_box" class="star_detail_box">
+    <div id="loginBox">
+        <form name="LoginForm" name="LoginForm" action="/user/login.do" method="post" target="_self">
+            <dir><label for="username">用户邮箱：</label><input id="email" class="input" name="email" type="text" maxlength="50"/></dir>
+            <dir><label for="password">密  码：</label><input id="password" class="input" name="password" type="password" maxlength="20" /></dir>
+           	<dir><label for="random"> 验证码：</label><input id="random" class="input" name="random" type="text" maxlength="6"/> <image src="/RandImage" /></dir>
+            <dir>
+                <input type="submit" class="button btn1" value="登录"/>
+                <input class="button  btn2" type="button" onclick="window.close();" value="取消"/>
+            </dir>
+        </form>
+    </div>
+         </div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+</div>
+
+</body>
+</html>
+<!-- reg -->

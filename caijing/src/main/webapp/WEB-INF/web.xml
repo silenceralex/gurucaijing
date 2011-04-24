@@ -139,7 +139,7 @@
 	
 	<filter-mapping>
 		<filter-name>Authority Filter</filter-name>
-		<url-pattern>/notice/*</url-pattern>
+		<url-pattern>/user/*</url-pattern>
 	</filter-mapping>
 
 	<servlet>

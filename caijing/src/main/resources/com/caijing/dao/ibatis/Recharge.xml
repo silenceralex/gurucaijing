@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Recharge">
+  
+  <typeAlias alias="Recharge" type="com.caijing.domain.Recharge"/>
+    
+  
+  <select id="getTotalRechargeByUser" parameterClass="java.lang.String" resultClass="java.lang.Float">
+    select sum(cash) from recharge where userid = #value# and status = 1
+  </select>
+
+  <select id="getRechargeByUser" parameterClass="java.lang.String" resultClass="Recharge">
+    select * from recharge where userid = #value#
+  </select>
+  
+  <select id="select"  resultClass="Recharge">
+    select * from recharge where rcid=#value#
+  </select>
+  
+  <insert id="insert" >
+    insert into recharge (rcid,userid,type,status,cash,ctime,lmodify) values (#rcid#,#userid#,#type#,#status#,#cash#,now(),now())
+  </insert>
+
+  <update id="update" parameterClass="Recharge">
+  	update recharge
+  	<dynamic prepend="set">
+  		<isNotEmpty prepend="," property="type">
+  			type = #type#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="status">
+  			status = #status#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="cash">
+  			cash = #cash#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="lmodify">
+  			lmodify = #lmodify#
+  		</isNotEmpty>
+  	</dynamic>
+  	where rcid=#rcid#
+  </update>
+
+  <delete id="delete" parameterClass="Recharge">
+    delete from recharge where rcid=#rcid#
+  </delete>
+
+</sqlMap>
