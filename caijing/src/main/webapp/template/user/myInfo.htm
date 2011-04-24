@@ -6,7 +6,8 @@
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="/js/city.js"></script>
+<script language="javascript" type="text/javascript" src="/js/json2select.js"></script>
+<script language="javascript" type="text/javascript" src="/js/areaJson.pack.js"></script>
 <script language="javascript" type="text/javascript" src="/js/51gurus.js"></script> 
 </head>
 
@@ -33,54 +34,56 @@
             <div class="myInfo">
                <b>修改资料</b><br />
                <p class="cGray">帮助我们完善您的个人资料，有助于我们未来根据您的情况提供更加个性化的服务，投资大师会对您的个人资料隐私加以保密</p>
-               <form action="/user/update.do" name="userinfo" method="post" enctype="multipart/form-data">
+               <form action="/user/update.do" id="info" name="info" method="post" enctype="multipart/form-data">
                   <table class="uinfoTb">
                      <tr>
-                        <td width="120"><span class="cRed">*</span>昵称:</td>
-                        <td><input name="nickname" type="text" value="$!user.nickname"/></td>
+                        <td width="150"><span class="cRed">*</span>昵称:</td>
+                        <td><input id="nickname" name="nickname" type="text" value="$!user.nickname" /></td>
+                        <td width="240"><span id="nickTip" class="cRed" style="display:none;">请输入中英文、数字、下划线或他们的组合</span></td>
                      </tr>
                      <tr>
                         <td><span class="cRed">*</span>Email:</td>
-                        <td>$!user.email</td>
+                        <td><input id="email" name="email" type="text" value="$!user.email" /></td>
+                        <td><span id="emailTip" class="cRed" style="display:none;">请输入有效的Email地址</span></td>
                      </tr>
                      <tr>
                         <td>手机:</td>
-                        <td><input name="mobile" type="text" value="$!user.mobile" /></td>
+                        <td><input id="mobile" name="mobile" type="text" value="$!user.mobile" /></td>
+                        <td><span id="mobileTip" class="cRed" style="display:none;">手机号格式不正确</span></td>
                      </tr>
                      <tr>
                         <td>性别:</td>
                         <td>
-                           <input id="man" type="radio" name="gender" value="1" #if($user.gender == 1)checked="checked" #end /><label for="man">男</label>
-                           <input id="woman" type="radio" name="gender" value="0" #if($user.gender == 0)checked="checked" #end/><label for="woman">女</label>
+                           <input id="man" type="radio" name="sex" value="1" #if($user.gender == 1)checked="checked" #end /><label for="man">男</label>
+                           <input id="woman" type="radio" name="sex" value="0" #if($user.gender == 0)checked="checked" #end /><label for="woman">女</label>
                         </td>
+                        <td>&nbsp;</td>
                      </tr>
                      <tr>
                         <td>居住城市:</td>
                         <td>
-                           <select id="Province" name="province">
-                           		<option value=""></option>
-                           		<option value="北京">北京</option>
-                           </select>
-                           <select id="city" name="city" >
-                          		<option value=""></option>
-                           		<option value="北京">北京</option>
-                           </select>
-                           <input onclick="javascript:document.userinfo.submit();" type="button" value="确定" />
+                           <!-- <select id="Province"></select>
+                           <select id="city"></select> -->
+                           <span id="city"></span>
+                           <input id="changeInfoBtn" class="submitBtn" type="button" value="确定" />
                         </td>
+                        <td></td>
                      </tr>
                   </table>
                </form>
                <hr />
                <b>修改密码</b><br />
-               <form action="/user/changepasswd.do" name="passwd" method="post" enctype="multipart/form-data">
+               <form action="/user/changepasswd.do" name="pass" method="post" enctype="multipart/form-data">
                   <table class="uinfoTb">
-                     <tr width="120">
-                        <td>我的旧密码:</td>
+                     <tr>
+                        <td width="120">我的旧密码:</td>
                         <td><input id="oldPass" name="oldPass" type="password" /></td>
+                        <td><span id="oldPassTip" class="cRed" style="display:none;">密码不能为空</span></td>
                      </tr>
                      <tr>
                         <td>我的新密码:</td>
                         <td><input id="newPass" name="newPass" type="password" /></td>
+                        <td><span id="newPassTip" class="cRed" style="display:none;">密码不能为空</span></td>
                      </tr>
                      <tr>
                         <td>再次输入新密码:</td>
@@ -88,6 +91,7 @@
                            <input id="newPass2" name="newPass2" type="password" />
                            <input onclick="javascript:document.passwd.submit();" type="button" value="确定" />
                         </td>
+                        <td><span id="newPass2Tip" class="cRed" style="display:none;">两次密码输入不一致</span></td>
                      </tr>
                   </table>
                </form>
