@@ -17,38 +17,38 @@ import com.caijing.dao.RechargeDao;
 import com.caijing.dao.UserrightDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Order;
-import com.caijing.domain.Recharge;
 
-@Transactional(readOnly = false)  
-@Service("orderManager") //对业务类进行事务增强的标注
+@Transactional(readOnly = false)
+@Service("orderManager")
+//对业务类进行事务增强的标注
 public class OrderManagerImpl implements OrderManager {
-	
+
 	@Autowired
 	@Qualifier("webUserDao")
 	private WebUserDao webUserDao = null;
-	
-	@Autowired  
+
+	@Autowired
 	@Qualifier("rechargeDao")
 	private RechargeDao rechargeDao;
-	
-	@Autowired  
+
+	@Autowired
 	@Qualifier("orderDao")
 	private OrderDao orderDao;
-	
-	@Autowired  
+
+	@Autowired
 	@Qualifier("userrightDAO")
 	private UserrightDAO userrightDao;
-	
-	@Autowired  
+
+	@Autowired
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
-	
+
 	@Autowired
 	@Qualifier("rechargeManager")
 	private RechargeManager rechargeManager = null;
-	
+
 	private static final Log logger = LogFactory.getLog(OrderManagerImpl.class);
-	
+
 	@Override
 	public void handleRecharge(String userid, int type, float cash) {
 		//recharge插入
@@ -63,19 +63,19 @@ public class OrderManagerImpl implements OrderManager {
 	 * @return
 	 */
 	@Override
-	public void handleOrder(String userid, List<Order> orders){
+	public void handleOrder(String userid, List<Order> orders) {
 		//消费money的总数
 		float sum = 0;
-		
+
 		//order消费插入
 		for (Order order : orders) {
 			orderDao.insert(order);
 			sum += order.getCost();
 		}
 		//user余额减少
-		webUserDao.updateRemainMoney(userid, sum*-1);
-		
+		webUserDao.updateRemainMoney(userid, sum * -1);
+
 		//userright权限更新
-		
+
 	}
 }

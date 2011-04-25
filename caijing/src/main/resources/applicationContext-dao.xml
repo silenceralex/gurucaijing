@@ -229,8 +229,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="orderDAO"
-		class="com.caijing.dao.ibatis.OrderDAO">
+	<bean id="orderDao"
+		class="com.caijing.dao.ibatis.OrderDao">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
 		</property>
