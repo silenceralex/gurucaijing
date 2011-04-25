@@ -230,7 +230,7 @@
 	</bean>	
 	
 	<bean id="orderDao"
-		class="com.caijing.dao.ibatis.OrderDao">
+		class="com.caijing.dao.ibatis.OrderDaoImpl">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
 		</property>
