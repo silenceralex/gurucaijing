@@ -28,5 +28,14 @@ public class WebUserDaoImpl extends CrudDaoDefault implements WebUserDao {
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean updateRemainMoney(String userid, float money){
+		Map<String, Object> params = new HashMap<String, Object>(2);
+		params.put("uid", userid);
+		params.put("money", money);
+		int row = getSqlMapClientTemplate().update(getNameSpace() + ".updateRemainMoney", params);
+		return row==1;
+	}
 
 }

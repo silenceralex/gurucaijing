@@ -50,6 +50,19 @@
   	where uid=#uid#
   </update>
 
+  <update id="updateRemainMoney" parameterClass="java.util.Map">
+  	update webuser
+  	<dynamic prepend="set">
+  		<isNotEmpty prepend="," property="money">
+  			remain = remain+#money#
+  		</isNotEmpty>
+  		<isNotEmpty prepend="," property="lmodify">
+  			lmodify = #lmodify#
+  		</isNotEmpty>
+  	</dynamic>
+  	where uid=#uid#
+  </update>
+
   <delete id="delete" parameterClass="WebUser">
     delete from webuser where uid=#uid#
   </delete>
