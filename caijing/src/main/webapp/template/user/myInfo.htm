@@ -54,8 +54,8 @@
                      <tr>
                         <td>性别:</td>
                         <td>
-                           <input id="man" type="radio" name="sex" value="1" #if($user.gender == 1)checked="checked" #end /><label for="man">男</label>
-                           <input id="woman" type="radio" name="sex" value="0" #if($user.gender == 0)checked="checked" #end /><label for="woman">女</label>
+                           <input id="man" type="radio" name="gender" value="1" #if($user.gender == 1)checked="checked" #end /><label for="man">男</label>
+                           <input id="woman" type="radio" name="gender" value="0" #if($user.gender == 0)checked="checked" #end /><label for="woman">女</label>
                         </td>
                         <td>&nbsp;</td>
                      </tr>
@@ -89,7 +89,7 @@
                         <td>再次输入新密码:</td>
                         <td>
                            <input id="newPass2" name="newPass2" type="password" />
-                           <input onclick="javascript:document.passwd.submit();" type="button" value="确定" />
+                           <input onclick="javascript:document.pass.submit();" type="button" value="确定" />
                         </td>
                         <td><span id="newPass2Tip" class="cRed" style="display:none;">两次密码输入不一致</span></td>
                      </tr>
