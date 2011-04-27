@@ -184,8 +184,8 @@
                if( cartItem ) {
                   t.cartArr = this.read('cart');
                }
-            };
-         });
+            }
+         })
       },
       buy : function ( id, num, price ) {
          var t = this;
@@ -194,7 +194,7 @@
             this.write( 'orderId', t.orderId );
             t.add( id, num, price );
             window.location.href = "";
-         }
+         })
       },
       // 清除购物车
       clear : function () {
@@ -552,14 +552,14 @@
       // 初始化
       init : function () {
          var t = this;
-         t.emailNode : $("#email");
-         t.pass1Node : $("#pass1");
-         t.pass2Node : $("#pass2");
-         t.nicknameNode : $("#nickname");
-         t.emailTipNode : $("#emailTip");
-         t.pass1TipNode : $("#pass1Tip");
-         t.pass2TipNode : $("#pass2Tip");
-         t.nicknameTipNode : $("#nicknameTip");
+         t.emailNode = $("#email");
+         t.pass1Node = $("#pass1");
+         t.pass2Node = $("#pass2");
+         t.nicknameNode = $("#nickname");
+         t.emailTipNode = $("#emailTip");
+         t.pass1TipNode = $("#pass1Tip");
+         t.pass2TipNode = $("#pass2Tip");
+         t.nicknameTipNode = $("#nicknameTip");
          // 绑定email验证事件
          $( t.emailNode ).bind("blur", function () {
             t.checkEmail();
