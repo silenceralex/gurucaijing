@@ -513,26 +513,32 @@
       },
       // 验证邮件格式
       checkEmail : function () {
+         var t = this;
          validator.checkEmail( t.emailNode, t.emailTipNode );
       },
       // 验证旧密码格式
       checkOldPass : function () {
+         var t = this;
          validator.checkPass( t.oldPassNode, t.oldPassTipNode );
       },
       // 验证新密码格式
       checkNewPass : function () {
+         var t = this;
          validator.checkPass( t.newPassNode, t.newPassTipNode );
       },
       // 验证两次新密码输入
       checkNewPass2 : function () {
+         var t = this;
          validator.checkPass2( t.newPassNode, t.newPass2Node, t.pass2TipNode );
       },
       // 验证昵称
       checkNick : function () {
+         var t = this;
          validator.checkNick( t.nicknameNode, t.nicknameTipNode );
       },
       // 验证手机
       checkMobile : function () {
+         var t = this;
          validator.checkMobile( t.mobileNode, t.mobileTipNode );
       },
       checkInfo : function () {
@@ -591,18 +597,22 @@
       },
       // 验证邮件格式
       checkEmail : function () {
+         var t = this;
          validator.checkEmail( t.emailNode, t.emailTipNode );
       },
       // 验证密码格式
       checkPass : function () {
+         var t = this;
          validator.checkVal( t.pass1Node, t.pass1TipNode );
       },
       // 验证两次密码输入
       checkPass2 : function () {
+         var t = this;
          validator.checkPass2( t.pass1Node, t.pass1Node, t.pass2TipNode );
       },
       // 验证昵称
       checkNick : function () {
+         var t = this;
          validator.checkPass2( t.nicknameNode, t.nicknameTipNode );
       },
       // 验证表单并提交
