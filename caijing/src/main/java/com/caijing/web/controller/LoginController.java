@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -164,6 +165,15 @@ public class LoginController {
 					System.out.println("nickname:" + user.getNickname());
 					request.getSession().setAttribute("currWebUser", user);
 					model.put("currWebUser", user);
+					response.setHeader("Cookie", "");
+					Cookie cookie = new Cookie("useremail", user.getEmail());
+					cookie.setDomain("51gurus");
+					cookie.setMaxAge(36000);
+					response.addCookie(cookie);
+					Cookie cookie2 = new Cookie("userid", user.getUid());
+					cookie2.setDomain("51gurus");
+					cookie2.setMaxAge(36000);
+					response.addCookie(cookie2);
 					response.sendRedirect("/user/myInfo.htm");
 					return null;
 				}
