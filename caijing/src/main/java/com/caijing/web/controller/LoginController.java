@@ -167,11 +167,11 @@ public class LoginController {
 					model.put("currWebUser", user);
 					response.setHeader("Cookie", "");
 					Cookie cookie = new Cookie("useremail", user.getEmail());
-					cookie.setDomain("51gurus");
+					cookie.setDomain("www.51gurus.com");
 					cookie.setMaxAge(36000);
 					response.addCookie(cookie);
 					Cookie cookie2 = new Cookie("userid", user.getUid());
-					cookie2.setDomain("51gurus");
+					cookie2.setDomain("51gurus.com");
 					cookie2.setMaxAge(36000);
 					response.addCookie(cookie2);
 					response.sendRedirect("/user/myInfo.htm");
