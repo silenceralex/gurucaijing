@@ -57,6 +57,12 @@
       #status:TINYINT#, #ctime:TIMESTAMP#, #lmodify:TIMESTAMP#)
   </insert>
   
+  <insert id="insertOrderPr" parameterClass="OrderPr" >
+    insert into order_pr (industryid, orderid, pid, num, cost, ctime, status)
+    values (#industryid:INTEGER#, #orderid:BIGINT#, #pid:INTEGER#, #num:INTEGER#, #cost:REAL#,
+      #ctime:TIMESTAMP#, #status:TINYINT#)
+  </insert>  
+  
   <insert id="insertSelective" parameterClass="Order" >
     insert into order
     <dynamic prepend="(" >
