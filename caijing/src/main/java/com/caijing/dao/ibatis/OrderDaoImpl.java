@@ -4,5 +4,8 @@ import com.caijing.dao.OrderDao;
 import com.caijing.util.CrudDaoDefault;
 
 public class OrderDaoImpl extends CrudDaoDefault implements OrderDao {
-
+	
+	public void selectWithOrderPr(){
+		
+	}
 }

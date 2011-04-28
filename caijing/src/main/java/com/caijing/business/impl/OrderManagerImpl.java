@@ -78,4 +78,42 @@ public class OrderManagerImpl implements OrderManager {
 		//userright权限更新
 
 	}
+	
+	/** 
+	 * 订单处理流程：
+	 * 1. 充值，insert Recharge，该充值未激活
+	 * 2. 等待接收银行的反馈，充值激活，updateRemainMoney(+)
+	 * 3. 根据Recharge记录的订单id, 激活订单, updateRemainMoney(-), 添加产品权限
+	 */
+	public boolean orderByRecharge(String userid, String rechargeid, String orderid){
+		
+		
+		return false;
+		
+	}
+	
+	/**
+	 * 1. 激活订单
+	 * 2. updateRemainMoney(-)
+	 * 3. 添加产品权限
+	 * @param userid
+	 * @param orderid
+	 * @return
+	 */
+	public boolean orderByRemain(String userid, String orderid){
+		//获取订单总金额
+		float sum = getOrderMoney(orderid);
+		//扣除user余额
+		webUserDao.updateRemainMoney(userid, sum * -1);
+		//更新userright权限
+		
+		
+		return true;
+		
+	}
+	
+	public float getOrderMoney(String orderid){
+		float sum = 0;
+		return sum;
+	}
 }

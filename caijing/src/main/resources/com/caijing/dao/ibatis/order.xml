@@ -2,7 +2,41 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="Order" >
 
-  <typeAlias alias="Order" type="Order" />
+  <typeAlias alias="Order" type="com.caijing.domain.Order" />
+  <typeAlias alias="OrderPr" type="com.caijing.domain.OrderPr" />
+  
+  <resultMap id="OrderPrMap" class="OrderPr" >
+    <result column="industryid" property="industryid" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="BIGINT" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="REAL" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <resultMap id="OrderMap" class="Order" groupBy="orderid">
+    <result column="orderid" jdbcType="BIGINT" property="orderid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="userid" jdbcType="BIGINT" property="userid" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="cost" jdbcType="REAL" property="cost" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="lmodify" jdbcType="TIMESTAMP" property="lmodify" />
+    <result property="OrderPrs" resultMap="Order.OrderPrMap" /> 
+  </resultMap>  
+
+  <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Order" >
+    select o.orderid, o.pid, o.userid, o.num, o.cost, o.status, o.ctime, o.lmodify
+    from 
+    	order as o
+    left join
+    	order_pr as p
+    on o.orderid = p.orderid
+    where d.orderid = #orderid:BIGINT#
+      and d.pid = #pid:INTEGER#
+  </select>
 
   <select id="select" resultClass="Order" parameterClass="Order" >
     select orderid, pid, userid, num, cost, status, ctime, lmodify
@@ -10,6 +44,7 @@
     where orderid = #orderid:BIGINT#
       and pid = #pid:INTEGER#
   </select>
+  
   <delete id="delete" parameterClass="Order" >
     delete from order
     where orderid = #orderid:BIGINT#

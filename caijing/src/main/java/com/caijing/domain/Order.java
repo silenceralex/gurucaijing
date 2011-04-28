@@ -1,6 +1,7 @@
 package com.caijing.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 
@@ -12,6 +13,15 @@ public class Order {
 	private Byte status;
 	private Date ctime;
 	private Date lmodify;
+	private List<OrderPr> OrderPrs;
+
+	public List<OrderPr> getOrderPrs() {
+		return OrderPrs;
+	}
+
+	public void setOrderPrs(List<OrderPr> orderPrs) {
+		OrderPrs = orderPrs;
+	}
 
 	public Long getOrderid() {
 		return orderid;
