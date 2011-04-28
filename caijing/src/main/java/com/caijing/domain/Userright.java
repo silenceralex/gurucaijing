@@ -6,17 +6,26 @@ import java.util.Date;
  * userright用户权限表
  */
 public class Userright {
-	private Integer uid;
+	private String uid;
 	private Date fromdate;
 	private Date todate;
 	private String path;
 	private Byte valid;
+	private String industry;
 
-	public Integer getUid() {
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
+
+	public String getUid() {
 		return uid;
 	}
 
-	public void setUid(Integer uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 

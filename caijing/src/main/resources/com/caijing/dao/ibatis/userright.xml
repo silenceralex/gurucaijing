@@ -9,14 +9,23 @@
     from userright
     where uid = #uid:INTEGER#
   </select>
+  
+  <select id="getIndustriesByUserid" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+  	select distinct(industry) from userright where uid=#uid# and valid=1 and path=#path#
+  </select>
+  
+    <select id="getUserrightByUserid" parameterClass="java.lang.String" resultClass="Userright">
+  	select * from userright where uid=#value# and valid=1
+  </select>
   <delete id="delete" parameterClass="Userright">
     delete from userright
     where uid = #uid:INTEGER#
   </delete>
   <insert id="insert" parameterClass="Userright">
-    insert into userright (uid, fromdate, todate, path, valid)
-    values (#uid:INTEGER#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#)
+    insert into userright (uid, fromdate, todate, path, valid,industry)
+    values (#uid:INTEGER#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#,#industry:VARCHAR#)
   </insert>
+  
   <insert id="insertSelective" parameterClass="Userright">
     insert into userright
     <dynamic prepend="(">

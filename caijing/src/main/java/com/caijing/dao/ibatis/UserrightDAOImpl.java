@@ -1,8 +1,27 @@
 package com.caijing.dao.ibatis;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.caijing.dao.UserrightDAO;
+import com.caijing.domain.Userright;
 import com.caijing.util.CrudDaoDefault;
 
 public class UserrightDAOImpl extends CrudDaoDefault implements UserrightDAO {
+
+	@Override
+	public List<String> getIndustriesByUserid(String uid, String path) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("uid", uid);
+		params.put("path", path);
+		return (List<String>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getIndustriesByUserid", params);
+	}
+
+	@Override
+	public List<Userright> getUserrightByUserid(String userid) {
+		return (List<Userright>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getUserrightByUserid",
+				userid);
+	}
 
 }

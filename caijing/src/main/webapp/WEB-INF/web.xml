@@ -141,6 +141,11 @@
 		<filter-name>Authority Filter</filter-name>
 		<url-pattern>/user/*</url-pattern>
 	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/analyzer/*</url-pattern>
+	</filter-mapping>
 
 	<servlet>
 		<servlet-name>RandImage</servlet-name>

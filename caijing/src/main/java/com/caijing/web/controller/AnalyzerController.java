@@ -24,12 +24,14 @@ import com.caijing.dao.GroupEarnDao;
 import com.caijing.dao.GroupStockDao;
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.dao.StockEarnDao;
+import com.caijing.dao.UserrightDAO;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.GroupEarn;
 import com.caijing.domain.GroupStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.domain.Report;
 import com.caijing.domain.StockEarn;
+import com.caijing.domain.WebUser;
 import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.GroupGain;
@@ -63,6 +65,10 @@ public class AnalyzerController {
 	@Autowired
 	@Qualifier("recommendSuccessDao")
 	private RecommendSuccessDao recommendSuccessDao = null;
+
+	@Autowired
+	@Qualifier("userrightDAO")
+	private UserrightDAO userrightDao = null;
 
 	@Autowired
 	@Qualifier("groupGain")
@@ -278,4 +284,13 @@ public class AnalyzerController {
 		model.put("floatUtil", new FloatUtil());
 		return "/admin/anayzersuccess.htm";
 	}
+
+	@RequestMapping("/analyzer/industry.htm")
+	public String getAnalyzerIndustry(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		WebUser user = (WebUser) request.getSession().getAttribute("currWebUser");
+		List<String> industryList = userrightDao.getIndustriesByUserid(user.getUid(), "analyzer");
+		model.put("industryList", industryList);
+		return "/template/industryList.htm";
+	}
+
 }

@@ -14,7 +14,7 @@ public interface OrderManager {
 	 * recharge插入 user余额更新
 	 */
 	public void handleRecharge(String userid, int type, float cash);
-	
+
 	/**
 	 * order消费插入 userright权限更新
 	 */
@@ -23,7 +23,7 @@ public interface OrderManager {
 	/**
 	 * 非充值购买流程 recharge插入 user余额更新 order消费插入 userright权限更新，session刷新
 	 */
-//	boolean orderByRemain();
-//	public boolean orderByRecharge(String userid, int type, float cash);
+	//	boolean orderByRemain();
+	//	public boolean orderByRecharge(String userid, int type, float cash);
 
 }
