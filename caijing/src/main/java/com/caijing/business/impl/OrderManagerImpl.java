@@ -65,7 +65,7 @@ public class OrderManagerImpl implements OrderManager {
 	 * 3. 根据Recharge记录的订单id, 激活订单,updateRemainMoney(-), 添加产品权限
 	 */
 	@Override
-	public boolean orderByRecharge(String userid, long rechargeid, long orderid) {
+	public void orderByRecharge(String userid, long rechargeid, long orderid) {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
 		if (recharge.getStatus() == 1) {
 			Order order = orderDao.selectWithOrderPr(orderid);
@@ -78,11 +78,8 @@ public class OrderManagerImpl implements OrderManager {
 					products.add(pid);
 				}
 			}
-			boolean isok = orderByRemain(userid, orderid, products);
-			return isok;
-		} else {
-			return false;
-		}
+			orderByRemain(userid, orderid, products);
+		} 
 	}
 
 	/**
@@ -93,8 +90,21 @@ public class OrderManagerImpl implements OrderManager {
 	 * @return
 	 */
 	@Override
-	public boolean orderByRemain(String userid, long orderid,
-			List<Integer> products) {
+	public void orderByRemain(String userid, long orderid){
+		Order order = orderDao.selectWithOrderPr(orderid);
+		List<OrderPr> orderPrs = order.getOrderPrs();
+		List<Integer> products = null;
+		if (orderPrs != null) {
+			products = new LinkedList<Integer>();
+			for (OrderPr orderPr : orderPrs) {
+				Integer pid = orderPr.getPid();
+				products.add(pid);
+			}
+		}
+		orderByRemain(userid, orderid, products);
+	}
+	
+	private void orderByRemain(String userid, long orderid, List<Integer> products) {
 		// 获取订单总金额
 		Order order = (Order) orderDao.select(orderid);
 		float sum = order.getCost();
@@ -107,10 +117,7 @@ public class OrderManagerImpl implements OrderManager {
 
 			// 更新userright权限
 			saveUserright(userid, orderid, products);
-			return true;
-		} else {
-			return false;
-		}
+		} 
 	}
 
 	/**
@@ -213,5 +220,20 @@ public class OrderManagerImpl implements OrderManager {
 		order.setStatus((byte) 0);
 		order.setCost(sum);
 		orderDao.insert(order);
+	}
+	
+	/**
+	 * 返回用户权限，用于刷新session
+	 */
+	@Override
+	public List<Userright> getUserrightsByUserid(String userid){
+//		List<Userright> rights = userrightDao.getUserrightByUserid(userid);
+//		List<String> paths = null;
+//		if(rights!=null){
+//			for (Userright right : rights) {
+//				paths.add(right.getPath());
+//			}
+//		}
+		return userrightDao.getUserrightByUserid(userid);
 	}
 }

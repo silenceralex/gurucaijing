@@ -3,6 +3,8 @@ package com.caijing.business;
 import java.util.List;
 import java.util.Map;
 
+import com.caijing.domain.Userright;
+
 
 /**
  * 充值消费流程控制
@@ -14,8 +16,10 @@ public interface OrderManager {
 
 	void saveUserright(String userid, long orderid, List<Integer> products);
 
-	boolean orderByRemain(String userid, long orderid, List<Integer> products);
+	void orderByRecharge(String userid, long rechargeid, long orderid);
 
-	boolean orderByRecharge(String userid, long rechargeid, long orderid);
+	void orderByRemain(String userid, long orderid);
+
+	List<Userright> getUserrightsByUserid(String userid);
 
 }
