@@ -52,10 +52,6 @@ public class OrderManagerImpl implements OrderManager {
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
 
-	@Autowired
-	@Qualifier("rechargeManager")
-	private RechargeManager rechargeManager = null;
-
 	private static final Log logger = LogFactory.getLog(OrderManagerImpl.class);
 
 	/**
