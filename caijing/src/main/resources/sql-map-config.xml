@@ -29,4 +29,5 @@
 	<sqlMap resource="com/caijing/dao/ibatis/Recharge.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/userright.xml" />
 	<sqlMap resource="com/caijing/dao/ibatis/product.xml" />
+	<sqlMap resource="com/caijing/dao/ibatis/order.xml" />
 </sqlMapConfig>
