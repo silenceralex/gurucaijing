@@ -6,7 +6,7 @@ import java.util.List;
 public class Order {
 
 	private Long orderid;
-	private Long userid;
+	private String userid;
 	private Float cost;
 	private Byte status;
 	private Date ctime;
@@ -29,11 +29,11 @@ public class Order {
 		this.orderid = orderid;
 	}
 
-	public Long getUserid() {
+	public String getUserid() {
 		return userid;
 	}
 
-	public void setUserid(Long userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 

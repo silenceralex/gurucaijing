@@ -5,27 +5,29 @@
   <typeAlias alias="Userright" type="com.caijing.domain.Userright" />
 
   <select id="select" parameterClass="Userright" resultClass="Userright">
-    select uid, fromdate, todate, path, valid
+    select uid, fromdate, todate, path, valid, industry
     from userright
-    where uid = #uid:INTEGER#
+    where uid = #uid:VARCHAR#
+      and path = #path:VARCHAR#
   </select>
   
   <select id="getIndustriesByUserid" parameterClass="java.util.HashMap" resultClass="java.lang.String">
   	select distinct(industry) from userright where uid=#uid# and valid=1 and path=#path#
   </select>
   
-    <select id="getUserrightByUserid" parameterClass="java.lang.String" resultClass="Userright">
+  <select id="getUserrightByUserid" parameterClass="java.lang.String" resultClass="Userright">
   	select * from userright where uid=#value# and valid=1
   </select>
+  
   <delete id="delete" parameterClass="Userright">
     delete from userright
-    where uid = #uid:INTEGER#
+    where uid = #uid:VARCHAR#
   </delete>
   <insert id="insert" parameterClass="Userright">
-    insert into userright (uid, fromdate, todate, path, valid,industry)
-    values (#uid:INTEGER#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#,#industry:VARCHAR#)
+    insert into userright (uid, fromdate, todate, path, valid, industry)
+    values (#uid:VARCHAR#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#,
+      #industry:VARCHAR#)
   </insert>
-  
   <insert id="insertSelective" parameterClass="Userright">
     insert into userright
     <dynamic prepend="(">
@@ -44,12 +46,15 @@
       <isNotNull prepend="," property="valid">
         valid
       </isNotNull>
+      <isNotNull prepend="," property="industry">
+        industry
+      </isNotNull>
       )
     </dynamic>
     values
     <dynamic prepend="(">
       <isNotNull prepend="," property="uid">
-        #uid:INTEGER#
+        #uid:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="fromdate">
         #fromdate:DATE#
@@ -63,10 +68,14 @@
       <isNotNull prepend="," property="valid">
         #valid:TINYINT#
       </isNotNull>
+      <isNotNull prepend="," property="industry">
+        #industry:VARCHAR#
+      </isNotNull>
       )
     </dynamic>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterClass="Userright">
+  
+  <update id="updateSelective" parameterClass="Userright">
     update userright
     <dynamic prepend="set">
       <isNotNull prepend="," property="fromdate">
@@ -75,21 +84,11 @@
       <isNotNull prepend="," property="todate">
         todate = #todate:DATE#
       </isNotNull>
-      <isNotNull prepend="," property="path">
-        path = #path:VARCHAR#
-      </isNotNull>
       <isNotNull prepend="," property="valid">
         valid = #valid:TINYINT#
       </isNotNull>
     </dynamic>
     where uid = #uid:INTEGER#
-  </update>
-  <update id="update" parameterClass="Userright">
-    update userright
-    set fromdate = #fromdate:DATE#,
-      todate = #todate:DATE#,
-      path = #path:VARCHAR#,
-      valid = #valid:TINYINT#
-    where uid = #uid:INTEGER#
-  </update>
+      and path = #path:VARCHAR#
+  </update>  
 </sqlMap>

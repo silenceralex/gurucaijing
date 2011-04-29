@@ -23,5 +23,10 @@ public class UserrightDAOImpl extends CrudDaoDefault implements UserrightDAO {
 		return (List<Userright>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getUserrightByUserid",
 				userid);
 	}
-
+	
+	@Override
+	public boolean updateSelective(Userright userright) {
+		int count = getSqlMapClientTemplate().update(getNameSpace() + ".updateSelective", userright);
+		return count==1;
+	}
 }

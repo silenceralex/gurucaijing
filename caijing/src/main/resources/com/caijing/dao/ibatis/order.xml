@@ -16,7 +16,7 @@
   
   <resultMap id="OrderMap" class="Order" groupBy="orderid">
     <result column="orderid" jdbcType="BIGINT" property="orderid" />
-    <result column="userid" jdbcType="BIGINT" property="userid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
     <result column="cost" jdbcType="REAL" property="cost" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
@@ -24,7 +24,7 @@
     <result property="orderPrs" resultMap="Order.OrderPrMap" /> 
   </resultMap>  
 
-  <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Order" >
+  <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Long" >
     select o.orderid, o.userid, o.cost, o.status, o.ctime, o.lmodify
     from 
     	order as o
@@ -47,7 +47,7 @@
 
   <insert id="insert" parameterClass="Order" >
     insert into order (orderid, userid, cost, status, ctime, lmodify)
-    values (#orderid:BIGINT#, #userid:BIGINT#, #cost:REAL#, #status:TINYINT#, #ctime:TIMESTAMP#,
+    values (#orderid:BIGINT#, #userid:VARCHAR#, #cost:REAL#, #status:TINYINT#, #ctime:TIMESTAMP#,
       #lmodify:TIMESTAMP#)
   </insert>
   
@@ -86,7 +86,7 @@
         #orderid:BIGINT#
       </isNotNull>
       <isNotNull prepend="," property="userid">
-        #userid:BIGINT#
+        #userid:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="cost">
         #cost:REAL#
@@ -108,7 +108,7 @@
     update order
     <dynamic prepend="set">
       <isNotNull prepend="," property="userid">
-        userid = #userid:BIGINT#
+        userid = #userid:VARCHAR#
       </isNotNull>
       <isNotNull prepend="," property="cost">
         cost = #cost:REAL#
@@ -127,7 +127,7 @@
   </update>
   <update id="update" parameterClass="Order" >
     update order
-    set userid = #userid:BIGINT#,
+    set userid = #userid:VARCHAR#,
       cost = #cost:REAL#,
       status = #status:TINYINT#,
       ctime = #ctime:TIMESTAMP#,
