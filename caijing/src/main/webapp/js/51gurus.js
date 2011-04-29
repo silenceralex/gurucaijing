@@ -298,6 +298,7 @@
          var t = this,
          isExist = false;
          id = "p" + id;
+         price = t.pObj[id].price;
          var total = { num : 0, price : 0 };
          for ( var i = 0; i < t.cartArr; i ++ ) {
             total.num += t.cartArr[i].num;
