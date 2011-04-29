@@ -48,7 +48,6 @@ public class OrderController {
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
 	
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)

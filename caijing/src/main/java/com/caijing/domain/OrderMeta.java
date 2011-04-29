@@ -1,9 +1,10 @@
 package com.caijing.domain;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Order {
+public class OrderMeta {
 
 	private Long orderid;
 	private String userid;
@@ -11,7 +12,7 @@ public class Order {
 	private Byte status;
 	private Date ctime;
 	private Date lmodify;
-	private List<OrderPr> orderPrs;
+	private List<OrderPr> orderPrs = new LinkedList<OrderPr>();
 
 	public List<OrderPr> getOrderPrs() {
 		return orderPrs;

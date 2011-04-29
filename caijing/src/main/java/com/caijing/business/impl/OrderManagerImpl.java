@@ -20,14 +20,14 @@ import com.caijing.dao.ProductDAO;
 import com.caijing.dao.RechargeDao;
 import com.caijing.dao.UserrightDAO;
 import com.caijing.dao.WebUserDao;
-import com.caijing.domain.Order;
+import com.caijing.domain.OrderMeta;
 import com.caijing.domain.OrderPr;
 import com.caijing.domain.Product;
 import com.caijing.domain.Recharge;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
-@Transactional(readOnly = false)
+//@Transactional(readOnly = false)
 @Service("orderManager")
 // 对业务类进行事务增强的标注
 public class OrderManagerImpl implements OrderManager {
@@ -68,7 +68,7 @@ public class OrderManagerImpl implements OrderManager {
 	public void orderByRecharge(String userid, long rechargeid, long orderid) {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
 		if (recharge.getStatus() == 1) {
-			Order order = orderDao.selectWithOrderPr(orderid);
+			OrderMeta order = orderDao.selectWithOrderPr(orderid);
 			List<OrderPr> orderPrs = order.getOrderPrs();
 			List<Integer> products = null;
 			if (orderPrs != null) {
@@ -91,7 +91,7 @@ public class OrderManagerImpl implements OrderManager {
 	 */
 	@Override
 	public void orderByRemain(String userid, long orderid){
-		Order order = orderDao.selectWithOrderPr(orderid);
+		OrderMeta order = orderDao.selectWithOrderPr(orderid);
 		List<OrderPr> orderPrs = order.getOrderPrs();
 		List<Integer> products = null;
 		if (orderPrs != null) {
@@ -106,7 +106,7 @@ public class OrderManagerImpl implements OrderManager {
 	
 	private void orderByRemain(String userid, long orderid, List<Integer> products) {
 		// 获取订单总金额
-		Order order = (Order) orderDao.select(orderid);
+		OrderMeta order = (OrderMeta) orderDao.select(orderid);
 		float sum = order.getCost();
 
 		// 扣除user余额(需要进行验证，以防负金额出现)
@@ -211,7 +211,7 @@ public class OrderManagerImpl implements OrderManager {
 		}
 
 		// insert order
-		Order order = new Order();
+		OrderMeta order = new OrderMeta();
 		order.setUserid(userid);
 		order.setOrderid(orderid);
 		order.setCtime(ctime);

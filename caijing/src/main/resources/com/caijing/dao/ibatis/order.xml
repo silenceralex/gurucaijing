@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="Order" >
 
-  <typeAlias alias="Order" type="com.caijing.domain.Order" />
+  <typeAlias alias="OrderMeta" type="com.caijing.domain.OrderMeta" />
   <typeAlias alias="OrderPr" type="com.caijing.domain.OrderPr" />
   
   <resultMap id="OrderPrMap" class="OrderPr" >
@@ -14,7 +14,7 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
   </resultMap>
   
-  <resultMap id="OrderMap" class="Order" groupBy="orderid">
+  <resultMap id="OrderMap" class="OrderMeta" groupBy="orderid">
     <result column="orderid" jdbcType="BIGINT" property="orderid" />
     <result column="userid" jdbcType="VARCHAR" property="userid" />
     <result column="cost" jdbcType="REAL" property="cost" />
@@ -27,28 +27,27 @@
   <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Long" >
     select o.orderid, o.userid, o.cost, o.status, o.ctime, o.lmodify
     from 
-    	order as o
+    	order_meta as o
     left join
     	order_pr as p
     on o.orderid = p.orderid
     where d.orderid = #orderid:BIGINT#
   </select>
 
-  <select id="select" resultClass="Order" parameterClass="Order" >
+  <select id="select" resultClass="OrderMeta" parameterClass="OrderMeta" >
     select orderid, userid, cost, status, ctime, lmodify
-    from order
+    from order_meta
     where orderid = #orderid:BIGINT#
   </select>
   
-  <delete id="delete" parameterClass="Order" >
-    delete from order
+  <delete id="delete" parameterClass="OrderMeta" >
+    delete from order_meta
     where orderid = #orderid:BIGINT#
   </delete>
 
-  <insert id="insert" parameterClass="Order" >
-    insert into order (orderid, userid, cost, status, ctime, lmodify)
-    values (#orderid:BIGINT#, #userid:VARCHAR#, #cost:REAL#, #status:TINYINT#, #ctime:TIMESTAMP#,
-      #lmodify:TIMESTAMP#)
+  <insert id="insert" parameterClass="OrderMeta" >
+    insert into order_meta (orderid, userid, cost, status, ctime, lmodify)
+	values (#orderid:BIGINT#, #userid:VARCHAR#, #cost:REAL#, #status:TINYINT#, #ctime:TIMESTAMP#, #lmodify:TIMESTAMP#)
   </insert>
   
   <insert id="insertOrderPr" parameterClass="OrderPr" >
@@ -57,8 +56,8 @@
       #ctime:TIMESTAMP#)
   </insert>  
   
-  <insert id="insertSelective" parameterClass="Order" >
-    insert into order
+  <insert id="insertSelective" parameterClass="OrderMeta" >
+    insert into order_meta
     <dynamic prepend="(">
       <isNotNull prepend="," property="orderid">
         orderid
@@ -104,8 +103,8 @@
     </dynamic>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterClass="Order" >
-    update order
+  <update id="updateByPrimaryKeySelective" parameterClass="OrderMeta" >
+    update order_meta
     <dynamic prepend="set">
       <isNotNull prepend="," property="userid">
         userid = #userid:VARCHAR#
@@ -125,8 +124,9 @@
     </dynamic>
     where orderid = #orderid:BIGINT#
   </update>
-  <update id="update" parameterClass="Order" >
-    update order
+  
+  <update id="update" parameterClass="OrderMeta" >
+    update order_meta
     set userid = #userid:VARCHAR#,
       cost = #cost:REAL#,
       status = #status:TINYINT#,
