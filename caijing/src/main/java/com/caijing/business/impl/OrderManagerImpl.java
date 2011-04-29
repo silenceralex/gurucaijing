@@ -189,8 +189,7 @@ public class OrderManagerImpl implements OrderManager {
 	 * 保存订单
 	 */
 	@Override
-	public void saveOrder(String userid, long orderid,
-			List<Map<String, Object>> products) {
+	public void saveOrder(String userid, long orderid, List<Map<String, Object>> products) {
 		Date ctime = new Date();
 		// 订单总金额
 		float sum = 0;
