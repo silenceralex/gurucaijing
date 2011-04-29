@@ -6,20 +6,17 @@
   <typeAlias alias="OrderPr" type="com.caijing.domain.OrderPr" />
   
   <resultMap id="OrderPrMap" class="OrderPr" >
-    <result column="industryid" property="industryid" jdbcType="INTEGER" />
-    <result column="orderid" property="orderid" jdbcType="BIGINT" />
-    <result column="pid" property="pid" jdbcType="INTEGER" />
-    <result column="num" property="num" jdbcType="INTEGER" />
-    <result column="cost" property="cost" jdbcType="REAL" />
-    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="industryid" jdbcType="INTEGER" property="industryid" />
+    <result column="orderid" jdbcType="BIGINT" property="orderid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="cost" jdbcType="REAL" property="cost" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
   </resultMap>
   
   <resultMap id="OrderMap" class="Order" groupBy="orderid">
     <result column="orderid" jdbcType="BIGINT" property="orderid" />
-    <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="userid" jdbcType="BIGINT" property="userid" />
-    <result column="num" jdbcType="INTEGER" property="num" />
     <result column="cost" jdbcType="REAL" property="cost" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
@@ -28,94 +25,79 @@
   </resultMap>  
 
   <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Order" >
-    select o.orderid, o.pid, o.userid, o.num, o.cost, o.status, o.ctime, o.lmodify
+    select o.orderid, o.userid, o.cost, o.status, o.ctime, o.lmodify
     from 
     	order as o
     left join
     	order_pr as p
     on o.orderid = p.orderid
     where d.orderid = #orderid:BIGINT#
-      and d.pid = #pid:INTEGER#
   </select>
 
   <select id="select" resultClass="Order" parameterClass="Order" >
-    select orderid, pid, userid, num, cost, status, ctime, lmodify
+    select orderid, userid, cost, status, ctime, lmodify
     from order
     where orderid = #orderid:BIGINT#
-      and pid = #pid:INTEGER#
   </select>
   
   <delete id="delete" parameterClass="Order" >
     delete from order
     where orderid = #orderid:BIGINT#
-      and pid = #pid:INTEGER#
   </delete>
 
   <insert id="insert" parameterClass="Order" >
-    insert into order (orderid, pid, userid, num, cost, status, ctime, lmodify)
-    values (#orderid:BIGINT#, #pid:INTEGER#, #userid:BIGINT#, #num:INTEGER#, #cost:REAL#,
-      #status:TINYINT#, #ctime:TIMESTAMP#, #lmodify:TIMESTAMP#)
+    insert into order (orderid, userid, cost, status, ctime, lmodify)
+    values (#orderid:BIGINT#, #userid:BIGINT#, #cost:REAL#, #status:TINYINT#, #ctime:TIMESTAMP#,
+      #lmodify:TIMESTAMP#)
   </insert>
   
   <insert id="insertOrderPr" parameterClass="OrderPr" >
-    insert into order_pr (industryid, orderid, pid, num, cost, ctime, status)
+    insert into order_pr (industryid, orderid, pid, num, cost, ctime)
     values (#industryid:INTEGER#, #orderid:BIGINT#, #pid:INTEGER#, #num:INTEGER#, #cost:REAL#,
-      #ctime:TIMESTAMP#, #status:TINYINT#)
+      #ctime:TIMESTAMP#)
   </insert>  
   
   <insert id="insertSelective" parameterClass="Order" >
     insert into order
-    <dynamic prepend="(" >
-      <isNotNull prepend="," property="orderid" >
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="orderid">
         orderid
       </isNotNull>
-      <isNotNull prepend="," property="pid" >
-        pid
-      </isNotNull>
-      <isNotNull prepend="," property="userid" >
+      <isNotNull prepend="," property="userid">
         userid
       </isNotNull>
-      <isNotNull prepend="," property="num" >
-        num
-      </isNotNull>
-      <isNotNull prepend="," property="cost" >
+      <isNotNull prepend="," property="cost">
         cost
       </isNotNull>
-      <isNotNull prepend="," property="status" >
+      <isNotNull prepend="," property="status">
         status
       </isNotNull>
-      <isNotNull prepend="," property="ctime" >
+      <isNotNull prepend="," property="ctime">
         ctime
       </isNotNull>
-      <isNotNull prepend="," property="lmodify" >
+      <isNotNull prepend="," property="lmodify">
         lmodify
       </isNotNull>
       )
     </dynamic>
     values
-    <dynamic prepend="(" >
-      <isNotNull prepend="," property="orderid" >
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="orderid">
         #orderid:BIGINT#
       </isNotNull>
-      <isNotNull prepend="," property="pid" >
-        #pid:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="userid" >
+      <isNotNull prepend="," property="userid">
         #userid:BIGINT#
       </isNotNull>
-      <isNotNull prepend="," property="num" >
-        #num:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="cost" >
+      <isNotNull prepend="," property="cost">
         #cost:REAL#
       </isNotNull>
-      <isNotNull prepend="," property="status" >
+      <isNotNull prepend="," property="status">
         #status:TINYINT#
       </isNotNull>
-      <isNotNull prepend="," property="ctime" >
+      <isNotNull prepend="," property="ctime">
         #ctime:TIMESTAMP#
       </isNotNull>
-      <isNotNull prepend="," property="lmodify" >
+      <isNotNull prepend="," property="lmodify">
         #lmodify:TIMESTAMP#
       </isNotNull>
       )
@@ -124,38 +106,32 @@
 
   <update id="updateByPrimaryKeySelective" parameterClass="Order" >
     update order
-    <dynamic prepend="set" >
-      <isNotNull prepend="," property="userid" >
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="userid">
         userid = #userid:BIGINT#
       </isNotNull>
-      <isNotNull prepend="," property="num" >
-        num = #num:INTEGER#
-      </isNotNull>
-      <isNotNull prepend="," property="cost" >
+      <isNotNull prepend="," property="cost">
         cost = #cost:REAL#
       </isNotNull>
-      <isNotNull prepend="," property="status" >
+      <isNotNull prepend="," property="status">
         status = #status:TINYINT#
       </isNotNull>
-      <isNotNull prepend="," property="ctime" >
+      <isNotNull prepend="," property="ctime">
         ctime = #ctime:TIMESTAMP#
       </isNotNull>
-      <isNotNull prepend="," property="lmodify" >
+      <isNotNull prepend="," property="lmodify">
         lmodify = #lmodify:TIMESTAMP#
       </isNotNull>
     </dynamic>
     where orderid = #orderid:BIGINT#
-      and pid = #pid:INTEGER#
   </update>
   <update id="update" parameterClass="Order" >
     update order
     set userid = #userid:BIGINT#,
-      num = #num:INTEGER#,
       cost = #cost:REAL#,
       status = #status:TINYINT#,
       ctime = #ctime:TIMESTAMP#,
       lmodify = #lmodify:TIMESTAMP#
     where orderid = #orderid:BIGINT#
-      and pid = #pid:INTEGER#
   </update>
 </sqlMap>
