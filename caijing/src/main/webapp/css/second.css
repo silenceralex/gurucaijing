@@ -147,6 +147,8 @@ hr {height:1px;border:none;border-top:#CCC solid 1px;}
 .myInfo{line-height:30px;}
 .myAccount{line-height:24px;}
 .myAccount table{border:#CCC solid 1px;border-collapse:collapse;margin-top:10px;}
+#city select{width:100px;}
+.submitBtn{width:60px;height:22px;}
 
 /* 对话框 */
 .dialogS {width:260px;height:100px;padding:10px;background:#FFF;border:#CCC solid 1px;position:absolute;visibility:hidden;}
