@@ -16,6 +16,6 @@ public interface OrderManager {
 
 	boolean orderByRemain(String userid, long orderid, List<Integer> products);
 
-	boolean orderByRecharge(String userid, String rechargeid, long orderid);
+	boolean orderByRecharge(String userid, long rechargeid, long orderid);
 
 }

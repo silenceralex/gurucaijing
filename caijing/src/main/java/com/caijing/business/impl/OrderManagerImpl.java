@@ -52,6 +52,10 @@ public class OrderManagerImpl implements OrderManager {
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
 
+	@Autowired
+	@Qualifier("rechargeManager")
+	private RechargeManager rechargeManager = null;
+
 	private static final Log logger = LogFactory.getLog(OrderManagerImpl.class);
 
 	/**
@@ -61,8 +65,7 @@ public class OrderManagerImpl implements OrderManager {
 	 * 3. 根据Recharge记录的订单id, 激活订单,updateRemainMoney(-), 添加产品权限
 	 */
 	@Override
-	public boolean orderByRecharge(String userid, String rechargeid,
-			long orderid) {
+	public boolean orderByRecharge(String userid, long rechargeid, long orderid) {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
 		if (recharge.getStatus() == 1) {
 			Order order = orderDao.selectWithOrderPr(orderid);
