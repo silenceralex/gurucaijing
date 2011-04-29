@@ -21,7 +21,7 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="lmodify" jdbcType="TIMESTAMP" property="lmodify" />
-    <result property="OrderPrs" resultMap="Order.OrderPrMap" /> 
+    <result property="orderPrs" resultMap="Order.OrderPrMap" /> 
   </resultMap>  
 
   <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Order" >
