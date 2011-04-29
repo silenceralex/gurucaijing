@@ -2,6 +2,7 @@ package com.caijing.business.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -70,15 +71,9 @@ public class OrderManagerImpl implements OrderManager {
 		if (recharge.getStatus() == 1) {
 			OrderMeta order = orderDao.selectWithOrderPr(orderid);
 			List<OrderPr> orderPrs = order.getOrderPrs();
-			List<Integer> products = null;
 			if (orderPrs != null) {
-				products = new LinkedList<Integer>();
-				for (OrderPr orderPr : orderPrs) {
-					Integer pid = orderPr.getPid();
-					products.add(pid);
-				}
+				orderByRemain(userid, orderid, orderPrs);
 			}
-			orderByRemain(userid, orderid, products);
 		} 
 	}
 
@@ -93,18 +88,12 @@ public class OrderManagerImpl implements OrderManager {
 	public void orderByRemain(String userid, long orderid){
 		OrderMeta order = orderDao.selectWithOrderPr(orderid);
 		List<OrderPr> orderPrs = order.getOrderPrs();
-		List<Integer> products = null;
 		if (orderPrs != null) {
-			products = new LinkedList<Integer>();
-			for (OrderPr orderPr : orderPrs) {
-				Integer pid = orderPr.getPid();
-				products.add(pid);
-			}
+			orderByRemain(userid, orderid, orderPrs);
 		}
-		orderByRemain(userid, orderid, products);
 	}
 	
-	private void orderByRemain(String userid, long orderid, List<Integer> products) {
+	private void orderByRemain(String userid, long orderid, List<OrderPr> orderPrs) {
 		// 获取订单总金额
 		OrderMeta order = (OrderMeta) orderDao.select(orderid);
 		float sum = order.getCost();
@@ -116,7 +105,7 @@ public class OrderManagerImpl implements OrderManager {
 			webUserDao.updateRemainMoney(userid, sum * -1);
 
 			// 更新userright权限
-			saveUserright(userid, orderid, products);
+			saveUserright(userid, orderid, orderPrs);
 		} 
 	}
 
@@ -129,10 +118,10 @@ public class OrderManagerImpl implements OrderManager {
 	 * @return
 	 */
 	@Override
-	public void saveUserright(String userid, long orderid,
-			List<Integer> products) {
-		for (Integer pid : products) {
-			Product product = (Product) productDAO.select(pid);
+	public void saveUserright(String userid, long orderid, List<OrderPr> orderPrs) {
+		for (OrderPr orderPr : orderPrs) {
+			//Integer num = (Integer) product.get("num");
+			Product product = (Product) productDAO.select(orderPr.getPid());
 			String[] paths = product.getRightpaths().split("\\s+");
 			int continuedmonth = product.getContinuedmonth();
 
@@ -140,6 +129,7 @@ public class OrderManagerImpl implements OrderManager {
 				Userright right = new Userright();
 				right.setUid(userid);
 				right.setPath(path);
+				right.setIndustry(orderPr.getIndustryid());
 				right = ((Userright) userrightDao.select(right));
 
 				Date now = new Date();
@@ -201,7 +191,7 @@ public class OrderManagerImpl implements OrderManager {
 			OrderPr orderPr = new OrderPr();
 			orderPr.setOrderid(orderid);
 			orderPr.setPid(pid);
-			orderPr.setIndustryid((Integer) product.get("industryid"));
+			orderPr.setIndustryid((String) product.get("industryid"));
 			orderPr.setNum(num);
 			float price = ((Product) productDAO.select(pid)).getPrice();
 			orderPr.setCost(price * num);

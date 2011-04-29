@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.caijing.business.OrderManager;
+import com.caijing.domain.OrderPr;
 import com.caijing.domain.Userright;
 import com.caijing.util.ContextFactory;
 
@@ -60,7 +61,7 @@ public class OrderManagerImplTest {
 		Map<String, Object> product = new HashMap<String, Object>();
 		product.put("pid", 11);
 		product.put("num", 2);
-		product.put("industryid", null);
+		product.put("industryid", "ZA0101");
 		products.add(product);
 		target.saveOrder(userid, orderid, products);
 	}
@@ -69,9 +70,11 @@ public class OrderManagerImplTest {
 	public void saveUserright_A$String$long$List() throws Exception {
 		String userid = "71IO1BPO";
 		long orderid = 1111L;
-		List<Integer> products = new ArrayList<Integer>();
-		products.add(11);
-		target.saveUserright(userid, orderid, products);
+		List<OrderPr> orderPrs = new ArrayList<OrderPr>();
+		OrderPr orderpr = new OrderPr();
+		orderpr.setPid(11);
+		orderPrs.add(orderpr);
+		target.saveUserright(userid, orderid, orderPrs);
 	}
 
 	@Test

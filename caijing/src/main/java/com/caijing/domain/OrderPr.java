@@ -4,18 +4,18 @@ import java.util.Date;
 
 public class OrderPr {
 
-	private Integer industryid;
+	private String industryid;
 	private Long orderid;
 	private Integer pid;
 	private Integer num;
 	private Float cost;
 	private Date ctime;
 
-	public Integer getIndustryid() {
+	public String getIndustryid() {
 		return industryid;
 	}
 
-	public void setIndustryid(Integer industryid) {
+	public void setIndustryid(String industryid) {
 		this.industryid = industryid;
 	}
 

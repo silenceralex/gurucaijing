@@ -6,7 +6,7 @@
   <typeAlias alias="OrderPr" type="com.caijing.domain.OrderPr" />
   
   <resultMap id="OrderPrMap" class="OrderPr" >
-    <result column="industryid" jdbcType="INTEGER" property="industryid" />
+    <result column="industryid" jdbcType="VARCHAR" property="industryid" />
     <result column="orderid" jdbcType="BIGINT" property="orderid" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="num" jdbcType="INTEGER" property="num" />
@@ -52,7 +52,7 @@
   
   <insert id="insertOrderPr" parameterClass="OrderPr" >
     insert into order_pr (industryid, orderid, pid, num, cost, ctime)
-    values (#industryid:INTEGER#, #orderid:BIGINT#, #pid:INTEGER#, #num:INTEGER#, #cost:REAL#,
+    values (#industryid:VARCHAR#, #orderid:BIGINT#, #pid:INTEGER#, #num:INTEGER#, #cost:REAL#,
       #ctime:TIMESTAMP#)
   </insert>  
   
