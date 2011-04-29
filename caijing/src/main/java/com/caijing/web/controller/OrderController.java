@@ -22,7 +22,7 @@ import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
 @Controller
-@SessionAttributes("currWebUser")
+@SessionAttributes({"currWebUser","currRights"})
 public class OrderController {
 
 	@Autowired
@@ -32,13 +32,17 @@ public class OrderController {
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public boolean orderByRecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public boolean orderByRecharge(
+			@ModelAttribute("currWebUser") WebUser user, 
+			@ModelAttribute("currRights") List<Userright> currRights, 
+			HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		String userid = user.getUid();
 		try {
 			orderManager.orderByRecharge(userid, rechargeid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
+			model.addAttribute("currRights", rights);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,6 +59,7 @@ public class OrderController {
 			String userid = user.getUid();
 			orderManager.orderByRemain(userid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
+			model.addAttribute("currRights", rights);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
