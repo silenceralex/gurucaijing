@@ -1,6 +1,7 @@
 (function(window, undefined){
    var $ = window.jQuery, Config = window.Config || {}, WB = window.WB || {};
    chart = {
+      //for(i=1;i<=industry.length;i++){industry[i-1].id=i}
       init : function ( data, container ) {
          var t = this;
          t.dataArr = data;
@@ -166,18 +167,70 @@
       return { "x" : x, "y" : y + document.body.scrollTop };
    };
    cart = {
+      // 产品集合
+      pObj : {
+         p1:{id:1, title:"分析师成功率", intro:"套餐", price:29, byIndustry:true},
+         p2:{id:2, title:"分析师收益率", intro:"套餐", price:29, byIndustry:true},
+         p3:{id:3, title:"个股追踪", intro:"套餐", price:29, byIndustry:false},
+         p4:{id:4, title:"推荐后折价", intro:"套餐", price:19, byIndustry:false},
+         p5:{id:5, title:"研报速递", intro:"套餐", price:99, byIndustry:true},
+         p6:{id:6, title:"民间专家直播室", intro:"套餐", price:99, byIndustry:false},
+         p7:{id:7, title:"公告掘金", intro:"套餐", price:19, byIndustry:false},
+         p8:{id:8, title:"年报查询", intro:"套餐", price:29, byIndustry:false},//~~~~~
+         p9:{id:9, title:"分析师成功率+研报速递(行业)", intro:"套餐", price:109, byIndustry:true},
+         p10:{id:10, title:"分析师收益率+研报速递(行业)", intro:"套餐",price:109, byIndustry:true},
+         p11:{id:11, title:"研报速递+分析师成功率+分析师收益率(行业)", intro:"套餐",price:129, byIndustry:true},
+         p12:{id:12, title:"推荐后折价（年）", intro:"套餐", price:190, byIndustry:false},
+         p13:{id:13, title:"个股追踪 （年）", intro:"套餐", price:290, byIndustry:false},
+         p14:{id:14, title:"公告掘金 （年）", intro:"套餐", price:190, byIndustry:false},
+         p15:{id:15, title:"年报查询 （年）", intro:"套餐", price:290, byIndustry:false}
+      },
+      // 行业列表
+      industry : {
+         i1: {id: 1, name: "房地产业"},
+         i2: {id: 2, name: "银行业"},
+         i3: {id: 3, name: "非银行金融"},
+         i4: {id: 4, name: "电力煤气及水等公用事业"},
+         i5: {id: 5, name: "有色金属"},
+         i6: {id: 6, name: "基础化工"},
+         i7: {id: 7, name: "机械设备"},
+         i8: {id: 8, name: "医药生物"},
+         i9: {id: 9, name: "汽车和汽车零部件"},
+         i10: {id: 10, name: "煤炭开采"},
+         i11: {id: 11, name: "批发和零售贸易"},
+         i12: {id: 12, name: "建筑和工程"},
+         i13: {id: 13, name: "家电行业"},
+         i14: {id: 14, name: "电子行业"},
+         i15: {id: 15, name: "纺织和服装"},
+         i16: {id: 16, name: "造纸印刷业"},
+         i17: {id: 17, name: "食品饮料业"},
+         i18: {id: 18, name: "社会服务业"},
+         i19: {id: 19, name: "传播与文化"},
+         i20: {id: 20, name: "农林牧渔"},
+         i21: {id: 21, name: "计算机"},
+         i22: {id: 22, name: "通信行业"},
+         i23: {id: 23, name: "新能源"},
+         i24: {id: 24, name: "钢铁行业"},
+         i25: {id: 25, name: "石油化工"},
+         i26: {id: 26, name: "交通运输仓储"},
+         i27: {id: 27, name: "非金属类建材"},
+         i28: {id: 28, name: "采掘业"},
+         i29: {id: 29, name: "信息技术业"},
+         i30: {id: 30, name: "其他制造业"}
+      },
       // 初始化购物车
-      init : function ( user, orderId ) {
+      init : function ( orderId ) {
          var t = this;
-         t.user = user;
          t.orderId = orderId;
          t.cartArr = [];
+         t.initIndustrySelect();
+         // t.buyBind();
          Rookie(function(){
             if ( !this.read("orderId") ) {
                t.orderId = +new Date();
                this.write( 'orderId', t.orderId );
-            } else if ( t.orderId >= this.read("orderId") ) {
-               alert( "应该清空本地数据" );
+            } else if ( t.orderId == this.read("orderId") ) {
+               //alert( "应该清空本地数据" );
                t.clear();
             } else {
                var cartItem = this.read('cart');
@@ -187,14 +240,50 @@
             }
          })
       },
+      buyBind : function () {
+         $("#0num").bind("change", function () {
+            var industryId = $("#dialogS .chose select").val();
+            alert( industryId );
+         });
+      },
+      initIndustrySelect : function () {
+         var t = this;
+         for ( n in t.industry) {
+            $("#dialogS .chose select").append("<option value='" + t.industry[n].id + "'>" + t.industry[n].name + "</option>");
+         }
+      },
+      // 购买
       buy : function ( id, num, price ) {
          var t = this;
-         Rookie(function(){
-            t.orderId = +new Date();
-            this.write( 'orderId', t.orderId );
-            t.add( id, num, price );
-            window.location.href = "";
-         })
+         var id = "p" + id;
+         if( t.pObj[id].byIndustry ) {
+            t.popDialog();
+            $("#dialogS .chose").show();
+            $("#dialogS .success").hide();
+            $("#chosePrice").text( t.pObj[id].price );
+            $("#buyOk").bind("click", function () {
+               getTotal( id );
+            });
+            $("#0num").bind("blur", function () {
+               var price = t.pObj[id].price * $("#0num").val();
+               $("#chosePrice").text( price );
+            });
+            function getTotal ( id ) {
+               $("#dialogS").fadeOut();
+               var num = $("#0num").val(),
+                   industryId = $("#dialogS .chose select").val();
+               t.add( id, num, industryId );
+               //window.location.href = "/cart/myCart.htm";
+            }
+         } else {
+            Rookie(function(){
+               t.orderId = +new Date();
+               this.write( 'orderId', t.orderId );
+               t.add( id, num, price );
+               //window.location.href = "/cart/myCart.htm";
+            })
+         }
+         return;
       },
       // 清除购物车
       clear : function () {
@@ -204,11 +293,11 @@
             this.clear("orderId");
          });
       },
-      /* 
       // 添加一个产品
-      add : function ( id, title, type, num, price ) {
+      add : function ( id, num, industryId ) {
          var t = this,
          isExist = false;
+         id = "p" + id;
          var total = { num : 0, price : 0 };
          for ( var i = 0; i < t.cartArr; i ++ ) {
             total.num += t.cartArr[i].num;
@@ -223,37 +312,20 @@
          };
          total.num += num;
          total.price += num * price;
-         t.cartArr.push({'id' : id, 'title' : title, 'type' : type, 'num' : num, 'price' : price});
+         t.cartArr.push({'id' : id, 'num' : num, 'industryId' : industryId});
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          });
+         // 弹窗显示
          t.popDialog( total.num, total.price );
-      }, 
-      */
-      // 添加一个产品
-      add : function ( id, num, price ) {
-         var t = this,
-         isExist = false;
-         var total = { num : 0, price : 0 };
-         for ( var i = 0; i < t.cartArr; i ++ ) {
-            total.num += t.cartArr[i].num;
-            total.price += t.cartArr[i].num * t.cartArr[i].price;
-            if ( id == t.cartArr[i].id ) {
-               isExist = true;
-            }
-         };
-         if( isExist ) {
-            alert("不能重复添加");
-            return;
-         };
-         total.num += num;
-         total.price += num * price;
-         t.cartArr.push({'id' : id, 'num' : num, 'price' : price});
-         Rookie(function(){
-            this.write( 'cart', t.cartArr );
-         });
-         t.popDialog( total.num, total.price );
+         $("#tipTotalN").innerHTML = num;
+         $("#tipTotalP").innerHTML = price;
+         $("#dialogS .chose").hide();
+         $("#dialogS .success").show();
+            
+            
          if ( $("#cartTb") ) {
+            // console.log("obj is:" + t.pObj + "," + id);
             $("#cartTb").append('\
                <tr id="' + id + '">\
                   <td>' + id + '</td>\
@@ -299,6 +371,7 @@
       },
       // 修改数据
       motify : function ( id, field, value ) {
+         var t = this;
          for ( var i = 0; i < t.cartArr; i ++ ) {
             if ( id == t.cartArr[i].id ) {
                t.cartArr[i][field] = value;
@@ -323,28 +396,40 @@
          Rookie(function(){
             t.cartArr = this.read('cart');
          })
+         // console.log( t.cartArr );
          for ( var i = 0; i < t.cartArr.length; i++ ) {
             pid = t.cartArr[i].id;
             num = t.cartArr[i].num;
-            price = t.pObj[pid].price * num;
-            totalN += num;
-            totalP += price;
-            $( cartTb ).append('\
-               <tr id="' + pid + '">\
-                  <td>' + pid + '</td>\
-                  <td>' + t.pObj[pid].title + '</td>\
-                  <td>' + t.pObj[pid].intro + '</td>\
-                  <td><span onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span onclick="cart.plus(\'' + pid + '\')">+</span></td>\
-                  <td><span class="price">' + price + '</span>元</td>\
-                  <td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>\
-               </tr>\
-            ');
+            if ( t.pObj[pid] ) {
+               price = t.pObj[pid].price * num;
+               totalN += num;
+               totalP += price;
+               $( cartTb ).append('\
+                  <tr id="' + pid + '">\
+                     <td>' + pid + '</td>\
+                     <td>' + t.pObj[pid].title + '</td>\
+                     <td>' + t.pObj[pid].intro + '</td>\
+                     <td><span onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span onclick="cart.plus(\'' + pid + '\')">+</span></td>\
+                     <td><span class="price">' + price + '</span>元</td>\
+                     <td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>\
+                  </tr>\
+               ');
+            }
          };
          $("#totalN").text( totalN );
          $("#totalP").text( totalP );
       },
       // 弹出提示框
-      popDialog : function ( num, price ) {
+      popDialog : function () {
+         var elem = $("#dialogS");
+         $( elem ).fadeIn("slow");
+         $( elem ).css({ 
+            position : 'absolute',
+            left : ($(window).width() - $( elem ).outerWidth())/2,
+            top : ($(window).height() - $( elem ).outerHeight())/2 + $(document).scrollTop()
+         });
+      }
+      /* popDialog : function ( num, price ) {
          var elem = $("#dialogS");
          $("#tipTotalN").innerHTML = num;
          $("#tipTotalP").innerHTML = price;
@@ -354,7 +439,7 @@
             left : ($(window).width() - $( elem ).outerWidth())/2,
             top : ($(window).height() - $( elem ).outerHeight())/2
          });
-      }
+      } */
    };
    validator = {
       nickReg : /^[\w_]{4,16}$/,
@@ -364,7 +449,6 @@
       checkVal : function ( reg, node, tip ) {
          var t = this,
              val = $( node ).text();
-         
          if ( val && reg.test( val ) ) {
             $( tip ).fadeOut("slow");
             return true;
@@ -379,6 +463,7 @@
          if( $( inputNode ).text() == "" ) {
             $( tipNode ).html("邮箱地址不能为空");
          }
+
          if( !t.checkVal( t.emailReg, inputNode, tipNode ) ) {
             $( tipNode ).html("邮箱地址格式不正确");
             return false;
@@ -415,6 +500,7 @@
       // 验证昵称
       checkNick : function ( inputNode, tipNode ) {
          var t = this;
+         return;
          if( $( inputNode ).text() == "" ) {
             $( tipNode ).html("昵称不能为空");
          }
@@ -460,9 +546,6 @@
          try {
             $("#city").json2select(areaJson);
          } catch ( err ) {
-            if( typeof console != "undefined" ) {
-               console.log( err );
-            }
          }
          $( t.nickNode ).bind("blur", function () {
             t.checkNick();
@@ -529,12 +612,12 @@
       // 验证两次新密码输入
       checkNewPass2 : function () {
          var t = this;
-         validator.checkPass2( t.newPassNode, t.newPass2Node, t.pass2TipNode );
+         validator.checkPass2( t.newPassNode, t.newPass2Node, t.newPass2TipNode );
       },
       // 验证昵称
       checkNick : function () {
          var t = this;
-         validator.checkNick( t.nicknameNode, t.nicknameTipNode );
+         validator.checkNick( t.nickNode, t.nickTipNode );
       },
       // 验证手机
       checkMobile : function () {
@@ -613,7 +696,7 @@
       // 验证昵称
       checkNick : function () {
          var t = this;
-         validator.checkPass2( t.nicknameNode, t.nicknameTipNode );
+         validator.checkNick( t.nicknameNode, t.nicknameTipNode );
       },
       // 验证表单并提交
       formSubmit : function () {
