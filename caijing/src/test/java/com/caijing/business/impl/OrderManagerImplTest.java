@@ -16,11 +16,11 @@ import com.caijing.util.ContextFactory;
 
 public class OrderManagerImplTest {
 
-	private OrderManager manage;
+	private OrderManager target;
 	
 	@Before
 	public void setUp() throws Exception {
-		manage = (OrderManager) ContextFactory.getBean("orderManager");
+		target = (OrderManager) ContextFactory.getBean("orderManager");
 	}	
 	
 	@Test
@@ -30,13 +30,11 @@ public class OrderManagerImplTest {
 
 	@Test
 	public void instantiation() throws Exception {
-		OrderManager target = manage;
 		assertNotNull(target);
 	}
 
 	@Test
 	public void orderByRecharge_A$String$long$long() throws Exception {
-		OrderManager target = manage;
 		String userid = null;
 		long rechargeid = 0L;
 		long orderid = 0L;
@@ -74,7 +72,6 @@ public class OrderManagerImplTest {
 
 	@Test
 	public void getUserrightsByUserid_A$String() throws Exception {
-		OrderManager target = manage;
 		String userid = "71IO1BPO";
 		List<Userright> actual = target.getUserrightsByUserid(userid);
 		System.out.println("right size: "+actual.size());
