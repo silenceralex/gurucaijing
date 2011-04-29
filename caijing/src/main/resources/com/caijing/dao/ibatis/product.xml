@@ -4,8 +4,8 @@
 
   <typeAlias alias="Product" type="com.caijing.domain.Product" />
 
-  <select id="select" resultClass="Product" parameterClass="Product" >
-    select pid, name, isIndustry, continuedmonth, price, rightpaths, desc
+  <select id="select" resultClass="Product" parameterClass="int" >
+    select pid, name, isIndustry, continuedmonth, price, rightpaths, description
     from product
     where pid = #pid:INTEGER#
   </select>
@@ -14,9 +14,9 @@
     where pid = #pid:INTEGER#
   </delete>
   <insert id="insert" parameterClass="Product" >
-    insert into product (pid, name, isIndustry, continuedmonth, price, rightpaths, desc)
+    insert into product (pid, name, isIndustry, continuedmonth, price, rightpaths, description)
     values (#pid:INTEGER#, #name:VARCHAR#, #isIndustry:TINYINT#, #continuedmonth:INTEGER#,
-      #price:REAL#, #rightpaths:VARCHAR#, #desc:LONGVARCHAR#)
+      #price:REAL#, #rightpaths:VARCHAR#, #description:LONGVARCHAR#)
   </insert>
   <insert id="insertSelective" parameterClass="Product" >
     insert into product
@@ -39,8 +39,8 @@
       <isNotNull prepend="," property="rightpaths">
         rightpaths
       </isNotNull>
-      <isNotNull prepend="," property="desc">
-        desc
+      <isNotNull prepend="," property="description">
+        description
       </isNotNull>
       )
     </dynamic>
@@ -64,8 +64,8 @@
       <isNotNull prepend="," property="rightpaths">
         #rightpaths:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="desc">
-        #desc:LONGVARCHAR#
+      <isNotNull prepend="," property="description">
+        #description:LONGVARCHAR#
       </isNotNull>
       )
     </dynamic>
@@ -88,8 +88,8 @@
       <isNotNull prepend="," property="rightpaths">
         rightpaths = #rightpaths:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="desc">
-        desc = #desc:LONGVARCHAR#
+      <isNotNull prepend="," property="description">
+        description = #description:LONGVARCHAR#
       </isNotNull>
     </dynamic>
     where pid = #pid:INTEGER#

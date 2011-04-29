@@ -8,7 +8,15 @@ public class Product {
 	private Integer continuedmonth;
 	private Float price;
 	private String rightpaths;
-	private String desc;
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public Integer getPid() {
 		return pid;
@@ -56,14 +64,6 @@ public class Product {
 
 	public void setRightpaths(String rightpaths) {
 		this.rightpaths = rightpaths;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
 	}
 
 }
