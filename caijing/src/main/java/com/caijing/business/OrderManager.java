@@ -10,17 +10,12 @@ import java.util.Map;
  */
 public interface OrderManager {
 
-	void saveOrder(String userid, long orderid,
-			List<Map<String, Object>> products);
+	void saveOrder(String userid, long orderid,	List<Map<String, Object>> products);
 
 	void saveUserright(String userid, long orderid, List<Integer> products);
 
 	boolean orderByRemain(String userid, long orderid, List<Integer> products);
 
 	boolean orderByRecharge(String userid, String rechargeid, long orderid);
-
-	/**
-	 * 非充值购买流程 recharge插入 user余额更新 order消费插入 userright权限更新，session刷新
-	 */
 
 }
