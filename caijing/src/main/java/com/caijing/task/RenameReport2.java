@@ -81,12 +81,15 @@ public class RenameReport2 {
 				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
 				put("/data/oldpapers/201008/yw201008_0411.xls", "/data/oldpapers/201008/");
 				put("/data/oldpapers/201008/yw201008_0418.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/201008_0425.xls", "/data/oldpapers/201008/");
 				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
 				put("/data/oldpapers/201009/201009_0418.xlsx", "/data/oldpapers/201009/");
 				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
 				put("/data/oldpapers/201010/201010_0411.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201010/201010_0425.xlsx", "/data/oldpapers/201010/");
 				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
 				put("/data/oldpapers/201011/201011_0411.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201011/201011_0425.xls", "/data/oldpapers/201011/");
 				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
 				put("/data/oldpapers/201012/201012_0411.xls", "/data/oldpapers/201012/");
 				put("/data/oldpapers/201012/201012_0418.xls", "/data/oldpapers/201012/");
@@ -96,10 +99,15 @@ public class RenameReport2 {
 				put("/data/excel/hanjianping-2.xls", "/data/oldpapers2/hanjianping/");
 				put("/data/excel/hanjianping-3.xls", "/data/oldpapers2/hanjianping/");
 				put("/data/excel/hanjianping-4.xls", "/data/oldpapers2/hanjianping/");
+				put("/data/excel/hanjianping-5.xls", "/data/oldpapers2/hanjianping/"); //0425
 				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou-2.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/yanshiyou-3.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/yanshiyou-4.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
 				put("/data/excel/wanghan-1.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/wanghan-2.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers2/wanghan/");
+				put("/data/excel/wanghan-4.xlsx", "/data/oldpapers2/wanghan/"); //0425
 //				put("/data/excel/test.xlsx", "/data/oldpapers/test/");
 			}
 		};
