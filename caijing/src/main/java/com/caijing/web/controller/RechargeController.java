@@ -93,4 +93,20 @@ public class RechargeController {
 
 		return "/template/user/myRecharge.htm";
 	}
+
+	@RequestMapping("/cart/myCart.htm")
+	public String cart(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		logger.debug("user:" + user.getEmail());
+		model.put("user", user);
+		return "/template/cart/myCart.htm";
+	}
+
+	@RequestMapping("/cart/pay.htm")
+	public String pay(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		logger.debug("user:" + user.getEmail());
+		model.put("user", user);
+		return "/template/cart/pay.htm";
+	}
 }
