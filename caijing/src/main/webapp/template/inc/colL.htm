@@ -2,17 +2,17 @@
             <div id="colL0" class="colL0 colLItem">
                <div class="colL_title"><h2>用户登录</h2></div>
                <div>
-                  <form>
+                  <form  action="/user/weblogin.do" method="post" >
                      <div class="userLoginForm">
                         <label>用户名</label>
-                        <input type="text" />
+                        <input type="text" id="email" name="email" />
                         <span class="clear"></span>
                         <label>密码</label>
-                        <input type="text" />
+                        <input type="password" id="password" class="input" name="password" />
                      </div>
+                  <input class="loginBtn" type="submit" value="登录" />
+                  <a href="/reg/reg.htm">注册新用户</a>
                   </form>
-                  <input class="loginBtn" type="button" value="登录" />
-                  <a href="#">注册新用户</a>
                </div>
                <div class="hidden">
                   <p class="cRed">wanqi.1984@163.com</p><br />，
@@ -38,7 +38,7 @@
                   <li><a href="/analyzer/earnrank_4_1.html" target="_blank">金牌分析师之选</a></li>
                   <li><a href="/stockagency/1.html" target="_blank">机构共同之选</a></li>
                   <li><a href="/analyzer/stardiscount_4_1.html" target="_blank">折价股票精选</a></li>
-                  <li><a href="/analyzer/noticerank_1_1.html" target="_blank">公告掘金榜</a></li>
+                  <li><a href="/notice/hrank_1.html" target="_blank">公告掘金榜</a></li>
                </ul>
             </div>
             <div class="colL3 colLItem">

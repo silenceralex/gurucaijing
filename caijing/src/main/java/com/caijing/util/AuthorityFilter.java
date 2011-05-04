@@ -1,6 +1,7 @@
 package com.caijing.util;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -19,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
 public class AuthorityFilter extends HttpServlet implements Filter {
@@ -41,6 +43,14 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 	private boolean containsOneOfList(String str, String[] list) {
 		for (int i = 0; list != null && i < list.length; i++) {
 			if (str.indexOf(list[i]) != -1)
+				return true;
+		}
+		return false;
+	}
+
+	private boolean containsOneOfUserrights(String str, List<Userright> currRights) {
+		for (Userright right : currRights) {
+			if (str.indexOf(right.getPath()) != -1)
 				return true;
 		}
 		return false;
@@ -80,9 +90,9 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 				}
 				ignoreList = ignoreFile.split(",");
 			}
-
+			List<Userright> currRights = (List<Userright>) session.getAttribute("currRights");
+			WebUser user = (WebUser) session.getAttribute("currWebUser");
 			if (isUsed) {
-				WebUser user = (WebUser) session.getAttribute("currWebUser");
 				if (user != null) {
 					logger.debug("user: " + user.getEmail());
 				} else {
@@ -92,6 +102,15 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 				if (containsOneOfList(URL, ignoreList)) {
 					logger.debug("对请求的 " + URL + " 忽略检查。");
 					isValid = true;
+				} else if (user != null && currRights != null) {
+					if (containsOneOfUserrights(URL, currRights)) {
+						logger.debug("对请求的文件 " + URL + " 检查通过。");
+						isValid = true;
+					} else {
+						logger.debug("user: " + user.getEmail() + "  无对 URL：" + URL + "   的访问权限");
+						sResponse.sendRedirect("/user/myAccount.htm");
+						isValid = false;
+					}
 				} else if ((user == null) || (StringUtils.isEmpty(user.getEmail()))) {
 					logger.debug("对请求的 " + URL + " 进行安全检查。");
 					isValid = false;
@@ -99,7 +118,6 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 			}
 
 			if (isValid) {
-				logger.debug("对请求的文件 " + URL + " 检查通过。");
 				filterChain.doFilter(sRequest, response);
 			} else {
 				if (sRequest.getRequestURI().toLowerCase().contains("notice")) {

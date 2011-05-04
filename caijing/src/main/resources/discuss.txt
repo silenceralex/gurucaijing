@@ -1,0 +1,63 @@
+ LIst<LIst<productid,industryid，month,money>>
+ type 1 用余额，0不用余额。
+  productid#industryid#month
+ 
+ 
+ 页面左上方的登录状态 cookie
+ email，userid，推出按钮
+ 
+ 
+ 提供productid 产品列表， 提供行业的页表，industryid
+ 、、
+ 
+
+提交，
+  1 插入order/order——product 表单。
+  2. 是否useRemain，  recharge cash   recharge useRemain
+  
+  3.支付confirm， orderid
+    webuser余额更新，order状态更新，recharge状态更新
+    
+    
+    recharge表加入orderid
+    
+product表产品列表
+1 分析师成功率  用户可对分析师推荐股票目标价的成果进行跟踪，按照成功数量，成功率，最近一年、半年等时间排序。 true  month 
+2 分析师收益率  用户可跟踪分析师推荐股票的综合收益率，按照收益指数排名，按照历史业绩，最近一年，半年，查看股票池的调出调入，单个股票收益率。 true month
+3 个股追踪	用户可对单一股票查询各分析师的目标价预期汇总，查询各分析师目标价，调入调出的评级，半年时限。   false  month
+4 推荐后折价 用户可发现现价相对于分析师推荐当日折价的股票，按照折价排行，包括推荐日价格，推荐时间，当前价格，折价率 false  month
+5 研报速递  用户可根据需求选择跟踪分析师的最新研报，研报服务内容   true  month 
+6 民间专家直播室  用户可浏览民间专家的每日投资直播   false month
+7 公告掘金  	用户可跟踪哪些上市公司、CEO、CFO买入本公司股票，股票重组，股权激励，公告日以来排行榜        false  month
+8 年报查询  	用户可随时查阅上市公司年报和季报    false  month
+9 分析师成功率+研报速递(行业)    true  month
+10 分析师收益率+研报速递(行业)   true  month
+11 研报速递+分析师成功率+分析师收益率(行业) 	 true month
+12 推荐后折价（年）   false  year
+13 个股追踪 （年） false  year
+14  公告掘金 （年） false  year
+15  年报查询 （年） false  year
+
+
+分析师组合、成功率+行业研报   按行业、时间卖    
+
+分析师组合、成功率  按行业、时间卖    权限控制不好区分组合收益率和成功率。
+
+行业研报   按行业、时间卖 
+
+直播室  按照个数卖
+
+公告掘金    按照时间卖
+
+推荐后折价   按时间来卖
+
+研报速递 + 搜索      按照行业、时间卖
+
+年报按照季度 年度 卖
+
+
+http://51gurus.com/user/productcart.do  post  
+param={productid:"asfsd", industryid:"",num:""},{productid:"asfsd", industryid:"",num:""},{productid:"asfsd", industryid:"",num:""},
+
+确认支付按钮，弹窗 银行.do
+本页面一个js框，支付成功按钮跳转我的消费，遇到问题跳到我的充值。

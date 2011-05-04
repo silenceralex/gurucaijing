@@ -1207,17 +1207,18 @@ public class HtmlFlusher {
 				vmf.put("startPriceMap", startPriceMap);
 				vmf.put("stockEarnMap", stockEarnMap);
 
+				//刷新均采用htm的后缀一遍进行权限访问
 				if (type == 0) {
 					vmf.setTemplate("/template/notice/noticeRank_h.htm");
-					vmf.save(NOTICEDIR + "hrank_" + current + ".html");
+					vmf.save(NOTICEDIR + "hrank_" + current + ".htm");
 					System.out.println("write page : " + NOTICEDIR + "hrank_" + current + ".html");
 				} else if (type == 1) {
 					vmf.setTemplate("/template/notice/noticeRank_q.htm");
-					vmf.save(NOTICEDIR + "qrank_" + current + ".html");
+					vmf.save(NOTICEDIR + "qrank_" + current + ".htm");
 					System.out.println("write page : " + NOTICEDIR + "qrank_" + current + ".html");
 				} else if (type == 2) {
 					vmf.setTemplate("/template/notice/noticeRank_m.htm");
-					vmf.save(NOTICEDIR + "mrank_" + current + ".html");
+					vmf.save(NOTICEDIR + "mrank_" + current + ".htm");
 					System.out.println("write page : " + NOTICEDIR + "mrank_" + current + ".html");
 				}
 			} catch (Exception e) {
@@ -1293,7 +1294,7 @@ public class HtmlFlusher {
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
 
-		//		flusher.flushNotice();
+		//				flusher.flushNotice();
 		flusher.flushNoticeRank();
 		flusher.flushIndex();
 		//		flusher.flushNoticeRank(0);

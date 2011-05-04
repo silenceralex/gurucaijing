@@ -152,6 +152,7 @@ public class LocalStorage {
 		htmlFlush.flushStarOnSale(false, 3);
 		htmlFlush.flushStarOnSale(false, 2);
 		htmlFlush.flushStarOnSale(false, 1);
+		htmlFlush.flushNoticeRank();
 		//		htmlFlush.flushStarOnSale(true);
 		//		htmlFlush.flushStarOnSale(false);
 	}

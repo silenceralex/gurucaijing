@@ -23,15 +23,17 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.UserDao;
+import com.caijing.dao.UserrightDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Analyzer;
 import com.caijing.domain.User;
+import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 import com.caijing.util.ServerUtil;
 import com.caijing.util.TopicNameConfig;
 
 @Controller
-@SessionAttributes("currUser")
+@SessionAttributes({ "currWebUser", "currRights" })
 public class LoginController {
 	@Autowired
 	@Qualifier("userDao")
@@ -48,6 +50,10 @@ public class LoginController {
 	@Autowired
 	@Qualifier("TopicNameConfig")
 	private TopicNameConfig topicNameMap = null;
+
+	@Autowired
+	@Qualifier("userrightDAO")
+	private UserrightDAO userrightDao = null;
 
 	@RequestMapping("/admin/login.do")
 	public String showColomn(HttpServletResponse response,
@@ -164,6 +170,8 @@ public class LoginController {
 					WebUser user = webUserDao.getUserByEmail(email);
 					System.out.println("nickname:" + user.getNickname());
 					request.getSession().setAttribute("currWebUser", user);
+					List<Userright> currRights = userrightDao.getUserrightByUserid(user.getUid());
+					request.getSession().setAttribute("currRights", currRights);
 					model.put("currWebUser", user);
 					response.setHeader("Cookie", "");
 					Cookie cookie = new Cookie("useremail", user.getEmail());
@@ -185,12 +193,53 @@ public class LoginController {
 		return null;
 	}
 
+	@RequestMapping("/user/weblogin.do")
+	public void webLogin2(HttpServletResponse response, @RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "password", required = true) String password, HttpServletRequest request,
+			ModelMap model) {
+
+		try {
+
+			if (webUserDao.identify(email, password)) {
+				System.out.println("用户名验证成功！");
+				WebUser user = webUserDao.getUserByEmail(email);
+				System.out.println("nickname:" + user.getNickname());
+				request.getSession().setAttribute("currWebUser", user);
+				model.put("currWebUser", user);
+				response.setHeader("Cookie", "");
+				Cookie cookie = new Cookie("useremail", user.getEmail());
+				cookie.setDomain("www.51gurus.com");
+				cookie.setMaxAge(36000);
+				response.addCookie(cookie);
+				Cookie cookie2 = new Cookie("userid", user.getUid());
+				cookie2.setDomain("51gurus.com");
+				cookie2.setMaxAge(36000);
+				response.addCookie(cookie2);
+				response.setContentType("text/html;charset=GBK");
+				response.getWriter().print("<script>self.history.go(-1);</script>");
+				response.getWriter().flush();
+			} else {
+				response.sendRedirect("/user/err.html?login=true");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@RequestMapping("/user/logout.do")
 	public void weblogout(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
 			throws IOException, Exception {
 		status.setComplete();
 		HttpSession session = request.getSession();
 		session.removeAttribute("currWebUser");
+		Cookie cookie = new Cookie("useremail", "");
+		cookie.setDomain("www.51gurus.com");
+		cookie.setMaxAge(36000);
+		response.addCookie(cookie);
+		Cookie cookie2 = new Cookie("userid", "");
+		cookie2.setDomain("51gurus.com");
+		cookie2.setMaxAge(36000);
+		response.addCookie(cookie2);
 		response.sendRedirect("/user/login.htm");
 		return;
 	}
