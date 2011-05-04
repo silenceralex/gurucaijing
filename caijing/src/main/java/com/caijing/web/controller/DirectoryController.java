@@ -45,7 +45,7 @@ public class DirectoryController {
 		String filepath = prefix + url;
 		System.out.println("filepath:" + filepath);
 		String file = FileUtils.readFileToString(new File(filepath.toLowerCase()), "gbk");
-		System.out.println("file:" + file);
+		//		System.out.println("file:" + file);
 		response.setContentType("text/html;charset=gbk");
 		response.getWriter().write(file);
 		return;

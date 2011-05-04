@@ -417,8 +417,8 @@ public class HtmlFlusher {
 				vmf.put("current", current);
 				vmf.put("page", page);
 				vmf.put("reportList", reportList);
-				vmf.save(REPORTDIR + "reportLab_" + current + ".html");
-				System.out.println("write page : " + REPORTDIR + "reportLab_" + current + ".html");
+				vmf.save(REPORTDIR + "reportLab_" + current + ".htm");
+				System.out.println("write page : " + REPORTDIR + "reportLab_" + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -1270,14 +1270,14 @@ public class HtmlFlusher {
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
 		//				flusher.flushStarOnSale(false);
-		flusher.flushStarOnSale(true, 4);
-		flusher.flushStarOnSale(true, 3);
-		flusher.flushStarOnSale(true, 2);
-		flusher.flushStarOnSale(true, 1);
-		flusher.flushStarOnSale(false, 4);
-		flusher.flushStarOnSale(false, 3);
-		flusher.flushStarOnSale(false, 2);
-		flusher.flushStarOnSale(false, 1);
+		//		flusher.flushStarOnSale(true, 4);
+		//		flusher.flushStarOnSale(true, 3);
+		//		flusher.flushStarOnSale(true, 2);
+		//		flusher.flushStarOnSale(true, 1);
+		//		flusher.flushStarOnSale(false, 4);
+		//		flusher.flushStarOnSale(false, 3);
+		//		flusher.flushStarOnSale(false, 2);
+		//		flusher.flushStarOnSale(false, 1);
 		//		flusher.flushNoticeRank(0);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
