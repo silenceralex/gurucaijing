@@ -2,8 +2,6 @@ package com.caijing.business.impl;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +26,7 @@ import com.caijing.domain.Recharge;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
-//@Transactional(readOnly = false)
+@Transactional(readOnly = false)
 @Service("orderManager")
 // 对业务类进行事务增强的标注
 public class OrderManagerImpl implements OrderManager {
@@ -140,7 +138,7 @@ public class OrderManagerImpl implements OrderManager {
 						Date fromdate = right.getFromdate();
 						boolean isAfter = right.getTodate().after(now);
 						if (isAfter) {
-							fromdate = fromdate; // TODO
+							//fromdate = fromdate;
 							Calendar cstart = Calendar.getInstance();
 							cstart.setTime(todate);
 							cstart.add(Calendar.MONTH, continuedmonth);
@@ -155,7 +153,7 @@ public class OrderManagerImpl implements OrderManager {
 						right.setFromdate(fromdate);
 						right.setTodate(todate);
 						right.setValid((byte) 1);
-						// right.setIndustry(industry); //TODO
+						//right.setIndustryid(industry); //TODO
 						userrightDao.updateSelective(right);
 					}
 				} else {
@@ -163,7 +161,7 @@ public class OrderManagerImpl implements OrderManager {
 					right.setUid(userid);
 					right.setPath(path);
 					right.setFromdate(now);
-					// right.setIndustry(industry); //TODO
+					//right.setIndustryid(industry); //TODO
 					Calendar cstart = Calendar.getInstance();
 					cstart.setTime(now);
 					cstart.add(Calendar.MONTH, continuedmonth);
@@ -191,7 +189,7 @@ public class OrderManagerImpl implements OrderManager {
 			OrderPr orderPr = new OrderPr();
 			orderPr.setOrderid(orderid);
 			orderPr.setPid(pid);
-			orderPr.setIndustryid((String) product.get("industryid"));
+			orderPr.setIndustryid((String) product.get("industryid")); //TODO
 			orderPr.setNum(num);
 			float price = ((Product) productDAO.select(pid)).getPrice();
 			orderPr.setCost(price * num);
