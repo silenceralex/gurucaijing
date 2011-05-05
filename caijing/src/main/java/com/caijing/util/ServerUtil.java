@@ -201,7 +201,7 @@ public class ServerUtil {
 		long usertime = getTime(userid);
 		long mod = usertime % 64;
 		long high = System.currentTimeMillis() - ORDER_TIMESTAMP;
-		return high << 6 + mod;
+		return (high << 6) + mod;
 	}
 
 	public static synchronized long getRechargeID(String userid) {
