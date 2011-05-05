@@ -18,7 +18,7 @@
   </select>
   
   <insert id="insert" >
-    insert into recharge (rcid,userid,type,status,cash,ctime,lmodify) values (#rcid#,#userid#,#type#,#status#,#cash#,now(),now())
+    insert into recharge (rcid,userid,type,status,cash,ctime,lmodify,orderid) values (#rcid#,#userid#,#type#,#status#,#cash#,now(),now(),orderid)
   </insert>
 
   <update id="update" parameterClass="Recharge">
@@ -36,6 +36,9 @@
   		<isNotEmpty prepend="," property="lmodify">
   			lmodify = #lmodify#
   		</isNotEmpty>
+  		<isNotEmpty prepend="," property="lmodify">
+  			orderid = #orderid#
+  		</isNotEmpty>  		
   	</dynamic>
   	where rcid=#rcid#
   </update>

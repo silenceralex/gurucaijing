@@ -30,12 +30,13 @@ public class RechargeManagerImpl implements RechargeManager {
 	private static final Log logger = LogFactory.getLog(RechargeManagerImpl.class);
 
 	@Override
-	public Recharge recharge(String userid, int type, float cash) {
+	public Recharge recharge(String userid, int type, float cash, long orderid) {
 		Recharge recharge = new Recharge();
 		recharge.setRcid(ServerUtil.getOrderID(userid));
 		recharge.setUserid(userid);
 		recharge.setType(type);
 		recharge.setCash(cash);
+		recharge.setOrderid(orderid);
 		try {
 			rechargeDao.insert(recharge);
 			logger.debug("userid:" + userid + "  recharge success!");

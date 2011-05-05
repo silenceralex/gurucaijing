@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.caijing.business.OrderManager;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
-import com.caijing.util.ServerUtil;
 
 @Controller
 @SessionAttributes({"currWebUser","currRights"})
@@ -41,13 +39,20 @@ public class OrderController {
 			@ModelAttribute("currRights") List<Userright> currRights, 
 			HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
-			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
+			@RequestParam(value = "status", required = true) Integer status,
+			HttpServletRequest request, ModelMap model) {
 		String userid = user.getUid();
 		try {
-			orderManager.orderByRecharge(userid, rechargeid, orderid);
-			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
-			model.addAttribute("currRights", rights);
-			return true;
+			if (status == 1) {
+				logger.debug("user:" + user.getEmail() + "  recharge success!" + status);
+				orderManager.orderByRecharge(userid, rechargeid);
+				List<Userright> rights = orderManager.getUserrightsByUserid(userid);
+				model.addAttribute("currRights", rights);
+				return true;
+			} else {
+				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
+				return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

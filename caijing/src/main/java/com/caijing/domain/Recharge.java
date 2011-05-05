@@ -15,15 +15,15 @@ public class Recharge {
 	//支付状态，0待支付，1支付成功，-1支付失败
 	int status = 0;
 	
-//	private Long orderid;
-//	
-//	public Long getOrderid() {
-//		return orderid;
-//	}
-//
-//	public void setOrderid(Long orderid) {
-//		this.orderid = orderid;
-//	}
+	private Long orderid;
+	
+	public Long getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(Long orderid) {
+		this.orderid = orderid;
+	}
 
 	public long getRcid() {
 		return rcid;

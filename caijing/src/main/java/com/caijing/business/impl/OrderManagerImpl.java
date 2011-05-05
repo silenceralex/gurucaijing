@@ -58,17 +58,24 @@ public class OrderManagerImpl implements OrderManager {
 
 	/**
 	 * 订单处理流程： 
-	 * 1. 充值，insert Recharge，该充值未激活 
-	 * 2.等待接收银行的反馈，充值激活，updateRemainMoney(+) 
-	 * 3. 根据Recharge记录的订单id, 激活订单,updateRemainMoney(-), 添加产品权限
+	 * 1. 充值激活，更新余额 
+	 * 2. 根据Recharge记录的订单id, 激活订单,updateRemainMoney(-), 添加产品权限
 	 */
 	@Override
-	public void orderByRecharge(String userid, long rechargeid, long orderid) {
+	public void orderByRecharge(String userid, long rechargeid) {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
-		if (recharge.getStatus() == 1) {
+		long orderid = recharge.getOrderid();
+		int status = recharge.getStatus();
+		//待支付状态
+		if(status == 0){
+			//更新用户余额
+			float cash = recharge.getCash();
+			webUserDao.updateRemainMoney(userid, cash * +1);
+			//更新充值记录的状态为成功
+			recharge.setStatus(1);
 			orderByRemain(userid, orderid);
 			return;
-		} 
+		}
 	}
 
 	/**

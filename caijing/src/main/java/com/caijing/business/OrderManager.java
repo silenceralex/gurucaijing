@@ -18,7 +18,7 @@ public interface OrderManager {
 
 	void saveUserright(String userid, long orderid, List<OrderPr> orderPrs);
 
-	void orderByRecharge(String userid, long rechargeid, long orderid);
+	void orderByRecharge(String userid, long rechargeid);
 
 	void orderByRemain(String userid, long orderid);
 

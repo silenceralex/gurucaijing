@@ -34,9 +34,10 @@ public class RechargeController {
 	@RequestMapping(value = "/user/recharge.do", method = RequestMethod.POST)
 	public String recharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "cash", required = true) Float cash,
+			@RequestParam(value = "orderid", required = true) Long orderid,
 			@RequestParam(value = "type", required = true) Integer type, HttpServletRequest request, ModelMap model) {
 		try {
-			Recharge recharge = rechargeManager.recharge(user.getUid(), type, cash);
+			Recharge recharge = rechargeManager.recharge(user.getUid(), type, cash, orderid);
 			model.put("recharge", recharge);
 			model.put("user", user);
 		} catch (Exception e) {
