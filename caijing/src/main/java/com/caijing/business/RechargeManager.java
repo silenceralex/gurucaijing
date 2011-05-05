@@ -9,7 +9,7 @@ import com.caijing.domain.WebUser;
 
 public interface RechargeManager {
 
-	public Recharge recharge(String userid, int type, float cash, long orderid);
+	public Recharge recharge(String userid, int type, float cash, Long orderid);
 
 	@Transactional
 	public WebUser confirm(long rcid, int status);

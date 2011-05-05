@@ -30,7 +30,7 @@ public class RechargeManagerImpl implements RechargeManager {
 	private static final Log logger = LogFactory.getLog(RechargeManagerImpl.class);
 
 	@Override
-	public Recharge recharge(String userid, int type, float cash, long orderid) {
+	public Recharge recharge(String userid, int type, float cash, Long orderid) {
 		Recharge recharge = new Recharge();
 		recharge.setRcid(ServerUtil.getOrderID(userid));
 		recharge.setUserid(userid);
