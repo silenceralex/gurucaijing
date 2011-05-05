@@ -219,7 +219,7 @@
          i30: {id: 30, name: "其他制造业"}
       },
       // 初始化购物车
-      init : function ( orderId ) {
+      /* init : function ( orderId ) {
          var t = this;
          t.orderId = orderId;
          t.cartArr = [];
@@ -239,6 +239,18 @@
                }
             }
          })
+      }, */
+      init : function () {
+         var t = this;
+         t.cartArr = [];
+         t.initIndustrySelect();
+         // t.buyBind();
+         Rookie(function(){
+            var cartItem = this.read('cart');
+            if( cartItem ) {
+               t.cartArr = this.read('cart');
+            }
+         })
       },
       buyBind : function () {
          $("#0num").bind("change", function () {
@@ -253,35 +265,41 @@
          }
       },
       // 购买
-      buy : function ( id, num, price ) {
+      buy : function ( id, num, jump ) {
          var t = this;
          var id = "p" + id;
-         if( t.pObj[id].byIndustry ) {
-            t.popDialog();
-            $("#dialogS .chose").show();
-            $("#dialogS .success").hide();
-            $("#chosePrice").text( t.pObj[id].price );
-            $("#buyOk").bind("click", function () {
-               getTotal( id );
-            });
-            $("#0num").bind("blur", function () {
-               var price = t.pObj[id].price * $("#0num").val();
-               $("#chosePrice").text( price );
-            });
-            function getTotal ( id ) {
-               $("#dialogS").fadeOut();
-               var num = $("#0num").val(),
-                   industryId = $("#dialogS .chose select").val();
-               t.add( id, num, industryId );
-               //window.location.href = "/cart/myCart.htm";
-            }
+         t.jump = jump;
+         
+         t.popDialog();
+         $("#dialogS .chose").show();
+         $("#dialogS .success").hide();
+         $("#chosePrice").text( t.pObj[id].price );
+         $("#buyOk").bind("click", function () {
+            getTotal( id );
+         });
+         $("#0num").bind("blur", function () {
+            var price = t.pObj[id].price * $("#0num").val();
+            $("#chosePrice").text( price );
+         });
+         if ( t.pObj[id].byIndustry ) {
+            $("#dialogS .chose .industcol").show();
+            $("#dialogS .chose select").show();
          } else {
-            Rookie(function(){
-               t.orderId = +new Date();
-               this.write( 'orderId', t.orderId );
-               t.add( id, num, price );
-               //window.location.href = "/cart/myCart.htm";
-            })
+            $("#dialogS .chose .industcol").hide();
+            $("#dialogS .chose select").hide();
+         }
+         function getTotal ( id ) {
+            $("#dialogS").fadeOut();
+            var num = $("#0num").val(),
+                industryId = $("#dialogS .chose select").val();
+            if ( !t.pObj[id].byIndustry ) {
+               industryId = "";
+            }
+            t.add( id, num, industryId );
+            
+            if ( jump ) {
+               window.location.href = "/cart/myCart.htm";
+            }
          }
          return;
       },
@@ -297,11 +315,10 @@
       add : function ( id, num, industryId ) {
          var t = this,
          isExist = false;
-         id = "p" + id;
-         price = t.pObj[id].price;
+         var price = t.pObj[id].price;
          var total = { num : 0, price : 0 };
-         for ( var i = 0; i < t.cartArr; i ++ ) {
-            total.num += t.cartArr[i].num;
+         for ( var i = 0; i < t.cartArr.length; i ++ ) {
+            total.num += Number(t.cartArr[i].num);
             total.price += t.cartArr[i].num * t.cartArr[i].price;
             if ( id == t.cartArr[i].id ) {
                isExist = true;
@@ -314,6 +331,7 @@
          total.num += num;
          total.price += num * price;
          t.cartArr.push({'id' : id, 'num' : num, 'industryId' : industryId});
+         //console.log(t.cartArr);
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          });
@@ -321,9 +339,10 @@
          t.popDialog( total.num, total.price );
          $("#tipTotalN").innerHTML = num;
          $("#tipTotalP").innerHTML = price;
-         $("#dialogS .chose").hide();
-         $("#dialogS .success").show();
-            
+         if ( !t.jump ) {
+            $("#dialogS .chose").hide();
+            $("#dialogS .success").show();
+         }
             
          if ( $("#cartTb") ) {
             // console.log("obj is:" + t.pObj + "," + id);
@@ -395,30 +414,33 @@
              totalN = 0, // 总数量
              totalP = 0; // 总价格
          Rookie(function(){
+            console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
+            showit ();
          })
-         // console.log( t.cartArr );
-         for ( var i = 0; i < t.cartArr.length; i++ ) {
-            pid = t.cartArr[i].id;
-            num = t.cartArr[i].num;
-            if ( t.pObj[pid] ) {
-               price = t.pObj[pid].price * num;
-               totalN += num;
-               totalP += price;
-               $( cartTb ).append('\
-                  <tr id="' + pid + '">\
-                     <td>' + pid + '</td>\
-                     <td>' + t.pObj[pid].title + '</td>\
-                     <td>' + t.pObj[pid].intro + '</td>\
-                     <td><span onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span onclick="cart.plus(\'' + pid + '\')">+</span></td>\
-                     <td><span class="price">' + price + '</span>元</td>\
-                     <td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>\
-                  </tr>\
-               ');
-            }
-         };
-         $("#totalN").text( totalN );
-         $("#totalP").text( totalP );
+         function showit () {
+            for ( var i = 0; i < t.cartArr.length; i++ ) {
+               pid = t.cartArr[i].id;
+               num = t.cartArr[i].num;
+               if ( t.pObj[pid] ) {
+                  price = t.pObj[pid].price * num;
+                  totalN += num;
+                  totalP += price;
+                  $( cartTb ).append('\
+                     <tr id="' + pid.split("p")[1] + '">\
+                        <td>' + pid.split("p")[1] + '</td>\
+                        <td>' + t.pObj[pid].title + '</td>\
+                        <td>' + t.pObj[pid].intro + '</td>\
+                        <td><span onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span onclick="cart.plus(\'' + pid + '\')">+</span></td>\
+                        <td><span class="price">' + price + '</span>元</td>\
+                        <td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>\
+                     </tr>\
+                  ');
+               }
+            };
+            $("#totalN").text( totalN );
+            $("#totalP").text( totalP );
+         }
       },
       // 弹出提示框
       popDialog : function () {
