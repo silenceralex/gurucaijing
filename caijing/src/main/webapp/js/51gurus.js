@@ -274,9 +274,12 @@
          $("#dialogS .chose").show();
          $("#dialogS .success").hide();
          $("#chosePrice").text( t.pObj[id].price );
-         $("#buyOk").bind("click", function () {
+         /* $("#buyOk").bind("click", function () {
             getTotal( id );
-         });
+         }); */
+         document.getElementById("buyOk").onclick = function () {
+            getTotal( id );
+         }
          $("#0num").bind("blur", function () {
             var price = t.pObj[id].price * $("#0num").val();
             $("#chosePrice").text( price );
@@ -295,7 +298,11 @@
             if ( !t.pObj[id].byIndustry ) {
                industryId = "";
             }
-            t.add( id, num, industryId );
+            var isOk = t.add( id, num, industryId );
+            if ( !isOk ) {
+               alert("不能重复添加");
+               return;
+            }
             
             if ( jump ) {
                window.location.href = "/cart/myCart.htm";
@@ -325,8 +332,7 @@
             }
          };
          if( isExist ) {
-            alert("不能重复添加");
-            return;
+            return false;
          };
          total.num += num;
          total.price += num * price;
@@ -357,6 +363,7 @@
                </tr>\
             ');
          }
+         return true;
       },
       // 删除某个产品
       del : function ( id ) {
@@ -414,7 +421,7 @@
              totalN = 0, // 总数量
              totalP = 0; // 总价格
          Rookie(function(){
-            console.log("dsfsdfdsf" + this.read('cart'));
+            //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
             showit ();
          })
