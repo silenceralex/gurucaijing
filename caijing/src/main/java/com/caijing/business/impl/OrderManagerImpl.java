@@ -66,13 +66,14 @@ public class OrderManagerImpl implements OrderManager {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
 		long orderid = recharge.getOrderid();
 		int status = recharge.getStatus();
-		//待支付状态
-		if(status == 0){
+		//待支付状态或支付失败状态
+		if(status == 0 || status == -1){
 			//更新用户余额
 			float cash = recharge.getCash();
 			webUserDao.updateRemainMoney(userid, cash * +1);
 			//更新充值记录的状态为成功
 			recharge.setStatus(1);
+			rechargeDao.update(recharge);
 			orderByRemain(userid, orderid);
 			return;
 		}

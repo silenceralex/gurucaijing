@@ -43,7 +43,7 @@ public class OrderManagerImplTest {
 	@Test
 	public void orderByRecharge_A$String$long$long() throws Exception {
 		String userid = "71IO1BPO";
-		long rechargeid = 13870556080242688L;
+		long rechargeid = 13870556080242688l;
 		target.orderByRecharge(userid, rechargeid);
 	}
 
