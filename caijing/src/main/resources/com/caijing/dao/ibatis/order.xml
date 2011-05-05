@@ -22,16 +22,17 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="lmodify" jdbcType="TIMESTAMP" property="lmodify" />
     <result property="orderPrs" resultMap="Order.OrderPrMap" /> 
-  </resultMap>  
+  </resultMap>
 
   <select id="selectWithOrderPr" resultMap="OrderMap" parameterClass="Long" >
-    select o.orderid, o.userid, o.cost, o.status, o.ctime, o.lmodify
+    select o.orderid, o.userid, o.cost, o.status, o.ctime, o.lmodify,
+    		p.industryid, p.orderid, p.pid, p.num, p.cost, p.ctime
     from 
     	order_meta as o
     left join
     	order_pr as p
     on o.orderid = p.orderid
-    where d.orderid = #orderid:BIGINT#
+    where o.orderid = #orderid:BIGINT#
   </select>
 
   <select id="select" resultClass="OrderMeta" parameterClass="OrderMeta" >

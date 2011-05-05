@@ -67,6 +67,7 @@ public class OrderManagerImpl implements OrderManager {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
 		if (recharge.getStatus() == 1) {
 			orderByRemain(userid, orderid);
+			return;
 		} 
 	}
 
@@ -80,78 +81,84 @@ public class OrderManagerImpl implements OrderManager {
 	@Override
 	public void orderByRemain(String userid, long orderid){
 		OrderMeta order = orderDao.selectWithOrderPr(orderid);
+		
+		//检查是否是无效订单
+		if(order!=null){
+			byte status = order.getStatus();
+			if(status==1){
+				return;
+			}
+		}
+
 		List<OrderPr> orderPrs = order.getOrderPrs();
 		if (orderPrs != null) {
 			// 获取订单总金额
 			float sum = order.getCost();
 
 			// 扣除user余额(需要进行验证，以防负金额出现)
-			WebUser user = ((WebUser) webUserDao.select(orderid));
+			WebUser user = ((WebUser) webUserDao.select(userid));
 			float remainMoney = user.getRemain();
 			if (remainMoney >= sum) {
 				webUserDao.updateRemainMoney(userid, sum * -1);
 
 				// 更新userright权限
 				saveUserright(userid, orderid, orderPrs);
+				
+				//订单支付成功，订单失效
+				order.setStatus((byte) 1);
+				orderDao.update(order);
+				return;
 			} 
 		}
 	}
 
 	/**
 	 * 更新用户权限
-	 * 
-	 * @param userid
-	 * @param orderid
-	 * @param products
-	 * @return
 	 */
 	@Override
 	public void saveUserright(String userid, long orderid, List<OrderPr> orderPrs) {
 		for (OrderPr orderPr : orderPrs) {
 			Product product = (Product) productDAO.select(orderPr.getPid());
 			String[] paths = product.getRightpaths().split("\\s+");
-			int continuedmonth = product.getContinuedmonth();
+			//单个产品的购买总月份
+			int totalmonth = product.getContinuedmonth()*orderPr.getNum();
 
 			for (String path : paths) {
 				Userright right = new Userright();
 				right.setUid(userid);
 				right.setPath(path);
 				right.setIndustryid(orderPr.getIndustryid());
-				right = ((Userright) userrightDao.select(right));
+				Userright existedright = ((Userright) userrightDao.select(right));
 
 				Date now = new Date();
-				if (right != null) {
-					if (right.getValid() == 1) {
-						Date todate = right.getTodate();
-						Date fromdate = right.getFromdate();
-						boolean isAfter = right.getTodate().after(now);
+				if (existedright != null) {
+					if (existedright.getValid() == 1) {
+						Date todate = existedright.getTodate();
+						Date fromdate = existedright.getFromdate();
+						boolean isAfter = existedright.getTodate().after(now);
 						if (isAfter) {
 							//fromdate = fromdate;
 							Calendar cstart = Calendar.getInstance();
 							cstart.setTime(todate);
-							cstart.add(Calendar.MONTH, continuedmonth);
+							cstart.add(Calendar.MONTH, totalmonth);
 							todate = cstart.getTime();
 						} else {
 							fromdate = now;
 							Calendar cstart = Calendar.getInstance();
 							cstart.setTime(fromdate);
-							cstart.add(Calendar.MONTH, continuedmonth);
+							cstart.add(Calendar.MONTH, totalmonth);
 							todate = cstart.getTime();
 						}
-						right.setFromdate(fromdate);
-						right.setTodate(todate);
-						right.setValid((byte) 1);
-						userrightDao.updateSelective(right);
+						existedright.setFromdate(fromdate);
+						existedright.setTodate(todate);
+						existedright.setValid((byte) 1);
+						userrightDao.updateSelective(existedright);
 					}
 				} else {
-					right = new Userright();
-					right.setUid(userid);
-					right.setPath(path);
 					right.setFromdate(now);
-					right.setIndustryid(orderPr.getIndustryid());
 					Calendar cstart = Calendar.getInstance();
 					cstart.setTime(now);
-					cstart.add(Calendar.MONTH, continuedmonth);
+					cstart.add(Calendar.MONTH, totalmonth);
 					right.setTodate(cstart.getTime());
 					right.setValid((byte) 1);
 					userrightDao.insert(right);
@@ -170,7 +177,8 @@ public class OrderManagerImpl implements OrderManager {
 		float sum = 0;
 
 		// insert orderPr
-		long orderid = ServerUtil.getOrderID(userid);
+		long orderid = ServerUtil.getOrderID(userid); //TODO id有问题
+		System.out.println("orderid:"+orderid);
 		
 		for (int i = 0; i < products.size(); i++) {
 			JSONObject product = products.getJSONObject(i);
