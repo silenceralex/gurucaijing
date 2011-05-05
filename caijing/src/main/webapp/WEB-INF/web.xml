@@ -151,6 +151,11 @@
 		<filter-name>Authority Filter</filter-name>
 		<url-pattern>/notice/*</url-pattern>
 	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/report/*</url-pattern>
+	</filter-mapping>
 
 	<servlet>
 		<servlet-name>RandImage</servlet-name>

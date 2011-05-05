@@ -50,4 +50,13 @@ public class DirectoryController {
 		response.getWriter().write(file);
 		return;
 	}
+
+	@RequestMapping("/report/*.htm")
+	public String report(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
+			throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
 }
