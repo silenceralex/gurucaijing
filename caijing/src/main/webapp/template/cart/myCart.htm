@@ -28,37 +28,39 @@
          </div>
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
-            <form action="/user/productcart.do"></form>
-               <table id="cartTb" class="myOrderTb">
-                  <tr>
-                     <th>产品号</th>
-                     <th>消费项目</th>
-                     <th>产品说明</th>
-                     <th>数量</th>
-                     <th>金额</th>
-                     <th>操作</th>
-                  </tr>
-                  <!--<tr>
-                     <td>000002</td>
-                     <td>分析师成功率</td>
-                     <td>用户可查询该行业各分析师的目标价成功率</td>
-                     <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
-                     <td><span class="price">10</span>元</td>
-                     <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
-                                          <td>000002</td>
-                     <td>分析师成功率</td>
-                     <td>用户可查询该行业各分析师的目标价成功率</td>
-                     <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
-                     <td><span class="price">10</span>元</td>
-                     <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
-                  </tr>-->
-               </table>
-               <hr />
-               <p style="text-align:right">产品数量总计：<span id="totalN">3</span>&nbsp;&nbsp;金额总计：￥<span id="totalP"></span></p>
-               <p style="text-align:right">
-                  <input type="button" value="&lt;继续购买" />
-                  <input type="button" value="确认付款&gt;" />
-               </p>
+               <form action="/user/productcart.do" method="POST">
+                  <input type="hidden" name="param" />
+                  <table id="cartTb" class="myOrderTb">
+                     <tr>
+                        <th>产品号</th>
+                        <th>消费项目</th>
+                        <th>产品说明</th>
+                        <th>数量</th>
+                        <th>金额</th>
+                        <th>操作</th>
+                     </tr>
+                     <!--<tr>
+                        <td>000002</td>
+                        <td>分析师成功率</td>
+                        <td>用户可查询该行业各分析师的目标价成功率</td>
+                        <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
+                        <td><span class="price">10</span>元</td>
+                        <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
+                                             <td>000002</td>
+                        <td>分析师成功率</td>
+                        <td>用户可查询该行业各分析师的目标价成功率</td>
+                        <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
+                        <td><span class="price">10</span>元</td>
+                        <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
+                     </tr>-->
+                  </table>
+                  <hr />
+                  <p style="text-align:right">产品数量总计：<span id="totalN">3</span>&nbsp;&nbsp;金额总计：￥<span id="totalP"></span></p>
+                  <p style="text-align:right">
+                     <input type="button" href="/user/myAccount.htm" value="&lt;继续购买" />
+                     <input type="submit" value="确认付款&gt;" />
+                  </p>
+               </form>
                <p>套餐更划算，帮你省钱</p>
                <table>
                   <tr>
