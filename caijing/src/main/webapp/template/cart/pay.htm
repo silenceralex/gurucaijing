@@ -23,8 +23,8 @@
          </div>
          <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
             <h2 class="star_de_tabli_on">我的购物车</h2>
-            <span class="current"><a href="#">确认购买</a></span>
-            <span><a href="#">确认支付方式</a></span>
+            <span><a href="#">确认购买</a></span>
+            <span class="current"><a href="#">确认支付方式</a></span>
          </div>
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
@@ -48,10 +48,6 @@
                </table>
                <hr />
                <p style="text-align:right">产品数量总计：<span id="totalN">3</span>&nbsp;&nbsp;金额总计：￥<span id="totalP"></span></p>
-               <p style="text-align:right">
-                  <input type="button" value="&lt;继续购买" />
-                  <input type="button" value="去结算&gt;" />
-               </p>
                <div>
                   <p><input type="checkbox" />您的投资大师账户：wanqi.1984@163.com,余额为102.00元，可直接支付</p>
                   <input type="button" value="确认支付方式" />
@@ -78,11 +74,7 @@
    </div><!--mainBox end-->
 </div>
 <script type="text/javascript" language="javascript">
-   cart.pObj = {
-      1:{id : 1, title : "分析师成功率", intro : "用户可查询该行业各分析师的目标价成功率", price : 10},
-      2:{id : 1, title : "推荐后折价+折价股票研报速递", intro : "套餐", price : 99}
-   };
-   cart.init("user", 1302918010014);
+   cart.init();
    cart.show();
 </script>
 </body>
