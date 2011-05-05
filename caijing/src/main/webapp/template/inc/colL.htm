@@ -1,7 +1,7 @@
          <div class="colL">
             <div id="colL0" class="colL0 colLItem">
                <div class="colL_title"><h2>用户登录</h2></div>
-               <div>
+               <div id="login_form">
                   <form  action="/user/weblogin.do" method="post" >
                      <div class="userLoginForm">
                         <label>用户名</label>
@@ -14,12 +14,21 @@
                   <a href="/reg/reg.htm">注册新用户</a>
                   </form>
                </div>
-               <div class="hidden">
-                  <p class="cRed">wanqi.1984@163.com</p><br />，
+               <div id="login_uinfo" class="hidden">
+                  <p class="u_email cRed"></p><br />，
                   <p>您好，欢迎光临投资大师</p>
-                  <p><a href="#">&gt;&gt;进入个人中心</a></p>
+                  <p><a href="/user/myInfo.htm">&gt;&gt;进入个人中心</a></p>
                </div>
             </div>
+            <script type="text/javascript">
+               var c = document.cookie;
+               var email = c.match(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/);
+               if ( email ) {
+                  $( "#login_form" ).hide();
+                  $( "#login_uinfo" ).show();
+                  $( "#login_uinfo .u_email" ).html( email[0] );
+               }
+            </script>
             <div class="colL1 colLItem">
                <div class="colL_title">
                   <h2>大师殿堂</h2><a class="moreBtn" href="#"><span>more</span><img src="/img/block.gif"/></a>
