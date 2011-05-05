@@ -5,14 +5,15 @@
   <typeAlias alias="Userright" type="com.caijing.domain.Userright" />
 
   <select id="select" parameterClass="Userright" resultClass="Userright">
-    select uid, fromdate, todate, path, valid, industry
+    select uid, fromdate, todate, path, valid, industryid
     from userright
     where uid = #uid:VARCHAR#
       and path = #path:VARCHAR#
+      and industryid = #industryid:VARCHAR#
   </select>
   
   <select id="getIndustriesByUserid" parameterClass="java.util.HashMap" resultClass="java.lang.String">
-  	select distinct(industry) from userright where uid=#uid# and valid=1 and path=#path#
+  	select distinct(industryid) from userright where uid=#uid# and valid=1 and path=#path#
   </select>
   
   <select id="getUserrightByUserid" parameterClass="java.lang.String" resultClass="Userright">
@@ -22,12 +23,16 @@
   <delete id="delete" parameterClass="Userright">
     delete from userright
     where uid = #uid:VARCHAR#
+      and path = #path:VARCHAR#
+      and industryid = #industryid:VARCHAR#
   </delete>
+  
   <insert id="insert" parameterClass="Userright">
-    insert into userright (uid, fromdate, todate, path, valid, industry)
+    insert into userright (uid, fromdate, todate, path, valid, industryid)
     values (#uid:VARCHAR#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#,
-      #industry:VARCHAR#)
+      #industryid:VARCHAR#)
   </insert>
+  
   <insert id="insertSelective" parameterClass="Userright">
     insert into userright
     <dynamic prepend="(">
@@ -46,8 +51,8 @@
       <isNotNull prepend="," property="valid">
         valid
       </isNotNull>
-      <isNotNull prepend="," property="industry">
-        industry
+      <isNotNull prepend="," property="industryid">
+        industryid
       </isNotNull>
       )
     </dynamic>
@@ -68,8 +73,8 @@
       <isNotNull prepend="," property="valid">
         #valid:TINYINT#
       </isNotNull>
-      <isNotNull prepend="," property="industry">
-        #industry:VARCHAR#
+      <isNotNull prepend="," property="industryid">
+        #industryid:VARCHAR#
       </isNotNull>
       )
     </dynamic>
@@ -90,5 +95,6 @@
     </dynamic>
     where uid = #uid:INTEGER#
       and path = #path:VARCHAR#
+      and industryid = #industryid:VARCHAR#
   </update>  
 </sqlMap>

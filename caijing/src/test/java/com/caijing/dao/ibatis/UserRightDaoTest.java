@@ -38,7 +38,7 @@ public class UserRightDaoTest extends TestCase {
 			System.out.println("industry:" + industry);
 		}
 		for (Userright user : users) {
-			System.out.println("industry:" + user.getIndustry());
+			System.out.println("industry:" + user.getIndustryid());
 		}
 		assertNotNull("Get a null object!", industyList);
 		//		assertTrue(industyList.size() > 0);

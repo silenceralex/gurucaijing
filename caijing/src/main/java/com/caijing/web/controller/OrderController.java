@@ -5,6 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.caijing.business.OrderManager;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
+import com.caijing.util.ServerUtil;
 
 @Controller
 @SessionAttributes({"currWebUser","currRights"})
@@ -52,7 +56,6 @@ public class OrderController {
 	
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)
 	public boolean orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
-			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		try {
 			String userid = user.getUid();
@@ -63,6 +66,23 @@ public class OrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/user/productcart.do", method = RequestMethod.POST)
+	public long saveOrder(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			@RequestParam(value = "jsondata", required = true) String jsondata, HttpServletRequest request, ModelMap model) {
+		try {
+			long orderid = -1;
+			String userid = user.getUid();
+			JSONArray products = JSONArray.fromObject(jsondata);
+			if (products != null && products.size() != 0) {
+				orderid = orderManager.saveOrder(userid, products);
+			}
+			return orderid;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
 		}
 	}
 }

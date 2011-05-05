@@ -1,7 +1,8 @@
 package com.caijing.business;
 
 import java.util.List;
-import java.util.Map;
+
+import net.sf.json.JSONArray;
 
 import com.caijing.domain.OrderPr;
 import com.caijing.domain.Userright;
@@ -13,7 +14,7 @@ import com.caijing.domain.Userright;
  */
 public interface OrderManager {
 
-	void saveOrder(String userid, long orderid,	List<Map<String, Object>> products);
+	long saveOrder(String userid, JSONArray products);
 
 	void saveUserright(String userid, long orderid, List<OrderPr> orderPrs);
 

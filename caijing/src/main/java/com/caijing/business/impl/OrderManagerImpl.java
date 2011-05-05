@@ -3,7 +3,9 @@ package com.caijing.business.impl;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +27,7 @@ import com.caijing.domain.Product;
 import com.caijing.domain.Recharge;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
+import com.caijing.util.ServerUtil;
 
 @Transactional(readOnly = false)
 @Service("orderManager")
@@ -51,10 +54,6 @@ public class OrderManagerImpl implements OrderManager {
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
 
-	@Autowired
-	@Qualifier("rechargeManager")
-	private RechargeManager rechargeManager = null;
-
 	private static final Log logger = LogFactory.getLog(OrderManagerImpl.class);
 
 	/**
@@ -67,11 +66,7 @@ public class OrderManagerImpl implements OrderManager {
 	public void orderByRecharge(String userid, long rechargeid, long orderid) {
 		Recharge recharge = (Recharge) rechargeDao.select(rechargeid);
 		if (recharge.getStatus() == 1) {
-			OrderMeta order = orderDao.selectWithOrderPr(orderid);
-			List<OrderPr> orderPrs = order.getOrderPrs();
-			if (orderPrs != null) {
-				orderByRemain(userid, orderid, orderPrs);
-			}
+			orderByRemain(userid, orderid);
 		} 
 	}
 
@@ -87,24 +82,19 @@ public class OrderManagerImpl implements OrderManager {
 		OrderMeta order = orderDao.selectWithOrderPr(orderid);
 		List<OrderPr> orderPrs = order.getOrderPrs();
 		if (orderPrs != null) {
-			orderByRemain(userid, orderid, orderPrs);
+			// 获取订单总金额
+			float sum = order.getCost();
+
+			// 扣除user余额(需要进行验证，以防负金额出现)
+			WebUser user = ((WebUser) webUserDao.select(orderid));
+			float remainMoney = user.getRemain();
+			if (remainMoney >= sum) {
+				webUserDao.updateRemainMoney(userid, sum * -1);
+
+				// 更新userright权限
+				saveUserright(userid, orderid, orderPrs);
+			} 
 		}
-	}
-	
-	private void orderByRemain(String userid, long orderid, List<OrderPr> orderPrs) {
-		// 获取订单总金额
-		OrderMeta order = (OrderMeta) orderDao.select(orderid);
-		float sum = order.getCost();
-
-		// 扣除user余额(需要进行验证，以防负金额出现)
-		WebUser user = ((WebUser) webUserDao.select(orderid));
-		float remainMoney = user.getRemain();
-		if (remainMoney >= sum) {
-			webUserDao.updateRemainMoney(userid, sum * -1);
-
-			// 更新userright权限
-			saveUserright(userid, orderid, orderPrs);
-		} 
 	}
 
 	/**
@@ -118,7 +108,6 @@ public class OrderManagerImpl implements OrderManager {
 	@Override
 	public void saveUserright(String userid, long orderid, List<OrderPr> orderPrs) {
 		for (OrderPr orderPr : orderPrs) {
-			//Integer num = (Integer) product.get("num");
 			Product product = (Product) productDAO.select(orderPr.getPid());
 			String[] paths = product.getRightpaths().split("\\s+");
 			int continuedmonth = product.getContinuedmonth();
@@ -127,11 +116,10 @@ public class OrderManagerImpl implements OrderManager {
 				Userright right = new Userright();
 				right.setUid(userid);
 				right.setPath(path);
-				right.setIndustry(orderPr.getIndustryid());
+				right.setIndustryid(orderPr.getIndustryid());
 				right = ((Userright) userrightDao.select(right));
 
 				Date now = new Date();
-
 				if (right != null) {
 					if (right.getValid() == 1) {
 						Date todate = right.getTodate();
@@ -153,7 +141,6 @@ public class OrderManagerImpl implements OrderManager {
 						right.setFromdate(fromdate);
 						right.setTodate(todate);
 						right.setValid((byte) 1);
-						//right.setIndustryid(industry); //TODO
 						userrightDao.updateSelective(right);
 					}
 				} else {
@@ -161,7 +148,7 @@ public class OrderManagerImpl implements OrderManager {
 					right.setUid(userid);
 					right.setPath(path);
 					right.setFromdate(now);
-					//right.setIndustryid(industry); //TODO
+					right.setIndustryid(orderPr.getIndustryid());
 					Calendar cstart = Calendar.getInstance();
 					cstart.setTime(now);
 					cstart.add(Calendar.MONTH, continuedmonth);
@@ -177,21 +164,26 @@ public class OrderManagerImpl implements OrderManager {
 	 * 保存订单
 	 */
 	@Override
-	public void saveOrder(String userid, long orderid, List<Map<String, Object>> products) {
+	public long saveOrder(String userid, JSONArray products) {
 		Date ctime = new Date();
 		// 订单总金额
 		float sum = 0;
 
 		// insert orderPr
-		for (Map<String, Object> product : products) {
-			Integer pid = (Integer) product.get("pid");
-			Integer num = (Integer) product.get("num");
+		long orderid = ServerUtil.getOrderID(userid);
+		
+		for (int i = 0; i < products.size(); i++) {
+			JSONObject product = products.getJSONObject(i);
+			Integer productid = product.getInt("productid");
+			Integer num = product.getInt("num");
+			String industryid = product.getString("industryid");
+			
 			OrderPr orderPr = new OrderPr();
 			orderPr.setOrderid(orderid);
-			orderPr.setPid(pid);
-			orderPr.setIndustryid((String) product.get("industryid")); //TODO
+			orderPr.setPid(productid);
+			orderPr.setIndustryid(industryid);
 			orderPr.setNum(num);
-			float price = ((Product) productDAO.select(pid)).getPrice();
+			float price = ((Product) productDAO.select(productid)).getPrice();
 			orderPr.setCost(price * num);
 			orderPr.setCtime(ctime);
 			orderDao.insertOrderPr(orderPr);
@@ -207,6 +199,8 @@ public class OrderManagerImpl implements OrderManager {
 		order.setStatus((byte) 0);
 		order.setCost(sum);
 		orderDao.insert(order);
+		
+		return orderid;
 	}
 	
 	/**

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="IndustryPr">
+	<typeAlias alias="IndustryPr" type="com.caijing.domain.IndustryPr" />
+
+	<select id="select" resultClass="Industry">
+		select * from industry where industryid=#value#
+  	</select>
+
+	<insert id="insert">
+		insert into industry (industryid,industryname) values (#industryid#,#industryname#)
+  	</insert>
+
+	<update id="update" parameterClass="Industry">
+		update industry
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="industryname">
+				industryname = #industryname#
+  		</isNotEmpty>
+		</dynamic>
+		where industryid=#industryid#
+	</update>
+
+	<delete id="delete" parameterClass="Industry">
+		delete from industry where industryid=#industryid#
+  	</delete>
+  	
+</sqlMap>

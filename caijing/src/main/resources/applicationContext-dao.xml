@@ -31,6 +31,16 @@
 			<value>Industry</value>
 		</property>
 	</bean>
+	
+	<bean id="industryPrDao"
+		class="com.caijing.dao.ibatis.IndustryPrDaoImpl">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+		<property name="namespace">
+			<value>IndustryPr</value>
+		</property>
+	</bean>	
 
 	<bean id="stockDao" class="com.caijing.dao.ibatis.StockDaoImpl">
 		<property name="sqlMapClientTemplate">

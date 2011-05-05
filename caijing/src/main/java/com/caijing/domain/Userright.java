@@ -11,14 +11,14 @@ public class Userright {
 	private Date todate;
 	private String path;
 	private Byte valid;
-	private String industry;
+	private String industryid;
 
-	public String getIndustry() {
-		return industry;
+	public String getIndustryid() {
+		return industryid;
 	}
 
-	public void setIndustry(String industry) {
-		this.industry = industry;
+	public void setIndustryid(String industryid) {
+		this.industryid = industryid;
 	}
 
 	public String getUid() {
