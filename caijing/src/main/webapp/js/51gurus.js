@@ -428,7 +428,7 @@
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
             showit();
-            str = "{";
+            str = "[";
             for( x in t.cartArr ) {
                pid = t.cartArr[x].id.replace(/[a-z]*/, "");
                industryId = t.cartArr[x].industryId? t.cartArr[x].industryId: "";
@@ -436,7 +436,7 @@
                str += '{productid:"' + pid + '", industryid:"' + industryId + '",num:"' + num + '"},'
             }
             str = str.substr(0,str.length-1);
-            str += "}";
+            str += "]";
             $("#cartParam").val( str );
          });
          function showit () {
