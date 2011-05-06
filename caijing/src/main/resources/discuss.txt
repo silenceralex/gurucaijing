@@ -59,5 +59,8 @@ product表产品列表
 http://51gurus.com/user/productcart.do  post  
 param={productid:"asfsd", industryid:"",num:""},{productid:"asfsd", industryid:"",num:""},{productid:"asfsd", industryid:"",num:""},
 
+孙涛，这是json的格式，需要在json的首尾加上[]
+[{"productid":"11","num":"2","industryid":"1"},{"productid":"12","num":"2","industryid":"2"}]
+
 确认支付按钮，弹窗 银行.do
 本页面一个js框，支付成功按钮跳转我的消费，遇到问题跳到我的充值。
