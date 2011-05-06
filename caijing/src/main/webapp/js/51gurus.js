@@ -419,12 +419,24 @@
              num = 1, // 产品数量
              price = 0, // 价格
              totalN = 0, // 总数量
-             totalP = 0; // 总价格
+             totalP = 0, // 总价格
+             str = "",
+             pid = "",
+             industryId = "",
+             num = "";
          Rookie(function(){
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
-            showit ();
-         })
+            showit();
+            for( x in t.cartArr ) {
+               pid = t.cartArr[x].id.replace(/[a-z]*/, "");
+               industryId = t.cartArr[x].industryId? t.cartArr[x].industryId: "";
+               num = t.cartArr[x].num;
+               str += '{productid:"' + pid + '", industryid:"' + industryId + '",num:"' + num + '"},'
+            }
+            str = str.substr(0,str.length-1);
+            $("#cartParam").val( str );
+         });
          function showit () {
             for ( var i = 0; i < t.cartArr.length; i++ ) {
                pid = t.cartArr[i].id;
