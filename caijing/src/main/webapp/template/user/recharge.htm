@@ -5,6 +5,8 @@
 <title>投资大师_分析师推荐成功率排行榜</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/51gurus.js"></script>
 </head>
 
 <body>
@@ -33,25 +35,25 @@
                <b>请输入你想要充值的数额及支付方式</b><br />
                <form action="/user/recharge.do" name="recharge" method="post" enctype="multipart/form-data">
                   <table class="uinfoTb">
-                     <tr width="120">
-                        <td>充值金额:</td>
+                     <tr>
+                        <td width="120">充值金额:</td>
                         <td><input id="cash" name="cash" type="text" value="$!money"/></td>
                      </tr>
-                     <tr><td>支付方式:</td></tr>
+                     <tr><td>支付方式:</td><td>&nbsp;</td></tr>
                      <tr>
-                        <td><input type="radio" name="type" value="0"  />支付宝-在线支付</td>
+                        <td><input type="radio" name="type" value="0"  />支付宝-在线支付</td><td>&nbsp;</td>
                      </tr>
                      <tr>
-                        <td><input type="radio" name="type" value="1"  />财付通-在线支付</td>
+                        <td><input type="radio" name="type" value="1"  />财付通-在线支付</td><td>&nbsp;</td>
                      </tr>
                      <tr>
-                        <td><input type="radio" name="type" value="2"  />快钱-在线支付</td>
+                        <td><input type="radio" name="type" value="2"  />快钱-在线支付</td><td>&nbsp;</td>
                      </tr>
                      <tr>
-                        <td><input type="radio" name="type" value="3"  />信用卡-在线支付</td>
+                        <td><input type="radio" name="type" value="3"  />信用卡-在线支付</td><td>&nbsp;</td>
                      </tr>
                      <tr>
-                      	<td><input onclick="javascript:document.recharge.submit();" type="button" value="确定" /></td>
+                        <td><input onclick="javascript:document.recharge.submit();" type="button" value="确定" /></td><td>&nbsp;</td>
                      </tr>
                   </table>
                </form>
