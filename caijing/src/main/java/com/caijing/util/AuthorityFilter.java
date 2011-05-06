@@ -103,7 +103,7 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 					logger.debug("对请求的 " + URL + " 忽略检查。");
 					isValid = true;
 				} else if (user != null && currRights != null) {
-					if (containsOneOfUserrights(URL, currRights)) {
+					if (containsOneOfUserrights(URL, currRights) || URL.contains("USER")) {
 						logger.debug("对请求的文件 " + URL + " 检查通过。");
 						isValid = true;
 					} else {

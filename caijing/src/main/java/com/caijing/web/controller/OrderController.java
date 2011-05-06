@@ -24,7 +24,7 @@ import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
 @Controller
-@SessionAttributes({"currWebUser","currRights"})
+@SessionAttributes({ "currWebUser", "currRights" })
 public class OrderController {
 
 	@Autowired
@@ -34,13 +34,10 @@ public class OrderController {
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public boolean orderByRecharge(
-			@ModelAttribute("currWebUser") WebUser user, 
-			@ModelAttribute("currRights") List<Userright> currRights, 
-			HttpServletResponse response,
+	public boolean orderByRecharge(@ModelAttribute("currWebUser") WebUser user,
+			@ModelAttribute("currRights") List<Userright> currRights, HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
-			@RequestParam(value = "status", required = true) Integer status,
-			HttpServletRequest request, ModelMap model) {
+			@RequestParam(value = "status", required = true) Integer status, HttpServletRequest request, ModelMap model) {
 		String userid = user.getUid();
 		try {
 			if (status == 1) {
@@ -58,7 +55,7 @@ public class OrderController {
 			return false;
 		}
 	}
-	
+
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)
 	public boolean orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
@@ -73,10 +70,11 @@ public class OrderController {
 			return false;
 		}
 	}
-	
+
 	@RequestMapping(value = "/user/productcart.do", method = RequestMethod.POST)
 	public long saveOrder(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
-			@RequestParam(value = "jsondata", required = true) String jsondata, HttpServletRequest request, ModelMap model) {
+			@RequestParam(value = "param", required = true) String jsondata, HttpServletRequest request, ModelMap model) {
+		logger.debug("user id:" + user.getUid() + "  jsondata:" + jsondata);
 		try {
 			long orderid = -1;
 			String userid = user.getUid();
