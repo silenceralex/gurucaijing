@@ -325,12 +325,12 @@ public class LoginController {
 	private void setCookie(WebUser user, HttpServletResponse response) {
 		if (user != null) {
 			Cookie cookie = new Cookie("useremail", user.getEmail());
-			cookie.setMaxAge(36000);
+			//			cookie.setMaxAge(36000);
 			cookie.setPath("/");
 			response.addCookie(cookie);
 			Cookie cookie2 = new Cookie("userid", user.getUid());
 			cookie.setPath("/");
-			cookie2.setMaxAge(36000);
+			//			cookie2.setMaxAge(36000);
 			response.addCookie(cookie2);
 		} else {
 			Cookie cookie = new Cookie("useremail", null);
