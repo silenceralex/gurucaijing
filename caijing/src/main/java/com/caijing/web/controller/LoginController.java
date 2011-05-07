@@ -146,6 +146,7 @@ public class LoginController {
 		try {
 			webUserDao.insert(user);
 			request.getSession().setAttribute("currWebUser", user);
+			setCookie(user, response);
 			model.put("user", user);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -173,15 +174,7 @@ public class LoginController {
 					List<Userright> currRights = userrightDao.getUserrightByUserid(user.getUid());
 					request.getSession().setAttribute("currRights", currRights);
 					model.put("currWebUser", user);
-					response.setHeader("Cookie", "");
-					Cookie cookie = new Cookie("useremail", user.getEmail());
-					cookie.setDomain("www.51gurus.com");
-					cookie.setMaxAge(36000);
-					response.addCookie(cookie);
-					Cookie cookie2 = new Cookie("userid", user.getUid());
-					cookie2.setDomain("51gurus.com");
-					cookie2.setMaxAge(36000);
-					response.addCookie(cookie2);
+					setCookie(user, response);
 					response.sendRedirect("/user/myInfo.htm");
 					return null;
 				}
@@ -206,15 +199,7 @@ public class LoginController {
 				System.out.println("nickname:" + user.getNickname());
 				request.getSession().setAttribute("currWebUser", user);
 				model.put("currWebUser", user);
-				response.setHeader("Cookie", "");
-				Cookie cookie = new Cookie("useremail", user.getEmail());
-				cookie.setDomain("www.51gurus.com");
-				cookie.setMaxAge(36000);
-				response.addCookie(cookie);
-				Cookie cookie2 = new Cookie("userid", user.getUid());
-				cookie2.setDomain("51gurus.com");
-				cookie2.setMaxAge(36000);
-				response.addCookie(cookie2);
+				setCookie(user, response);
 				response.setContentType("text/html;charset=GBK");
 				response.getWriter().print("<script>self.history.go(-1);</script>");
 				response.getWriter().flush();
@@ -232,14 +217,7 @@ public class LoginController {
 		status.setComplete();
 		HttpSession session = request.getSession();
 		session.removeAttribute("currWebUser");
-		Cookie cookie = new Cookie("useremail", "");
-		cookie.setDomain("www.51gurus.com");
-		cookie.setMaxAge(36000);
-		response.addCookie(cookie);
-		Cookie cookie2 = new Cookie("userid", "");
-		cookie2.setDomain("51gurus.com");
-		cookie2.setMaxAge(36000);
-		response.addCookie(cookie2);
+		setCookie(null, response);
 		response.sendRedirect("/user/login.htm");
 		return;
 	}
@@ -342,6 +320,24 @@ public class LoginController {
 	@RequestMapping("/user/login.htm")
 	public String login(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		return "/template/reg/login.htm";
+	}
+
+	private void setCookie(WebUser user, HttpServletResponse response) {
+		if (user != null) {
+			Cookie cookie = new Cookie("useremail", user.getEmail());
+			cookie.setMaxAge(36000);
+			response.addCookie(cookie);
+			Cookie cookie2 = new Cookie("userid", user.getUid());
+			cookie2.setMaxAge(36000);
+			response.addCookie(cookie2);
+		} else {
+			Cookie cookie = new Cookie("useremail", null);
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+			Cookie cookie2 = new Cookie("userid", null);
+			cookie2.setMaxAge(0);
+			response.addCookie(cookie2);
+		}
 	}
 
 }
