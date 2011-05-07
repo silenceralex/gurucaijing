@@ -326,15 +326,19 @@ public class LoginController {
 		if (user != null) {
 			Cookie cookie = new Cookie("useremail", user.getEmail());
 			cookie.setMaxAge(36000);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 			Cookie cookie2 = new Cookie("userid", user.getUid());
+			cookie.setPath("/");
 			cookie2.setMaxAge(36000);
 			response.addCookie(cookie2);
 		} else {
 			Cookie cookie = new Cookie("useremail", null);
+			cookie.setPath("/");
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 			Cookie cookie2 = new Cookie("userid", null);
+			cookie.setPath("/");
 			cookie2.setMaxAge(0);
 			response.addCookie(cookie2);
 		}
