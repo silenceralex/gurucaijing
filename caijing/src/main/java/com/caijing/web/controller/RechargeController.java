@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.RechargeManager;
+import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Recharge;
 import com.caijing.domain.WebUser;
 
@@ -28,6 +29,10 @@ public class RechargeController {
 	@Autowired
 	@Qualifier("rechargeManager")
 	private RechargeManager rechargeManager = null;
+
+	@Autowired
+	@Qualifier("webUserDao")
+	private WebUserDao webUserDao = null;
 
 	private static final Log logger = LogFactory.getLog(RechargeController.class);
 
@@ -85,6 +90,8 @@ public class RechargeController {
 			List<Recharge> recharges = rechargeManager.getRechargeByUserid(user.getUid());
 			Float total = rechargeManager.getTotalByUserid(user.getUid());
 			logger.debug("total:" + total);
+			//取得最新的remain值
+			user = (WebUser) webUserDao.select(user.getUid());
 			model.put("user", user);
 			model.put("recharges", recharges);
 			model.put("total", total);

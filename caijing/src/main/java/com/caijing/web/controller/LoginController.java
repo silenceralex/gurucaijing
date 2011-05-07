@@ -21,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.caijing.business.RechargeManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.ProductDAO;
 import com.caijing.dao.UserDao;
 import com.caijing.dao.UserrightDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.Product;
 import com.caijing.domain.User;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
@@ -52,8 +55,16 @@ public class LoginController {
 	private TopicNameConfig topicNameMap = null;
 
 	@Autowired
+	@Qualifier("productDAO")
+	private ProductDAO productDAO;
+
+	@Autowired
 	@Qualifier("userrightDAO")
 	private UserrightDAO userrightDao = null;
+
+	@Autowired
+	@Qualifier("rechargeManager")
+	private RechargeManager rechargeManager = null;
 
 	@RequestMapping("/admin/login.do")
 	public String showColomn(HttpServletResponse response,
@@ -296,13 +307,18 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/reg/reg.htm")
-	public String reg(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		return "/template/reg/userreg.htm";
-	}
-
 	@RequestMapping("/user/myAccount.htm")
-	public String account(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+	public String account(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		Float total = rechargeManager.getTotalByUserid(user.getUid());
+		List<Product> products = productDAO.getAllProduct();
+		int times = rechargeManager.getCountByUserid(user.getUid());
+		//取得最新的remain值
+		user = (WebUser) webUserDao.select(user.getUid());
+		model.put("productList", products);
+		model.put("total", total);
+		model.put("times", times);
+		model.put("user", user);
 		return "/template/user/myAccount.htm";
 	}
 
@@ -310,6 +326,11 @@ public class LoginController {
 	public String myinfo(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		model.put("user", request.getSession().getAttribute("currWebUser"));
 		return "/template/user/myInfo.htm";
+	}
+
+	@RequestMapping("/reg/reg.htm")
+	public String reg(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		return "/template/reg/userreg.htm";
 	}
 
 	@RequestMapping("/user/myConsumer.htm")

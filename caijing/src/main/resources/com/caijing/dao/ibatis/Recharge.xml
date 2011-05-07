@@ -8,6 +8,10 @@
   <select id="getTotalRechargeByUser" parameterClass="java.lang.String" resultClass="java.lang.Float">
     select sum(cash) from recharge where userid = #value# and status = 1
   </select>
+  
+  <select id="getCountByUserid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+    select count(1) from recharge where userid = #value# and status = 1
+  </select>
 
   <select id="getRechargeByUser" parameterClass="java.lang.String" resultClass="Recharge">
     select * from recharge where userid = #value#

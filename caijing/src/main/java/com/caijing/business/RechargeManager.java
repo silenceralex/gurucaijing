@@ -17,4 +17,6 @@ public interface RechargeManager {
 	public List<Recharge> getRechargeByUserid(String userid);
 
 	public float getTotalByUserid(String userid);
+
+	public int getCountByUserid(String userid);
 }

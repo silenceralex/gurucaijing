@@ -71,4 +71,9 @@ public class RechargeManagerImpl implements RechargeManager {
 		return rechargeDao.getTotalRechargeByUser(userid);
 	}
 
+	@Override
+	public int getCountByUserid(String userid) {
+		return rechargeDao.getCountByUserid(userid);
+	}
+
 }

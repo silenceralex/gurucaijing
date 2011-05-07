@@ -9,6 +9,13 @@
     from product
     where pid = #pid:INTEGER#
   </select>
+  
+  
+ <select id="getAllProduct" resultClass="Product" >
+    select pid, name, isIndustry, continuedmonth, price, rightpaths, description
+    from product
+  </select>
+  
   <delete id="delete" parameterClass="Product" >
     delete from product
     where pid = #pid:INTEGER#

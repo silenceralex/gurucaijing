@@ -23,4 +23,9 @@ public class RechargeDaoImpl extends CrudDaoDefault implements RechargeDao {
 		return (List<Recharge>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".getRechargeByUser", userid);
 	}
 
+	@Override
+	public int getCountByUserid(String userid) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getCountByUserid", userid);
+	}
+
 }
