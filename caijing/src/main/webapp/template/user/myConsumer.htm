@@ -31,7 +31,7 @@
          </div>
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
-               2009年11月08日至今，您在投资大师共消费了&nbsp;<span class="cRed">6</span>&nbsp;项服务，订单总金额&nbsp;<span class="cRed">35</span>&nbsp;元，您的账户余额为&nbsp;<span class="cRed">193.00</span>&nbsp;元
+               $ptime至今，您在投资大师共充值&nbsp;<span class="cRed">$times</span>&nbsp;次，订单总金额&nbsp;<span class="cRed">35</span>&nbsp;元，您的账户余额为&nbsp;<span class="cRed">$user.remain</span>&nbsp;元
                <hr />
                <table class="myOrderTb">
                   <tr>
@@ -43,6 +43,15 @@
                      <th>金额</th>
                      <th>时间</th>
                   </tr>
+                  <!-- TODO
+                  #if($orderList) #forearch( $one in $orderList)
+                  <tr>
+                     <td>$one.orderid</td>
+                     <td>$one.</td>
+                     <td>$one.orderid</td>
+                     <td>$one.orderid</td>
+                   -->  
+                  
                   <tr>
                      <td>000002</td>
                      <td>信用卡支付</td>

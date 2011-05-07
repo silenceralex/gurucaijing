@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.caijing.business.OrderManager;
-import com.caijing.business.RechargeManager;
 import com.caijing.dao.OrderDao;
 import com.caijing.dao.ProductDAO;
 import com.caijing.dao.RechargeDao;
@@ -67,7 +66,7 @@ public class OrderManagerImpl implements OrderManager {
 		long orderid = recharge.getOrderid();
 		int status = recharge.getStatus();
 		//待支付状态或支付失败状态
-		if(status == 0 || status == -1){
+		if (status == 0 || status == -1) {
 			//更新用户余额
 			float cash = recharge.getCash();
 			webUserDao.updateRemainMoney(userid, cash * +1);
@@ -87,13 +86,13 @@ public class OrderManagerImpl implements OrderManager {
 	 * @return
 	 */
 	@Override
-	public void orderByRemain(String userid, long orderid){
+	public void orderByRemain(String userid, long orderid) {
 		OrderMeta order = orderDao.selectWithOrderPr(orderid);
-		
+
 		//检查是否是无效订单
-		if(order!=null){
+		if (order != null) {
 			byte status = order.getStatus();
-			if(status==1){
+			if (status == 1) {
 				return;
 			}
 		}
@@ -111,12 +110,12 @@ public class OrderManagerImpl implements OrderManager {
 
 				// 更新userright权限
 				saveUserright(userid, orderid, orderPrs);
-				
+
 				//订单支付成功，订单失效
 				order.setStatus((byte) 1);
 				orderDao.update(order);
 				return;
-			} 
+			}
 		}
 	}
 
@@ -129,7 +128,7 @@ public class OrderManagerImpl implements OrderManager {
 			Product product = (Product) productDAO.select(orderPr.getPid());
 			String[] paths = product.getRightpaths().split("\\s+");
 			//单个产品的购买总月份
-			int totalmonth = product.getContinuedmonth()*orderPr.getNum();
+			int totalmonth = product.getContinuedmonth() * orderPr.getNum();
 
 			for (String path : paths) {
 				Userright right = new Userright();
@@ -179,27 +178,30 @@ public class OrderManagerImpl implements OrderManager {
 	 * 保存订单
 	 */
 	@Override
-	public long saveOrder(String userid, JSONArray products) {
+	public OrderMeta saveOrder(String userid, JSONArray products) {
 		Date ctime = new Date();
 		// 订单总金额
 		float sum = 0;
 
 		// insert orderPr
 		long orderid = ServerUtil.getOrderID(userid); //TODO id有问题
-		System.out.println("orderid:"+orderid);
-		
+		System.out.println("orderid:" + orderid);
+
 		for (int i = 0; i < products.size(); i++) {
 			JSONObject product = products.getJSONObject(i);
 			Integer productid = product.getInt("productid");
 			Integer num = product.getInt("num");
 			String industryid = product.getString("industryid");
-			
+
 			OrderPr orderPr = new OrderPr();
 			orderPr.setOrderid(orderid);
 			orderPr.setPid(productid);
 			orderPr.setIndustryid(industryid);
 			orderPr.setNum(num);
-			float price = ((Product) productDAO.select(productid)).getPrice();
+			Product prod = (Product) productDAO.select(productid);
+			if (prod == null)
+				continue;
+			float price = prod.getPrice();
 			orderPr.setCost(price * num);
 			orderPr.setCtime(ctime);
 			orderDao.insertOrderPr(orderPr);
@@ -215,22 +217,22 @@ public class OrderManagerImpl implements OrderManager {
 		order.setStatus((byte) 0);
 		order.setCost(sum);
 		orderDao.insert(order);
-		
-		return orderid;
+
+		return order;
 	}
-	
+
 	/**
 	 * 返回用户权限，用于刷新session
 	 */
 	@Override
-	public List<Userright> getUserrightsByUserid(String userid){
-//		List<Userright> rights = userrightDao.getUserrightByUserid(userid);
-//		List<String> paths = null;
-//		if(rights!=null){
-//			for (Userright right : rights) {
-//				paths.add(right.getPath());
-//			}
-//		}
+	public List<Userright> getUserrightsByUserid(String userid) {
+		//		List<Userright> rights = userrightDao.getUserrightByUserid(userid);
+		//		List<String> paths = null;
+		//		if(rights!=null){
+		//			for (Userright right : rights) {
+		//				paths.add(right.getPath());
+		//			}
+		//		}
 		return userrightDao.getUserrightByUserid(userid);
 	}
 }

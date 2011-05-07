@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.OrderManager;
+import com.caijing.dao.WebUserDao;
+import com.caijing.domain.OrderMeta;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
@@ -31,10 +33,14 @@ public class OrderController {
 	@Qualifier("orderManager")
 	private OrderManager orderManager = null;
 
+	@Autowired
+	@Qualifier("webUserDao")
+	private WebUserDao webUserDao = null;
+
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public boolean orderByRecharge(@ModelAttribute("currWebUser") WebUser user,
+	public String orderByRecharge(@ModelAttribute("currWebUser") WebUser user,
 			@ModelAttribute("currRights") List<Userright> currRights, HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "status", required = true) Integer status, HttpServletRequest request, ModelMap model) {
@@ -45,47 +51,55 @@ public class OrderController {
 				orderManager.orderByRecharge(userid, rechargeid);
 				List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 				model.addAttribute("currRights", rights);
-				return true;
+				return "/template/user/myConsumer.htm";
 			} else {
 				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
-				return false;
+				return "/template/user/myConsumer.htm";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return "/template/user/myConsumer.htm";
 		}
 	}
 
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)
-	public boolean orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public String orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		try {
 			String userid = user.getUid();
 			orderManager.orderByRemain(userid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 			model.addAttribute("currRights", rights);
-			return true;
+			return "/template/user/myConsumer.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return "/template/user/myConsumer.htm";
 		}
 	}
 
 	@RequestMapping(value = "/user/productcart.do", method = RequestMethod.POST)
-	public long saveOrder(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public String saveOrder(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "param", required = true) String jsondata, HttpServletRequest request, ModelMap model) {
 		logger.debug("user id:" + user.getUid() + "  jsondata:" + jsondata);
 		try {
-			long orderid = -1;
+			OrderMeta order = null;
 			String userid = user.getUid();
 			JSONArray products = JSONArray.fromObject(jsondata);
 			if (products != null && products.size() != 0) {
-				orderid = orderManager.saveOrder(userid, products);
+				order = orderManager.saveOrder(userid, products);
 			}
-			return orderid;
+			user = (WebUser) webUserDao.select(user.getUid());
+			if (user.getRemain() >= order.getCost()) {
+				model.put("useRemain", 1);
+			} else {
+				model.put("useRemain", 0);
+			}
+			model.put("user", user);
+			model.put("orderid", order.getOrderid());
+			return "/template/cart/pay.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			return "/template/cart/pay.htm";
 		}
 	}
 }

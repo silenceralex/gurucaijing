@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_分析师推荐成功率排行榜</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <a href="/">投资大师首页</a> &gt; 个人中心
+            </h2>   
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">个人中心</h2>
+            <span><a href="/user/myAccount.htm">我的账号</a></span>
+            <span><a href="/user/myInfo.htm">我的信息</a></span>
+            <span class="current"><a href="/user/myRecharge.htm">我的充值</a></span>
+            <span><a href="/user/myConsumer.htm">我的消费</a></span>
+			<span><a href="/user/logout.do">安全退出</a></span> 
+         </div>
+         <div id="star_detail_box" class="star_detail_box">
+            <div class="onsaleTable">
+               	您在投资大师的账户是  $!user.email , 账户余额为&nbsp;<span class="cRed">$!user.remain</span>&nbsp;元
+               <hr />
+               <b>请您确认本次充值的账单:</b><br />
+               <form action="/user/orderByRecharge.do" name="confirm" method="post" enctype="multipart/form-data">
+                  <input id="rechargeid" name="rechargeid" type="hidden" value="$recharge.rcid"/>
+                  <table class="uinfoTb">
+                     <tr width="120">
+                        <td>充值金额:</td>
+                        <td><input id="cash" name="cash" type="hidden" value="$recharge.cash"/>$recharge.cash</td>
+                     </tr>
+                     <tr><td>支付方式:</td></tr>
+                     <tr>
+                        <td><input type="hidden" name="type" value="$recharge.type"  />
+                        #if($recharge.type==0)
+                        	支付宝-在线支付
+                        #elseif($recharge.type==1)
+                        	财付通-在线支付
+                        #elseif($recharge.type==2)
+                        	快钱-在线支付
+                        #elseif($recharge.type==3)
+                        	信用卡-在线支付
+                        #end
+                        </td>
+                     </tr>
+                    <tr>
+                        <td><input type="radio" name="status" value="1"  />成功</td>
+                     </tr>
+                     <tr>
+                        <td><input type="radio" name="status" value="-1"  />失败</td>
+                     </tr>
+                     <tr>
+                      	<td><input onclick="javascript:document.confirm.submit();" type="button" value="确定" /></td>
+                     </tr>
+                  </table>
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+</div>
+</body>
+</html>
+<!-- myRecharge -->

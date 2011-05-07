@@ -23,15 +23,18 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.caijing.business.RechargeManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.OrderDao;
 import com.caijing.dao.ProductDAO;
 import com.caijing.dao.UserDao;
 import com.caijing.dao.UserrightDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.OrderMeta;
 import com.caijing.domain.Product;
 import com.caijing.domain.User;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
+import com.caijing.util.DateTools;
 import com.caijing.util.ServerUtil;
 import com.caijing.util.TopicNameConfig;
 
@@ -65,6 +68,10 @@ public class LoginController {
 	@Autowired
 	@Qualifier("rechargeManager")
 	private RechargeManager rechargeManager = null;
+
+	@Autowired
+	@Qualifier("orderDao")
+	private OrderDao orderDao;
 
 	@RequestMapping("/admin/login.do")
 	public String showColomn(HttpServletResponse response,
@@ -315,6 +322,8 @@ public class LoginController {
 		int times = rechargeManager.getCountByUserid(user.getUid());
 		//取得最新的remain值
 		user = (WebUser) webUserDao.select(user.getUid());
+		String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
+		model.put("ptime", ptime);
 		model.put("productList", products);
 		model.put("total", total);
 		model.put("times", times);
@@ -334,7 +343,17 @@ public class LoginController {
 	}
 
 	@RequestMapping("/user/myConsumer.htm")
-	public String myconsumer(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+	public String myconsumer(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		//取得最新的remain值
+		user = (WebUser) webUserDao.select(user.getUid());
+		String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
+		Float total = rechargeManager.getTotalByUserid(user.getUid());
+		List<OrderMeta> orderList = orderDao.getOrdersByUserid(user.getUid());
+		model.put("ptime", ptime);
+		model.put("orderList", orderList);
+		model.put("total", total);
+		model.put("user", user);
 		return "/template/user/myConsumer.htm";
 	}
 

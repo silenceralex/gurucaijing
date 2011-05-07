@@ -22,7 +22,7 @@
   </select>
   
   <insert id="insert" >
-    insert into recharge (rcid,userid,type,status,cash,ctime,lmodify,orderid) values (#rcid#,#userid#,#type#,#status#,#cash#,now(),now(),orderid)
+    insert into recharge (rcid,userid,type,status,cash,ctime,lmodify,orderid) values (#rcid#,#userid#,#type#,#status#,#cash#,now(),now(),#orderid#)
   </insert>
 
   <update id="update" parameterClass="Recharge">

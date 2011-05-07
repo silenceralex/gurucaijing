@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.RechargeManager;
+import com.caijing.dao.OrderDao;
 import com.caijing.dao.WebUserDao;
+import com.caijing.domain.OrderMeta;
 import com.caijing.domain.Recharge;
 import com.caijing.domain.WebUser;
 
@@ -33,6 +35,10 @@ public class RechargeController {
 	@Autowired
 	@Qualifier("webUserDao")
 	private WebUserDao webUserDao = null;
+
+	@Autowired
+	@Qualifier("orderDao")
+	private OrderDao orderDao;
 
 	private static final Log logger = LogFactory.getLog(RechargeController.class);
 
@@ -49,6 +55,27 @@ public class RechargeController {
 			e.printStackTrace();
 		}
 		return "/template/user/rechargeCallback.htm";
+	}
+
+	@RequestMapping(value = "/user/orderrecharge.do", method = RequestMethod.POST)
+	public String orderrecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			@RequestParam(value = "orderid", required = false) Long orderid,
+			@RequestParam(value = "useRemain", required = false) Long useRemain,
+			@RequestParam(value = "type", required = true) Integer type, HttpServletRequest request, ModelMap model) {
+		try {
+			OrderMeta order = (OrderMeta) orderDao.select(orderid);
+			float cash = order.getCost();
+			if (useRemain == 1) {
+				user = (WebUser) webUserDao.select(user.getUid());
+				cash = cash - user.getRemain();
+			}
+			Recharge recharge = rechargeManager.recharge(user.getUid(), type, cash, orderid);
+			model.put("recharge", recharge);
+			model.put("user", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/template/user/rechargeOrderCallback.htm";
 	}
 
 	@RequestMapping(value = "/user/rconfirm.do", method = RequestMethod.POST)
@@ -98,7 +125,6 @@ public class RechargeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return "/template/user/myRecharge.htm";
 	}
 

@@ -4,9 +4,9 @@ import java.util.List;
 
 import net.sf.json.JSONArray;
 
+import com.caijing.domain.OrderMeta;
 import com.caijing.domain.OrderPr;
 import com.caijing.domain.Userright;
-
 
 /**
  * 充值消费流程控制
@@ -14,7 +14,7 @@ import com.caijing.domain.Userright;
  */
 public interface OrderManager {
 
-	long saveOrder(String userid, JSONArray products);
+	OrderMeta saveOrder(String userid, JSONArray products);
 
 	void saveUserright(String userid, long orderid, List<OrderPr> orderPrs);
 

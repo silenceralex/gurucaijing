@@ -35,10 +35,16 @@
     where o.orderid = #orderid:BIGINT#
   </select>
 
-  <select id="select" resultClass="OrderMeta" parameterClass="OrderMeta" >
+  <select id="select" resultClass="OrderMeta" parameterClass="Long" >
     select orderid, userid, cost, status, ctime, lmodify
     from order_meta
     where orderid = #orderid:BIGINT#
+  </select>
+  
+    <select id="getOrdersByUserid" resultClass="OrderMeta" parameterClass="java.lang.String" >
+    select orderid, userid, cost, status, ctime, lmodify
+    from order_meta
+    where userid = #userid#
   </select>
   
   <delete id="delete" parameterClass="OrderMeta" >
