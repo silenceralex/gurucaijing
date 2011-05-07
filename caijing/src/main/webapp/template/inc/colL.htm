@@ -15,7 +15,7 @@
                   </form>
                </div>
                <div id="login_uinfo" style="display:none;">
-                  <p class="u_email cRed"></p><br />，
+                  <p id="login_uemail" class="u_email cRed"></p><br />，
                   <p>您好，欢迎光临投资大师</p>
                   <p><a href="/user/myInfo.htm">&gt;&gt;进入个人中心</a></p>
                </div>
@@ -24,9 +24,9 @@
                var c = document.cookie;
                var email = c.match(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/);
                if ( email ) {
-                  $( "#login_form" ).hide();
-                  $( "#login_uinfo" ).show();
-                  $( "#login_uinfo .u_email" ).html( email[0] );
+                  document.getElementById("login_form").style.display = "none";
+                  document.getElementById("login_uinfo").style.display = "block";
+                  document.getElementById("login_uemail").innerHTML = email[0];
                }
             </script>
             <div class="colL1 colLItem">
