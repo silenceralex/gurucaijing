@@ -42,7 +42,7 @@ a{text-decoration:none}
 .searchBox{float:left; width:124px; height:15px; line-height:15px; padding:2px; background:#FFF; border:none; color:#666; font-size:12px}
 
 .searchBtn{float:left; width:75px; height:19px; background:url(/img/sprite1.png) no-repeat left -203px; text-indent:-100px; border:none; cursor:pointer}
-.nav{width:610px; height:auto; margin-top:60px; padding-left:50px}
+.nav{height:auto; margin-top:60px; padding-left:50px}
 .nav li{float:left; width:108px; font-size:14px; background:url(/img/whiteArrow.gif) no-repeat; padding-left:12px}
 .nav li a{line-height:28px}
 .nav li a:link, .nav li a:visited{text-decoration:none; color:#FFF}
