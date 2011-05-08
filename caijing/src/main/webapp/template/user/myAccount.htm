@@ -42,7 +42,7 @@
                   </tr>
                    #if($productList)#foreach( $one in $productList)
                   <tr>
-                     <td rowspan="7">$one.name</td>
+                     <td>$one.name</td>
                      <td>$one.description</td>
                      #if($one.continuedmonth==1 && $one.isIndustry==1 )
                      <td>$one.price 元/月/行业</td>
