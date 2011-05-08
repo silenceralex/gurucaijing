@@ -235,4 +235,9 @@ public class OrderManagerImpl implements OrderManager {
 		//		}
 		return userrightDao.getUserrightByUserid(userid);
 	}
+
+	@Override
+	public OrderMeta selectWithOrderPr(Long orderid) {
+		return orderDao.selectWithOrderPr(orderid);
+	}
 }

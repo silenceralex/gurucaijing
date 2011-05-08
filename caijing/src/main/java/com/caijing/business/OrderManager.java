@@ -22,6 +22,8 @@ public interface OrderManager {
 
 	void orderByRemain(String userid, long orderid);
 
-	List<Userright> getUserrightsByUserid(String userid);
+	public List<Userright> getUserrightsByUserid(String userid);
+
+	public OrderMeta selectWithOrderPr(Long orderid);
 
 }

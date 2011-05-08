@@ -1,5 +1,6 @@
 package com.caijing.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.OrderManager;
+import com.caijing.dao.ProductDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.OrderMeta;
+import com.caijing.domain.OrderPr;
+import com.caijing.domain.Product;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
 
@@ -37,10 +41,14 @@ public class OrderController {
 	@Qualifier("webUserDao")
 	private WebUserDao webUserDao = null;
 
+	@Autowired
+	@Qualifier("productDAO")
+	private ProductDAO productDAO;
+
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public String orderByRecharge(@ModelAttribute("currWebUser") WebUser user,
+	public void orderByRecharge(@ModelAttribute("currWebUser") WebUser user,
 			@ModelAttribute("currRights") List<Userright> currRights, HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "status", required = true) Integer status, HttpServletRequest request, ModelMap model) {
@@ -51,29 +59,27 @@ public class OrderController {
 				orderManager.orderByRecharge(userid, rechargeid);
 				List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 				model.addAttribute("currRights", rights);
-				return "/template/user/myConsumer.htm";
+				response.sendRedirect("/user/myConsumer.htm");
 			} else {
 				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
-				return "/template/user/myConsumer.htm";
+				response.sendRedirect("/user/myConsumer.htm");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "/template/user/myConsumer.htm";
 		}
 	}
 
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)
-	public String orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public void orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		try {
 			String userid = user.getUid();
 			orderManager.orderByRemain(userid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 			model.addAttribute("currRights", rights);
-			return "/template/user/myConsumer.htm";
+			response.sendRedirect("/user/myConsumer.htm");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "/template/user/myConsumer.htm";
 		}
 	}
 
@@ -101,5 +107,23 @@ public class OrderController {
 			e.printStackTrace();
 			return "/template/cart/pay.htm";
 		}
+	}
+
+	@RequestMapping(value = "/user/orderDetail.htm")
+	public String orderdetail(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
+		logger.debug("orderid:" + orderid);
+
+		List<OrderPr> orderprs = orderManager.selectWithOrderPr(orderid).getOrderPrs();
+		List<Product> products = new ArrayList<Product>();
+		for (OrderPr orderpr : orderprs) {
+
+			Product p = (Product) productDAO.select(orderpr.getPid());
+			p.setContinuedmonth(p.getContinuedmonth() * orderpr.getNum());
+			products.add(p);
+		}
+		model.put("orderprs", orderprs);
+		model.put("products", products);
+		return "/user/orderDetail.htm";
 	}
 }

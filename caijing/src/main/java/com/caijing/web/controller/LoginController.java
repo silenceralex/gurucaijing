@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,8 @@ import com.caijing.util.TopicNameConfig;
 @Controller
 @SessionAttributes({ "currWebUser", "currRights" })
 public class LoginController {
+
+	private static final Log logger = LogFactory.getLog(LoginController.class);
 	@Autowired
 	@Qualifier("userDao")
 	private UserDao ibatisUserDao = null;
@@ -350,6 +354,7 @@ public class LoginController {
 		String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
 		Float total = rechargeManager.getTotalByUserid(user.getUid());
 		List<OrderMeta> orderList = orderDao.getOrdersByUserid(user.getUid());
+		logger.debug("orderList:" + orderList.size());
 		model.put("ptime", ptime);
 		model.put("orderList", orderList);
 		model.put("total", total);
