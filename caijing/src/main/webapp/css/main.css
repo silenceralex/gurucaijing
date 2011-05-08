@@ -127,3 +127,5 @@ a{text-decoration:none}
 .colML .notice-list li {margin:0;}
 .colML .notice-list .title {width:200px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
 .colML .notice-list .sort {width:50px;display:inline-block;overflow:hidden;height:25px;line-height:25px;vertical-align:bottom;}
+#login_form,#login_uinfo{height:100px;}
+#login_uinfo p{padding-left:15px;padding-top:5px;}
