@@ -427,7 +427,7 @@
              totalP = 0, // ×Ü¼Û¸ñ
              str = "",
              pid = "",
-             industryId = "",
+             industryId = "";
          Rookie(function(){
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
