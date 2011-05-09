@@ -289,6 +289,7 @@ public class AnalyzerController {
 	public String getAnalyzerIndustry(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		WebUser user = (WebUser) request.getSession().getAttribute("currWebUser");
 		List<String> industryList = userrightDao.getIndustriesByUserid(user.getUid(), "analyzer");
+		logger.debug("own industry size:" + industryList.size());
 		model.put("industryList", industryList);
 		return "/template/industryList.htm";
 	}

@@ -50,7 +50,7 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 
 	private boolean containsOneOfUserrights(String str, List<Userright> currRights) {
 		for (Userright right : currRights) {
-			if (str.indexOf(right.getPath()) != -1)
+			if (str.indexOf(right.getPath().toUpperCase()) != -1)
 				return true;
 		}
 		return false;
@@ -108,8 +108,14 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 						isValid = true;
 					} else {
 						logger.debug("user: " + user.getEmail() + "  无对 URL：" + URL + "   的访问权限");
-						sResponse.sendRedirect("/user/myAccount.htm");
+
 						isValid = false;
+						sResponse.setContentType("text/html; charset=GBK");
+						sResponse.getWriter().write(
+								"<script>alert('您没有对 URL:" + URL
+										+ " 的访问权限,请您在跳转页面购买，谢谢！'); top.location='/user/myAccount.htm';</script>");
+						sResponse.flushBuffer();
+
 					}
 				} else if ((user == null) || (StringUtils.isEmpty(user.getEmail()))) {
 					logger.debug("对请求的 " + URL + " 进行安全检查。");

@@ -13,7 +13,8 @@
   </select>
   
   <select id="getIndustriesByUserid" parameterClass="java.util.HashMap" resultClass="java.lang.String">
-  	select distinct(industryid) from userright where uid=#uid# and valid=1 and path=#path#
+  	select distinct(i.industryname) from userright ur,industry_pr i where ur.uid=#uid# and ur.valid=1 and ur.path=#path# 
+  	and ur.industryid=i.industryid 
   </select>
   
   <select id="getUserrightByUserid" parameterClass="java.lang.String" resultClass="Userright">
