@@ -321,12 +321,13 @@
       // 添加一个产品
       add : function ( id, num, industryId ) {
          var t = this,
-         isExist = false;
+             isExist = false,
+             num = Number( num );
          var price = t.pObj[id].price;
          var total = { num : 0, price : 0 };
          for ( var i = 0; i < t.cartArr.length; i ++ ) {
             total.num += Number(t.cartArr[i].num);
-            total.price += t.cartArr[i].num * t.cartArr[i].price;
+            total.price += Number( t.cartArr[i].num ) * t.pObj[t.cartArr[i].id].price;
             if ( id == t.cartArr[i].id && industryId == t.cartArr[i].industryId ) {
                isExist = true;
             }
@@ -342,9 +343,9 @@
             this.write( 'cart', t.cartArr );
          });
          // 弹窗显示
-         t.popDialog( total.num, total.price );
-         $("#tipTotalN").innerHTML = num;
-         $("#tipTotalP").innerHTML = price;
+         t.popDialog();
+         $("#tipTotalN").html( total.num );
+         $("#tipTotalP").html( total.price );
          if ( !t.jump ) {
             $("#dialogS .chose").hide();
             $("#dialogS .success").show();
@@ -378,6 +379,7 @@
                t.cartArr.splice( i, 1 );
             }
          };
+         t.getTotal();
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          });
@@ -404,11 +406,12 @@
       // 修改数据
       motify : function ( id, field, value ) {
          var t = this;
-         for ( var i = 0; i < t.cartArr; i ++ ) {
+         for ( var i = 0; i < t.cartArr.length; i ++ ) {
             if ( id == t.cartArr[i].id ) {
                t.cartArr[i][field] = value;
             }
          };
+         t.getTotal();
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          })
@@ -449,12 +452,12 @@
          function showit ( pay ) {
             for ( var i = 0; i < t.cartArr.length; i++ ) {
                pid = t.cartArr[i].id;
-               num = t.cartArr[i].num;
+               num = Number( t.cartArr[i].num );
                if ( t.pObj[pid] ) {
                   price = t.pObj[pid].price * num;
                   totalN += num;
                   totalP += price;
-                  var str = '<tr id="' + pid.split("p")[1] + '">';
+                  var str = '<tr id="' + pid + '">';
                   str += '<td>' + pid.split("p")[1] + '</td>';
                   str += '<td>' + t.pObj[pid].title + '</td>';
                   str += '<td>' + t.pObj[pid].intro + '</td>';
@@ -464,23 +467,33 @@
                      str += '<td><span class="operation" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation" onclick="cart.plus(\'' + pid + '\')">+</span></td>';
                   }
                   str += '<td><span class="price">' + price + '</span>元</td>';
-                  str += '<td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>';
+                  str += '<td><a onclick="cart.del(\'' + pid + '\')" href="javascript:;">删除</a></td>';
                   str += '</tr>';
-                  $( cartTb ).append('\
-                     <tr id="' + pid.split("p")[1] + '">\
-                        <td>' + pid.split("p")[1] + '</td>\
-                        <td>' + t.pObj[pid].title + '</td>\
-                        <td>' + t.pObj[pid].intro + '</td>\
-                        <td><span class="operation" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation" onclick="cart.plus(\'' + pid + '\')">+</span></td>\
-                        <td><span class="price">' + price + '</span>元</td>\
-                        <td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>\
-                     </tr>\
-                  ');
+                  $( cartTb ).append( str );
                }
             };
             $("#totalN").text( totalN );
             $("#totalP").text( totalP );
          }
+      },
+      getTotal : function () {
+         var t = this,
+             num = 0,
+             price = 0,
+             pid = "",
+             totalN = 0,
+             totalP = 0;
+         for ( var i = 0; i < t.cartArr.length; i++ ) {
+            pid = t.cartArr[i].id;
+            num = Number( t.cartArr[i].num );
+            if ( t.pObj[pid] ) {
+               price = t.pObj[pid].price * num;
+               totalN += num;
+               totalP += price;
+            }
+         };
+         $("#totalN").text( totalN );
+         $("#totalP").text( totalP );
       },
       // 弹出提示框
       popDialog : function () {
