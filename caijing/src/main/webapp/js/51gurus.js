@@ -353,13 +353,13 @@
          if ( $("#cartTb") ) {
             // console.log("obj is:" + t.pObj + "," + id);
             $("#cartTb").append('\
-               <tr id="' + id + '">\
+               <tr id="p' + id + '">\
                   <td>' + id + '</td>\
                   <td>' + t.pObj[id].title + '</td>\
                   <td>' + t.pObj[id].intro + '</td>\
                   <td><span onclick="cart.sub(\'' + id + '\')">-</span><span id="' + id + 'num">' + num + '</span><span onclick="cart.plus(\'' + id + '\')">+</span></td>\
                   <td><span class="price">' + price + '</span>元</td>\
-                  <td><a onclick="cart.del(' + id + ')" href="javascript:;">删除</a></td>\
+                  <td><a onclick="cart.del(\'' + id + '\')" href="javascript:;">删除</a></td>\
                </tr>\
             ');
          }
@@ -367,17 +367,17 @@
       },
       // 删除某个产品
       del : function ( id ) {
+         var t = this;
          var yes = confirm("是否要删除该产品？");
          if ( !yes ) {
             return;
          }
-         var id = "p" + id;
+         $( "#" + id ).remove(); // 删除该节点
          for ( var i = 0; i < t.cartArr.length; i ++ ) {
             if ( id == t.cartArr[i].id ) {
                t.cartArr.splice( i, 1 );
             }
          };
-         $( "#" + id ).remove(); // 删除该节点
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          });
