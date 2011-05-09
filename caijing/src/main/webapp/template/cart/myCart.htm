@@ -23,7 +23,7 @@
          </div>
          <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
             <h2 class="star_de_tabli_on">我的购物车</h2>
-            <span class="current"><a href="#">确认购买</a></span>
+            <span class="current"><a href="/cart/myCart.htm">确认购买</a></span>
             <span><a href="#">确认支付方式</a></span>
          </div>
          <div id="star_detail_box" class="star_detail_box">
@@ -39,24 +39,10 @@
                         <th>金额</th>
                         <th>操作</th>
                      </tr>
-                     <!--<tr>
-                        <td>000002</td>
-                        <td>分析师成功率</td>
-                        <td>用户可查询该行业各分析师的目标价成功率</td>
-                        <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
-                        <td><span class="price">10</span>元</td>
-                        <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
-                                             <td>000002</td>
-                        <td>分析师成功率</td>
-                        <td>用户可查询该行业各分析师的目标价成功率</td>
-                        <td><span onclick="cart.motify(00002, )">-</span><span class="num">1</span><span>+</span></td>
-                        <td><span class="price">10</span>元</td>
-                        <td><a onclick="cart.del(00002)" href="javascript:;">删除</a></td>
-                     </tr>-->
                   </table>
-                  <hr />
                   <p style="text-align:right">产品数量总计：<span id="totalN">3</span>&nbsp;&nbsp;金额总计：￥<span id="totalP"></span></p>
                   <p style="text-align:right">
+                     <a href="javascript:;" onclick="cart.clear()"></a>
                      <input type="button" onclick="window.location.href='/user/myAccount.htm'" value="&lt;继续购买" />
                      <input type="submit" value="确认付款&gt;" />
                   </p>
@@ -147,6 +133,38 @@
       <div class="clear"></div>
       #include("/template/inc/footer.htm")
    </div><!--mainBox end-->
+   <div id="dialogS" class="dialogS">
+      <div class="close" onclick="hide('dialogS')"><a class="aRed" href="javascript:;">关闭</a></div>
+      <div class="success">
+         <p class="tip">该产品已成功放入购物车</p>
+         <p class="detail">购物车共<span id="tipTotalN" class="cRed">2</span>件产品 合计：<span id="tipTotalP" class="cRed">168.00</span>元</p>
+         <p>
+            <a href="/cart/myCart.htm" class="enter">进入购物车</a>
+            <span onclick="hide('dialogS');" class="continue">继续购物</span>
+         </p>
+      </div>
+      <div class="chose">
+         <table>
+            <tr>
+               <td class="industcol">行业</td>
+               <td>数量</td>
+               <td>价格</td>
+            </tr>
+            <tr>
+               <td class="industcol"><select name="industry"></select></td>
+               <td>
+                  <input class="count" id="0num" type="text" value="1"/>
+               </td>
+               <td><div id="chosePrice"></div></td>
+            </tr>
+            <tr>
+               <td><input id="buyOk" type="button" value="确认"/></td>
+               <td class="industcol"></td>
+               <td></td>
+            </tr>
+         </table>
+      </div>
+   </div>
 </div>
 <script type="text/javascript" language="javascript">
    cart.init();
