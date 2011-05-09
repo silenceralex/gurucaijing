@@ -221,6 +221,8 @@ public class LoginController {
 				System.out.println("nickname:" + user.getNickname());
 				request.getSession().setAttribute("currWebUser", user);
 				model.put("currWebUser", user);
+				List<Userright> currRights = userrightDao.getUserrightByUserid(user.getUid());
+				request.getSession().setAttribute("currRights", currRights);
 				setCookie(user, response);
 				response.setContentType("text/html;charset=GBK");
 				response.getWriter().print("<script>self.history.go(-1);</script>");
