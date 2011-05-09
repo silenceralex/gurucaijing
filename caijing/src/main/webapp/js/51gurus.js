@@ -315,8 +315,8 @@
          var t = this;
          Rookie(function(){
             this.clear("cart");
-            this.clear("orderId");
          });
+         window.location.reload();
       },
       // 添加一个产品
       add : function ( id, num, industryId ) {
@@ -327,7 +327,7 @@
          for ( var i = 0; i < t.cartArr.length; i ++ ) {
             total.num += Number(t.cartArr[i].num);
             total.price += t.cartArr[i].num * t.cartArr[i].price;
-            if ( id == t.cartArr[i].id ) {
+            if ( id == t.cartArr[i].id && industryId == t.cartArr[i].industryId ) {
                isExist = true;
             }
          };
@@ -367,7 +367,12 @@
       },
       // 删除某个产品
       del : function ( id ) {
-         for ( var i = 0; i < t.cartArr; i ++ ) {
+         var yes = confirm("是否要删除该产品？");
+         if ( !yes ) {
+            return;
+         }
+         var id = "p" + id;
+         for ( var i = 0; i < t.cartArr.length; i ++ ) {
             if ( id == t.cartArr[i].id ) {
                t.cartArr.splice( i, 1 );
             }
@@ -423,7 +428,6 @@
              str = "",
              pid = "",
              industryId = "",
-             num = "";
          Rookie(function(){
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
@@ -439,7 +443,7 @@
             str += "]";
             $("#cartParam").val( str );
          });
-         function showit () {
+         function showit ( pay ) {
             for ( var i = 0; i < t.cartArr.length; i++ ) {
                pid = t.cartArr[i].id;
                num = t.cartArr[i].num;
@@ -447,12 +451,24 @@
                   price = t.pObj[pid].price * num;
                   totalN += num;
                   totalP += price;
+                  var str = '<tr id="' + pid.split("p")[1] + '">';
+                  str += '<td>' + pid.split("p")[1] + '</td>';
+                  str += '<td>' + t.pObj[pid].title + '</td>';
+                  str += '<td>' + t.pObj[pid].intro + '</td>';
+                  if ( pay ) {
+                     str += '<td><span id="' + pid + 'num">' + num + '</span></td>';
+                  } else {
+                     str += '<td><span class="operation" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation" onclick="cart.plus(\'' + pid + '\')">+</span></td>';
+                  }
+                  str += '<td><span class="price">' + price + '</span>元</td>';
+                  str += '<td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>';
+                  str += '</tr>';
                   $( cartTb ).append('\
                      <tr id="' + pid.split("p")[1] + '">\
                         <td>' + pid.split("p")[1] + '</td>\
                         <td>' + t.pObj[pid].title + '</td>\
                         <td>' + t.pObj[pid].intro + '</td>\
-                        <td><span onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span onclick="cart.plus(\'' + pid + '\')">+</span></td>\
+                        <td><span class="operation" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation" onclick="cart.plus(\'' + pid + '\')">+</span></td>\
                         <td><span class="price">' + price + '</span>元</td>\
                         <td><a onclick="cart.del(' + pid + ')" href="javascript:;">删除</a></td>\
                      </tr>\
