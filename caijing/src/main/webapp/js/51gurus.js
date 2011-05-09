@@ -414,7 +414,7 @@
          })
       },
       // 展示数据
-      show : function () {
+      show : function ( pay ) {
          /**
           * pObj: {0002:{id:0002,title:"分析师成功率",intro:"套餐",price:10},0003:{...}}
           */
@@ -431,7 +431,10 @@
          Rookie(function(){
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
-            showit();
+            if ( !t.cartArr ) {
+               return;
+            }
+            showit( pay );
             str = "[";
             for( x in t.cartArr ) {
                pid = t.cartArr[x].id.replace(/[a-z]*/, "");
