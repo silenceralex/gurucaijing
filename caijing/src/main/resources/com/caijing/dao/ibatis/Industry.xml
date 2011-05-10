@@ -8,6 +8,10 @@
     select * from industry where industryid=#value#
   </select>
   
+  	<select id="selectlv1" resultClass="Industry">
+		select * from industry where length(industryid)=2
+  	</select>
+  
   <insert id="insert" >
     insert into industry (industryid,industryname) values (#industryid#,#industryname#)
   </insert>
