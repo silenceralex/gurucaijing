@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.OrderManager;
-import com.caijing.dao.IndustryDao;
 import com.caijing.dao.ProductDAO;
 import com.caijing.dao.WebUserDao;
-import com.caijing.domain.Industry;
 import com.caijing.domain.OrderMeta;
 import com.caijing.domain.OrderPr;
 import com.caijing.domain.Product;
@@ -46,10 +44,6 @@ public class OrderController {
 	@Autowired
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
-	
-	@Autowired
-	@Qualifier("industryDao")
-	private IndustryDao industryDao;
 
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
@@ -133,10 +127,4 @@ public class OrderController {
 		return "/user/orderDetail.htm";
 	}
 	
-	@RequestMapping(value = "/user/lv1Industry.htm")
-	public String lv1Industry(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
-		List<Industry> lv1Industries = industryDao.selectlv1();
-		model.put("lv1Industries", lv1Industries);
-		return "/user/lv1Industry.htm";
-	}
 }

@@ -43,7 +43,10 @@
 	</delete>
 
 	<select id="getAllMasters" parameterClass="java.util.Map" resultClass="Master">
-		select * from master limit #start#,#length#
+		select * from master
+		<isNotEmpty prepend="limit" property="start">
+			#start#,#length#
+		</isNotEmpty>
 	</select>
 	
 </sqlMap>

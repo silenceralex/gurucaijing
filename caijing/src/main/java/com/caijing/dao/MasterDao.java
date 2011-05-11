@@ -6,7 +6,7 @@ import com.caijing.domain.Master;
 import com.caijing.util.CrudDao;
 
 public interface MasterDao extends CrudDao {
-	List<Master> getAllMasters(int start, int length);
+	List<Master> getAllMasters(Integer start, Integer length);
 
 	Master getMasterByName(String name);
 }
