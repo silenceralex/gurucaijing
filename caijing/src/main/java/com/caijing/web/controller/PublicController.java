@@ -13,10 +13,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.IndustryDao;
 import com.caijing.dao.MasterDao;
 import com.caijing.dao.ProductDAO;
@@ -24,6 +24,7 @@ import com.caijing.domain.Industry;
 import com.caijing.domain.Master;
 import com.caijing.domain.Product;
 
+@Controller
 public class PublicController {
 
 	@Autowired

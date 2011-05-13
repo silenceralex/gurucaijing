@@ -9,4 +9,6 @@ public interface IndustryDao extends CrudDao {
 
 	List<Industry> selectlv1();
 
+	Industry selectByIndustryname(String industry);
+
 }

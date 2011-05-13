@@ -12,4 +12,10 @@ public class IndustryDaoImpl extends CrudDaoDefault implements IndustryDao {
 	public List<Industry> selectlv1() {
 		return (List<Industry>) getSqlMapClientTemplate().queryForList(getNameSpace() + ".selectlv1");
 	}
+	
+	@Override
+	public Industry selectByIndustryname(String industry) {
+		return (Industry) getSqlMapClientTemplate().queryForList(getNameSpace() + ".selectByIndustryname");
+	}
+	
 }
