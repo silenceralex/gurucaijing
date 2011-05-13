@@ -1,4 +1,4 @@
-package com.caijing.util;
+package com.caijing.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

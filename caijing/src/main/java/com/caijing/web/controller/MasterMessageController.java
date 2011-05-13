@@ -1,5 +1,6 @@
 package com.caijing.web.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +16,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.dao.MasterDao;
 import com.caijing.dao.MasterMessageDao;
+import com.caijing.dao.UserrightDAO;
 import com.caijing.domain.Master;
+import com.caijing.domain.WebUser;
 import com.caijing.util.Config;
 import com.caijing.util.DateTools;
 
 @Controller
+@SessionAttributes({ "currWebUser" })
 public class MasterMessageController {
 
 	private static final Log logger = LogFactory.getLog(MasterMessageController.class);
@@ -40,6 +46,10 @@ public class MasterMessageController {
 	@Autowired
 	@Qualifier("config")
 	private Config config = null;
+
+	@Autowired
+	@Qualifier("userrightDAO")
+	private UserrightDAO userrightDao = null;
 
 	@RequestMapping("/master/online.do")
 	public void showMessages(HttpServletResponse response,
@@ -77,5 +87,21 @@ public class MasterMessageController {
 		model.put("masterList", masters);
 		model.put("master", master);
 		return "/template/master/liveDetail.htm";
+	}
+
+	@RequestMapping("/master/index.htm")
+	public String getMasters(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		logger.debug("userid:" + user.getUid());
+		List<String> masterids = userrightDao.getMasteridsByUserid(user.getUid().trim());
+		logger.debug("masterids:" + masterids.size());
+		List<Master> masters = new ArrayList<Master>();
+		for (String masterid : masterids) {
+			Master master = (Master) masterDao.select(masterid);
+			logger.debug("masterid:" + masterid);
+			masters.add(master);
+		}
+		model.put("masters", masters);
+		return "/template/master/masterList.htm";
 	}
 }

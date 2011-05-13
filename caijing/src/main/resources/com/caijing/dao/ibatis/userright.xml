@@ -17,6 +17,10 @@
   	and ur.industryid=i.industryid 
   </select>
   
+   <select id="getMasteridsByUserid" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+  	select distinct(industryid) from userright where uid=#uid# and valid=1 and path="master" 
+  </select>
+  
   <select id="getUserrightByUserid" parameterClass="java.lang.String" resultClass="Userright">
   	select * from userright where uid=#value# and valid=1
   </select>

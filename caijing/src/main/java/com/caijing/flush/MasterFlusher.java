@@ -177,7 +177,7 @@ public class MasterFlusher {
 					vmf.put("articlelist", postList);
 					vmf.put("dateTools", dateTools);
 					vmf.put("paginatorLink", paginator.getPageNumberList());
-					String url = config.getProperty("masterPath") + master.getMasterid() + "/thread_" + i + ".html";
+					String url = config.getProperty("masterPath") + master.getMasterid() + "/thread_" + i + ".htm";
 					vmf.save(url);
 					System.out.println("write page : " + url);
 				} catch (Exception e) {
@@ -207,8 +207,23 @@ public class MasterFlusher {
 				vmf.put("masterList", masters);
 				vmf.put("encodename", encodename);
 				vmf.put("postList", postList);
-				vmf.save(config.getProperty("masterPath") + master.getMasterid() + ".html");
-				System.out.println("write page : " + config.getProperty("masterPath") + master.getMasterid() + ".html");
+				vmf.save(config.getProperty("masterPath") + master.getMasterid() + ".htm");
+				System.out.println("write page : " + config.getProperty("masterPath") + master.getMasterid() + ".htm");
+			} catch (Exception e) {
+				System.out.println("===> exception !!");
+				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			//刷新每个分析师的直播页面
+			try {
+				VMFactory vmf = new VMFactory();
+				vmf.setTemplate("/template/master/liveDetail.htm");
+				vmf.put("master", master);
+				vmf.put("masterList", masters);
+				vmf.save(config.getProperty("masterPath") + master.getMasterid() + "/liveDetail.htm");
+				System.out.println("write page : " + config.getProperty("masterPath") + master.getMasterid()
+						+ "/liveDetail.htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -220,8 +235,8 @@ public class MasterFlusher {
 			VMFactory vmf = new VMFactory();
 			vmf.setTemplate("/template/master/masterList.htm");
 			vmf.put("masters", masters);
-			vmf.save(config.getProperty("masterPath") + "index.html");
-			System.out.println("write page : " + config.getProperty("masterPath") + "index.html");
+			vmf.save(config.getProperty("masterPath") + "index.htm");
+			System.out.println("write page : " + config.getProperty("masterPath") + "index.htm");
 		} catch (Exception e) {
 			System.out.println("===> exception !!");
 			System.out.println("While generating reportlab html --> GET ERROR MESSAGE: " + e.getMessage());

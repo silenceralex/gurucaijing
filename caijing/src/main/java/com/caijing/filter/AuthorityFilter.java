@@ -1,4 +1,4 @@
-package com.caijing.util;
+package com.caijing.filter;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
+import com.caijing.util.TopicNameConfig;
 
 public class AuthorityFilter extends HttpServlet implements Filter {
 

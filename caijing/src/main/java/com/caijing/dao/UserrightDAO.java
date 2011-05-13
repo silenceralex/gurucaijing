@@ -7,6 +7,10 @@ import com.caijing.util.CrudDao;
 
 public interface UserrightDAO extends CrudDao {
 	List<String> getIndustriesByUserid(String userid, String path);
+
+	List<String> getMasteridsByUserid(String userid);
+
 	public boolean updateSelective(Userright userright);
+
 	List<Userright> getUserrightByUserid(String userid);
 }

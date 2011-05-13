@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>投资大师_$!mastername 实时直播室</title>
+<title>投资大师_${master.mastername} 实时直播室</title>
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 <link href="/css/second.css" rel="stylesheet" type="text/css" />
 <script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
@@ -19,10 +19,10 @@
          </div>
          <h2 class="star_detail_star">${master.mastername}</h2>
          <ol id="star_detail_tab" class="star_detail_tab">
-            <li id="starTab1"><a href="/master/${master.masterid}.html">首页</a></li>
+            <li id="starTab1"><a href="/master/${master.masterid}.htm">首页</a></li>
             <li class="star_de_tabli_on" id="starTab2"><a href="#"><font color="red">直播室入口</font></a></li>
-            <li id="starTab3"><a href="/master/${master.masterid}/thread_1.html">大师观点</a></li>
-            <li id="starTab4"><a href="/master/${master.masterid}/archive_1.html">直播归档</a></li>
+            <li id="starTab3"><a href="/master/${master.masterid}/thread_1.htm">大师观点</a></li>
+            <li id="starTab4"><a href="/master/${master.masterid}/archive_1.htm">直播归档</a></li>
          </ol>
          <div class="star_jump">
             <label>跳转到另一个大师</label>
@@ -34,7 +34,7 @@
             </select>
          </div>
          <div id="star_detail_box" class="star_intro_box">
-            <h3 class="live-title">$!mastername 的直播室 </h3>
+            <h3 class="live-title">${master.mastername} 的直播室 </h3>
             <div class="live-box" id="liveBox">
                 <ul id="liveList" class="chat-content-box">
                 </ul>
@@ -51,7 +51,7 @@
       var live = {
          requestUrl : "/master/online.do?masterid=",//http://51gurus.com/online.do?masterid=2074&start=0
          listNode : null,
-         uid : "$!masterid",
+         uid : "${master.masterid}",
          rqTimeStep : 60000,
          rollTimeStep : 1000,
          requestTimer : null,
