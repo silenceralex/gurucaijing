@@ -87,7 +87,7 @@ public class DirectoryController {
 		return url;
 	}
 
-	@RequestMapping("/earnrank/*.htm")
+	@RequestMapping(value = { "/earnrank/*.htm", "/earnrank/[0-9]+/*.htm" })
 	public String earnrank(HttpServletResponse response, ModelMap model, SessionStatus status,
 			HttpServletRequest request) throws IOException, Exception {
 		status.setComplete();
@@ -96,7 +96,7 @@ public class DirectoryController {
 		return url;
 	}
 
-	@RequestMapping("/discount/*.htm")
+	@RequestMapping(value = { "/discount/*.htm", "/discount/[0-9]+/*.htm" })
 	public String discount(HttpServletResponse response, ModelMap model, SessionStatus status,
 			HttpServletRequest request) throws IOException, Exception {
 		status.setComplete();
@@ -105,7 +105,7 @@ public class DirectoryController {
 		return url;
 	}
 
-	@RequestMapping("/analyzerrank/*.htm")
+	@RequestMapping(value = { "/analyzerrank/*.htm", "/analyzerrank/[0-9]+/*.htm" })
 	public String analyzerrank(HttpServletResponse response, ModelMap model, SessionStatus status,
 			HttpServletRequest request) throws IOException, Exception {
 		status.setComplete();
@@ -114,7 +114,7 @@ public class DirectoryController {
 		return url;
 	}
 
-	@RequestMapping("/successrank/*.htm")
+	@RequestMapping(value = { "/successrank/*.htm", "/successrank/[0-9]+/*.htm" })
 	public String successrank(HttpServletResponse response, ModelMap model, SessionStatus status,
 			HttpServletRequest request) throws IOException, Exception {
 		status.setComplete();
