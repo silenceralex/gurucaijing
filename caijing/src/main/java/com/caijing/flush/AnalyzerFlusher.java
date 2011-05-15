@@ -41,6 +41,8 @@ import com.caijing.util.FloatUtil;
 
 public class AnalyzerFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
+	public static String ANALYZERRANKDIR = "/home/html/analyzerrank/";
+	public static String SUCCESSRANKDIR = "/home/html/successrank/";
 
 	public static String TOP10 = "/home/html/analyzer/top10.json";
 
@@ -154,8 +156,8 @@ public class AnalyzerFlusher {
 				vmf.put("currdate", new Date());
 				vmf.put("page", 2);
 				vmf.put("analyzerList", analyzerList);
-				vmf.save(ADMINDIR + year + "/successhisrank_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + year + "/successhisrank_" + current + ".html");
+				vmf.save(SUCCESSRANKDIR + year + "/" + current + ".htm");
+				System.out.println("write page : " + SUCCESSRANKDIR + year + "/" + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -620,8 +622,8 @@ public class AnalyzerFlusher {
 				vmf.put("startPriceMap", startPriceMap);
 				vmf.put("startWeightMap", startWeightMap);
 
-				vmf.save(ADMINDIR + year + "/rank_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + year + "/rank_" + current + ".html");
+				vmf.save(ANALYZERRANKDIR + year + "/" + current + ".htm");
+				System.out.println("write page : " + ANALYZERRANKDIR + year + "/" + current + ".htm");
 
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
@@ -684,16 +686,16 @@ public class AnalyzerFlusher {
 				vmf.put("startWeightMap", startWeightMap);
 				if (month == -1) {
 					vmf.put("type", 1);
-					vmf.save(ADMINDIR + "monthrank_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "monthrank_" + current + ".html");
+					vmf.save(ANALYZERRANKDIR + "month_" + current + ".htm");
+					System.out.println("write page : " + ANALYZERRANKDIR + "month_" + current + ".htm");
 				} else if (month == -3) {
 					vmf.put("type", 2);
-					vmf.save(ADMINDIR + "quarterrank_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "quarterrank_" + current + ".html");
+					vmf.save(ANALYZERRANKDIR + "quarter_" + current + ".htm");
+					System.out.println("write page : " + ANALYZERRANKDIR + "quarter_" + current + ".htm");
 				} else if (month == -6) {
 					vmf.put("type", 3);
-					vmf.save(ADMINDIR + "halfyearrank_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "halfyearrank__" + current + ".html");
+					vmf.save(ANALYZERRANKDIR + "halfyear_" + current + ".htm");
+					System.out.println("write page : " + ANALYZERRANKDIR + "halfyear_" + current + ".htm");
 				}
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
@@ -747,9 +749,7 @@ public class AnalyzerFlusher {
 		flusher.setRecommendSuccessDao(recommendSuccessDao);
 		flusher.setReportDao(reportDao);
 		flusher.setRecommendStockDao(recommendStockDao);
-		//		flusher.flushHistorySuccessRank("2008");
-		//		flusher.flushHistorySuccessRank("2009");
-		//		flusher.flushHistorySuccessRank("2010");
+
 		//		"ÖÜÐ¡²¨" " ¸¶¾ê"  " ¶­ÑÇ¹â" "Â¬Æ½" "»ÆÍ¦" ,ÂÞù‚ ÕÔÏæ¶õ  Ò¶ä¬ Àî·²ºâÀ¥ 
 		//				Analyzer analyzer = analyzerDao.getAnalyzerByName("ËÕ»Ý");
 		//		Analyzer analyzer = (Analyzer) analyzerDao.select("6EJV66CI");
@@ -764,7 +764,9 @@ public class AnalyzerFlusher {
 		//		System.out.println("outtime:" + DateTools.transformYYYYMMDDDate(outtime));
 		//		flusher.flushAllStarGuruDetail();
 		flusher.flushAnalyzerRank();
-
+		flusher.flushHistorySuccessRank("2008");
+		flusher.flushHistorySuccessRank("2009");
+		flusher.flushHistorySuccessRank("2010");
 		System.exit(0);
 	}
 }

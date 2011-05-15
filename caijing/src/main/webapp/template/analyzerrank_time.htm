@@ -29,17 +29,17 @@ function switchTab(id){
             <h2 class="star_de_tabli_on">组合排行榜</h2>
             <select class="historySelect" onchange="window.location = this.value;">
             #foreach($one in $groupYears)
-               <option value="/analyzer/${one}/rank_1.html" #if($one == ${year})selected="selected"#end>${one}</option>
+               <option value="/analyzerrank/${one}/1.htm" #if($one == ${year})selected="selected"#end>${one}</option>
             #end
             </select> 
             <span #if($type == 3)class="current"#end>
-               <a href="/analyzer/halfyearrank_1.html">半年排行榜</a>
+               <a href="/analyzerrank/halfyear_1.htm">半年排行榜</a>
             </span>
             <span #if($type == 2)class="current"#end>
-               <a href="/analyzer/quarterrank_1.html">季度排行榜</a>
+               <a href="/analyzerrank/quarter_1.htm">季度排行榜</a>
             </span>
             <span #if($type == 1)class="current"#end>
-               <a href="/analyzer/monthrank_1.html">月排行榜</a>
+               <a href="/analyzerrank/month_1.htm">月排行榜</a>
             </span>
             <em class="sec_tab_right">$currDate</em>
          </div>
@@ -114,51 +114,51 @@ function switchTab(id){
                                  <a href="#">第一页</a>
                                  <a href="#">上一页</a>
                               #else
-                                 <a href="./monthrank_1.html">第一页</a>
+                                 <a href="./month_1.htm">第一页</a>
                                  #set ($prev = $current - 1)
-                                 <a href="./monthrank_${prev}.html">上一页</a>
+                                 <a href="./month_${prev}.htm">上一页</a>
                               #end
                               #if ($current == $page)
                                  <a href="#">下一页</a>
                                  <a href="#">末一页</a>
                               #else
                                  #set ($next = $current + 1)
-                              <a href="./monthrank_${next}.html">下一页</a>
-                              <a href="./monthrank_${page}.html">末一页</a>
+                              <a href="./month_${next}.htm">下一页</a>
+                              <a href="./month_${page}.htm">末一页</a>
                               #end
                            #elseif ($type == 2)
                               #if ($current == 1)
                                  <a href="#">第一页</a>
                                  <a href="#">上一页</a>
                               #else
-                                 <a href="./quarterrank_1.html">第一页</a>
+                                 <a href="./quarter_1.htm">第一页</a>
                                  #set ($prev = $current - 1)
-                                 <a href="./quarterrank_${prev}.html">上一页</a>
+                                 <a href="./quarter_${prev}.htm">上一页</a>
                               #end
                               #if ($current == $page)
                                  <a href="#">下一页</a>
                                  <a href="#">末一页</a>
                               #else
                                  #set ($next = $current + 1)
-                                 <a href="./quarterrank_${next}.html">下一页</a>
-                                 <a href="./quarterrank_${page}.html">末一页</a>
+                                 <a href="./quarter_${next}.htm">下一页</a>
+                                 <a href="./quarter_${page}.htm">末一页</a>
                               #end
                            #elseif ($type == 3)
                               #if ($current == 1)
                                  <a href="#">第一页</a>
                                  <a href="#">上一页</a>
                               #else
-                                 <a href="./halfyearrank_1.html">第一页</a>
+                                 <a href="./halfyear_1.htm">第一页</a>
                                  #set ($prev = $current - 1)
-                                 <a href="./halfyearrank_${prev}.html">上一页</a>
+                                 <a href="./halfyear_${prev}.htm">上一页</a>
                               #end
                               #if ($current == $page)
                                  <a href="#">下一页</a>
                                  <a href="#">末一页</a>
                               #else
                                  #set ($next = $current + 1)
-                                 <a href="./halfyearrank_${next}.html">下一页</a>
-                                 <a href="./halfyearrank_${page}.html">末一页</a>
+                                 <a href="./halfyear_${next}.htm">下一页</a>
+                                 <a href="./halfyear_${page}.htm">末一页</a>
                               #end
                            #end
                            </td>

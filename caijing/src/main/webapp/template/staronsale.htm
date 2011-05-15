@@ -21,16 +21,16 @@
          <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
             <h2 class="star_de_tabli_on">折价股票精选</h2>
                <span #if($type == 4)class="current"#end>
-                  <a href="/analyzer/stardiscount_4_1.html">年折价排行榜</a>
+                  <a href="/discount/4/1.htm">年折价排行榜</a>
                </span>
                <span #if($type == 3)class="current"#end>
-                  <a href="/analyzer/stardiscount_3_1.html">半年折价排行榜</a>
+                  <a href="/discount/3/1.htm">半年折价排行榜</a>
                </span>
                <span #if($type == 2)class="current"#end>
-                  <a href="/analyzer/stardiscount_2_1.html">季度折价排行榜</a>
+                  <a href="/discount/2/1.htm">季度折价排行榜</a>
                </span>
                <span #if($type == 1)class="current"#end>
-                  <a href="/analyzer/stardiscount_1_1.html">月折价排行榜</a>
+                  <a href="/discount/1/1.htm">月折价排行榜</a>
                </span>
                <em class="sec_tab_right">$dateTools.transformYYYYMMDDDate($currdate)</em>
              </div>
@@ -126,75 +126,22 @@
                         <tr>
                            <td width="28%">&nbsp;</td>
                            <td width="51%">
-                              #if($type == 1)
                                  #if ($current == 1)
                                     <a href="#">第一页</a>
                                     <a href="#">上一页</a>
                                  #else
-                                    <a href="./stardiscount_1_1.html">第一页</a>
+                                    <a href="./1.htm">第一页</a>
                                     #set ($prev = $current - 1)
-                                    <a href="./stardiscount_1_${prev}.html">上一页</a>
+                                    <a href="./${prev}.htm">上一页</a>
                                  #end
                                  #if ($current == $page)
                                     <a href="#">下一页</a>
                                     <a href="#">末一页</a>
                                  #else
                                     #set ($next = $current + 1)
-                                    <a href="./stardiscount_1_${next}.html">下一页</a>
-                                    <a href="./stardiscount_1_${page}.html">末一页</a>
+                                    <a href="./${next}.htm">下一页</a>
+                                    <a href="./${page}.htm">末一页</a>
                                  #end
-                              #elseif ($type == 2)
-                                 #if ($current == 1)
-                                    <a href="#">第一页</a>
-                                    <a href="#">上一页</a>
-                                 #else
-                                 <a href="./stardiscount_2_1.html">第一页</a>
-                                    #set ($prev = $current - 1)
-                                 <a href="./stardiscount_2_${prev}.html">上一页</a>
-                                 #end
-                                 #if ($current == $page)
-                                    <a href="#">下一页</a>
-                                    <a href="#">末一页</a>
-                                 #else
-                                    #set ($next = $current + 1)
-                                    <a href="./stardiscount_2_${next}.html">下一页</a>
-                                    <a href="./stardiscount_2_${page}.html">末一页</a>
-                                 #end
-                              #elseif ($type == 3)
-                                 #if ($current == 1)
-                                    <a href="#">第一页</a>
-                                    <a href="#">上一页</a>
-                                 #else
-                                    <a href="./stardiscount_3_1.html">第一页</a>
-                                    #set ($prev = $current - 1)
-                                    <a href="./stardiscount_3_${prev}.html">上一页</a>
-                                 #end
-                                 #if ($current == $page)
-                                    <a href="#">下一页</a>
-                                    <a href="#">末一页</a>
-                                 #else
-                                    #set ($next = $current + 1)
-                                    <a href="./stardiscount_3_${next}.html">下一页</a>
-                                    <a href="./stardiscount_3_${page}.html">末一页</a>
-                                 #end
-                              #elseif ($type == 4)	
-                                 #if ($current == 1)
-                                    <a href="#">第一页</a>
-                                    <a href="#">上一页</a>
-                                 #else
-                                    <a href="./stardiscount_4_1.html">第一页</a>
-                                    #set ($prev = $current - 1)
-                                    <a href="./stardiscount_4_${prev}.html">上一页</a>
-                                 #end
-                                 #if ($current == $page)
-                                    <a href="#">下一页</a>
-                                    <a href="#">末一页</a>
-                                 #else
-                                    #set ($next = $current + 1)
-                                    <a href="./stardiscount_4_${next}.html">下一页</a>
-                                    <a href="./stardiscount_4_${page}.html">末一页</a>
-                                 #end
-                              #end
                            </td>
                            <td width="21%">
                               <span class="curPage">$current</span>/$page&nbsp;&nbsp;&nbsp;&nbsp;

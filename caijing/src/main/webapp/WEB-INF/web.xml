@@ -175,6 +175,31 @@
 	</filter-mapping>
 	
 	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/stockagency/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/analyzerrank/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/successrank/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/earnrank/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/discount/*</url-pattern>
+	</filter-mapping>	
+	
+	<filter-mapping>
 		<filter-name>Master Filter</filter-name>
 		<url-pattern>/master/*</url-pattern>
 	</filter-mapping>

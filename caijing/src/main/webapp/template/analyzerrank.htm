@@ -29,12 +29,12 @@ function switchTab(id){
             <h2 class="star_de_tabli_on">组合排行榜</h2>
             <select class="historySelect" onchange="window.location = this.value;">
             #foreach($one in $groupYears)
-               <option value="/analyzer/${one}/rank_1.html" #if($one == ${year})selected="selected"#end>${one}</option>
+               <option value="/analyzerrank/${one}/1.htm" #if($one == ${year})selected="selected"#end>${one}</option>
             #end
             </select>
-            <span><a href="/analyzer/halfyearrank_1.html">半年排行榜</a></span>
-            <span><a href="/analyzer/quarterrank_1.html">季度排行榜</a></span>
-            <span><a href="/analyzer/monthrank_1.html">月排行榜</a></span>
+            <span><a href="/analyzerrank/halfyear_1.htm">半年排行榜</a></span>
+            <span><a href="/analyzerrank/quarter_1.htm">季度排行榜</a></span>
+            <span><a href="/analyzerrank/month_1.htm">月排行榜</a></span>
             <em class="sec_tab_right">${year}年度</em>
          </div>
          <div class="star_detail_box">
@@ -109,17 +109,17 @@ function switchTab(id){
                             <a href="#">第一页</a>
                             <a href="#">上一页</a>
                          #else
-                            <a href="./rank_1.html">第一页</a>
+                            <a href="./1.html">第一页</a>
                             #set ($prev = $current - 1)
-                            <a href="./rank_${prev}.html">上一页</a>
+                            <a href="./${prev}.html">上一页</a>
                          #end
                          #if ($current == $page)
                             <a href="#">下一页</a>
                             <a href="#">末一页</a>
                          #else
                             #set ($next = $current + 1)
-                            <a href="./rank_${next}.html">下一页</a>
-                            <a href="./rank_${page}.html">末一页</a>
+                            <a href="./${next}.html">下一页</a>
+                            <a href="./${page}.html">末一页</a>
                          #end
                          </td>
                          <td width="21%">

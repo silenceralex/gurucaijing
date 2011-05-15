@@ -52,12 +52,16 @@ import com.caijing.util.Paginator;
 
 public class HtmlFlusher {
 	public static String ADMINDIR = "/home/html/analyzer/";
+	public static String DISCOUNTDIR = "/home/html/discount/";
+	public static String EARNRANKDIR = "/home/html/earnrank/";
 	public static String ARTICLEDIR = "/home/html/articles/";
 	public static String REPORTDIR = "/home/html/report/";
 	public static String FINANCIALREPORTDIR = "/home/html/financialreport/";
 	public static String NOTICEDIR = "/home/html/notice/";
 	public static String LIVEDIR = "/home/html/live/";
 	public static String MasterDIR = "/home/html/master/";
+
+	public static String SUCCESSRANKDIR = "/home/html/successrank/";
 	public static String PREFIX = "http://51gurus.com";
 	public static String STARTDATE = "2010-01-01";
 	private static int STARTYEAR = 1990;
@@ -357,8 +361,8 @@ public class HtmlFlusher {
 				vmf.put("current", current);
 				vmf.put("page", 3);
 				vmf.put("analyzerList", analyzerList);
-				vmf.save(ADMINDIR + "successrank_" + current + ".html");
-				System.out.println("write page : " + ADMINDIR + "successrank_" + current + ".html");
+				vmf.save(SUCCESSRANKDIR + current + ".htm");
+				System.out.println("write page : " + SUCCESSRANKDIR + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating discount stock html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -658,32 +662,32 @@ public class HtmlFlusher {
 			if (isAsc) {
 				vmf.setTemplate("/template/staronsale.htm");
 				if (type == 1) {
-					vmf.save(ADMINDIR + "stardiscount_1_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "stardiscount_1_" + current + ".html");
+					vmf.save(DISCOUNTDIR + "/1/" + current + ".htm");
+					System.out.println("write page : " + DISCOUNTDIR + "/1/" + current + ".htm");
 				} else if (type == 2) {
-					vmf.save(ADMINDIR + "stardiscount_2_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "stardiscount_2_" + current + ".html");
+					vmf.save(DISCOUNTDIR + "/2/" + current + ".htm");
+					System.out.println("write page : " + DISCOUNTDIR + "/2/" + current + ".htm");
 				} else if (type == 3) {
-					vmf.save(ADMINDIR + "stardiscount_3_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "stardiscount_3_" + current + ".html");
+					vmf.save(DISCOUNTDIR + "/3/" + current + ".htm");
+					System.out.println("write page : " + DISCOUNTDIR + "/3/" + current + ".htm");
 				} else if (type == 4) {
-					vmf.save(ADMINDIR + "stardiscount_4_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "stardiscount_4_" + current + ".html");
+					vmf.save(DISCOUNTDIR + "/4/" + current + ".htm");
+					System.out.println("write page : " + DISCOUNTDIR + "/4/" + current + ".htm");
 				}
 			} else {
 				vmf.setTemplate("/template/earnRank.htm");
 				if (type == 1) {
-					vmf.save(ADMINDIR + "earnrank_1_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "earnrank_1_" + current + ".html");
+					vmf.save(EARNRANKDIR + "/1/" + current + ".htm");
+					System.out.println("write page : " + EARNRANKDIR + "/1/" + current + ".htm");
 				} else if (type == 2) {
-					vmf.save(ADMINDIR + "earnrank_2_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "earnrank_2_" + current + ".html");
+					vmf.save(EARNRANKDIR + "/2/" + current + ".htm");
+					System.out.println("write page : " + EARNRANKDIR + "/2/" + current + ".htm");
 				} else if (type == 3) {
-					vmf.save(ADMINDIR + "earnrank_3_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "earnrank_3_" + current + ".html");
+					vmf.save(EARNRANKDIR + "/3/" + current + ".htm");
+					System.out.println("write page : " + EARNRANKDIR + "/3/" + current + ".htm");
 				} else if (type == 4) {
-					vmf.save(ADMINDIR + "earnrank_4_" + current + ".html");
-					System.out.println("write page : " + ADMINDIR + "earnrank_4_" + current + ".html");
+					vmf.save(EARNRANKDIR + "/4/" + current + ".htm");
+					System.out.println("write page : " + EARNRANKDIR + "/4/" + current + ".htm");
 				}
 			}
 		}
@@ -735,8 +739,8 @@ public class HtmlFlusher {
 				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "年度");
-				vmf.save("/home/html/stockagency/" + current + ".html");
-				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+				vmf.save("/home/html/stockagency/" + current + ".htm");
+				System.out.println("write page : " + "/home/html/stockagency/" + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -781,8 +785,8 @@ public class HtmlFlusher {
 				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "半年度");
-				vmf.save("/home/html/stockagency/halfyear_" + current + ".html");
-				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+				vmf.save("/home/html/stockagency/halfyear_" + current + ".htm");
+				System.out.println("write page : " + "/home/html/stockagency/" + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -827,8 +831,8 @@ public class HtmlFlusher {
 				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "季度");
-				vmf.save("/home/html/stockagency/quarter_" + current + ".html");
-				System.out.println("write page : " + "/home/html/stockagency/" + current + ".html");
+				vmf.save("/home/html/stockagency/quarter_" + current + ".htm");
+				System.out.println("write page : " + "/home/html/stockagency/" + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -872,8 +876,8 @@ public class HtmlFlusher {
 				vmf.put("stockAgencyList", pageentitys);
 				vmf.put("htmlUtil", new HtmlUtils());
 				vmf.put("period", "一个月");
-				vmf.save("/home/html/stockagency/month_" + current + ".html");
-				System.out.println("write page : " + "/home/html/stockagency/month_" + current + ".html");
+				vmf.save("/home/html/stockagency/month_" + current + ".htm");
+				System.out.println("write page : " + "/home/html/stockagency/month_" + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating home html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -1265,19 +1269,18 @@ public class HtmlFlusher {
 		//		flusher.flushStarGuruDetail();
 		//		flusher.flushAnalyzerRank();
 		flusher.flushReportLab();
-		flusher.flushStockResearch();
+		//		flusher.flushStockResearch();
 		flusher.flushStockAgency();
 		//		flusher.flushStarOnSale();
 		//		flusher.flushNotice();
-		//				flusher.flushStarOnSale(false);
-		//		flusher.flushStarOnSale(true, 4);
-		//		flusher.flushStarOnSale(true, 3);
-		//		flusher.flushStarOnSale(true, 2);
-		//		flusher.flushStarOnSale(true, 1);
-		//		flusher.flushStarOnSale(false, 4);
-		//		flusher.flushStarOnSale(false, 3);
-		//		flusher.flushStarOnSale(false, 2);
-		//		flusher.flushStarOnSale(false, 1);
+		flusher.flushStarOnSale(true, 4);
+		flusher.flushStarOnSale(true, 3);
+		flusher.flushStarOnSale(true, 2);
+		flusher.flushStarOnSale(true, 1);
+		flusher.flushStarOnSale(false, 4);
+		flusher.flushStarOnSale(false, 3);
+		flusher.flushStarOnSale(false, 2);
+		flusher.flushStarOnSale(false, 1);
 		//		flusher.flushNoticeRank(0);
 		//				flusher.flushAnalyzerRank();
 		//		flusher.flushStockResearch();
@@ -1290,10 +1293,9 @@ public class HtmlFlusher {
 		//		Analyzer analyzer = (Analyzer) flusher.getAnalyzerDao().select("6IHTNVCA");
 		//		System.out.println("analyzer : " + analyzer.getSuccessratio());
 		//				flusher.flushOneSuccess(analyzer);
-		//		flusher.flushSuccessRank();
+		flusher.flushSuccessRank();
 		//		flusher.flushLiveStatic();
 		//		flusher.flushMasterInfo();
-
 		//				flusher.flushNotice();
 		flusher.flushNoticeRank();
 		flusher.flushIndex();
