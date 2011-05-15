@@ -7,3 +7,4 @@ ln -s /home/html/successrank/ successrank
 ln -s /home/html/stockagency/ stockagency
 ln -s /home/html/earnrank/ earnrank
 ln -s /home/html/discount/ discount
+ln -s /home/html/financialreport/ financialreport

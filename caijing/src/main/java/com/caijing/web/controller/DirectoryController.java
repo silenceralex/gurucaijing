@@ -68,4 +68,58 @@ public class DirectoryController {
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
+
+	@RequestMapping("/financialreport/*.htm")
+	public String financialreport(HttpServletResponse response, ModelMap model, SessionStatus status,
+			HttpServletRequest request) throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/stockagency/*.htm")
+	public String stockagency(HttpServletResponse response, ModelMap model, SessionStatus status,
+			HttpServletRequest request) throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/earnrank/*.htm")
+	public String earnrank(HttpServletResponse response, ModelMap model, SessionStatus status,
+			HttpServletRequest request) throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/discount/*.htm")
+	public String discount(HttpServletResponse response, ModelMap model, SessionStatus status,
+			HttpServletRequest request) throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/analyzerrank/*.htm")
+	public String analyzerrank(HttpServletResponse response, ModelMap model, SessionStatus status,
+			HttpServletRequest request) throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/successrank/*.htm")
+	public String successrank(HttpServletResponse response, ModelMap model, SessionStatus status,
+			HttpServletRequest request) throws IOException, Exception {
+		status.setComplete();
+		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
 }

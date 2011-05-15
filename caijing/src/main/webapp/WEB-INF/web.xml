@@ -198,7 +198,10 @@
 		<filter-name>Authority Filter</filter-name>
 		<url-pattern>/discount/*</url-pattern>
 	</filter-mapping>	
-	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/financialreport/*</url-pattern>
+	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>Master Filter</filter-name>
 		<url-pattern>/master/*</url-pattern>
