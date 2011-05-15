@@ -461,8 +461,8 @@ public class HtmlFlusher {
 				System.out.println("years.size() : " + years.size());
 				vmf.put("page", page);
 				vmf.put("reportList", reportList);
-				vmf.save(FINANCIALREPORTDIR + "financialreportLab_" + current + ".html");
-				System.out.println("write page : " + FINANCIALREPORTDIR + "financialreportLab_" + current + ".html");
+				vmf.save(FINANCIALREPORTDIR + current + ".htm");
+				System.out.println("write page : " + FINANCIALREPORTDIR + current + ".htm");
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
 				System.out.println("While generating financialreportlab html --> GET ERROR MESSAGE: " + e.getMessage());
@@ -1215,15 +1215,15 @@ public class HtmlFlusher {
 				if (type == 0) {
 					vmf.setTemplate("/template/notice/noticeRank_h.htm");
 					vmf.save(NOTICEDIR + "hrank_" + current + ".htm");
-					System.out.println("write page : " + NOTICEDIR + "hrank_" + current + ".html");
+					System.out.println("write page : " + NOTICEDIR + "hrank_" + current + ".htm");
 				} else if (type == 1) {
 					vmf.setTemplate("/template/notice/noticeRank_q.htm");
 					vmf.save(NOTICEDIR + "qrank_" + current + ".htm");
-					System.out.println("write page : " + NOTICEDIR + "qrank_" + current + ".html");
+					System.out.println("write page : " + NOTICEDIR + "qrank_" + current + ".htm");
 				} else if (type == 2) {
 					vmf.setTemplate("/template/notice/noticeRank_m.htm");
 					vmf.save(NOTICEDIR + "mrank_" + current + ".htm");
-					System.out.println("write page : " + NOTICEDIR + "mrank_" + current + ".html");
+					System.out.println("write page : " + NOTICEDIR + "mrank_" + current + ".htm");
 				}
 			} catch (Exception e) {
 				System.out.println("===> exception !!");
@@ -1298,11 +1298,11 @@ public class HtmlFlusher {
 		//		flusher.flushMasterInfo();
 		//				flusher.flushNotice();
 		flusher.flushNoticeRank();
+		flusher.flushFinancialReportLab();
 		flusher.flushIndex();
 		//		flusher.flushNoticeRank(0);
 		//		flusher.flushNoticeRank(1);
 		//		flusher.flushNoticeRank(2);
-		//		flusher.flushFinancialReportLab();
 		//		flusher.flushSuccessRank();
 		//		flusher.flushArticleList(0);
 		//		flusher.flushArticleList(1);

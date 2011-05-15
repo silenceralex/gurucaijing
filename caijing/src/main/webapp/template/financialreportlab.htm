@@ -23,7 +23,7 @@
       #include("/template/inc/colL.htm")
       <div class="sec_list">
          <div class="sec_nav">
-            <h2><a href="/">投资大师首页</a> &gt; <a href="/financialreport/financialreportLab_1.html">财报大本营</a> &gt; 财报搜索</h2> 
+            <h2><a href="/">投资大师首页</a> &gt; <a href="/financialreport/1.htm">财报大本营</a> &gt; 财报搜索</h2> 
          </div>
          <div class="report_search">
             <label>财报搜索</label>
@@ -84,17 +84,17 @@
                         <a href="#">第一页</a>
                         <a href="#">上一页</a>
                      #else
-                        <a href="./financialreportLab_1.html">第一页</a>
+                        <a href="./1.htm">第一页</a>
                         #set ($prev = $current - 1)
-                        <a href="./financialreportLab_${prev}.html">上一页</a>
+                        <a href="./${prev}.htm">上一页</a>
                      #end
                      #if ($current == $page)
                         <a href="#">下一页</a>
                         <a href="#">末一页</a>
                      #else
                         #set ($next = $current + 1)
-                        <a href="./financialreportLab_${next}.html">下一页</a>
-                        <a href="./financialreportLab_${page}.html">末一页</a>
+                        <a href="./${next}.htm">下一页</a>
+                        <a href="./${page}.htm">末一页</a>
                      #end
                      </td>
                      <td width="21%">
