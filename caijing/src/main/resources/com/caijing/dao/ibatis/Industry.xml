@@ -8,6 +8,10 @@
     select * from industry where industryid=#value#
   </select>
   
+  <select id="selectByIndustryname"  resultClass="Industry" >
+    select * from industry where industryname=#value#
+  </select>
+  
   	<select id="selectlv1" resultClass="Industry">
 		select * from industry where length(industryid)=2
   	</select>
