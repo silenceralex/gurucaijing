@@ -5,6 +5,7 @@
 .userLoginForm label{float:left; width:45px; text-align:right; padding-right:10px; margin-top:10px}
 .userLoginForm input{float:left; width:100px; margin-top:10px}
 .sec_list{float:left; width:805px}
+.sec_content{float:left;width:805px;}
 .sec_nav{width:100%; height:38px; background:url(../img/sec_subnav.gif) repeat-x left -39px}
 .sec_nav h2{width:760px; padding-left:30px; height:38px; line-height:38px; background:url(../img/sec_subnav.gif) no-repeat}
 .sec_list ul li{padding-right:10px; padding-bottom:10px; border-bottom:#CCC dotted 1px}
@@ -150,6 +151,15 @@ hr {height:1px;border:none;border-top:#CCC solid 1px;}
 #city select{width:100px;}
 .submitBtn{width:60px;height:22px;}
 
+/* 购物车 */
+.productsTable{border-collapse:collapse}
+.productsTable th,.productsTable td{border:#CCC solid 1px;line-height:20px;padding:4px;}
+.cartNav {background-image:url(/img/cart_sprite.png);background-repeat:no-repeat;height:28px;overflow:hidden;margin:10px 0;}
+.cartNav li{width:123px;float:left;text-align:center;line-height:28px;}
+.cartNav li.pass{color:#FFF;font-weight:bold;}
+.cart-products{}
+.cart-cart{background-position:0 -30px;}
+.cart-pay{background-position:0 -60px;}
 /* 对话框 */
 .dialogS {width:360px;height:120px;padding:10px;background:#FFF;border:#CCC solid 1px;position:absolute;display:none;line-height:24px;-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);-moz-box-shadow:5px 5px 10px rgba(0,0,0,0.3);box-shadow:5px 5px 10px rgba(0,0,0,0.3);}
 .dialogS p {clear:both;text-align:center;}
