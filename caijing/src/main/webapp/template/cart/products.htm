@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_产品列表</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/Rookie.js?/js/rookie.swf"></script>
+<script language="javascript" type="text/javascript" src="/js/51gurus.js"></script> 
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_content">
+         <div class="sec_nav">
+            <h2>
+               <a href="/">投资大师首页</a> &gt; 产品列表
+            </h2>   
+         </div>
+         <ul class="cartNav cart-products clearfix">
+            <li class="pass">选择产品<li>
+            <li>购物车<li>
+            <li>确认购买<li>
+            <li>提交订单<li>
+         </ul>
+         <div id="products" class="cart">
+            
+            
+            
+            
+         </div>
+      </div>
+      <div class="clear"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+   
+   <div id="dialogS" class="dialogS">
+      <div class="close" onclick="hide('dialogS')"><a class="aRed" href="javascript:;">关闭</a></div>
+      <div class="success">
+         <p class="tip">该产品已成功放入购物车</p>
+         <p class="detail">购物车共<span id="tipTotalN" class="cRed">2</span>件产品 合计：<span id="tipTotalP" class="cRed">168.00</span>元</p>
+         <p>
+            <a href="/cart/myCart.htm" class="enter">进入购物车</a>
+            <span onclick="hide('dialogS');" class="continue">继续购物</span>
+         </p>
+      </div>
+      <div class="chose">
+         <table>
+            <tr>
+               <td class="industcol">行业</td>
+               <td>数量</td>
+               <td>价格</td>
+            </tr>
+            <tr>
+               <td class="industcol"><select name="industry"></select></td>
+               <td>
+                  <!-- <a href="javascript:;" onclick="cart.sub(0)">-</a> -->
+                  <input class="count" id="0num" type="text" value="1"/>
+                  <!-- <a href="javascript:;" onclick="cart.plus(0)">+</a> -->
+               </td>
+               <td><div id="chosePrice"></div></td>
+            </tr>
+            <tr>
+               <td><input id="buyOk" type="button" value="确认"/></td>
+               <td class="industcol"></td>
+               <td></td>
+            </tr>
+         </table>
+      </div>
+   </div>
+   
+</div>
+<script type="text/javascript" language="javascript">
+   cart.init();
+   cart.getProducts("showProducts");
+   cart.getMaster();
+</script>
+</body>
+</html>
+<!-- myConsumer -->
