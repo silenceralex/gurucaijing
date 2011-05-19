@@ -168,7 +168,7 @@
    };
    cart = {
       // 产品集合
-      pObj : {
+      /* pObj : {
          p1:{id:1, title:"分析师成功率", intro:"套餐", price:29, byIndustry:true},
          p2:{id:2, title:"分析师收益率", intro:"套餐", price:29, byIndustry:true},
          p3:{id:3, title:"个股追踪", intro:"套餐", price:29, byIndustry:false},
@@ -184,9 +184,9 @@
          p13:{id:13, title:"个股追踪 （年）", intro:"套餐", price:290, byIndustry:false},
          p14:{id:14, title:"公告掘金 （年）", intro:"套餐", price:190, byIndustry:false},
          p15:{id:15, title:"年报查询 （年）", intro:"套餐", price:290, byIndustry:false}
-      },
+      }, */
       // 行业列表
-      industry : {
+      /* industry : {
          i1: {id: 1, name: "房地产业"},
          i2: {id: 2, name: "银行业"},
          i3: {id: 3, name: "非银行金融"},
@@ -217,7 +217,10 @@
          i28: {id: 28, name: "采掘业"},
          i29: {id: 29, name: "信息技术业"},
          i30: {id: 30, name: "其他制造业"}
-      },
+      }, */
+      pObj : {},
+      recommend : [],
+      industry : {},
       // 初始化购物车
       /* init : function ( orderId ) {
          var t = this;
@@ -243,7 +246,8 @@
       init : function () {
          var t = this;
          t.cartArr = [];
-         t.initIndustrySelect();
+         t.getIndustry();
+         //t.initIndustrySelect();
          // t.buyBind();
          Rookie(function(){
             var cartItem = this.read('cart');
@@ -252,49 +256,94 @@
             }
          })
       },
-      getProducts : function () {
+      getProducts : function ( action ) {
          var t= this;
          $.get('/get/product.do', function(data) {
-            t.pObj = data;
+            var products = eval('(' + data + ')');
+            var i = 1;
+            for ( n in products ) {
+               t.pObj["p" + products[n].pid] = products[n];
+               i += 1;
+            }
+            if ( action == "showProducts") {
+               t.drawProductsTable( t.pObj );
+            }
          });
+      },
+      drawProductsTable : function ( obj ) {
+         var t = this,
+             industryStr = "",
+             monthStr = "",
+             tbStr = "<table width='99%' class='productsTable' cellspacing='0' cellpadding='0' border='1'>";
+             tbStr += "<tr><th width='120'>产品</th><th>产品说明</th><th>建议价格(人民币)</th><th width='70'>操作</th></tr>";
+         //for ( var i = 0; i < obj.length; i ++ ) {
+         for ( n in obj ) {
+            if ( obj[n].intro ) {
+               t.recommend.push( obj[n] );
+               continue;
+            }
+            tbStr += "<tr id='product" + obj[n].pid + "'>";
+            tbStr += "<td>" + obj[n].name + "</td>";
+            tbStr += "<td>" + obj[n].description + "</td>";
+            if ( obj[n].isIndustry ) {
+               industryStr = "/行业";
+            } else {
+               industryStr = "";
+            }
+            if ( obj[n].continuedmonth ) {
+               monthStr = "月";
+            } else {
+               monthStr = "年";
+            }
+            tbStr += "<td>" + obj[n].price + "元/" + monthStr + industryStr + "</td>";
+            tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buy(" + obj[n].pid + ", 1, false)'>放入购物车</a></td>";
+            tbStr += "</tr>";
+         }
+         tbStr += "</table>";
+         $("#products").html( tbStr );
       },
       getIndustry : function () {
          var t= this;
          $.get('/get/industry.do', function(data) {
-            t.industry = data;
+            var industry = eval('(' + data + ')');
+            var i = 1;
+            for ( n in industry ) {
+               t.industry["i" + i] = industry[n];
+               i += 1;
+            }
+            t.initIndustrySelect( t.industry );
          });
       },
       getMaster : function () {
          var t = this;
          $.get('/get/master.do', function(data) {
-            t.masterArr = data;
+            t.masterArr = eval( '(' + data + ')' );
+            var tbStr = "<p class='cart-live-p'>草根大师直播室:</p>";
+            tbStr += "<table width='99%' class='productsTable' cellspacing='0' cellpadding='0' border='1'>";
+            tbStr += "<tr><th width='100'>大师</th><th>大师介绍</th><th width='70'>操作</th></tr>";
+            for ( var i = 0; i < t.masterArr.length; i ++ ) {
+               tbStr += "<tr>";
+               tbStr += "<td>" + t.masterArr[i].mastername + "</td>";
+               tbStr += "<td>" + t.masterArr[i].intro + "</td>";
+               tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buy(" + t.masterArr[i].masterid + ", 1, false )'>加入购物车</a></td>";
+               tbStr += "</tr>";
+            }
+            tbStr += "</table>";
+            $("#products").append( tbStr );
          });
       },
-      /* request : function ( obj ) {
-         $.ajax({
-            type: "POST",
-            url: url,
-            dataType: "script",
-            timeout: 10000,
-            success: function () {
-               $("#loading").fadeOut("fast");
-               method();
-            },
-            error : function ( xmlHttpRequest, error ) {
-               alert("加载出错");
-            }
-         });
-      }, */
       buyBind : function () {
          $("#0num").bind("change", function () {
             var industryId = $("#dialogS .chose select").val();
             alert( industryId );
          });
       },
-      initIndustrySelect : function () {
+      initIndustrySelect : function ( industry ) {
          var t = this;
-         for ( n in t.industry) {
-            $("#dialogS .chose select").append("<option value='" + t.industry[n].id + "'>" + t.industry[n].name + "</option>");
+         console.log( industry );
+         for ( n in industry) {
+            console.log( n );
+            $("#dialogS .chose select").append("<option value='" + industry[n].industryid + "'>" + industry[n].industryname + "</option>");
          }
       },
       // 购买
@@ -317,7 +366,7 @@
             var price = t.pObj[id].price * $("#0num").val();
             $("#chosePrice").text( price );
          });
-         if ( t.pObj[id].byIndustry ) {
+         if ( t.pObj[id].isIndustry ) {
             $("#dialogS .chose .industcol").show();
             $("#dialogS .chose select").show();
          } else {
@@ -328,7 +377,7 @@
             $("#dialogS").fadeOut();
             var num = $("#0num").val(),
                 industryId = $("#dialogS .chose select").val();
-            if ( !t.pObj[id].byIndustry ) {
+            if ( !t.pObj[id].isIndustry ) {
                industryId = "";
             }
             var isOk = t.add( id, num, industryId );
