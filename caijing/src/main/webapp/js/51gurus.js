@@ -252,6 +252,39 @@
             }
          })
       },
+      getProducts : function () {
+         var t= this;
+         $.get('/get/product.do', function(data) {
+            t.pObj = data;
+         });
+      },
+      getIndustry : function () {
+         var t= this;
+         $.get('/get/industry.do', function(data) {
+            t.industry = data;
+         });
+      },
+      getMaster : function () {
+         var t = this;
+         $.get('/get/master.do', function(data) {
+            t.masterArr = data;
+         });
+      },
+      /* request : function ( obj ) {
+         $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "script",
+            timeout: 10000,
+            success: function () {
+               $("#loading").fadeOut("fast");
+               method();
+            },
+            error : function ( xmlHttpRequest, error ) {
+               alert("¼ÓÔØ³ö´í");
+            }
+         });
+      }, */
       buyBind : function () {
          $("#0num").bind("change", function () {
             var industryId = $("#dialogS .chose select").val();
