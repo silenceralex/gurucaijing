@@ -243,16 +243,21 @@
             }
          })
       }, */
-      init : function () {
+      init : function ( action ) {
          var t = this;
          t.cartArr = [];
          t.getIndustry();
+         t.getMaster();
+         t.getProducts( action );
+         
          //t.initIndustrySelect();
          // t.buyBind();
          Rookie(function(){
             var cartItem = this.read('cart');
             if( cartItem ) {
-               t.cartArr = this.read('cart');
+               t.cartArr = cartItem;
+            } else {
+               this.write( 'cart', t.cartArr );
             }
          })
       },
@@ -296,7 +301,7 @@
                monthStr = "年";
             }
             tbStr += "<td>" + obj[n].price + "元/" + monthStr + industryStr + "</td>";
-            tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buy(" + obj[n].pid + ", 1, false)'>放入购物车</a></td>";
+            tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buy(" + obj[n].pid + ")'>放入购物车</a></td>";
             tbStr += "</tr>";
          }
          tbStr += "</table>";
@@ -325,7 +330,7 @@
                tbStr += "<tr>";
                tbStr += "<td>" + t.masterArr[i].mastername + "</td>";
                tbStr += "<td>" + t.masterArr[i].intro + "</td>";
-               tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buy(" + t.masterArr[i].masterid + ", 1, false )'>加入购物车</a></td>";
+               tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buy(10, " + t.masterArr[i].masterid + " )'>加入购物车</a></td>";
                tbStr += "</tr>";
             }
             tbStr += "</table>";
@@ -346,10 +351,9 @@
          }
       },
       // 购买
-      buy : function ( id, num, jump ) {
+      buy : function ( id, subId ) {
          var t = this;
          var id = "p" + id;
-         t.jump = jump;
          
          t.popDialog();
          $("#dialogS .chose").show();
@@ -423,6 +427,8 @@
          //t.popDialog();
             
          if ( $("#cartTb") ) {
+            $("#cartList").show();
+            $("#cartEmpty").hide();
             $("#cartTb").append('\
                <tr id="p' + id + '">\
                   <td>' + id + '</td>\
@@ -437,15 +443,15 @@
          return true;
       },
       // 删除某个产品
-      del : function ( id ) {
+      del : function ( id, subId ) {
          var t = this;
          var yes = confirm("是否要删除该产品？");
          if ( !yes ) {
             return;
          }
-         $( "#" + id ).remove(); // 删除该节点
+         $( "#" + id + subId ).remove(); // 删除该节点
          for ( var i = 0; i < t.cartArr.length; i ++ ) {
-            if ( id == t.cartArr[i].id ) {
+            if ( id == t.cartArr[i].id && subId == t.cartArr[i].industryId ) {
                t.cartArr.splice( i, 1 );
             }
          };
@@ -453,31 +459,39 @@
          Rookie(function(){
             this.write( 'cart', t.cartArr );
          });
+         t.getFormData();// 整理form的param数据
       },
       // 产品个数加一
-      plus : function ( id ) {
+      plus : function ( id, subId ) {
          var t = this,
-             num = Number($( "#" + id + "num" ).text());
+             num = 0;
+         subId = subId? subId: "";
+         num = Number($( "#" + id + subId + "num" ).text());
+         //num = Number($( "#" + id + "num" ).text());
          num += 1;
-         $( "#" + id + "num" ).text( num );
-         t.motify( id, "num", num );
+         $( "#" + id + subId + "num" ).text( num );
+         t.motify( id, "num", num, subId );
+         t.getFormData();// 整理form的param数据
       },
       // 产品个数减一
-      sub : function ( id ) {
+      sub : function ( id, subId ) {
          var t = this,
-             num = Number($( "#" + id + "num" ).text());
+             num = 0;
+         subId = subId? subId: "";
+         num = Number($( "#" + id + subId + "num" ).text());
          if( num <= 1 ) {
             return;
          }
          num -= 1;
-         $( "#" + id + "num" ).text( num);
-         t.motify( id, "num", num );
+         $( "#" + id + subId + "num" ).text( num);
+         t.motify( id, "num", num, subId );
+         t.getFormData();// 整理form的param数据
       },
       // 修改数据
-      motify : function ( id, field, value ) {
+      motify : function ( id, field, value, subId ) {
          var t = this;
          for ( var i = 0; i < t.cartArr.length; i ++ ) {
-            if ( id == t.cartArr[i].id ) {
+            if ( id == t.cartArr[i].id && subId == t.cartArr[i].industryId ) {
                t.cartArr[i][field] = value;
             }
          };
@@ -498,53 +512,79 @@
              price = 0, // 价格
              totalN = 0, // 总数量
              totalP = 0, // 总价格
-             str = "",
              pid = "",
              industryId = "";
          Rookie(function(){
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
-            if ( !t.cartArr ) {
+            if ( !t.cartArr || t.cartArr.length < 1 ) {
+               $("#cartList").hide();
+               $("#cartEmpty").show();
                return;
             }
             showit( pay );
-            str = "[";
-            for( x in t.cartArr ) {
-               pid = t.cartArr[x].id.replace(/[a-z]*/, "");
-               industryId = t.cartArr[x].industryId? t.cartArr[x].industryId: "";
-               num = t.cartArr[x].num;
-               str += '{productid:"' + pid + '", industryid:"' + industryId + '",num:"' + num + '"},'
-            }
-            str = str.substr(0,str.length-1);
-            str += "]";
-            $("#cartParam").val( str );
+            t.getFormData();
+            
          });
          function showit ( pay ) {
             for ( var i = 0; i < t.cartArr.length; i++ ) {
                pid = t.cartArr[i].id;
                num = Number( t.cartArr[i].num );
+               industyId = t.cartArr[i].industryId;
                if ( t.pObj[pid] ) {
                   price = t.pObj[pid].price * num;
                   totalN += num;
                   totalP += price;
-                  var str = '<tr id="' + pid + '">';
-                  str += '<td>' + pid.split("p")[1] + '</td>';
-                  str += '<td>' + t.pObj[pid].title + '</td>';
-                  str += '<td>' + t.pObj[pid].intro + '</td>';
-                  if ( pay ) {
-                     str += '<td><span id="' + pid + 'num">' + num + '</span></td>';
+                  
+                  // 分行业的
+                  if( industyId ) {
+                     var str = '<tr id="' + pid + industyId + '">';
+                     str += '<td><span class="pd-l-10">展开</span></td>';
+                     str += '<td>' + t.pObj[pid].name + '</td>';
+                     str += '<td>' + t.pObj[pid].description + '</td>';
+                     if ( pay ) {
+                        str += '<td><span id="' + pid + industyId + 'num">' + num + '</span></td>';
+                     } else {
+                        str += '<td><span class="operation subBtn" onclick="cart.sub(\'' + pid + '\',\'' + industyId + '\')">-</span><span id="' + pid + industyId + 'num">' + num + '</span><span class="operation plusBtn" onclick="cart.plus(\'' + pid + '\',\'' + industyId + '\')">+</span></td>';
+                     }
+                     str += '<td><span class="price">' + price + '</span>元</td>';
+                     str += '<td><a onclick="cart.del(\'' + pid + '\',\'' + industyId + '\')" href="javascript:;">删除</a></td>';
                   } else {
-                     str += '<td><span class="operation" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation" onclick="cart.plus(\'' + pid + '\')">+</span></td>';
+                     var str = '<tr id="' + pid + '">';
+                     str += '<td><span class="pd-l-10">' + pid.split("p")[1] + '</span></td>';
+                     str += '<td>' + t.pObj[pid].name + '</td>';
+                     str += '<td>' + t.pObj[pid].description + '</td>';
+                     if ( pay ) {
+                        str += '<td><span id="' + pid + 'num">' + num + '</span></td>';
+                     } else {
+                        str += '<td><span class="operation subBtn" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation plusBtn" onclick="cart.plus(\'' + pid + '\')">+</span></td>';
+                     }
+                     str += '<td><span class="price">' + price + '</span>元</td>';
+                     str += '<td><a onclick="cart.del(\'' + pid + '\')" href="javascript:;">删除</a></td>';
                   }
-                  str += '<td><span class="price">' + price + '</span>元</td>';
-                  str += '<td><a onclick="cart.del(\'' + pid + '\')" href="javascript:;">删除</a></td>';
                   str += '</tr>';
+                  
+                  
                   $( cartTb ).append( str );
                }
             };
             $("#totalN").text( totalN );
             $("#totalP").text( totalP );
          }
+      },
+      // 整理数据格式，以便提交到后台
+      getFormData : function () {
+         var t = this,
+             str = "[";
+         for( x in t.cartArr ) {
+            pid = t.cartArr[x].id.replace(/[a-z]*/, "");
+            industryId = t.cartArr[x].industryId? t.cartArr[x].industryId: "";
+            num = t.cartArr[x].num;
+            str += '{productid:"' + pid + '", industryid:"' + industryId + '",num:"' + num + '"},'
+         }
+         str = str.substr(0,str.length-1);
+         str += "]";
+         $("#cartParam").val( str );
       },
       getTotal : function () {
          var t = this,
