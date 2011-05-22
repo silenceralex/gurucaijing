@@ -23,11 +23,14 @@
          </div>
          <ul class="cartNav cart-products clearfix">
             <li class="pass">选择产品<li>
-            <li onclick="window.location.href='/cart/myCart.htm'">购物车<li>
+            <li onclick="window.location.href='/cart/myCart.shtml'">购物车<li>
             <li>确认购买<li>
             <li>提交订单<li>
          </ul>
          <div id="products" class="cart">
+            
+            
+            
             
          </div>
          <input class="submitBtn" type="button" onclick="window.location.href='/cart/myCart.htm'" value="去结算"/>
@@ -52,7 +55,7 @@
                <td class="industcol">行业</td>
                <td>数量</td>
                <td>金额</td>
-               <td>操作</td>
+               <td class="industcol">操作</td>
             </tr>
             <tr>
                <td class="industcol"><select name="industry"></select></td>
@@ -62,7 +65,7 @@
                   <!-- <a href="javascript:;" onclick="cart.plus(0)">+</a> -->
                </td>
                <td><div id="chosePrice"></div></td>
-               <td><input onclick="cart.addIndustryItem()" type="button" value="增加一个"/></td>
+               <td class="industcol"><span class="operation plusBtn" onclick="cart.addIndustryItem()" title="增加一个行业">+</span></td>
             </tr>
             <tr>
                <td><input id="buyOk" type="button" value="确认"/></td>
@@ -75,8 +78,7 @@
    
 </div>
 <script type="text/javascript" language="javascript">
-   cart.init();
-   cart.getProducts("showProducts");
+   cart.init("showProducts");
    cart.getMaster();
 </script>
 </body>
