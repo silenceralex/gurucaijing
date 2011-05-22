@@ -332,17 +332,16 @@
             $("#products").append( tbStr );
          });
       },
-      buyBind : function () {
+      /* buyBind : function () {
          $("#0num").bind("change", function () {
             var industryId = $("#dialogS .chose select").val();
             alert( industryId );
          });
-      },
+      }, */
       initIndustrySelect : function ( industry ) {
          var t = this;
-         console.log( industry );
+         //console.log( industry );
          for ( n in industry) {
-            console.log( n );
             $("#dialogS .chose select").append("<option value='" + industry[n].industryid + "'>" + industry[n].industryname + "</option>");
          }
       },
@@ -356,9 +355,6 @@
          $("#dialogS .chose").show();
          $("#dialogS .success").hide();
          $("#chosePrice").text( t.pObj[id].price );
-         /* $("#buyOk").bind("click", function () {
-            getTotal( id );
-         }); */
          document.getElementById("buyOk").onclick = function () {
             getTotal( id );
          }
@@ -374,21 +370,14 @@
             $("#dialogS .chose select").hide();
          }
          function getTotal ( id ) {
-            $("#dialogS").fadeOut();
+            //$("#dialogS").fadeOut();
             var num = $("#0num").val(),
                 industryId = $("#dialogS .chose select").val();
             if ( !t.pObj[id].isIndustry ) {
                industryId = "";
             }
-            var isOk = t.add( id, num, industryId );
-            if ( !isOk ) {
-               alert("不能重复添加");
-               return;
-            }
-            
-            if ( jump ) {
-               window.location.href = "/cart/myCart.htm";
-            }
+            t.add( id, num, industryId );
+            //var isOk = t.add( id, num, industryId );
          }
          return;
       },
@@ -415,6 +404,7 @@
             }
          };
          if( isExist ) {
+            alert("不能重复添加");
             return false;
          };
          total.num += num;
@@ -425,16 +415,14 @@
             this.write( 'cart', t.cartArr );
          });
          // 弹窗显示
-         t.popDialog();
+         
          $("#tipTotalN").html( total.num );
          $("#tipTotalP").html( total.price );
-         if ( !t.jump ) {
-            $("#dialogS .chose").hide();
-            $("#dialogS .success").show();
-         }
+         $("#dialogS .chose").hide();
+         $("#dialogS .success").show();
+         //t.popDialog();
             
          if ( $("#cartTb") ) {
-            // console.log("obj is:" + t.pObj + "," + id);
             $("#cartTb").append('\
                <tr id="p' + id + '">\
                   <td>' + id + '</td>\
