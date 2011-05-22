@@ -22,34 +22,35 @@
             </h2>   
          </div>
          <ul class="cartNav cart-cart clearfix">
-            <li class="pass" onclick="window.location.href='/cart/products.htm'">选择产品<li>
+            <li class="pass" onclick="window.location.href='/cart/products.shtml'">选择产品<li>
             <li class="pass">购物车<li>
             <li>确认购买<li>
             <li>提交订单<li>
          </ul>
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
-               <form action="/user/productcart.do" method="POST">
+               <form id="cartList" action="/user/productcart.do" method="POST">
                   <input id="cartParam" type="hidden" name="param" />
                   <table id="cartTb" class="myOrderTb">
                      <tr>
                         <th>产品号</th>
                         <th>消费项目</th>
-                        <th>产品说明</th>
+                        <th width="450">产品说明</th>
                         <th>数量</th>
                         <th>金额</th>
                         <th>操作</th>
                      </tr>
                   </table>
-                  <p style="text-align:right;padding:10px 0;">产品数量总计：<span class="cRed" id="totalN">3</span>&nbsp;&nbsp;金额总计：￥<span class="cRed" id="totalP"></span></p>
+                  <p style="text-align:right;padding:10px 0;"><b>产品数量总计：</b><span class="cRed" id="totalN">0</span>&nbsp;&nbsp;金额总计：￥<span class="cRed" id="totalP">0</span></p>
                   <p style="text-align:right;padding:10px 0;">
                      <a href="javascript:;" onclick="cart.clear()">清空购物车</a>
-                     <input type="button" onclick="window.location.href='/user/myAccount.htm'" value="&lt;继续购买" />
-                     <input type="submit" value="确认付款&gt;" />
+                     <input type="button" class="submitBtn" onclick="window.location.href='/user/myAccount.htm'" value="&lt;继续购买" />
+                     <input type="submit" class="submitBtn"value="确认付款&gt;" />
                   </p>
                </form>
-               <p>套餐更划算，帮你省钱</p>
-               <table>
+               <p style="display:none" id="cartEmpty">您的购物车是空的</p>
+               <p class="cart-live-p">套餐更划算，帮你省钱</p>
+               <table id="setMealTb">
                   <tr>
                      <td>套餐项目</td>
                      <td>建议价格(人民币)</td>
@@ -59,63 +60,63 @@
                      <td>分析师成功率+研报速递(行业)</td>
                      <td>109元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('11', 1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(11)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>分析师收益率</td>
                      <td>109元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('12', 1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(12)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>研报速递(行业)</td>
                      <td>-</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('13', 1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(13)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>研报速递+分析师成功率+分析师收益率(行业)</td>
                      <td>129元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('14', 1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(14)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>推荐后折价+折价股票研报速递</td>
                      <td>99元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('15', 1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(15)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>推荐后折价</td>
                      <td>190元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('16', 1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(16)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>个股追踪</td>
                      <td>290元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('17',1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(17)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>公告掘金</td>
                      <td>190元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('17',1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(18)">放入购物车</a>
                      </td>
                   </tr>
                   <tr>
                      <td>年报查询</td>
                      <td>290元/月</td>
                      <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('18',1, false )">放入购物车</a>
+                        <a class="cRed" href="javascript:;" onclick="cart.buy(19)">放入购物车</a>
                      </td>
                   </tr>
                </table>
@@ -140,7 +141,7 @@
             <tr>
                <td class="industcol">行业</td>
                <td>数量</td>
-               <td>金额</td>
+               <td>价格</td>
             </tr>
             <tr>
                <td class="industcol"><select name="industry"></select></td>
