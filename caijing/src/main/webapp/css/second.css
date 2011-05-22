@@ -138,11 +138,13 @@ span.curPage{color:#C00; font-weight:bold; text-align:center}
 .user td {border:none;}
 .ta-l {text-align:left;}
 .pd-l-5 {padding-left:5px;}
+.pd-l-10 {padding-left:10px;}
 .cGray {color:gray;}
 .cRed {color:#C00;}
 .aRed {color:#C00;}
 hr {height:1px;border:none;border-top:#CCC solid 1px;}
-.myOrderTb th {border:none;border-bottom:#CCC solid 1px;}
+.onsaleTable .myOrderTb th {border:none;border-bottom:#CCC solid 1px;text-align:left;}
+.onsaleTable .myOrderTb td {line-height:20px;text-align:left;}
 .uinfoTb {margin-left:30px;}
 .uinfoTb td {text-align:left;}
 .myInfo{line-height:30px;}
@@ -161,6 +163,10 @@ hr {height:1px;border:none;border-top:#CCC solid 1px;}
 .cart-cart{background-position:0 -30px;}
 .cart-pay{background-position:0 -60px;}
 .cart-live-p{height:30px;line-height:30px;color:#FFF;background:#BEA555;display:block;margin:10px 5px;text-indent:1em;}
+.subBtn{width:9px;height:9px;background:url(/img/sub.png) no-repeat;display:inline-block;overflow:hidden;}
+.plusBtn{width:9px;height:9px;background:url(/img/plus.png) no-repeat;display:inline-block;overflow:hidden;}
+/* 套餐 */
+#setMealTb th,#setMealTb td{text-align:left;padding-left:10px;}
 /* 对话框 */
 .dialogS {width:360px;height:120px;padding:10px;background:#FFF;border:#CCC solid 1px;position:absolute;display:none;line-height:24px;-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);-moz-box-shadow:5px 5px 10px rgba(0,0,0,0.3);box-shadow:5px 5px 10px rgba(0,0,0,0.3);}
 .dialogS p {clear:both;text-align:center;}
