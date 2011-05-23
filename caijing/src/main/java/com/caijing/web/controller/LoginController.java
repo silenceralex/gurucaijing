@@ -357,31 +357,33 @@ public class LoginController {
 			HttpServletRequest request, ModelMap model) {
 		Float total = rechargeManager.getTotalByUserid(user.getUid());
 		//List<Product> products = productDAO.getAllProduct();
-		List<HashMap<String, Object>> myProducts = new LinkedList<HashMap<String,Object>>();
+		List<HashMap<String, Object>> myProductList = new LinkedList<HashMap<String,Object>>();
 		List<Userright> currRights = userrightDao.getUserrightByUserid(user.getUid());
 		if (currRights != null) {
 			for (Userright userright : currRights) {
 				HashMap<String, Object> myProduct = new HashMap<String, Object>();
 				String path = userright.getPath();
-				String url = ""; //TODO
-				myProduct.put("url", url);
+				Product product = (Product) productDAO.select(userright.getPid());
+				myProduct.put("productName", product.getName());
+				String todate = DateTools.transformYYYYMMDDDate(userright.getTodate());
+				myProduct.put("todate", todate);
+				myProduct.put("url", product.getUrl());
 				String unknownid = userright.getIndustryid(); //industryid or masterid
 				if(unknownid!=null){
 					if(path.equals("master")){
 						Master master = (Master) masterDao.select(unknownid);
 						String masterName = master.getMastername();
 						myProduct.put("masterName", masterName);
+						myProduct.put("url", product.getUrl().replace("$masterid", unknownid));
 					} else {
 						Industry industry = (Industry) industryDao.select(unknownid);
 						String industryName = industry.getIndustryname();
 						myProduct.put("industryName", industryName);
+						myProduct.put("url", product.getUrl().replace("$industryid", unknownid));
 					}
 				}
-				Product product = (Product) productDAO.select(userright.getPid());
-				myProduct.put("productName", product.getName());
-				String todate = DateTools.transformYYYYMMDDDate(userright.getTodate());
-				myProduct.put("todate", todate);
-				myProducts.add(myProduct);
+
+				myProductList.add(myProduct);
 			}
 		}
 		
@@ -391,7 +393,7 @@ public class LoginController {
 		String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
 		model.put("ptime", ptime);
 		//String myProductsJson = JSONArray.fromObject(myProducts).toString();
-		model.put("myProducts", myProducts);
+		model.put("myProductList", myProductList);
 		//model.put("productList", products);
 		model.put("total", total);
 		model.put("times", times);
