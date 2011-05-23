@@ -34,9 +34,9 @@
   </delete>
   
   <insert id="insert" parameterClass="Userright">
-    insert into userright (uid, fromdate, todate, path, valid, industryid, pid)
+    insert into userright (uid, fromdate, todate, path, valid, industryid,pid)
     values (#uid:VARCHAR#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#,
-      #industryid:VARCHAR#, #pid:INTEGER#)
+      #industryid:VARCHAR#,#pid:VARCHAR#)
   </insert>
   
   <insert id="insertSelective" parameterClass="Userright">

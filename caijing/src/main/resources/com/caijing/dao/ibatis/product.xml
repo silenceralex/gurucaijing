@@ -5,14 +5,14 @@
   <typeAlias alias="Product" type="com.caijing.domain.Product" />
 
   <select id="select" resultClass="Product" parameterClass="int" >
-    select pid, name, isIndustry, continuedmonth, price, rightpaths, description, url
+    select pid, name, isIndustry, continuedmonth, price, rightpaths, description,url
     from product
     where pid = #pid:INTEGER#
   </select>
   
   
  <select id="getAllProduct" resultClass="Product" >
-    select pid, name, isIndustry, continuedmonth, price, rightpaths, description, url
+    select pid, name, isIndustry, continuedmonth, price, rightpaths, description,url
     from product
   </select>
   
@@ -21,9 +21,9 @@
     where pid = #pid:INTEGER#
   </delete>
   <insert id="insert" parameterClass="Product" >
-    insert into product (pid, name, isIndustry, continuedmonth, price, rightpaths, description)
+    insert into product (pid, name, isIndustry, continuedmonth, price, rightpaths, description,url)
     values (#pid:INTEGER#, #name:VARCHAR#, #isIndustry:TINYINT#, #continuedmonth:INTEGER#,
-      #price:REAL#, #rightpaths:VARCHAR#, #description:LONGVARCHAR#)
+      #price:REAL#, #rightpaths:VARCHAR#, #description:LONGVARCHAR#,#url:VARCHAR#)
   </insert>
   <insert id="insertSelective" parameterClass="Product" >
     insert into product

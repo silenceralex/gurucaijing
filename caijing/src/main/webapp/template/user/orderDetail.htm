@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>投资大师_我的帐号</title>
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/second.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/js/Rookie.js?/js/rookie.swf"></script>
+<script language="javascript" type="text/javascript" src="/js/51gurus.js"></script> 
+</head>
+
+<body>
+<div class="wrapper">
+   #include("/template/inc/header.htm")
+   <div class="mainBox">
+      #include("/template/inc/colL.htm")
+      <div class="sec_list">
+         <div class="sec_nav">
+            <h2>
+               <a href="/">投资大师首页</a> &gt; 个人中心
+            </h2>   
+         </div>
+         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
+            <h2 class="star_de_tabli_on">个人中心</h2>
+            <span class="current"><a href="/user/myAccount.htm">我的账号</a></span>
+            <span><a href="/user/myInfo.htm">我的信息</a></span>
+            <span><a href="/user/myRecharge.htm">我的充值</a></span>
+            <span><a href="/user/myConsumer.htm">我的消费</a></span>
+         	<span><a href="/user/logout.do">安全退出</a></span> 
+         </div>
+         <div>
+            <div class="myAccount">
+                                           您在   $dateUtil.format('yyyy-MM-dd HH:mm:ss', $order.ctime) 创建的订单号为：$order.orderid 的订单，花费: $order.cost 元, 订单详情如下：
+               <hr />
+               <table width="99%" cellspacing="0" cellpadding="0" border="1">
+                  <tr>
+                     <th>产品</th>
+                     <th>行业or草根大师</th>
+                     <th>使用时间(单位：月)</th>
+                     <th>链接</th>
+                  </tr>
+                   #if($products)#foreach( $one in $products)
+                  <tr>
+                     <td>$one.name</td>
+                     <td>$!one.industry</td>
+                     <td>$one.continuedmonth</td>
+                     <td><a href="$one.url">查看</a></td>
+                  </tr>
+                  #end
+                  #end
+
+               </table>
+            </div>
+         </div>
+      </div>
+      <div class="clear"></div>
+      <div id="cartTb"></div>
+      #include("/template/inc/footer.htm")
+   </div><!--mainBox end-->
+</div>
+<script type="text/javascript" language="javascript">
+   cart.init();
+</script>
+</body>
+</html>
+<!-- myAccount -->

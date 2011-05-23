@@ -9,7 +9,17 @@ public class Product {
 	private Float price;
 	private String rightpaths;
 	private String description;
+	//for display
 	private String url;
+	private String industry;
+
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
 
 	public String getUrl() {
 		return url;

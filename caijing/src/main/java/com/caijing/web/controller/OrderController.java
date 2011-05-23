@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.OrderManager;
+import com.caijing.dao.IndustryDao;
+import com.caijing.dao.MasterDao;
 import com.caijing.dao.ProductDAO;
 import com.caijing.dao.WebUserDao;
+import com.caijing.domain.Industry;
+import com.caijing.domain.Master;
 import com.caijing.domain.OrderMeta;
 import com.caijing.domain.OrderPr;
 import com.caijing.domain.Product;
@@ -44,6 +48,14 @@ public class OrderController {
 	@Autowired
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
+
+	@Autowired
+	@Qualifier("industryDao")
+	private IndustryDao industryDao;
+
+	@Autowired
+	@Qualifier("masterDao")
+	private MasterDao masterDao;
 
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
@@ -114,17 +126,30 @@ public class OrderController {
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		logger.debug("orderid:" + orderid);
 
-		List<OrderPr> orderprs = orderManager.selectWithOrderPr(orderid).getOrderPrs();
+		OrderMeta order = orderManager.selectWithOrderPr(orderid);
 		List<Product> products = new ArrayList<Product>();
-		for (OrderPr orderpr : orderprs) {
+		for (OrderPr orderpr : order.getOrderPrs()) {
 
 			Product p = (Product) productDAO.select(orderpr.getPid());
+
 			p.setContinuedmonth(p.getContinuedmonth() * orderpr.getNum());
+			logger.debug("Product url:" + p.getUrl());
+			if (p.getIsIndustry() == 1) {
+				String url = p.getUrl().replace("$industryid", orderpr.getIndustryid());
+				p.setUrl(url);
+				Industry object = (Industry) industryDao.select(orderpr.getIndustryid());
+				p.setIndustry(object.getIndustryname());
+			} else if (p.getPid() == 10) {
+				//²Ý¸ùÖ±²¥ÊÒ
+				String url = p.getUrl().replace("$masterid", orderpr.getIndustryid());
+				p.setUrl(url);
+				Master master = (Master) masterDao.select(orderpr.getIndustryid());
+				p.setIndustry(master.getMastername());
+			}
 			products.add(p);
 		}
-		model.put("orderprs", orderprs);
+		model.put("order", order);
 		model.put("products", products);
-		return "/user/orderDetail.htm";
+		return "/template/user/orderDetail.htm";
 	}
-	
 }

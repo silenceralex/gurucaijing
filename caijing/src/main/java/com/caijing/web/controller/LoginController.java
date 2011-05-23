@@ -215,7 +215,7 @@ public class LoginController {
 					return null;
 				}
 			}
-			response.sendRedirect("/user/err.html?login=true");
+			response.sendRedirect("/template/user/err.html?login=true");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -242,7 +242,7 @@ public class LoginController {
 				response.getWriter().print("<script>self.history.go(-1);</script>");
 				response.getWriter().flush();
 			} else {
-				response.sendRedirect("/user/err.html?login=true");
+				response.sendRedirect("/template/user/err.html?login=true");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
