@@ -12,6 +12,15 @@ public class Userright {
 	private String path;
 	private Byte valid;
 	private String industryid;
+	private Integer pid;
+
+	public Integer getPid() {
+		return pid;
+	}
+
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
 
 	public String getIndustryid() {
 		return industryid;

@@ -2,6 +2,8 @@ package com.caijing.web.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,12 +27,16 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.caijing.business.RechargeManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.IndustryDao;
+import com.caijing.dao.MasterDao;
 import com.caijing.dao.OrderDao;
 import com.caijing.dao.ProductDAO;
 import com.caijing.dao.UserDao;
 import com.caijing.dao.UserrightDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.Industry;
+import com.caijing.domain.Master;
 import com.caijing.domain.OrderMeta;
 import com.caijing.domain.Product;
 import com.caijing.domain.User;
@@ -68,7 +74,15 @@ public class LoginController {
 	@Autowired
 	@Qualifier("userrightDAO")
 	private UserrightDAO userrightDao = null;
+	
+	@Autowired
+	@Qualifier("industryDao")
+	private IndustryDao industryDao;
 
+	@Autowired
+	@Qualifier("masterDao")
+	private MasterDao masterDao;
+	
 	@Autowired
 	@Qualifier("rechargeManager")
 	private RechargeManager rechargeManager = null;
@@ -320,6 +334,7 @@ public class LoginController {
 		}
 	}
 
+	/**
 	@RequestMapping("/user/myAccount.htm")
 	public String account(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			HttpServletRequest request, ModelMap model) {
@@ -331,6 +346,53 @@ public class LoginController {
 		String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
 		model.put("ptime", ptime);
 		model.put("productList", products);
+		model.put("total", total);
+		model.put("times", times);
+		model.put("user", user);
+		return "/template/user/myAccount.htm";
+	}*/
+	
+	@RequestMapping("/user/myAccount.htm")
+	public String account(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+			HttpServletRequest request, ModelMap model) {
+		Float total = rechargeManager.getTotalByUserid(user.getUid());
+		//List<Product> products = productDAO.getAllProduct();
+		List<HashMap<String, Object>> myProducts = new LinkedList<HashMap<String,Object>>();
+		List<Userright> currRights = userrightDao.getUserrightByUserid(user.getUid());
+		if (currRights != null) {
+			for (Userright userright : currRights) {
+				HashMap<String, Object> myProduct = new HashMap<String, Object>();
+				String path = userright.getPath();
+				String url = ""; //TODO
+				myProduct.put("url", url);
+				String unknownid = userright.getIndustryid(); //industryid or masterid
+				if(unknownid!=null){
+					if(path.equals("master")){
+						Master master = (Master) masterDao.select(unknownid);
+						String masterName = master.getMastername();
+						myProduct.put("masterName", masterName);
+					} else {
+						Industry industry = (Industry) industryDao.select(unknownid);
+						String industryName = industry.getIndustryname();
+						myProduct.put("industryName", industryName);
+					}
+				}
+				Product product = (Product) productDAO.select(userright.getPid());
+				myProduct.put("productName", product.getName());
+				String todate = DateTools.transformYYYYMMDDDate(userright.getTodate());
+				myProduct.put("todate", todate);
+				myProducts.add(myProduct);
+			}
+		}
+		
+		int times = rechargeManager.getCountByUserid(user.getUid());
+		//取得最新的remain值
+		user = (WebUser) webUserDao.select(user.getUid());
+		String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
+		model.put("ptime", ptime);
+		//String myProductsJson = JSONArray.fromObject(myProducts).toString();
+		model.put("myProducts", myProducts);
+		//model.put("productList", products);
 		model.put("total", total);
 		model.put("times", times);
 		model.put("user", user);

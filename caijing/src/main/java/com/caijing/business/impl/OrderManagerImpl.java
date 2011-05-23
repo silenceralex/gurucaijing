@@ -168,6 +168,7 @@ public class OrderManagerImpl implements OrderManager {
 					cstart.add(Calendar.MONTH, totalmonth);
 					right.setTodate(cstart.getTime());
 					right.setValid((byte) 1);
+					right.setPid(product.getPid());
 					userrightDao.insert(right);
 				}
 			}

@@ -5,7 +5,7 @@
   <typeAlias alias="Userright" type="com.caijing.domain.Userright" />
 
   <select id="select" parameterClass="Userright" resultClass="Userright">
-    select uid, fromdate, todate, path, valid, industryid
+    select uid, fromdate, todate, path, valid, industryid, pid
     from userright
     where uid = #uid:VARCHAR#
       and path = #path:VARCHAR#
@@ -34,9 +34,9 @@
   </delete>
   
   <insert id="insert" parameterClass="Userright">
-    insert into userright (uid, fromdate, todate, path, valid, industryid)
+    insert into userright (uid, fromdate, todate, path, valid, industryid, pid)
     values (#uid:VARCHAR#, #fromdate:DATE#, #todate:DATE#, #path:VARCHAR#, #valid:TINYINT#,
-      #industryid:VARCHAR#)
+      #industryid:VARCHAR#, #pid:INTEGER#)
   </insert>
   
   <insert id="insertSelective" parameterClass="Userright">
@@ -60,6 +60,9 @@
       <isNotNull prepend="," property="industryid">
         industryid
       </isNotNull>
+      <isNotNull prepend="," property="pid">
+        pid
+      </isNotNull>
       )
     </dynamic>
     values
@@ -81,6 +84,9 @@
       </isNotNull>
       <isNotNull prepend="," property="industryid">
         #industryid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="pid">
+        #pid:INTEGER#
       </isNotNull>
       )
     </dynamic>
