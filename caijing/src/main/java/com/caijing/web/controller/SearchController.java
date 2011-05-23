@@ -32,7 +32,6 @@ import com.caijing.util.Discount;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.Paginator;
 import com.caijing.util.Vutil;
-import com.mysql.jdbc.StringUtils;
 
 @Controller
 public class SearchController {
@@ -193,29 +192,4 @@ public class SearchController {
 
 	}
 
-	@RequestMapping("/analyzer/getIndustry.htm")
-	public String searchIndustry(HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "industry", required = true) String industry,
-			@RequestParam(value = "page", required = false) Integer page, ModelMap model) {
-		if (!StringUtils.isNullOrEmpty(industry)) {
-			System.out.println("industry:" + industry);
-		}
-		Paginator<Analyzer> paginator = new Paginator<Analyzer>();
-		paginator.setPageSize(20);
-		int total = 0;
-		// 分页显示时，标识当前第几页
-		if (page == null || page < 1) {
-			page = 1;
-		}
-		total = analyzerDao.getAnalyzersCountByIndustry(industry);
-		paginator.setTotalRecordNumber(total);
-		List<Analyzer> analyzers = analyzerDao.getAnalyzersByIndustry(industry, (page - 1) * 20, 20);
-		String urlPattern = "/analyzer/getIndustry.htm?industry=" + industry + "&page=$number$";
-		paginator.setUrl(urlPattern);
-		model.put("floatUtil", new FloatUtil());
-		model.put("industry", industry);
-		model.put("analyzerList", analyzers);
-		model.put("paginatorLink", paginator.getPageNumberList());
-		return "/search/analyzerList.htm";
-	}
 }

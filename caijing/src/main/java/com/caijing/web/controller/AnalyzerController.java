@@ -3,6 +3,7 @@ package com.caijing.web.controller;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caijing.business.AnalyzerManager;
 import com.caijing.business.StockGainManager;
 import com.caijing.dao.AnalyzerDao;
 import com.caijing.dao.GroupEarnDao;
@@ -36,6 +38,7 @@ import com.caijing.util.DateTools;
 import com.caijing.util.FloatUtil;
 import com.caijing.util.GroupGain;
 import com.caijing.util.Paginator;
+import com.mysql.jdbc.StringUtils;
 
 @Controller
 public class AnalyzerController {
@@ -45,6 +48,10 @@ public class AnalyzerController {
 	@Autowired
 	@Qualifier("stockGainManager")
 	private StockGainManager stockGainManager = null;
+
+	@Autowired
+	@Qualifier("analyzerManager")
+	private AnalyzerManager analyzerManager = null;
 
 	@Autowired
 	@Qualifier("groupEarnDao")
@@ -290,8 +297,37 @@ public class AnalyzerController {
 		WebUser user = (WebUser) request.getSession().getAttribute("currWebUser");
 		List<String> industryList = userrightDao.getIndustriesByUserid(user.getUid(), "analyzer");
 		logger.debug("own industry size:" + industryList.size());
+		HashMap<String, String> industryMap = analyzerManager.getIndustryMap();
 		model.put("industryList", industryList);
+		model.put("industryMap", industryMap);
 		return "/template/industryList.htm";
 	}
 
+	@RequestMapping("/analyzer/getIndustry.htm")
+	public String searchIndustry(HttpServletResponse response, HttpServletRequest request,
+			@RequestParam(value = "industry", required = true) String industryid,
+			@RequestParam(value = "page", required = false) Integer page, ModelMap model) {
+		if (!StringUtils.isNullOrEmpty(industryid)) {
+			System.out.println("industryid:" + industryid);
+		}
+		Paginator<Analyzer> paginator = new Paginator<Analyzer>();
+		paginator.setPageSize(20);
+		int total = 0;
+		// 分页显示时，标识当前第几页
+		if (page == null || page < 1) {
+			page = 1;
+		}
+		total = analyzerDao.getAnalyzersCountByIndustry(industryid);
+		paginator.setTotalRecordNumber(total);
+		List<Analyzer> analyzers = analyzerDao.getAnalyzersByIndustry(industryid, (page - 1) * 20, 20);
+		String urlPattern = "/analyzer/getIndustry.htm?industry=" + industryid + "&page=$number$";
+		paginator.setUrl(urlPattern);
+		model.put("floatUtil", new FloatUtil());
+		HashMap<String, String> industryMap = analyzerManager.getIndustryMap();
+		model.put("industryid", industryid);
+		model.put("industry", industryMap.get(industryid));
+		model.put("analyzerList", analyzers);
+		model.put("paginatorLink", paginator.getPageNumberList());
+		return "/search/analyzerList.htm";
+	}
 }

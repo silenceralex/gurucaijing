@@ -2,6 +2,7 @@ package com.caijing.business.impl;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.caijing.business.AnalyzerManager;
 import com.caijing.dao.AnalyzerDao;
+import com.caijing.dao.IndustryDao;
 import com.caijing.dao.RecommendStockDao;
 import com.caijing.dao.RecommendSuccessDao;
 import com.caijing.domain.Analyzer;
+import com.caijing.domain.Industry;
 import com.caijing.domain.RecommendStock;
 import com.caijing.domain.RecommendSuccess;
 import com.caijing.util.DateTools;
@@ -26,12 +29,31 @@ public class AnalyzerManagerImpl implements AnalyzerManager {
 	AnalyzerDao analyzerDao = null;
 
 	@Autowired
+	@Qualifier("industryDao")
+	IndustryDao industryDao = null;
+
+	@Autowired
 	@Qualifier("recommendStockDao")
 	private RecommendStockDao recommendStockDao = null;
 
 	@Autowired
 	@Qualifier("recommendSuccessDao")
 	private RecommendSuccessDao recommendSuccessDao = null;
+
+	private HashMap<String, String> industryMap = null;
+
+	public synchronized HashMap<String, String> getIndustryMap() {
+		if (industryMap == null) {
+			List<Industry> list = industryDao.selectlv1();
+			industryMap = new HashMap<String, String>();
+			for (Industry industry : list) {
+				industryMap.put(industry.getIndustryid(), industry.getIndustryname());
+			}
+			return industryMap;
+		} else {
+			return industryMap;
+		}
+	}
 
 	public RecommendSuccessDao getRecommendSuccessDao() {
 		return recommendSuccessDao;

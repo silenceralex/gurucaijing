@@ -23,11 +23,7 @@
                   <ul>
                #end
                   <li>
-                  #if($one.level ==3)
-                     <a class="indust-analyzer vip" href="/analyzer/getIndustry.htm?industry=$one">$one</a>
-                  #else
-                     <a class="indust-analyzer" href="/analyzer/getIndustry.htm?industry=$one">$one</a>
-                  #end
+                     <a class="indust-analyzer" href="/analyzer/getIndustry.htm?industry=$one">$industryMap.get($one)</a>
                   </li>
                #set ($count = $count + 1)
                   #if ($count%5==0)

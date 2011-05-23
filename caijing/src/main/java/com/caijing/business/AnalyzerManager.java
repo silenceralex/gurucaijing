@@ -1,5 +1,7 @@
 package com.caijing.business;
 
+import java.util.HashMap;
+
 import com.caijing.domain.Analyzer;
 
 public interface AnalyzerManager {
@@ -17,5 +19,7 @@ public interface AnalyzerManager {
 	 * @param analyzer
 	 */
 	public void handleHistoryRecommendByAnalyzer(Analyzer analyzer);
+
+	public HashMap<String, String> getIndustryMap();
 
 }

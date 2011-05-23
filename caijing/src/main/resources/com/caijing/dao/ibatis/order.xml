@@ -44,7 +44,7 @@
     <select id="getOrdersByUserid" resultClass="OrderMeta" parameterClass="java.lang.String" >
     select orderid, userid, cost, status, ctime, lmodify
     from order_meta
-    where userid = #userid#
+    where userid = #userid# order by ctime desc
   </select>
   
   <delete id="delete" parameterClass="OrderMeta" >

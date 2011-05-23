@@ -39,7 +39,8 @@
                      <th>支付状态</th>
                      <th>金额</th>
                      <th>创建时间</th>
-                     <th>修改时间</th>                 
+                     <th>修改时间</th>  
+                                    
                   </tr>
 				#if($orderList)
 				  #foreach( $one in $orderList)
@@ -54,14 +55,16 @@
                      #end             
                      <td>$!one.cost</td>
                      <td>$dateUtil.format('yyyy-MM-dd HH:mm:ss', $one.ctime)</td>
-                     <td>$dateUtil.format('yyyy-MM-dd HH:mm:ss', $one.lmodify)</td>           	
+                     <td>$dateUtil.format('yyyy-MM-dd HH:mm:ss', $one.lmodify)</td>
+                      <td><a href="/usr/orderDetail.htm?orderid=${one.orderid}" target="_blank">查看</a></td>           	
                   </tr>
                   #end
 				#end
+                 
                   <!-- TODO
                   <th>订单详情</th>
                    <td><a href="/usr/orderDetail.htm?orderid=${one.orderid}" target="_blank">查看</a></td>
-                  
+                   
                      <td>000002</td>
                      <td>信用卡支付</td>
                      <td>分析师成功率</td>
