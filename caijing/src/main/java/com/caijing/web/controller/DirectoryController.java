@@ -7,39 +7,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-
-import com.caijing.dao.AnalyzerDao;
-import com.caijing.dao.UserDao;
-import com.caijing.util.TopicNameConfig;
 
 @Controller
 @SessionAttributes("currUser")
 public class DirectoryController {
-	@Autowired
-	@Qualifier("userDao")
-	private UserDao ibatisUserDao = null;
-
-	@Autowired
-	@Qualifier("analyzerDao")
-	private AnalyzerDao analyzerDao = null;
-
-	@Autowired
-	@Qualifier("TopicNameConfig")
-	private TopicNameConfig topicNameMap = null;
+	private Log logger = LogFactory.getLog(DirectoryController.class);
 
 	String prefix = "/home/html/";
 
 	@RequestMapping("/notice/*.htm")
-	public void notice(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
-			throws IOException, Exception {
-		status.setComplete();
+	public void notice(HttpServletResponse response, ModelMap model, HttpServletRequest request) throws IOException,
+			Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "/");
 		System.out.println("getRequestURL:" + url);
 		String filepath = prefix + url;
@@ -52,73 +38,90 @@ public class DirectoryController {
 	}
 
 	@RequestMapping("/report/*.htm")
-	public String report(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
-			throws IOException, Exception {
-		status.setComplete();
+	public String report(HttpServletResponse response, ModelMap model, HttpServletRequest request) throws IOException,
+			Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
 
 	@RequestMapping("/master/[0-9]+.htm")
-	public String master(HttpServletResponse response, ModelMap model, SessionStatus status, HttpServletRequest request)
-			throws IOException, Exception {
-		status.setComplete();
+	public String master(HttpServletResponse response, ModelMap model, HttpServletRequest request) throws IOException,
+			Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
 
 	@RequestMapping("/financialreport/*.htm")
-	public String financialreport(HttpServletResponse response, ModelMap model, SessionStatus status,
-			HttpServletRequest request) throws IOException, Exception {
-		status.setComplete();
+	public String financialreport(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
 
 	@RequestMapping("/stockagency/*.htm")
-	public String stockagency(HttpServletResponse response, ModelMap model, SessionStatus status,
-			HttpServletRequest request) throws IOException, Exception {
-		status.setComplete();
+	public String stockagency(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
 
-	@RequestMapping(value = { "/earnrank/*.htm", "/earnrank/[0-9]+/*.htm" })
-	public String earnrank(HttpServletResponse response, ModelMap model, SessionStatus status,
+	@RequestMapping("/earnrank.do")
+	public String earnrank(@RequestParam(value = "kind", required = true) Integer kind,
+			@RequestParam(value = "page", required = true) Integer page, HttpServletResponse response, ModelMap model,
 			HttpServletRequest request) throws IOException, Exception {
-		status.setComplete();
+		logger.debug("earnrank.do kind:" + kind + "  page:" + page);
+		String url = "/earnrank/" + kind + "/" + page + ".htm";
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/discount.do")
+	public String discount(@RequestParam(value = "kind", required = true) Integer kind,
+			@RequestParam(value = "page", required = true) Integer page, HttpServletResponse response, ModelMap model,
+			HttpServletRequest request) throws IOException, Exception {
+		logger.debug("discount.do kind:" + kind + "  page:" + page);
+		String url = "/discount/" + kind + "/" + page + ".htm";
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/analyzerrank/*.htm")
+	public String analyzerrank(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
+
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
 
-	@RequestMapping(value = { "/discount/*.htm", "/discount/[0-9]+/*.htm" })
-	public String discount(HttpServletResponse response, ModelMap model, SessionStatus status,
-			HttpServletRequest request) throws IOException, Exception {
-		status.setComplete();
+	@RequestMapping("/analyzerrank.do")
+	public String analyzerrankdo(@RequestParam(value = "year", required = true) Integer year,
+			@RequestParam(value = "page", required = true) String page, HttpServletResponse response, ModelMap model,
+			SessionStatus status, HttpServletRequest request) throws IOException, Exception {
+		logger.debug("analyzerrank.do year:" + year + "  page:" + page);
+		String url = "/analyzerrank/" + year + "/" + page + ".htm";
+		System.out.println("getRequestURL:" + url);
+		return url;
+	}
+
+	@RequestMapping("/successrank/*.htm")
+	public String successrank(HttpServletResponse response, ModelMap model, HttpServletRequest request)
+			throws IOException, Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}
 
-	@RequestMapping(value = { "/analyzerrank/*.htm", "/analyzerrank/[0-9]+/*.htm" })
-	public String analyzerrank(HttpServletResponse response, ModelMap model, SessionStatus status,
-			HttpServletRequest request) throws IOException, Exception {
-		status.setComplete();
-		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
-		System.out.println("getRequestURL:" + url);
-		return url;
-	}
-
-	@RequestMapping(value = { "/successrank/*.htm", "/successrank/[0-9]+/*.htm" })
-	public String successrank(HttpServletResponse response, ModelMap model, SessionStatus status,
-			HttpServletRequest request) throws IOException, Exception {
-		status.setComplete();
-		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
+	@RequestMapping("/successrank.do")
+	public String successrankdo(@RequestParam(value = "year", required = true) Integer year,
+			@RequestParam(value = "page", required = true) String page, HttpServletResponse response, ModelMap model,
+			SessionStatus status, HttpServletRequest request) throws IOException, Exception {
+		logger.debug("successrank year:" + year + "  page:" + page);
+		String url = "/successrank/" + year + "/" + page + ".htm";
 		System.out.println("getRequestURL:" + url);
 		return url;
 	}

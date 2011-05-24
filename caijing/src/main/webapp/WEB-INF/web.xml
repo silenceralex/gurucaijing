@@ -161,6 +161,11 @@
 	
 	<filter-mapping>
 		<filter-name>Authority Filter</filter-name>
+		<url-pattern>/cart/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Authority Filter</filter-name>
 		<url-pattern>/analyzer/*</url-pattern>
 	</filter-mapping>
 	
