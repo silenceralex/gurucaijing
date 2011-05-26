@@ -15,17 +15,18 @@
    #include("/template/inc/header.htm")
    <div class="mainBox">
       #include("/template/inc/colL.htm")
-      <div class="sec_list">
+      <div class="sec_content">
          <div class="sec_nav">
             <h2>
                <a href="/">投资大师首页</a> &gt; 我的购物车
             </h2>   
          </div>
-         <div style="width:100%;margin-top:15px;" id="star_detail_tab" class="sec_tabBar">
-            <h2 class="star_de_tabli_on">我的购物车</h2>
-            <span><a href="#">确认购买</a></span>
-            <span class="current"><a href="#">确认支付方式</a></span>
-         </div>
+         <ul class="cartNav cart-pay clearfix">
+            <li class="pass">选择产品<li>
+            <li class="pass">购物车<li>
+            <li class="pass">确认购买<li>
+            <li>提交订单<li>
+         </ul>
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
              #if($useRemain ==1 )
