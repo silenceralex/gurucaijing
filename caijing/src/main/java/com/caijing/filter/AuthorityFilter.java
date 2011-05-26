@@ -104,19 +104,22 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 					logger.debug("对请求的 " + URL + " 忽略检查。");
 					isValid = true;
 				} else if (user != null && currRights != null) {
-					if (containsOneOfUserrights(URL, currRights) || URL.contains("USER")) {
+					if (containsOneOfUserrights(URL, currRights) || URL.contains("USER") || URL.contains("CART")) {
 						logger.debug("对请求的文件 " + URL + " 检查通过。");
 						isValid = true;
 					} else {
-						logger.debug("user: " + user.getEmail() + "  无对 URL：" + URL + "   的访问权限");
-
-						isValid = false;
-						sResponse.setContentType("text/html; charset=GBK");
-						sResponse.getWriter().write(
-								"<script>alert('您没有对 URL:" + URL
-										+ " 的访问权限,请您在跳转页面购买，谢谢！'); top.location='/user/myAccount.htm';</script>");
-						sResponse.flushBuffer();
-
+						if (URL.contains("USER") || URL.contains("CART")) {
+							logger.debug("对请求的文件 " + URL + " 检查通过。");
+							isValid = true;
+						} else {
+							logger.debug("user: " + user.getEmail() + "  无对 URL：" + URL + "   的访问权限");
+							isValid = false;
+							sResponse.setContentType("text/html; charset=GBK");
+							sResponse.getWriter().write(
+									"<script>alert('您没有对 URL:" + URL
+											+ " 的访问权限,请您在跳转页面购买，谢谢！'); top.location='/user/myAccount.htm';</script>");
+							sResponse.flushBuffer();
+						}
 					}
 				} else if ((user == null) || (StringUtils.isEmpty(user.getEmail()))) {
 					logger.debug("对请求的 " + URL + " 进行安全检查。");
