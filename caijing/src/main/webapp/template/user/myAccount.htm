@@ -43,9 +43,9 @@
                   <tr>
                      <td><a href="$!one.get("url")" class="enter">$!one.get("productName")</a></td>
                      <td>$!one.get("todate")</td>
-                     #if($!one.get("masterName")!=null)
+                     #if($!one.get("masterName"))
                      <td>$!one.get("masterName")</td>
-                     #elseif($!one.get("industryName")!=null)
+                     #elseif($!one.get("industryName"))
                      <td>$!one.get("industryName")</td>
                      #end
                   </tr>
