@@ -60,8 +60,7 @@ public class OrderController {
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public void orderByRecharge(@ModelAttribute("currWebUser") WebUser user,
-			@ModelAttribute("currRights") List<Userright> currRights, HttpServletResponse response,
+	public void orderByRecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "status", required = true) Integer status, HttpServletRequest request, ModelMap model) {
 		String userid = user.getUid();
