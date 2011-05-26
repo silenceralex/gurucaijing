@@ -362,27 +362,25 @@ public class LoginController {
 		if (currRights != null) {
 			for (Userright userright : currRights) {
 				HashMap<String, Object> myProduct = new HashMap<String, Object>();
-				String path = userright.getPath();
-				Product product = (Product) productDAO.select(userright.getPid());
+				Product product = (Product) productDAO.select(userright.getPid());				
 				myProduct.put("productName", product.getName());
 				String todate = DateTools.transformYYYYMMDDDate(userright.getTodate());
 				myProduct.put("todate", todate);
 				myProduct.put("url", product.getUrl());
 				String unknownid = userright.getIndustryid(); //industryid or masterid
 				if(unknownid!=null){
-					if(path.equals("master")){
+					if(product.getPid() == 10){
 						Master master = (Master) masterDao.select(unknownid);
 						String masterName = master.getMastername();
 						myProduct.put("masterName", masterName);
 						myProduct.put("url", product.getUrl().replace("$masterid", unknownid));
-					} else {
+					} else if(product.getIsIndustry() == 1) {
 						Industry industry = (Industry) industryDao.select(unknownid);
 						String industryName = industry.getIndustryname();
 						myProduct.put("industryName", industryName);
 						myProduct.put("url", product.getUrl().replace("$industryid", unknownid));
 					}
 				}
-
 				myProductList.add(myProduct);
 			}
 		}
