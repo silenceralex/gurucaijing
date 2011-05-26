@@ -36,25 +36,18 @@
                <table width="99%" cellspacing="0" cellpadding="0" border="1">
                   <tr>
                      <th>产品</th>
-                     <th>产品说明</th>
-                     <th>建议价格(人民币)</th>
-                     <th>操作</th>
+                     <th>产品截止日期</th>
+                     <th>产品信息</th>
                   </tr>
-                   #if($productList)#foreach( $one in $productList)
+                   #if($myProductList)#foreach( $one in $myProductList)
                   <tr>
-                     <td>$one.name</td>
-                     <td>$one.description</td>
-                     #if($one.continuedmonth==1 && $one.isIndustry==1 )
-                     <td>$one.price 元/月/行业</td>
-                     #elseif($one.continuedmonth==1 && $one.isIndustry==0)
-                     <td>$one.price 元/月</td>
-                     #elseif($one.continuedmonth==12)
-                     <td>$one.price 元/年</td>
+                     <td><a href="$!one.get("url")" class="enter">$!one.get("productName")</a></td>
+                     <td>$!one.get("todate")</td>
+                     #if($!one.get("masterName")!=null)
+                     <td>$!one.get("masterName")</td>
+                     #elseif($!one.get("industryName")!=null)
+                     <td>$!one.get("industryName")</td>
                      #end
-                     <td>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('$one.pid', 1, true)">购买</a>
-                        <a class="cRed" href="javascript:;" onclick="cart.buy('$one.pid', 1, false )">放入购物车</a>
-                     </td>
                   </tr>
                   #end
                   #end
