@@ -580,7 +580,11 @@
             pid = t.cartArr[x].id.replace(/[a-z]*/, "");
             industryId = t.cartArr[x].industryId? t.cartArr[x].industryId: "";
             num = t.cartArr[x].num;
-            str += '{productid:"' + pid + '", industryid:"' + industryId + '",num:"' + num + '"},'
+            if ( pid == 10 ) {// ÷±≤• “
+               str += '{productid:"' + pid + '", masterid:"' + industryId + '",num:"' + num + '"},'
+            }else{
+               str += '{productid:"' + pid + '", industryid:"' + industryId + '",num:"' + num + '"},'
+            }
          }
          str = str.substr(0,str.length-1);
          str += "]";
