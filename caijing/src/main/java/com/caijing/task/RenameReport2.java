@@ -110,7 +110,7 @@ public class RenameReport2 {
 //				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers2/yanshiyou/");
 				put("/data/excel/yanshiyou-2.xls", "/data/oldpapers2/yanshiyou/"); //0425
 //				put("/data/excel/yanshiyou-3.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
-				put("/data/excel/yanshiyou-4.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/yanshiyou-4.xlsx", "/data/oldpapers2/yanshiyou/"); //0425 删除yanshiyou-4_bak.xlsx中的图表数据
 //				put("/data/excel/wanghan-1.xlsx", "/data/oldpapers2/wanghan/");
 //				put("/data/excel/wanghan-2.xlsx", "/data/oldpapers2/wanghan/");
 //				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers2/wanghan/");
@@ -169,7 +169,7 @@ public class RenameReport2 {
 				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers2/yanshiyou/");
 				put("/data/excel/yanshiyou-2.xls", "/data/oldpapers2/yanshiyou/"); //0425
 				put("/data/excel/yanshiyou-3.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
-				put("/data/excel/yanshiyou-4.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/yanshiyou-4.xlsx", "/data/oldpapers2/yanshiyou/"); //0425 删除yanshiyou-4_bak.xlsx中的图表数据
 				put("/data/excel/wanghan-1.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/wanghan-2.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers2/wanghan/");
@@ -256,6 +256,10 @@ public class RenameReport2 {
 			String rid = ServerUtil.getid();
 			String filename = row.get(0);
 			String saname = getsaname(row.get(1).trim());
+			if(saname.equals("券商名称")){
+				//跳过第一行
+				continue;
+			}
 			String stockcode = getcode(row.get(2).trim());
 			String createdate = getcreatedate(row.get(7).trim());
 			String title = row.get(3).trim();
@@ -268,7 +272,7 @@ public class RenameReport2 {
 			String destPdffilepath = desthtmlPath +createdate+"/"+rid + ".pdf";
 			String destTxtfilepath = desthtmlPath +createdate+"/"+rid + ".txt";
 
-			if(stockcode==null||createdate==null||createdate.length()==0||createdate.equals("无")||saname.equals("券商名称")||saname.length()==0||saname.length()>8){
+			if(stockcode==null||createdate==null||createdate.length()==0||createdate.equals("无")||saname.length()==0||saname.length()>8){
 				try {
 					IOUtils.write(excel.getName()+" >>> "+filename+"\r\n", os, "UTF-8");
 				} catch (IOException e) {
