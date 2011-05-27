@@ -145,23 +145,23 @@ public class RenameReport2 {
 		Map<String, String> map = new HashMap<String, String>() {
 			private static final long serialVersionUID = 1L;
 			{
-//				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
-//				put("/data/oldpapers/201008/yw201008_0411.xls", "/data/oldpapers/201008/");
-//				put("/data/oldpapers/201008/yw201008_0418.xls", "/data/oldpapers/201008/");
-//				put("/data/oldpapers/201008/201008_0425.xls", "/data/oldpapers/201008/");
-//				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
-//				put("/data/oldpapers/201009/201009_0418.xlsx", "/data/oldpapers/201009/");
-//				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
-//				put("/data/oldpapers/201010/201010_0411.xlsx", "/data/oldpapers/201010/");
-//				put("/data/oldpapers/201010/201010_0425.xlsx", "/data/oldpapers/201010/");
-//				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
-//				put("/data/oldpapers/201011/201011_0411.xls", "/data/oldpapers/201011/");
-//				put("/data/oldpapers/201011/201011_0425.xls", "/data/oldpapers/201011/");
-//				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
-//				put("/data/oldpapers/201012/201012_0411.xls", "/data/oldpapers/201012/");
-//				put("/data/oldpapers/201012/201012_0418.xls", "/data/oldpapers/201012/");
-//				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
-//				put("/data/oldpapers/201102/201102_0418.xlsx", "/data/oldpapers/201102/");
+				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/yw201008_0411.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/yw201008_0418.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/201008_0425.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
+				put("/data/oldpapers/201009/201009_0418.xlsx", "/data/oldpapers/201009/");
+				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201010/201010_0411.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201010/201010_0425.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201011/201011_0411.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201011/201011_0425.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201012/201012_0411.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201012/201012_0418.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
+				put("/data/oldpapers/201102/201102_0418.xlsx", "/data/oldpapers/201102/");
 				put("/data/excel/hanjianping-1.xls", "/data/oldpapers2/hanjianping/");
 				put("/data/excel/hanjianping-2.xls", "/data/oldpapers2/hanjianping/");
 				put("/data/excel/hanjianping-3.xls", "/data/oldpapers2/hanjianping/");
@@ -177,8 +177,8 @@ public class RenameReport2 {
 				put("/data/excel/wanghan-4.xlsx", "/data/oldpapers2/wanghan/"); //0425
 				
 				//20100513
-//				put("/data/oldpapers/201008/201008_0513.xls", "/data/oldpapers/201008/");
-//				put("/data/oldpapers/201102/201102_0513.xls", "/data/oldpapers/201102/");
+				put("/data/oldpapers/201008/201008_0513.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201102/201102_0513.xls", "/data/oldpapers/201102/");
 				//put("/data/excel/20110513.xls", "/data/oldpapers2/wanghan/"); //TODO
 				put("/data/excel/wanghan-5.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/yanshiyou-5.xlsx", "/data/oldpapers2/yanshiyou/");
