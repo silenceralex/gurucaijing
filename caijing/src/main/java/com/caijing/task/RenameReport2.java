@@ -175,7 +175,7 @@ public class RenameReport2 {
 				put("/data/excel/wanghan-2.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers2/wanghan/");
 				put("/data/excel/wanghan-4.xlsx", "/data/oldpapers2/wanghan/"); //0425
-				put("/data/excel/test.xlsx", "/data/oldpapers/test/");
+				//put("/data/excel/test.xlsx", "/data/oldpapers/test/");
 				
 				//20100513
 				put("/data/oldpapers/201008/201008_0513.xls", "/data/oldpapers/201008/");
