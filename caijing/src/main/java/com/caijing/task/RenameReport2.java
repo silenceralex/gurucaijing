@@ -141,6 +141,105 @@ public class RenameReport2 {
 		}
 	}
 	
+	public void readExcels2ForNum(){
+		Map<String, String> map = new HashMap<String, String>() {
+			private static final long serialVersionUID = 1L;
+			{
+				put("/data/oldpapers/201008/201008.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/yw201008_0411.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/yw201008_0418.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201008/201008_0425.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201009/201009.xlsx", "/data/oldpapers/201009/");
+				put("/data/oldpapers/201009/201009_0418.xlsx", "/data/oldpapers/201009/");
+				put("/data/oldpapers/201010/201010.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201010/201010_0411.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201010/201010_0425.xlsx", "/data/oldpapers/201010/");
+				put("/data/oldpapers/201011/201011.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201011/201011_0411.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201011/201011_0425.xls", "/data/oldpapers/201011/");
+				put("/data/oldpapers/201012/201012.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201012/201012_0411.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201012/201012_0418.xls", "/data/oldpapers/201012/");
+				put("/data/oldpapers/201101temp/201101temp.xls", "/data/oldpapers/201101temp/");
+				put("/data/oldpapers/201102/201102_0418.xlsx", "/data/oldpapers/201102/");
+				put("/data/excel/hanjianping-1.xls", "/data/oldpapers2/hanjianping/");
+				put("/data/excel/hanjianping-2.xls", "/data/oldpapers2/hanjianping/");
+				put("/data/excel/hanjianping-3.xls", "/data/oldpapers2/hanjianping/");
+				put("/data/excel/hanjianping-4.xls", "/data/oldpapers2/hanjianping/");
+				put("/data/excel/hanjianping-5.xls", "/data/oldpapers2/hanjianping/"); //0425
+				put("/data/excel/yanshiyou-1.xlsx", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou-2.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/yanshiyou-3.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/yanshiyou-4.xlsx", "/data/oldpapers2/yanshiyou/"); //0425
+				put("/data/excel/wanghan-1.xlsx", "/data/oldpapers2/wanghan/");
+				put("/data/excel/wanghan-2.xlsx", "/data/oldpapers2/wanghan/");
+				put("/data/excel/wanghan-3.xlsx", "/data/oldpapers2/wanghan/");
+				put("/data/excel/wanghan-4.xlsx", "/data/oldpapers2/wanghan/"); //0425
+				put("/data/excel/test.xlsx", "/data/oldpapers/test/");
+				
+				//20100513
+				put("/data/oldpapers/201008/201008_0513.xls", "/data/oldpapers/201008/");
+				put("/data/oldpapers/201102/201102_0513.xls", "/data/oldpapers/201102/");
+				//put("/data/excel/20110513.xls", "/data/oldpapers2/wanghan/"); //TODO
+				put("/data/excel/wanghan-5.xlsx", "/data/oldpapers2/wanghan/");
+				put("/data/excel/yanshiyou-5.xlsx", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou-6.xlsx", "/data/oldpapers2/yanshiyou/");
+			}
+		};
+		
+		Map<String, Integer> count_map = new HashMap<String, Integer>();
+		for (Map.Entry<String,String> data : map.entrySet()) {
+			String excel = data.getKey();
+			System.out.println("=== "+excel+" ===");
+			
+			POIExcelUtil poi = new POIExcelUtil();
+			List<ArrayList<String>> excel_data = poi.read(new File(excel).getPath());
+			for (ArrayList<String> row : excel_data) {
+				System.out.println("row : " + row);
+				String createdate = row.get(7).trim();
+				String title = row.get(3).trim();
+				if(title.length()!=0){
+					if(createdate.length()!=0){
+						if(isNumeric(createdate)){
+							createdate = createdate.substring(0, 6);
+							if(createdate.compareTo("201008")>=0){
+								createdate = ">=201008";
+							} else {
+								createdate = "<201008";
+							}
+						}
+						if(count_map.containsKey(createdate)){
+							int num = count_map.get(createdate);
+							count_map.put(createdate, ++num);
+						} else {
+							count_map.put(createdate, 1);
+						}
+					} else {
+						if(count_map.containsKey("blank")){
+							int num = count_map.get("blank");
+							count_map.put("blank", ++num);
+						} else {
+							count_map.put("blank", 1);
+						}
+					}
+				}
+			}
+		}
+		for (String createdate : count_map.keySet()) {
+			try {
+				//IOUtils.write(createdate+": "+count_map.get(createdate)+"\r\n", os, "UTF-8");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println(createdate+": "+count_map.get(createdate));
+		}
+		try {
+			IOUtils.write("==== end RenameReport2 NumCount ====\r\n", os, "UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void readExcel(File excel, File reportDir){
 		POIExcelUtil poi = new POIExcelUtil();
 		String prefix = reportDir.getPath()+"/";
@@ -534,7 +633,8 @@ public class RenameReport2 {
 	
 	public static void main(String[] args) {
 		RenameReport2 rr = new RenameReport2();
-		rr.readExcels2();
+//		rr.readExcels2();
+		rr.readExcels2ForNum();
 //		System.out.println(rr.getcreatedate("20080102"));
 //		System.out.println(rr.getcreatedate("200811207"));
 		System.exit(0);
