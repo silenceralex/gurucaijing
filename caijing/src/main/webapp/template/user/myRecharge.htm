@@ -26,50 +26,52 @@
             <span><a href="/user/myInfo.htm">我的信息</a></span>
             <span class="current"><a href="/user/myRecharge.htm">我的充值</a></span>
             <span><a href="/user/myConsumer.htm">我的消费</a></span>
-			<span><a href="/user/logout.do">安全退出</a></span> 
+            <span><a href="/user/logout.do">安全退出</a></span> 
          </div>
          <div class="user">
             <div class="myRecharge">
                <input onclick="javascript:window.location='/user/recharge.htm';" type="button" value="我要充值" />
-               	您的账户： $!user.email 在投资大师成功充值共计 <span class="cRed">$!total</span> 元 ； 账户余额为:<span class="cRed">$!user.remain</span>&nbsp;元
+                  您的账户： $!user.email 在投资大师成功充值共计 <span class="cRed">$!total</span> 元 ； 账户余额为:<span class="cRed">$!user.remain</span>&nbsp;元
                <hr />
-               <table class="myOrderTb">
-                  <tr>
-                     <th>充值订单号</th>
-                     <th>充值类型</th>
-                     <th>状态</th>
-                     <th>金额</th>
-                     <th>时间</th>
-                  </tr>
-                  #if($recharges)#foreach( $one in $recharges)
-                  <tr>
-                     <td>$one.rcid</td>
-                     <td>
-                        #if($one.type==0)
-                        	支付宝-在线支付
-                        #elseif($one.type==1)
-                        	财付通-在线支付
-                        #elseif($one.type==2)
-                        	快钱-在线支付
-                        #elseif($one.type==3)
-                        	信用卡-在线支付
-                        #end
-					</td>
-                     <td>
-        				#if($one.status==0)
-                        	尚未支付
-                        #elseif($one.status==1)
-                        	支付成功   
-                        #else
-                        	支付失败
-                        #end          
-                     </td>
-                     <td>$!one.cash 元</td>
-                     <td>$dateUtil.format('yyyy-MM-dd HH:mm:ss', $one.ctime)</td>
-                  </tr>
-                  #end
-                  #end
-               </table>
+               <div class="onsaleTable">
+                  <table class="myOrderTb">
+                     <tr>
+                        <th>充值订单号</th>
+                        <th>充值类型</th>
+                        <th>状态</th>
+                        <th>金额</th>
+                        <th>时间</th>
+                     </tr>
+                     #if($recharges)#foreach( $one in $recharges)
+                     <tr>
+                        <td>$one.rcid</td>
+                        <td>
+                           #if($one.type==0)
+                              支付宝-在线支付
+                           #elseif($one.type==1)
+                              财付通-在线支付
+                           #elseif($one.type==2)
+                              快钱-在线支付
+                           #elseif($one.type==3)
+                              信用卡-在线支付
+                           #end
+                  </td>
+                        <td>
+                     #if($one.status==0)
+                              尚未支付
+                           #elseif($one.status==1)
+                              支付成功   
+                           #else
+                              支付失败
+                           #end          
+                        </td>
+                        <td>$!one.cash 元</td>
+                        <td>$dateUtil.format('yyyy-MM-dd HH:mm:ss', $one.ctime)</td>
+                     </tr>
+                     #end
+                     #end
+                  </table>
+               </div>
             </div>
          </div>
       </div>
