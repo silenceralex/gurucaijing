@@ -49,7 +49,7 @@
                <div>
                   <p><input type="checkbox" name="useRemain" checked="checked" value="1" />您的投资大师账户：$user.email,余额为$user.remain元，可直接支付</p>
                   #if($useRemain ==1 )
-                  <input type="submit" value="确认余额支付" />
+                  <input class="submitBtn" type="submit" value="确认余额支付" />
                   #end
                </div>
                #if($useRemain ==0 )
@@ -71,7 +71,7 @@
                      <li><input name="paymethod" type="radio" />邮政汇款</li>
                      -->
                   </ul>
-                  <input type="submit" value="确认充值并支付" />
+                  <input class="submitBtn" type="submit" value="确认充值并支付" />
                </div>
                #end
             </div>
