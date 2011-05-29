@@ -62,11 +62,10 @@
                      <tr>
                         <td>居住城市:</td>
                         <td>
-                           <!-- <select id="Province"></select>
-                           <select id="city"></select> -->
-                           <span id="city"></span>
+                           <select id="Province" onchange="userInfo.loadCity(this)"></select>
+                           <select id="city"></select>
                         </td>
-                        <td><input id="changeInfoBtn" class="submitBtn" type="button" value="确定" /></td>
+                        <td><input id="changeInfoBtn" class="submitBtn" type="button" style="margin-top:0" value="确定" /></td>
                      </tr>
                   </table>
                </form>
