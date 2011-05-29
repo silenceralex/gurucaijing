@@ -661,8 +661,8 @@ public class RenameReport2 {
 	
 	public static void main(String[] args) {
 		RenameReport2 rr = new RenameReport2();
-//		rr.readExcels2();
-		rr.readExcels2ForNum();
+		rr.readExcels2();
+//		rr.readExcels2ForNum();
 //		System.out.println(rr.getcreatedate("20080102"));
 //		System.out.println(rr.getcreatedate("200811207"));
 		System.exit(0);
