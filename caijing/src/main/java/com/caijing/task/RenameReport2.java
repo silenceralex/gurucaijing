@@ -127,11 +127,11 @@ public class RenameReport2 {
 				//20100523
 				put("/data/oldpapers/201010/201010_0523.xls", "/data/oldpapers/201010/");
 				put("/data/oldpapers/201008/201008_0523.xls", "/data/oldpapers/201008/");
-				put("/data/excel/yanshiyou\\ 2011.5.23.xls", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou 2011.5.23.xls", "/data/oldpapers2/yanshiyou/");
 				
 				//20100526
 				put("/data/oldpapers/201103/201103_0526.xls", "/data/oldpapers/201103/");
-				put("/data/excel/yanshiyou\\ 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
 			}
 		};
 		
@@ -195,11 +195,11 @@ public class RenameReport2 {
 				//20100523
 				put("/data/oldpapers/201010/201010_0523.xls", "/data/oldpapers/201010/");
 				put("/data/oldpapers/201008/201008_0523.xls", "/data/oldpapers/201008/");
-				put("/data/excel/yanshiyou\\ 2011.5.23.xls", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou 2011.5.23.xls", "/data/oldpapers2/yanshiyou/");
 				
 				//20100526
 				put("/data/oldpapers/201103/201103_0526.xls", "/data/oldpapers/201103/");
-				put("/data/excel/yanshiyou\\ 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
+				put("/data/excel/yanshiyou 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
 			}
 		};
 		
