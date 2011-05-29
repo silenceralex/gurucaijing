@@ -267,7 +267,9 @@
             var products = eval('(' + data + ')');
             var i = 1;
             for ( n in products ) {
-               t.pObj["p" + products[n].pid] = products[n];
+               if ( products[n].name.indexOf("²Ý¸ù") ) {
+                  t.pObj["p" + products[n].pid] = products[n];
+               }
                i += 1;
             }
             if ( action == "showProducts") {
