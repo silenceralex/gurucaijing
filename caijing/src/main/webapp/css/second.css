@@ -157,7 +157,7 @@ hr {height:1px;border:none;border-top:#CCC solid 1px;}
 .productsTable{border-collapse:collapse}
 .productsTable th,.productsTable td{border:#CCC solid 1px;line-height:20px;padding:4px;}
 .cartNav {background-image:url(/img/cart_sprite.png);background-repeat:no-repeat;height:28px;overflow:hidden;margin:10px 0;}
-.cartNav li{width:123px;float:left;text-align:center;line-height:28px;cursor:pointer;}
+.cartNav li{width:123px;float:left;text-align:center;line-height:28px;}
 .cartNav li.pass{color:#FFF;font-weight:bold;}
 .cart-products{}
 .cart-cart{background-position:0 -30px;}
