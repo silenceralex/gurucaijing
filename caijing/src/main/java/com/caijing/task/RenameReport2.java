@@ -224,7 +224,7 @@ public class RenameReport2 {
 				String title = row.get(3).trim();
 				if(title.length()!=0){
 					if(createdate.length()!=0){
-						if(isNumeric(createdate)){
+						if(isNumeric(createdate)&&createdate.length()>=6){
 							createdate = createdate.substring(0, 6);
 							if(createdate.compareTo("201008")>=0){
 								createdate = ">=201008";
