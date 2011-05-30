@@ -167,82 +167,9 @@
       return { "x" : x, "y" : y + document.body.scrollTop };
    };
    cart = {
-      // 产品集合
-      /* pObj : {
-         p1:{id:1, title:"分析师成功率", intro:"套餐", price:29, byIndustry:true},
-         p2:{id:2, title:"分析师收益率", intro:"套餐", price:29, byIndustry:true},
-         p3:{id:3, title:"个股追踪", intro:"套餐", price:29, byIndustry:false},
-         p4:{id:4, title:"推荐后折价", intro:"套餐", price:19, byIndustry:false},
-         p5:{id:5, title:"研报速递", intro:"套餐", price:99, byIndustry:true},
-         p6:{id:6, title:"民间专家直播室", intro:"套餐", price:99, byIndustry:false},
-         p7:{id:7, title:"公告掘金", intro:"套餐", price:19, byIndustry:false},
-         p8:{id:8, title:"年报查询", intro:"套餐", price:29, byIndustry:false},//~~~~~
-         p9:{id:9, title:"分析师成功率+研报速递(行业)", intro:"套餐", price:109, byIndustry:true},
-         p10:{id:10, title:"分析师收益率+研报速递(行业)", intro:"套餐",price:109, byIndustry:true},
-         p11:{id:11, title:"研报速递+分析师成功率+分析师收益率(行业)", intro:"套餐",price:129, byIndustry:true},
-         p12:{id:12, title:"推荐后折价（年）", intro:"套餐", price:190, byIndustry:false},
-         p13:{id:13, title:"个股追踪 （年）", intro:"套餐", price:290, byIndustry:false},
-         p14:{id:14, title:"公告掘金 （年）", intro:"套餐", price:190, byIndustry:false},
-         p15:{id:15, title:"年报查询 （年）", intro:"套餐", price:290, byIndustry:false}
-      }, */
-      // 行业列表
-      /* industry : {
-         i1: {id: 1, name: "房地产业"},
-         i2: {id: 2, name: "银行业"},
-         i3: {id: 3, name: "非银行金融"},
-         i4: {id: 4, name: "电力煤气及水等公用事业"},
-         i5: {id: 5, name: "有色金属"},
-         i6: {id: 6, name: "基础化工"},
-         i7: {id: 7, name: "机械设备"},
-         i8: {id: 8, name: "医药生物"},
-         i9: {id: 9, name: "汽车和汽车零部件"},
-         i10: {id: 10, name: "煤炭开采"},
-         i11: {id: 11, name: "批发和零售贸易"},
-         i12: {id: 12, name: "建筑和工程"},
-         i13: {id: 13, name: "家电行业"},
-         i14: {id: 14, name: "电子行业"},
-         i15: {id: 15, name: "纺织和服装"},
-         i16: {id: 16, name: "造纸印刷业"},
-         i17: {id: 17, name: "食品饮料业"},
-         i18: {id: 18, name: "社会服务业"},
-         i19: {id: 19, name: "传播与文化"},
-         i20: {id: 20, name: "农林牧渔"},
-         i21: {id: 21, name: "计算机"},
-         i22: {id: 22, name: "通信行业"},
-         i23: {id: 23, name: "新能源"},
-         i24: {id: 24, name: "钢铁行业"},
-         i25: {id: 25, name: "石油化工"},
-         i26: {id: 26, name: "交通运输仓储"},
-         i27: {id: 27, name: "非金属类建材"},
-         i28: {id: 28, name: "采掘业"},
-         i29: {id: 29, name: "信息技术业"},
-         i30: {id: 30, name: "其他制造业"}
-      }, */
       pObj : {},
       recommend : [],
       industry : {},
-      // 初始化购物车
-      /* init : function ( orderId ) {
-         var t = this;
-         t.orderId = orderId;
-         t.cartArr = [];
-         t.initIndustrySelect();
-         // t.buyBind();
-         Rookie(function(){
-            if ( !this.read("orderId") ) {
-               t.orderId = +new Date();
-               this.write( 'orderId', t.orderId );
-            } else if ( t.orderId == this.read("orderId") ) {
-               //alert( "应该清空本地数据" );
-               t.clear();
-            } else {
-               var cartItem = this.read('cart');
-               if( cartItem ) {
-                  t.cartArr = this.read('cart');
-               }
-            }
-         })
-      }, */
       init : function ( action ) {
          var t = this;
          t.cartArr = [];
@@ -349,6 +276,29 @@
             alert( industryId );
          });
       }, */
+      delIndustryItem : function ( node ) {
+         var fa = node.parentNode.parentNode,
+             gfa = node.parentNode.parentNode.parentNode,
+             itemArr = $(".pop-industry");
+         if ( itemArr.length > 1 ) {
+            gfa.removeChild(fa);
+         }
+         //node.parentNode.parentNode.style.display = "none";
+         //$(node).parent().remove();
+      },
+      addIndustryItem : function () {
+         /* var str = '<tr class="pop-industry">'+
+              ' <td class="industcol"><select name="industry"></select></td>'+
+               '<td>'+
+                  '<input class="count" class="popNum" type="text" value="1"/>'+
+               '</td>'+
+               '<td><span id="chosePrice"></span>元</td>'+
+               '<td class="industcol"><span class="operation plusBtn" onclick="cart.addIndustryItem()" title="增加一个行业">+</span></td>'+
+            '</tr>'; */
+         var temp = $(".pop-industry").last(),
+             newNode = $(temp).clone();
+         $( temp ).after( newNode );
+      },
       initIndustrySelect : function ( industry ) {
          var t = this;
          //console.log( industry );
@@ -369,7 +319,7 @@
             getTotal( id );
          }
          $("#0num").bind("blur", function () {
-            var price = t.pObj[id].price * $("#0num").val();
+            var price = t.pObj[id].price * this.value;
             $("#chosePrice").text( price );
          });
          if ( t.pObj[id].isIndustry ) {
@@ -381,12 +331,23 @@
          }
          function getTotal ( id ) {
             //$("#dialogS").fadeOut();
+            /* 比较新
             var num = $("#0num").val(),
                 industryId = $("#dialogS .chose select").val();
             if ( !t.pObj[id].isIndustry ) {
                industryId = "";
             }
-            t.add( id, num, industryId );
+            t.add( id, num, industryId ); */
+            var items = $(".pop-count");
+            for( var i = 0; i < items.length; i ++ ) {
+               
+               var num = $(".pop-count:eq(" + i + ")").val(),
+                   industryId = $("#dialogS .chose select:eq(" + i + ")").val();
+               if ( !t.pObj[id].isIndustry ) {
+                  industryId = "";
+               }
+               t.add( id, num, industryId );
+            }
             //var isOk = t.add( id, num, industryId );
          }
          return;
@@ -653,6 +614,7 @@
       // 弹出提示框
       popDialog : function () {
          var elem = $("#dialogS");
+         $(".pop-industry:gt(0)").remove();//~~
          $( elem ).fadeIn("slow");
          $( elem ).css({ 
             position : 'absolute',
