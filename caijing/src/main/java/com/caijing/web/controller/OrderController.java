@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.caijing.business.OrderManager;
+import com.caijing.business.RechargeManager;
 import com.caijing.dao.IndustryDao;
 import com.caijing.dao.MasterDao;
+import com.caijing.dao.OrderDao;
 import com.caijing.dao.ProductDAO;
 import com.caijing.dao.WebUserDao;
 import com.caijing.domain.Industry;
@@ -32,6 +34,7 @@ import com.caijing.domain.OrderPr;
 import com.caijing.domain.Product;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
+import com.caijing.util.DateTools;
 
 @Controller
 @SessionAttributes({ "currWebUser", "currRights" })
@@ -57,10 +60,18 @@ public class OrderController {
 	@Qualifier("masterDao")
 	private MasterDao masterDao;
 
+	@Autowired
+	@Qualifier("rechargeManager")
+	private RechargeManager rechargeManager = null;
+
+	@Autowired
+	@Qualifier("orderDao")
+	private OrderDao orderDao;
+
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public void orderByRecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public String orderByRecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "status", required = true) Integer status, HttpServletRequest request, ModelMap model) {
 		String userid = user.getUid();
@@ -70,29 +81,51 @@ public class OrderController {
 				orderManager.orderByRecharge(userid, rechargeid);
 				List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 				model.addAttribute("currRights", rights);
-				model.addAttribute("isEmpty", 1);
-				response.sendRedirect("/user/myConsumer.htm");
+				user = (WebUser) webUserDao.select(user.getUid());
+				String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
+				Float total = rechargeManager.getTotalByUserid(user.getUid());
+				List<OrderMeta> orderList = orderDao.getOrdersByUserid(user.getUid());
+				logger.debug("orderList:" + orderList.size());
+				model.put("ptime", ptime);
+				model.put("orderList", orderList);
+				model.put("total", total);
+				model.put("user", user);
+				model.put("isEmpty", 1);
+				return "/template/user/myConsumer.htm";
 			} else {
 				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
 				response.sendRedirect("/user/myConsumer.htm");
+				return "/user/myConsumer.htm";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "/user/myConsumer.htm";
 		}
 	}
 
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)
-	public void orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public String orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		try {
 			String userid = user.getUid();
 			orderManager.orderByRemain(userid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 			model.addAttribute("currRights", rights);
-			model.addAttribute("isEmpty", 1);
-			response.sendRedirect("/user/myConsumer.htm");
+
+			user = (WebUser) webUserDao.select(user.getUid());
+			String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
+			Float total = rechargeManager.getTotalByUserid(user.getUid());
+			List<OrderMeta> orderList = orderDao.getOrdersByUserid(user.getUid());
+			logger.debug("orderList:" + orderList.size());
+			model.put("ptime", ptime);
+			model.put("orderList", orderList);
+			model.put("total", total);
+			model.put("user", user);
+			model.put("isEmpty", 1);
+			return "/template/user/myConsumer.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "/user/myConsumer.htm";
 		}
 	}
 
