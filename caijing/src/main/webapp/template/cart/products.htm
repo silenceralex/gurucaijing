@@ -55,22 +55,23 @@
                <td class="industcol">行业</td>
                <td>数量(月)</td>
                <td>金额</td>
-               <td class="industcol">操作</td>
+               <td>操作</td>
             </tr>
-            <tr>
+            <tr class="pop-industry">
                <td class="industcol"><select name="industry"></select></td>
                <td>
                   <!-- <a href="javascript:;" onclick="cart.sub(0)">-</a> -->
-                  <input class="count" id="0num" type="text" value="1"/>
+                  <input class="pop-count count" id="0num" type="text" value="1"/>
                   <!-- <a href="javascript:;" onclick="cart.plus(0)">+</a> -->
                </td>
                <td><span id="chosePrice"></span>元</td>
-               <td class="industcol"><span class="operation plusBtn" onclick="cart.addIndustryItem()" title="增加一个行业">+</span></td>
+               <!-- <td><a href="javascript:;" onclick="cart.addIndustryItem()" title="增加一个">+</a></td> -->
+               <td class="industcol addIndustryTd"><a href="javascript:;" onclick="cart.delIndustryItem(this)" title="删除该行业">删除</a></td>
             </tr>
             <tr>
                <td><input id="buyOk" class="submitBtn" type="button" value="确认"/></td>
-               <td class="industcol"></td>
-               <td></td>
+               <td colspan="2" class="industcol"><input type="button" onclick="cart.addIndustryItem()" value="增加" /></td>
+               
             </tr>
          </table>
       </div>
