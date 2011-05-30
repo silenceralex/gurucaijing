@@ -194,9 +194,9 @@
             var products = eval('(' + data + ')');
             var i = 1;
             for ( n in products ) {
-               if ( products[n].name.indexOf("草根") ) {
-                  t.pObj["p" + products[n].pid] = products[n];
-               }
+               //if ( products[n].name.indexOf("草根") ) {
+               t.pObj["p" + products[n].pid] = products[n];
+               //}
                i += 1;
             }
             if ( action == "showProducts") {
@@ -213,7 +213,7 @@
          //for ( var i = 0; i < obj.length; i ++ ) {
          for ( n in obj ) {
             if ( !obj[n].name.indexOf("草根") ) {
-               return;
+               continue;
             }
             if ( obj[n].intro ) {
                t.recommend.push( obj[n] );
@@ -369,6 +369,7 @@
       },
       // 添加一个产品
       add : function ( id, num, industryId ) {
+         console.log("====" + id);
          var t = this,
              isExist = false,
              num = Number( num );
