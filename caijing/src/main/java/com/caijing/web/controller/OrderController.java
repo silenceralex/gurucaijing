@@ -70,6 +70,7 @@ public class OrderController {
 				orderManager.orderByRecharge(userid, rechargeid);
 				List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 				model.addAttribute("currRights", rights);
+				model.addAttribute("isEmpty", 1);
 				response.sendRedirect("/user/myConsumer.htm");
 			} else {
 				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
@@ -88,6 +89,7 @@ public class OrderController {
 			orderManager.orderByRemain(userid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 			model.addAttribute("currRights", rights);
+			model.addAttribute("isEmpty", 1);
 			response.sendRedirect("/user/myConsumer.htm");
 		} catch (Exception e) {
 			e.printStackTrace();

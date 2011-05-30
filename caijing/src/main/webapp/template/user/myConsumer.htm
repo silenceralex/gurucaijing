@@ -9,7 +9,11 @@
 <script language="javascript" type="text/javascript" src="/js/Rookie.js?/js/rookie.swf"></script>
 <script language="javascript" type="text/javascript" src="/js/51gurus.js"></script> 
 </head>
-
+#if($isEmpty)
+  #if($isEmpty==1)
+<script language="javascript">cart.init();cart.clear();</script>
+  #end
+#end
 <body>
 <div class="wrapper">
    #include("/template/inc/header.htm")
@@ -61,28 +65,6 @@
                   #end
 				#end
                  
-                  <!-- TODO
-                  <th>订单详情</th>
-                   <td><a href="/usr/orderDetail.htm?orderid=${one.orderid}" target="_blank">查看</a></td>
-                   
-                     <td>000002</td>
-                     <td>信用卡支付</td>
-                     <td>分析师成功率</td>
-                     <td>有效</td>
-                     <td>3月25日-4月25日</td>
-                     <td>10元</td>
-                     <td>2011-3-13 8:00:00</td>
-                  </tr>
-                  <tr>
-                     <td>000001</td>
-                     <td>支付宝支付</td>
-                     <td>年报套餐</td>
-                     <td>已过期</td>
-                     <td>3月21日-4月21日</td>
-                     <td>20元</td>
-                     <td>2011-3-13 7:00:00</td>
-                  </tr>
-                   -->
                </table>
             </div>
          </div>
