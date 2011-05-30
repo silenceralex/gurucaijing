@@ -285,6 +285,9 @@
              tbStr += "<tr><th width='120'>产品</th><th>产品说明</th><th>建议价格(人民币)</th><th width='70'>操作</th></tr>";
          //for ( var i = 0; i < obj.length; i ++ ) {
          for ( n in obj ) {
+            if ( !obj[n].name.indexOf("草根") ) {
+               return;
+            }
             if ( obj[n].intro ) {
                t.recommend.push( obj[n] );
                continue;
@@ -315,7 +318,8 @@
             var industry = eval('(' + data + ')');
             var i = 1;
             for ( n in industry ) {
-               t.industry["i" + i] = industry[n];
+               // t.industry["i" + i] = industry[n];
+               t.industry[industry[n].industryid] = industry[n];
                i += 1;
             }
             t.initIndustrySelect( t.industry );
@@ -561,7 +565,11 @@
                      str += '<tr class="' + pid + '-child hidden" id="' + pid + industyId + '">';
                      str += '<td><span class="pd-l-10">-</span></td>';
                      str += '<td>' + t.pObj[pid].name + '</td>';
-                     str += '<td>' + t.pObj[pid].description + '</td>';
+                     if( t.industry[industyId] ) {
+                        str += '<td>' + t.industry[industyId].industryname + '</td>';
+                     } else {
+                        str += '<td>' + t.pObj[pid].description + '</td>';
+                     }
                      if ( pay ) {
                         str += '<td><span id="' + pid + industyId + 'num">' + num + '</span></td>';
                         str += '<td><span class="price">' + price + '</span>元</td>';
