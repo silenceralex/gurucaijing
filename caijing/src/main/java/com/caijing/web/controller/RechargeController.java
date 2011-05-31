@@ -95,6 +95,7 @@ public class RechargeController {
 		}
 		List<Recharge> recharges = rechargeManager.getRechargeByUserid(user.getUid());
 		Float total = rechargeManager.getTotalByUserid(user.getUid());
+		user = (WebUser) webUserDao.select(user.getUid());
 		model.put("user", user);
 		model.put("recharges", recharges);
 		model.put("total", total);
@@ -105,6 +106,7 @@ public class RechargeController {
 	public String reg(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			HttpServletRequest request, ModelMap model) {
 		logger.debug("user:" + user.getEmail());
+		user = (WebUser) webUserDao.select(user.getUid());
 		model.put("user", user);
 		return "/template/user/recharge.htm";
 	}
