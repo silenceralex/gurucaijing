@@ -30,22 +30,22 @@ public class PublicController {
 	@Autowired
 	@Qualifier("productDAO")
 	private ProductDAO productDAO;
-	
+
 	@Autowired
 	@Qualifier("industryDao")
 	private IndustryDao industryDao;
-	
+
 	@Autowired
 	@Qualifier("masterDao")
 	private MasterDao masterDao;
-	
+
 	private static final Log logger = LogFactory.getLog(PublicController.class);
-	
+
 	@RequestMapping(value = "/get/industry.do")
 	public void getAllLv1Industry(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		List<Industry> lv1Industries = industryDao.selectlv1();
 		String jsonstr = JSONArray.fromObject(lv1Industries).toString();
-		if(jsonstr==null){
+		if (jsonstr == null) {
 			jsonstr = "[]";
 		}
 		response.setContentType("application/json; charset=utf-8");
@@ -57,14 +57,14 @@ public class PublicController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/get/product.do")
 	public void getAllProduct(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		List<Product> products = productDAO.getAllProduct();
 		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setExcludes( new String[]{ "rightpaths" } );
-		String jsonstr = JSONArray.fromObject(products,jsonConfig).toString();
-		if(jsonstr==null){
+		jsonConfig.setExcludes(new String[] { "rightpaths" });
+		String jsonstr = JSONArray.fromObject(products, jsonConfig).toString();
+		if (jsonstr == null) {
 			jsonstr = "[]";
 		}
 		response.setContentType("application/json; charset=utf-8");
@@ -76,14 +76,15 @@ public class PublicController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/get/master.do")
 	public void getAllMaster(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		List<Master> Masters = masterDao.getAllMasters(null, null);
 		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setExcludes( new String[]{ "crawlnum", "status" } );
-		String jsonstr = JSONArray.fromObject(Masters,jsonConfig).toString();
-		if(jsonstr==null){
+		jsonConfig.setExcludes(new String[] { "crawlnum", "status" });
+		String jsonstr = JSONArray.fromObject(Masters, jsonConfig).toString();
+		logger.debug("jsonstr:" + jsonstr);
+		if (jsonstr == null) {
 			jsonstr = "[]";
 		}
 		response.setContentType("application/json; charset=utf-8");
