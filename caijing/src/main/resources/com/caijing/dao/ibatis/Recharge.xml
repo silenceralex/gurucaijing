@@ -14,7 +14,7 @@
   </select>
 
   <select id="getRechargeByUser" parameterClass="java.lang.String" resultClass="Recharge">
-    select * from recharge where userid = #value#
+    select * from recharge where userid = #value# order by ctime desc
   </select>
   
   <select id="select"  resultClass="Recharge">
