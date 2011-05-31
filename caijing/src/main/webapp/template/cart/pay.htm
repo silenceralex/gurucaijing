@@ -30,9 +30,9 @@
          <div id="star_detail_box" class="star_detail_box">
             <div class="onsaleTable">
              #if($useRemain ==1 )
-             <form action="/user/orderByRemain.do" method="POST" target="_blank">
+             <form action="/user/orderByRemain.do" method="POST" >
              #else
-             <form action="/user/orderrecharge.do" method="POST" target="_blank">
+             <form action="/user/orderrecharge.do" method="POST" >
              #end
                <input type="hidden" name="orderid" value="$orderid"/>
                <table id="cartTb" class="myOrderTb">
