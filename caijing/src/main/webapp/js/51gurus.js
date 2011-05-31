@@ -170,6 +170,7 @@
       pObj : {},
       recommend : [],
       industry : {},
+      masterArr : {},
       init : function ( action ) {
          var t = this;
          t.cartArr = [];
@@ -190,8 +191,8 @@
       },
       getProducts : function ( action ) {
          var t= this;
-         $.get('/get/product.do', function(data) {
-            var products = eval('(' + data + ')');
+         $.getJSON('/get/product.do', function(data) {
+            var products = data//eval('(' + data + ')');
             var i = 1;
             for ( n in products ) {
                //if ( products[n].name.indexOf("草根") ) {
@@ -241,8 +242,8 @@
       },
       getIndustry : function () {
          var t= this;
-         $.get('/get/industry.do', function(data) {
-            var industry = eval('(' + data + ')');
+         $.getJSON('/get/industry.do', function(data) {
+            var industry = data//eval('(' + data + ')');
             var i = 1;
             for ( n in industry ) {
                // t.industry["i" + i] = industry[n];
@@ -254,16 +255,19 @@
       },
       getMaster : function () {
          var t = this;
-         $.get('/get/master.do', function(data) {
-            t.masterArr = eval( '(' + data + ')' );
+         $.getJSON('/get/master.do', function(data) {
+            for ( n in data ) {
+               t.masterArr[data[n].masterid] = data[n];
+            }
+            //t.masterArr = data//eval( '(' + data + ')' );
             var tbStr = "<p class='cart-live-p'>草根大师直播室:</p>";
             tbStr += "<table width='99%' class='productsTable' cellspacing='0' cellpadding='0' border='1'>";
             tbStr += "<tr><th width='100'>大师</th><th>大师介绍</th><th width='70'>操作</th></tr>";
-            for ( var i = 0; i < t.masterArr.length; i ++ ) {
+            for ( n in t.masterArr ) {
                tbStr += "<tr>";
-               tbStr += "<td>" + t.masterArr[i].mastername + "</td>";
-               tbStr += "<td>" + t.masterArr[i].intro + "</td>";
-               tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buyLive(10, " + t.masterArr[i].masterid + " )'>加入购物车</a></td>";
+               tbStr += "<td>" + t.masterArr[n].mastername + "</td>";
+               tbStr += "<td>" + t.masterArr[n].intro + "</td>";
+               tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buyLive(10, " + t.masterArr[n].masterid + " )'>加入购物车</a></td>";
                tbStr += "</tr>";
             }
             tbStr += "</table>";
@@ -530,7 +534,8 @@
                      if( t.industry[industyId] ) {
                         str += '<td>' + t.industry[industyId].industryname + '</td>';
                      } else {
-                        str += '<td>' + t.pObj[pid].description + '</td>';
+                        //str += '<td>' + t.pObj[pid].description + '</td>';
+                        str += '<td>' + t.masterArr[industyId].mastername + '</td>';
                      }
                      if ( pay ) {
                         str += '<td><span id="' + pid + industyId + 'num">' + num + '</span></td>';
