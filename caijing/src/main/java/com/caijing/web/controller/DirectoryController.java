@@ -45,7 +45,7 @@ public class DirectoryController {
 		return url;
 	}
 
-	@RequestMapping("/master/[0-9]+.htm")
+	@RequestMapping("/master/*.htm")
 	public String master(HttpServletResponse response, ModelMap model, HttpServletRequest request) throws IOException,
 			Exception {
 		String url = request.getRequestURL().toString().replaceAll("http://.*?\\.com/", "");
