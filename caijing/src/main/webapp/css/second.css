@@ -178,3 +178,5 @@ hr {height:1px;border:none;border-top:#CCC solid 1px;}
 .dialogS .enter {width:92px;height:30px;display:inline-block;background:url(../img/gotoCartBtn.png) no-repeat;text-indent:-1000px;overflow:hidden;cursor:pointer;}
 .dialogS .continue {width:92px;height:30px;display:inline-block;background:url(../img/continueBtn.png) no-repeat;text-indent:-1000px;overflow:hidden;cursor:pointer;}
 .chose{display:none;}
+
+.pay-methods{margin-top:20px;line-height:30px;}
