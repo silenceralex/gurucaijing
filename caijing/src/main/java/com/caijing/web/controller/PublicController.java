@@ -41,6 +41,33 @@ public class PublicController {
 
 	private static final Log logger = LogFactory.getLog(PublicController.class);
 
+	
+	@RequestMapping(value = "/get/interface.do")
+	public void getInterface(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
+		List<Industry> lv1Industries = industryDao.selectlv1();
+		String industryJsonstr = JSONArray.fromObject(lv1Industries).toString();
+		if(industryJsonstr==null) industryJsonstr="[]";
+		List<Product> products = productDAO.getAllProduct();
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setExcludes(new String[] { "rightpaths" });
+		String productjsonstr = JSONArray.fromObject(products, jsonConfig).toString();
+		if(productjsonstr==null) productjsonstr="[]";
+		List<Master> Masters = masterDao.getAllMasters(null, null);
+		 jsonConfig = new JsonConfig();
+		jsonConfig.setExcludes(new String[] { "crawlnum", "status" });
+		String masterjsonstr = JSONArray.fromObject(Masters, jsonConfig).toString();
+		if(masterjsonstr==null) masterjsonstr="[]";
+		String json="{"+industryJsonstr+","+productjsonstr+","+masterjsonstr+"}";
+		response.setContentType("application/json; charset=utf-8");
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+		} catch (IOException e) {
+			logger.error("getInterface: ", e);
+			e.printStackTrace();
+		}
+	}
+	
 	@RequestMapping(value = "/get/industry.do")
 	public void getAllLv1Industry(HttpServletResponse response, HttpServletRequest request, ModelMap model) {
 		List<Industry> lv1Industries = industryDao.selectlv1();

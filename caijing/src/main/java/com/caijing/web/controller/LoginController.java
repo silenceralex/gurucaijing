@@ -211,7 +211,7 @@ public class LoginController {
 					request.getSession().setAttribute("currRights", currRights);
 					model.put("currWebUser", user);
 					setCookie(user, response);
-					response.sendRedirect("/user/myInfo.htm");
+					response.sendRedirect("/user/myAccount.htm");
 					return null;
 				}
 			}
@@ -239,7 +239,7 @@ public class LoginController {
 				request.getSession().setAttribute("currRights", currRights);
 				setCookie(user, response);
 				response.setContentType("text/html;charset=GBK");
-				response.getWriter().print("<script>self.history.go(-1);</script>");
+				response.getWriter().print("<script>self.history.go(-2);</script>");
 				response.getWriter().flush();
 			} else {
 				response.sendRedirect("/template/user/err.html?login=true");

@@ -94,7 +94,7 @@ public class OrderController {
 				return "/template/user/myConsumer.htm";
 			} else {
 				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
-				response.sendRedirect("/user/myConsumer.htm");
+//				response.sendRedirect("/user/myConsumer.htm");
 				return "/user/myConsumer.htm";
 			}
 		} catch (Exception e) {
