@@ -256,7 +256,6 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("currWebUser");
 		setCookie(null, response);
-		response.sendRedirect("/user/login.htm");
 		response.setContentType("text/html;charset=GBK");
 		response.getWriter().print("<script>alert('您已经安全退出了51gurus网站，即将跳转至首页！');top.location='/';</script>");
 		response.getWriter().flush();
