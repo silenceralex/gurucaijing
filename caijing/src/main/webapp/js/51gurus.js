@@ -369,11 +369,11 @@
          Rookie(function(){
             this.clear("cart");
          });
-         window.location.reload();
+         // window.location.reload();
       },
       // 添加一个产品
       add : function ( id, num, industryId ) {
-         console.log("====" + id);
+         //console.log("====" + id);
          var t = this,
              isExist = false,
              num = Number( num );
