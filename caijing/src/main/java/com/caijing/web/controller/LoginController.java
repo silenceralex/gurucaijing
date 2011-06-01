@@ -415,7 +415,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/user/myConsumer.htm")
-	public String myconsumer(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public String myconsumer(@ModelAttribute("currWebUser") WebUser user,@RequestParam(value = "isEmpty", required = false) Integer isEmpty, HttpServletResponse response,
 			HttpServletRequest request, ModelMap model) {
 		//取得最新的remain值
 		user = (WebUser) webUserDao.select(user.getUid());
@@ -427,6 +427,9 @@ public class LoginController {
 		model.put("orderList", orderList);
 		model.put("total", total);
 		model.put("user", user);
+		if(isEmpty!=null&&isEmpty==1){
+			model.put("isEmpty", isEmpty);
+		}
 		return "/template/user/myConsumer.htm";
 	}
 

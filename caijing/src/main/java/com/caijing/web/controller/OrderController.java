@@ -71,7 +71,7 @@ public class OrderController {
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 
 	@RequestMapping(value = "/user/orderByRecharge.do", method = RequestMethod.POST)
-	public String orderByRecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public void orderByRecharge(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "rechargeid", required = true) Long rechargeid,
 			@RequestParam(value = "status", required = true) Integer status, HttpServletRequest request, ModelMap model) {
 		String userid = user.getUid();
@@ -81,51 +81,27 @@ public class OrderController {
 				orderManager.orderByRecharge(userid, rechargeid);
 				List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 				model.addAttribute("currRights", rights);
-				user = (WebUser) webUserDao.select(user.getUid());
-				String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
-				Float total = rechargeManager.getTotalByUserid(user.getUid());
-				List<OrderMeta> orderList = orderDao.getOrdersByUserid(user.getUid());
-				logger.debug("orderList:" + orderList.size());
-				model.put("ptime", ptime);
-				model.put("orderList", orderList);
-				model.put("total", total);
-				model.put("user", user);
-				model.put("isEmpty", 1);
-				return "/template/user/myConsumer.htm";
+				response.sendRedirect("/user/myConsumer.htm?isEmpty=1");
 			} else {
 				logger.debug("user:" + user.getEmail() + "  recharge failed!" + status);
-//				response.sendRedirect("/user/myConsumer.htm");
-				return "/user/myConsumer.htm";
+				response.sendRedirect("/user/myConsumer.htm");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "/user/myConsumer.htm";
 		}
 	}
 
 	@RequestMapping(value = "/user/orderByRemain.do", method = RequestMethod.POST)
-	public String orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
+	public void orderByRemain(@ModelAttribute("currWebUser") WebUser user, HttpServletResponse response,
 			@RequestParam(value = "orderid", required = true) Long orderid, HttpServletRequest request, ModelMap model) {
 		try {
 			String userid = user.getUid();
 			orderManager.orderByRemain(userid, orderid);
 			List<Userright> rights = orderManager.getUserrightsByUserid(userid);
 			model.addAttribute("currRights", rights);
-
-			user = (WebUser) webUserDao.select(user.getUid());
-			String ptime = DateTools.transformYYYYMMDDDate(user.getPtime());
-			Float total = rechargeManager.getTotalByUserid(user.getUid());
-			List<OrderMeta> orderList = orderDao.getOrdersByUserid(user.getUid());
-			logger.debug("orderList:" + orderList.size());
-			model.put("ptime", ptime);
-			model.put("orderList", orderList);
-			model.put("total", total);
-			model.put("user", user);
-			model.put("isEmpty", 1);
-			return "/template/user/myConsumer.htm";
+			response.sendRedirect("/user/myConsumer.htm?isEmpty=1");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "/user/myConsumer.htm";
 		}
 	}
 
