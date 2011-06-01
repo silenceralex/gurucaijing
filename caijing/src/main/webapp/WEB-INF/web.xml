@@ -128,7 +128,7 @@
 		</init-param>
 		<init-param>
 			<param-name>ignores</param-name>
-			<param-value>login,err.html</param-value>
+			<param-value>login,logout,err.html</param-value>
 		</init-param>
 	</filter>
 	
