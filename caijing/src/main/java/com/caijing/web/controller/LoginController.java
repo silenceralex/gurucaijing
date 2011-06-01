@@ -239,7 +239,7 @@ public class LoginController {
 				request.getSession().setAttribute("currRights", currRights);
 				setCookie(user, response);
 				response.setContentType("text/html;charset=GBK");
-				response.getWriter().print("<script>self.history.go(-2);</script>");
+				response.getWriter().print("<script>alert('您已经成功登录了51gurus网站，即将跳转至登录前的页面！');self.history.go(-1);</script>");
 				response.getWriter().flush();
 			} else {
 				response.sendRedirect("/template/user/err.html?login=true");
@@ -257,6 +257,10 @@ public class LoginController {
 		session.removeAttribute("currWebUser");
 		setCookie(null, response);
 		response.sendRedirect("/user/login.htm");
+		response.setContentType("text/html;charset=GBK");
+		response.getWriter().print("<script>alert('您已经安全退出了51gurus网站，即将跳转至首页！');top.location='/';</script>");
+		response.getWriter().flush();
+		 
 		return;
 	}
 
