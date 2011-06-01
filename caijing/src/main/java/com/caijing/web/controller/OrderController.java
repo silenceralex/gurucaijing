@@ -34,7 +34,6 @@ import com.caijing.domain.OrderPr;
 import com.caijing.domain.Product;
 import com.caijing.domain.Userright;
 import com.caijing.domain.WebUser;
-import com.caijing.util.DateTools;
 
 @Controller
 @SessionAttributes({ "currWebUser", "currRights" })
@@ -60,13 +59,6 @@ public class OrderController {
 	@Qualifier("masterDao")
 	private MasterDao masterDao;
 
-	@Autowired
-	@Qualifier("rechargeManager")
-	private RechargeManager rechargeManager = null;
-
-	@Autowired
-	@Qualifier("orderDao")
-	private OrderDao orderDao;
 
 	private static final Log logger = LogFactory.getLog(OrderController.class);
 

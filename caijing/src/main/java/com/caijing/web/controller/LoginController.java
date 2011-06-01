@@ -228,7 +228,6 @@ public class LoginController {
 			ModelMap model) {
 
 		try {
-
 			if (webUserDao.identify(email, password)) {
 				System.out.println("用户名验证成功！");
 				WebUser user = webUserDao.getUserByEmail(email);
@@ -238,9 +237,17 @@ public class LoginController {
 				List<Userright> currRights = userrightDao.getUserrightByUserid(user.getUid());
 				request.getSession().setAttribute("currRights", currRights);
 				setCookie(user, response);
-				response.setContentType("text/html;charset=GBK");
-				response.getWriter().print("<script>alert('您已经成功登录了51gurus网站，即将跳转至登录前的页面！');self.history.go(-1);</script>");
-				response.getWriter().flush();
+				String referer=request.getHeader("Referer");
+				logger.debug("referer："+referer);
+				if(referer.equalsIgnoreCase("http://www.51gurus.com/template/user/err.html?login=true")){
+					response.setContentType("text/html;charset=GBK");
+					response.getWriter().print("<script>alert('您已经成功登录了51gurus网站，即将跳转至登录前的页面！');self.history.go(-2);</script>");
+					response.getWriter().flush();
+				}else{
+					response.setContentType("text/html;charset=GBK");
+					response.getWriter().print("<script>alert('您已经成功登录了51gurus网站，即将跳转至登录前的页面！');self.history.go(-1);</script>");
+					response.getWriter().flush();
+				}
 			} else {
 				response.sendRedirect("/template/user/err.html?login=true");
 			}
@@ -427,6 +434,7 @@ public class LoginController {
 		model.put("total", total);
 		model.put("user", user);
 		if(isEmpty!=null&&isEmpty==1){
+			logger.debug("isEmpty:" + isEmpty);
 			model.put("isEmpty", isEmpty);
 		}
 		return "/template/user/myConsumer.htm";
