@@ -117,7 +117,7 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 							sResponse.setContentType("text/html; charset=GBK");
 							sResponse.getWriter().write(
 									"<script>alert('您没有对 URL:" + URL
-											+ " 的访问权限,请您在跳转页面购买，谢谢！'); top.location='/user/myAccount.htm';</script>");
+											+ " 的访问权限,请您在跳转页面购买，谢谢！'); top.location='/cart/products.htm';</script>");
 							sResponse.flushBuffer();
 						}
 					}
