@@ -245,7 +245,7 @@ public class LoginController {
 					response.getWriter().flush();
 				}else{
 					response.setContentType("text/html;charset=GBK");
-					response.getWriter().print("<script>alert('您已经成功登录了51gurus网站，即将跳转至登录前的页面！');self.history.go(-1);</script>");
+					response.getWriter().print("<script>alert('您已经成功登录了51gurus网站，即将跳转至登录前的页面！');self.location='"+referer+"';</script>");
 					response.getWriter().flush();
 				}
 			} else {
