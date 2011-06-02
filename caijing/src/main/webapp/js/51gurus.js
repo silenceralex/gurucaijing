@@ -174,9 +174,10 @@
       init : function ( action ) {
          var t = this;
          t.cartArr = [];
-         t.getIndustry();
+         /* t.getIndustry();
          t.getMaster();
-         t.getProducts( action );
+         t.getProducts( action ); */
+         t.getInterface( action );
          
          //t.initIndustrySelect();
          // t.buyBind();
@@ -189,7 +190,7 @@
             }
          })
       },
-      getProducts : function ( action ) {
+      /* getProducts : function ( action ) {
          var t= this;
          $.getJSON('/get/product.do', function(data) {
             var products = data//eval('(' + data + ')');
@@ -204,7 +205,7 @@
                t.drawProductsTable( t.pObj );
             }
          });
-      },
+      }, */
       drawProductsTable : function ( obj ) {
          var t = this,
              industryStr = "",
@@ -240,7 +241,7 @@
          tbStr += "</table>";
          $("#products").html( tbStr );
       },
-      getIndustry : function () {
+      /* getIndustry : function () {
          var t= this;
          $.getJSON('/get/industry.do', function(data) {
             var industry = data//eval('(' + data + ')');
@@ -252,8 +253,47 @@
             }
             t.initIndustrySelect( t.industry );
          });
+      }, */
+      // 获取所有接口
+      getInterface : function ( action ) {
+         var t = this,
+             i = 1;
+         $.getJSON('/get/interface.do', function( data ) {
+            for ( n in data.product ) {
+               t.pObj["p" + data.product[n].pid] = data.product[n];
+               i += 1;
+            }
+            if ( action == "showProducts") {
+               t.drawProductsTable( t.pObj );
+            }
+            for ( n in data.master ) {
+               t.masterArr[data.master[n].masterid] = data.master[n];
+            }
+            t.renderMaster();
+            i = 1;
+            for ( n in data.industry ) {
+               t.industry[data.industry[n].industryid] = data.industry[n];
+               i += 1;
+            }
+            t.initIndustrySelect( t.industry );
+         });
       },
-      getMaster : function () {
+      renderMaster : function () {
+         var t = this,
+             tbStr = "<p class='cart-live-p'>草根大师直播室:</p>";
+         tbStr += "<table width='99%' class='productsTable' cellspacing='0' cellpadding='0' border='1'>";
+         tbStr += "<tr><th width='100'>大师</th><th>大师介绍</th><th width='70'>操作</th></tr>";
+         for ( n in t.masterArr ) {
+            tbStr += "<tr>";
+            tbStr += "<td>" + t.masterArr[n].mastername + "</td>";
+            tbStr += "<td>" + t.masterArr[n].intro + "</td>";
+            tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buyLive(10, " + t.masterArr[n].masterid + " )'>加入购物车</a></td>";
+            tbStr += "</tr>";
+         }
+         tbStr += "</table>";
+         $("#products").append( tbStr );
+      },
+      /* getMaster : function () {
          var t = this;
          $.getJSON('/get/master.do', function(data) {
             for ( n in data ) {
@@ -272,12 +312,6 @@
             }
             tbStr += "</table>";
             $("#products").append( tbStr );
-         });
-      },
-      /* buyBind : function () {
-         $("#0num").bind("change", function () {
-            var industryId = $("#dialogS .chose select").val();
-            alert( industryId );
          });
       }, */
       delIndustryItem : function ( node ) {
