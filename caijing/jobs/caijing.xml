@@ -14,8 +14,7 @@
 			dateformat="EEE, d MMM yyyy HH:mm:ss Z" locale="US">
 		</innermatch>
 		<innermatch property="abs" mapping="description">
-			<filter userPattern="true"><![CDATA[<a.*?</a>]]></filter>
-			<filter><![CDATA[<br>]]></filter>
+			<filter userPattern="true"><![CDATA[<.*?>]]></filter>
 		</innermatch>
 		<innermatch property="link" mapping="link"></innermatch>
 		<innermatch property="content" mapping="link" isdown="true">
