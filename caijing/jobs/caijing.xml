@@ -7,6 +7,7 @@
 	<page>
 		<innermatch property="author" mapping="author">
 			<filter><![CDATA[/文]]></filter>
+			<filter userPattern="true"><![CDATA[&lt;.*?&gt;]]></filter>
 		</innermatch>
 		<innermatch property="title" mapping="title"></innermatch>
 		<innermatch property="ptime" mapping="pubDate"
