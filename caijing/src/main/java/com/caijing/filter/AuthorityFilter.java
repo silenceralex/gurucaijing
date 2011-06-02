@@ -9,6 +9,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -135,6 +136,15 @@ public class AuthorityFilter extends HttpServlet implements Filter {
 					sResponse.sendRedirect(topicNameMap.getTopicName("notice"));
 				} else {
 					logger.warn("用户还没有登录,强制用户登录。");
+					//清楚cookie信息
+					Cookie cookie = new Cookie("useremail", null);
+					cookie.setPath("/");
+					cookie.setMaxAge(0);
+					sResponse.addCookie(cookie);
+					Cookie cookie2 = new Cookie("userid", null);
+					cookie.setPath("/");
+					cookie2.setMaxAge(0);
+					sResponse.addCookie(cookie2);
 					sResponse.sendRedirect("/template/user/err.html?login=true");
 				}
 			}
