@@ -57,7 +57,7 @@ public class PublicController {
 		jsonConfig.setExcludes(new String[] { "crawlnum", "status" });
 		String masterjsonstr = JSONArray.fromObject(Masters, jsonConfig).toString();
 		if(masterjsonstr==null) masterjsonstr="[]";
-		String json="{industry:"+industryJsonstr+",product:"+productjsonstr+",master:"+masterjsonstr+"}";
+		String json="{\"industry\":"+industryJsonstr+",\"product\":"+productjsonstr+",\"master\":"+masterjsonstr+"}";
 		response.setContentType("application/json; charset=utf-8");
 		try {
 			response.getWriter().write(json);
