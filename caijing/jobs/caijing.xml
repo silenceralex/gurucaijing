@@ -1,7 +1,7 @@
 <job type="0" columnid="9133" threads="10" maxconnections="10" charset="utf-8" urldb="/home/app/urldb/caijing">
 	<root property="rss"></root>
-	<starturl>http://www.caijing.com.cn/rss/review.xml</starturl>
-	<starturl>http://www.caijing.com.cn/rss/column.xml</starturl>
+	<starturl>http://cn.caijing.feedsportal.com/c/33496/f/584071/index.rss</starturl>
+	<starturl>http://cn.caijing.feedsportal.com/c/33496/f/584072/index.rss</starturl>
 	<list property="channel/item"></list>
 	<src property="channel/title"></src>
 	<page>
