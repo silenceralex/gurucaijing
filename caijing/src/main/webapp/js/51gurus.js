@@ -171,24 +171,31 @@
       recommend : [],
       industry : {},
       masterArr : {},
-      init : function ( action ) {
+      init : function ( action, pay ) {
          var t = this;
          t.cartArr = [];
          /* t.getIndustry();
          t.getMaster();
          t.getProducts( action ); */
-         t.getInterface( action );
+         t.getInterface( action, pay );
          
          //t.initIndustrySelect();
          // t.buyBind();
-         Rookie(function(){
+         /* Rookie(function(){
             var cartItem = this.read('cart');
             if( cartItem ) {
                t.cartArr = cartItem;
             } else {
                this.write( 'cart', t.cartArr );
             }
-         })
+         }) */
+         
+         var cartItem = APP.getCookie('cart');
+         if( cartItem ) {
+            t.cartArr = eval( cartItem );
+         } else {
+            APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
+         }
       },
       /* getProducts : function ( action ) {
          var t= this;
@@ -255,7 +262,7 @@
          });
       }, */
       // 获取所有接口
-      getInterface : function ( action ) {
+      getInterface : function ( action, pay ) {
          var t = this,
              i = 1;
          $.getJSON('/get/interface.do', function( data ) {
@@ -276,6 +283,9 @@
                i += 1;
             }
             t.initIndustrySelect( t.industry );
+            if ( action == "showCart") {
+               t.show( pay );
+            }
          });
       },
       renderMaster : function () {
@@ -400,9 +410,10 @@
       // 清除购物车
       clear : function () {
          var t = this;
-         Rookie(function(){
+         /* Rookie(function(){
             this.clear("cart");
-         });
+         }); */
+         APP.delCookie( 'cart' );
          // window.location.reload();
       },
       // 添加一个产品
@@ -428,9 +439,10 @@
          total.price += num * price;
          t.cartArr.push({'id' : id, 'num' : num, 'industryId' : industryId});
          //console.log(t.cartArr);
-         Rookie(function(){
+         /* Rookie(function(){
             this.write( 'cart', t.cartArr );
-         });
+         }); */
+         APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
          // 弹窗显示
          
          $("#tipTotalN").html( total.num );
@@ -469,9 +481,10 @@
             }
          };
          t.getTotal();
-         Rookie(function(){
+         /* Rookie(function(){
             this.write( 'cart', t.cartArr );
-         });
+         }); */
+         APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
          t.getFormData();// 整理form的param数据
       },
       // 产品个数加一
@@ -509,9 +522,10 @@
             }
          };
          t.getTotal();
-         Rookie(function(){
+         /* Rookie(function(){
             this.write( 'cart', t.cartArr );
-         })
+         }) */
+         APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
       },
       // 展示数据
       show : function ( pay ) {
@@ -527,7 +541,7 @@
              totalP = 0, // 总价格
              pid = "",
              industryId = "";
-         Rookie(function(){
+         /* Rookie(function(){
             //console.log("dsfsdfdsf" + this.read('cart'));
             t.cartArr = this.read('cart');
             if ( !t.cartArr || t.cartArr.length < 1 ) {
@@ -538,17 +552,30 @@
             showit( pay );
             t.getFormData();
             
-         });
+         }); */
+         t.cartArr = eval( APP.getCookie('cart') );
+         if ( !t.cartArr || t.cartArr.length < 1 ) {
+            $("#cartList").hide();
+            $("#cartEmpty").show();
+            return;
+         }
+         showit( pay );
+         t.getFormData();
          function showit ( pay ) {
             for ( var i = 0; i < t.cartArr.length; i++ ) {
                pid = t.cartArr[i].id;
                num = Number( t.cartArr[i].num );
                industyId = t.cartArr[i].industryId;
+               /* console.log('============');
+               console.log('pid' + pid);
+               console.log('num' + num);
+               console.log('industyId' + industyId);
+               console.log('t.pObj' + APP.Serialize(t.pObj));
+               console.log('t.pObj[pid]' + t.pObj[pid]); */
                if ( t.pObj[pid] ) {
                   price = t.pObj[pid].price * num;
                   totalN += num;
                   totalP += price;
-                  
                   // 分行业的
                   if( industyId ) {
                      var str = "";
@@ -581,6 +608,7 @@
                      }
                      
                   } else {
+                     
                      var str = '<tr id="' + pid + '">';
                      str += '<td><span class="pd-l-10">' + pid.split("p")[1] + '</span></td>';
                      str += '<td>' + t.pObj[pid].name + '</td>';
@@ -596,8 +624,6 @@
                      
                   }
                   str += '</tr>';
-                  
-                  
                   $( cartTb ).append( str );
                }
             };
@@ -962,6 +988,62 @@
          if ( t.checkEmail && t.checkPass() &&t.checkPass2() && t.checkNick() ) {
             document.reg.submit();
          };
+      }
+   };
+   APP = {
+      setCookie : function ( name, value ) {
+         var Days = 30; //此 cookie 将被保存 30 天
+         var exp  = new Date();    //new Date("December 31, 9998");
+         exp.setTime( exp.getTime() + Days*24*60*60*1000 );
+         document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+      },
+      getCookie : function ( name ) {
+         var arr = document.cookie.match( new RegExp("(^| )" + name + "=([^;]*)(;|$)") );
+         if(arr != null) return unescape(arr[2]); return null;
+      },
+      delCookie : function ( name ) {
+         var exp = new Date();
+         exp.setTime( exp.getTime() - 1 );
+         var cval=getCookie( name );
+         if( cval != null ) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+      },
+      Serialize : function ( obj ) {
+         switch ( obj.constructor ) {
+            case Object:
+               var str = "{";
+               for( var o in obj ){
+                  str += o + ":" + APP.Serialize( obj[o] ) +",";
+               }
+               if( str.substr( str.length-1 ) == "," ) {
+                  str = str.substr( 0, str.length -1 );
+               }
+               return str + "}";
+               break;
+            case Array:
+               var str = "[";
+               for( var o in obj ){
+                  str += APP.Serialize( obj[o] ) +",";
+               }
+               if( str.substr(str.length-1) == "," ) {
+                  str = str.substr( 0, str.length -1 );
+               }
+               return str + "]";
+               break;
+            case Boolean:
+               return "\"" + obj.toString() + "\"";
+               break;
+            case Date:
+               return "\"" + obj.toString() + "\"";
+               break;
+            case Function:
+               break;
+            case Number:
+               return "\"" + obj.toString() + "\"";
+               break;
+            case String:
+               return "\"" + obj.toString() + "\"";
+               break;
+         }
       }
    };
 })(window);
