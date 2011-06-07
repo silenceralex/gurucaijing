@@ -125,13 +125,21 @@ public class RenameReport2 {
 //				put("/data/excel/yanshiyou-6.xlsx", "/data/oldpapers2/yanshiyou/");
 				
 				//20100523
-				put("/data/oldpapers/201010/201010_0523.xls", "/data/oldpapers/201010/");
-				put("/data/oldpapers/201008/201008_0523.xls", "/data/oldpapers/201008/");
-				put("/data/excel/yanshiyou 2011.5.23.xls", "/data/oldpapers2/yanshiyou/");
+//				put("/data/oldpapers/201010/201010_0523.xls", "/data/oldpapers/201010/");
+//				put("/data/oldpapers/201008/201008_0523.xls", "/data/oldpapers/201008/");
+//				put("/data/excel/yanshiyou 2011.5.23.xls", "/data/oldpapers2/yanshiyou/");
 				
 				//20100526
-				put("/data/oldpapers/201103/201103_0526.xls", "/data/oldpapers/201103/");
-				put("/data/excel/yanshiyou 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
+//				put("/data/oldpapers/201103/201103_0526.xls", "/data/oldpapers/201103/");
+//				put("/data/excel/yanshiyou 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
+				
+				//20100530
+				put("/data/oldpapers/201103/201103_0530.xls", "/data/oldpapers/201103/");
+				put("/data/excel/yanshiyou  2011.5.30.xls", "/data/oldpapers2/yanshiyou/");
+				
+				//20100602
+				put("/data/oldpapers/201103/201103_0602.xls", "/data/oldpapers/201103/");
+				put("/data/oldpapers/201008/201008_0602.xls", "/data/oldpapers/201008/");
 			}
 		};
 		
@@ -661,8 +669,8 @@ public class RenameReport2 {
 	
 	public static void main(String[] args) {
 		RenameReport2 rr = new RenameReport2();
-		rr.readExcels2();
-//		rr.readExcels2ForNum();
+//		rr.readExcels2();
+		rr.readExcels2ForNum();
 //		System.out.println(rr.getcreatedate("20080102"));
 //		System.out.println(rr.getcreatedate("200811207"));
 		System.exit(0);
