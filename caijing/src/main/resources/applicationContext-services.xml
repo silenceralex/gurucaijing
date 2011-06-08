@@ -33,6 +33,11 @@
 		<constructor-arg><value>false</value></constructor-arg>
 	</bean>
 	
+	<bean id="cartDB" class="com.caijing.spider.BerkeleyDB">
+		<constructor-arg><value>/home/app/cartdb</value></constructor-arg>
+		<constructor-arg><value>false</value></constructor-arg>
+	</bean>
+	
 	<bean id="listExtractor" class="com.caijing.crawl.ListExtractor">
 		<property name="config">
 			<ref bean="config" />

@@ -68,7 +68,7 @@ public class BerkeleyDB {
 	 * @param data
 	 * @throws DatabaseException
 	 */
-	private void put(String key, String data) throws DatabaseException {
+	public void put(String key, String data) throws DatabaseException {
 		DatabaseEntry theKey = new DatabaseEntry();
 		DatabaseEntry theData = new DatabaseEntry();
 		strBinding.objectToEntry(key, theKey);
@@ -133,6 +133,31 @@ public class BerkeleyDB {
 		} else {
 			return (String) strBinding.entryToObject(theData);
 		}
+	}
+	
+	public String get(String key) throws DatabaseException {
+		DatabaseEntry theKey = new DatabaseEntry();
+		DatabaseEntry theData = new DatabaseEntry();
+		strBinding.objectToEntry(key, theKey);
+		Transaction txn = myEnv.beginTransaction(null, null);
+		OperationStatus status = myDB.get(txn, theKey, theData, LockMode.DEFAULT);
+		txn.commit();
+		if (status != OperationStatus.SUCCESS) {
+			// throw new DatabaseException("Data insertion got status " +
+			// status);
+			return null;
+		} else {
+			return (String) strBinding.entryToObject(theData);
+		}
+	}
+	
+	public boolean deleteKey(String key) throws DatabaseException {
+		DatabaseEntry keyEntry = new DatabaseEntry();
+		strBinding.objectToEntry(key, keyEntry);
+		Transaction txn = myEnv.beginTransaction(null, null);
+		OperationStatus status = myDB.delete(txn, keyEntry);
+		txn.commit();
+		return status == OperationStatus.SUCCESS;
 	}
 
 	public boolean delete(String url) throws DatabaseException {
