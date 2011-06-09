@@ -228,6 +228,17 @@
          return totalPrice;
          //$( "#" + p10 + "t-price" ).html( totalPrice );
       },
+      getTotalCount : function ( pid ) {
+         var t = this,
+             totalNum = 0;
+         for ( var i = 0; i < t.cartArr.length; i ++ ) {
+            if ( t.cartArr[i].id == pid ) {
+               totalNum += Number( t.cartArr[i].num );
+            }
+         }
+         return totalNum;
+         //$( "#" + p10 + "t-price" ).html( totalPrice );
+      },
       // 获取订单信息
       getCartInfo : function ( fn ) {
          var t = this;
@@ -499,6 +510,7 @@
          $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
          $( "#" + id + "-t-price" ).html( t.getTotalPrice( id ) + "元" );
+         $( "#" + id + "-t-num" ).html( t.getTotalCount( id ) + "个月" );
          t.getFormData();// 整理form的param数据
       },
       // 产品个数减一
@@ -518,6 +530,7 @@
          $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
          $( "#" + id + "-t-price" ).html( t.getTotalPrice( id ) + "元" );
+         $( "#" + id + "-t-num" ).html( t.getTotalCount( id ) + "个月" );
          t.getFormData();// 整理form的param数据
       },
       // 修改数据
@@ -589,13 +602,14 @@
                      var str = "";
                      if( !$("#"+pid).length ) {
                         var totalPrice = t.getTotalPrice( pid );
+                        var totalNum = t.getTotalCount( pid );
                         str += '<tr id="' + pid + '">';
                         str += '<td><span id="' + pid + 'td1" class="pd-l-10" onclick="cart.expand(\'' + pid + '\')"><span title="展开" class="operation plusBtn">+</span></span></td>';
                         str += '<td>' + t.pObj[pid].name + '</td>';
                         str += '<td>' + t.pObj[pid].description + '</td>';
-                        str += '<td id="' + pid + '-t-num">-</td>';
+                        str += '<td id="' + pid + '-t-num">' + totalNum + '个月</td>';
                         str += '<td id="' + pid + '-t-price">' + totalPrice + '元</td>';
-                        str += '<td>-</td>';
+                       if ( !pay ) { str += '<td>-</td>';}
                         str += '</tr>';
                      }
                      str += '<tr class="' + pid + '-child hidden" id="' + pid + industyId + '">';
