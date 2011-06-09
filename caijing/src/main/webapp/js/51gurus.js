@@ -177,10 +177,11 @@
       recommend : [],
       industry : {},
       masterArr : {},
-      email : APP.getCookie("useremail"),
+      email : "",
       init : function ( action, pay ) {
          var t = this;
          t.cartArr = [];
+         t.email = APP.getCookie("useremail");
          t.getInterface( action, pay );
          /* Rookie(function(){
             var cartItem = this.read('cart');
@@ -191,12 +192,12 @@
             }
          }) */
          
-         var cartItem = APP.getCookie('cart');
+         /* var cartItem = APP.getCookie('cart');
          if( cartItem ) {
             t.cartArr = eval( cartItem );
          } else {
             APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
-         }
+         } */
       },
       // 临时保存订单
       saveCartInfo : function () {
@@ -215,6 +216,17 @@
                }
             }
          });
+      },
+      getTotalPrice : function ( pid ) {
+         var t = this,
+             totalPrice = 0;
+         for ( var i = 0; i < t.cartArr.length; i ++ ) {
+            if ( t.cartArr[i].id == pid ) {
+               totalPrice += Number( t.cartArr[i].num ) * Number( t.pObj[pid].price );
+            }
+         }
+         return totalPrice;
+         //$( "#" + p10 + "t-price" ).html( totalPrice );
       },
       // 获取订单信息
       getCartInfo : function ( fn ) {
@@ -396,7 +408,9 @@
          /* Rookie(function(){
             this.clear("cart");
          }); */
-         APP.delCookie( 'cart' );
+         t.cartArr = [];
+         t.saveCartInfo();
+         /* APP.delCookie( 'cart' ); */
          // window.location.reload();
       },
       // 添加一个产品
@@ -425,7 +439,8 @@
          /* Rookie(function(){
             this.write( 'cart', t.cartArr );
          }); */
-         APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
+         t.saveCartInfo();
+         /* APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) ); */
          // 弹窗显示
          
          $("#tipTotalN").html( total.num );
@@ -467,17 +482,20 @@
          /* Rookie(function(){
             this.write( 'cart', t.cartArr );
          }); */
-         APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
+         t.saveCartInfo();
+         /* APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) ); */
          t.getFormData();// 整理form的param数据
       },
       // 产品个数加一
       plus : function ( id, subId ) {
          var t = this,
              num = 0,
-             totalPrice = Number( num ) * Number( t.pObj[id].price );
+             totalPrice = 0;
          subId = subId? subId: "";
          num = Number($( "#" + id + subId + "num" ).text());
          num += 1;
+         totalPrice = Number( num ) * Number( t.pObj[id].price );
+         t.getTotalPrice( id );
          $( "#" + id + subId + "num" ).text( num );
          $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
@@ -487,13 +505,15 @@
       sub : function ( id, subId ) {
          var t = this,
              num = 0,
-             totalPrice = Number( num ) * Number( t.pObj[id].price );
+             totalPrice = 0;
          subId = subId? subId: "";
+         t.getTotalPrice( id );
          num = Number($( "#" + id + subId + "num" ).text());
          if( num <= 1 ) {
             return;
          }
          num -= 1;
+         totalPrice = Number( num ) * Number( t.pObj[id].price );
          $( "#" + id + subId + "num" ).text( num);
          $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
@@ -511,7 +531,8 @@
          /* Rookie(function(){
             this.write( 'cart', t.cartArr );
          }) */
-         APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
+         t.saveCartInfo();
+         /* APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) ); */
       },
       // 展示数据
       show : function ( pay ) {
@@ -539,7 +560,7 @@
             t.getFormData();
             
          }); */
-         t.cartArr = eval( APP.getCookie('cart') );
+         /* t.cartArr = eval( APP.getCookie('cart') ); */
          if ( !t.cartArr || t.cartArr.length < 1 ) {
             $("#cartList").hide();
             $("#cartEmpty").show();
@@ -566,12 +587,13 @@
                   if( industyId ) {
                      var str = "";
                      if( !$("#"+pid).length ) {
+                        var totalPrice = t.getTotalPrice( pid );
                         str += '<tr id="' + pid + '">';
                         str += '<td><span id="' + pid + 'td1" class="pd-l-10" onclick="cart.expand(\'' + pid + '\')"><span title="展开" class="operation plusBtn">+</span></span></td>';
                         str += '<td>' + t.pObj[pid].name + '</td>';
                         str += '<td>' + t.pObj[pid].description + '</td>';
                         str += '<td id="' + pid + '-t-num">-</td>';
-                        str += '<td id="' + pid + '-t-price">-</td>';
+                        str += '<td id="' + pid + '-t-price">' + totalPrice + '元</td>';
                         str += '<td>-</td>';
                         str += '</tr>';
                      }
