@@ -1,13 +1,15 @@
 (function(window, undefined){
    var $ = window.jQuery, Config = window.Config || {}, WB = window.WB || {};
+   // 图表
    chart = {
-      //for(i=1;i<=industry.length;i++){industry[i-1].id=i}
+      // 初始化
       init : function ( data, container ) {
          var t = this;
          t.dataArr = data;
          t.container = container;
          t.draw();
       },
+      // 绘图
       draw : function () {
          var t = this;
          var chart1option = {
@@ -97,6 +99,7 @@
          });
       }
    };
+   // 获取图表数据
    getData = function ( dataId, name1, name2 ) {
       var data = [],
           dateArr = [],
@@ -132,6 +135,7 @@
       data.push( tmpobj,tmpobj2 );
       return data;
    }
+   // 显示图表
    showAnaly = function( senderId, dataId, name1, name2 ) {//data : [{name:"xxx", data:[[xxx,xx],[xxx,xx]]},{name:"xxx", data:[[xxx,xx],[xxx,xx]]}]
       if( !document.getElementById("analyLayer") ) {
          var elem = document.createElement("div");
@@ -145,11 +149,12 @@
       $("#analyLayer").fadeIn("slow");
       var data = getData(dataId, name1, name2);
       chart.init( data, "analyHolder" );
-      
    };
+   // 隐藏元素
    hide = function( id ) {
       $( "#" + id ).fadeOut("fast");
    };
+   // 取得坐标
    getPosition = function ( sender ) {
       var e = sender,E = e;
       var x = e.offsetLeft;
@@ -166,21 +171,17 @@
       }
       return { "x" : x, "y" : y + document.body.scrollTop };
    };
+   // 购物车
    cart = {
       pObj : {},
       recommend : [],
       industry : {},
       masterArr : {},
+      email : APP.getCookie("useremail"),
       init : function ( action, pay ) {
          var t = this;
          t.cartArr = [];
-         /* t.getIndustry();
-         t.getMaster();
-         t.getProducts( action ); */
          t.getInterface( action, pay );
-         
-         //t.initIndustrySelect();
-         // t.buyBind();
          /* Rookie(function(){
             var cartItem = this.read('cart');
             if( cartItem ) {
@@ -197,29 +198,44 @@
             APP.setCookie( 'cart', APP.Serialize( cart.cartArr ) );
          }
       },
-      /* getProducts : function ( action ) {
-         var t= this;
-         $.getJSON('/get/product.do', function(data) {
-            var products = data//eval('(' + data + ')');
-            var i = 1;
-            for ( n in products ) {
-               //if ( products[n].name.indexOf("草根") ) {
-               t.pObj["p" + products[n].pid] = products[n];
-               //}
-               i += 1;
-            }
-            if ( action == "showProducts") {
-               t.drawProductsTable( t.pObj );
+      // 临时保存订单
+      saveCartInfo : function () {
+         var t = this,
+             email = t.email,
+             cartStr = APP.Serialize( cart.cartArr );
+         $.ajax({
+            type: "POST",
+            url: "/cart/save.do",
+            data: "userid=" + email + "&cartStr=" + cartStr,
+            success: function( msg ){
+               if ( msg == "success" ) {
+                  APP.log("订单保存成功");
+               } else {
+                  APP.log("订单保存出错");
+               }
             }
          });
-      }, */
+      },
+      // 获取订单信息
+      getCartInfo : function ( fn ) {
+         var t = this;
+         $.ajax({
+            type: "GET",
+            url: "/cart/get.do",
+            data: "userid=" + email,
+            success: function( msg ){
+               t.cartArr = eval( msg );
+               fn();
+            }
+         });
+      },
+      // 绘制产品表格
       drawProductsTable : function ( obj ) {
          var t = this,
              industryStr = "",
              monthStr = "",
              tbStr = "<table width='99%' class='productsTable' cellspacing='0' cellpadding='0' border='1'>";
              tbStr += "<tr><th width='120'>产品</th><th>产品说明</th><th>建议价格(人民币)</th><th width='70'>操作</th></tr>";
-         //for ( var i = 0; i < obj.length; i ++ ) {
          for ( n in obj ) {
             if ( !obj[n].name.indexOf("草根") ) {
                continue;
@@ -248,19 +264,6 @@
          tbStr += "</table>";
          $("#products").html( tbStr );
       },
-      /* getIndustry : function () {
-         var t= this;
-         $.getJSON('/get/industry.do', function(data) {
-            var industry = data//eval('(' + data + ')');
-            var i = 1;
-            for ( n in industry ) {
-               // t.industry["i" + i] = industry[n];
-               t.industry[industry[n].industryid] = industry[n];
-               i += 1;
-            }
-            t.initIndustrySelect( t.industry );
-         });
-      }, */
       // 获取所有接口
       getInterface : function ( action, pay ) {
          var t = this,
@@ -284,7 +287,11 @@
             }
             t.initIndustrySelect( t.industry );
             if ( action == "showCart") {
-               t.show( pay );
+               var fn = function () {
+                  t.show( pay );
+               }
+               // 获取订单
+               t.getCartInfo( fn );
             }
          });
       },
@@ -303,27 +310,6 @@
          tbStr += "</table>";
          $("#products").append( tbStr );
       },
-      /* getMaster : function () {
-         var t = this;
-         $.getJSON('/get/master.do', function(data) {
-            for ( n in data ) {
-               t.masterArr[data[n].masterid] = data[n];
-            }
-            //t.masterArr = data//eval( '(' + data + ')' );
-            var tbStr = "<p class='cart-live-p'>草根大师直播室:</p>";
-            tbStr += "<table width='99%' class='productsTable' cellspacing='0' cellpadding='0' border='1'>";
-            tbStr += "<tr><th width='100'>大师</th><th>大师介绍</th><th width='70'>操作</th></tr>";
-            for ( n in t.masterArr ) {
-               tbStr += "<tr>";
-               tbStr += "<td>" + t.masterArr[n].mastername + "</td>";
-               tbStr += "<td>" + t.masterArr[n].intro + "</td>";
-               tbStr += "<td><a class='cRed' href='javascript:;' onclick='cart.buyLive(10, " + t.masterArr[n].masterid + " )'>加入购物车</a></td>";
-               tbStr += "</tr>";
-            }
-            tbStr += "</table>";
-            $("#products").append( tbStr );
-         });
-      }, */
       delIndustryItem : function ( node ) {
          var fa = node.parentNode.parentNode,
              gfa = node.parentNode.parentNode.parentNode,
@@ -331,8 +317,6 @@
          if ( itemArr.length > 1 ) {
             gfa.removeChild(fa);
          }
-         //node.parentNode.parentNode.style.display = "none";
-         //$(node).parent().remove();
       },
       addIndustryItem : function () {
          /* var str = '<tr class="pop-industry">'+
@@ -349,7 +333,6 @@
       },
       initIndustrySelect : function ( industry ) {
          var t = this;
-         //console.log( industry );
          for ( n in industry) {
             $("#dialogS .chose select").append("<option value='" + industry[n].industryid + "'>" + industry[n].industryname + "</option>");
          }
@@ -460,7 +443,7 @@
                   <td>' + t.pObj[id].title + '</td>\
                   <td>' + t.pObj[id].intro + '</td>\
                   <td><span onclick="cart.sub(\'' + id + '\')">-</span><span id="' + id + 'num">' + num + '</span><span onclick="cart.plus(\'' + id + '\')">+</span></td>\
-                  <td><span class="price">' + price + '</span>元</td>\
+                  <td><span id="p' + id + 'price" class="price">' + price + '</span>元</td>\
                   <td><a onclick="cart.del(\'' + id + '\')" href="javascript:;">删除</a></td>\
                </tr>\
             ');
@@ -490,19 +473,21 @@
       // 产品个数加一
       plus : function ( id, subId ) {
          var t = this,
-             num = 0;
+             num = 0,
+             totalPrice = Number( num ) * Number( t.pObj[id].price );
          subId = subId? subId: "";
          num = Number($( "#" + id + subId + "num" ).text());
-         //num = Number($( "#" + id + "num" ).text());
          num += 1;
          $( "#" + id + subId + "num" ).text( num );
+         $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
          t.getFormData();// 整理form的param数据
       },
       // 产品个数减一
       sub : function ( id, subId ) {
          var t = this,
-             num = 0;
+             num = 0,
+             totalPrice = Number( num ) * Number( t.pObj[id].price );
          subId = subId? subId: "";
          num = Number($( "#" + id + subId + "num" ).text());
          if( num <= 1 ) {
@@ -510,6 +495,7 @@
          }
          num -= 1;
          $( "#" + id + subId + "num" ).text( num);
+         $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
          t.getFormData();// 整理form的param数据
       },
@@ -584,8 +570,8 @@
                         str += '<td><span id="' + pid + 'td1" class="pd-l-10" onclick="cart.expand(\'' + pid + '\')"><span title="展开" class="operation plusBtn">+</span></span></td>';
                         str += '<td>' + t.pObj[pid].name + '</td>';
                         str += '<td>' + t.pObj[pid].description + '</td>';
-                        str += '<td>-</td>';
-                        str += '<td>-</td>';
+                        str += '<td id="' + pid + '-t-num">-</td>';
+                        str += '<td id="' + pid + '-t-price">-</td>';
                         str += '<td>-</td>';
                         str += '</tr>';
                      }
@@ -603,10 +589,10 @@
                         str += '<td><span class="price">' + price + '</span>元</td>';
                      } else {
                         str += '<td><span class="operation subBtn" onclick="cart.sub(\'' + pid + '\',\'' + industyId + '\')">-</span><span id="' + pid + industyId + 'num">' + num + '</span><span class="operation plusBtn" onclick="cart.plus(\'' + pid + '\',\'' + industyId + '\')">+</span></td>';
-                        str += '<td><span class="price">' + price + '</span>元</td>';
+                        str += '<td><span id="' + pid + industyId + 'price" class="price">' + price + '</span>元</td>';
                         str += '<td><a onclick="cart.del(\'' + pid + '\',\'' + industyId + '\')" href="javascript:;">删除</a></td>';
                      }
-                     
+                  // 不分行业
                   } else {
                      
                      var str = '<tr id="' + pid + '">';
@@ -615,10 +601,10 @@
                      str += '<td>' + t.pObj[pid].description + '</td>';
                      if ( pay ) {
                         str += '<td><span id="' + pid + 'num">' + num + '</span></td>';
-                        str += '<td><span class="price">' + price + '</span>元</td>';
+                        str += '<td><span id="' + pid + 'price" class="price">' + price + '</span>元</td>';
                      } else {
                         str += '<td><span class="operation subBtn" onclick="cart.sub(\'' + pid + '\')">-</span><span id="' + pid + 'num">' + num + '</span><span class="operation plusBtn" onclick="cart.plus(\'' + pid + '\')">+</span></td>';
-                        str += '<td><span class="price">' + price + '</span>元</td>';
+                        str += '<td><span id="' + pid + 'price" class="price">' + price + '</span>元</td>';
                         str += '<td><a onclick="cart.del(\'' + pid + '\',\'\')" href="javascript:;">删除</a></td>';
                      }
                      
@@ -658,6 +644,7 @@
          str += "]";
          $("#cartParam").val( str );
       },
+      // 获取总数
       getTotal : function () {
          var t = this,
              num = 0,
@@ -688,23 +675,13 @@
             top : ($(window).height() - $( elem ).outerHeight())/2 + $(document).scrollTop()
          });
       }
-      /* popDialog : function ( num, price ) {
-         var elem = $("#dialogS");
-         $("#tipTotalN").innerHTML = num;
-         $("#tipTotalP").innerHTML = price;
-         $( elem ).fadeIn("slow");
-         $( elem ).css({ 
-            position : 'absolute',
-            left : ($(window).width() - $( elem ).outerWidth())/2,
-            top : ($(window).height() - $( elem ).outerHeight())/2
-         });
-      } */
    };
    validator = {
       nickReg : /^[\w_]{4,16}$/,
       emailReg : /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
       mobileReg : /^1{1}\d{10}$/,
       passReg : /^.{6,16}$/,
+      // 检验注册信息
       checkVal : function ( reg, node, tip ) {
          var t = this,
              val = $( node ).text();
@@ -770,6 +747,7 @@
             return true;
          };
       },
+      // 检验手机格式
       checkMobile : function ( inputNode, tipNode ) {
          var t = this;
          if( $( inputNode ).text() != "" && !t.checkVal( t.mobileReg, inputNode, tipNode ) ) {
@@ -780,6 +758,7 @@
          }
       }
    };
+   // 城市信息
    city = {"province":["省/直辖市", "安徽", "北京", "重庆", "福建", "甘肃", "广东", "广西", "贵州", "海南", "河北", "黑龙江", "河南", "湖北", "湖南", "内蒙古", "江苏", "江西", "吉林", "辽宁", "宁夏", "青海", "山西", "山东", "上海", "四川", "天津", "西藏", "新疆", "云南", "浙江", "陕西", "台湾", "香港", "澳门", "海外", "其他"],"city":["城市/地区","合肥,芜湖,蚌埠,淮南,马鞍山,淮北,铜陵,安庆,黄山,滁州,阜阳,宿州,巢湖,六安,亳州,池州,宣城","东城区,西城区,崇文区,宣武区,朝阳区,丰台区,石景山区,海淀区,门头沟区,房山区,通州区,顺义区,昌平区,大兴区,怀柔区,平谷区,密云县,延庆县","万州区,涪陵区,渝中区,大渡口区,江北区,沙坪坝区,九龙坡区,南岸区,北碚区,万盛区,双桥区,渝北区,巴南区,黔江区,长寿区,綦江县,潼南县,铜梁县,大足县,荣昌县,璧山县,梁平县,城口县,丰都县,垫江县,武隆县,忠县,开县,云阳县,奉节县,巫山县,巫溪县,石柱土家族自治县,秀山土家族苗族自治县,酉阳土家族苗族自治县,彭水苗族土家族自治县,江津市,合川市,永川区,南川市","福州,厦门,莆田,三明,泉州,漳州,南平,龙岩,宁德","兰州,嘉峪关,金昌,白银,天水,武威,张掖,平凉,酒泉,庆阳,定西,陇南,临夏,甘南","广州,韶关,深圳,珠海,汕头,佛山,江门,湛江,茂名,肇庆,惠州,梅州,汕尾,河源,阳江,清远,东莞,中山,潮州,揭阳,云浮","南宁,柳州,桂林,梧州,北海,防城港,钦州,贵港,玉林,百色,贺州,河池","贵阳,六盘水,遵义,安顺,铜仁,黔西南,毕节,黔东南,黔南","海口,三亚,其他","石家庄,唐山,秦皇岛,邯郸,邢台,保定,张家口,承德,沧州,廊坊,衡水","哈尔滨,齐齐哈尔,鸡西,鹤岗,双鸭山,大庆,伊春,佳木斯,七台河,牡丹江,黑河,绥化,大兴安岭","郑州,开封,洛阳,平顶山,安阳,鹤壁,新乡,焦作,濮阳,许昌,漯河,三门峡,南阳,商丘,信阳,周口,驻马店","武汉,黄石,十堰,宜昌,襄樊,鄂州,荆门,孝感,荆州,黄冈,咸宁,随州,恩施土家族苗族自治州","长沙,株洲,湘潭,衡阳,邵阳,岳阳,常德,张家界,益阳,郴州,永州,怀化,娄底,湘西土家族苗族自治州","呼和浩特,包头,乌海,赤峰,通辽,鄂尔多斯,呼伦贝尔,兴安盟,锡林郭勒盟,乌兰察布盟,巴彦淖尔盟,阿拉善盟","南京,无锡,徐州,常州,苏州,南通,连云港,淮安,盐城,扬州,镇江,泰州,宿迁","南昌,景德镇,萍乡,九江,新余,鹰潭,赣州,吉安,宜春,抚州,上饶","长春,吉林,四平,辽源,通化,白山,松原,白城,延边朝鲜族自治州","沈阳,大连,鞍山,抚顺,本溪,丹东,锦州,营口,阜新,辽阳,盘锦,铁岭,朝阳,葫芦岛","银川,石嘴山,吴忠,固原","西宁,海东,海北,黄南,海南,果洛,玉树,海西","太原,大同,阳泉,长治,晋城,朔州,晋中,运城,忻州,临汾,吕梁","济南,青岛,淄博,枣庄,东营,烟台,潍坊,济宁,泰安,威海,日照,莱芜,临沂,德州,聊城,滨州,菏泽","黄浦区,卢湾区,徐汇区,长宁区,静安区,普陀区,闸北区,虹口区,杨浦区,闵行区,宝山区,嘉定区,浦东新区,金山区,松江区,青浦区,南汇区,奉贤区,崇明县","成都,自贡,攀枝花,泸州,德阳,绵阳,广元,遂宁,内江,乐山,南充,眉山,宜宾,广安,达州,雅安,巴中,资阳,阿坝,甘孜,凉山","和平区,河东区,河西区,南开区,河北区,红桥区,塘沽区,汉沽区,大港区,东丽区,西青区,津南区,北辰区,武清区,宝坻区,宁河县,静海县,蓟县","拉萨,昌都,山南,日喀则,那曲,阿里,林芝","乌鲁木齐,克拉玛依,吐鲁番,哈密,昌吉,博尔塔拉,巴音郭楞,阿克苏,克孜勒苏,喀什,和田,伊犁,塔城,阿勒泰,石河子","昆明,曲靖,玉溪,保山,昭通,楚雄,红河,文山,思茅,西双版纳,大理,德宏,丽江,怒江,迪庆,临沧","杭州,宁波,温州,嘉兴,湖州,绍兴,金华,衢州,舟山,台州,丽水","西安,铜川,宝鸡,咸阳,渭南,延安,汉中,榆林,安康,商洛","台北,高雄,其他","香港","澳门","美国,英国,法国,俄罗斯,加拿大,巴西,澳大利亚,印尼,泰国,马来西亚,新加坡,菲律宾,越南,印度,日本,其他",'其他']}
    userInfo = {
       init : function () {
@@ -991,22 +970,33 @@
       }
    };
    APP = {
+      // 设置cookie
       setCookie : function ( name, value ) {
          var Days = 30; //此 cookie 将被保存 30 天
          var exp  = new Date();    //new Date("December 31, 9998");
          exp.setTime( exp.getTime() + Days*24*60*60*1000 );
          document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
       },
+      // 获得cookie
       getCookie : function ( name ) {
          var arr = document.cookie.match( new RegExp("(^| )" + name + "=([^;]*)(;|$)") );
          if(arr != null) return unescape(arr[2]); return null;
       },
+      // 删除cookie
       delCookie : function ( name ) {
          var exp = new Date();
          exp.setTime( exp.getTime() - 1 );
          var cval=getCookie( name );
          if( cval != null ) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
       },
+      // 输出log
+      log : function ( item ) {
+         try {
+            console.log( item );
+         } catch ( err ) {
+         }
+      },
+      // 序列化对象
       Serialize : function ( obj ) {
          switch ( obj.constructor ) {
             case Object:
