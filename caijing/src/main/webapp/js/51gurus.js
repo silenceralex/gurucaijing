@@ -495,10 +495,10 @@
          num = Number($( "#" + id + subId + "num" ).text());
          num += 1;
          totalPrice = Number( num ) * Number( t.pObj[id].price );
-         t.getTotalPrice( id );
          $( "#" + id + subId + "num" ).text( num );
          $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
+         $( "#" + id + "-t-price" ).html( t.getTotalPrice( id ) + "元" );
          t.getFormData();// 整理form的param数据
       },
       // 产品个数减一
@@ -507,7 +507,7 @@
              num = 0,
              totalPrice = 0;
          subId = subId? subId: "";
-         t.getTotalPrice( id );
+         
          num = Number($( "#" + id + subId + "num" ).text());
          if( num <= 1 ) {
             return;
@@ -517,6 +517,7 @@
          $( "#" + id + subId + "num" ).text( num);
          $( "#" + id + subId + "price" ).text( totalPrice );
          t.motify( id, "num", num, subId );
+         $( "#" + id + "-t-price" ).html( t.getTotalPrice( id ) + "元" );
          t.getFormData();// 整理form的param数据
       },
       // 修改数据
