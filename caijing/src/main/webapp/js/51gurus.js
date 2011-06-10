@@ -245,7 +245,7 @@
          $.ajax({
             type: "GET",
             url: "/cart/get.do",
-            data: "userid=" + email,
+            data: "userid=" + t.email,
             success: function( msg ){
                t.cartArr = eval( msg );
                fn();
