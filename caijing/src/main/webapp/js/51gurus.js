@@ -248,7 +248,10 @@
             data: "userid=" + t.email,
             success: function( msg ){
                t.cartArr = eval( msg );
-               fn();
+               try{
+                  fn();
+               } catch ( err ) {
+               }
             }
          });
       },
@@ -309,13 +312,18 @@
                i += 1;
             }
             t.initIndustrySelect( t.industry );
-            if ( action == "showCart") {
+            /* if ( action == "showCart") {
                var fn = function () {
                   t.show( pay );
                }
                // 获取订单
                t.getCartInfo( fn );
+            } */
+            var fn = function () {
+               t.show( pay );
             }
+            // 获取订单
+            t.getCartInfo( fn );
          });
       },
       renderMaster : function () {
