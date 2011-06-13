@@ -17,7 +17,8 @@
 			<filter userPattern="true"><![CDATA[<.*?>]]></filter>
 		</innermatch>
 		<innermatch property="link" mapping="link"></innermatch>
-		<innermatch property="content" mapping="link" isdown="true">
+		<innermatch property="content" mapping="description" isdown="true">
+			<extractexp><![CDATA[a href="(.*?)" target="_blank".*?阅读全文]]></extractexp>
 			<repexp><![CDATA[<div .*?id=\"the_content\".*?>(.*?)<!--责任编辑 begin-->]]></repexp>
 			<filter userPattern="true"><![CDATA[<div class=\"videoFlip\">.*?<div class=\"clear\">]]></filter>
 			<filter userPattern="true"><![CDATA[<P>\[?<A .*?</A>\]?</P>]]></filter>

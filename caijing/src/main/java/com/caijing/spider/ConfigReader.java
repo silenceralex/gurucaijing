@@ -223,7 +223,10 @@ public class ConfigReader {
 			if (patternNode.attributeValue("isdown") != null) {
 				im.setDownload(true);
 			}
-
+			Element extractexp = (Element) patternNode.selectSingleNode("extractexp");
+			if (extractexp != null) {
+				im.setExtractexp(extractexp.getText().trim());
+			}
 			Element repexp = (Element) patternNode.selectSingleNode("repexp");
 			if (repexp != null) {
 				im.setRepexp(repexp.getText().trim());

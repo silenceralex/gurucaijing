@@ -31,6 +31,16 @@ public class RssInnerMatch {
 	private List<Filter> filters = null;
 
 	private String repexp = null;
+	
+	private String extractexp = null;
+
+	public String getExtractexp() {
+		return extractexp;
+	}
+
+	public void setExtractexp(String extractexp) {
+		this.extractexp = extractexp;
+	}
 
 	public String getProperty() {
 		return property;
@@ -109,6 +119,17 @@ public class RssInnerMatch {
 				return property;
 			}
 		} else {
+			if(extractexp != null){
+				Pattern linkPattern = Pattern.compile(extractexp, Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+						| Pattern.UNIX_LINES);
+				System.out.println("extractexp:"+extractexp);
+				
+				Matcher m = linkPattern.matcher(property);
+				if (m != null && m.find()) {
+					property = m.group(1);
+					System.out.println("link:"+property);
+				}
+			}
 			String content = loader.load(property);
 			if (repexp != null) {
 				Pattern contentPattern = Pattern.compile(repexp, Pattern.CASE_INSENSITIVE | Pattern.DOTALL
@@ -117,6 +138,7 @@ public class RssInnerMatch {
 				if (m != null && m.find()) {
 					content = m.group(1);
 				}
+				System.out.println("content:"+content);
 			}
 			for (Filter filter : filters) {
 				content = filter.filter(content);
