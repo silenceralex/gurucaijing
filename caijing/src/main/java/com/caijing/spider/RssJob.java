@@ -201,7 +201,7 @@ public class RssJob {
 //		ColumnArticle article = (ColumnArticle) columnArticleDao.select("4448487269d23729ff281c3d0ae41d65");
 //		String url = MD5Utils.hash(article.getTitle() + article.getAuthor());
 //		rssjob.getUrlDB().delete(url);
-//		rssjob.setColumnArticleDao(columnArticleDao);
+		rssjob.setColumnArticleDao(columnArticleDao);
 		rssjob.run();
 		//		List<ColumnArticle> articles = columnArticleDao.getColumnArticleBySource("《财经网》-专栏作家");
 		//		for (ColumnArticle article : articles) {
