@@ -216,6 +216,7 @@ public class RssJob {
 		//				System.out.println("publish article:" + article.getTitle() + " failed!");
 		//			}
 		//		}
+		System.exit(0);
 	}
 
 	public BerkeleyDB getUrlDB() {
