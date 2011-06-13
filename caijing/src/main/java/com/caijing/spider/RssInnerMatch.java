@@ -122,7 +122,7 @@ public class RssInnerMatch {
 			if(extractexp != null){
 				Pattern linkPattern = Pattern.compile(extractexp, Pattern.CASE_INSENSITIVE | Pattern.DOTALL
 						| Pattern.UNIX_LINES);
-				System.out.println("extractexp:"+extractexp);
+//				System.out.println("extractexp:"+extractexp);
 				
 				Matcher m = linkPattern.matcher(property);
 				if (m != null && m.find()) {
@@ -138,7 +138,7 @@ public class RssInnerMatch {
 				if (m != null && m.find()) {
 					content = m.group(1);
 				}
-				System.out.println("content:"+content);
+//				System.out.println("content:"+content);
 			}
 			for (Filter filter : filters) {
 				content = filter.filter(content);
