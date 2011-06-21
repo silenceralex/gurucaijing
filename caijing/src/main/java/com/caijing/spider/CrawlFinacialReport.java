@@ -291,6 +291,6 @@ public class CrawlFinacialReport {
 				.getBean("financialReportDao");
 		finacialreport.setFinancialReportDao(financialReportDao);
 		finacialreport.runEastMoney();
-
+		System.exit(0);
 	}
 }
