@@ -200,12 +200,12 @@ public class CrawlFinacialReport {
 			String prefix = starturl.substring(0, starturl.indexOf(".html"));
 			System.out.println("prefix:" + prefix);
 			int page = 2;
-			// while (page < end) {
-			// String currpagge = prefix + page + ".html";
-			// System.out.println("currpagge:" + currpagge);
-			// processpage(currpagge, codeMap);
-			// page++;
-			// }
+			while (page < end) {
+				String currpagge = prefix + page + ".html";
+				System.out.println("currpagge:" + currpagge);
+				processpage(currpagge, codeMap);
+				page++;
+			}
 		}
 
 		for (String key : codeMap.keySet()) {
@@ -217,6 +217,7 @@ public class CrawlFinacialReport {
 			String filepath = "/" + report.getYear() + "/" + report.getType()
 					+ "/" + report.getStockcode() + ".pdf";
 			report.setFilepath(filepath);
+			report.setStatus((byte) 0);
 			financialReportDao.insert(report);
 		}
 	}
