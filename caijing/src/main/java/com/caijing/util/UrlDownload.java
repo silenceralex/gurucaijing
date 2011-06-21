@@ -60,7 +60,8 @@ public class UrlDownload {
 		HttpConnectionParams.setSocketBufferSize(params, 8192);
 		// Create and initialize scheme registry
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory
+				.getSocketFactory(), 80));
 
 		// Create an HttpClient with the ThreadSafeClientConnManager.
 		// This connection manager must be used if more than one thread will
@@ -79,14 +80,16 @@ public class UrlDownload {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public String getLastModified(String video_url) throws ClientProtocolException, IOException, ParseException {
+	public String getLastModified(String video_url)
+			throws ClientProtocolException, IOException, ParseException {
 		HttpGet get = new HttpGet(video_url);
 		HttpResponse response = httpClient.execute(get);
 		String time = response.getFirstHeader("Last-Modified").getValue();
 		//  Õ∑≈get
 		get.abort();
 		time = time.substring(0, time.indexOf(" GMT"));
-		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat(
+				"EEE, dd MMM yyyy HH:mm:ss", Locale.US);
 		SimpleDateFormat standard = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = sdf.parse(time);
 		return standard.format(date);
@@ -94,7 +97,8 @@ public class UrlDownload {
 
 	public String load(String url) throws ClientProtocolException, IOException {
 		HttpGet get = new HttpGet(url);
-		get.setHeader("User-Agent",
+		get.setHeader(
+				"User-Agent",
 				"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12");
 		get.setHeader("Accept-Encoding", "gzip,deflate");
 		get.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
@@ -105,13 +109,16 @@ public class UrlDownload {
 		return load(get);
 	}
 
-	public String load(String url, boolean isGzip) throws ClientProtocolException, IOException {
+	public String load(String url, boolean isGzip)
+			throws ClientProtocolException, IOException {
 		HttpGet get = new HttpGet(url);
 		if (isGzip) {
 			get.setHeader("Accept-Encoding", "gzip");
 			HttpResponse response = httpClient.execute(get);
 			HttpEntity entity = response.getEntity();
-			if (entity.getContentEncoding() != null && entity.getContentEncoding().getValue().equalsIgnoreCase("gzip")) {
+			if (entity.getContentEncoding() != null
+					&& entity.getContentEncoding().getValue()
+							.equalsIgnoreCase("gzip")) {
 				GzipEntity gentity = new GzipEntity(entity);
 				String content = EntityUtils.toString(gentity, charset);
 				return content;
@@ -126,14 +133,16 @@ public class UrlDownload {
 		// return load(get);
 	}
 
-	public String loadSince(String url, String lastModified) throws ClientProtocolException, IOException {
+	public String loadSince(String url, String lastModified)
+			throws ClientProtocolException, IOException {
 		HttpGet get = new HttpGet(url);
 		get.setHeader("Accept-Encoding", "gzip");
 		get.setHeader("If-Modified-Since", lastModified);
 		return load(get);
 	}
 
-	public String getRelocation(HttpGet get) throws ClientProtocolException, IOException {
+	public String getRelocation(HttpGet get) throws ClientProtocolException,
+			IOException {
 		HttpResponse response = httpClient.execute(get);
 		return response.getFirstHeader("location").getValue();
 	}
@@ -156,7 +165,9 @@ public class UrlDownload {
 		// + header.getValue());
 		// }
 		HttpEntity entity = response.getEntity();
-		if (entity.getContentEncoding() != null && entity.getContentEncoding().getValue().equalsIgnoreCase("gzip")) {
+		if (entity.getContentEncoding() != null
+				&& entity.getContentEncoding().getValue()
+						.equalsIgnoreCase("gzip")) {
 			// System.out.println("compressed size: "
 			// + entity.toString().getBytes().length);
 			GzipEntity gentity = new GzipEntity(entity);
@@ -169,13 +180,19 @@ public class UrlDownload {
 		}
 	}
 
+	public int downAttach(String url, String saveFile) {
+		HttpGet get = new HttpGet(url);
+		return downAttach(get, saveFile);
+	}
+
 	public int downAttach(HttpGet get, String saveFile) {
 
 		HttpResponse response = null;
 		try {
 			response = httpClient.execute(get);
 
-			System.out.println("status:" + response.getStatusLine().getStatusCode());
+			System.out.println("status:"
+					+ response.getStatusLine().getStatusCode());
 			if (response.getStatusLine().getStatusCode() == 302) {
 				System.out.println("Not Modified");
 				String move = response.getFirstHeader("Location").getValue();
@@ -191,7 +208,8 @@ public class UrlDownload {
 		}
 		Header[] headers = response.getAllHeaders();
 		for (Header header : headers) {
-			System.out.println("header name :" + header.getName() + " value:" + header.getValue());
+			System.out.println("header name :" + header.getName() + " value:"
+					+ header.getValue());
 		}
 		System.out.print("saveFile:" + saveFile);
 		HttpEntity entity = response.getEntity();
@@ -227,10 +245,11 @@ public class UrlDownload {
 
 	/**
 	 * @param args
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
+	 * @throws IOException
+	 * @throws ClientProtocolException
 	 */
-	public static void main(String[] args) throws ClientProtocolException, IOException {
+	public static void main(String[] args) throws ClientProtocolException,
+			IOException {
 		String str = "http://sports.yahoo.com/nba/teams/bos";
 		// String str =
 		// "http://tech.163.com/09/1118/05/5OCJS5FQ000sadf915BE.html";
@@ -238,8 +257,9 @@ public class UrlDownload {
 		UrlDownload down = new UrlDownload();
 		down.setCharset("utf-8");
 		long start = System.currentTimeMillis();
-		content=down.load("http://magazine.caijing.com.cn/2011-06-07/110739368.html");
-		
+		content = down
+				.load("http://magazine.caijing.com.cn/2011-06-07/110739368.html");
+
 		// down.testURL(str);
 		// content=down.load(str,false);
 		// try {
@@ -257,8 +277,9 @@ public class UrlDownload {
 		// System.out.println("content:" + content);
 
 		long end = System.currentTimeMillis();
-		System.out.println("content:"+content);
-		System.out.println("Download Used: time:" + (end - start) + "  miliseconds!");
+		System.out.println("content:" + content);
+		System.out.println("Download Used: time:" + (end - start)
+				+ "  miliseconds!");
 		// System.out.println("content:"+content);
 		// str = down
 		// .load("http://218.22.14.84:8080/soms4/web/jwzt/player/vod_player.jsp?fileId=22951");
@@ -267,119 +288,133 @@ public class UrlDownload {
 		// System.out.println(str);
 		// str = down.download("http://www.997788.com");
 		// System.out.println(str);
-//		HttpGet get = new HttpGet("http://210.52.215.72/ycpj/GetUpdateConfig.aspx?type=init&version=2.48.csv");
-//		//		String cookie = "Newasp%5Fnet=onlineid=22122398114; ASPSESSIONIDCSQDTRDS=ELPNDMPCFMCKMIFKKCHMLEKF; virtualwall=vsid=73bad331ca1c4f5c1f6b3f3069edb063; test=logo=221%2E223%2E98%2E114&Grade=3&isencrypt=1&dby=90&uid=110&dbyDayHits=0&point=0&password=28ad49f7c66e5707&card=0&userid=131445&username=silenceralex; zq=softname=%B5%C8%B4%FD%D6%FE%B5%D7%2D%2D2010%C4%EA5%2D6%D4%C2A%B9%C9%B2%DF%C2%D4%B1%A8%B8%E6%A1%AA%A1%AA%D4%AC%D2%CB+%B3%C2%BD%DC+; date=authori=&typei=%CA%D0%B3%A1%D1%D0%BE%BF";
-//		//		get.setHeader("Cookie", cookie);
-//		HttpResponse response = null;
-//		try {
-//			response = down.getHttpClient().execute(get);
-//		} catch (ClientProtocolException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		Header[] headers = response.getAllHeaders();
-//		String cookie = "";
-//		for (Header header : headers) {
-//			System.out.println("response:" + header.getName() + " : " + header.getValue());
-//			if ("Set-Cookie".equals(header.getName())) {
-//				cookie = header.getValue();
-//			}
-//		}
-//		cookie = cookie.substring(0, cookie.indexOf(';'));
-//		System.out.println("cookie:" + cookie);
-//
-//		get = new HttpGet("http://210.52.215.72//YCPJ/Logon.aspx?type=logon");
-//		get.setHeader("user", "johnnychenjun");
-//		get.setHeader("pwd", "4a91b5691286687a5d8eccb47f153ed2");
-//		get.setHeader("sn", "5CAC-4C53-FA52-BFEBFBFF00020655-WD-WXR1A60H9613");
-//		get.setHeader("ver", "2.48");
-//		get.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-//		get.setHeader("Cookie", cookie);
-//		String authority = "";
-//		try {
-//			response = down.getHttpClient().execute(get);
-//			HttpEntity entity = response.getEntity();
-//			authority = EntityUtils.toString(entity, "gbk");
-//			System.out.println("retStr:" + authority);
-//			authority = authority.substring(authority.lastIndexOf('=') + 1);
-//			System.out.println("authority:" + authority);
-//		} catch (ClientProtocolException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-		//		get = new HttpGet("http://210.52.215.72/ycpj/GetBinaryStream.aspx?id=10001");
-		//		get.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-		//		get.setHeader("Cookie", cookie);
+		// HttpGet get = new
+		// HttpGet("http://210.52.215.72/ycpj/GetUpdateConfig.aspx?type=init&version=2.48.csv");
+		// // String cookie =
+		// "Newasp%5Fnet=onlineid=22122398114; ASPSESSIONIDCSQDTRDS=ELPNDMPCFMCKMIFKKCHMLEKF; virtualwall=vsid=73bad331ca1c4f5c1f6b3f3069edb063; test=logo=221%2E223%2E98%2E114&Grade=3&isencrypt=1&dby=90&uid=110&dbyDayHits=0&point=0&password=28ad49f7c66e5707&card=0&userid=131445&username=silenceralex; zq=softname=%B5%C8%B4%FD%D6%FE%B5%D7%2D%2D2010%C4%EA5%2D6%D4%C2A%B9%C9%B2%DF%C2%D4%B1%A8%B8%E6%A1%AA%A1%AA%D4%AC%D2%CB+%B3%C2%BD%DC+; date=authori=&typei=%CA%D0%B3%A1%D1%D0%BE%BF";
+		// // get.setHeader("Cookie", cookie);
+		// HttpResponse response = null;
+		// try {
+		// response = down.getHttpClient().execute(get);
+		// } catch (ClientProtocolException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// Header[] headers = response.getAllHeaders();
+		// String cookie = "";
+		// for (Header header : headers) {
+		// System.out.println("response:" + header.getName() + " : " +
+		// header.getValue());
+		// if ("Set-Cookie".equals(header.getName())) {
+		// cookie = header.getValue();
+		// }
+		// }
+		// cookie = cookie.substring(0, cookie.indexOf(';'));
+		// System.out.println("cookie:" + cookie);
 		//
-		//		try {
-		//			response = down.getHttpClient().execute(get);
-		//			System.out.print("StatusCode:" + response.getStatusLine().getStatusCode());
-		//			headers = response.getAllHeaders();
-		//			for (Header header : headers) {
-		//				System.out.println("response:" + header.getName() + " : " + header.getValue());
-		//			}
-		//			HttpEntity entity = response.getEntity();
-		//			GzipEntity gentity = new GzipEntity(entity);
-		//			content = EntityUtils.toString(gentity, "gbk");
-		//			FileUtil.write("D://test", content);
-		//			FileOutputStream out = new FileOutputStream(new File("D://test"));
-		//			byte[] b = new byte[1024];
-		//			int total = 0;
-		//			int tmp = 0;
-		//			while (true) {
-		//				tmp = input.read(b, 0, 1024);
-		//				total += tmp;
-		//				if (tmp == -1) {
-		//					break;
-		//				} else {
-		//					out.write(b, 0, tmp);
-		//					//					out.write(b);
-		//				}
-		//			}
-		//			System.out.print("total Length:" + total);
+		// get = new
+		// HttpGet("http://210.52.215.72//YCPJ/Logon.aspx?type=logon");
+		// get.setHeader("user", "johnnychenjun");
+		// get.setHeader("pwd", "4a91b5691286687a5d8eccb47f153ed2");
+		// get.setHeader("sn",
+		// "5CAC-4C53-FA52-BFEBFBFF00020655-WD-WXR1A60H9613");
+		// get.setHeader("ver", "2.48");
+		// get.setHeader("User-Agent",
+		// "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+		// get.setHeader("Cookie", cookie);
+		// String authority = "";
+		// try {
+		// response = down.getHttpClient().execute(get);
+		// HttpEntity entity = response.getEntity();
+		// authority = EntityUtils.toString(entity, "gbk");
+		// System.out.println("retStr:" + authority);
+		// authority = authority.substring(authority.lastIndexOf('=') + 1);
+		// System.out.println("authority:" + authority);
+		// } catch (ClientProtocolException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
-		//			out.close();
-		//			input.close();
+		// get = new
+		// HttpGet("http://210.52.215.72/ycpj/GetBinaryStream.aspx?id=10001");
+		// get.setHeader("User-Agent",
+		// "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+		// get.setHeader("Cookie", cookie);
+		//
+		// try {
+		// response = down.getHttpClient().execute(get);
+		// System.out.print("StatusCode:" +
+		// response.getStatusLine().getStatusCode());
+		// headers = response.getAllHeaders();
+		// for (Header header : headers) {
+		// System.out.println("response:" + header.getName() + " : " +
+		// header.getValue());
+		// }
+		// HttpEntity entity = response.getEntity();
+		// GzipEntity gentity = new GzipEntity(entity);
+		// content = EntityUtils.toString(gentity, "gbk");
+		// FileUtil.write("D://test", content);
+		// FileOutputStream out = new FileOutputStream(new File("D://test"));
+		// byte[] b = new byte[1024];
+		// int total = 0;
+		// int tmp = 0;
+		// while (true) {
+		// tmp = input.read(b, 0, 1024);
+		// total += tmp;
+		// if (tmp == -1) {
+		// break;
+		// } else {
+		// out.write(b, 0, tmp);
+		// // out.write(b);
+		// }
+		// }
+		// System.out.print("total Length:" + total);
 
-		//		} catch (IOException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
+		// out.close();
+		// input.close();
 
-//		String url = "http://210.52.215.72/YCPJ/GetStockJS.aspx?type=TitleList&user=johnnychenjun&guid=" + authority
-//				+ "&articleBm=wyxs_new_Cache_TOP_syzy";
-//		System.out.println("url:" + url);
-//		get = new HttpGet(url);
-//		get.setHeader("User-Agent",
-//				"Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET4.0C; .NET4.0E)");
-//		get.setHeader("Cookie", cookie);
-//		get.setHeader("Accept", "*/*");
-//		get.setHeader("Accept-Language", "zh-cn");
-//		get.setHeader("Accept-Encoding", "gzip, deflate");
-//		get.setHeader("Connection", "Keep-Alive");
-//
-//		String recentArticleList = "";
-//		try {
-//			response = down.getHttpClient().execute(get);
-//			HttpEntity entity = response.getEntity();
-//			System.out.print("StatusCode:" + response.getStatusLine().getStatusCode());
-//			headers = response.getAllHeaders();
-//			for (Header header : headers) {
-//				System.out.println("response:" + header.getName() + " : " + header.getValue());
-//			}
-//			recentArticleList = EntityUtils.toString(entity, "gbk");
-//			System.out.println("recentArticleList:" + recentArticleList);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
+		// String url =
+		// "http://210.52.215.72/YCPJ/GetStockJS.aspx?type=TitleList&user=johnnychenjun&guid="
+		// + authority
+		// + "&articleBm=wyxs_new_Cache_TOP_syzy";
+		// System.out.println("url:" + url);
+		// get = new HttpGet(url);
+		// get.setHeader("User-Agent",
+		// "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; InfoPath.2; .NET4.0C; .NET4.0E)");
+		// get.setHeader("Cookie", cookie);
+		// get.setHeader("Accept", "*/*");
+		// get.setHeader("Accept-Language", "zh-cn");
+		// get.setHeader("Accept-Encoding", "gzip, deflate");
+		// get.setHeader("Connection", "Keep-Alive");
+		//
+		// String recentArticleList = "";
+		// try {
+		// response = down.getHttpClient().execute(get);
+		// HttpEntity entity = response.getEntity();
+		// System.out.print("StatusCode:" +
+		// response.getStatusLine().getStatusCode());
+		// headers = response.getAllHeaders();
+		// for (Header header : headers) {
+		// System.out.println("response:" + header.getName() + " : " +
+		// header.getValue());
+		// }
+		// recentArticleList = EntityUtils.toString(entity, "gbk");
+		// System.out.println("recentArticleList:" + recentArticleList);
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	public String getCharset() {
