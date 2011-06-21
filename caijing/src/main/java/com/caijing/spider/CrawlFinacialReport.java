@@ -14,6 +14,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,7 +27,7 @@ import com.caijing.util.ServerUtil;
 import com.caijing.util.UrlDownload;
 
 public class CrawlFinacialReport {
-
+	private static Log logger = LogFactory.getLog(CrawlFinacialReport.class);
 	String[] starturls = {
 			"http://www.cninfo.com.cn/disclosure/sh/mb/shmbq1.html",
 			"http://www.cninfo.com.cn/disclosure/sz/cn/szcnq1.html",
@@ -48,7 +50,7 @@ public class CrawlFinacialReport {
 
 	Pattern content2pattern = Pattern
 			.compile(
-					"<li><span class='zz'>([0-9]{6})</span><span class='dm2'><a href='(.*?)' target='_blank'>(.*?)£º(201[1-9].*?)</a>"
+					"<li><span class='zz'>([0-9]{6})</span><span class='dm2'><a href='(.*?)' target='_blank'>(.*?)£º(.*?)</a>"
 							+ ".*?<span class='time2'>(201[1-9]-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2})</span></li>",
 					Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
@@ -218,7 +220,15 @@ public class CrawlFinacialReport {
 					+ "/" + report.getStockcode() + ".pdf";
 			report.setFilepath(filepath);
 			report.setStatus((byte) 0);
-			financialReportDao.insert(report);
+			if (report.getStockname().length() > 8) {
+				logger.error("ERROR  name out of range:"
+						+ report.getStockname());
+			}
+			try {
+				financialReportDao.insert(report);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
