@@ -17,6 +17,15 @@ public class WebUser {
 	private Date lmodify = null;
 	private float remain = 0;
 	private String mobile = null;
+	private int status =0;
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	public String getPassword() {
 		return password;

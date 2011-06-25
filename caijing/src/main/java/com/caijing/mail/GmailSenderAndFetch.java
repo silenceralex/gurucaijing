@@ -33,9 +33,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
-/**  
-* 使用Gmail发送邮件  
-*/
+/**
+ * 使用Gmail发送邮件
+ */
 public class GmailSenderAndFetch {
 
 	private static String messageContentMimeType = "text/html; charset=gb2312";
@@ -44,76 +44,85 @@ public class GmailSenderAndFetch {
 
 	public static Properties getProperties() {
 		Properties props = System.getProperties();
-		props.setProperty("mail.imap.host", "imap.gmail.com");
-		// Gmail提供的POP3和SMTP是使用安全套接字层SSL的    
-		//		props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-		//		props.setProperty("mail.smtp.socketFactory.fallback", "false");
-		//		props.setProperty("mail.smtp.port", "465");
-		//		props.setProperty("mail.smtp.socketFactory.port", "465");
+		// props.setProperty("mail.imap.host", "imap.gmail.com");
+		// Gmail提供的POP3和SMTP是使用安全套接字层SSL的
+		props.setProperty("mail.smtp.host", "smtp.gmail.com");
+		props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+		props.setProperty("mail.smtp.socketFactory.fallback", "false");
+		props.setProperty("mail.smtp.port", "465");
+		props.setProperty("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.auth", "true");
 
-		props.setProperty("mail.imap.socketFactory.class", SSL_FACTORY);
-		props.setProperty("mail.imap.socketFactory.fallback", "false");
-		props.setProperty("mail.imap.port", "993");
-		props.setProperty("mail.imap.socketFactory.port", "993");
+		// props.setProperty("mail.imap.socketFactory.class", SSL_FACTORY);
+		// props.setProperty("mail.imap.socketFactory.fallback", "false");
+		// props.setProperty("mail.imap.port", "993");
+		// props.setProperty("mail.imap.socketFactory.port", "993");
 
-		//		props.put("mail.smtp.auth", "true");
+		// props.put("mail.smtp.auth", "true");
 		return props;
 	}
 
-	/**  
-	 * 构建邮件  
-	 *   
-	 * @param username  
-	 * @param password  
-	 * @param receiver  
-	 * @return  
-	 * @throws AddressException  
-	 * @throws MessagingException  
+	/**
+	 * 构建邮件
+	 * 
+	 * @param username
+	 * @param password
+	 * @param receiver
+	 * @return
+	 * @throws AddressException
+	 * @throws MessagingException
 	 */
-	@SuppressWarnings( { "unchecked", "serial" })
-	public static Message buildMimeMessage(final String username, final String password, String receiver)
-			throws AddressException, MessagingException {
-		Session session = Session.getDefaultInstance(getProperties(), new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		});
+	@SuppressWarnings({ "unchecked", "serial" })
+	public static Message buildMimeMessage(final String username,
+			final String password, String receiver,String link) throws AddressException,
+			MessagingException {
+		Session session = Session.getDefaultInstance(getProperties(),
+				new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
 
 		Message msg = new MimeMessage(session);
 
-		//鉴别发送者，您可以使用setFrom()和setReplyTo()方法。    
-		//msg.setFrom(new InternetAddress("[发件人]"));    
-		msg.addFrom(InternetAddress.parse("[发件人]"));//地址来源,没作用?    
-		msg.setReplyTo(InternetAddress.parse("[回复时收件人]"));//回复时用的地址    
-		//消息接收者    
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver, false));
-		msg.setSubject("JavaMail邮件发送");
+		// 鉴别发送者，您可以使用setFrom()和setReplyTo()方法。
+		msg.setFrom(new InternetAddress("51gurus"));
+//		msg.addFrom(InternetAddress.parse("chenjun"));// 地址来源,没作用?
+		msg.setReplyTo(InternetAddress.parse("51gurus"));// 回复时用的地址
+		// 消息接收者
+		msg.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(receiver, false));
+		msg.setSubject("账号激活链接");
 		msg.setSentDate(new Date());
 
-		String content = "How are you!这是一个测试!";
-		// 邮件内容数据（Content）    
-		msg.setContent(buildMimeMultipart(content, new Vector() {
-			{
-				add("D:/uploadDir/test.txt");
-			}
-		}));
+		String content = "尊敬的用户：" +
+				"感谢您注册51gurus网站，请点击如下链接进行激活：\r\n" +
+				link;
+		// 邮件内容数据（Content）
+		msg.setContent(buildMimeMultipart(content,null));
+//		msg.setContent(buildMimeMultipart(content, new Vector() {
+//			{
+//				add("F:/test.txt");
+//			}
+//		}));
 
 		return msg;
 	}
 
-	/**  
-	 * 构建邮件的正文和附件  
-	 *   
-	 * @param msgContent  
-	 * @param attachedFileList  
-	 * @return  
-	 * @throws MessagingException  
+	/**
+	 * 构建邮件的正文和附件
+	 * 
+	 * @param msgContent
+	 * @param attachedFileList
+	 * @return
+	 * @throws MessagingException
 	 */
-	public static Multipart buildMimeMultipart(String msgContent, Vector attachedFileList) throws MessagingException {
-		Multipart mPart = new MimeMultipart();// 多部分实现    
+	public static Multipart buildMimeMultipart(String msgContent,
+			Vector attachedFileList) throws MessagingException {
+		Multipart mPart = new MimeMultipart();// 多部分实现
 
-		// 邮件正文    
-		MimeBodyPart mBodyContent = new MimeBodyPart();// MIME邮件段体    
+		// 邮件正文
+		MimeBodyPart mBodyContent = new MimeBodyPart();// MIME邮件段体
 		if (msgContent != null) {
 			mBodyContent.setContent(msgContent, messageContentMimeType);
 		} else {
@@ -121,16 +130,18 @@ public class GmailSenderAndFetch {
 		}
 		mPart.addBodyPart(mBodyContent);
 
-		// 附件    
+		// 附件
 		String file;
 		String fileName;
 		if (attachedFileList != null) {
-			for (Enumeration fileList = attachedFileList.elements(); fileList.hasMoreElements();) {
+			for (Enumeration fileList = attachedFileList.elements(); fileList
+					.hasMoreElements();) {
 				file = (String) fileList.nextElement();
 				fileName = file.substring(file.lastIndexOf("/") + 1);
 				MimeBodyPart mBodyPart = new MimeBodyPart();
-				//远程资源    
-				//URLDataSource uds=new URLDataSource(http://www.javaeye.com/logo.gif);    
+				// 远程资源
+				// URLDataSource uds=new
+				// URLDataSource(http://www.javaeye.com/logo.gif);
 				FileDataSource fds = new FileDataSource(file);
 				mBodyPart.setDataHandler(new DataHandler(fds));
 				mBodyPart.setFileName(fileName);
@@ -141,14 +152,15 @@ public class GmailSenderAndFetch {
 		return mPart;
 	}
 
-	/**  
-	 * 字串解码  
-	 *   
-	 * @param text  
-	 * @return  
-	 * @throws UnsupportedEncodingException  
+	/**
+	 * 字串解码
+	 * 
+	 * @param text
+	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	protected static String decodeText(String text) throws UnsupportedEncodingException {
+	protected static String decodeText(String text)
+			throws UnsupportedEncodingException {
 		if (text == null)
 			return null;
 		if (text.startsWith("=?GB") || text.startsWith("=?gb")) {
@@ -159,10 +171,10 @@ public class GmailSenderAndFetch {
 		return text;
 	}
 
-	/**  
-	 * 分析邮件  
-	 *   
-	 * @param mPart  
+	/**
+	 * 分析邮件
+	 * 
+	 * @param mPart
 	 */
 	public static void parseMailContent(Object content) {
 		try {
@@ -177,26 +189,28 @@ public class GmailSenderAndFetch {
 		}
 	}
 
-	/**  
-	 * 抽取内容  
-	 *   
-	 * @param part  
+	/**
+	 * 抽取内容
+	 * 
+	 * @param part
 	 */
 	public static void extractPart(MimeBodyPart part) {
 		try {
 			String disposition = part.getDisposition();
 
 			if (disposition != null
-					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {// 附件    
+					&& (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition
+							.equalsIgnoreCase(Part.INLINE))) {// 附件
 				String fileName = decodeText(part.getFileName());
 				System.out.println(fileName);
-				saveAttachFile(part);//保存附件    
-			} else {// 正文    
-				if (part.getContent() instanceof String) {//接收到的纯文本    
+				saveAttachFile(part);// 保存附件
+			} else {// 正文
+				if (part.getContent() instanceof String) {// 接收到的纯文本
 					System.out.println(part.getContent());
 				}
-				if (part.getContent() instanceof MimeMultipart) {//接收的邮件有附件时    
-					BodyPart bodyPart = ((MimeMultipart) part.getContent()).getBodyPart(0);
+				if (part.getContent() instanceof MimeMultipart) {// 接收的邮件有附件时
+					BodyPart bodyPart = ((MimeMultipart) part.getContent())
+							.getBodyPart(0);
 					System.out.println(bodyPart.getContent());
 				}
 			}
@@ -205,9 +219,10 @@ public class GmailSenderAndFetch {
 		}
 	}
 
-	/**  
-	 * 保存附件  
-	 * @param part  
+	/**
+	 * 保存附件
+	 * 
+	 * @param part
 	 */
 	public static void saveAttachFile(Part part) {
 		try {
@@ -232,39 +247,42 @@ public class GmailSenderAndFetch {
 		}
 	}
 
-	/**  
-	 * 发送邮件  
-	 *   
-	 * @throws AddressException  
-	 * @throws MessagingException  
+	/**
+	 * 发送邮件
+	 * 
+	 * @throws AddressException
+	 * @throws MessagingException
 	 */
-	public static void sendMail() throws AddressException, MessagingException {
+	public static void sendRegistMail(String receive,String link) throws AddressException,
+			MessagingException {
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-		//Transport 是用来发送信息的    
-		Transport.send(buildMimeMessage("[用户名]", "[邮箱密码]", "[收件地址]"));
+		// Transport 是用来发送信息的
+		Transport.send(buildMimeMessage("shadowcj@gmail.com", "cjlovelily",
+				receive,link));
 
 		System.out.println("Message send...");
 
 	}
 
-	/**  
-	 * 取邮件信息  
-	 *   
-	 * @throws Exception  
+	/**
+	 * 取邮件信息
+	 * 
+	 * @throws Exception
 	 */
 	public static void fetchMail() throws Exception {
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 		Session session = Session.getDefaultInstance(getProperties(), null);
-		//用popgmail.com", 995, null,"[邮箱帐号]", "[邮箱密码]");    
-		//用IMAP协议    
-		URLName urln = new URLName("imap", "imap.gmail.com", 993, null, "shadowcj", "cjlovelily");
+		// 用popgmail.com", 995, null,"[邮箱帐号]", "[邮箱密码]");
+		// 用IMAP协议
+		URLName urln = new URLName("imap", "imap.gmail.com", 993, null,
+				"shadowcj", "cjlovelily");
 		Store store = null;
 		Folder inbox = null;
 		try {
-			//Store用来收信,Store类实现特定邮件协议上的读、写、监视、查找等操作。    
+			// Store用来收信,Store类实现特定邮件协议上的读、写、监视、查找等操作。
 			store = session.getStore(urln);
 			store.connect();
-			inbox = store.getFolder("INBOX");//收件箱    
+			inbox = store.getFolder("INBOX");// 收件箱
 			inbox.open(Folder.READ_ONLY);
 			FetchProfile profile = new FetchProfile();
 			profile.add(FetchProfile.Item.ENVELOPE);
@@ -275,18 +293,19 @@ public class GmailSenderAndFetch {
 			System.out.println("新邮件数：" + inbox.getNewMessageCount());
 
 			for (int i = 0; i < messages.length; i++) {
-				// 邮件发送者    
+				// 邮件发送者
 				String from = decodeText(messages[i].getFrom()[0].toString());
 				InternetAddress ia = new InternetAddress(from);
-				System.out.println("FROM:" + ia.getPersonal() + '(' + ia.getAddress() + ')');
-				// 邮件标题    
+				System.out.println("FROM:" + ia.getPersonal() + '('
+						+ ia.getAddress() + ')');
+				// 邮件标题
 				System.out.println("TITLE:" + messages[i].getSubject());
-				// 邮件内容    
+				// 邮件内容
 				parseMailContent(messages[i].getContent());
 
-				// 邮件大小    
+				// 邮件大小
 				System.out.println("SIZE:" + messages[i].getSize());
-				// 邮件发送时间    
+				// 邮件发送时间
 				System.out.println("DATE:" + messages[i].getSentDate());
 			}
 		} finally {
@@ -304,7 +323,9 @@ public class GmailSenderAndFetch {
 	public static void main(String[] args) {
 		GmailSenderAndFetch mail = new GmailSenderAndFetch();
 		try {
-			mail.fetchMail();
+			// mail.fetchMail();
+			String link="http://51gurus.com/validate/uid/v123-w234921234";
+			mail.sendRegistMail("johnnychenjun@163.com",link);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -38,4 +38,10 @@ public class WebUserDaoImpl extends CrudDaoDefault implements WebUserDao {
 		return row==1;
 	}
 
+	@Override
+	public boolean activate(String uid) {
+		getSqlMapClientTemplate().update(getNameSpace() +".activate",uid);
+		return true;
+	}
+
 }

@@ -15,6 +15,10 @@ public class ServerUtil {
 	public static final long ORDER_TIMESTAMP = 1303528446171L;
 	private static long l = 0L;
 
+	public static String getUserKey(String email){
+		return "validate:"+email;
+	}
+	
 	/**
 	 * 用输入的字符串创建一个id号
 	 * 

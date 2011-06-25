@@ -7,6 +7,8 @@ public interface WebUserDao extends CrudDao {
 	public WebUser getUserByEmail(String email);
 
 	public boolean identify(String email, String password);
+	
+	public boolean activate(String uid);
 
 	/**
 	 * 根据money的增加或减少（正负号）来更新remain余额

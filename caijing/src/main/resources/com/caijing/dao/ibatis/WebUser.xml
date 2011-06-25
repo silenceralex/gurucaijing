@@ -1,70 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="WebUser">
-  
-  <typeAlias alias="WebUser" type="com.caijing.domain.WebUser"/>
-    
-  
-  <select id="identify" parameterClass="java.util.Map" resultClass="WebUser">
-    select * from webuser where email = #email# and password= #password#
+
+	<typeAlias alias="WebUser" type="com.caijing.domain.WebUser" />
+
+
+	<select id="identify" parameterClass="java.util.Map"
+		resultClass="WebUser">
+		select * from webuser where email = #email# and password= #password#
+	</select>
+
+	<select id="getUserByEmail" resultClass="WebUser">
+		select * from webuser where email = #value#
   </select>
 
-  <select id="getUserByEmail"  resultClass="WebUser">
-    select * from webuser where email = #value#
+
+	<select id="select" resultClass="WebUser">
+		select * from webuser where uid=#value#
   </select>
 
-  
-  <select id="select"  resultClass="WebUser">
-    select * from webuser where uid=#value#
-  </select>
-  
-  <insert id="insert" >
-    insert into webuser (uid,email,password,nickname,province,city,ptime,lmodify,gender,remain) values (#uid#,#email#,#password#,#nickname#,#province#,#city#,now(),now(),#gender#,#remain#)
-  </insert>
+	<insert id="insert">
+		insert into webuser
+		(uid,email,password,nickname,province,city,ptime,lmodify,gender,remain,status)
+		values
+		(#uid#,#email#,#password#,#nickname#,#province#,#city#,now(),now(),#gender#,#remain#,#status#)
+	</insert>
 
-  <update id="update" parameterClass="WebUser">
-  	update webuser
-  	<dynamic prepend="set">
-  		<isNotEmpty prepend="," property="nickname">
-  			nickname = #nickname#
+	<update id="update" parameterClass="WebUser">
+		update webuser
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="nickname">
+				nickname = #nickname#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="password">
-  			password = #password#
+			<isNotEmpty prepend="," property="password">
+				password = #password#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="province">
-  			province = #province#
+			<isNotEmpty prepend="," property="province">
+				province = #province#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="city">
-  			city = #city#
+			<isNotEmpty prepend="," property="city">
+				city = #city#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="mobile">
-  			mobile = #mobile#
+			<isNotEmpty prepend="," property="mobile">
+				mobile = #mobile#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="remain">
-  			remain = #remain#
+			<isNotEmpty prepend="," property="remain">
+				remain = #remain#
   		</isNotEmpty>
-  		<isNotEmpty prepend="," property="lmodify">
-  			lmodify = #lmodify#
+			<isNotEmpty prepend="," property="lmodify">
+				lmodify = #lmodify#
   		</isNotEmpty>
-  	</dynamic>
-  	where uid=#uid#
+		</dynamic>
+		where uid=#uid#
+	</update>
+
+	<update id="updateRemainMoney" parameterClass="java.util.Map">
+		update webuser
+		<dynamic prepend="set">
+			<isNotEmpty prepend="," property="money">
+				remain = remain+#money#
+  		</isNotEmpty>
+			<isNotEmpty prepend="," property="lmodify">
+				lmodify = #lmodify#
+  		</isNotEmpty>
+		</dynamic>
+		where uid=#uid#
+	</update>
+
+	<update id="activate" parameterClass="java.lang.String">
+		update webuser set status=1 where uid=#uid#
   </update>
 
-  <update id="updateRemainMoney" parameterClass="java.util.Map">
-  	update webuser
-  	<dynamic prepend="set">
-  		<isNotEmpty prepend="," property="money">
-  			remain = remain+#money#
-  		</isNotEmpty>
-  		<isNotEmpty prepend="," property="lmodify">
-  			lmodify = #lmodify#
-  		</isNotEmpty>
-  	</dynamic>
-  	where uid=#uid#
-  </update>
 
-  <delete id="delete" parameterClass="WebUser">
-    delete from webuser where uid=#uid#
+	<delete id="delete" parameterClass="WebUser">
+		delete from webuser where uid=#uid#
   </delete>
 
 </sqlMap>
