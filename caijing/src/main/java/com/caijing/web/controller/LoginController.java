@@ -184,9 +184,11 @@ public class LoginController {
 			@RequestParam(value = "uid", required = true) String uid,
 			@RequestParam(value = "validate", required = true) String validateCode,
 			HttpServletRequest request) throws IOException {
+		logger.debug("uid:"+uid+"   validateCode="+validateCode);
 		String code = cartDB.get(ServerUtil.getUserKey(uid));
 		if (validateCode.equals(code)) {
 			webUserDao.activate(uid);
+			logger.debug("update webuser status");
 			response.setContentType("text/html;charset=GBK");
 			response.getWriter()
 					.print("<script>alert('您已经成功激活了在51gurus网站的账号，请您在跳转的页面登录访问！');self.location='/';</script>");

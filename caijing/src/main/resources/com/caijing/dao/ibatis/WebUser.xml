@@ -68,7 +68,7 @@
 	</update>
 
 	<update id="activate" parameterClass="java.lang.String">
-		update webuser set status=1 where uid=#uid#
+		update webuser set status=1 where uid=#value#
   </update>
 
 
