@@ -40,7 +40,7 @@ public class WebUserDaoImplTest extends TestCase {
 	}
 
 	public void testIdentify() {
-		int login = dao.identify("shadowcj@gmail.com", "cj19811022");
+		int login = dao.identify("johnnychenjun@163.com", "cj19811022@");
 		assertTrue(login==1);
 	}
 

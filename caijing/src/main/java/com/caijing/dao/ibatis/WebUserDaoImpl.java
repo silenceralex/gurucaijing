@@ -25,12 +25,14 @@ public class WebUserDaoImpl extends CrudDaoDefault implements WebUserDao {
 		params.put("password", password);
 		WebUser user = (WebUser) getSqlMapClientTemplate().queryForObject(
 				getNameSpace() + ".identify", params);
-		if (user != null) {
-			return 1;
+		System.out.println(user.getEmail());
+		System.out.println("status:" + user.getStatus());
+		if (user == null) {
+			return -1;
 		} else if (user.getStatus() == 0) {
 			return 0;
 		} else
-			return -1;
+			return 1;
 	}
 
 	@Override
