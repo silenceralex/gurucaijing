@@ -101,7 +101,7 @@ public class GmailSenderAndFetch {
 		// 消息接收者
 		msg.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(receiver, false));
-		msg.setSubject("账号激活链接");
+		msg.setSubject("欢迎注册51gurus价值投资网站，获取投资资讯，交流投资心得");
 		msg.setSentDate(new Date());
 		
 		String date=DateTools.transformYYYYMMDDDate(new Date());

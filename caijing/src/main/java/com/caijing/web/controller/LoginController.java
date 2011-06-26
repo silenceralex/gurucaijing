@@ -260,6 +260,7 @@ public class LoginController {
 
 		System.out.println("random : " + random);
 		int retint = webUserDao.identify(email, password);
+		System.out.println("retint : " + retint);
 		try {
 			if (random != null && random.equals(srandom)) {
 				System.out.println("随即图验证成功！");
@@ -295,7 +296,10 @@ public class LoginController {
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "password", required = true) String password,
 			HttpServletRequest request, ModelMap model) {
+			
 		int retint = webUserDao.identify(email, password);
+
+		System.out.println("email:" + email+" retint:"+retint);
 		try {
 			if (retint == 1) {
 				System.out.println("用户名验证成功！");
@@ -329,6 +333,10 @@ public class LoginController {
 				response.getWriter().flush();
 			} else {
 				response.sendRedirect("/template/user/err.html?login=true");
+				response.setContentType("text/html;charset=GBK");
+				response.getWriter().print(
+						"<script>alert('登录失败，请检查注册邮箱、密码是否正确！');self.location='/template/user/err.html?login=true';</script>");
+				response.getWriter().flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
