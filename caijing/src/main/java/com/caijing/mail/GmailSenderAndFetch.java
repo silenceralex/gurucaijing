@@ -33,6 +33,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import com.caijing.flush.VMFactory;
+import com.caijing.util.DateTools;
+
 /**
  * 使用Gmail发送邮件
  */
@@ -86,7 +89,13 @@ public class GmailSenderAndFetch {
 		Message msg = new MimeMessage(session);
 
 		// 鉴别发送者，您可以使用setFrom()和setReplyTo()方法。
-		msg.setFrom(new InternetAddress("51gurus"));
+	
+		try {
+			msg.setFrom(new InternetAddress(username,"51gurus"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		msg.addFrom(InternetAddress.parse("chenjun"));// 地址来源,没作用?
 		msg.setReplyTo(InternetAddress.parse("51gurus"));// 回复时用的地址
 		// 消息接收者
@@ -94,10 +103,19 @@ public class GmailSenderAndFetch {
 				InternetAddress.parse(receiver, false));
 		msg.setSubject("账号激活链接");
 		msg.setSentDate(new Date());
-
-		String content = "尊敬的用户：" +
-				"感谢您注册51gurus网站，请点击如下链接进行激活：\r\n" +
-				link;
+		
+		String date=DateTools.transformYYYYMMDDDate(new Date());
+		VMFactory introvmf = new VMFactory();
+		introvmf.setTemplate("/template/mail/mailcontent.htm");
+		introvmf.put("link", link);
+		introvmf.put("date", date);
+		introvmf.put("email", receiver);
+		
+		String content =introvmf.toString();
+		System.out.println("send mail content:"+content);
+//		String content = "尊敬的用户：" +
+//				"感谢您注册51gurus网站，请点击如下链接进行激活：\r\n" +
+//				link;
 		// 邮件内容数据（Content）
 		msg.setContent(buildMimeMultipart(content,null));
 //		msg.setContent(buildMimeMultipart(content, new Vector() {

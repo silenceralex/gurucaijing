@@ -184,7 +184,7 @@ public class LoginController {
 			@RequestParam(value = "uid", required = true) String uid,
 			@RequestParam(value = "validate", required = true) String validateCode,
 			HttpServletRequest request) throws IOException {
-		logger.debug("uid:"+uid+"   validateCode="+validateCode);
+		logger.debug("uid:" + uid + "   validateCode=" + validateCode);
 		String code = cartDB.get(ServerUtil.getUserKey(uid));
 		if (validateCode.equals(code)) {
 			webUserDao.activate(uid);
@@ -210,7 +210,7 @@ public class LoginController {
 		WebUser user = new WebUser();
 		user.setEmail(email);
 		System.out.println("email : " + email);
-//		System.out.println("password : " + password);
+		// System.out.println("password : " + password);
 		user.setPassword(DigestUtils.md5Hex(password));
 		user.setPtime(new Date());
 		String uid = ServerUtil.getid();
@@ -259,10 +259,11 @@ public class LoginController {
 		System.out.println("srandom : " + srandom);
 
 		System.out.println("random : " + random);
+		int retint = webUserDao.identify(email, password);
 		try {
 			if (random != null && random.equals(srandom)) {
 				System.out.println("随即图验证成功！");
-				if (webUserDao.identify(email, password)) {
+				if (retint == 1) {
 					System.out.println("用户名验证成功！");
 					WebUser user = webUserDao.getUserByEmail(email);
 					System.out.println("nickname:" + user.getNickname());
@@ -273,6 +274,12 @@ public class LoginController {
 					model.put("currWebUser", user);
 					setCookie(user, response);
 					response.sendRedirect("/user/myAccount.htm");
+					return null;
+				} else if (retint == 0) {
+					response.setContentType("text/html;charset=GBK");
+					response.getWriter()
+							.print("<script>alert('您的账号尚未激活，请您到注册邮箱激活后再登陆！');top.location='/';</script>");
+					response.getWriter().flush();
 					return null;
 				}
 			}
@@ -288,9 +295,9 @@ public class LoginController {
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "password", required = true) String password,
 			HttpServletRequest request, ModelMap model) {
-
+		int retint = webUserDao.identify(email, password);
 		try {
-			if (webUserDao.identify(email, password)) {
+			if (retint == 1) {
 				System.out.println("用户名验证成功！");
 				WebUser user = webUserDao.getUserByEmail(email);
 				System.out.println("nickname:" + user.getNickname());
@@ -315,6 +322,11 @@ public class LoginController {
 									+ referer + "';</script>");
 					response.getWriter().flush();
 				}
+			} else if (retint == 0) {
+				response.setContentType("text/html;charset=GBK");
+				response.getWriter()
+						.print("<script>alert('您的账号尚未激活，请您到注册邮箱激活后再登陆！');top.location='/';</script>");
+				response.getWriter().flush();
 			} else {
 				response.sendRedirect("/template/user/err.html?login=true");
 			}

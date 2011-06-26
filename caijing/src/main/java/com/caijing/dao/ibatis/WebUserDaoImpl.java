@@ -13,34 +13,39 @@ public class WebUserDaoImpl extends CrudDaoDefault implements WebUserDao {
 
 	@Override
 	public WebUser getUserByEmail(String email) {
-		return (WebUser) getSqlMapClientTemplate().queryForObject(getNameSpace() + ".getUserByEmail", email);
+		return (WebUser) getSqlMapClientTemplate().queryForObject(
+				getNameSpace() + ".getUserByEmail", email);
 	}
 
 	@Override
-	public boolean identify(String email, String password) {
+	public int identify(String email, String password) {
 		Map<String, Object> params = new HashMap<String, Object>(2);
 		params.put("email", email);
 		password = DigestUtils.md5Hex(password);
 		params.put("password", password);
-		if (getSqlMapClientTemplate().queryForObject(getNameSpace() + ".identify", params) != null) {
-			return true;
-		} else {
-			return false;
-		}
+		WebUser user = (WebUser) getSqlMapClientTemplate().queryForObject(
+				getNameSpace() + ".identify", params);
+		if (user != null) {
+			return -1;
+		} else if (user.getStatus() == 0) {
+			return 0;
+		} else
+			return 1;
 	}
-	
+
 	@Override
-	public boolean updateRemainMoney(String userid, float money){
+	public boolean updateRemainMoney(String userid, float money) {
 		Map<String, Object> params = new HashMap<String, Object>(2);
 		params.put("uid", userid);
 		params.put("money", money);
-		int row = getSqlMapClientTemplate().update(getNameSpace() + ".updateRemainMoney", params);
-		return row==1;
+		int row = getSqlMapClientTemplate().update(
+				getNameSpace() + ".updateRemainMoney", params);
+		return row == 1;
 	}
 
 	@Override
 	public boolean activate(String uid) {
-		getSqlMapClientTemplate().update(getNameSpace() +".activate",uid);
+		getSqlMapClientTemplate().update(getNameSpace() + ".activate", uid);
 		return true;
 	}
 

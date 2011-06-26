@@ -6,7 +6,8 @@ import com.caijing.util.CrudDao;
 public interface WebUserDao extends CrudDao {
 	public WebUser getUserByEmail(String email);
 
-	public boolean identify(String email, String password);
+	//-1为失败，0为尚未激活，1为成功
+	public int identify(String email, String password);
 	
 	public boolean activate(String uid);
 
