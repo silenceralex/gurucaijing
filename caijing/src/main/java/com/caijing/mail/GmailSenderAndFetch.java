@@ -79,7 +79,7 @@ public class GmailSenderAndFetch {
 	public static Message buildMimeMessage(final String username,
 			final String password, String receiver,String link) throws AddressException,
 			MessagingException {
-		Session session = Session.getDefaultInstance(getProperties(),
+		Session session = Session.getInstance(getProperties(),
 				new Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(username, password);
