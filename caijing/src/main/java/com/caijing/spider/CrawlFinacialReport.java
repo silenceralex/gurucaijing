@@ -57,7 +57,7 @@ public class CrawlFinacialReport {
 	Pattern content2pattern = Pattern
 			.compile(
 					"<li><span class='zz'>([0-9]{6})</span><span class='dm2'><a href='(.*?)' target='_blank'>(.*?)£º(.*?)</a>"
-							+ ".*?<span class='time2'>(201[1-9]-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2})</span></li>",
+							+ ".*?<span class='time2'>(201[0-9]-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2})</span></li>",
 					Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
 	Pattern desctpattern = Pattern.compile("<pre>(.*?)</pre>",
