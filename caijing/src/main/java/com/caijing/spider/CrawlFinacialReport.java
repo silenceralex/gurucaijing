@@ -26,13 +26,19 @@ import com.caijing.util.ContextFactory;
 import com.caijing.util.ServerUtil;
 import com.caijing.util.UrlDownload;
 
+//"http://www.cninfo.com.cn/disclosure/sh/mb/shmbq1.html",
+//"http://www.cninfo.com.cn/disclosure/sz/cn/szcnq1.html",
+//"http://www.cninfo.com.cn/disclosure/sz/sme/szsmeq1.html",
+//"http://www.cninfo.com.cn/disclosure/sz/mb/szmbq1.html" };
+
 public class CrawlFinacialReport {
 	private static Log logger = LogFactory.getLog(CrawlFinacialReport.class);
 	String[] starturls = {
-			"http://www.cninfo.com.cn/disclosure/sh/mb/shmbq1.html",
-			"http://www.cninfo.com.cn/disclosure/sz/cn/szcnq1.html",
-			"http://www.cninfo.com.cn/disclosure/sz/sme/szsmeq1.html",
-			"http://www.cninfo.com.cn/disclosure/sz/mb/szmbq1.html" };
+			"http://www.cninfo.com.cn/disclosure/sz/mb/szmbar.html",
+			"http://www.cninfo.com.cn/disclosure/sh/mb/shmbar.html",
+			"http://www.cninfo.com.cn/disclosure/sz/cn/szcnar.html",
+			"http://www.cninfo.com.cn/disclosure/sz/sme/szsmear.html"
+			};
 
 	private static String PREFIX = "/data/reports/";
 
@@ -173,15 +179,20 @@ public class CrawlFinacialReport {
 					}
 					String name = m.group(3);
 					String title = m.group(4);
+					if(title.contains("摘要")){
+						continue;
+					}
 
-					if (!codeMap.containsKey(code) || title.contains("全文")
-							|| title.contains("修订版")) {
+//					if (!codeMap.containsKey(code) || title.contains("全文")
+//							|| title.contains("修订版")) {
+					if (!codeMap.containsKey(code) || title.contains("更正")
+								|| title.contains("补充") || title.contains("修订")) {
 						FinancialReport report = new FinancialReport();
 						report.setStockcode(code);
 						report.setStockname(name);
 						report.setTitle(title);
 						report.setYear(title.substring(0, 4));
-						report.setType((byte) 1);
+						report.setType((byte) 4);
 						String time = m.group(5).trim();
 						try {
 							report.setLmodify(sdf.parse(time));
@@ -260,15 +271,20 @@ public class CrawlFinacialReport {
 				String name = m.group(3);
 
 				String title = m.group(4);
-
-				if (!codeMap.containsKey(code) || title.contains("全文")
-						|| title.contains("修订版")) {
+				if(title.contains("摘要")){
+					continue;
+				}
+//				if (!codeMap.containsKey(code) || title.contains("全文")
+//						|| title.contains("修订版")) {
+					if (!codeMap.containsKey(code) || title.contains("更正")
+							|| title.contains("补充") || title.contains("修订")) {
 					FinancialReport report = new FinancialReport();
 					report.setStockcode(code);
 					report.setStockname(name);
 					report.setTitle(title);
 					report.setYear(title.substring(0, 4));
-					report.setType((byte) 1);
+					report.setType((byte) 4);
+//					report.setType((byte) 1);
 					String time = m.group(5).trim();
 					try {
 						report.setLmodify(sdf.parse(time));
