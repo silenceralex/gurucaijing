@@ -34,10 +34,10 @@ import com.caijing.util.UrlDownload;
 public class CrawlFinacialReport {
 	private static Log logger = LogFactory.getLog(CrawlFinacialReport.class);
 	String[] starturls = {
-			"http://www.cninfo.com.cn/disclosure/sz/mb/szmbsar.html",
-			"http://www.cninfo.com.cn/disclosure/sh/mb/shmbsar.html",
-			"http://www.cninfo.com.cn/disclosure/sz/cn/szcnsar.html",
-			"http://www.cninfo.com.cn/disclosure/sz/sme/szsmesar.html"
+			"http://www.cninfo.com.cn/disclosure/sh/mb/shmbq3.html",
+			"http://www.cninfo.com.cn/disclosure/sz/cn/szcnq3.html",
+			"http://www.cninfo.com.cn/disclosure/sz/sme/szsmeq3.html",
+			"http://www.cninfo.com.cn/disclosure/sz/mb/szmbq3.html"
 			};
 
 	private static String PREFIX = "/data/reports/";
@@ -192,7 +192,7 @@ public class CrawlFinacialReport {
 						report.setStockname(name);
 						report.setTitle(title);
 						report.setYear(title.substring(0, 4));
-						report.setType((byte) 2);
+						report.setType((byte) 3);
 						String time = m.group(5).trim();
 						try {
 							report.setLmodify(sdf.parse(time));
@@ -283,7 +283,7 @@ public class CrawlFinacialReport {
 					report.setStockname(name);
 					report.setTitle(title);
 					report.setYear(title.substring(0, 4));
-					report.setType((byte) 2);
+					report.setType((byte) 3);
 //					report.setType((byte) 1);
 					String time = m.group(5).trim();
 					try {
