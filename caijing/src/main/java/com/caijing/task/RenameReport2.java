@@ -134,12 +134,15 @@ public class RenameReport2 {
 //				put("/data/excel/yanshiyou 2011.5.26.xls", "/data/oldpapers2/yanshiyou/");
 				
 				//20100530
-				put("/data/oldpapers/201103/201103_0530.xls", "/data/oldpapers/201103/");
-				put("/data/excel/yanshiyou  2011.5.30.xls", "/data/oldpapers2/yanshiyou/");
+//				put("/data/oldpapers/201103/201103_0530.xls", "/data/oldpapers/201103/");
+//				put("/data/excel/yanshiyou  2011.5.30.xls", "/data/oldpapers2/yanshiyou/");
 				
 				//20100602
-				put("/data/oldpapers/201103/201103_0602.xls", "/data/oldpapers/201103/");
-				put("/data/oldpapers/201008/201008_0602.xls", "/data/oldpapers/201008/");
+//				put("/data/oldpapers/201103/201103_0602.xls", "/data/oldpapers/201103/");
+//				put("/data/oldpapers/201008/201008_0602.xls", "/data/oldpapers/201008/");
+				
+				//20100628
+				put("/data/oldpapers/201101/201101_0628.xls", "/data/oldpapers/201101/");
 			}
 		};
 		
